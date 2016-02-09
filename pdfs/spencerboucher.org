@@ -1,0 +1,152 @@
+#+LATEX_CLASS: deedy-resume
+
+#+BEGIN_LaTeX
+\namesection{Spencer}{Boucher}{\href{mailto:spencer@spencerboucher.com}{spencer@spencerboucher.com}}
+\begin{minipage}[t][0.9\textheight]{0.25\textwidth}
+#+END_LaTeX
+
+* Education
+
+** USF
+
+   \descript{MS Analytics}
+   \location{July 2013 -- May 2014}
+   \sectionsep
+
+** Rice University
+
+   \descript{BA Cognitive Sciences}
+   \location{August 2008 -- May 2011}
+   \sectionsep
+
+* Contact
+
+  \faicon{phone-square} 650-946-7257 \\
+  [[http://github.com/justmytwospence][\faicon{github-square} justmytwospence]] \\
+  [[http://linkedin.com/in/spencerboucher][\faicon{linkedin-square} in/spencerboucher]] \\
+  [[http://spencerboucher.com][\faicon{rss-square} spencerboucher.com]]
+  \sectionsep
+
+* Coursework
+
+  Distributed Computing \\
+  Distributed Databases \\
+  Multivariate Statistics \\
+  Machine Learning \\
+  Data Visualization \\
+  Text Mining
+  \sectionsep
+
+* Skills
+
+  *nix \textbullet{}
+  JavaScript \textbullet{}
+  Python \\
+  R \textbullet{}
+  SQL \textbullet{}
+  Scala \textbullet{}
+  \LaTeX
+  \sectionsep
+
+* Awards
+
+  Eagle Scout
+  \sectionsep
+
+* Interests
+
+  GIS \textbullet{}
+  data \textbullet{}
+  design \\
+  emacs \textbullet{}
+  machine learning \\
+  neuroscience \textbullet{}
+  stories \\
+  visualization
+
+  \vfill
+  Updated \today
+
+#+BEGIN_LaTeX
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.74\textwidth}
+#+END_LaTeX
+
+* Summary
+
+  I am a data scientist interested in full stack machine learning. I believe
+  that the most effective data scientiests are the ones that firmly grasp
+  statistics and machine learning theory, but also have enough engineering
+  know-how to actually implement solutions. I aspire to mastery over both these
+  domains.
+
+  \sectionsep
+
+* Experience
+** Uber \descript{Machine Learning Platform} \location{2015 -- Present}
+
+   #+ATTR_LATEX: :environment tightemize
+   - Bootstrapped Uber's machine learning platform.
+   - Built machine learning platform architecture using Spark.
+
+   \sectionsep
+
+** Uber \descript{Growth Data Science} \location{2014 -- 2015}
+
+   #+ATTR_LATEX: :environment tightemize
+   - Built statistical models on large amounts of data to infer the conditions
+     of the ridesharing markets around the world.
+
+   \sectionsep
+
+** AutoGrid \descript{Intern} \location{Fall 2013}
+
+   #+ATTR_LATEX: :environment tightemize
+   - Used Pandas and R to munge large volumes of smart meter data.
+   - Built time series and cross-sectional models to identify outliers and make
+     forecasts.
+   - Produced interactive tools and maps for exploring complex data.
+
+   \sectionsep
+
+** Examkrackers \descript{Course Instructor} \location{Spring 2013}
+
+   #+ATTR_LATEX: :environment tightemize
+   - Taught MCAT level physics, chemistry, biology, organic chemistry, and
+     verbal reasoning to a class of ~12 students.
+
+   \sectionsep
+
+** Stanford CIBSR \descript{Research Assistant} \location{2011 -- 2013}
+
+   #+ATTR_LATEX: :environment tightemize
+   - Conducted MRI studies to investigate biomarkers of pediatric bipoloar
+     disorder in at-risk adolescents.
+   - Operated MRI scanners and analyzed structural and functional neuroimaging
+     data using R and Matlab.
+   - Perforemd exploratory and hypothesis-driven analysis of large multi-modal data.
+   - Presented findings at the 2012 American Academy of Adolescent and Child
+     Psychiatry Conferece.
+
+   \sectionsep
+
+** Baylor CPU \descript{Intern} \location{2009 -- 2011}
+
+   #+ATTR_LATEX: :environment tightemize
+   - Conducted fMRI studies with patient populations suffering from PTSD or drug
+     dependency.
+   - Analyzed functional neuroimaging data using Matlab.
+   - Investigated the relationship between affective resilience and neural
+     response to emotional stimuli.
+   - Presented findings at the 2010 Society for Neuroscience convention.
+
+   \end{minipage}
+
+** Rice EMS \descript{Emergency Medical Technician} \location{2010 -- 2011} :noexport:
+
+   #+ATTR_LATEX: :environment tightemize
+   - Responded to medical emergencies on the Rice University campus.
+   - Served weekly 12 hour shifts.
+   - Completed > 24 hours per semester volunteering for professional EMS
+     services in the greater Houston area.
