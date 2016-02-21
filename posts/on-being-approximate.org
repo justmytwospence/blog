@@ -1,0 +1,24 @@
+#+DATE: <2013-07-20 Sat>
+#+TITLE: On being approximate
+
+#+BEGIN_QUOTE
+It is hard to tell how many investors beat the stock market
+
+over the long run,
+
+because the data is very noisy,
+
+but we know that most cannot
+
+relative to their level of risk,
+
+since trading produces no net excess return
+
+but entails transaction costs,
+
+so unless you have inside information
+
+you are probably better off investing in an index fund.
+#+END_QUOTE
+
+An inadvertent data poem by [[https://www.usfca.edu/faculty/cindi-thompson][Dr. Cindi Thompson]]

@@ -7,16 +7,15 @@
 
 * Education
 
-** USF
+** [[http://usfca.edu][USF]]
 
-   \descript{MS Analytics}
-   \location{July 2013 -- May 2014}
+   [[https://www.usfca.edu/arts-sciences/graduate-programs/analytics][\descript{MS Analytics}]]
+   \location{2013 -- 2014}
    \sectionsep
 
-** Rice University
-
-   \descript{BA Cognitive Sciences}
-   \location{August 2008 -- May 2011}
+** [[http://rice.edu][Rice University]]
+   [[https://cogsci.rice.edu][\descript{BA Cognitive Sciences}]]
+   \location{2008 -- 2011}
    \sectionsep
 
 * Contact
@@ -84,7 +83,7 @@
   \sectionsep
 
 * Experience
-** Uber \descript{Machine Learning Platform} \location{2015 -- Present}
+** [[https://www.uber.com/][Uber]] \descript{Machine Learning Platform} \location{2015 -- Present}
 
    #+ATTR_LATEX: :environment tightemize
    - Bootstrapped Uber's machine learning platform.
@@ -92,7 +91,7 @@
 
    \sectionsep
 
-** Uber \descript{Growth Data Science} \location{2014 -- 2015}
+** [[https://www.uber.com/][Uber]] \descript{Growth Data Science} \location{2014 -- 2015}
 
    #+ATTR_LATEX: :environment tightemize
    - Built statistical models on large amounts of data to infer the conditions
@@ -100,7 +99,7 @@
 
    \sectionsep
 
-** AutoGrid \descript{Intern} \location{Fall 2013}
+** [[http://www.auto-grid.com/][AutoGrid]] \descript{Intern} \location{Fall 2013}
 
    #+ATTR_LATEX: :environment tightemize
    - Used Pandas and R to munge large volumes of smart meter data.
@@ -110,7 +109,7 @@
 
    \sectionsep
 
-** Examkrackers \descript{Course Instructor} \location{Spring 2013}
+** [[http://examkrackers.com/][Examkrackers]] \descript{Course Instructor} \location{Spring 2013}
 
    #+ATTR_LATEX: :environment tightemize
    - Taught MCAT level physics, chemistry, biology, organic chemistry, and
@@ -118,7 +117,7 @@
 
    \sectionsep
 
-** Stanford CIBSR \descript{Research Assistant} \location{2011 -- 2013}
+** [[http://cibsr.stanford.edu/][Stanford CIBSR]] \descript{Research Assistant} \location{2011 -- 2013}
 
    #+ATTR_LATEX: :environment tightemize
    - Conducted MRI studies to investigate biomarkers of pediatric bipoloar
@@ -143,7 +142,7 @@
 
    \end{minipage}
 
-** Rice EMS \descript{Emergency Medical Technician} \location{2010 -- 2011} :noexport:
+** [[http://rems.rice.edu/][Rice EMS]] \descript{Emergency Medical Technician} \location{2010 -- 2011} :noexport:
 
    #+ATTR_LATEX: :environment tightemize
    - Responded to medical emergencies on the Rice University campus.

@@ -1,0 +1,9 @@
+[submodule "vendor/rrssb"]
+	path = vendor/rrssb
+	url = https://github.com/kni-labs/rrssb.git
+[submodule "vendor/reveal.js"]
+	path = vendor/reveal.js
+	url = https://github.com/hakimel/reveal.js.git
+[submodule "vendor/bootstrap"]
+	path = vendor/bootstrap
+	url = https://github.com/justmytwospence/bootstrap.git

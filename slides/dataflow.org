@@ -1,0 +1,23 @@
+#+TITLE: DataFlow
+#+AUTHOR: Spencer Boucher
+#+EMAIL: sboucher@uber.com
+
+* The gist
+
+  #+ATTR_REVEAL: :frag (fade-in)
+  - Most data is unbounded
+  - Current strategies try to discretize it
+  - How can we move away from that
+  - What about machine learning?
+
+** Dataflow
+
+   Unified conceptual framework underlying batch, micro-batch, and streaming systems
+
+   #+REVEAL: split
+
+   #+ATTR_REVEAL: :frag (fade-in)
+   - *What* results are being computed
+   - *Where* in event time they are being computed
+   - *When* in processing time they are materizlized
+   - *How* earlier results relate to later refinements

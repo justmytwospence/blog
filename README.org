@@ -1,0 +1,10 @@
+Here lies the source code for my blog. The built site can be viewed at
+[[http://spencerboucher.com][spencerboucher.com]].
+
+Content is written as [[http://orgmode.org][Org-mode]] files, and then exported to various backends
+(html, pdf, etc.) for publishing.
+
+[[https://github.com/Wilfred/mustache.el][Mustache.el]] is used as templating engine.
+
+[[https://github.com/davisp/ghp-import][ghp-import]] is used commit the built site to the gh-pages branch, which is then
+picked up and served automatically by [[https://pages.github.com/][GitHub Pages]].

@@ -1,0 +1,41 @@
+#+TITLE: Things I do in Emacs
+#+DATE: <2016-02-21 Sun>
+
+* email
+
+* RSS
+
+* IRC
+
+* terminal
+
+* files
+
+* version control
+
+* blog
+
+This very blog is constructed entirely within Emacs! The version
+control workflow mentioned above plays a huge role, but several other
+Emacs packages make maintaining a Jekyll blog even easier.
+
+  - bundler
+  - jekyll
+  - rakefile
+  - rbenv
+
+* PDFs
+
+* launch agents
+
+* ssh tunnels
+
+* SQL
+
+* REPls
+
+* programming
+
+Finally, the obvious one.
+
+** flycheck
