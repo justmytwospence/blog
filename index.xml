@@ -14,8 +14,8 @@
   <link>http://blog.dev</link>
   <description><![CDATA[]]></description>
   <language>en</language>
-  <pubDate>Sun, 21 Feb 2016 00:49:44 -0800</pubDate>
-  <lastBuildDate>Sun, 21 Feb 2016 00:49:44 -0800</lastBuildDate>
+  <pubDate>Sun, 21 Feb 2016 15:54:50 -0800</pubDate>
+  <lastBuildDate>Sun, 21 Feb 2016 15:54:50 -0800</lastBuildDate>
   <generator>Emacs 24.5 Org-mode 8.3.3</generator>
   <webMaster>spencer@spencerboucher.com (Spencer Boucher)</webMaster>
   <image>
@@ -25,9 +25,17 @@
   </image>
 
   <ul class="org-ul">
-    <li><a href="http://blog.dev/sampling.html">2016-02-15: Stratified sampling in R</a></li>
+    <li><a href="http://blog.dev/where-science-meets-sci-fi.html">2011-10-18: Where science meets sci-fi</a></li>
+    <li><a href="http://blog.dev/things-i-do-in-emacs.html">2016-02-21: Things I do in Emacs</a></li>
+    <li><a href="http://blog.dev/the-thiel-foundation.html">2011-09-26: The Thiel Foundation</a></li>
+    <li><a href="http://blog.dev/the-new-face-of-education.html">2011-11-19: The new face of education</a></li>
+    <li><a href="http://blog.dev/the-modern-hierarchy-of-needs.html">2011-10-03: The modern Hierarchy of Needs</a></li>
+    <li><a href="http://blog.dev/super-power-your-keyboard-with-karabiner.html">2016-02-21: Super-power your keyboard with Karabiner</a></li>
+    <li><a href="http://blog.dev/sampling.html">2016-02-21: Stratified sampling in R</a></li>
     <li><a href="http://blog.dev/on-being-approximate.html">2013-07-20: On being approximate</a></li>
+    <li><a href="http://blog.dev/nonlinear.html">2011-09-25: Nonlinear</a></li>
     <li><a href="http://blog.dev/maptime.html">2014-12-01: Maptime at Stamen</a></li>
+    <li><a href="http://blog.dev/live-mapping.html">2016-02-21: Live mapping</a></li>
     <li><a href="http://blog.dev/keeing-it-real.html">2012-01-06: Keeping it real</a></li>
     <li><a href="http://blog.dev/incanter.html">2016-02-15: Incanter</a></li>
     <li><a href="http://blog.dev/foo.html">2016-02-17: Mauris ac felis vel velit tristique imperdiet.</a></li>

@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Live mapping</title>
+<!-- 2016-02-21 Sun 15:54 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Org-mode">
+<meta name="author" content="Spencer Boucher">
+<link rel="stylesheet" href="/static/css/style.min.css" />
+<script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="/static/js/main.min.js"></script>
+</head>
+<body>
+<div id="preamble" class="">
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://blog.dev">Spencer Boucher</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li  class="active" ><a href="/">Posts</a></li>
+        <li ><a href="/slides.html">Slides</a></li>
+        <li ><a href="/about.html">About</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</div>
+<div id="content" class="container">
+<div class="row"><div class="col-md-12"><h1 class="title">Live mapping</h1>
+<p>
+I've been wanting to do some more mapping stuff since my first encounter with
+Leaflet a month or two ago while I was working on a project for <a href="https://auto-grid.com">AutoGrid</a>. I had
+my eye on CartoDB's time series library, <a href="https://github.com/cartodb/torque">Torque</a>, because I had really wanted
+to do some time-series visualization, but time constraints and privacy issues
+with uploading data to CartoDB's servers prevented me from really
+exploring. Since I had a few days of free time over winter break, I played
+around with it a bit and came up with this: <a href="http://www.spencerboucher.com/map">spencerboucher.com/map</a>. How'd I do
+it?
+</p>
+
+<p>
+First I needed some geographic data, so I turned to a source of data I've been
+collected for almost a year - my own location. <a href="https://openpaths.cc">OpenPaths</a> is a mobile app that
+records your location at regular time intervals. I opted for every 30 minutes at
+first, then upped it to every 15 minutes when I discovered that the effect on
+battery life wasn't nearly as bad as I expected it to be. OpenPaths is a project
+of <a href="https://nytlabs.com">the R&amp;D department at The New York Times</a> and they <a href="https://openpaths.cc/FAQ">claim</a> that you are the only
+one with access to the collected data. Interestingly, you can grant various
+<a href="https://openpaths.cc/projects">research programs</a> access to your data at your own discretion. Your data is
+conveniently downloadable as a csv, json, or kml file, so I easily pulled my
+dataset of ~3,000 time points since December 2012. Unfortunately, I made the
+switch from iPhone to Android around April (well, that part is fortunate), and
+forgot to re-download the app, so I only really have data from the around the
+first three months and last two months of 2013.
+</p>
+
+<p>
+Turns out, making impressive maps with CartoDB is almost embarrassingly
+easy. Their GUI is pretty intuitive and running queries on their postgreSQL
+database is simple. Even time series stuff built on the Torque backend is really
+just point and click. I decided that the best way to visualize this data was
+with an aggregated hexbin heatmap of all my past locations, overlaid with a
+point-by-point replay with a time-slider. From there, it was just a one-line API
+call to host the map on my website (line 30 highlighted below), which is
+significantly easier than the legwork that went into crafting a Leaflet map
+"manually."
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-html">&lt;<span style="color: #81a2be;">html</span>&gt;
+
+  &lt;<span style="color: #81a2be;">head</span>&gt;
+
+    &lt;<span style="color: #81a2be;">meta</span> <span style="color: #8abeb7;">name</span>=<span style="color: #b5bd68;">"viewport"</span> <span style="color: #8abeb7;">content</span>=<span style="color: #b5bd68;">"initial-scale=1.0, user-scalable=no"</span> /&gt;
+    &lt;<span style="color: #81a2be;">title</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Location | Spencer</span>&lt;/<span style="color: #81a2be;">title</span>&gt;
+    &lt;<span style="color: #81a2be;">link</span> <span style="color: #8abeb7;">rel</span>=<span style="color: #b5bd68;">"shortcut icon"</span> <span style="color: #8abeb7;">href</span>=<span style="color: #b5bd68;">"http://spencerboucher.com/map/favicon.png"</span> /&gt;
+    &lt;<span style="color: #81a2be;">link</span> <span style="color: #8abeb7;">rel</span>=<span style="color: #b5bd68;">"stylesheet"</span> <span style="color: #8abeb7;">href</span>=<span style="color: #b5bd68;">"http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css"</span> /&gt;
+
+    &lt;<span style="color: #81a2be;">style</span> <span style="color: #8abeb7;">type</span>=<span style="color: #b5bd68;">"text/css"</span>&gt;
+      html, body, #map {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: black; }
+      #cartodb-gmaps-attribution {
+      visibility: hidden; }
+    &lt;/<span style="color: #81a2be;">style</span>&gt;
+
+    &lt;<span style="color: #81a2be;">script</span> <span style="color: #8abeb7;">src</span>=<span style="color: #b5bd68;">"http://maps.google.com/maps/api/js?v=3.2&amp;sensor=false"</span>&gt;&lt;/<span style="color: #81a2be;">script</span>&gt;
+    &lt;<span style="color: #81a2be;">script</span> <span style="color: #8abeb7;">src</span>=<span style="color: #b5bd68;">"http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"</span>&gt;&lt;/<span style="color: #81a2be;">script</span>&gt;
+    &lt;<span style="color: #81a2be;">script</span>&gt;
+      function init(){
+      cartodb.createVis('map', 'http://justmytwospence.cartodb.com/api/v2/viz/e8fd87d0-78b3-11e3-a9e9-e7941b6e2df0/viz.json'); }
+    &lt;/<span style="color: #81a2be;">script</span>&gt;
+
+  &lt;/<span style="color: #81a2be;">head</span>&gt;
+
+  &lt;<span style="color: #81a2be;">body</span> <span style="color: #8abeb7;">onload</span>=<span style="color: #b5bd68;">"init()"</span>&gt;
+    &lt;<span style="color: #81a2be;">div</span> <span style="color: #8abeb7;">id</span>='map'&gt;&lt;/<span style="color: #81a2be;">div</span>&gt;
+  &lt;/<span style="color: #81a2be;">body</span>&gt;
+
+&lt;/<span style="color: #81a2be;">html</span>&gt;
+</pre>
+</div>
+
+<p>
+This is pretty awesome, but in light of how easy it all was, I was almost
+disappointed. Can we take it one step further? Let's put on our <a href="http://quantifiedself.com/about/">Quantified Self</a>
+hats and set about to make this map <b>live</b>. There's three components to making
+this happen, so we'll step through them one at a time. First we need to access
+the most recent data from OpenPaths (there's an API for that!), and then we need
+to insert that data into CartoDB's database (guess what, there's an API for that
+too). Last but not least, we need to schedule that data transplant to occur on a
+regular basis. The Unix utility `cron` is the canonical tool for this type of
+thing, so this seemed like a good time to learn how to use it.
+</p>
+
+<p>
+Python has a reputation for being a great "glue" language, so that's what we'll
+use to build this script.
+</p>
+
+<p>
+Programmatically accessing your data from OpenPaths is super simple. This piece
+of our script is pulled more or less verbatim from <a href="https://openpaths.cc/api">the OpenPaths API
+documentation</a>. Line 21 (highlighted below) is key &#x2013; this is where we specify
+which data you want to pull for injection into the CartoDB database. Here we
+will grab the last 24 hours of data (~96 readings, if you're collecting every 15
+minutes like me), getting the results in a nice JSON-formatted variable named
+<code>data</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #b294bb;">import</span> oauth2, time, urllib, urllib2, json
+
+<span style="color: #8abeb7;">ACCESS</span> = <span style="color: #b5bd68;">'redacted'</span>
+<span style="color: #8abeb7;">SECRET</span> = <span style="color: #b5bd68;">'redacted'</span>
+<span style="color: #8abeb7;">URL</span> = <span style="color: #b5bd68;">'https://openpaths.cc/api/1'</span>
+
+<span style="color: #b294bb;">def</span> <span style="color: #81a2be;">build_auth_header</span><span style="color: #b294bb;">(</span>url, method<span style="color: #b294bb;">)</span>:
+    <span style="color: #8abeb7;">params</span> = <span style="color: #b294bb;">{</span>
+        <span style="color: #b5bd68;">'oauth_version'</span>: <span style="color: #b5bd68;">"1.0"</span>,
+        <span style="color: #b5bd68;">'oauth_nonce'</span>: oauth2.generate_nonce<span style="color: #81a2be;">()</span>,
+        <span style="color: #b5bd68;">'oauth_timestamp'</span>: <span style="color: #8abeb7;">int</span><span style="color: #81a2be;">(</span>time.time<span style="color: #8abeb7;">()</span><span style="color: #81a2be;">)</span>,
+    <span style="color: #b294bb;">}</span>
+    <span style="color: #8abeb7;">consumer</span> = oauth2.Consumer<span style="color: #b294bb;">(</span>key=ACCESS, secret=SECRET<span style="color: #b294bb;">)</span>
+    <span style="color: #8abeb7;">params</span><span style="color: #b294bb;">[</span><span style="color: #b5bd68;">'oauth_consumer_key'</span><span style="color: #b294bb;">]</span> = consumer.key
+    <span style="color: #8abeb7;">request</span> = oauth2.Request<span style="color: #b294bb;">(</span>method=method, url=url, parameters=params<span style="color: #b294bb;">)</span>
+    <span style="color: #8abeb7;">signature_method</span> = oauth2.SignatureMethod_HMAC_SHA1<span style="color: #b294bb;">()</span>
+    request.sign_request<span style="color: #b294bb;">(</span>signature_method, consumer, <span style="color: #de935f;">None</span><span style="color: #b294bb;">)</span>
+    <span style="color: #b294bb;">return</span> request.to_header<span style="color: #b294bb;">()</span>
+
+<span style="color: #8abeb7;">now</span> = time.time<span style="color: #b294bb;">()</span>
+<span style="color: #8abeb7;">params</span> = <span style="color: #b294bb;">{</span><span style="color: #b5bd68;">'start_time'</span>: now - 24*60*60, <span style="color: #b5bd68;">'end_time'</span>: now<span style="color: #b294bb;">}</span> <span style="color: #373b41;"># </span><span style="color: #969896;">get the last 24 hours</span>
+<span style="color: #8abeb7;">query</span> = <span style="color: #b5bd68;">"%s?%s"</span> % <span style="color: #b294bb;">(</span>URL, urllib.urlencode<span style="color: #81a2be;">(</span>params<span style="color: #81a2be;">)</span><span style="color: #b294bb;">)</span>
+
+<span style="color: #b294bb;">try</span>:
+    <span style="color: #8abeb7;">request</span> = urllib2.Request<span style="color: #b294bb;">(</span>query<span style="color: #b294bb;">)</span>
+    <span style="color: #8abeb7;">request.headers</span> = build_auth_header<span style="color: #b294bb;">(</span>URL, <span style="color: #b5bd68;">'GET'</span><span style="color: #b294bb;">)</span>
+    <span style="color: #8abeb7;">connection</span> = urllib2.urlopen<span style="color: #b294bb;">(</span>request<span style="color: #b294bb;">)</span>
+    <span style="color: #8abeb7;">data</span> = json.loads<span style="color: #b294bb;">(</span><span style="color: #b5bd68;">''</span>.join<span style="color: #81a2be;">(</span>connection.readlines<span style="color: #8abeb7;">()</span><span style="color: #81a2be;">)</span><span style="color: #b294bb;">)</span>
+    <span style="color: #b294bb;">print</span><span style="color: #b294bb;">(</span>json.dumps<span style="color: #81a2be;">(</span>data, indent=4<span style="color: #81a2be;">)</span><span style="color: #b294bb;">)</span>
+<span style="color: #b294bb;">except</span> urllib2.HTTPError <span style="color: #b294bb;">as</span> e:
+    <span style="color: #b294bb;">print</span><span style="color: #b294bb;">(</span>e.read<span style="color: #81a2be;">()</span><span style="color: #b294bb;">)</span>
+</pre>
+</div>
+
+<p>
+Now we need to get our new <code>data</code> variable into CartoDB's postgreSQL
+server. <a href="http://developers.cartodb.com/documentation/sql-api.html">CartoDB's SQL API documentation</a> makes this possible, and there's even a
+<a href="https://github.com/vizzuality/cartodb-python">python module</a> that wraps OAuth2 to simplify things. Although its still in the
+early stages of development, this module works fine for our current purposes;
+all we have to do is send it a string that holds the SQL query we want to
+run. So now we'll just write a for-loop that successively builds an <code>INSERT</code>
+query for each element in <code>data</code> (lines 18-20 highlighted below).
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #b294bb;">from</span> cartodb <span style="color: #b294bb;">import</span> CartoDBException, CartoDBAPIKey
+
+<span style="color: #8abeb7;">user</span> =  <span style="color: #b5bd68;">'spencer.g.boucher@gmail.com'</span>
+<span style="color: #8abeb7;">password</span> =  <span style="color: #b5bd68;">'redacted'</span>
+<span style="color: #8abeb7;">cartodb_domain</span> = <span style="color: #b5bd68;">'justmytwospence'</span>
+<span style="color: #8abeb7;">API_KEY</span> =<span style="color: #b5bd68;">'redacted'</span>
+<span style="color: #8abeb7;">cl</span> = CartoDBAPIKey<span style="color: #b294bb;">(</span>API_KEY, cartodb_domain<span style="color: #b294bb;">)</span>
+
+<span style="color: #b294bb;">for</span> reading <span style="color: #b294bb;">in</span> data:
+    <span style="color: #8abeb7;">alt</span>     = <span style="color: #8abeb7;">str</span><span style="color: #b294bb;">(</span>reading<span style="color: #81a2be;">[</span><span style="color: #b5bd68;">'alt'</span><span style="color: #81a2be;">]</span><span style="color: #b294bb;">)</span>
+    <span style="color: #8abeb7;">device</span>  =     reading<span style="color: #b294bb;">[</span><span style="color: #b5bd68;">'device'</span><span style="color: #b294bb;">]</span>
+    <span style="color: #8abeb7;">lat</span>     = <span style="color: #8abeb7;">str</span><span style="color: #b294bb;">(</span>reading<span style="color: #81a2be;">[</span><span style="color: #b5bd68;">'lat'</span><span style="color: #81a2be;">]</span><span style="color: #b294bb;">)</span>
+    <span style="color: #8abeb7;">lon</span>     = <span style="color: #8abeb7;">str</span><span style="color: #b294bb;">(</span>reading<span style="color: #81a2be;">[</span><span style="color: #b5bd68;">'lon'</span><span style="color: #81a2be;">]</span><span style="color: #b294bb;">)</span>
+    <span style="color: #8abeb7;">os</span>      =     reading<span style="color: #b294bb;">[</span><span style="color: #b5bd68;">'os'</span><span style="color: #b294bb;">]</span>
+    <span style="color: #8abeb7;">t</span>       = <span style="color: #8abeb7;">str</span><span style="color: #b294bb;">(</span>reading<span style="color: #81a2be;">[</span><span style="color: #b5bd68;">'t'</span><span style="color: #81a2be;">]</span><span style="color: #b294bb;">)</span>
+    <span style="color: #8abeb7;">version</span> =     reading<span style="color: #b294bb;">[</span><span style="color: #b5bd68;">'version'</span><span style="color: #b294bb;">]</span>
+    <span style="color: #b294bb;">try</span>:
+        <span style="color: #8abeb7;">query_string</span> = <span style="color: #b5bd68;">"INSERT INTO openpaths_justmytwospence (alt, date, device, lat,  lon, os, version, the_geom) "</span>
+                       <span style="color: #b5bd68;">"VALUES ({0}, abstime({1}), '{2}', {3}, {4}, '{5}', '{6}', ST_ SetSRID(ST_Point({4}, {3}), 4326))"</span>
+                      .<span style="color: #8abeb7;">format</span><span style="color: #b294bb;">(</span>alt, t, device, lat, lon, os, version<span style="color: #b294bb;">)</span>
+        <span style="color: #b294bb;">print</span> cl.sql<span style="color: #b294bb;">(</span>query_string<span style="color: #b294bb;">)</span>
+    <span style="color: #b294bb;">except</span> CartoDBException <span style="color: #b294bb;">as</span> e:
+        <span style="color: #b294bb;">print</span> <span style="color: #b294bb;">(</span><span style="color: #b5bd68;">"some error ocurred"</span>, e<span style="color: #b294bb;">)</span>
+</pre>
+</div>
+
+<p>
+A few notes:
+</p>
+
+<ul class="org-ul">
+<li>It would certainly be faster to insert all of the new data into the database using a single <code>INSERT</code> statement, but that would require some more tedious text parsing and execution speed isn't particularly important to us. As it stands, it takes about six seconds to post a day's worth of data.
+</li>
+<li>One posgreSQL "gotcha" had me hung up for quite some time: single quotes parse fine but double quotes do not.
+</li>
+<li><code>ST_SetSRID</code> is a <a href="http://postgis.org/docs/ST_SetSRID.html">PostGIS command</a> that converts a lon/lat pair (in that order - another "gotcha") to the necessary geometry object.
+</li>
+</ul>
+
+<p>
+Last but not least, we need this script to run automatically. Because we've
+written the script to transplant 24 hours of data, we'll need to run it once a
+day in order to capture all of the data that's being generated. I tried to set
+up my web host, <a href="https://laughingsquid.us/">LaughingSquid</a>, to do this, but unfortunately they don't grant
+shell access so we can't install all those fancy python modules that we've
+already used. Its totally possible to rewrite the script to use only modules
+from the <a href="http://docs.python.org/2/library/">Python Standard Library</a>, but this would turn a simple task into a
+tedious one. Manually implementing OAuth in particular would be a total pain in
+the rear, and classes are just about to resume after all, so a different
+solution is in order. Let's spin up a <a href="http://aws.amazon.com/">"micro" EC2 instance</a> instead. This gives
+us free reign to install whatever we need for the low low cost of ¢.02 per
+hour. This does start to add up, but our Master's program gives us some pretty
+substantial Amazon Web Services credit that goes mostly unused, so we aren't too
+upset :).
+</p>
+
+<p>
+UPDATE: A new post provides details about how to schedule Amazon EC2
+instances - <a href="http://www.spencerboucher.com/ec2-apis/">http://www.spencerboucher.com/ec2-apis/</a>.
+</p>
+
+<p>
+After ~pip install~ing everything we need and ~scp~ing our python script (let's
+call it update.py) into the home directory of our remote server, all we need to
+do is set up a crontab with the <code>crontab -e</code> command and add the following line:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-shell">@daily /usr/bin/python ~/update.py
+</pre>
+</div>
+
+<p>
+<code>@daily</code> is actually a shortcut for <code>* * * * *</code>, where each asterix is a
+placeholder for the (respectively) minute, hour, day of month, month, and day of
+week that the script should executed. This shortcut defaults to midnight every
+day, which is really as good as anything for our purposes.
+</p>
+
+<p>
+Voilà! Now we can step back and relax, knowing that we don't have to do a single
+thing and our map will continue to show the most up-to-date data available.
+</p>
+
+<p>
+A few final notes:
+</p>
+
+<ul class="org-ul">
+<li>We might reasonably want to lag our script by a week or so, for security/privacy reasons.
+</li>
+<li>As far as I can tell, the location readings are recorded in a <a href="http://en.wikipedia.org/wiki/Unix_time">POSIX time</a>
+and have not been adjusted by time zone, so they are still in the <a href="http://en.wikipedia.org/wiki/Coordinated_Universal_Time">UTC</a>
+time zone. This means that they are 8 hours off from the actual time in
+California, where I usually am. This doesn't bother me too much at the moment
+because the visualization is still relatively low resolution in the time
+domain anyways. At some point I might implement the relevant transformation,
+but this will raise its own issues because I won't <b>always</b> be in California,
+not to mention all that Daylight Savings nonsense.
+</li>
+<li><a href="./ec2-apis.html">There is an addendum</a> to this post that will take you through how to schedule the EC2 instance and avoid having it run 24/7.
+</li>
+</ul>
+</div></div></div>
+<footer id="postamble" class="">
+
+
+  <div class="container">
+
+    <div class="post-footer">
+      <img src="/static/images/avatar.png" alt="Spencer Boucher" class="avatar img-rounded">
+      <p>Spencer is a data scientist living in San Francisco</p>
+      <p>The source code for this post can be found on GitHub, <a href="http://github.com/justmytwospence/blog/tree/master/posts/live-mapping.html">here</a></p>
+    </div>
+
+    <ul class="rrssb-buttons">
+
+      <li class="rrssb-email">
+        <a href="mailto:?subject=Live%20mapping&amp;body=http://blog.dev/live-mapping.html"><span class="rrssb-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewbox="0 0 28 28">
+            <path d="M20.11 26.147c-2.335 1.05-4.36 1.4-7.124 1.4C6.524 27.548.84 22.916.84 15.284.84 7.343 6.602.45 15.4.45c6.854 0 11.8 4.7 11.8 11.252 0 5.684-3.193 9.265-7.398 9.3-1.83 0-3.153-.934-3.347-2.997h-.077c-1.208 1.986-2.96 2.997-5.023 2.997-2.532 0-4.36-1.868-4.36-5.062 0-4.75 3.503-9.07 9.11-9.07 1.713 0 3.7.4 4.6.972l-1.17 7.203c-.387 2.298-.115 3.3 1 3.4 1.674 0 3.774-2.102 3.774-6.58 0-5.06-3.27-8.994-9.304-8.994C9.05 2.87 3.83 7.545 3.83 14.97c0 6.5 4.2 10.2 10 10.202 1.987 0 4.09-.43 5.647-1.245l.634 2.22zM16.647 10.1c-.31-.078-.7-.155-1.207-.155-2.572 0-4.596 2.53-4.596 5.53 0 1.5.7 2.4 1.9 2.4 1.44 0 2.96-1.83 3.31-4.088l.592-3.72z"></path>
+          </svg>
+        </span>
+        <span class="rrssb-text">email</span>
+        </a>
+      </li>
+
+      <li class="rrssb-reddit">
+        <a href="http://www.reddit.com/submit?url=http://blog.dev/live-mapping.html&amp;title=Live mapping">
+          <span class="rrssb-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewbox="0 0 28 28">
+              <path d="M11.794 15.316c0-1.03-.835-1.895-1.866-1.895-1.03 0-1.893.866-1.893 1.896s.863 1.9 1.9 1.9c1.023-.016 1.865-.916 1.865-1.9zM18.1 13.422c-1.03 0-1.895.864-1.895 1.895 0 1 .9 1.9 1.9 1.865 1.03 0 1.87-.836 1.87-1.865-.006-1.017-.875-1.917-1.875-1.895zM17.527 19.79c-.678.68-1.826 1.007-3.514 1.007h-.03c-1.686 0-2.834-.328-3.51-1.005-.264-.265-.693-.265-.958 0-.264.265-.264.7 0 1 .943.9 2.4 1.4 4.5 1.402.005 0 0 0 0 0 .005 0 0 0 0 0 2.066 0 3.527-.46 4.47-1.402.265-.264.265-.693.002-.958-.267-.334-.688-.334-.988-.043z"></path>
+              <path d="M27.707 13.267c0-1.785-1.453-3.237-3.236-3.237-.792 0-1.517.287-2.08.76-2.04-1.294-4.647-2.068-7.44-2.218l1.484-4.69 4.062.955c.07 1.4 1.3 2.6 2.7 2.555 1.488 0 2.695-1.208 2.695-2.695C25.88 3.2 24.7 2 23.2 2c-1.06 0-1.98.616-2.42 1.508l-4.633-1.09c-.344-.082-.693.117-.803.454l-1.793 5.7C10.55 8.6 7.7 9.4 5.6 10.75c-.594-.45-1.3-.75-2.1-.72-1.785 0-3.237 1.45-3.237 3.2 0 1.1.6 2.1 1.4 2.69-.04.27-.06.55-.06.83 0 2.3 1.3 4.4 3.7 5.9 2.298 1.5 5.3 2.3 8.6 2.325 3.227 0 6.27-.825 8.57-2.325 2.387-1.56 3.7-3.66 3.7-5.917 0-.26-.016-.514-.05-.768.965-.465 1.577-1.565 1.577-2.698zm-4.52-9.912c.74 0 1.3.6 1.3 1.3 0 .738-.6 1.34-1.34 1.34s-1.343-.602-1.343-1.34c.04-.655.596-1.255 1.396-1.3zM1.646 13.3c0-1.038.845-1.882 1.883-1.882.31 0 .6.1.9.21-1.05.867-1.813 1.86-2.26 2.9-.338-.328-.57-.728-.57-1.26zm20.126 8.27c-2.082 1.357-4.863 2.105-7.83 2.105-2.968 0-5.748-.748-7.83-2.105-1.99-1.3-3.087-3-3.087-4.782 0-1.784 1.097-3.484 3.088-4.784 2.08-1.358 4.86-2.106 7.828-2.106 2.967 0 5.7.7 7.8 2.106 1.99 1.3 3.1 3 3.1 4.784C24.86 18.6 23.8 20.3 21.8 21.57zm4.014-6.97c-.432-1.084-1.19-2.095-2.244-2.977.273-.156.59-.245.928-.245 1.036 0 1.9.8 1.9 1.9-.016.522-.27 1.022-.57 1.327z"></path>
+            </svg>
+          </span>
+          <span class="rrssb-text">reddit</span>
+        </a>
+      </li>
+
+      <li class="rrssb-twitter">
+        <a href="https://twitter.com/intent/tweet?text=Live%20mapping:%20http://blog.dev/live-mapping.html" class="popup">
+          <span class="rrssb-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewbox="0 0 28 28">
+              <path d="M24.253 8.756C24.69 17.08 18.297 24.182 9.97 24.62c-3.122.162-6.22-.646-8.86-2.32 2.702.18 5.375-.648 7.507-2.32-2.072-.248-3.818-1.662-4.49-3.64.802.13 1.62.077 2.4-.154-2.482-.466-4.312-2.586-4.412-5.11.688.276 1.426.408 2.168.387-2.135-1.65-2.73-4.62-1.394-6.965C5.574 7.816 9.54 9.84 13.802 10.07c-.842-2.738.694-5.64 3.434-6.48 2.018-.624 4.212.043 5.546 1.682 1.186-.213 2.318-.662 3.33-1.317-.386 1.256-1.248 2.312-2.4 2.942 1.048-.106 2.07-.394 3.02-.85-.458 1.182-1.343 2.15-2.48 2.71z"></path>
+            </svg>
+          </span>
+          <span class="rrssb-text">twitter</span>
+        </a>
+      </li>
+
+      <li class="rrssb-facebook">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.dev/live-mapping.html" class="popup">
+          <span class="rrssb-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 29 29">
+              <path d="M26.4 0H2.6C1.714 0 0 1.715 0 2.6v23.8c0 .884 1.715 2.6 2.6 2.6h12.393V17.988h-3.996v-3.98h3.997v-3.062c0-3.746 2.835-5.97 6.177-5.97 1.6 0 2.444.173 2.845.226v3.792H21.18c-1.817 0-2.156.9-2.156 2.168v2.847h5.045l-.66 3.978h-4.386V29H26.4c.884 0 2.6-1.716 2.6-2.6V2.6c0-.885-1.716-2.6-2.6-2.6z"></path>
+            </svg>
+          </span>
+          <span class="rrssb-text">facebook</span>
+        </a>
+      </li>
+
+      <li class="rrssb-linkedin">
+        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http://blog.dev/live-mapping.html&amp;title=Live%20mapping" class="popup">
+          <span class="rrssb-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 28 28">
+              <path d="M25.424 15.887v8.447h-4.896v-7.882c0-1.98-.71-3.33-2.48-3.33-1.354 0-2.158.91-2.514 1.802-.13.315-.162.753-.162 1.194v8.216h-4.9s.067-13.35 0-14.73h4.9v2.087c-.01.017-.023.033-.033.05h.032v-.05c.65-1.002 1.812-2.435 4.414-2.435 3.222 0 5.638 2.106 5.638 6.632zM5.348 2.5c-1.676 0-2.772 1.093-2.772 2.54 0 1.42 1.066 2.538 2.717 2.546h.032c1.71 0 2.77-1.132 2.77-2.546C8.056 3.593 7.02 2.5 5.344 2.5h.005zm-2.48 21.834h4.896V9.604H2.867v14.73z"></path>
+            </svg>
+          </span>
+          <span class="rrssb-text">linkedin</span>
+        </a>
+      </li>
+
+      <li class="rrssb-hackernews">
+        <a href="https://news.ycombinator.com/submitlink?u=http://blog.dev/live-mapping.html&amp;t=Live%20mapping">
+          <span class="rrssb-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewbox="0 0 28 28">
+              <path fill="#FFF" d="M14 13.626l-4.508-9.19H6.588l6.165 12.208v6.92h2.51v-6.92l6.15-12.21H18.69"></path>
+            </svg>
+          </span>
+          <span class="rrssb-text">hackernews</span>
+        </a>
+      </li>
+
+      <li class="rrssb-pocket">
+        <a href="https://getpocket.com/save?url=http://blog.dev/live-mapping.html">
+          <span class="rrssb-icon">
+            <svg width="32" height="28" viewbox="0 0 32 28" xmlns="http://www.w3.org/2000/svg">
+              <path d="M28.782.002c2.03.002 3.193 1.12 3.182 3.106-.022 3.57.17 7.16-.158 10.7-1.09 11.773-14.588 18.092-24.6 11.573C2.72 22.458.197 18.313.057 12.937c-.09-3.36-.05-6.72-.026-10.08C.04 1.113 1.212.016 3.02.008 7.347-.006 11.678.004 16.006.002c4.258 0 8.518-.004 12.776 0zM8.65 7.856c-1.262.135-1.99.57-2.357 1.476-.392.965-.115 1.81.606 2.496 2.453 2.334 4.91 4.664 7.398 6.966 1.086 1.003 2.237.99 3.314-.013 2.407-2.23 4.795-4.482 7.17-6.747 1.203-1.148 1.32-2.468.365-3.426-1.01-1.014-2.302-.933-3.558.245-1.596 1.497-3.222 2.965-4.75 4.526-.706.715-1.12.627-1.783-.034-1.597-1.596-3.25-3.138-4.93-4.644-.47-.42-1.123-.647-1.478-.844z"></path>
+            </svg>
+          </span>
+          <span class="rrssb-text">pocket</span>
+        </a>
+      </li>
+
+    </ul>
+
+    <div id="disqus_thread"></div>
+    <script>
+     (function() {
+       var d = document, s = d.createElement('script');
+       s.src = '//spencerboucher.disqus.com/embed.js';
+       s.setAttribute('data-timestamp', +new Date());
+       (d.head || d.body).appendChild(s);
+     })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the comments.
+    </noscript>
+  </div>
+
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ ga('create', 'UA-45101202-1', 'auto');
+ ga('send', 'pageview');
+</script>
+</footer>
+</body>
+</html>
