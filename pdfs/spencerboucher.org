@@ -77,8 +77,7 @@
   I am a data scientist interested in full stack machine learning. I believe
   that the most effective data scientiests are the ones that firmly grasp
   statistics and machine learning theory, but also have enough engineering
-  know-how to actually implement solutions. I aspire to mastery over both these
-  domains.
+  know-how to actually implement solutions.
 
   \sectionsep
 
@@ -86,8 +85,9 @@
 ** [[https://www.uber.com/][Uber]] \descript{Machine Learning Platform} \location{2015 -- Present}
 
    #+ATTR_LATEX: :environment tightemize
-   - Bootstrapped Uber's machine learning platform.
-   - Built machine learning platform architecture using Spark.
+   - Serve as liason between customer teams and the platform team.
+   - Write distributed code to evaluate the performance of machine learning
+     models.
 
    \sectionsep
 
