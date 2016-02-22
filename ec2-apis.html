@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <title>Scheduling tasks in the cloud with EC2 APIs</title>
-<!-- 2016-02-21 Sun 20:00 -->
+<!-- 2016-02-21 Sun 20:50 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="Org-mode">
@@ -216,36 +216,40 @@ highlighted on line 4, and the apoptosis command on line 46:
 <span style="color: #8abeb7;">EMAIL</span>=spencer.g.boucher@gmail.com
 
 <span style="color: #373b41;"># </span><span style="color: #969896;">Upgrade and install Postfix so we can send a sample email export</span>
-<span style="color: #8abeb7;">DEBIAN_FRONTEND</span>=noninteractive apt-get update &amp;&amp; apt-get upgrade -y &amp;&amp; apt-get
-install -y postfix
+<span style="color: #8abeb7;">DEBIAN_FRONTEND</span>=noninteractive apt-get update &amp;&amp; apt-get upgrade -y &amp;&amp; apt-get install -y postfix
 
-<span style="color: #373b41;"># </span><span style="color: #969896;">Get some information about the running instance instance_id=$(wget -qO-</span>
-instance-data/latest/meta-data/instance-id<span style="color: #cd5c5c; font-weight: bold;">)</span> <span style="color: #8abeb7;">public_ip</span>=$<span style="color: #cd5c5c; font-weight: bold;">(</span>wget -qO-
-instance-data/latest/meta-data/public-ipv4<span style="color: #cd5c5c; font-weight: bold;">)</span> <span style="color: #8abeb7;">zone</span>=$<span style="color: #cd5c5c; font-weight: bold;">(</span>wget -qO-
-instance-data/latest/meta-data/placement/availability-zone<span style="color: #cd5c5c; font-weight: bold;">)</span> <span style="color: #8abeb7;">region</span>=$<span style="color: #cd5c5c; font-weight: bold;">(</span>expr match
-$<span style="color: #8abeb7;">zone</span> <span style="color: #b5bd68;">'\(.*\).'</span><span style="color: #cd5c5c; font-weight: bold;">)</span>  <span style="color: #8abeb7;">uptime</span>=$<span style="color: #cd5c5c; font-weight: bold;">(</span>uptime<span style="color: #cd5c5c; font-weight: bold;">)</span>
+<span style="color: #373b41;"># </span><span style="color: #969896;">Get some information about the running instance</span>
+<span style="color: #8abeb7;">instance_id</span>=$<span style="color: #b294bb;">(</span>wget -qO- instance-data/latest/meta-data/instance-id<span style="color: #b294bb;">)</span>
+<span style="color: #8abeb7;">public_ip</span>=$<span style="color: #b294bb;">(</span>wget -qO- instance-data/latest/meta-data/public-ipv4<span style="color: #b294bb;">)</span>
+<span style="color: #8abeb7;">zone</span>=$<span style="color: #b294bb;">(</span>wget -qO- instance-data/latest/meta-data/placement/availability-zone<span style="color: #b294bb;">)</span>
+<span style="color: #8abeb7;">region</span>=$<span style="color: #b294bb;">(</span>expr match $<span style="color: #8abeb7;">zone</span> <span style="color: #b5bd68;">'\(.*\).'</span><span style="color: #b294bb;">)</span>
+<span style="color: #8abeb7;">uptime</span>=$<span style="color: #b294bb;">(</span>uptime<span style="color: #b294bb;">)</span>
 
-<span style="color: #373b41;"># </span><span style="color: #969896;">Send status email /usr/sbin/sendmail -oi -t -f $EMAIL &lt;&lt;EOM From: $EMAIL To:</span>
-$<span style="color: #8abeb7;">EMAIL</span> Subject: Results of EC2 scheduled script
+<span style="color: #373b41;"># </span><span style="color: #969896;">Send status email</span>
+/usr/sbin/sendmail -oi -t -f $<span style="color: #8abeb7;">EMAIL</span> &lt;&lt;EOM
+<span style="color: #b5bd68;">From: $EMAIL</span>
+<span style="color: #b5bd68;">To: $EMAIL</span>
+<span style="color: #b5bd68;">Subject: Results of EC2 scheduled script</span>
 
-This email message was generated on the following EC2 instance:
+<span style="color: #b5bd68;">This email message was generated on the following EC2 instance:</span>
 
-  instance id: $<span style="color: #8abeb7;">instance_id</span> region: $<span style="color: #8abeb7;">region</span> public ip: $<span style="color: #8abeb7;">public_ip</span> uptime:
-  $<span style="color: #8abeb7;">uptime</span>
+<span style="color: #b5bd68;">  instance id: $instance_id region: $region public ip: $public_ip uptime: $uptime</span>
 
-If the instance is still running, you can monitor the output of this job using a
-command like:
+<span style="color: #b5bd68;">If the instance is still running, you can monitor the output of this job using a command like:</span>
 
-  ssh ubuntu@$<span style="color: #8abeb7;">public_ip</span> tail -1000f /var/log/user-data.log
+<span style="color: #b5bd68;">  ssh ubuntu@$public_ip tail -1000f /var/log/user-data.log</span>
 
-  ec2-describe-instances --region $<span style="color: #8abeb7;">region</span> $<span style="color: #8abeb7;">instance_id</span>
+<span style="color: #b5bd68;">  ec2-describe-instances --region $region $instance_id</span>
 
-EOM
+<span style="color: #b5bd68;">EOM</span>
 
-<span style="color: #373b41;"># </span><span style="color: #969896;">Give the script and email some time to do their thing sleep 600 # 10 minutes</span>
+<span style="color: #373b41;"># </span><span style="color: #969896;">Give the script and email some time to do their thing</span>
+sleep 600 <span style="color: #373b41;"># </span><span style="color: #969896;">10 minutes</span>
 
-<span style="color: #373b41;"># </span><span style="color: #969896;">This will stop the EBS boot instance, stopping the hourly charges.  # Have</span>
-Auto Scaling terminate it, stopping the storage charges.  <span style="color: #373b41;"># </span><span style="color: #969896;">shutdown -h now</span>
+<span style="color: #373b41;"># </span><span style="color: #969896;">This will stop the EBS boot instance, stopping the hourly charges.</span>
+<span style="color: #373b41;"># </span><span style="color: #969896;">Have Auto Scaling terminate it, stopping the storage charges.</span>
+
+shutdown -h now
 
 <span style="color: #b294bb;">exit</span> 0
 </pre>
@@ -423,8 +427,7 @@ Other great resources:
 
     <div class="post-footer">
       <img src="/static/images/avatar.png" alt="Spencer Boucher" class="avatar img-rounded">
-      <p>Spencer is a data scientist living in San Francisco.</p>
-      <p>The source code for this post can be found on GitHub, <a href="http://github.com/justmytwospence/blog/tree/master/posts/ec2-apis.org">here</a>.</p>
+      <p>Spencer is a data scientist living in San Francisco.<br>The source code for this post can be found on GitHub, <a href="http://github.com/justmytwospence/blog/tree/master/posts/ec2-apis.org">here</a>.</p>
     </div>
 
     <ul class="rrssb-buttons">
