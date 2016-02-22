@@ -39,7 +39,7 @@ size:usefulness ratio of ~Caps Lock~ is way off the rails.
 
 * Karabiner
 
-I use *both* Vim and Emacs style key bindings, via the Evil-mode Emacs package.
+I use *both* Vim and Emacs style key bindings, via the Evil-mode Emacs
 package. Therefore I want to figure out how to remap my keyboard in such a way
 as to make both ~CTRL~ *and* ~ESC~ easily accessible, and obviously I can't bind
 them *both* to ~Caps Lock~, right?
