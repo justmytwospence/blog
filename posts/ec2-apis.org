@@ -1,5 +1,5 @@
 #+TITLE: Scheduling tasks in the cloud with EC2 APIs
-#+DATE: 2014-01-12
+#+DATE: <2014-01-12 Sun>
 
 This post is sort of an addendum to our live mapping project, but it should also
 be of use to anyone looking to run an arbitrary script on a recurring
@@ -103,25 +103,26 @@ highlighted on line 4, and the apoptosis command on line 46:
 EMAIL=spencer.g.boucher@gmail.com
 
 # Upgrade and install Postfix so we can send a sample email export
-DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get
-install -y postfix
+DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y postfix
 
-# Get some information about the running instance instance_id=$(wget -qO-
-instance-data/latest/meta-data/instance-id) public_ip=$(wget -qO-
-instance-data/latest/meta-data/public-ipv4) zone=$(wget -qO-
-instance-data/latest/meta-data/placement/availability-zone) region=$(expr match
-$zone '\(.*\).')  uptime=$(uptime)
+# Get some information about the running instance
+instance_id=$(wget -qO- instance-data/latest/meta-data/instance-id)
+public_ip=$(wget -qO- instance-data/latest/meta-data/public-ipv4)
+zone=$(wget -qO- instance-data/latest/meta-data/placement/availability-zone)
+region=$(expr match $zone '\(.*\).')
+uptime=$(uptime)
 
-# Send status email /usr/sbin/sendmail -oi -t -f $EMAIL <<EOM From: $EMAIL To:
-$EMAIL Subject: Results of EC2 scheduled script
+# Send status email
+/usr/sbin/sendmail -oi -t -f $EMAIL <<EOM
+From: $EMAIL
+To: $EMAIL
+Subject: Results of EC2 scheduled script
 
 This email message was generated on the following EC2 instance:
 
-  instance id: $instance_id region: $region public ip: $public_ip uptime:
-  $uptime
+  instance id: $instance_id region: $region public ip: $public_ip uptime: $uptime
 
-If the instance is still running, you can monitor the output of this job using a
-command like:
+If the instance is still running, you can monitor the output of this job using a command like:
 
   ssh ubuntu@$public_ip tail -1000f /var/log/user-data.log
 
@@ -129,10 +130,13 @@ command like:
 
 EOM
 
-# Give the script and email some time to do their thing sleep 600 # 10 minutes
+# Give the script and email some time to do their thing
+sleep 600 # 10 minutes
 
-# This will stop the EBS boot instance, stopping the hourly charges.  # Have
-Auto Scaling terminate it, stopping the storage charges.  # shutdown -h now
+# This will stop the EBS boot instance, stopping the hourly charges.
+# Have Auto Scaling terminate it, stopping the storage charges.
+
+shutdown -h now
 
 exit 0
 #+END_SRC
@@ -206,17 +210,17 @@ instance so that we aren't paying to have it running, but we also need to
 completely *terminate* the instance so that we aren't paying to store
 information about it. Each schedule requires:
 
--   A name (~"map-update-start"~ & ~"map-update-stop"~).
--   The name of the auto scaling group we created in step 4
-    ("map-update-scale-group").
--   How we want to scale. By setting both ~min-size~ and ~max-size~ to 1, we are
-    effectively turning on one instance. We later effectively turn that instance
-    back off by setting both to 0.
--   A "recurrence," ie when to occur. This flag uses the same syntax that ~cron~
-    does. Here we set the instance to launch at midnight UTC (~0 0 * * *~), and
-    terminate 15 minutes later (~15 0 * * *~). Recall that our script already
-    stops the instance 10 minutes after execution, so 15 minutes is playing it
-    safe.
+- A name (~"map-update-start"~ & ~"map-update-stop"~).
+- The name of the auto scaling group we created in step 4
+  ("map-update-scale-group").
+- How we want to scale. By setting both ~min-size~ and ~max-size~ to 1, we are
+  effectively turning on one instance. We later effectively turn that instance
+  back off by setting both to 0.
+- A "recurrence," ie when to occur. This flag uses the same syntax that ~cron~
+  does. Here we set the instance to launch at midnight UTC (~0 0 * * *~), and
+  terminate 15 minutes later (~15 0 * * *~). Recall that our script already
+  stops the instance 10 minutes after execution, so 15 minutes is playing it
+  safe.
 
 #+BEGIN_SRC shell
 as-put-scheduled-update-group-action \

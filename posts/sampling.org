@@ -1,5 +1,5 @@
 #+TITLE: Stratified sampling in R
-#+DATE: 2014-01-10
+#+DATE: <2014-01-10 Fri>
 
 I was surprised to find that R doesn’t have a base function for stratified
 random sampling. There’s not even a well known package I could find that does

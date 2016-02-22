@@ -6727,12 +6727,8 @@ button.close {
   }
 }
 @media (max-width: 480px) {
-  body {
-    font-size: 10px;
-  }
-}
-@media (max-width: 768px) {
-  body {
+  body,
+  pre {
     font-size: 14px;
   }
 }

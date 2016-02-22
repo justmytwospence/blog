@@ -14,4 +14,4 @@ static/css/bootstrap.css:
 	lessc vendor/bootstrap/less/bootstrap.less $@
 
 public/CNAME:
-	mv static/CNAME $@
+	cp static/CNAME $@

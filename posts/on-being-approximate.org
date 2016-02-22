@@ -1,5 +1,5 @@
-#+DATE: <2013-07-20 Sat>
 #+TITLE: On being approximate
+#+DATE: <2014-07-20 Sun>
 
 #+BEGIN_QUOTE
 It is hard to tell how many investors beat the stock market

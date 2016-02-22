@@ -1,5 +1,5 @@
 #+TITLE: Live mapping
-#+DATE: 2014-01-08
+#+DATE: <2014-01-08 Wed>
 
 I've been wanting to do some more mapping stuff since my first encounter with
 Leaflet a month or two ago while I was working on a project for [[https://auto-grid.com][AutoGrid]]. I had

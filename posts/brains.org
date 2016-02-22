@@ -1,5 +1,5 @@
-#+title: Brainssssss
-#+date: <2011-11-07 Mon>
+#+TITLE: Brainssssss
+#+DATE: <2011-11-07 Mon>
 
 [[../static/images/stanford.gif]]
 
