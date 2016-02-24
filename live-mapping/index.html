@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <title>Live mapping</title>
-<!-- 2016-02-23 Tue 18:23 -->
+<!-- 2016-02-23 Tue 23:15 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="Org-mode">
@@ -14,7 +14,6 @@
 </head>
 <body>
 <div id="preamble" class="">
-<!-- Static navbar -->
 <nav class="navbar navbar-default navbar-static-top">
   <div class="container">
     <div class="navbar-header">
@@ -41,12 +40,11 @@
 <p>
 I've been wanting to do some more mapping stuff since my first encounter with
 Leaflet a month or two ago while I was working on a project for <a href="https://auto-grid.com">AutoGrid</a>. I had
-my eye on CartoDB's time series library, <a href="https://github.com/cartodb/torque">Torque</a>, because I had really wanted
-to do some time-series visualization, but time constraints and privacy issues
-with uploading data to CartoDB's servers prevented me from really
-exploring. Since I had a few days of free time over winter break, I played
-around with it a bit and came up with this: <a href="http://www.spencerboucher.com/map">spencerboucher.com/map</a>. How'd I do
-it?
+my eye on CartoDB's time series library, <a href="https://github.com/cartodb/torque">Torque</a>, because I had really wanted to
+do some time-series visualization, but time constraints and privacy issues with
+uploading data to CartoDB's servers prevented me from really exploring. Since I
+had a few days of free time over winter break, I played around with it a bit and
+came up with this: <a href="http://www.spencerboucher.com/map">spencerboucher.com/map</a>. How'd I do it?
 </p>
 
 <p>
@@ -222,11 +220,16 @@ A few notes:
 </p>
 
 <ul class="org-ul">
-<li>It would certainly be faster to insert all of the new data into the database using a single <code>INSERT</code> statement, but that would require some more tedious text parsing and execution speed isn't particularly important to us. As it stands, it takes about six seconds to post a day's worth of data.
+<li>It would certainly be faster to insert all of the new data into the database
+using a single <code>INSERT</code> statement, but that would require some more tedious
+text parsing and execution speed isn't particularly important to us. As it
+stands, it takes about six seconds to post a day's worth of data.
 </li>
-<li>One posgreSQL "gotcha" had me hung up for quite some time: single quotes parse fine but double quotes do not.
+<li>One posgreSQL "gotcha" had me hung up for quite some time: single quotes parse
+fine but double quotes do not.
 </li>
-<li><code>ST_SetSRID</code> is a <a href="http://postgis.org/docs/ST_SetSRID.html">PostGIS command</a> that converts a lon/lat pair (in that order - another "gotcha") to the necessary geometry object.
+<li><code>ST_SetSRID</code> is a <a href="http://postgis.org/docs/ST_SetSRID.html">PostGIS command</a> that converts a lon/lat pair (in that
+order - another "gotcha") to the necessary geometry object.
 </li>
 </ul>
 
