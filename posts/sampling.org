@@ -19,19 +19,19 @@ regardless of their total number of observations.
 The .by argument is formulated the same way it is for any other ddply call.
 
 #+BEGIN_SRC R
-stratified_sample <- function(df, size = .5, .by, seed = 37L) {
-    require(plyr)
-    set.seed(seed)
-    df.sample <- ddply(df, .by,
-                      function(x) {
-                          if (size < 1) {
-                              size <- size * nrow(x)
-                          }
-                          return(x[sample(nrow(x), size = size), ])
-                      },
-                      .progress = "text")
-    return(df.sample)
-}
+  stratified_sample <- function(df, size = .5, .by, seed = 37L) {
+      require(plyr)
+      set.seed(seed)
+      df.sample <- ddply(df, .by,
+                        function(x) {
+                            if (size < 1) {
+                                size <- size * nrow(x)
+                            }
+                            return(x[sample(nrow(x), size = size), ])
+                        },
+                        .progress = "text")
+      return(df.sample)
+  }
 #+END_SRC
 
 #+RESULTS:

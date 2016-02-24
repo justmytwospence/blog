@@ -22,9 +22,9 @@ If you're on a Mac, it's way easier to get these with [[https://brew.sh][homebre
 downloading from Amazon's website:
 
 #+BEGIN_SRC shell
-brew install ec2-ami-tools # For creating an AMI from an existing machine
-brew install ec2-api-tools # For registering and launching instances
-brew install aws-as # For creating auto scaling groups/defining schedules
+  brew install ec2-ami-tools # For creating an AMI from an existing machine
+  brew install ec2-api-tools # For registering and launching instances
+  brew install aws-as # For creating auto scaling groups/defining schedules
 #+END_SRC
 
 As an extra Homebrew bonus, running ~brew info ec2-ami-tools~, ~brew info
@@ -36,13 +36,13 @@ command line where everything lives now by inserting the following lines into
 our ~.bashrc~:
 
 #+BEGIN_SRC shell
-export EC2_PRIVATE_KEY="$(/bin/ls "$HOME"/.ec2/pk-*.pem | /usr/bin/head -1)"
-export EC2_CERT="$(/bin/ls "$HOME"/.ec2/cert-*.pem | /usr/bin/head -1)"
-export EC2_HOME="/usr/local/Cellar/ec2-api-tools/1.6.12.0/libexec"
-export EC2_AMITOOL_HOME="/usr/local/Cellar/ec2-ami-tools/1.4.0.9/libexec"
-export EC2_REGION="us-west-2" export EC2_ZONE=${EC2_REGION}a
-export EC2_URL=https://$EC2_REGION.ec2.amazonaws.com
-export AWS_AUTO_SCALING_URL=https://autoscaling.$EC2_REGION.amazonaws.com
+  export EC2_PRIVATE_KEY="$(/bin/ls "$HOME"/.ec2/pk-*.pem | /usr/bin/head -1)"
+  export EC2_CERT="$(/bin/ls "$HOME"/.ec2/cert-*.pem | /usr/bin/head -1)"
+  export EC2_HOME="/usr/local/Cellar/ec2-api-tools/1.6.12.0/libexec"
+  export EC2_AMITOOL_HOME="/usr/local/Cellar/ec2-ami-tools/1.4.0.9/libexec"
+  export EC2_REGION="us-west-2" export EC2_ZONE=${EC2_REGION}a
+  export EC2_URL=https://$EC2_REGION.ec2.amazonaws.com
+  export AWS_AUTO_SCALING_URL=https://autoscaling.$EC2_REGION.amazonaws.com
 #+END_SRC
 
 Its pretty simple, but if you have any trouble with this part, refer to the
@@ -74,7 +74,7 @@ script that would install `pip` plus all of the requisite Python modules and run
 it first thing after we launch the instance, but there's a better way:
 
 #+BEGIN_SRC shell
-ec2-create-image i-8918e1be -n "Map Update Image"
+  ec2-create-image i-8918e1be -n "Map Update Image"
 #+END_SRC
 
 This command from `ec2-ami-tools` creates an "Amazon Machine Image" of the
@@ -96,49 +96,49 @@ I've modified below. Note the execution of our [familiar]() "update.py" script
 highlighted on line 4, and the apoptosis command on line 46:
 
 #+BEGIN_SRC shell
-#!/bin/bash -x exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
+  #!/bin/bash -x exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 
-/usr/bin/python /home/ubuntu/update.py # Run the script
+  /usr/bin/python /home/ubuntu/update.py # Run the script
 
-EMAIL=spencer.g.boucher@gmail.com
+  EMAIL=spencer.g.boucher@gmail.com
 
-# Upgrade and install Postfix so we can send a sample email export
-DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y postfix
+  # Upgrade and install Postfix so we can send a sample email export
+  DEBIAN_FRONTEND=noninteractive apt-get update && apt-get upgrade -y && apt-get install -y postfix
 
-# Get some information about the running instance
-instance_id=$(wget -qO- instance-data/latest/meta-data/instance-id)
-public_ip=$(wget -qO- instance-data/latest/meta-data/public-ipv4)
-zone=$(wget -qO- instance-data/latest/meta-data/placement/availability-zone)
-region=$(expr match $zone '\(.*\).')
-uptime=$(uptime)
+  # Get some information about the running instance
+  instance_id=$(wget -qO- instance-data/latest/meta-data/instance-id)
+  public_ip=$(wget -qO- instance-data/latest/meta-data/public-ipv4)
+  zone=$(wget -qO- instance-data/latest/meta-data/placement/availability-zone)
+  region=$(expr match $zone '\(.*\).')
+  uptime=$(uptime)
 
-# Send status email
-/usr/sbin/sendmail -oi -t -f $EMAIL <<EOM
-From: $EMAIL
-To: $EMAIL
-Subject: Results of EC2 scheduled script
+  # Send status email
+  /usr/sbin/sendmail -oi -t -f $EMAIL <<EOM
+  From: $EMAIL
+  To: $EMAIL
+  Subject: Results of EC2 scheduled script
 
-This email message was generated on the following EC2 instance:
+  This email message was generated on the following EC2 instance:
 
-  instance id: $instance_id region: $region public ip: $public_ip uptime: $uptime
+    instance id: $instance_id region: $region public ip: $public_ip uptime: $uptime
 
-If the instance is still running, you can monitor the output of this job using a command like:
+  If the instance is still running, you can monitor the output of this job using a command like:
 
-  ssh ubuntu@$public_ip tail -1000f /var/log/user-data.log
+    ssh ubuntu@$public_ip tail -1000f /var/log/user-data.log
 
-  ec2-describe-instances --region $region $instance_id
+    ec2-describe-instances --region $region $instance_id
 
-EOM
+  EOM
 
-# Give the script and email some time to do their thing
-sleep 600 # 10 minutes
+  # Give the script and email some time to do their thing
+  sleep 600 # 10 minutes
 
-# This will stop the EBS boot instance, stopping the hourly charges.
-# Have Auto Scaling terminate it, stopping the storage charges.
+  # This will stop the EBS boot instance, stopping the hourly charges.
+  # Have Auto Scaling terminate it, stopping the storage charges.
 
-shutdown -h now
+  shutdown -h now
 
-exit 0
+  exit 0
 #+END_SRC
 
 Note that the user data script that we pass to the launch configuration executes
