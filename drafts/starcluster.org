@@ -1,0 +1,119 @@
+#+TITLE: Parallelizing your code with StarCluster
+#+AUTHOR: Spencer Boucher
+#+EMAIL: spencer@spencerboucher.com
+
+#+REVEAL_TITLE_SLIDE_BACKGROUND: http://apod.nasa.gov/apod/image/1209/m45_gendler_2400.jpg
+
+* The docs are great!
+
+#+REVEAL_HTML: <iframe width="1000" height="500" src="http://star.mit.edu/cluster/docs/latest" frameborder="0" allowfullscreen></iframe>
+
+* Setup
+
+** Configuration
+
+ #+BEGIN_SRC shell
+   [global]
+   DEFAULT_TEMPLATE = smallcluster
+   INCLUDE = ~/.starcluster/awskeys
+
+   [cluster smallcluster]
+   CLUSTER_SIZE = 5                    # Nodes + 1
+   CLUSTER_USER = sboucher             # you probably aren't Spencer
+   KEYNAME = sboucher-useast1-20141001 # no extension
+   NODE_INSTANCE_TYPE = m1.small       # http://aws.amazon.com/ec2/instance-types/
+   PLUGINS = tmux, ipcluster           # you can write your own too!
+
+   # These plugins come with StarCluster
+   [plugin tmux]
+   SETUP_CLASS = starcluster.plugins.tmux.TmuxControlCenter
+
+   [plugin ipcluster]
+   setup_class = starcluster.plugins.ipcluster.IPCluster
+ #+END_SRC
+
+ #+RESULTS:
+
+** Credentials
+
+   #+BEGIN_SRC shell
+     [aws info] # should be able to get this from uDeploy
+     AWS_ACCESS_KEY_ID = XXXXXXXXXXXXXXXX
+     AWS_SECRET_ACCESS_KEY = XXXXXXXXXXXXXXXXXXXXXXXX
+
+     [key sboucher-useast1-20141001] # key name without extension
+     KEY_LOCATION = ~/.ssh/sboucher-useast1-20141001.pem # full path to key including extension
+   #+END_SRC
+
+* Registering a cluster
+
+This function registers your cluster, or registers the cores on your machine if you are local
+
+#+BEGIN_SRC R
+  library(doParallel)
+
+  register_cluster <- function(nodes=49, cores=16) {
+    print("Registering cluster...")
+    if(nodes > 0) {                               # Set up multi-node cluster
+      node_names <- rep(c(paste0("node00", 1:9),  # StarCluster automatically names
+                          paste0("node0", 10:99), # your nodes like this
+                          paste0("node", 100:999))[1:nodes], cores)
+      cluster <- makePSOCKcluster(names = node_names,
+                                  homogenous = TRUE,
+                                  rscript = "/usr/bin/Rscript",
+                                  outfile = "")   # Log to master's stdout
+      registerDoParallel(cluster)
+    } else { # Set up multi-core cluster on local machine
+      cluster <- makeCluster(cores)
+      registerDoParallel(cluster)
+    }
+    print("Cluster registered.")
+    return(cluster)
+  }
+#+END_SRC
+
+Don't forget to use =stopCluster= when you are done
+
+** Derp
+   :PROPERTIES:
+   :reveal_background: DarkRed
+   :END:
+
+#+ATTR_REVEAL: :frag (appear)
+- R is limited to 128 open connections by default.
+- You will have to manually adjust =NCONNECTIONS= in the source code and compile if your $N_{nodes} \cdot N_{cores}$ exceeds this.
+- Fortunately, this is only necessary on the master node.
+
+* Parallelize your R Code
+
+** [[http://seananderson.ca/2013/12/01/plyr.html][plyr]]
+
+#+BEGIN_SRC R
+  drivers <- ddply(
+      .data = shifts,                        # The dataframe
+      .variables = ~ driver_id,              # The column by which to split up the dataframe and send to each node
+      .fun = msm_features,                   # The function to run on each node
+      Q = Q,                                 # Pass arbitrary additional arguments
+      .parallel = TRUE,                      # Use the registered cluster
+      .paropts = list(.packages="msm",       # Load these packages on each node
+                      .errorhandling="pass") # Handle errors like this (see docs)
+#+END_SRC
+
+** foreach
+
+#+BEGIN_SRC r
+  rf <- foreach(ntree = rep(trees_per_worker, 10),
+                .combine = combine,
+                .multicombine = TRUE,
+                .packages = "randomForest") %do%
+        randomForest(target ~ . - driver_id,
+                     ntree = ntree,
+                     sampsize = rep(table(drivers$target)[[2]], 2),
+                     data = drivers)
+#+END_SRC
+
+- This =foreach %do%= idiom works **sort** of like a list comprehension in Python:
+
+#+BEGIN_SRC python
+  [randomForest(ntree=ntrees_per_worker) for node in range(10)].combine()
+#+END_SRC

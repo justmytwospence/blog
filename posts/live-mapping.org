@@ -3,12 +3,11 @@
 
 I've been wanting to do some more mapping stuff since my first encounter with
 Leaflet a month or two ago while I was working on a project for [[https://auto-grid.com][AutoGrid]]. I had
-my eye on CartoDB's time series library, [[https://github.com/cartodb/torque][Torque]], because I had really wanted
-to do some time-series visualization, but time constraints and privacy issues
-with uploading data to CartoDB's servers prevented me from really
-exploring. Since I had a few days of free time over winter break, I played
-around with it a bit and came up with this: [[http://www.spencerboucher.com/map][spencerboucher.com/map]]. How'd I do
-it?
+my eye on CartoDB's time series library, [[https://github.com/cartodb/torque][Torque]], because I had really wanted to
+do some time-series visualization, but time constraints and privacy issues with
+uploading data to CartoDB's servers prevented me from really exploring. Since I
+had a few days of free time over winter break, I played around with it a bit and
+came up with this: [[http://www.spencerboucher.com/map][spencerboucher.com/map]]. How'd I do it?
 
 First I needed some geographic data, so I turned to a source of data I've been
 collected for almost a year - my own location. [[https://openpaths.cc][OpenPaths]] is a mobile app that
@@ -35,40 +34,40 @@ significantly easier than the legwork that went into crafting a Leaflet map
 "manually."
 
 #+BEGIN_SRC html
-<html>
+  <html>
 
-  <head>
+    <head>
 
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <title>Location | Spencer</title>
-    <link rel="shortcut icon" href="http://spencerboucher.com/map/favicon.png" />
-    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+      <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+      <title>Location | Spencer</title>
+      <link rel="shortcut icon" href="http://spencerboucher.com/map/favicon.png" />
+      <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
 
-    <style type="text/css">
-      html, body, #map {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background: black; }
-      #cartodb-gmaps-attribution {
-      visibility: hidden; }
-    </style>
+      <style type="text/css">
+        html, body, #map {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: black; }
+        #cartodb-gmaps-attribution {
+        visibility: hidden; }
+      </style>
 
-    <script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
-    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
-    <script>
-      function init(){
-      cartodb.createVis('map', 'http://justmytwospence.cartodb.com/api/v2/viz/e8fd87d0-78b3-11e3-a9e9-e7941b6e2df0/viz.json'); }
-    </script>
+      <script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
+      <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+      <script>
+        function init(){
+        cartodb.createVis('map', 'http://justmytwospence.cartodb.com/api/v2/viz/e8fd87d0-78b3-11e3-a9e9-e7941b6e2df0/viz.json'); }
+      </script>
 
-  </head>
+    </head>
 
-  <body onload="init()">
-    <div id='map'></div>
-  </body>
+    <body onload="init()">
+      <div id='map'></div>
+    </body>
 
-</html>
+  </html>
 #+END_SRC
 
 This is pretty awesome, but in light of how easy it all was, I was almost
@@ -93,37 +92,37 @@ minutes like me), getting the results in a nice JSON-formatted variable named
 ~data~.
 
 #+BEGIN_SRC python
-import oauth2, time, urllib, urllib2, json
+  import oauth2, time, urllib, urllib2, json
 
-ACCESS = 'redacted'
-SECRET = 'redacted'
-URL = 'https://openpaths.cc/api/1'
+  ACCESS = 'redacted'
+  SECRET = 'redacted'
+  URL = 'https://openpaths.cc/api/1'
 
-def build_auth_header(url, method):
-    params = {
-        'oauth_version': "1.0",
-        'oauth_nonce': oauth2.generate_nonce(),
-        'oauth_timestamp': int(time.time()),
-    }
-    consumer = oauth2.Consumer(key=ACCESS, secret=SECRET)
-    params['oauth_consumer_key'] = consumer.key
-    request = oauth2.Request(method=method, url=url, parameters=params)
-    signature_method = oauth2.SignatureMethod_HMAC_SHA1()
-    request.sign_request(signature_method, consumer, None)
-    return request.to_header()
+  def build_auth_header(url, method):
+      params = {
+          'oauth_version': "1.0",
+          'oauth_nonce': oauth2.generate_nonce(),
+          'oauth_timestamp': int(time.time()),
+      }
+      consumer = oauth2.Consumer(key=ACCESS, secret=SECRET)
+      params['oauth_consumer_key'] = consumer.key
+      request = oauth2.Request(method=method, url=url, parameters=params)
+      signature_method = oauth2.SignatureMethod_HMAC_SHA1()
+      request.sign_request(signature_method, consumer, None)
+      return request.to_header()
 
-now = time.time()
-params = {'start_time': now - 24*60*60, 'end_time': now} # get the last 24 hours
-query = "%s?%s" % (URL, urllib.urlencode(params))
+  now = time.time()
+  params = {'start_time': now - 24*60*60, 'end_time': now} # get the last 24 hours
+  query = "%s?%s" % (URL, urllib.urlencode(params))
 
-try:
-    request = urllib2.Request(query)
-    request.headers = build_auth_header(URL, 'GET')
-    connection = urllib2.urlopen(request)
-    data = json.loads(''.join(connection.readlines()))
-    print(json.dumps(data, indent=4))
-except urllib2.HTTPError as e:
-    print(e.read())
+  try:
+      request = urllib2.Request(query)
+      request.headers = build_auth_header(URL, 'GET')
+      connection = urllib2.urlopen(request)
+      data = json.loads(''.join(connection.readlines()))
+      print(json.dumps(data, indent=4))
+  except urllib2.HTTPError as e:
+      print(e.read())
 #+END_SRC
 
 Now we need to get our new ~data~ variable into CartoDB's postgreSQL
@@ -135,36 +134,41 @@ run. So now we'll just write a for-loop that successively builds an ~INSERT~
 query for each element in ~data~ (lines 18-20 highlighted below).
 
 #+BEGIN_SRC python
-from cartodb import CartoDBException, CartoDBAPIKey
+  from cartodb import CartoDBException, CartoDBAPIKey
 
-user =  'spencer.g.boucher@gmail.com'
-password =  'redacted'
-cartodb_domain = 'justmytwospence'
-API_KEY ='redacted'
-cl = CartoDBAPIKey(API_KEY, cartodb_domain)
+  user =  'spencer.g.boucher@gmail.com'
+  password =  'redacted'
+  cartodb_domain = 'justmytwospence'
+  API_KEY ='redacted'
+  cl = CartoDBAPIKey(API_KEY, cartodb_domain)
 
-for reading in data:
-    alt     = str(reading['alt'])
-    device  =     reading['device']
-    lat     = str(reading['lat'])
-    lon     = str(reading['lon'])
-    os      =     reading['os']
-    t       = str(reading['t'])
-    version =     reading['version']
-    try:
-        query_string = "INSERT INTO openpaths_justmytwospence (alt, date, device, lat,  lon, os, version, the_geom) "
-                       "VALUES ({0}, abstime({1}), '{2}', {3}, {4}, '{5}', '{6}', ST_ SetSRID(ST_Point({4}, {3}), 4326))"
-                      .format(alt, t, device, lat, lon, os, version)
-        print cl.sql(query_string)
-    except CartoDBException as e:
-        print ("some error ocurred", e)
+  for reading in data:
+      alt     = str(reading['alt'])
+      device  =     reading['device']
+      lat     = str(reading['lat'])
+      lon     = str(reading['lon'])
+      os      =     reading['os']
+      t       = str(reading['t'])
+      version =     reading['version']
+      try:
+          query_string = "INSERT INTO openpaths_justmytwospence (alt, date, device, lat,  lon, os, version, the_geom) "
+                         "VALUES ({0}, abstime({1}), '{2}', {3}, {4}, '{5}', '{6}', ST_ SetSRID(ST_Point({4}, {3}), 4326))"
+                        .format(alt, t, device, lat, lon, os, version)
+          print cl.sql(query_string)
+      except CartoDBException as e:
+          print ("some error ocurred", e)
 #+END_SRC
 
 A few notes:
 
-- It would certainly be faster to insert all of the new data into the database using a single ~INSERT~ statement, but that would require some more tedious text parsing and execution speed isn't particularly important to us. As it stands, it takes about six seconds to post a day's worth of data.
-- One posgreSQL "gotcha" had me hung up for quite some time: single quotes parse fine but double quotes do not.
-- ~ST_SetSRID~ is a [[http://postgis.org/docs/ST_SetSRID.html][PostGIS command]] that converts a lon/lat pair (in that order - another "gotcha") to the necessary geometry object.
+- It would certainly be faster to insert all of the new data into the database
+  using a single ~INSERT~ statement, but that would require some more tedious
+  text parsing and execution speed isn't particularly important to us. As it
+  stands, it takes about six seconds to post a day's worth of data.
+- One posgreSQL "gotcha" had me hung up for quite some time: single quotes parse
+  fine but double quotes do not.
+- ~ST_SetSRID~ is a [[http://postgis.org/docs/ST_SetSRID.html][PostGIS command]] that converts a lon/lat pair (in that
+  order - another "gotcha") to the necessary geometry object.
 
 Last but not least, we need this script to run automatically. Because we've
 written the script to transplant 24 hours of data, we'll need to run it once a
@@ -189,7 +193,7 @@ call it update.py) into the home directory of our remote server, all we need to
 do is set up a crontab with the ~crontab -e~ command and add the following line:
 
 #+BEGIN_SRC shell
-@daily /usr/bin/python ~/update.py
+  @daily /usr/bin/python ~/update.py
 #+END_SRC
 
 ~@daily~ is actually a shortcut for ~* * * * *~, where each asterix is a
