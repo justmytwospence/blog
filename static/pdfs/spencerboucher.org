@@ -1,21 +1,23 @@
 #+LATEX_CLASS: deedy-resume
+#+STARTUP: content
 
 #+BEGIN_LaTeX
-\namesection{Spencer}{Boucher}{\href{mailto:spencer@spencerboucher.com}{spencer@spencerboucher.com}}
+\namesection{Spencer}{Boucher}{}
 \begin{minipage}[t][0.9\textheight]{0.25\textwidth}
 #+END_LaTeX
 
 * Education
+** [[http://rice.edu][Rice University]]
+   [[https://cogsci.rice.edu][\descript{BA Cognitive Sciences}]]
+   \location{2008 -- 2011}
+
+   \sectionsep
 
 ** [[http://usfca.edu][USF]]
 
    [[https://www.usfca.edu/arts-sciences/graduate-programs/analytics][\descript{MS Analytics}]]
    \location{2013 -- 2014}
-   \sectionsep
 
-** [[http://rice.edu][Rice University]]
-   [[https://cogsci.rice.edu][\descript{BA Cognitive Sciences}]]
-   \location{2008 -- 2011}
    \sectionsep
 
 * Contact
@@ -23,7 +25,9 @@
   \faicon{phone-square} 650-946-7257 \\
   [[http://github.com/justmytwospence][\faicon{github-square} justmytwospence]] \\
   [[http://linkedin.com/in/spencerboucher][\faicon{linkedin-square} in/spencerboucher]] \\
-  [[http://spencerboucher.com][\faicon{rss-square} spencerboucher.com]]
+  [[http://spencerboucher.com][\faicon{rss-square} spencerboucher.com]] \\
+  [[mailto:spencer@spencerboucher.com][\faicon{envelope-square} hi@spencerboucher.com]] \\
+
   \sectionsep
 
 * Coursework
@@ -33,37 +37,38 @@
   Multivariate Statistics \\
   Machine Learning \\
   Data Visualization \\
-  Text Mining
+  Text Mining \\
+
   \sectionsep
 
 * Skills
 
-  *nix \textbullet{}
-  JavaScript \textbullet{}
+  JavaScript \\
   Python \\
-  R \textbullet{}
-  SQL \textbullet{}
-  Scala \textbullet{}
-  \LaTeX
+  Scala \\
+  \LaTeX \\
+  SQL \\
+  *nix \\
+  R \\
+
   \sectionsep
 
 * Awards
 
-  Eagle Scout
+  Eagle Scout \\
+
   \sectionsep
 
 * Interests
 
-  GIS \textbullet{}
-  data \textbullet{}
+  neuroscience \\
+  visualization \\
+  teaching \\
   design \\
-  emacs \textbullet{}
-  machine learning \\
-  neuroscience \textbullet{}
-  stories \\
-  visualization
+  GIS \\
 
   \vfill
+
   Updated \today
 
 #+BEGIN_LaTeX
@@ -72,30 +77,35 @@
 \begin{minipage}[t]{0.74\textwidth}
 #+END_LaTeX
 
-* Summary
+\sectionsep
 
-  I am a data scientist interested in full stack machine learning. I believe
-  that the most effective data scientiests are the ones that firmly grasp
-  statistics and machine learning theory, but also have enough engineering
-  know-how to actually implement solutions.
+I enjoy learning new things just as much as I love teaching and communicating
+ideas to others. My goal is to always be working on hard, interesting problems
+that require creativity.
 
-  \sectionsep
+\sectionsep
 
 * Experience
-** [[https://www.uber.com/][Uber]] \descript{Machine Learning Platform} \location{2015 -- Present}
+** [[https://www.uber.com/][Uber]] \descript{Data Scientist} \location{January 2014 -- Present}
 
    #+ATTR_LATEX: :environment tightemize
-   - Serve as liason between customer teams and the platform team.
-   - Write distributed code to evaluate the performance of machine learning
-     models.
-
-   \sectionsep
-
-** [[https://www.uber.com/][Uber]] \descript{Growth Data Science} \location{2014 -- 2015}
-
-   #+ATTR_LATEX: :environment tightemize
-   - Built statistical models on large amounts of data to infer the conditions
-     of the ridesharing markets around the world.
+   - Developed and implemented an algorithm for ranking restaurants in the Uber
+     Eats mobile app, personalized for each individual user to make sure they
+     can find their perfect meal.
+   - Optimized the dispatch radii of restaurants on the Uber Eats platform to
+     minimize delivery time and maximize value.
+   - Served as machine learning liaison to multiple teams, onboarding diverse
+     machine learning use-cases onto a new centralized machine learning
+     platform, including churn models, supply prediction, and rating systems.
+   - Implemented crucial back end features of Uber's internal machine learning
+     platform, including performance reports and diagnostic dashboards for
+     trained machine learning models.
+   - Performed analysis and modeling that powered data driven decision making and
+     strategic expansion of operations in the United States and abroad.
+   - Developed Bayesian models to infer ride sharing market conditions in cities
+     around the world.
+   - Authored numerous ETL pipelines in Python and Hive to craft high velocity,
+     high volume raw data into useful features for statistical modeling.
 
    \sectionsep
 
@@ -103,9 +113,9 @@
 
    #+ATTR_LATEX: :environment tightemize
    - Used Pandas and R to munge large volumes of smart meter data.
-   - Built time series and cross-sectional models to identify outliers and make
-     forecasts.
-   - Produced interactive tools and maps for exploring complex data.
+   - Developed time series and cross-sectional models to identify outliers and
+     make forecasts about demand.
+   - Produced interactive statistical tools and maps for exploring complex data.
 
    \sectionsep
 
@@ -120,32 +130,36 @@
 ** [[http://cibsr.stanford.edu/][Stanford CIBSR]] \descript{Research Assistant} \location{2011 -- 2013}
 
    #+ATTR_LATEX: :environment tightemize
-   - Conducted MRI studies to investigate biomarkers of pediatric bipoloar
-     disorder in at-risk adolescents.
-   - Operated MRI scanners and analyzed structural and functional neuroimaging
-     data using R and Matlab.
-   - Perforemd exploratory and hypothesis-driven analysis of large multi-modal data.
+   - Worked with children diagnosed with bipolar and/or ADHD on a daily basis,
+     conducting clinical MRI studies.
+   - Analyzed structural and functional neuroimaging data using R and MATLAB.
    - Presented findings at the 2012 American Academy of Adolescent and Child
-     Psychiatry Conferece.
+     Psychiatry Conference.
+   - Taught an introduction to neuroscience seminar "The Neuroscience of
+     Zombies," targeted at middle school / junior high school students.
 
    \sectionsep
 
-** Baylor CPU \descript{Intern} \location{2009 -- 2011}
-
-   #+ATTR_LATEX: :environment tightemize
-   - Conducted fMRI studies with patient populations suffering from PTSD or drug
-     dependency.
-   - Analyzed functional neuroimaging data using Matlab.
-   - Investigated the relationship between affective resilience and neural
-     response to emotional stimuli.
-   - Presented findings at the 2010 Society for Neuroscience convention.
-
-   \end{minipage}
-
-** [[http://rems.rice.edu/][Rice EMS]] \descript{Emergency Medical Technician} \location{2010 -- 2011} :noexport:
+** [[http://rems.rice.edu/][Rice EMS]] \descript{Emergency Medical Technician} \location{2010 -- 2011}
 
    #+ATTR_LATEX: :environment tightemize
    - Responded to medical emergencies on the Rice University campus.
    - Served weekly 12 hour shifts.
    - Completed > 24 hours per semester volunteering for professional EMS
      services in the greater Houston area.
+
+   \sectionsep
+
+   \end{minipage}
+
+** Baylor CPU \descript{Intern} \location{2009 -- 2011}               :noexport:
+
+   #+ATTR_LATEX: :environment tightemize
+   - Conducted fMRI studies with patient populations suffering from PTSD or drug
+     dependency.
+   - Analyzed functional neuroimaging data using MATLAB.
+   - Investigated the relationship between affective resilience and neural
+     response to emotional stimuli.
+   - Presented findings at the 2010 Society for Neuroscience convention.
+
+   \sectionsep
