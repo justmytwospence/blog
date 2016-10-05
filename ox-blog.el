@@ -1,6 +1,7 @@
-;; https://github.com/justmytwospence/emacs/blob/master/package-setup.el
-(require 'package-setup (expand-file-name "package-setup.el" user-emacs-directory))
-(require 'base16-tomorrow-dark-theme)
+(let ((default-directory user-emacs-directory))
+  (require 'bootstrap (expand-file-name "bootstrap.el")))
+
+(require 'base16-tomorrow-night-theme)
 (require 'ht)
 (require 'htmlize)
 (require 'mustache)
@@ -11,15 +12,22 @@
 (require 'ox-rss)
 (require 'ox-twbs)
 
-;; pretty urls
-(add-hook 'org-publish-after-publishing-hook
-          (defun prettify-url (src-filename published-filename)
-            (if (and (s-ends-with? ".html" published-filename)
-                     (not (s-ends-with? "index.html" published-filename))
-                     (not (s-ends-with? "static/html/" (file-name-directory src-filename))))
-                (let ((filename (s-chop-suffix ".html" published-filename)))
-                  (mkdir filename t)
-                  (rename-file published-filename (concat filename "/index.html") t)))))
+(defun include (template context)
+  (mustache-render
+   (with-temp-buffer
+     (insert-file-contents template)
+     (buffer-string))
+   context))
+
+;; ;; pretty urls
+;; (add-hook 'org-publish-after-publishing-hook
+;;           (defun prettify-url (src-filename published-filename)
+;;             (if (and (s-ends-with? ".html" published-filename)
+;;                      (not (s-ends-with? "index.html" published-filename))
+;;                      (not (s-ends-with? "static/html/" (file-name-directory src-filename))))
+;;                 (let ((filename (s-chop-suffix ".html" published-filename)))
+;;                   (mkdir filename t)
+;;                   (rename-file published-filename (concat filename "/index.html") t)))))
 
 ;; generic export settings
 (setq org-export-dispatch-use-expert-ui t
@@ -27,7 +35,7 @@
       org-export-with-toc nil
       org-publish-use-timestamps-flag nil)
 
-;; ox-reveal settings
+;; reveal settings
 (setq org-reveal-root "~/blog/vendor/reveal.js"
       org-reveal-single-file t
       org-reveal-theme "solarized"
@@ -45,26 +53,23 @@
         (messages "none")))
 
 ;; templating
+(setq disqus-user "spencerboucher"
+      github-repo "blog"
+      github-user "justmytwospence"
+      google-analytics-id "UA-45101202-1"
+      site-url "http://spencerboucher.com")
 
-(defun include (template context)
-  (mustache-render
-   (with-temp-buffer
-     (insert-file-contents template)
-     (buffer-string))
-   context))
-
-(setq blog (expand-file-name "~/blog/")
-      site-url "http://spencerboucher.com"
+(setq blog "~/blog/"
       context (ht ("disqus-user" "spencerboucher")
                   ("email" user-mail-address)
                   ("github-repo" "blog")
                   ("github-user" "justmytwospence")
                   ("google-analytics-id" "UA-45101202-1")
                   ("name" user-full-name)
-                  ("site-url" site-url)
-                  ("url-encode"
-                   (lambda (template context)
-                     (url-encode-url (mustache-render template context)))))
+                  ("site-url" "http://spencerboucher.com")
+                  ("url-encode" (lambda (template context)
+                                  (message template)
+                                  (url-encode-url (mustache-render template context)))))
       head (include (concat blog "templates/head.mustache") context)
       postamble (concat blog "templates/postamble.mustache")
       preamble (concat blog "templates/preamble.mustache"))
