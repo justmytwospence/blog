@@ -1,0 +1,547 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Critical: Override Tailwind's body overflow to fix sticky positioning */
+@layer base {
+  body {
+    overflow-y: visible !important;
+    height: auto !important;
+  }
+}
+
+/* Prevent unnecessary scrollbars and fix sticky positioning */
+/* These rules MUST come after Tailwind imports to override defaults */
+html {
+  overflow-x: hidden !important;
+  overflow-y: scroll !important;
+  margin: 0;
+  padding: 0;
+  height: 100vh !important;
+}
+
+body {
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  margin: 0;
+  padding: 0;
+  height: auto !important;
+  min-height: 100vh;
+}
+
+/* Syntax highlighting styles */
+/* 
+ * Syntax highlighting with theme-specific colors:
+ * Light mode: Solarized Light
+ * Dark mode: VS Code Dark+
+ * Works with both highlight.js (CodeCell) and rehype-highlight (MarkdownCell)
+ * 
+ * Note: We use custom CSS instead of importing highlight.js theme files
+ * to ensure proper theme switching with next-themes
+ */
+
+/* Remove background from pre container and ensure it doesn't add spacing */
+.prose pre,
+pre {
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Ensure code blocks have proper styling and fill container */
+.hljs,
+pre code.hljs,
+.prose pre code {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+  border-radius: 0.5rem;
+  border: none !important;
+  outline: none !important;
+  margin: 0 !important;
+}
+
+/* Light mode - Solarized Light colors */
+:root:not(.dark) .hljs,
+:root:not(.dark) pre code.hljs,
+:root:not(.dark) .prose pre code {
+  background: #fdf6e3 !important;
+  color: #657b83 !important;
+}
+
+/* Dark mode - VS Code Dark+ colors */
+:root.dark .hljs,
+:root.dark pre code.hljs,
+:root.dark .prose pre code,
+.dark .hljs,
+.dark pre code.hljs,
+.dark .prose pre code {
+  background: #1e1e1e !important;
+  color: #d4d4d4 !important;
+}
+
+@theme {
+  --font-family-sans: var(--font-inter), system-ui, sans-serif;
+  --font-family-serif: var(--font-merriweather), Georgia, serif;
+  
+  /* Custom breakpoint: show sidebar only when exactly 80 monospace characters can fit
+     Calculation: 80ch (code) + 280px (sidebar) + 32px (gap) */
+  --breakpoint-code-80: calc(80ch + 312px);
+}
+
+/* Apply serif font to prose content */
+.prose {
+  font-family: var(--font-merriweather), Georgia, serif;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+/* Remove ALL borders/outlines from code blocks and their parents */
+pre,
+.prose pre,
+.prose pre code,
+.prose pre > *,
+.dark pre,
+.dark .prose pre,
+.dark .prose pre code,
+.dark .prose pre > *,
+.prose-invert pre,
+.prose-invert pre code,
+.prose-invert pre > *,
+article pre,
+article pre code,
+article pre > *,
+pre.hljs,
+pre.hljs code,
+pre.hljs > *,
+pre:has(code),
+.prose pre:has(code) {
+  border: 0 !important;
+  border-width: 0 !important;
+  border-style: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  outline-width: 0 !important;
+  outline-style: none !important;
+  outline-color: transparent !important;
+  outline-offset: 0 !important;
+  --tw-ring-width: 0px !important;
+  --tw-ring-offset-width: 0px !important;
+  --tw-ring-color: transparent !important;
+  --tw-ring-offset-color: transparent !important;
+  --tw-shadow: none !important;
+  --tw-shadow-colored: none !important;
+  --tw-ring-inset: none !important;
+  --tw-ring-offset-shadow: none !important;
+  --tw-ring-shadow: none !important;
+}
+
+/* Notebook viewer styles */
+.notebook-viewer {
+  @apply w-full;
+}
+
+.notebook-content {
+  @apply bg-white dark:bg-[#1e1e1e] rounded-lg;
+}
+
+/* Style notebook cells */
+.notebook-content .cell {
+  @apply border-l-4 border-gray-200 dark:border-[#454545] pl-4 mb-4;
+}
+
+.notebook-content .cell.code {
+  @apply border-blue-500 dark:border-blue-400;
+}
+
+.notebook-content .cell.markdown {
+  @apply border-green-500 dark:border-green-400;
+}
+
+/* Style notebook outputs */
+.notebook-content .output {
+  @apply mt-2 p-3 bg-gray-50 dark:bg-[#252526] rounded;
+}
+
+.notebook-content pre {
+  @apply overflow-x-auto;
+}
+
+/* Webapp embed styles */
+.webapp-embed-container {
+  @apply w-full my-6;
+}
+
+.webapp-embed-container iframe {
+  @apply border-0;
+}
+
+
+
+/* Swiper carousel styles */
+.project-carousel,
+.blog-carousel {
+  padding-bottom: 3rem;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: rgb(37 99 235) !important;
+}
+
+.dark .swiper-button-next,
+.dark .swiper-button-prev {
+  color: rgb(96 165 250) !important;
+}
+
+.swiper-pagination-bullet {
+  background: rgb(156 163 175) !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: rgb(37 99 235) !important;
+}
+
+.dark .swiper-pagination-bullet-active {
+  background: rgb(96 165 250) !important;
+}
+
+.swiper-slide {
+  height: auto;
+}
+
+.swiper-slide > a {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Solarized Light Theme - Syntax Highlighting */
+:root:not(.dark) .hljs-comment,
+:root:not(.dark) .hljs-quote {
+  color: #93a1a1;
+  font-style: italic;
+}
+
+:root:not(.dark) .hljs-keyword,
+:root:not(.dark) .hljs-selector-tag,
+:root:not(.dark) .hljs-addition {
+  color: #859900;
+}
+
+:root:not(.dark) .hljs-number,
+:root:not(.dark) .hljs-string,
+:root:not(.dark) .hljs-meta .hljs-string,
+:root:not(.dark) .hljs-literal,
+:root:not(.dark) .hljs-doctag,
+:root:not(.dark) .hljs-regexp {
+  color: #2aa198;
+}
+
+:root:not(.dark) .hljs-title,
+:root:not(.dark) .hljs-section,
+:root:not(.dark) .hljs-name,
+:root:not(.dark) .hljs-selector-id,
+:root:not(.dark) .hljs-selector-class {
+  color: #268bd2;
+}
+
+:root:not(.dark) .hljs-attribute,
+:root:not(.dark) .hljs-attr,
+:root:not(.dark) .hljs-variable,
+:root:not(.dark) .hljs-template-variable,
+:root:not(.dark) .hljs-class .hljs-title,
+:root:not(.dark) .hljs-type {
+  color: #b58900;
+}
+
+:root:not(.dark) .hljs-symbol,
+:root:not(.dark) .hljs-bullet,
+:root:not(.dark) .hljs-subst,
+:root:not(.dark) .hljs-meta,
+:root:not(.dark) .hljs-meta .hljs-keyword,
+:root:not(.dark) .hljs-selector-attr,
+:root:not(.dark) .hljs-selector-pseudo,
+:root:not(.dark) .hljs-link {
+  color: #cb4b16;
+}
+
+:root:not(.dark) .hljs-built_in,
+:root:not(.dark) .hljs-deletion {
+  color: #dc322f;
+}
+
+:root:not(.dark) .hljs-formula {
+  background: #eee8d5;
+}
+
+:root:not(.dark) .hljs-emphasis {
+  font-style: italic;
+}
+
+:root:not(.dark) .hljs-strong {
+  font-weight: bold;
+}
+
+/* VS Code Dark+ Theme - Syntax Highlighting */
+:root.dark .hljs-comment,
+:root.dark .hljs-quote,
+.dark .hljs-comment,
+.dark .hljs-quote {
+  color: #6a9955;
+  font-style: italic;
+}
+
+:root.dark .hljs-keyword,
+:root.dark .hljs-selector-tag,
+:root.dark .hljs-addition,
+.dark .hljs-keyword,
+.dark .hljs-selector-tag,
+.dark .hljs-addition {
+  color: #569cd6;
+}
+
+:root.dark .hljs-string,
+:root.dark .hljs-meta .hljs-string,
+:root.dark .hljs-doctag,
+.dark .hljs-string,
+.dark .hljs-meta .hljs-string,
+.dark .hljs-doctag {
+  color: #ce9178;
+}
+
+:root.dark .hljs-number,
+:root.dark .hljs-literal,
+.dark .hljs-number,
+.dark .hljs-literal {
+  color: #b5cea8;
+}
+
+:root.dark .hljs-regexp,
+.dark .hljs-regexp {
+  color: #d16969;
+}
+
+:root.dark .hljs-title,
+:root.dark .hljs-section,
+:root.dark .hljs-name,
+.dark .hljs-title,
+.dark .hljs-section,
+.dark .hljs-name {
+  color: #dcdcaa;
+}
+
+:root.dark .hljs-selector-id,
+:root.dark .hljs-selector-class,
+.dark .hljs-selector-id,
+.dark .hljs-selector-class {
+  color: #d7ba7d;
+}
+
+:root.dark .hljs-attribute,
+:root.dark .hljs-attr,
+:root.dark .hljs-variable,
+:root.dark .hljs-template-variable,
+.dark .hljs-attribute,
+.dark .hljs-attr,
+.dark .hljs-variable,
+.dark .hljs-template-variable {
+  color: #9cdcfe;
+}
+
+:root.dark .hljs-type,
+:root.dark .hljs-class .hljs-title,
+:root.dark .hljs-built_in,
+.dark .hljs-type,
+.dark .hljs-class .hljs-title,
+.dark .hljs-built_in {
+  color: #4ec9b0;
+}
+
+:root.dark .hljs-symbol,
+:root.dark .hljs-bullet,
+:root.dark .hljs-subst,
+:root.dark .hljs-meta,
+:root.dark .hljs-meta .hljs-keyword,
+:root.dark .hljs-selector-attr,
+:root.dark .hljs-selector-pseudo,
+:root.dark .hljs-link,
+.dark .hljs-symbol,
+.dark .hljs-bullet,
+.dark .hljs-subst,
+.dark .hljs-meta,
+.dark .hljs-meta .hljs-keyword,
+.dark .hljs-selector-attr,
+.dark .hljs-selector-pseudo,
+.dark .hljs-link {
+  color: #d4d4d4;
+}
+
+:root.dark .hljs-deletion,
+.dark .hljs-deletion {
+  color: #ce9178;
+}
+
+:root.dark .hljs-formula,
+.dark .hljs-formula {
+  background: #252526;
+}
+
+:root.dark .hljs-emphasis,
+.dark .hljs-emphasis {
+  font-style: italic;
+}
+
+:root.dark .hljs-strong,
+.dark .hljs-strong {
+  font-weight: bold;
+}
+
+/* Line numbers support using table layout */
+.code-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.code-table tbody {
+  display: table-row-group;
+}
+
+.code-table tr {
+  display: table-row;
+}
+
+.line-number-cell {
+  display: table-cell;
+  text-align: right;
+  padding-right: 1em;
+  padding-left: 0.5em;
+  color: #93a1a1;
+  user-select: none;
+  border-right: 1px solid rgba(147, 161, 161, 0.3);
+  vertical-align: top;
+  white-space: nowrap;
+  width: 1%;
+}
+
+.dark .line-number-cell {
+  color: #858585;
+  border-right-color: rgba(133, 133, 133, 0.3);
+}
+
+.line-content-cell {
+  display: table-cell;
+  padding-left: 1em;
+  white-space: pre;
+  vertical-align: top;
+}
+
+/* Notebook code cell specific styles */
+.notebook-code-cell {
+  @apply my-4;
+}
+
+/* Force Plotly outputs to take full width */
+.notebook-plotly-output,
+.notebook-plotly-output .plotly-container,
+.notebook-plotly-output .plotly-container > div,
+.notebook-plotly-output .js-plotly-plot {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.notebook-outputs,
+.output-content,
+.output-item {
+  width: 100%;
+  max-width: 100%;
+}
+
+.notebook-code-cell .code-block-wrapper {
+  @apply rounded-lg border border-gray-300 dark:border-[#454545] overflow-hidden;
+}
+
+.notebook-code-cell .code-block {
+  @apply bg-gray-50 dark:bg-[#1e1e1e];
+}
+
+.notebook-code-cell .execution-count {
+  @apply text-sm font-mono text-gray-500 dark:text-[#858585];
+}
+
+.notebook-code-cell pre {
+  @apply p-4 overflow-x-auto m-0;
+}
+
+.notebook-code-cell code {
+  @apply text-sm font-mono;
+}
+
+
+/* Force body to not be a scroll container - critical for sticky positioning */
+body,
+body * {
+  /* Ensure no element creates an unexpected scroll container */
+}
+
+/* Specifically target the root layout wrapper */
+body > div {
+  overflow: visible !important;
+}
+
+
+/* CRITICAL FIX: Force body overflow to visible for sticky positioning to work */
+/* This MUST be at the end of the file to override Tailwind */
+body {
+  overflow: visible !important;
+  overflow-y: visible !important;
+  height: auto !important;
+}
+
+/* Custom scrollbar for TOC sidebar */
+.toc-sidebar-scroll {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.toc-sidebar-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.toc-sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.toc-sidebar-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.toc-sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(107, 114, 128, 0.7);
+}
+
+/* Dark mode scrollbar */
+.dark .toc-sidebar-scroll {
+  scrollbar-color: rgba(75, 85, 99, 0.5) transparent;
+}
+
+.dark .toc-sidebar-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(75, 85, 99, 0.5);
+}
+
+.dark .toc-sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(107, 114, 128, 0.7);
+}
