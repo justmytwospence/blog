@@ -36,8 +36,8 @@ export default async function ProjectDetailPage({
   const { slug } = await params;
   const content = getProjectBySlug(slug);
 
-  // Check if this is an external project
-  if (content.metadata.externalUrl) {
+  // Check if this is an external project (link type)
+  if (content.type === 'link' || content.metadata.externalUrl) {
     return (
       <main className="px-4 sm:px-6 lg:px-8 py-8 mx-auto max-w-7xl">
         <div className="max-w-3xl mx-auto">
@@ -116,7 +116,7 @@ export default async function ProjectDetailPage({
           </div>
 
           {/* Render markdown content if available */}
-          {content.type === 'markdown' && content.content && (
+          {(content.type === 'markdown' || content.type === 'link') && content.content && (
             <article className="prose dark:prose-invert max-w-none mt-12">
               <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
                 {content.content}

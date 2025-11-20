@@ -9,6 +9,7 @@ import {
   MarkdownContent,
   NotebookContent,
   WebappContent,
+  LinkContent,
   Frontmatter,
   WebappConfig,
 } from './types';
@@ -73,7 +74,7 @@ export function getAllProjects(): Project[] {
         projects.push({
           category: 'project',
           slug,
-          type: 'markdown',
+          type: data.externalUrl ? 'link' : 'markdown',
           title: data.title || slug,
           date: data.date || new Date().toISOString(),
           categories: data.categories || [],
@@ -144,6 +145,24 @@ export function getProjectBySlug(slug: string): Content {
       if (ext === '.md') {
         // Markdown project
         const { data, content } = matter(fileContents);
+        
+        // Check if this is an external link
+        if (data.externalUrl) {
+          return {
+            type: 'link',
+            content,
+            metadata: {
+              slug,
+              type: 'link',
+              title: data.title || slug,
+              date: data.date || new Date().toISOString(),
+              categories: data.categories || [],
+              description: data.description || '',
+              featured: data.featured || false,
+              externalUrl: data.externalUrl,
+            },
+          };
+        }
         
         return {
           type: 'markdown',

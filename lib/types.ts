@@ -17,7 +17,7 @@ export interface ContentMetadata {
   title: string;
   date: string;
   slug: string;
-  type: 'markdown' | 'notebook' | 'webapp';
+  type: 'markdown' | 'notebook' | 'webapp' | 'link';
   categories?: string[];
   description?: string;
   featured?: boolean;
@@ -68,9 +68,18 @@ export interface WebappContent {
 }
 
 /**
+ * External link content
+ */
+export interface LinkContent {
+  type: 'link';
+  content?: string;
+  metadata: ContentMetadata;
+}
+
+/**
  * Union type for all content types
  */
-export type Content = MarkdownContent | NotebookContent | WebappContent;
+export type Content = MarkdownContent | NotebookContent | WebappContent | LinkContent;
 
 /**
  * Frontmatter structure for markdown files
