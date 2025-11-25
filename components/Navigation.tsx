@@ -106,9 +106,7 @@ export function Navigation() {
             </Link>
           ))}
           {/* Theme toggle in mobile nav */}
-          <div className="flex flex-col items-center justify-center py-2">
-            <ThemeToggle />
-          </div>
+          <ThemeToggle variant="mobile" />
         </div>
       </nav>
     </>
