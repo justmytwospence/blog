@@ -23,6 +23,10 @@ interface TableOfContentsProps {
   entries: TocEntry[];
   /** Optional CSS class name for the container */
   className?: string;
+  /** Layout variant: 'sidebar' (default) or 'header' for horizontal layout */
+  variant?: 'sidebar' | 'header';
+  /** Callback when navigating (for closing header TOC) */
+  onNavigate?: () => void;
 }
 
 /**
@@ -157,7 +161,7 @@ function TocEntryItem({
  * - Active section highlighting
  * - Sticky positioning on large screens
  */
-export function TableOfContents({ entries, className = '' }: TableOfContentsProps) {
+export function TableOfContents({ entries, className = '', variant = 'sidebar', onNavigate }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [collapsedIds, setCollapsedIds] = useState<Set<string>>(new Set());
 
@@ -199,8 +203,11 @@ export function TableOfContents({ entries, className = '' }: TableOfContentsProp
       
       // Update URL hash without triggering scroll
       window.history.pushState(null, '', `#${id}`);
+      
+      // Call onNavigate callback if provided (for closing header TOC)
+      onNavigate?.();
     }
-  }, []);
+  }, [onNavigate]);
 
   /**
    * Track scroll position and highlight current section
@@ -278,6 +285,7 @@ export function TableOfContents({ entries, className = '' }: TableOfContentsProp
         rounded-lg
         shadow-sm
         flex flex-col
+        ${variant === 'header' ? 'max-h-[30vh]' : ''}
       `}
       aria-label="Table of contents"
     >

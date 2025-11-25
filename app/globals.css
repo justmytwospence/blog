@@ -85,6 +85,9 @@ pre code.hljs,
   --font-family-sans: var(--font-inter), system-ui, sans-serif;
   --font-family-serif: var(--font-merriweather), Georgia, serif;
   
+  /* Medium breakpoint for TOC positioning (between mobile drawer and top header) */
+  --breakpoint-md-toc: 640px;
+  
   /* Custom breakpoint: show sidebar only when exactly 80 monospace characters can fit
      Calculation: 80ch (code) + 280px (sidebar) + 32px (gap) */
   --breakpoint-code-80: calc(80ch + 312px);
@@ -550,6 +553,13 @@ body {
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+/* Hide the medium-screen TOC header above code-80 breakpoint */
+@media (width >= calc(80ch + 312px)) {
+  [data-toc-header] {
+    display: none !important;
+  }
 }
 
 .toc-sidebar-scroll::-webkit-scrollbar {

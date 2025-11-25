@@ -19,6 +19,7 @@ import { CodeCell } from './cells/CodeCell';
 import { MarkdownCell } from './cells/MarkdownCell';
 import { CellErrorBoundary } from './errors/CellErrorBoundary';
 import { TableOfContents } from './TableOfContents';
+import { TocDrawer } from './TocDrawer';
 import { Eye, EyeOff, FileText, Hash } from 'lucide-react';
 
 interface NotebookRendererProps {
@@ -180,12 +181,90 @@ export function NotebookRenderer({ notebook, metadata }: NotebookRendererProps) 
   // Generate table of contents
   const tocEntries = generateTableOfContents(notebook);
   
+  // Controls component (shared between layouts)
+  const ControlsPanel = ({ className = '' }: { className?: string }) => (
+    <div className={`p-4 bg-white dark:bg-stone-900 rounded-lg border border-gray-200 dark:border-stone-700 shadow-sm ${className}`}>
+      <h3 className="text-sm font-semibold mb-3 text-gray-900 dark:text-stone-100">
+        Controls
+      </h3>
+      <div className="space-y-2 md-toc:space-y-0 md-toc:flex md-toc:gap-2 code-80:space-y-2 code-80:flex-col">
+        {/* Toggle Code Visibility */}
+        <button
+          onClick={handleToggleAllCode}
+          className={`w-full md-toc:w-auto flex items-center gap-2 px-3 py-2 text-sm rounded transition-colors cursor-pointer ${
+            allCodeVisible
+              ? 'bg-blue-50 dark:bg-amber-900/20 text-blue-700 dark:text-amber-400 hover:bg-blue-100 dark:hover:bg-amber-900/30'
+              : 'bg-gray-50 dark:bg-stone-800 text-gray-700 dark:text-stone-300 hover:bg-gray-100 dark:hover:bg-stone-700'
+          }`}
+          aria-label={allCodeVisible ? 'Hide all code' : 'Show all code'}
+        >
+          {allCodeVisible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+          <span>{allCodeVisible ? 'Hide' : 'Show'} Code</span>
+        </button>
+        
+        {/* Toggle Output Visibility */}
+        <button
+          onClick={handleToggleAllOutput}
+          className={`w-full md-toc:w-auto flex items-center gap-2 px-3 py-2 text-sm rounded transition-colors cursor-pointer ${
+            allOutputVisible
+              ? 'bg-green-50 dark:bg-emerald-900/20 text-green-700 dark:text-emerald-400 hover:bg-green-100 dark:hover:bg-emerald-900/30'
+              : 'bg-gray-50 dark:bg-stone-800 text-gray-700 dark:text-stone-300 hover:bg-gray-100 dark:hover:bg-stone-700'
+          }`}
+          aria-label={allOutputVisible ? 'Hide all output' : 'Show all output'}
+        >
+          {allOutputVisible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+          <span>{allOutputVisible ? 'Hide' : 'Show'} Output</span>
+        </button>
+        
+        {/* Toggle Line Numbers */}
+        <button
+          onClick={() => setShowLineNumbers(!showLineNumbers)}
+          className={`w-full md-toc:w-auto flex items-center gap-2 px-3 py-2 text-sm rounded transition-colors cursor-pointer ${
+            showLineNumbers
+              ? 'bg-purple-50 dark:bg-violet-900/20 text-purple-700 dark:text-violet-400 hover:bg-purple-100 dark:hover:bg-violet-900/30'
+              : 'bg-gray-50 dark:bg-stone-800 text-gray-700 dark:text-stone-300 hover:bg-gray-100 dark:hover:bg-stone-700'
+          }`}
+          aria-label={showLineNumbers ? 'Hide line numbers' : 'Show line numbers'}
+        >
+          <Hash className="w-4 h-4" />
+          <span>{showLineNumbers ? 'Hide' : 'Show'} Line #</span>
+        </button>
+      </div>
+    </div>
+  );
+  
   return (
-    <div className="code-80:grid code-80:grid-cols-[1fr_280px] code-80:gap-8 code-80:relative">
-      {/* Main content area */}
-      <div className="notebook-renderer min-w-0">
+    <>
+      {/* Mobile: Bottom drawer for TOC and Controls (below md-toc breakpoint) */}
+      <div className="md-toc:hidden">
+        <TocDrawer 
+          entries={tocEntries}
+          allCodeVisible={allCodeVisible}
+          allOutputVisible={allOutputVisible}
+          showLineNumbers={showLineNumbers}
+          onToggleAllCode={handleToggleAllCode}
+          onToggleAllOutput={handleToggleAllOutput}
+          onToggleLineNumbers={() => setShowLineNumbers(!showLineNumbers)}
+        />
+      </div>
+      
+      {/* Medium screens: TOC above notebook (md-toc to code-80) */}
+      <div className="hidden md-toc:block mb-6 space-y-4" style={{ '--hide-above': 'calc(80ch + 312px)' } as React.CSSProperties} data-toc-header>
+        <ControlsPanel />
+        {tocEntries.length > 0 && (
+          <TableOfContents 
+            entries={tocEntries} 
+            variant="header"
+            className="overflow-hidden"
+          />
+        )}
+      </div>
+      
+      <div className="code-80:grid code-80:grid-cols-[1fr_280px] code-80:gap-8 code-80:relative">
+        {/* Main content area */}
+        <div className="notebook-renderer min-w-0">
           {/* Render cells */}
-          <div className="notebook-cells space-y-6 [&>:first-child]:mt-0! [&>:first-child>*]:mt-0! [&>:first-child>*]:pt-4">
+          <div className="notebook-cells space-y-6 *:first:mt-0! *:first:*:mt-0! *:first:*:pt-4">
         {notebook.cells.map((cell, index) => {
           const cellId = generateCellId(cell, index);
           
@@ -237,58 +316,11 @@ export function NotebookRenderer({ notebook, metadata }: NotebookRendererProps) 
           </div>
         </div>
         
-        {/* Sidebar with controls and table of contents */}
+        {/* Sidebar with controls and table of contents - Large screens only */}
         <aside className="hidden code-80:block">
           <div className="fixed top-[97px] w-[280px] space-y-4 flex flex-col max-h-[calc(100vh-6.0625rem)]">
             {/* Controls - Sticky at top */}
-            <div className="p-4 bg-white dark:bg-stone-900 rounded-lg border border-gray-200 dark:border-stone-700 shadow-sm shrink-0">
-              <h3 className="text-sm font-semibold mb-3 text-gray-900 dark:text-stone-100">
-                Controls
-              </h3>
-              <div className="space-y-2">
-                {/* Toggle Code Visibility */}
-                <button
-                  onClick={handleToggleAllCode}
-                  className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded transition-colors cursor-pointer ${
-                    allCodeVisible
-                      ? 'bg-blue-50 dark:bg-amber-900/20 text-blue-700 dark:text-amber-400 hover:bg-blue-100 dark:hover:bg-amber-900/30'
-                      : 'bg-gray-50 dark:bg-stone-800 text-gray-700 dark:text-stone-300 hover:bg-gray-100 dark:hover:bg-stone-700'
-                  }`}
-                  aria-label={allCodeVisible ? 'Hide all code' : 'Show all code'}
-                >
-                  {allCodeVisible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-                  <span>{allCodeVisible ? 'Hide' : 'Show'} Code</span>
-                </button>
-                
-                {/* Toggle Output Visibility */}
-                <button
-                  onClick={handleToggleAllOutput}
-                  className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded transition-colors cursor-pointer ${
-                    allOutputVisible
-                      ? 'bg-green-50 dark:bg-emerald-900/20 text-green-700 dark:text-emerald-400 hover:bg-green-100 dark:hover:bg-emerald-900/30'
-                      : 'bg-gray-50 dark:bg-stone-800 text-gray-700 dark:text-stone-300 hover:bg-gray-100 dark:hover:bg-stone-700'
-                  }`}
-                  aria-label={allOutputVisible ? 'Hide all output' : 'Show all output'}
-                >
-                  {allOutputVisible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-                  <span>{allOutputVisible ? 'Hide' : 'Show'} Output</span>
-                </button>
-                
-                {/* Toggle Line Numbers */}
-                <button
-                  onClick={() => setShowLineNumbers(!showLineNumbers)}
-                  className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded transition-colors cursor-pointer ${
-                    showLineNumbers
-                      ? 'bg-purple-50 dark:bg-violet-900/20 text-purple-700 dark:text-violet-400 hover:bg-purple-100 dark:hover:bg-violet-900/30'
-                      : 'bg-gray-50 dark:bg-stone-800 text-gray-700 dark:text-stone-300 hover:bg-gray-100 dark:hover:bg-stone-700'
-                  }`}
-                  aria-label={showLineNumbers ? 'Hide line numbers' : 'Show line numbers'}
-                >
-                  <Hash className="w-4 h-4" />
-                  <span>{showLineNumbers ? 'Hide' : 'Show'} Line Numbers</span>
-                </button>
-              </div>
-            </div>
+            <ControlsPanel className="shrink-0" />
             
             {/* Table of Contents - Scrollable */}
             {tocEntries.length > 0 && (
@@ -296,6 +328,7 @@ export function NotebookRenderer({ notebook, metadata }: NotebookRendererProps) 
             )}
           </div>
         </aside>
-    </div>
+      </div>
+    </>
   );
 }
