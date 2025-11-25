@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function AboutPage() {
   return (
-    <main className="px-4 sm:px-6 lg:px-8 py-12 max-w-7xl mx-auto">
+    <main className="px-4 sm:px-6 lg:px-8 pt-4 pb-2 sm:py-12 max-w-7xl mx-auto">
       {/* Hero Section */}
       <div className="mb-12">
         <div className="flex items-start justify-between mb-6 flex-wrap gap-4">
