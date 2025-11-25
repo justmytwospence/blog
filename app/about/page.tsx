@@ -88,7 +88,7 @@ export default function AboutPage() {
               href="https://www.uber.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="flex items-center justify-center p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
+              className="flex items-center justify-center h-24 p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
             >
               <Image 
                 src="/logos/uber.svg" 
@@ -103,7 +103,7 @@ export default function AboutPage() {
               href="https://www.datacamp.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="flex items-center justify-center p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
+              className="flex items-center justify-center h-24 p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
             >
               <Image 
                 src="/logos/datacamp.svg" 
@@ -118,7 +118,7 @@ export default function AboutPage() {
               href="https://www.invisionapp.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="flex items-center justify-center p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
+              className="flex items-center justify-center h-24 p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
             >
               <Image 
                 src="/logos/invision.svg" 
@@ -133,7 +133,7 @@ export default function AboutPage() {
               href="https://gametime.co" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="flex items-center justify-center p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
+              className="flex items-center justify-center h-24 p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
             >
               <Image 
                 src="/logos/gametime.svg" 

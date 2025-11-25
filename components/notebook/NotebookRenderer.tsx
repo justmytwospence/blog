@@ -15,6 +15,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import type { Notebook, ExtractedMetadata } from '@/lib/notebook/types';
 import { generateCellId, getNotebookLanguage, generateTableOfContents } from '@/lib/notebook/utils';
+import { useMediaQuery } from '@/lib/hooks';
 import { CodeCell } from './cells/CodeCell';
 import { MarkdownCell } from './cells/MarkdownCell';
 import { CellErrorBoundary } from './errors/CellErrorBoundary';
@@ -83,6 +84,25 @@ export function NotebookRenderer({ notebook, metadata }: NotebookRendererProps) 
   
   // Line numbers toggle state
   const [showLineNumbers, setShowLineNumbers] = useState(metadata.format?.['code-line-numbers'] ?? false);
+  
+  // Track if user has manually toggled line numbers (to override responsive behavior)
+  const [userToggledLineNumbers, setUserToggledLineNumbers] = useState(false);
+  
+  // Responsive: hide line numbers on mobile (<640px) unless user explicitly toggled
+  const isDesktop = useMediaQuery('(min-width: 640px)');
+  
+  // Effective line numbers visibility:
+  // - If user has toggled, respect their choice (showLineNumbers)
+  // - Otherwise, only show on desktop when showLineNumbers is true
+  const effectiveShowLineNumbers = userToggledLineNumbers 
+    ? showLineNumbers 
+    : (showLineNumbers && isDesktop);
+  
+  // Handle line numbers toggle
+  const handleToggleLineNumbers = () => {
+    setUserToggledLineNumbers(true);
+    setShowLineNumbers(!showLineNumbers);
+  };
   
   // Check if all code is currently visible
   const allCodeVisible = useMemo(() => {
@@ -167,16 +187,20 @@ export function NotebookRenderer({ notebook, metadata }: NotebookRendererProps) 
     include: metadata.execute?.include,
     warning: metadata.execute?.warning,
     error: metadata.execute?.error,
-    'code-line-numbers': showLineNumbers,
+    'code-line-numbers': effectiveShowLineNumbers,
   };
   
   // Debug logging
   useEffect(() => {
-    console.log('[NotebookRenderer] Global options:', {
-      metadata,
-      globalOptions
+    console.log('[NotebookRenderer] Line numbers state:', {
+      showLineNumbers,
+      userToggledLineNumbers,
+      isDesktop,
+      effectiveShowLineNumbers,
+      metadataLineNumbers: metadata.format?.['code-line-numbers'],
+      globalOptionsLineNumbers: globalOptions['code-line-numbers'],
     });
-  }, [metadata, globalOptions]);
+  }, [showLineNumbers, userToggledLineNumbers, isDesktop, effectiveShowLineNumbers, metadata, globalOptions]);
   
   // Generate table of contents
   const tocEntries = generateTableOfContents(notebook);
@@ -218,16 +242,16 @@ export function NotebookRenderer({ notebook, metadata }: NotebookRendererProps) 
         
         {/* Toggle Line Numbers */}
         <button
-          onClick={() => setShowLineNumbers(!showLineNumbers)}
+          onClick={handleToggleLineNumbers}
           className={`w-full md-toc:w-auto flex items-center gap-2 px-3 py-2 text-sm rounded transition-colors cursor-pointer ${
-            showLineNumbers
+            effectiveShowLineNumbers
               ? 'bg-purple-50 dark:bg-violet-900/20 text-purple-700 dark:text-violet-400 hover:bg-purple-100 dark:hover:bg-violet-900/30'
               : 'bg-gray-50 dark:bg-stone-800 text-gray-700 dark:text-stone-300 hover:bg-gray-100 dark:hover:bg-stone-700'
           }`}
-          aria-label={showLineNumbers ? 'Hide line numbers' : 'Show line numbers'}
+          aria-label={effectiveShowLineNumbers ? 'Hide line numbers' : 'Show line numbers'}
         >
           <Hash className="w-4 h-4" />
-          <span>{showLineNumbers ? 'Hide' : 'Show'} Line #</span>
+          <span>{effectiveShowLineNumbers ? 'Hide' : 'Show'} Line #</span>
         </button>
       </div>
     </div>
@@ -241,10 +265,10 @@ export function NotebookRenderer({ notebook, metadata }: NotebookRendererProps) 
           entries={tocEntries}
           allCodeVisible={allCodeVisible}
           allOutputVisible={allOutputVisible}
-          showLineNumbers={showLineNumbers}
+          showLineNumbers={effectiveShowLineNumbers}
           onToggleAllCode={handleToggleAllCode}
           onToggleAllOutput={handleToggleAllOutput}
-          onToggleLineNumbers={() => setShowLineNumbers(!showLineNumbers)}
+          onToggleLineNumbers={handleToggleLineNumbers}
         />
       </div>
       
