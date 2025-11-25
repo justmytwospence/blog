@@ -10,7 +10,7 @@ export default function Home() {
     <main className="px-4 sm:px-6 lg:px-8 pt-4 pb-2 sm:py-8 max-w-7xl mx-auto">
       {/* Featured Projects Section */}
       {projects.length > 0 && (
-        <section className="mb-12">
+        <section className="mb-6 sm:mb-12">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-[#d4d4d4]">
               Featured Projects

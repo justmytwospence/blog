@@ -49,7 +49,7 @@ export function BlogCarousel({ posts }: BlogCarouselProps) {
             >
               <Link
                 href={`/blog/${post.slug}`}
-                className="block p-6 bg-white dark:bg-[#252526] rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200 dark:border-[#303031] h-full"
+                className="block p-6 bg-white dark:bg-[#252526] rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200 dark:border-[#303031] sm:h-full"
               >
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-sm text-gray-500 dark:text-slate-400">
