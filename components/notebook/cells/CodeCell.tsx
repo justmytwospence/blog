@@ -12,22 +12,12 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import hljs from 'highlight.js/lib/core';
-import python from 'highlight.js/lib/languages/python';
-import javascript from 'highlight.js/lib/languages/javascript';
-import r from 'highlight.js/lib/languages/r';
-import julia from 'highlight.js/lib/languages/julia';
+import React, { useState } from 'react';
 import type { NotebookCell, QuartoCellOptions } from '@/lib/notebook/types';
 import { getCellSource, getCellOptions } from '@/lib/notebook/utils';
 import { OutputRenderer } from '../outputs/OutputRenderer';
+import { CodeBlock } from '@/components/CodeBlock';
 import { ChevronDown, ChevronRight } from 'lucide-react';
-
-// Register languages
-hljs.registerLanguage('python', python);
-hljs.registerLanguage('javascript', javascript);
-hljs.registerLanguage('r', r);
-hljs.registerLanguage('julia', julia);
 
 interface CodeCellProps {
   cell: NotebookCell;
@@ -84,19 +74,6 @@ export function CodeCell({
   
   // Determine if line numbers should be shown
   const showLineNumbers = determineShowLineNumbers(cellOptions, globalOptions);
-  
-  // Syntax highlight the code
-  const [highlightedCode, setHighlightedCode] = useState('');
-  
-  useEffect(() => {
-    try {
-      const result = hljs.highlight(source, { language });
-      setHighlightedCode(result.value);
-    } catch (error) {
-      // If highlighting fails, use plain text
-      setHighlightedCode(escapeHtml(source));
-    }
-  }, [source, language]);
   
   // Handle code visibility toggle
   const handleCodeToggle = () => {
@@ -172,36 +149,11 @@ export function CodeCell({
           
           {/* Code block */}
           {codeVisible && (
-            <div className="code-block-wrapper rounded-lg overflow-hidden">
-              {showLineNumbers ? (
-                <pre className="overflow-x-auto m-0">
-                  <code className={`hljs language-${language}`}>
-                    <table className="code-table">
-                      <tbody>
-                        {source.split('\n').map((line, index) => (
-                          <tr key={index}>
-                            <td className="line-number-cell">{index + 1}</td>
-                            <td 
-                              className="line-content-cell"
-                              dangerouslySetInnerHTML={{ 
-                                __html: hljs.highlight(line || ' ', { language }).value 
-                              }}
-                            />
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </code>
-                </pre>
-              ) : (
-                <pre className="overflow-x-auto m-0">
-                  <code
-                    className={`hljs language-${language}`}
-                    dangerouslySetInnerHTML={{ __html: highlightedCode }}
-                  />
-                </pre>
-              )}
-            </div>
+            <CodeBlock 
+              code={source} 
+              language={language} 
+              showLineNumbers={showLineNumbers} 
+            />
           )}
         </div>
       )}
@@ -317,18 +269,4 @@ function determineShowLineNumbers(
   
   // Default to false
   return false;
-}
-
-/**
- * Escape HTML special characters
- */
-function escapeHtml(text: string): string {
-  const map: Record<string, string> = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;',
-  };
-  return text.replace(/[&<>"']/g, (char) => map[char]);
 }

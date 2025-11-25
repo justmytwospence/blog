@@ -197,8 +197,8 @@ export function HtmlOutput({ html }: HtmlOutputProps) {
     return null;
   }, [html]);
   
-  // If it's a table, render with InteractiveTable
-  if (tableData) {
+  // If it's a table, render with InteractiveTable ONLY if it's not truncated and has no multi-index
+  if (tableData && !tableData.isTruncated && (!tableData.indexColumns || tableData.indexColumns === 0)) {
     return <InteractiveTable markdown={tableData.markdown} disableSorting={tableData.isTruncated} indexColumns={tableData.indexColumns} />;
   }
   
@@ -248,7 +248,7 @@ ${html}
 
   return (
     <div 
-      className="notebook-html-output prose dark:prose-invert max-w-none p-4 rounded bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 overflow-x-auto"
+      className="notebook-html-output prose dark:prose-invert max-w-none p-4 rounded bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 overflow-x-auto [&_table]:font-sans"
       dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
     />
   );

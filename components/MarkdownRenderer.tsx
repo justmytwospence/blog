@@ -2,6 +2,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeHighlight from 'rehype-highlight';
+import { languages } from '@/lib/highlight';
 import 'katex/dist/katex.min.css';
 
 interface MarkdownRendererProps {
@@ -13,7 +14,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
     <div className="prose prose-slate dark:prose-invert max-w-none">
       <ReactMarkdown
         remarkPlugins={[remarkMath]}
-        rehypePlugins={[rehypeKatex, rehypeHighlight]}
+        rehypePlugins={[rehypeKatex, [rehypeHighlight, { languages }]]}
         components={{
           img: ({ node, ...props }) => (
             <img

@@ -1,10 +1,41 @@
+import React from 'react';
 import { getAllBlogPosts, getBlogPostBySlug } from '@/lib/content';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import rehypeHighlight from 'rehype-highlight';
+import { CodeBlock } from '@/components/CodeBlock';
 import Link from 'next/link';
 import 'katex/dist/katex.min.css';
+
+// Helper to extract text content recursively from React children
+function getTextContent(children: React.ReactNode): string {
+  if (typeof children === 'string') return children;
+  if (typeof children === 'number') return String(children);
+  if (!children) return '';
+  if (Array.isArray(children)) {
+    return children.map(getTextContent).join('');
+  }
+  if (React.isValidElement(children)) {
+    const props = children.props as { children?: React.ReactNode };
+    return getTextContent(props.children);
+  }
+  return '';
+}
+
+// Helper to extract code and language from ReactMarkdown pre children
+function extractCodeInfo(children: React.ReactNode): { code: string; language: string } | null {
+  const child = Array.isArray(children) ? children[0] : children;
+  if (child && typeof child === 'object' && 'props' in child) {
+    const codeElement = child as React.ReactElement<{ className?: string; children?: React.ReactNode }>;
+    const className = codeElement.props.className || '';
+    // Extract language from class like "language-dockerfile" or "language-python"
+    const langMatch = className.match(/language-(\S+)/);
+    const language = langMatch ? langMatch[1] : 'plaintext';
+    const code = getTextContent(codeElement.props.children);
+    return { code, language };
+  }
+  return null;
+}
 
 // Generate static params for all blog posts
 export async function generateStaticParams() {
@@ -46,7 +77,7 @@ export default async function BlogPostPage({
       <article className="prose dark:prose-invert max-w-none">
         <ReactMarkdown 
           remarkPlugins={[remarkMath]}
-          rehypePlugins={[rehypeKatex, rehypeHighlight]}
+          rehypePlugins={[rehypeKatex]}
           components={{
             h1: ({ node, children, ...props }) => (
               <>
@@ -77,11 +108,21 @@ export default async function BlogPostPage({
                 )}
               </>
             ),
-            pre: ({ node, children, ...props }) => (
-              <div className="rounded-lg border border-gray-300 dark:border-[#454545] overflow-hidden my-6">
-                <pre {...props}>{children}</pre>
-              </div>
-            ),
+            pre: ({ node, children, ...props }) => {
+              const codeInfo = extractCodeInfo(children);
+              if (codeInfo) {
+                return (
+                  <CodeBlock 
+                    code={codeInfo.code} 
+                    language={codeInfo.language} 
+                    showLineNumbers={true}
+                    className="my-6"
+                  />
+                );
+              }
+              // Fallback for non-code pre blocks
+              return <pre {...props}>{children}</pre>;
+            },
           }}
         >
           {post.content}

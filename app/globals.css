@@ -411,6 +411,7 @@ pre:has(code),
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
+  line-height: 1.5;
 }
 
 .code-table tbody {
@@ -432,6 +433,8 @@ pre:has(code),
   vertical-align: top;
   white-space: nowrap;
   width: 1%;
+  line-height: 1.5;
+  font-size: 0.875rem;
 }
 
 .dark .line-number-cell {
@@ -444,6 +447,33 @@ pre:has(code),
   padding-left: 1em;
   white-space: pre;
   vertical-align: top;
+  line-height: 1.5;
+  font-size: 0.875rem;
+}
+
+/* Reset prose styles for code blocks */
+.prose .code-block-wrapper,
+.prose .code-block-wrapper * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.prose .code-block-wrapper table,
+.prose .code-block-wrapper tr,
+.prose .code-block-wrapper td {
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+.prose .code-block-wrapper .line-number-cell {
+  padding-right: 1em;
+  padding-left: 0.5em;
+  border-right: 1px solid rgba(147, 161, 161, 0.3);
+}
+
+.prose .code-block-wrapper .line-content-cell {
+  padding-left: 1em;
 }
 
 /* Notebook code cell specific styles */

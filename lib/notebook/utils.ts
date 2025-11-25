@@ -169,34 +169,59 @@ export function generateCellId(cell: NotebookCell, index: number): string {
  * @returns Cell options or empty object
  */
 export function getCellOptions(cell: NotebookCell): QuartoCellOptions {
-  if (!cell.metadata) {
-    return {};
-  }
-  
   const options: QuartoCellOptions = {};
   
-  // Extract known Quarto options from metadata
-  const quartoKeys: (keyof QuartoCellOptions)[] = [
-    'echo',
-    'output',
-    'warning',
-    'error',
-    'include',
-    'code-fold',
-    'code-summary',
-    'code-line-numbers',
-    'fig-cap',
-    'fig-alt',
-    'fig-width',
-    'fig-height',
-    'label',
-  ];
-  
-  quartoKeys.forEach((key) => {
-    if (key in cell.metadata!) {
-      (options as any)[key] = cell.metadata![key];
+  // First, parse #| comment directives from cell source (Quarto-style)
+  if (cell.cell_type === 'code' && cell.source) {
+    const source = Array.isArray(cell.source) ? cell.source.join('') : cell.source;
+    const lines = source.split('\n');
+    
+    for (const line of lines) {
+      const match = line.match(/^#\|\s*([^:]+):\s*(.+)$/);
+      if (match) {
+        const key = match[1].trim();
+        const value = match[2].trim();
+        
+        // Parse the value - handle booleans and strings
+        let parsedValue: any = value;
+        if (value.toLowerCase() === 'true') {
+          parsedValue = true;
+        } else if (value.toLowerCase() === 'false') {
+          parsedValue = false;
+        } else if (!isNaN(Number(value))) {
+          parsedValue = Number(value);
+        }
+        
+        // Map to QuartoCellOptions keys
+        (options as any)[key] = parsedValue;
+      }
     }
-  });
+  }
+  
+  // Then, extract options from metadata (takes precedence over comments)
+  if (cell.metadata) {
+    const quartoKeys: (keyof QuartoCellOptions)[] = [
+      'echo',
+      'output',
+      'warning',
+      'error',
+      'include',
+      'code-fold',
+      'code-summary',
+      'code-line-numbers',
+      'fig-cap',
+      'fig-alt',
+      'fig-width',
+      'fig-height',
+      'label',
+    ];
+    
+    quartoKeys.forEach((key) => {
+      if (key in cell.metadata!) {
+        (options as any)[key] = cell.metadata![key];
+      }
+    });
+  }
   
   return options;
 }

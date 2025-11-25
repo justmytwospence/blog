@@ -1,6 +1,6 @@
 ---
 title: "Building This Portfolio: A Vibe-Coded Journey"
-date: "2024-11-20"
+date: "2025-11-25"
 categories: ["meta", "web-development", "portfolio", "next.js"]
 description: "How I built this data science portfolio site by vibe-coding with modern tools, and my plans for adding real projects"
 featured: true
@@ -70,15 +70,6 @@ I'll be adding my actual data science projects, including:
 - **Machine learning experiments** - From random forests to neural networks
 - **Data visualization showcases** - Demonstrating best practices
 - **External tools** - Like my VertFarmer app for agricultural optimization
-
-### The Migration Process
-
-Each project needs to be:
-1. Cleaned up and documented
-2. Converted to notebook format or markdown
-3. Enhanced with proper metadata
-4. Tested in the renderer
-5. Published with a compelling description
 
 ## Lessons Learned
 

@@ -42,8 +42,25 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* Right side: Theme Toggle */}
-          <div className="flex items-center">
+          {/* Right side: RSS Feed & Theme Toggle */}
+          <div className="flex items-center space-x-2">
+            <a
+              href="/feed.xml"
+              className="flex items-center justify-center p-2 rounded-lg bg-gray-200 dark:bg-[#252526] hover:bg-gray-300 dark:hover:bg-[#3a3d41] transition-colors duration-200"
+              title="RSS Feed"
+              aria-label="RSS Feed"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-5 h-5 text-gray-700 dark:text-yellow-500"
+              >
+                <path d="M3.75 3a.75.75 0 0 0-.75.75v.5c0 .414.336.75.75.75H4a9 9 0 0 1 9 9v.25c0 .414.336.75.75.75h.5a.75.75 0 0 0 .75-.75V14c0-6.075-4.925-11-11-11h-.25Z" />
+                <path d="M3 7.75A.75.75 0 0 1 3.75 7H4a6 6 0 0 1 6 6v.25a.75.75 0 0 1-.75.75h-.5a.75.75 0 0 1-.75-.75V13a4 4 0 0 0-4-4h-.25A.75.75 0 0 1 3 8.25v-.5Z" />
+                <path d="M6 14a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
+              </svg>
+            </a>
             <ThemeToggle />
           </div>
         </div>

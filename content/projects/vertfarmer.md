@@ -1,8 +1,8 @@
 ---
-title: "VertFarmer App"
+title: "VertFarmer"
 date: "2024-11-15"
 categories: ["web-app"]
-description: "Interactive web application for vertical farming management and optimization"
+description: "Get from down here to up there"
 featured: true
 type: "external"
 externalUrl: "https://vertfarm.app"

@@ -1,6 +1,7 @@
 import { getAllProjects, getProjectBySlug } from '@/lib/content';
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
+import { languages } from '@/lib/highlight';
 import { NotebookRenderer } from '@/components/notebook/NotebookRenderer';
 import { NotebookErrorBoundary } from '@/components/notebook/errors/NotebookErrorBoundary';
 import { extractMetadata } from '@/lib/notebook/index';
@@ -118,7 +119,7 @@ export default async function ProjectDetailPage({
           {/* Render markdown content if available */}
           {(content.type === 'markdown' || content.type === 'link') && content.content && (
             <article className="prose dark:prose-invert max-w-none mt-12">
-              <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+              <ReactMarkdown rehypePlugins={[[rehypeHighlight, { languages }]]}>
                 {content.content}
               </ReactMarkdown>
             </article>
@@ -136,7 +137,7 @@ export default async function ProjectDetailPage({
             {content.type === 'markdown' && (
               <article className="prose dark:prose-invert max-w-none">
                 <ReactMarkdown 
-                  rehypePlugins={[rehypeHighlight]}
+                  rehypePlugins={[[rehypeHighlight, { languages }]]}
                   components={{
                     h1: ({ node, children, ...props }) => (
                       <>

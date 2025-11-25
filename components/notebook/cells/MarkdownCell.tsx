@@ -17,6 +17,7 @@ import remarkMath from 'remark-math';
 import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 import rehypeHighlight from 'rehype-highlight';
+import { languages } from '@/lib/highlight';
 import type { NotebookCell } from '@/lib/notebook/types';
 import { getCellSource } from '@/lib/notebook/utils';
 import { CalloutBlock, type CalloutType } from '../CalloutBlock';
@@ -242,7 +243,7 @@ export function MarkdownCell({ cell, cellIndex }: MarkdownCellProps) {
       <div className="notebook-markdown-cell prose prose-slate dark:prose-invert max-w-none">
         <ReactMarkdown
           remarkPlugins={[remarkMath, remarkGfm]}
-          rehypePlugins={[rehypeKatex, rehypeHighlight]}
+          rehypePlugins={[rehypeKatex, [rehypeHighlight, { languages }]]}
           components={{
             // Custom heading rendering with IDs
             ...headingComponents,
@@ -322,7 +323,7 @@ export function MarkdownCell({ cell, cellIndex }: MarkdownCellProps) {
             <div key={`md-${index}`} className="prose prose-slate dark:prose-invert max-w-none">
               <ReactMarkdown
                 remarkPlugins={[remarkMath, remarkGfm]}
-                rehypePlugins={[rehypeKatex, rehypeHighlight]}
+                rehypePlugins={[rehypeKatex, [rehypeHighlight, { languages }]]}
                 components={{
                   // Custom heading rendering with IDs
                   ...headingComponents,
@@ -408,7 +409,7 @@ export function MarkdownCell({ cell, cellIndex }: MarkdownCellProps) {
               <div className="prose prose-slate dark:prose-invert max-w-none prose-sm">
                 <ReactMarkdown
                   remarkPlugins={[remarkMath, remarkGfm]}
-                  rehypePlugins={[rehypeKatex, rehypeHighlight]}
+                  rehypePlugins={[rehypeKatex, [rehypeHighlight, { languages }]]}
                 >
                   {callout.content}
                 </ReactMarkdown>
