@@ -219,6 +219,29 @@ export function HtmlOutput({ html }: HtmlOutputProps) {
       padding: 16px; 
       font-family: system-ui, -apple-system, sans-serif;
       background: transparent;
+      overflow-x: hidden;
+    }
+    /* Constrain all top-level content to prevent horizontal scroll */
+    body > div,
+    body > div > div {
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow: hidden;
+    }
+    /* Constrain Plotly charts to container width */
+    .plotly-graph-div,
+    .js-plotly-plot,
+    .plot-container,
+    .svg-container,
+    .main-svg,
+    .plotly-graph-div > div {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    /* Force SVG elements to scale properly */
+    svg.main-svg {
+      width: 100% !important;
+      height: auto !important;
     }
   </style>
 </head>

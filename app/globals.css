@@ -481,11 +481,18 @@ pre:has(code),
   @apply my-4;
 }
 
-/* Force Plotly outputs to take full width */
-.notebook-plotly-output,
+/* Force Plotly outputs to fit container width */
+.notebook-plotly-output {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
 .notebook-plotly-output .plotly-container,
 .notebook-plotly-output .plotly-container > div,
-.notebook-plotly-output .js-plotly-plot {
+.notebook-plotly-output .js-plotly-plot,
+.notebook-plotly-output .plot-container,
+.notebook-plotly-output .svg-container {
   width: 100% !important;
   max-width: 100% !important;
 }

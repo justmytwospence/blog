@@ -73,11 +73,11 @@ export function PlotlyOutput({ data }: PlotlyOutputProps) {
           scrollZoom: true,
         };
 
-        // Let Plotly handle sizing automatically
+        // Let Plotly handle sizing automatically - remove any fixed width from notebook
         const layout = {
           ...plotlyLayout,
           autosize: true,
-          // Don't set width - let autosize handle it
+          width: undefined, // Override any fixed width from notebook
           margin: plotlyLayout.margin || { l: 50, r: 50, t: 50, b: 50 },
         };
 
