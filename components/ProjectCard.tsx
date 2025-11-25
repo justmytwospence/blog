@@ -12,6 +12,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       markdown: 'Article',
       notebook: 'Notebook',
       webapp: 'App',
+      link: 'Link',
     };
     return badges[type as keyof typeof badges] || type;
   };
