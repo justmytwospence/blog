@@ -13,15 +13,14 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import type { Notebook, ExtractedMetadata } from '@/lib/notebook/types';
-import { generateCellId, getNotebookLanguage, generateTableOfContents } from '@/lib/notebook/utils';
-import { useMediaQuery } from '@/lib/hooks';
+import type { Notebook, ExtractedMetadata } from '@blog/notebook-parser/types';
+import { generateCellId, getNotebookLanguage, generateTableOfContents } from '@blog/notebook-parser/utils';
 import { CodeCell } from './cells/CodeCell';
 import { MarkdownCell } from './cells/MarkdownCell';
 import { CellErrorBoundary } from './errors/CellErrorBoundary';
 import { TableOfContents } from './TableOfContents';
 import { TocDrawer } from './TocDrawer';
-import { Eye, EyeOff, FileText, Hash } from 'lucide-react';
+import { Eye, EyeOff, FileText } from 'lucide-react';
 
 interface NotebookRendererProps {
   notebook: Notebook;
@@ -82,27 +81,8 @@ export function NotebookRenderer({ notebook, metadata }: NotebookRendererProps) 
   const [cellCodeVisibility, setCellCodeVisibility] = useState<Map<string, boolean>>(initialVisibility.codeVisMap);
   const [cellOutputVisibility, setCellOutputVisibility] = useState<Map<string, boolean>>(initialVisibility.outputVisMap);
   
-  // Line numbers toggle state
-  const [showLineNumbers, setShowLineNumbers] = useState(metadata.format?.['code-line-numbers'] ?? false);
-  
-  // Track if user has manually toggled line numbers (to override responsive behavior)
-  const [userToggledLineNumbers, setUserToggledLineNumbers] = useState(false);
-  
-  // Responsive: hide line numbers on mobile (<640px) unless user explicitly toggled
-  const isDesktop = useMediaQuery('(min-width: 640px)');
-  
-  // Effective line numbers visibility:
-  // - If user has toggled, respect their choice (showLineNumbers)
-  // - Otherwise, only show on desktop when showLineNumbers is true
-  const effectiveShowLineNumbers = userToggledLineNumbers 
-    ? showLineNumbers 
-    : (showLineNumbers && isDesktop);
-  
-  // Handle line numbers toggle
-  const handleToggleLineNumbers = () => {
-    setUserToggledLineNumbers(true);
-    setShowLineNumbers(!showLineNumbers);
-  };
+  // Line numbers are always enabled - CSS handles hiding on mobile
+  // via hidden sm:table-cell on the line number cells in CodeBlock.tsx
   
   // Check if all code is currently visible
   const allCodeVisible = useMemo(() => {
@@ -181,26 +161,17 @@ export function NotebookRenderer({ notebook, metadata }: NotebookRendererProps) 
   }
   
   // Global options from metadata
+  // Line numbers always true - CSS handles responsive hiding
   const globalOptions = {
     echo: metadata.execute?.echo,
     output: metadata.execute?.output,
     include: metadata.execute?.include,
     warning: metadata.execute?.warning,
     error: metadata.execute?.error,
-    'code-line-numbers': effectiveShowLineNumbers,
+    'code-line-numbers': true,
   };
   
-  // Debug logging
-  useEffect(() => {
-    console.log('[NotebookRenderer] Line numbers state:', {
-      showLineNumbers,
-      userToggledLineNumbers,
-      isDesktop,
-      effectiveShowLineNumbers,
-      metadataLineNumbers: metadata.format?.['code-line-numbers'],
-      globalOptionsLineNumbers: globalOptions['code-line-numbers'],
-    });
-  }, [showLineNumbers, userToggledLineNumbers, isDesktop, effectiveShowLineNumbers, metadata, globalOptions]);
+
   
   // Generate table of contents
   const tocEntries = generateTableOfContents(notebook);
@@ -240,19 +211,7 @@ export function NotebookRenderer({ notebook, metadata }: NotebookRendererProps) 
           <span>{allOutputVisible ? 'Hide' : 'Show'} Output</span>
         </button>
         
-        {/* Toggle Line Numbers */}
-        <button
-          onClick={handleToggleLineNumbers}
-          className={`w-full md-toc:w-auto flex items-center gap-2 px-3 py-2 text-sm rounded transition-colors cursor-pointer ${
-            effectiveShowLineNumbers
-              ? 'bg-purple-50 dark:bg-violet-900/20 text-purple-700 dark:text-violet-400 hover:bg-purple-100 dark:hover:bg-violet-900/30'
-              : 'bg-gray-50 dark:bg-stone-800 text-gray-700 dark:text-stone-300 hover:bg-gray-100 dark:hover:bg-stone-700'
-          }`}
-          aria-label={effectiveShowLineNumbers ? 'Hide line numbers' : 'Show line numbers'}
-        >
-          <Hash className="w-4 h-4" />
-          <span>{effectiveShowLineNumbers ? 'Hide' : 'Show'} Line #</span>
-        </button>
+
       </div>
     </div>
   );
@@ -265,10 +224,8 @@ export function NotebookRenderer({ notebook, metadata }: NotebookRendererProps) 
           entries={tocEntries}
           allCodeVisible={allCodeVisible}
           allOutputVisible={allOutputVisible}
-          showLineNumbers={effectiveShowLineNumbers}
           onToggleAllCode={handleToggleAllCode}
           onToggleAllOutput={handleToggleAllOutput}
-          onToggleLineNumbers={handleToggleLineNumbers}
         />
       </div>
       

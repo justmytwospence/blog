@@ -16,7 +16,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import type { TocEntry } from '@/lib/notebook/types';
+import type { TocEntry } from '@blog/notebook-parser/types';
 
 interface TableOfContentsProps {
   /** Table of contents entries generated from notebook headings */

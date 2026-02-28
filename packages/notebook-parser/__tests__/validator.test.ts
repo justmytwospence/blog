@@ -2,7 +2,7 @@
  * Tests for notebook validator
  */
 
-import { validateNotebook, validateCell, isValidNotebook } from '../validator';
+import { validateNotebook, validateCell, isValidNotebook } from '../src/validator';
 
 describe('validateNotebook', () => {
   it('should validate a valid notebook', () => {

@@ -7,7 +7,7 @@
 'use client';
 
 import React from 'react';
-import type { ErrorOutput as ErrorOutputType } from '@/lib/notebook/types';
+import type { ErrorOutput as ErrorOutputType } from '@blog/notebook-parser/types';
 
 interface ErrorOutputProps {
   output: ErrorOutputType;

@@ -8,7 +8,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { sanitizeHtml } from '@/lib/notebook/utils';
+import { sanitizeHtml } from '@blog/notebook-parser/utils';
 import { InteractiveTable } from '../InteractiveTable';
 
 interface HtmlOutputProps {

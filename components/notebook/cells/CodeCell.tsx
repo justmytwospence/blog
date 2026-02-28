@@ -13,8 +13,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import type { NotebookCell, QuartoCellOptions } from '@/lib/notebook/types';
-import { getCellSource, getCellOptions } from '@/lib/notebook/utils';
+import type { NotebookCell, QuartoCellOptions } from '@blog/notebook-parser/types';
+import { getCellSource, getCellOptions } from '@blog/notebook-parser/utils';
 import { OutputRenderer } from '../outputs/OutputRenderer';
 import { CodeBlock } from '@/components/CodeBlock';
 import { ChevronDown, ChevronRight } from 'lucide-react';

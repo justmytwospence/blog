@@ -13,19 +13,17 @@
 'use client';
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { List, X, Eye, EyeOff, Hash } from 'lucide-react';
-import type { TocEntry } from '@/lib/notebook/types';
+import { List, X, Eye, EyeOff } from 'lucide-react';
+import type { TocEntry } from '@blog/notebook-parser/types';
 
 interface TocDrawerProps {
   entries: TocEntry[];
   // Control states
   allCodeVisible: boolean;
   allOutputVisible: boolean;
-  showLineNumbers: boolean;
   // Control callbacks
   onToggleAllCode: () => void;
   onToggleAllOutput: () => void;
-  onToggleLineNumbers: () => void;
 }
 
 /**
@@ -147,10 +145,8 @@ export function TocDrawer({
   entries,
   allCodeVisible,
   allOutputVisible,
-  showLineNumbers,
   onToggleAllCode,
   onToggleAllOutput,
-  onToggleLineNumbers,
 }: TocDrawerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -345,18 +341,7 @@ export function TocDrawer({
                 <span>{allOutputVisible ? 'Hide' : 'Show'} Output</span>
               </button>
               
-              {/* Toggle Line Numbers */}
-              <button
-                onClick={onToggleLineNumbers}
-                className={`flex items-center gap-2 px-3 py-2 text-sm rounded transition-colors cursor-pointer ${
-                  showLineNumbers
-                    ? 'bg-purple-50 dark:bg-violet-900/20 text-purple-700 dark:text-violet-400'
-                    : 'bg-gray-50 dark:bg-stone-800 text-gray-700 dark:text-stone-300'
-                }`}
-              >
-                <Hash className="w-4 h-4" />
-                <span>{showLineNumbers ? 'Hide' : 'Show'} Line #</span>
-              </button>
+
             </div>
           </div>
           

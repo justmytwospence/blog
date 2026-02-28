@@ -8,7 +8,7 @@
 'use client';
 
 import React from 'react';
-import type { CellOutput, QuartoCellOptions } from '@/lib/notebook/types';
+import type { CellOutput, QuartoCellOptions } from '@blog/notebook-parser/types';
 import { TextOutput } from './TextOutput';
 import { ImageOutput } from './ImageOutput';
 import { HtmlOutput } from './HtmlOutput';

@@ -11,7 +11,7 @@
 import React, { useEffect, useRef } from 'react';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import 'photoswipe/style.css';
-import type { QuartoCellOptions } from '@/lib/notebook/types';
+import type { QuartoCellOptions } from '@blog/notebook-parser/types';
 
 interface ImageOutputProps {
   data: Record<string, any>;

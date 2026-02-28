@@ -7,7 +7,7 @@
 'use client';
 
 import React from 'react';
-import type { StreamOutput } from '@/lib/notebook/types';
+import type { StreamOutput } from '@blog/notebook-parser/types';
 
 interface TextOutputProps {
   output: StreamOutput;

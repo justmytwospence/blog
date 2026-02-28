@@ -5,7 +5,9 @@ import {
   PageContent,
   Project,
   BlogPost,
+  Concept,
   Content,
+  ConceptContent,
   MarkdownContent,
   NotebookContent,
   WebappContent,
@@ -13,12 +15,14 @@ import {
   Frontmatter,
   WebappConfig,
 } from './types';
-import { parseNotebook, extractMetadata } from './notebook/index';
+import { parseNotebook, extractMetadata } from '@blog/notebook-parser';
+import { preprocessObsidian } from './obsidian';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content');
 const PAGES_DIR = path.join(CONTENT_DIR, 'pages');
 const PROJECTS_DIR = path.join(CONTENT_DIR, 'projects');
 const BLOG_DIR = path.join(CONTENT_DIR, 'blog');
+const CONCEPTS_DIR = path.join(CONTENT_DIR, 'concepts');
 
 /**
  * Get static page content (home, about, contact)
@@ -251,7 +255,7 @@ export function getAllBlogPosts(): BlogPost[] {
         type: 'markdown',
         title: data.title || slug,
         date: data.date || new Date().toISOString(),
-        categories: data.categories || [],
+        categories: data.categories || data.tags || [],
         description: data.description || '',
         featured: data.featured || false,
         readingTime,
@@ -278,17 +282,87 @@ export function getBlogPostBySlug(slug: string): MarkdownContent {
   
   const fileContents = fs.readFileSync(filePath, 'utf8');
   const { data, content } = matter(fileContents);
-  
+
+  // Preprocess Obsidian syntax (no-op on standard markdown)
+  const processedContent = preprocessObsidian(content, slug);
+
   // Calculate reading time
   const wordCount = content.split(/\s+/).length;
   const readingTime = Math.ceil(wordCount / 200);
-  
+
   return {
     type: 'markdown',
-    content,
+    content: processedContent,
     metadata: {
       slug,
       type: 'markdown',
+      title: data.title || slug,
+      date: data.date || new Date().toISOString(),
+      categories: data.categories || data.tags || [],
+      description: data.description || '',
+      featured: data.featured || false,
+    },
+  };
+}
+
+/**
+ * Get all concepts sorted by date (newest first)
+ */
+export function getAllConcepts(): Concept[] {
+  if (!fs.existsSync(CONCEPTS_DIR)) {
+    return [];
+  }
+
+  const files = fs.readdirSync(CONCEPTS_DIR).filter(file => typeof file === 'string' && file.endsWith('.md'));
+  const concepts: Concept[] = [];
+
+  for (const file of files) {
+    const filePath = path.join(CONCEPTS_DIR, file);
+    const slug = file.replace(/\.md$/, '');
+
+    try {
+      const fileContents = fs.readFileSync(filePath, 'utf8');
+      const { data } = matter(fileContents);
+
+      concepts.push({
+        category: 'concept',
+        slug,
+        type: 'component',
+        title: data.title || slug,
+        date: data.date || new Date().toISOString(),
+        categories: data.categories || [],
+        description: data.description || '',
+        featured: data.featured || false,
+        component: data.component || slug,
+      });
+    } catch (error) {
+      console.error(`Error processing concept file ${file}:`, error);
+    }
+  }
+
+  return concepts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+/**
+ * Get concept content by slug
+ */
+export function getConceptBySlug(slug: string): ConceptContent {
+  const filePath = path.join(CONCEPTS_DIR, `${slug}.md`);
+
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`Concept not found: ${slug}`);
+  }
+
+  const fileContents = fs.readFileSync(filePath, 'utf8');
+  const { data, content } = matter(fileContents);
+
+  return {
+    type: 'component',
+    content,
+    component: data.component || slug,
+    metadata: {
+      slug,
+      type: 'component',
       title: data.title || slug,
       date: data.date || new Date().toISOString(),
       categories: data.categories || [],
@@ -304,17 +378,21 @@ export function getBlogPostBySlug(slug: string): MarkdownContent {
 export function getFeaturedContent(): {
   projects: Project[];
   posts: BlogPost[];
+  concepts: Concept[];
 } {
   const allProjects = getAllProjects();
   const allPosts = getAllBlogPosts();
-  
+  const allConcepts = getAllConcepts();
+
   // Get featured items or fallback to most recent
   const featuredProjects = allProjects.filter(p => p.featured);
   const featuredPosts = allPosts.filter(p => p.featured);
-  
+  const featuredConcepts = allConcepts.filter(c => c.featured);
+
   return {
     projects: featuredProjects.length > 0 ? featuredProjects : allProjects.slice(0, 3),
     posts: featuredPosts.length > 0 ? featuredPosts : allPosts.slice(0, 3),
+    concepts: featuredConcepts.length > 0 ? featuredConcepts : allConcepts.slice(0, 3),
   };
 }
 

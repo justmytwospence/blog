@@ -8,7 +8,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import type { Notebook, ExtractedMetadata, TocEntry } from '@/lib/notebook/types';
-import { generateCellId } from '@/lib/notebook/utils';
+import type { Notebook, ExtractedMetadata, TocEntry } from '@blog/notebook-parser/types';
+import { generateCellId } from '@blog/notebook-parser/utils';
 import { NotebookRenderer } from './NotebookRenderer';
 import { TableOfContents } from './TableOfContents';

@@ -17,7 +17,7 @@ export interface ContentMetadata {
   title: string;
   date: string;
   slug: string;
-  type: 'markdown' | 'notebook' | 'webapp' | 'link';
+  type: 'markdown' | 'notebook' | 'webapp' | 'link' | 'component';
   categories?: string[];
   description?: string;
   featured?: boolean;
@@ -77,9 +77,27 @@ export interface LinkContent {
 }
 
 /**
+ * Interactive concept/explainer content
+ */
+export interface ConceptContent {
+  type: 'component';
+  content: string; // Optional markdown prose
+  component: string; // Component name for dynamic import
+  metadata: ContentMetadata;
+}
+
+/**
+ * Concept metadata
+ */
+export interface Concept extends ContentMetadata {
+  category: 'concept';
+  component: string;
+}
+
+/**
  * Union type for all content types
  */
-export type Content = MarkdownContent | NotebookContent | WebappContent | LinkContent;
+export type Content = MarkdownContent | NotebookContent | WebappContent | LinkContent | ConceptContent;
 
 /**
  * Frontmatter structure for markdown files

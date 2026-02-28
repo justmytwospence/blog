@@ -2,8 +2,8 @@
  * Tests for notebook parser
  */
 
-import { parseNotebookFromString, parseNotebook } from '../parser';
-import { Notebook } from '../types';
+import { parseNotebookFromString, parseNotebook } from '../src/parser';
+import { Notebook } from '../src/types';
 
 describe('parseNotebookFromString', () => {
   it('should parse a valid minimal notebook', () => {
