@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npx next lint:*)",
+      "Bash(node_modules/.bin/next lint:*)",
+      "Bash(npx vitest:*)",
+      "Bash(npm run dev:*)",
+      "Bash(grep:*)",
+      "WebSearch",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(npm install:*)",
+      "Bash(git diff:*)",
+      "WebFetch(domain:polypane.app)",
+      "Bash(chmod +x:*)"
+    ]
+  }
+}

@@ -75,13 +75,13 @@ export function CodeBlock({
       </button>
 
       <pre className="overflow-x-auto m-0 p-0 bg-[#fdf6e3] dark:bg-[#1e1e1e]">
-        <code className={`hljs language-${language} block p-4`}>
+        <code className={`hljs language-${language} block p-2 sm:p-4`}>
           {showLineNumbers ? (
             <table className="code-table border-collapse w-full">
               <tbody>
                 {displayLines.map((line, index) => (
                   <tr key={index} className="leading-relaxed">
-                    <td className="line-number-cell text-right pr-4 pl-2 select-none text-[#93a1a1] dark:text-[#858585] border-r border-[rgba(147,161,161,0.3)] dark:border-[rgba(133,133,133,0.3)] align-top whitespace-nowrap w-[1%] text-sm">{index + 1}</td>
+                    <td className="line-number-cell">{index + 1}</td>
                     <td 
                       className="line-content-cell pl-4 whitespace-pre align-top text-sm"
                       dangerouslySetInnerHTML={{ 

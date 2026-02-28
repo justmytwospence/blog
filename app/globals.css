@@ -55,11 +55,19 @@ pre code.hljs,
 .prose pre code {
   display: block;
   overflow-x: auto;
-  padding: 1em;
+  padding: 0.5rem;
   border-radius: 0.5rem;
   border: none !important;
   outline: none !important;
   margin: 0 !important;
+}
+
+@media (min-width: 640px) {
+  .hljs,
+  pre code.hljs,
+  .prose pre code {
+    padding: 1rem;
+  }
 }
 
 /* Light mode - Solarized Light colors */
@@ -426,7 +434,7 @@ pre:has(code),
 }
 
 .line-number-cell {
-  display: table-cell;
+  display: none;
   text-align: right;
   padding-right: 1em;
   padding-left: 0.5em;
@@ -440,6 +448,12 @@ pre:has(code),
   font-size: 0.875rem;
 }
 
+@media (min-width: 640px) {
+  .line-number-cell {
+    display: table-cell;
+  }
+}
+
 .dark .line-number-cell {
   color: #858585;
   border-right-color: rgba(133, 133, 133, 0.3);
@@ -447,11 +461,17 @@ pre:has(code),
 
 .line-content-cell {
   display: table-cell;
-  padding-left: 1em;
+  padding-left: 0.5rem;
   white-space: pre;
   vertical-align: top;
   line-height: 1.5;
   font-size: 0.875rem;
+}
+
+@media (min-width: 640px) {
+  .line-content-cell {
+    padding-left: 1rem;
+  }
 }
 
 /* Reset prose styles for code blocks */
@@ -591,4 +611,257 @@ body {
 
 .dark .toc-sidebar-scroll::-webkit-scrollbar-thumb:hover {
   background-color: rgba(107, 114, 128, 0.7);
+}
+
+/* Obsidian-style callouts via @r4ai/remark-callout */
+[data-callout] {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-left: 4px solid;
+}
+
+[data-callout-title] {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+[data-callout-body] {
+  margin-top: 0.5rem;
+}
+
+[data-callout-body] > :first-child {
+  margin-top: 0;
+}
+
+[data-callout-body] > :last-child {
+  margin-bottom: 0;
+}
+
+/* Note (default) — blue */
+[data-callout],
+[data-callout-type="note"],
+[data-callout-type="info"],
+[data-callout-type="abstract"],
+[data-callout-type="summary"],
+[data-callout-type="tldr"] {
+  background-color: rgb(239 246 255);
+  border-left-color: rgb(59 130 246);
+}
+
+[data-callout] [data-callout-title],
+[data-callout-type="note"] [data-callout-title],
+[data-callout-type="info"] [data-callout-title],
+[data-callout-type="abstract"] [data-callout-title],
+[data-callout-type="summary"] [data-callout-title],
+[data-callout-type="tldr"] [data-callout-title] {
+  color: rgb(30 64 175);
+}
+
+.dark [data-callout],
+.dark [data-callout-type="note"],
+.dark [data-callout-type="info"],
+.dark [data-callout-type="abstract"],
+.dark [data-callout-type="summary"],
+.dark [data-callout-type="tldr"] {
+  background-color: rgb(23 37 84 / 0.5);
+  border-left-color: rgb(96 165 250);
+}
+
+.dark [data-callout] [data-callout-title],
+.dark [data-callout-type="note"] [data-callout-title],
+.dark [data-callout-type="info"] [data-callout-title],
+.dark [data-callout-type="abstract"] [data-callout-title],
+.dark [data-callout-type="summary"] [data-callout-title],
+.dark [data-callout-type="tldr"] [data-callout-title] {
+  color: rgb(191 219 254);
+}
+
+/* Warning — yellow */
+[data-callout-type="warning"],
+[data-callout-type="caution"],
+[data-callout-type="attention"] {
+  background-color: rgb(254 252 232);
+  border-left-color: rgb(234 179 8);
+}
+
+[data-callout-type="warning"] [data-callout-title],
+[data-callout-type="caution"] [data-callout-title],
+[data-callout-type="attention"] [data-callout-title] {
+  color: rgb(133 77 14);
+}
+
+.dark [data-callout-type="warning"],
+.dark [data-callout-type="caution"],
+.dark [data-callout-type="attention"] {
+  background-color: rgb(66 32 6 / 0.5);
+  border-left-color: rgb(250 204 21);
+}
+
+.dark [data-callout-type="warning"] [data-callout-title],
+.dark [data-callout-type="caution"] [data-callout-title],
+.dark [data-callout-type="attention"] [data-callout-title] {
+  color: rgb(254 240 138);
+}
+
+/* Tip — green */
+[data-callout-type="tip"],
+[data-callout-type="hint"],
+[data-callout-type="example"],
+[data-callout-type="quote"],
+[data-callout-type="cite"],
+[data-callout-type="success"],
+[data-callout-type="check"],
+[data-callout-type="done"] {
+  background-color: rgb(240 253 244);
+  border-left-color: rgb(34 197 94);
+}
+
+[data-callout-type="tip"] [data-callout-title],
+[data-callout-type="hint"] [data-callout-title],
+[data-callout-type="example"] [data-callout-title],
+[data-callout-type="quote"] [data-callout-title],
+[data-callout-type="cite"] [data-callout-title],
+[data-callout-type="success"] [data-callout-title],
+[data-callout-type="check"] [data-callout-title],
+[data-callout-type="done"] [data-callout-title] {
+  color: rgb(22 101 52);
+}
+
+.dark [data-callout-type="tip"],
+.dark [data-callout-type="hint"],
+.dark [data-callout-type="example"],
+.dark [data-callout-type="quote"],
+.dark [data-callout-type="cite"],
+.dark [data-callout-type="success"],
+.dark [data-callout-type="check"],
+.dark [data-callout-type="done"] {
+  background-color: rgb(5 46 22 / 0.5);
+  border-left-color: rgb(74 222 128);
+}
+
+.dark [data-callout-type="tip"] [data-callout-title],
+.dark [data-callout-type="hint"] [data-callout-title],
+.dark [data-callout-type="example"] [data-callout-title],
+.dark [data-callout-type="quote"] [data-callout-title],
+.dark [data-callout-type="cite"] [data-callout-title],
+.dark [data-callout-type="success"] [data-callout-title],
+.dark [data-callout-type="check"] [data-callout-title],
+.dark [data-callout-type="done"] [data-callout-title] {
+  color: rgb(187 247 208);
+}
+
+/* Important / Danger — red */
+[data-callout-type="important"],
+[data-callout-type="danger"],
+[data-callout-type="error"],
+[data-callout-type="bug"],
+[data-callout-type="fail"],
+[data-callout-type="failure"],
+[data-callout-type="missing"] {
+  background-color: rgb(254 242 242);
+  border-left-color: rgb(239 68 68);
+}
+
+[data-callout-type="important"] [data-callout-title],
+[data-callout-type="danger"] [data-callout-title],
+[data-callout-type="error"] [data-callout-title],
+[data-callout-type="bug"] [data-callout-title],
+[data-callout-type="fail"] [data-callout-title],
+[data-callout-type="failure"] [data-callout-title],
+[data-callout-type="missing"] [data-callout-title] {
+  color: rgb(153 27 27);
+}
+
+.dark [data-callout-type="important"],
+.dark [data-callout-type="danger"],
+.dark [data-callout-type="error"],
+.dark [data-callout-type="bug"],
+.dark [data-callout-type="fail"],
+.dark [data-callout-type="failure"],
+.dark [data-callout-type="missing"] {
+  background-color: rgb(69 10 10 / 0.5);
+  border-left-color: rgb(248 113 113);
+}
+
+.dark [data-callout-type="important"] [data-callout-title],
+.dark [data-callout-type="danger"] [data-callout-title],
+.dark [data-callout-type="error"] [data-callout-title],
+.dark [data-callout-type="bug"] [data-callout-title],
+.dark [data-callout-type="fail"] [data-callout-title],
+.dark [data-callout-type="failure"] [data-callout-title],
+.dark [data-callout-type="missing"] [data-callout-title] {
+  color: rgb(254 202 202);
+}
+
+/* Question / Todo — purple */
+[data-callout-type="question"],
+[data-callout-type="help"],
+[data-callout-type="faq"],
+[data-callout-type="todo"] {
+  background-color: rgb(250 245 255);
+  border-left-color: rgb(168 85 247);
+}
+
+[data-callout-type="question"] [data-callout-title],
+[data-callout-type="help"] [data-callout-title],
+[data-callout-type="faq"] [data-callout-title],
+[data-callout-type="todo"] [data-callout-title] {
+  color: rgb(107 33 168);
+}
+
+.dark [data-callout-type="question"],
+.dark [data-callout-type="help"],
+.dark [data-callout-type="faq"],
+.dark [data-callout-type="todo"] {
+  background-color: rgb(59 7 100 / 0.5);
+  border-left-color: rgb(192 132 252);
+}
+
+.dark [data-callout-type="question"] [data-callout-title],
+.dark [data-callout-type="help"] [data-callout-title],
+.dark [data-callout-type="faq"] [data-callout-title],
+.dark [data-callout-type="todo"] [data-callout-title] {
+  color: rgb(233 213 255);
+}
+
+/* Foldable callouts (details/summary) */
+details[data-callout] > summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+details[data-callout] > summary::-webkit-details-marker {
+  display: none;
+}
+
+details[data-callout] > summary::marker {
+  display: none;
+  content: "";
+}
+
+details[data-callout] > summary [data-callout-title]::after {
+  content: "▶";
+  margin-left: auto;
+  font-size: 0.75rem;
+  transition: transform 0.2s;
+}
+
+details[data-callout][open] > summary [data-callout-title]::after {
+  transform: rotate(90deg);
+}
+
+/* Highlight mark tag styling */
+mark {
+  background-color: rgb(254 249 195);
+  color: inherit;
+  padding: 0.1em 0.2em;
+  border-radius: 0.2em;
+}
+
+.dark mark {
+  background-color: rgb(133 77 14 / 0.4);
 }
