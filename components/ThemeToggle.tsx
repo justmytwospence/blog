@@ -26,7 +26,7 @@ export function ThemeToggle({ variant = 'default' }: ThemeToggleProps) {
     if (!mounted) {
       return (
         <button
-          className="flex flex-col items-center justify-center flex-1 py-2 text-xs font-medium text-gray-600 dark:text-[#a6a6a6] transition-colors duration-200 cursor-pointer"
+          className="flex flex-col items-center justify-center py-2 text-xs font-medium text-gray-600 dark:text-[#a6a6a6] transition-colors duration-200 cursor-pointer"
           aria-label="Toggle theme"
         >
           <div className="w-6 h-6 mb-1" />
@@ -39,7 +39,7 @@ export function ThemeToggle({ variant = 'default' }: ThemeToggleProps) {
       <button
         onClick={toggleTheme}
         data-testid="theme-toggle"
-        className="flex flex-col items-center justify-center flex-1 py-2 text-xs font-medium text-gray-600 dark:text-[#a6a6a6] transition-colors duration-200 cursor-pointer"
+        className="flex flex-col items-center justify-center py-2 text-xs font-medium text-gray-600 dark:text-[#a6a6a6] transition-colors duration-200 cursor-pointer"
         aria-label={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`}
       >
         {resolvedTheme === 'dark' ? (
