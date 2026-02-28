@@ -2,10 +2,22 @@ import React from 'react';
 import { getAllBlogPosts, getBlogPostBySlug } from '@/lib/content';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
+import remarkGfm from 'remark-gfm';
+import remarkCallout from '@r4ai/remark-callout';
 import rehypeKatex from 'rehype-katex';
+import rehypeRaw from 'rehype-raw';
 import { CodeBlock } from '@/components/CodeBlock';
+import { MermaidBlock } from '@/components/MermaidBlock';
 import Link from 'next/link';
 import 'katex/dist/katex.min.css';
+
+// Extract YouTube video ID from a URL (youtube.com/watch?v=, youtu.be/, youtube.com/embed/)
+function getYouTubeId(url: string): string | null {
+  const match = url.match(
+    /(?:youtube\.com\/(?:watch\?.*v=|embed\/)|youtu\.be\/)([\w-]{11})/,
+  );
+  return match ? match[1] : null;
+}
 
 // Helper to extract text content recursively from React children
 function getTextContent(children: React.ReactNode): string {
@@ -73,11 +85,11 @@ export default async function BlogPostPage({
   const readingTime = Math.ceil(wordCount / 200);
 
   return (
-    <main className="px-4 sm:px-6 lg:px-8 pt-4 pb-2 sm:py-8 max-w-7xl mx-auto">
+    <main className="px-4 sm:px-6 lg:px-8 pt-4 pb-2 sm:py-8 max-w-3xl mx-auto">
       <article className="prose dark:prose-invert max-w-none">
         <ReactMarkdown 
-          remarkPlugins={[remarkMath]}
-          rehypePlugins={[rehypeKatex]}
+          remarkPlugins={[remarkMath, remarkGfm, remarkCallout]}
+          rehypePlugins={[rehypeKatex, rehypeRaw]}
           components={{
             h1: ({ node, children, ...props }) => (
               <>
@@ -111,10 +123,13 @@ export default async function BlogPostPage({
             pre: ({ node, children, ...props }) => {
               const codeInfo = extractCodeInfo(children);
               if (codeInfo) {
+                if (codeInfo.language === 'mermaid') {
+                  return <MermaidBlock code={codeInfo.code} />;
+                }
                 return (
-                  <CodeBlock 
-                    code={codeInfo.code} 
-                    language={codeInfo.language} 
+                  <CodeBlock
+                    code={codeInfo.code}
+                    language={codeInfo.language}
                     showLineNumbers={true}
                     className="my-6"
                   />
@@ -122,6 +137,23 @@ export default async function BlogPostPage({
               }
               // Fallback for non-code pre blocks
               return <pre {...props}>{children}</pre>;
+            },
+            a: ({ node, href, children, ...props }) => {
+              const videoId = href ? getYouTubeId(href) : null;
+              if (videoId) {
+                return (
+                  <span className="not-prose block my-6">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${videoId}`}
+                      title={getTextContent(children) || 'YouTube video'}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full aspect-video rounded-lg"
+                    />
+                  </span>
+                );
+              }
+              return <a href={href} {...props}>{children}</a>;
             },
           }}
         >
