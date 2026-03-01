@@ -1,23 +1,23 @@
 ---
-title: "Weekly Notes: 2026-W09"
+title: "Weekly Informed Priors: 2026-W09"
 date: 2026-02-27
 categories: [weekly, data-science, causal-inference, AI, philosophy]
 description: "Tabular ML benchmarks, mediation analysis deep dive with mermaid diagrams, Borges on English, AI safety, and Hegel as a salve for AI existential dread."
 ---
 
-# Weekly Notes: 2026-W09
+# Weekly Informed Priors: 2026-W09
 
 > [!quote] [dholzmueller/pytabkit: ML models + benchmark for tabular data classification and regression](https://github.com/dholzmueller/pytabkit)
 >
 
-It seems that the art that seemed so fancy to me, really the reason I went to grad school, is dying. Crazy how fast things are moving. What seemed like the most intellectual and important skill set 10 years ago, building bespoke machine learning and time series models, is in its sunset years already (along with everything else)
+It seems that the art that seemed so fancy to me, really the reason I went to grad school, is dying. Crazy how fast things are moving. What seemed like the most intellectual and important skill set 10 years ago, building bespoke machine learning and time series models, is in its sunset years already (along with everything else).
 
 > [!quote] [Your fingers are snitching on you](https://blog.alaindichiappari.dev/p/your-fingers-are-snitching-on-you)
 >
 
 **Equal error rate** seems like a really interesting metric that I somehow haven't needed to use before. Seems like it's a function of how imbalanced the dataset is just as much as the performance of the model?
 
-[Borges on English (YouTube)](https://www.youtube.com/watch?v=NJYoqCDKoT4)
+[Borges on English](https://www.youtube.com/watch?v=NJYoqCDKoT4)
 
 I've always vaguely considered English to be a mediocre language for things like literature and poetry. I guess because it doesn't sound "beautiful" to me in the way some other languages do. This clip from Borges (**J. L. Borges on English**) very quickly made me reconsider that. I find his observation that English is both a Germanic and a Latin language pretty interesting and compelling. At the very least, that clearly makes it a very expressive language for literature, where the primary artistic component are ideas. I think I'm still less convinced on the poetry side, where the way things sound are also a primary artistic component. This is nice because now I feel less language FOMO because I mostly am interested in literature as opposed to poetry anyways.
 
@@ -167,7 +167,7 @@ Hegel was recommended to me in a **Gene Wolfe** discussion forum of all places a
 > [!quote] [Join the Democratic Reform Movement](https://www.samfornj.org/)
 >
 
-More scientists (or honestly any non-lawyer professions) running for office please
+More scientists (or honestly any non-lawyer professions) running for office please.
 
 > [!quote] [What is Conjoint Analysis? (with examples)](https://conjointly.com/guides/what-is-conjoint-analysis/)
 >
@@ -182,9 +182,9 @@ Even if Anthropic *wasn't* the best model and product out there, they would have
 > [!quote] [Claude for Open Source | Claude by Anthropic](https://claude.com/contact-sales/claude-for-oss)
 >
 
-Free Claude Max for open source maintainers. Anthropic really trying to ramp up the good will and I think it's sincere and working
+Free Claude Max for open source maintainers. Anthropic really trying to ramp up the good will and I think it's sincere and working.
 
 > [!quote] [Daniel Simmons Obituary - Longmont, CO](https://www.dignitymemorial.com/obituaries/longmont-co/daniel-simmons-12758871)
 >
 
-The author of one of my favorite novels just passed away and I didn't even know he lived in the same county as me
+The author of one of my favorite novels just passed away and I didn't even know he lived in the same county as me.
