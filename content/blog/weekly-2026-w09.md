@@ -17,7 +17,7 @@ It seems that the art that seemed so fancy to me, really the reason I went to gr
 
 **Equal error rate** seems like a really interesting metric that I somehow haven't needed to use before. Seems like it's a function of how imbalanced the dataset is just as much as the performance of the model?
 
-[Borges on English (YouTube)](https://www.youtube.com/watch?v=NJYoqCDKoT4)
+[Borges on English](https://www.youtube.com/watch?v=NJYoqCDKoT4)
 
 I've always vaguely considered English to be a mediocre language for things like literature and poetry. I guess because it doesn't sound "beautiful" to me in the way some other languages do. This clip from Borges (**J. L. Borges on English**) very quickly made me reconsider that. I find his observation that English is both a Germanic and a Latin language pretty interesting and compelling. At the very least, that clearly makes it a very expressive language for literature, where the primary artistic component are ideas. I think I'm still less convinced on the poetry side, where the way things sound are also a primary artistic component. This is nice because now I feel less language FOMO because I mostly am interested in literature as opposed to poetry anyways.
 
