@@ -1,6 +1,10 @@
 import Image from 'next/image';
+import { getCurrentlyReading } from '@/lib/hardcover';
+import { CurrentlyReadingWidget } from '@/components/CurrentlyReadingWidget';
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const currentlyReading = await getCurrentlyReading(3);
+
   return (
     <main className="px-4 sm:px-6 lg:px-8 pt-4 pb-2 sm:py-12 max-w-7xl mx-auto">
       {/* Hero Section */}
@@ -244,6 +248,8 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
+
+      <CurrentlyReadingWidget books={currentlyReading} />
     </main>
   );
 }
