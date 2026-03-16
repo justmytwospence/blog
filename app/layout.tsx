@@ -46,6 +46,7 @@ export default function RootLayout({
           title="Atom Feed"
           href="/atom.xml"
         />
+        <link rel="human-json" href="/human.json" />
       </head>
       <body className={`${inter.variable} ${merriweather.variable} font-sans`}>
         <ThemeProvider
