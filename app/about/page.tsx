@@ -2,6 +2,8 @@ import Image from 'next/image';
 import { getCurrentlyReading } from '@/lib/hardcover';
 import { CurrentlyReadingWidget } from '@/components/CurrentlyReadingWidget';
 
+export const revalidate = 3600;
+
 export default async function AboutPage() {
   const currentlyReading = await getCurrentlyReading(3);
 
