@@ -2,6 +2,7 @@ import { Feed } from 'feed';
 import { getBlogrollItems } from '@/lib/inoreader';
 
 export const dynamic = 'force-static';
+export const revalidate = 3600;
 
 const SITE_URL = 'https://spencerboucher.com';
 

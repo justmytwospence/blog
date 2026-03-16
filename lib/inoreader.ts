@@ -22,6 +22,7 @@ export interface BlogrollItem {
   publishedDate: string;
   summary: string;
   categories: string[];
+  readingTime: number | null;
 }
 
 interface RawRssItem {
@@ -54,9 +55,15 @@ function normalizeCategories(raw: string | string[] | undefined): string[] {
   return cats.filter((c) => c !== 'Archive');
 }
 
+function estimateReadingTime(wordCount: number): number | null {
+  if (wordCount < 50) return null;
+  return Math.max(1, Math.round(wordCount / 200));
+}
+
 function transformItem(raw: RawRssItem, sourceAttr: Record<string, string> | undefined): BlogrollItem {
   const description = raw.description ?? '';
   const plainText = stripHtml(description);
+  const wordCount = plainText.split(/\s+/).filter(Boolean).length;
 
   return {
     title: raw.title,
@@ -67,6 +74,7 @@ function transformItem(raw: RawRssItem, sourceAttr: Record<string, string> | und
     publishedDate: raw.pubDate ?? '',
     summary: truncate(plainText, 200),
     categories: normalizeCategories(raw.category),
+    readingTime: estimateReadingTime(wordCount),
   };
 }
 
