@@ -2,6 +2,8 @@ import { getReadingListData } from '@/lib/hardcover';
 import { ReadingSection } from '@/components/ReadingSection';
 import type { Metadata } from 'next';
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: 'Reading',
   description: 'Books I am reading, want to read, and have recently read.',
