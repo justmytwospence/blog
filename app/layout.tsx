@@ -46,6 +46,12 @@ export default function RootLayout({
           title="Atom Feed"
           href="/atom.xml"
         />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Blogroll"
+          href="/blogroll.xml"
+        />
       </head>
       <body className={`${inter.variable} ${merriweather.variable} font-sans`}>
         <ThemeProvider
