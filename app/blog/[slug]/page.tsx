@@ -50,6 +50,8 @@ function extractCodeInfo(children: React.ReactNode): { code: string; language: s
 }
 
 // Generate static params for all blog posts
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const posts = getAllBlogPosts();
   return posts.map((post) => ({

@@ -2,6 +2,8 @@ import { getAllConcepts, getConceptBySlug } from '@/lib/content';
 import ReactMarkdown from 'react-markdown';
 import { ConceptLoader } from '@/components/concepts/ConceptLoader';
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const concepts = getAllConcepts();
   return concepts.map((concept) => ({
