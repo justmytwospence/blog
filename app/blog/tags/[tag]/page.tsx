@@ -2,6 +2,7 @@ import { getAllBlogPosts } from '@/lib/content';
 import Link from 'next/link';
 
 // Generate static params for all tags
+export const dynamic = 'force-static';
 export const dynamicParams = false;
 
 export async function generateStaticParams() {

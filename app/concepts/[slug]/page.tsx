@@ -2,6 +2,7 @@ import { getAllConcepts, getConceptBySlug } from '@/lib/content';
 import ReactMarkdown from 'react-markdown';
 import { ConceptLoader } from '@/components/concepts/ConceptLoader';
 
+export const dynamic = 'force-static';
 export const dynamicParams = false;
 
 export async function generateStaticParams() {

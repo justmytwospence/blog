@@ -6,6 +6,7 @@ import { NotebookRenderer } from '@/components/notebook/NotebookRenderer';
 import { NotebookErrorBoundary } from '@/components/notebook/errors/NotebookErrorBoundary';
 import { extractMetadata } from '@blog/notebook-parser';
 
+export const dynamic = 'force-static';
 export const dynamicParams = false;
 
 // Generate static params for all projects
