@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { getCurrentlyReading } from '@/lib/hardcover';
+import { getCurrentlyReading } from '@blog/hardcover';
 import { CurrentlyReadingWidget } from '@/components/CurrentlyReadingWidget';
 import type { Metadata } from 'next';
 

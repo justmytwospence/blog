@@ -51,7 +51,7 @@ describe('hardcover API client', () => {
   it('returns empty arrays when HARDCOVER_API_TOKEN is not set', async () => {
     vi.stubEnv('HARDCOVER_API_TOKEN', '');
 
-    const { getReadingListData } = await import('../hardcover');
+    const { getReadingListData } = await import('../src');
     const data = await getReadingListData();
 
     expect(data.currentlyReading).toEqual([]);
@@ -69,7 +69,7 @@ describe('hardcover API client', () => {
       statusText: 'Internal Server Error',
     });
 
-    const { getCurrentlyReading } = await import('../hardcover');
+    const { getCurrentlyReading } = await import('../src');
     const books = await getCurrentlyReading();
 
     expect(books).toEqual([]);
@@ -80,7 +80,7 @@ describe('hardcover API client', () => {
 
     globalThis.fetch = vi.fn().mockRejectedValue(new Error('Network error'));
 
-    const { getCurrentlyReading } = await import('../hardcover');
+    const { getCurrentlyReading } = await import('../src');
     const books = await getCurrentlyReading();
 
     expect(books).toEqual([]);
@@ -96,7 +96,7 @@ describe('hardcover API client', () => {
       }),
     });
 
-    const { getCurrentlyReading } = await import('../hardcover');
+    const { getCurrentlyReading } = await import('../src');
     const books = await getCurrentlyReading();
 
     expect(books).toEqual([]);
@@ -110,7 +110,7 @@ describe('hardcover API client', () => {
       json: async () => makeMockResponse(),
     });
 
-    const { getCurrentlyReading } = await import('../hardcover');
+    const { getCurrentlyReading } = await import('../src');
     const books = await getCurrentlyReading();
 
     expect(books).toHaveLength(1);
@@ -137,7 +137,7 @@ describe('hardcover API client', () => {
       json: async () => makeMockResponse({ image: null }),
     });
 
-    const { getCurrentlyReading } = await import('../hardcover');
+    const { getCurrentlyReading } = await import('../src');
     const books = await getCurrentlyReading();
 
     expect(books).toHaveLength(1);
@@ -152,7 +152,7 @@ describe('hardcover API client', () => {
       json: async () => makeMockResponse({ contributions: [] }),
     });
 
-    const { getCurrentlyReading } = await import('../hardcover');
+    const { getCurrentlyReading } = await import('../src');
     const books = await getCurrentlyReading();
 
     expect(books).toHaveLength(1);
@@ -168,7 +168,7 @@ describe('hardcover API client', () => {
     });
     globalThis.fetch = mockFetch;
 
-    const { getReadingListData } = await import('../hardcover');
+    const { getReadingListData } = await import('../src');
     const data = await getReadingListData();
 
     // Three parallel requests: currently reading, want to read, read

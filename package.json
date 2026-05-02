@@ -19,7 +19,10 @@
     "packages/*"
   ],
   "dependencies": {
+    "@blog/hardcover": "*",
+    "@blog/inoreader": "*",
     "@blog/notebook-parser": "*",
+    "@blog/obsidian-md": "*",
     "@r4ai/remark-callout": "^0.6.2",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",

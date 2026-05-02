@@ -10,7 +10,12 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
-  transpilePackages: ['@blog/notebook-parser'],
+  transpilePackages: [
+    '@blog/notebook-parser',
+    '@blog/hardcover',
+    '@blog/inoreader',
+    '@blog/obsidian-md',
+  ],
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'assets.hardcover.app' },

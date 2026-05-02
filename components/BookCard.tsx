@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { X } from 'lucide-react';
-import { UserBook } from '@/lib/types';
+import type { UserBook } from '@blog/hardcover/types';
 
 function StarRating({ rating }: { rating: number | null }) {
   if (rating === null) return null;

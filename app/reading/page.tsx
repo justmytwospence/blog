@@ -1,4 +1,4 @@
-import { getReadingListData } from '@/lib/hardcover';
+import { getReadingListData } from '@blog/hardcover';
 import { ReadingSection } from '@/components/ReadingSection';
 import type { Metadata } from 'next';
 
