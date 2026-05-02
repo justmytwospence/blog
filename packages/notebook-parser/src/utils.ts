@@ -6,6 +6,7 @@
  * table of contents generation, and HTML sanitization.
  */
 
+import DOMPurify from 'isomorphic-dompurify';
 import type {
   Notebook,
   NotebookCell,
@@ -279,38 +280,13 @@ export function extractFigureReferences(notebook: Notebook): FigureReference[] {
 }
 
 /**
- * Sanitize HTML content to prevent XSS
- * 
- * Uses DOMPurify to remove dangerous elements and attributes from HTML.
- * This is a placeholder implementation that should be replaced with actual
- * DOMPurify integration in the browser environment.
- * 
- * @param html - HTML string to sanitize
- * @returns Sanitized HTML string
+ * Sanitize HTML content to prevent XSS.
+ *
+ * Uses isomorphic-dompurify so the same call works in both Next.js server
+ * rendering (jsdom-backed) and the browser. Returns an empty string for
+ * non-string inputs.
  */
 export function sanitizeHtml(html: string): string {
-  // In a real implementation, this would use DOMPurify:
-  // import DOMPurify from 'dompurify';
-  // return DOMPurify.sanitize(html);
-  
-  // Ensure html is a string
-  if (typeof html !== 'string') {
-    return String(html || '');
-  }
-  
-  // For now, provide a basic implementation that removes script tags
-  // This is NOT production-ready and should be replaced with DOMPurify
-  let sanitized = html;
-  
-  // Remove script tags
-  sanitized = sanitized.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-  
-  // Remove event handlers (onclick, onerror, etc.)
-  sanitized = sanitized.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '');
-  sanitized = sanitized.replace(/\s*on\w+\s*=\s*[^\s>]*/gi, '');
-  
-  // Remove javascript: protocol
-  sanitized = sanitized.replace(/javascript:/gi, '');
-  
-  return sanitized;
+  if (typeof html !== 'string') return '';
+  return DOMPurify.sanitize(html);
 }

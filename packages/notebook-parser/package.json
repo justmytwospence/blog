@@ -8,13 +8,16 @@
     "./types": "./src/types.ts",
     "./utils": "./src/utils.ts"
   },
-  "files": ["src"],
+  "files": [
+    "src"
+  ],
   "scripts": {
     "test": "vitest --run",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "gray-matter": "^4.0.3"
+    "gray-matter": "^4.0.3",
+    "isomorphic-dompurify": "^2.36.0"
   },
   "devDependencies": {
     "typescript": "^5.9.3",
