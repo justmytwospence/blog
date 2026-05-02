@@ -1,5 +1,11 @@
 import { getAllProjects } from '@/lib/content';
 import { ProjectCard } from '@/components/ProjectCard';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Projects',
+  description: 'Data science projects, analyses, and interactive applications.',
+};
 
 export default function ProjectsPage() {
   const projects = getAllProjects();

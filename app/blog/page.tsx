@@ -1,5 +1,11 @@
 import { getAllBlogPosts } from '@/lib/content';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Blog',
+  description: 'Technical articles, insights, and tutorials on data science and machine learning.',
+};
 
 export default function BlogPage() {
   const posts = getAllBlogPosts();

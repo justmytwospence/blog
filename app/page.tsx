@@ -9,6 +9,7 @@ export default function Home() {
 
   return (
     <main className="px-4 sm:px-6 lg:px-8 pt-4 pb-2 sm:py-8 max-w-7xl mx-auto">
+      <h1 className="sr-only">Data Spencer — Spencer Boucher&rsquo;s data science portfolio and blog</h1>
       {/* Featured Projects Section */}
       {projects.length > 0 && (
         <section className="mb-6 sm:mb-12">

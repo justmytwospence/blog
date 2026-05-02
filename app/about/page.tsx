@@ -1,8 +1,14 @@
 import Image from 'next/image';
 import { getCurrentlyReading } from '@/lib/hardcover';
 import { CurrentlyReadingWidget } from '@/components/CurrentlyReadingWidget';
+import type { Metadata } from 'next';
 
 export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: 'About',
+  description: 'About Spencer Boucher — data scientist, cyclist, and reader.',
+};
 
 export default async function AboutPage() {
   const currentlyReading = await getCurrentlyReading(3);

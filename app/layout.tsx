@@ -11,18 +11,22 @@ const merriweather = Merriweather({
   variable: "--font-merriweather"
 });
 
+const SITE_NAME = "Data Spencer";
+const SITE_DESCRIPTION =
+  "Personal data science portfolio and blog showcasing projects, analyses, and insights";
+
 export const metadata: Metadata = {
-  title: "Data Spencer",
-  description: "Personal data science portfolio and blog showcasing projects, analyses, and insights",
+  title: { default: SITE_NAME, template: `%s — ${SITE_NAME}` },
+  description: SITE_DESCRIPTION,
   keywords: ["data science", "machine learning", "portfolio", "blog", "analytics"],
-  authors: [{ name: "Portfolio Owner" }],
-  creator: "Portfolio Owner",
+  authors: [{ name: "Spencer Boucher" }],
+  creator: "Spencer Boucher",
   openGraph: {
     type: "website",
     locale: "en_US",
-    title: "Data Science Portfolio",
-    description: "Personal data science portfolio and blog showcasing projects, analyses, and insights",
-    siteName: "Data Science Portfolio",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    siteName: SITE_NAME,
   },
 };
 
@@ -63,9 +67,9 @@ export default function RootLayout({
         >
           <div className="flex flex-col min-h-screen bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-[#d4d4d4] transition-colors duration-200">
             <Navigation />
-            <main className="flex-1 pb-20 sm:pb-0">
+            <div className="flex-1 pb-20 sm:pb-0">
               {children}
-            </main>
+            </div>
           </div>
         </ThemeProvider>
       </body>
