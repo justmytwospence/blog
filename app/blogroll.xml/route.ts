@@ -15,7 +15,7 @@ export async function GET() {
     id: `${SITE_URL}/blogroll`,
     link: `${SITE_URL}/blogroll`,
     language: 'en',
-    favicon: `${SITE_URL}/favicon.ico`,
+    favicon: `${SITE_URL}/icon.svg`,
     copyright: `All rights reserved ${new Date().getFullYear()}, Spencer Boucher`,
     updated: new Date(),
     feedLinks: {
