@@ -55,8 +55,14 @@ function normalizeCategories(raw: string | string[] | undefined): string[] {
   return cats.filter((c) => c !== 'Archive');
 }
 
+/**
+ * Inoreader exposes the article body via <description>. Some items are
+ * URL-only stubs (HN-style) with ~10-20 words; others are full articles
+ * with thousands. A 30-word floor skips the stubs without hiding short
+ * but real posts. The minimum result is 1 min.
+ */
 function estimateReadingTime(wordCount: number): number | null {
-  if (wordCount < 50) return null;
+  if (wordCount < 30) return null;
   return Math.max(1, Math.round(wordCount / 200));
 }
 
