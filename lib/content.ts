@@ -2,45 +2,27 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import {
-  PageContent,
   Project,
   BlogPost,
   Concept,
   Content,
   ConceptContent,
   MarkdownContent,
-  NotebookContent,
-  WebappContent,
-  LinkContent,
-  Frontmatter,
   WebappConfig,
 } from './types';
 import { parseNotebook, extractMetadata } from '@blog/notebook-parser';
 import { preprocessObsidian } from './obsidian';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content');
-const PAGES_DIR = path.join(CONTENT_DIR, 'pages');
 const PROJECTS_DIR = path.join(CONTENT_DIR, 'projects');
 const BLOG_DIR = path.join(CONTENT_DIR, 'blog');
 const CONCEPTS_DIR = path.join(CONTENT_DIR, 'concepts');
 
-/**
- * Get static page content (home, about, contact)
- */
-export function getPageContent(page: string): PageContent {
-  const filePath = path.join(PAGES_DIR, `${page}.md`);
-  
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Page not found: ${page}`);
-  }
-  
-  const fileContents = fs.readFileSync(filePath, 'utf8');
-  const { data, content } = matter(fileContents);
-  
-  return {
-    title: data.title || page,
-    content,
-  };
+const WORDS_PER_MINUTE = 200;
+
+function calculateReadingTime(content: string): number {
+  const wordCount = content.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(wordCount / WORDS_PER_MINUTE));
 }
 
 /**
@@ -244,11 +226,7 @@ export function getAllBlogPosts(): BlogPost[] {
     try {
       const fileContents = fs.readFileSync(filePath, 'utf8');
       const { data, content } = matter(fileContents);
-      
-      // Calculate reading time (rough estimate: 200 words per minute)
-      const wordCount = content.split(/\s+/).length;
-      const readingTime = Math.ceil(wordCount / 200);
-      
+
       posts.push({
         category: 'blog',
         slug,
@@ -258,7 +236,7 @@ export function getAllBlogPosts(): BlogPost[] {
         categories: data.categories || data.tags || [],
         description: data.description || '',
         featured: data.featured || false,
-        readingTime,
+        readingTime: calculateReadingTime(content),
       });
     } catch (error) {
       console.error(`Error processing blog post ${file}:`, error);
@@ -283,16 +261,9 @@ export function getBlogPostBySlug(slug: string): MarkdownContent {
   const fileContents = fs.readFileSync(filePath, 'utf8');
   const { data, content } = matter(fileContents);
 
-  // Preprocess Obsidian syntax (no-op on standard markdown)
-  const processedContent = preprocessObsidian(content, slug);
-
-  // Calculate reading time
-  const wordCount = content.split(/\s+/).length;
-  const readingTime = Math.ceil(wordCount / 200);
-
   return {
     type: 'markdown',
-    content: processedContent,
+    content: preprocessObsidian(content, slug),
     metadata: {
       slug,
       type: 'markdown',
@@ -304,6 +275,8 @@ export function getBlogPostBySlug(slug: string): MarkdownContent {
     },
   };
 }
+
+export { calculateReadingTime };
 
 /**
  * Get all concepts sorted by date (newest first)
