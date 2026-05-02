@@ -1,5 +1,5 @@
 import { Feed } from 'feed';
-import { getBlogrollItems } from '@/lib/inoreader';
+import { getBlogrollItems } from '@blog/inoreader';
 
 export const dynamic = 'force-static';
 export const revalidate = 3600;

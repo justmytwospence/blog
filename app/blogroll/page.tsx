@@ -1,4 +1,4 @@
-import { getBlogrollItems } from '@/lib/inoreader';
+import { getBlogrollItems } from '@blog/inoreader';
 import { BlogrollList } from '@/components/BlogrollList';
 import type { Metadata } from 'next';
 
