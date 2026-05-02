@@ -31,7 +31,7 @@ interface TocDrawerProps {
  */
 function formatMarkdown(text: string): React.ReactNode {
   const parts: React.ReactNode[] = [];
-  let remaining = text;
+  const remaining = text;
   let key = 0;
   
   const boldPattern = /\*\*(.+?)\*\*/g;
