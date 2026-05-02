@@ -187,36 +187,26 @@ function extractTableFromHtml(html: string): { markdown: string; isTruncated: bo
  * - Support for rich HTML outputs (tables, formatted text, etc.)
  */
 export function HtmlOutput({ html }: HtmlOutputProps) {
-  const iframeRef = React.useRef<HTMLIFrameElement>(null);
-  
-  // Check if this is a table that should be rendered interactively
+  const hasScripts = html.includes('<script');
+
   const tableData = useMemo(() => {
     if (html.includes('<table')) {
       return extractTableFromHtml(html);
     }
     return null;
   }, [html]);
-  
-  // If it's a table, render with InteractiveTable ONLY if it's not truncated and has no multi-index
-  if (tableData && !tableData.isTruncated && (!tableData.indexColumns || tableData.indexColumns === 0)) {
-    return <InteractiveTable markdown={tableData.markdown} disableSorting={tableData.isTruncated} indexColumns={tableData.indexColumns} />;
-  }
-  
-  // Check if HTML contains scripts (e.g., Plotly, interactive visualizations)
-  const hasScripts = html.includes('<script');
-  
-  // Wrap HTML in complete document structure for proper script execution
+
   const iframeDoc = useMemo(() => {
     if (!hasScripts) return null;
-    
+
     return `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <style>
-    body { 
-      margin: 0; 
-      padding: 16px; 
+    body {
+      margin: 0;
+      padding: 16px;
       font-family: system-ui, -apple-system, sans-serif;
       background: transparent;
       overflow-x: hidden;
@@ -250,7 +240,14 @@ ${html}
 </body>
 </html>`;
   }, [html, hasScripts]);
-  
+
+  const sanitizedHtml = useMemo(() => sanitizeHtml(html), [html]);
+
+  // If it's a table, render with InteractiveTable ONLY if it's not truncated and has no multi-index
+  if (tableData && !tableData.isTruncated && (!tableData.indexColumns || tableData.indexColumns === 0)) {
+    return <InteractiveTable markdown={tableData.markdown} disableSorting={tableData.isTruncated} indexColumns={tableData.indexColumns} />;
+  }
+
   // If HTML contains scripts, render in sandboxed iframe
   if (hasScripts && iframeDoc) {
     return (
@@ -265,12 +262,10 @@ ${html}
       </div>
     );
   }
-  
-  // Otherwise, sanitize and render as HTML (for simple HTML without scripts)
-  const sanitizedHtml = useMemo(() => sanitizeHtml(html), [html]);
 
+  // Otherwise, sanitize and render as HTML (for simple HTML without scripts)
   return (
-    <div 
+    <div
       className="notebook-html-output prose dark:prose-invert max-w-none p-4 rounded bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 overflow-x-auto [&_table]:font-sans"
       dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
     />
