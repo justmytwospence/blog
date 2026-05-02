@@ -11,7 +11,7 @@ import {
   WebappConfig,
 } from './types';
 import { parseNotebook, extractMetadata } from '@blog/notebook-parser';
-import { preprocessObsidian } from './obsidian';
+import { preprocessObsidian } from '@blog/obsidian-md';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content');
 const PROJECTS_DIR = path.join(CONTENT_DIR, 'projects');

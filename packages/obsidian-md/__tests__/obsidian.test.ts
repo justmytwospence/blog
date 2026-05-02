@@ -2,7 +2,7 @@
  * Tests for Obsidian markdown preprocessor
  */
 
-import { preprocessObsidian } from '../obsidian';
+import { preprocessObsidian } from '../src';
 
 describe('preprocessObsidian', () => {
   const slug = 'test-post';
