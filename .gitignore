@@ -53,8 +53,9 @@ Thumbs.db
 .cache/
 .turbo/
 
-# Local agent worktrees (created via `git worktree add worktrees/*`)
+# Local agent worktrees
 /worktrees/
+/.claude/worktrees/
 
 # Python virtual environment
 .venv/
