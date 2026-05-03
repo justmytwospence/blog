@@ -6,7 +6,7 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Blogroll',
-  description: "Articles and links I've found interesting, curated from my RSS reader.",
+  description: "Things I've read recently and thought worth sharing — articles, posts, and links from across the web.",
 };
 
 export default async function BlogrollPage() {
@@ -17,7 +17,7 @@ export default async function BlogrollPage() {
       <div className="mb-12">
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-[#d4d4d4]">Blogroll</h1>
         <p className="text-lg text-gray-600 dark:text-[#cccccc]">
-          Articles and links I've found interesting, curated from my RSS reader.{' '}
+          Things I&rsquo;ve read recently and thought worth sharing.{' '}
           <a
             href="/blogroll.xml"
             className="text-blue-600 dark:text-blue-400 hover:underline"

@@ -9,7 +9,14 @@ import { XMLParser } from 'fast-xml-parser';
 
 // ─── Constants ─────────────────────────────────────────────────────
 
-const FEED_URL = 'https://www.inoreader.com/stream/user/1003561864/tag/Archive';
+/**
+ * The Inoreader user tag whose items become the blogroll. Marked public
+ * in Inoreader, which makes the stream readable without auth. Stripped
+ * from per-item categories so it doesn't show up as a UI filter chip.
+ */
+const PUBLIC_TAG = 'Archive';
+const INOREADER_USER_ID = '1003561864';
+const FEED_URL = `https://www.inoreader.com/stream/user/${INOREADER_USER_ID}/tag/${PUBLIC_TAG}`;
 
 // ─── Types ─────────────────────────────────────────────────────────
 
@@ -52,7 +59,8 @@ function truncate(text: string, maxLength: number): string {
 function normalizeCategories(raw: string | string[] | undefined): string[] {
   if (!raw) return [];
   const cats = Array.isArray(raw) ? raw : [raw];
-  return cats.filter((c) => c !== 'Archive');
+  // Hide the marker tag itself — it's the filter, not a topic
+  return cats.filter((c) => c !== PUBLIC_TAG);
 }
 
 /**

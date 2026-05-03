@@ -11,7 +11,7 @@ export async function GET() {
 
   const feed = new Feed({
     title: "Spencer Boucher's Blogroll",
-    description: "Articles and links I've found interesting, curated from my RSS reader.",
+    description: "Things Spencer has read recently and thought worth sharing.",
     id: `${SITE_URL}/blogroll`,
     link: `${SITE_URL}/blogroll`,
     language: 'en',
