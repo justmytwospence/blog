@@ -241,10 +241,21 @@ ${html}
 </html>`;
   }, [html, hasScripts]);
 
-  const sanitizedHtml = useMemo(() => sanitizeHtml(html), [html]);
+  // Only sanitize when we'll actually render this branch. DOMPurify on
+  // a multi-MB Plotly output can run for seconds and balloon serverless
+  // memory; skipping the work for the iframe/InteractiveTable branches
+  // is what keeps the dynamic /projects/[slug] function under Vercel's
+  // limits. Hook still runs unconditionally, just returns null cheaply.
+  const useInteractiveTable =
+    !!tableData &&
+    !tableData.isTruncated &&
+    (!tableData.indexColumns || tableData.indexColumns === 0);
+  const sanitizedHtml = useMemo(() => {
+    if (useInteractiveTable || hasScripts) return null;
+    return sanitizeHtml(html);
+  }, [html, hasScripts, useInteractiveTable]);
 
-  // If it's a table, render with InteractiveTable ONLY if it's not truncated and has no multi-index
-  if (tableData && !tableData.isTruncated && (!tableData.indexColumns || tableData.indexColumns === 0)) {
+  if (useInteractiveTable && tableData) {
     return <InteractiveTable markdown={tableData.markdown} disableSorting={tableData.isTruncated} indexColumns={tableData.indexColumns} />;
   }
 
@@ -267,7 +278,7 @@ ${html}
   return (
     <div
       className="notebook-html-output prose dark:prose-invert max-w-none p-4 rounded bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 overflow-x-auto [&_table]:font-sans"
-      dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+      dangerouslySetInnerHTML={{ __html: sanitizedHtml ?? '' }}
     />
   );
 }
