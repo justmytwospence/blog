@@ -1,5 +1,6 @@
 import { getReadingListData } from '@blog/hardcover';
 import { ReadingSection } from '@/components/ReadingSection';
+import { PageContainer } from '@/components/PageContainer';
 import type { Metadata } from 'next';
 
 export const revalidate = 3600;
@@ -14,7 +15,7 @@ export default async function ReadingPage() {
   const hasAnyBooks = currentlyReading.length > 0 || wantToRead.length > 0 || recentlyRead.length > 0;
 
   return (
-    <main className="px-4 sm:px-6 lg:px-8 pt-4 pb-2 sm:py-8 max-w-7xl mx-auto">
+    <PageContainer width="wide">
       <div className="mb-12">
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-[#d4d4d4]">Reading</h1>
       </div>
@@ -37,6 +38,6 @@ export default async function ReadingPage() {
           Last updated: {new Date(fetchedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
         </p>
       )}
-    </main>
+    </PageContainer>
   );
 }

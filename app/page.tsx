@@ -3,12 +3,13 @@ import Link from 'next/link';
 import { ProjectCarousel } from '@/components/ProjectCarousel';
 import { BlogCarousel } from '@/components/BlogCarousel';
 import { ConceptCarousel } from '@/components/ConceptCarousel';
+import { PageContainer } from '@/components/PageContainer';
 
 export default function Home() {
   const { projects, posts, concepts } = getFeaturedContent();
 
   return (
-    <main className="px-4 sm:px-6 lg:px-8 pt-4 pb-2 sm:py-8 max-w-7xl mx-auto">
+    <PageContainer width="wide">
       <h1 className="sr-only">Data Spencer — Spencer Boucher&rsquo;s data science portfolio and blog</h1>
       {/* Featured Projects Section */}
       {projects.length > 0 && (
@@ -63,6 +64,6 @@ export default function Home() {
           <BlogCarousel posts={posts} />
         </section>
       )}
-    </main>
+    </PageContainer>
   );
 }

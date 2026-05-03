@@ -8,6 +8,7 @@ import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
 import { CodeBlock } from '@/components/CodeBlock';
 import { MermaidBlock } from '@/components/MermaidBlock';
+import { PageContainer } from '@/components/PageContainer';
 import Link from 'next/link';
 import 'katex/dist/katex.min.css';
 
@@ -84,7 +85,7 @@ export default async function BlogPostPage({
   const readingTime = calculateReadingTime(post.content);
 
   return (
-    <main className="px-4 sm:px-6 lg:px-8 pt-4 pb-2 sm:py-8 max-w-3xl mx-auto">
+    <PageContainer width="prose">
       <article className="prose dark:prose-invert max-w-none">
         <ReactMarkdown 
           remarkPlugins={[remarkMath, remarkGfm, remarkCallout]}
@@ -159,6 +160,6 @@ export default async function BlogPostPage({
           {post.content}
         </ReactMarkdown>
       </article>
-    </main>
+    </PageContainer>
   );
 }

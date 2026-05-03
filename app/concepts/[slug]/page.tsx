@@ -1,6 +1,7 @@
 import { getAllConcepts, getConceptBySlug } from '@/lib/content';
 import ReactMarkdown from 'react-markdown';
 import { ConceptLoader } from '@/components/concepts/ConceptLoader';
+import { PageContainer } from '@/components/PageContainer';
 
 export const dynamicParams = false;
 
@@ -34,7 +35,7 @@ export default async function ConceptDetailPage({
   const content = getConceptBySlug(slug);
 
   return (
-    <main className="px-4 sm:px-6 lg:px-8 py-8 mx-auto max-w-7xl">
+    <PageContainer width="app">
       <div>
         <div className="flex items-center gap-2 mb-3">
           <span className="text-xs px-2 py-1 rounded bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 font-medium">
@@ -80,6 +81,6 @@ export default async function ConceptDetailPage({
 
         <ConceptLoader componentName={content.component} />
       </div>
-    </main>
+    </PageContainer>
   );
 }

@@ -7,8 +7,6 @@ import { ThemeToggle } from './ThemeToggle';
 export function Navigation() {
   const pathname = usePathname();
 
-  const navMaxWidth = pathname.startsWith('/blog') ? 'max-w-3xl' : 'max-w-7xl';
-
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About' },
@@ -30,7 +28,7 @@ export function Navigation() {
     <>
       {/* Desktop nav - sticky top */}
       <nav className="hidden sm:block sticky top-0 z-50 border-b border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200">
-        <div className={`${navMaxWidth} mx-auto px-4 sm:px-6 lg:px-8`}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Desktop Navigation Links */}
             <div className="flex space-x-8">
