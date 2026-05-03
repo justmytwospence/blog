@@ -6,7 +6,7 @@
  * table of contents generation, and HTML sanitization.
  */
 
-import DOMPurify from 'isomorphic-dompurify';
+import sanitizeHtmlLib from 'sanitize-html';
 import type {
   Notebook,
   NotebookCell,
@@ -282,11 +282,28 @@ export function extractFigureReferences(notebook: Notebook): FigureReference[] {
 /**
  * Sanitize HTML content to prevent XSS.
  *
- * Uses isomorphic-dompurify so the same call works in both Next.js server
- * rendering (jsdom-backed) and the browser. Returns an empty string for
- * non-string inputs.
+ * Uses sanitize-html (pure JS, no jsdom) so the same call works under
+ * Next.js SSR and in the browser without ESM/CJS interop issues. The
+ * allowlist is roomy enough for typical Jupyter HTML output (tables,
+ * formatted text, images) while stripping <script>, event handlers,
+ * and javascript: URLs.
  */
 export function sanitizeHtml(html: string): string {
   if (typeof html !== 'string') return '';
-  return DOMPurify.sanitize(html);
+  return sanitizeHtmlLib(html, {
+    allowedTags: sanitizeHtmlLib.defaults.allowedTags.concat([
+      'img', 'figure', 'figcaption', 'span', 'div', 'pre', 'mark',
+      'sub', 'sup', 'details', 'summary', 'colgroup', 'col',
+    ]),
+    allowedAttributes: {
+      ...sanitizeHtmlLib.defaults.allowedAttributes,
+      '*': ['class', 'id', 'style', 'title', 'lang', 'dir'],
+      img: ['src', 'srcset', 'alt', 'title', 'width', 'height', 'loading'],
+      a: ['href', 'name', 'target', 'rel', 'title'],
+      th: ['scope', 'colspan', 'rowspan', 'class', 'style'],
+      td: ['colspan', 'rowspan', 'class', 'style'],
+    },
+    allowedSchemes: ['http', 'https', 'mailto', 'data'],
+    allowedSchemesByTag: { img: ['http', 'https', 'data'] },
+  });
 }
