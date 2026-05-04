@@ -196,3 +196,22 @@ export interface FigureReference {
   cellIndex: number;
   outputIndex: number;
 }
+
+/**
+ * Quarto cross-reference kinds: figures, tables, equations, sections, listings.
+ * Mirrors the Quarto convention where each id is prefixed with its kind
+ * (e.g. `fig-foo`, `tbl-foo`, `eq-foo`, `sec-foo`, `lst-foo`).
+ */
+export type CrossRefKind = 'fig' | 'tbl' | 'eq' | 'sec' | 'lst';
+
+export interface CrossRefEntry {
+  kind: CrossRefKind;
+  id: string;
+  number: number;
+  caption?: string;
+}
+
+/**
+ * Notebook-level cross-reference index keyed by full id (e.g. `fig-foo`).
+ */
+export type CrossRefIndex = Map<string, CrossRefEntry>;

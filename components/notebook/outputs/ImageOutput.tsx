@@ -12,6 +12,7 @@ import React, { useEffect, useRef } from 'react';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import 'photoswipe/style.css';
 import type { QuartoCellOptions } from '@blog/notebook-parser/types';
+import { useCrossRefs } from '../NotebookContext';
 
 interface ImageOutputProps {
   data: Record<string, any>;
@@ -52,10 +53,22 @@ export function ImageOutput({ data, cellOptions = {}, cellIndex = 0, outputIndex
   }
 
   // Extract figure options
-  const caption = cellOptions['fig-cap'];
-  const altText = cellOptions['fig-alt'] || caption || 'Figure output';
+  const rawCaption = cellOptions['fig-cap'];
+  const altText = cellOptions['fig-alt'] || rawCaption || 'Figure output';
   const figWidth = cellOptions['fig-width'];
   const figHeight = cellOptions['fig-height'];
+
+  // Resolve figure cross-reference (if this cell carries a `fig-*` label)
+  const crossRefs = useCrossRefs();
+  const label = cellOptions.label;
+  const refEntry = label && crossRefs ? crossRefs.get(label) : undefined;
+  const figureId = refEntry?.kind === 'fig' ? refEntry.id : undefined;
+  const figureNumber = refEntry?.kind === 'fig' ? refEntry.number : undefined;
+  const caption = rawCaption
+    ? figureNumber !== undefined
+      ? `Figure ${figureNumber}: ${rawCaption}`
+      : rawCaption
+    : undefined;
 
   // Build style object for dimensions
   const imageStyle: React.CSSProperties = {};
@@ -103,8 +116,8 @@ export function ImageOutput({ data, cellOptions = {}, cellIndex = 0, outputIndex
   // For SVG, render directly (no lightbox)
   if (mimeType === 'image/svg+xml') {
     return (
-      <figure className="notebook-image-output my-4">
-        <div 
+      <figure id={figureId} className="notebook-image-output my-4 scroll-mt-24">
+        <div
           className="svg-container max-w-full overflow-auto"
           style={imageStyle}
           dangerouslySetInnerHTML={{ __html: imageData }}
@@ -122,7 +135,7 @@ export function ImageOutput({ data, cellOptions = {}, cellIndex = 0, outputIndex
   const src = `data:${mimeType};base64,${imageData}`;
 
   return (
-    <figure className="notebook-image-output my-4">
+    <figure id={figureId} className="notebook-image-output my-4 scroll-mt-24">
       <div id={galleryId}>
         <a
           href={src}

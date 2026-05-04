@@ -17,11 +17,13 @@ import remarkMath from 'remark-math';
 import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 import rehypeHighlight from 'rehype-highlight';
+import rehypeRaw from 'rehype-raw';
 import { languages } from '@/lib/highlight';
-import type { NotebookCell } from '@blog/notebook-parser/types';
+import type { NotebookCell, CrossRefIndex } from '@blog/notebook-parser/types';
 import { getCellSource } from '@blog/notebook-parser/utils';
 import { CalloutBlock, type CalloutType } from '../CalloutBlock';
 import { InteractiveTable } from '../InteractiveTable';
+import { useCrossRefs } from '../NotebookContext';
 import 'katex/dist/katex.min.css';
 
 interface MarkdownCellProps {
@@ -60,9 +62,72 @@ type ContentSegment =
   | { type: 'callout'; content: ParsedCallout }
   | { type: 'table'; content: ParsedTable };
 
+const REF_LABELS: Record<string, string> = {
+  fig: 'Figure',
+  tbl: 'Table',
+  eq: 'Equation',
+  sec: 'Section',
+  lst: 'Listing',
+};
+
+/**
+ * Apply Quarto-style cross-reference syntax before markdown parsing:
+ *
+ * - `## Heading {#sec-id}` -> strip the trailing `{#sec-id}` and remember the id
+ *   so the heading component can attach it.
+ * - `$$ ... $$ {#eq-id}` -> wrap with a `<span id="eq-id">` anchor and append
+ *   `\tag{N}` inside the math (rendered by KaTeX).
+ * - `@kind-id` -> `[Kind N](#kind-id)` markdown link, when the id resolves.
+ *
+ * @-references inside fenced or inline code will be replaced too — matching
+ * the limit of doing this purely on source text. Use a different prefix in
+ * code samples if that matters.
+ */
+function preprocessCrossRefs(
+  source: string,
+  crossRefs: CrossRefIndex | null,
+): { source: string; sectionIds: Map<string, string> } {
+  const sectionIds = new Map<string, string>();
+
+  let processed = source.replace(
+    /^(#{1,6}\s+)(.+?)\s+\{#(sec-[\w-]+)\}\s*$/gm,
+    (_, prefix, text, id) => {
+      sectionIds.set(text.trim(), id);
+      return `${prefix}${text}`;
+    },
+  );
+
+  processed = processed.replace(
+    /\$\$([\s\S]+?)\$\$\s*\{#(eq-[\w-]+)\}/g,
+    (_, math, id) => {
+      const entry = crossRefs?.get(id);
+      const tag = entry ? ` \\tag{${entry.number}}` : '';
+      const trimmed = math.replace(/\s+$/, '');
+      return `<span id="${id}" class="qref-eq-anchor"></span>\n\n$$${trimmed}${tag}\n$$`;
+    },
+  );
+
+  if (crossRefs) {
+    processed = processed.replace(
+      /(?<![`\w])@(fig|tbl|eq|sec|lst)-([\w-]+)/g,
+      (full, kind: string, slug: string) => {
+        const id = `${kind}-${slug}`;
+        const entry = crossRefs.get(id);
+        if (!entry) return full;
+        const label = REF_LABELS[kind];
+        const display =
+          kind === 'eq' ? `${label} (${entry.number})` : `${label} ${entry.number}`;
+        return `[${display}](#${id})`;
+      },
+    );
+  }
+
+  return { source: processed, sectionIds };
+}
+
 /**
  * Parse markdown content to extract tables, callouts, and regular markdown
- * 
+ *
  * This function processes markdown in order, extracting:
  * 1. GitHub-flavored markdown tables
  * 2. Quarto callout blocks
@@ -77,7 +142,7 @@ function parseMarkdownContent(markdown: string): {
   
   // First pass: extract callouts and tables
   // Regex to match Quarto callout blocks
-  const calloutRegex = /:::(?:\{\.callout-(note|warning|tip|important)(?:\s+collapse=["']?(true|false)["']?)?\})\s*\n([\s\S]*?):::/g;
+  const calloutRegex = /:::(?:\{\.callout-(note|warning|tip|important|caution)(?:\s+collapse=["']?(true|false)["']?)?\})\s*\n([\s\S]*?):::/g;
   
   // Regex to match GitHub-flavored markdown tables
   // Tables must have at least 2 lines: header and separator
@@ -198,42 +263,41 @@ function generateHeadingId(cellIndex: number, text: string): string {
  * - Syntax highlighting for code blocks
  */
 export function MarkdownCell({ cell, cellIndex }: MarkdownCellProps) {
-  const source = getCellSource(cell);
-  
-  // Create heading components with IDs
+  const rawSource = getCellSource(cell);
+  const crossRefs = useCrossRefs();
+  const { source, sectionIds } = preprocessCrossRefs(rawSource, crossRefs);
+
+  // Resolve a heading's id: prefer explicit `{#sec-x}` from the source,
+  // otherwise fall back to a stable text-derived id used by the TOC.
+  const resolveHeadingId = (text: string) => sectionIds.get(text.trim()) ?? generateHeadingId(cellIndex, text);
+
   const headingComponents = {
     h1: ({ node, children, ...props }: any) => {
       const text = String(children);
-      const id = generateHeadingId(cellIndex, text);
-      return <h1 id={id} {...props}>{children}</h1>;
+      return <h1 id={resolveHeadingId(text)} className="scroll-mt-24" {...props}>{children}</h1>;
     },
     h2: ({ node, children, ...props }: any) => {
       const text = String(children);
-      const id = generateHeadingId(cellIndex, text);
-      return <h2 id={id} {...props}>{children}</h2>;
+      return <h2 id={resolveHeadingId(text)} className="scroll-mt-24" {...props}>{children}</h2>;
     },
     h3: ({ node, children, ...props }: any) => {
       const text = String(children);
-      const id = generateHeadingId(cellIndex, text);
-      return <h3 id={id} {...props}>{children}</h3>;
+      return <h3 id={resolveHeadingId(text)} className="scroll-mt-24" {...props}>{children}</h3>;
     },
     h4: ({ node, children, ...props }: any) => {
       const text = String(children);
-      const id = generateHeadingId(cellIndex, text);
-      return <h4 id={id} {...props}>{children}</h4>;
+      return <h4 id={resolveHeadingId(text)} className="scroll-mt-24" {...props}>{children}</h4>;
     },
     h5: ({ node, children, ...props }: any) => {
       const text = String(children);
-      const id = generateHeadingId(cellIndex, text);
-      return <h5 id={id} {...props}>{children}</h5>;
+      return <h5 id={resolveHeadingId(text)} className="scroll-mt-24" {...props}>{children}</h5>;
     },
     h6: ({ node, children, ...props }: any) => {
       const text = String(children);
-      const id = generateHeadingId(cellIndex, text);
-      return <h6 id={id} {...props}>{children}</h6>;
+      return <h6 id={resolveHeadingId(text)} className="scroll-mt-24" {...props}>{children}</h6>;
     },
   };
-  
+
   // Parse markdown content for tables, callouts, and regular markdown
   const { hasSpecialContent, segments } = parseMarkdownContent(source);
 
@@ -243,7 +307,7 @@ export function MarkdownCell({ cell, cellIndex }: MarkdownCellProps) {
       <div className="notebook-markdown-cell prose prose-slate dark:prose-invert max-w-none">
         <ReactMarkdown
           remarkPlugins={[remarkMath, remarkGfm]}
-          rehypePlugins={[rehypeKatex, [rehypeHighlight, { languages }]]}
+          rehypePlugins={[rehypeRaw, rehypeKatex, [rehypeHighlight, { languages }]]}
           components={{
             // Custom heading rendering with IDs
             ...headingComponents,
@@ -323,7 +387,7 @@ export function MarkdownCell({ cell, cellIndex }: MarkdownCellProps) {
             <div key={`md-${index}`} className="prose prose-slate dark:prose-invert max-w-none">
               <ReactMarkdown
                 remarkPlugins={[remarkMath, remarkGfm]}
-                rehypePlugins={[rehypeKatex, [rehypeHighlight, { languages }]]}
+                rehypePlugins={[rehypeRaw, rehypeKatex, [rehypeHighlight, { languages }]]}
                 components={{
                   // Custom heading rendering with IDs
                   ...headingComponents,
@@ -409,7 +473,7 @@ export function MarkdownCell({ cell, cellIndex }: MarkdownCellProps) {
               <div className="prose prose-slate dark:prose-invert max-w-none prose-sm">
                 <ReactMarkdown
                   remarkPlugins={[remarkMath, remarkGfm]}
-                  rehypePlugins={[rehypeKatex, [rehypeHighlight, { languages }]]}
+                  rehypePlugins={[rehypeRaw, rehypeKatex, [rehypeHighlight, { languages }]]}
                 >
                   {callout.content}
                 </ReactMarkdown>

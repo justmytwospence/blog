@@ -15,6 +15,9 @@ import type {
   FigureReference,
   CellOutput,
   DisplayOutput,
+  CrossRefIndex,
+  CrossRefEntry,
+  CrossRefKind,
 } from './types';
 
 /**
@@ -277,6 +280,75 @@ export function extractFigureReferences(notebook: Notebook): FigureReference[] {
   });
   
   return references;
+}
+
+/**
+ * Build a notebook-wide cross-reference index in document order.
+ *
+ * - `fig-*` from code cells whose `label` starts with `fig-` and that produce an image output
+ * - `tbl-*` from code cells whose `label` starts with `tbl-`
+ * - `lst-*` from code cells whose `label` starts with `lst-`
+ * - `sec-*` from markdown headings of the form `## Title {#sec-id}`
+ * - `eq-*` from display math blocks of the form `$$ ... $$ {#eq-id}`
+ *
+ * Numbers are assigned per-kind in the order entries are encountered.
+ */
+export function buildCrossReferences(notebook: Notebook): CrossRefIndex {
+  const index: CrossRefIndex = new Map();
+  const counters: Record<CrossRefKind, number> = { fig: 0, tbl: 0, eq: 0, sec: 0, lst: 0 };
+
+  const add = (id: string, caption?: string) => {
+    const dash = id.indexOf('-');
+    if (dash <= 0) return;
+    const prefix = id.slice(0, dash);
+    if (prefix !== 'fig' && prefix !== 'tbl' && prefix !== 'eq' && prefix !== 'sec' && prefix !== 'lst') {
+      return;
+    }
+    if (index.has(id)) return;
+    const kind = prefix as CrossRefKind;
+    counters[kind] += 1;
+    index.set(id, { kind, id, number: counters[kind], caption });
+  };
+
+  notebook.cells.forEach((cell) => {
+    if (cell.cell_type === 'markdown') {
+      const source = getCellSource(cell);
+
+      // Sections: `## Title {#sec-id}`
+      const headingRe = /^#{1,6}\s+(.+?)\s+\{#(sec-[\w-]+)\}\s*$/gm;
+      let m: RegExpExecArray | null;
+      while ((m = headingRe.exec(source)) !== null) {
+        add(m[2], m[1].trim());
+      }
+
+      // Equations: `$$\n...\n$$ {#eq-id}`
+      const eqRe = /\$\$[\s\S]+?\$\$\s*\{#(eq-[\w-]+)\}/g;
+      while ((m = eqRe.exec(source)) !== null) {
+        add(m[1]);
+      }
+      return;
+    }
+
+    if (cell.cell_type !== 'code') return;
+    const opts = getCellOptions(cell);
+    const label = opts.label;
+    if (!label) return;
+
+    if (label.startsWith('fig-')) {
+      const hasImage = (cell.outputs ?? []).some((o) => {
+        if (o.output_type !== 'display_data' && o.output_type !== 'execute_result') return false;
+        const data = (o as DisplayOutput).data ?? {};
+        return 'image/png' in data || 'image/jpeg' in data || 'image/svg+xml' in data;
+      });
+      if (hasImage) add(label, opts['fig-cap']);
+    } else if (label.startsWith('tbl-')) {
+      add(label, opts['fig-cap']);
+    } else if (label.startsWith('lst-')) {
+      add(label);
+    }
+  });
+
+  return index;
 }
 
 /**

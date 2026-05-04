@@ -24,6 +24,9 @@ export type {
   ExtractedMetadata,
   TocEntry,
   FigureReference,
+  CrossRefKind,
+  CrossRefEntry,
+  CrossRefIndex,
 } from './types';
 
 // Export parser functions
@@ -44,5 +47,6 @@ export {
   generateCellId,
   getCellOptions,
   extractFigureReferences,
+  buildCrossReferences,
   sanitizeHtml,
 } from './utils';

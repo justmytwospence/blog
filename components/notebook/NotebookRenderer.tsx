@@ -14,12 +14,13 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import type { Notebook, ExtractedMetadata } from '@blog/notebook-parser/types';
-import { generateCellId, getNotebookLanguage, generateTableOfContents } from '@blog/notebook-parser/utils';
+import { generateCellId, getNotebookLanguage, generateTableOfContents, buildCrossReferences } from '@blog/notebook-parser/utils';
 import { CodeCell } from './cells/CodeCell';
 import { MarkdownCell } from './cells/MarkdownCell';
 import { CellErrorBoundary } from './errors/CellErrorBoundary';
 import { TableOfContents } from './TableOfContents';
 import { TocDrawer } from './TocDrawer';
+import { CrossRefProvider } from './NotebookContext';
 import { Eye, EyeOff, FileText } from 'lucide-react';
 
 interface NotebookRendererProps {
@@ -175,6 +176,9 @@ export function NotebookRenderer({ notebook, metadata }: NotebookRendererProps) 
   
   // Generate table of contents
   const tocEntries = generateTableOfContents(notebook);
+
+  // Build cross-reference index (figures, tables, equations, sections, listings)
+  const crossRefs = useMemo(() => buildCrossReferences(notebook), [notebook]);
   
   // Controls component (shared between layouts)
   const ControlsPanel = ({ className = '' }: { className?: string }) => (
@@ -217,7 +221,7 @@ export function NotebookRenderer({ notebook, metadata }: NotebookRendererProps) 
   );
   
   return (
-    <>
+    <CrossRefProvider value={crossRefs}>
       {/* Mobile: Bottom drawer for TOC and Controls (below md-toc breakpoint) */}
       <div className="md-toc:hidden">
         <TocDrawer 
@@ -310,6 +314,6 @@ export function NotebookRenderer({ notebook, metadata }: NotebookRendererProps) 
           </div>
         </aside>
       </div>
-    </>
+    </CrossRefProvider>
   );
 }

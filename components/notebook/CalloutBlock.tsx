@@ -10,7 +10,7 @@
 
 import React, { useState } from 'react';
 
-export type CalloutType = 'note' | 'warning' | 'tip' | 'important';
+export type CalloutType = 'note' | 'warning' | 'tip' | 'important' | 'caution';
 
 interface CalloutBlockProps {
   type: CalloutType;
@@ -33,6 +33,8 @@ function getCalloutIcon(type: CalloutType): string {
       return '💡';
     case 'important':
       return '❗';
+    case 'caution':
+      return '🛑';
     default:
       return '📝';
   }
@@ -51,6 +53,8 @@ function getDefaultTitle(type: CalloutType): string {
       return 'Tip';
     case 'important':
       return 'Important';
+    case 'caution':
+      return 'Caution';
     default:
       return 'Note';
   }
@@ -94,6 +98,12 @@ function getCalloutClasses(type: CalloutType): {
         container: `${baseClasses.container} bg-red-50 dark:bg-red-950 ${baseClasses.border} border-red-500`,
         header: `${baseClasses.header} text-red-900 dark:text-red-100`,
         border: 'border-red-500',
+      };
+    case 'caution':
+      return {
+        container: `${baseClasses.container} bg-orange-50 dark:bg-orange-950 ${baseClasses.border} border-orange-500`,
+        header: `${baseClasses.header} text-orange-900 dark:text-orange-100`,
+        border: 'border-orange-500',
       };
     default:
       return {
