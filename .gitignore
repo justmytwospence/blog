@@ -53,6 +53,10 @@ Thumbs.db
 .cache/
 .turbo/
 
+# Local agent worktrees
+/worktrees/
+/.claude/worktrees/
+
 # Python virtual environment
 .venv/
 venv/

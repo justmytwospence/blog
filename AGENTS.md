@@ -7,19 +7,29 @@ Non-discoverable operational context for AI coding agents. Everything here is so
 ```bash
 npm run dev          # Dev server at localhost:3000
 npm run build        # Production build — always verify changes build cleanly
+npm run lint         # ESLint flat config (eslint-config-next 16)
+npm run typecheck    # tsc --noEmit
 npm run test         # Vitest (--run mode)
-npm run lint         # ESLint via Next.js
 ```
+
+CI runs all four on every push and PR (`.github/workflows/ci.yml`).
 
 ## Gotchas
 
-- **Monorepo workspace**: This project uses npm workspaces. The notebook parser lives in `packages/notebook-parser/` as `@blog/notebook-parser`. Import from `@blog/notebook-parser`, `@blog/notebook-parser/types`, or `@blog/notebook-parser/utils` — not from `lib/notebook/`. Next.js `transpilePackages` compiles the raw TypeScript.
-- **ISR, not static export**: The site no longer uses `output: 'export'`. Most pages are statically generated at build time. Pages with external data (blogroll, reading, about) use ISR with `revalidate = 3600` to refresh hourly. No API routes, no `getServerSideProps` — still no server-only features except ISR. The `generateStaticParams()` requirement still applies for dynamic routes.
+- **npm workspaces**: Domain integrations live in `packages/`. Always import from the package name, never from internal paths or `lib/`. Next.js `transpilePackages` compiles the raw TypeScript.
+  - `@blog/notebook-parser` (+ `/types`, `/utils`) — Jupyter parsing, Quarto metadata, output utilities
+  - `@blog/hardcover` (+ `/types`) — Hardcover GraphQL client (reading list)
+  - `@blog/obsidian-md` — Obsidian markdown preprocessor
+  - `@blog/inoreader` — Inoreader RSS client (blogroll)
+- **ISR, not static export**: The site no longer uses `output: 'export'`. Most pages are statically generated at build time. Pages with external data (blogroll, reading, about) use ISR with `revalidate = 3600`. `/projects/[slug]` is server-rendered on demand to keep the Vercel cache small. The `generateStaticParams()` requirement still applies for dynamic SSG routes.
 - **Notebook metadata**: The first cell of `.ipynb` files must be a raw or markdown cell containing Quarto-style YAML frontmatter. If you create test notebooks, include this or metadata extraction silently returns empty.
+- **Notebook HTML sanitization**: Notebook HTML output is sanitized via `isomorphic-dompurify` inside `@blog/notebook-parser/utils#sanitizeHtml`. The function is SSR-safe.
 - **Concepts registry**: Components in `/components/concepts/index.ts` use `next/dynamic` with `ssr: false` because they rely on browser APIs (canvas, window). Don't switch to regular imports or the build breaks.
 - **Custom Tailwind breakpoints**: `md-toc` and `code-80` are project-specific breakpoints defined in `globals.css`, not standard Tailwind. Don't remove them — the TOC responsive layout depends on them.
 - **Syntax highlighting themes**: Dark uses VS Code Dark+ colors, light uses Solarized Light. Both are defined as CSS custom properties in `globals.css`. Don't add highlight.js theme CSS files — the theming is manual.
-- **Content parser coupling**: `lib/content.ts` handles blog, projects, concepts, and pages with shared parsing logic. Content type differences (e.g., concepts have `component` field, projects have `externalUrl`) are handled in the same functions — don't split into separate parsers without understanding the shared frontmatter pipeline.
+- **Per-page metadata titles**: `app/layout.tsx` sets a `'%s — Data Spencer'` title template. Per-page `metadata.title` exports just provide the page name (`'Blog'`, `'Projects'`, etc.); the template fills in the suffix.
+- **Content parser coupling**: `lib/content.ts` still handles blog, projects, and concepts with shared parsing logic. Content type differences (concepts have `component`, projects have `externalUrl`) are handled in the same functions — don't split into separate parsers without understanding the shared frontmatter pipeline. Reading-time math goes through one helper (`calculateReadingTime`) — reuse it, don't recompute.
+- **Lint rule downgrades**: React Compiler-style rules from `react-hooks` v6 (`refs`, `immutability`, `static-components`, `set-state-in-*`, `purity`) are downgraded to warnings in `eslint.config.mjs` because the existing canvas/concept components trip them harmlessly. `rules-of-hooks` is still an error.
 
 ## Polypane MCP
 
@@ -32,6 +42,7 @@ When connected to Polypane via Chrome DevTools MCP:
 ## Testing
 
 - All tests: `npm run test`
-- Package tests: `npm -w @blog/notebook-parser run test`
+- One workspace package: `npm -w @blog/notebook-parser run test` (or `-w @blog/hardcover`, etc.)
 - Single test file: `npx vitest run packages/notebook-parser/__tests__/parser.test.ts`
 - Notebook parser tests use fixture `.ipynb` files — if you add edge cases, add fixtures too.
+- React component tests are intentionally not wired up yet (vitest is `environment: 'node'`, no jsdom).

@@ -1,11 +1,18 @@
 import { getAllProjects } from '@/lib/content';
 import { ProjectCard } from '@/components/ProjectCard';
+import { PageContainer } from '@/components/PageContainer';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Projects',
+  description: 'Data science projects, analyses, and interactive applications.',
+};
 
 export default function ProjectsPage() {
   const projects = getAllProjects();
 
   return (
-    <main className="px-4 sm:px-6 lg:px-8 pt-4 pb-2 sm:py-8 max-w-7xl mx-auto">
+    <PageContainer width="wide">
       {/* Page header */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-[#d4d4d4]">
@@ -30,6 +37,6 @@ export default function ProjectsPage() {
           </p>
         </div>
       )}
-    </main>
+    </PageContainer>
   );
 }

@@ -1,97 +1,84 @@
 # Spencer's Blog & Portfolio
 
-A personal data science portfolio and blog built with Next.js 16, TypeScript, and Tailwind CSS v4. Statically exported. The key feature is rendering Jupyter notebooks (`.ipynb`) directly as interactive project pages with Quarto-compatible metadata support.
+A personal data science portfolio and blog built with **Next.js 16**, **React 19**, **TypeScript**, and **Tailwind CSS v4**. Hosted on Vercel as an ISR site.
+
+The headline feature is rendering Jupyter notebooks (`.ipynb`) directly as interactive project pages with Quarto-compatible metadata.
 
 ## Getting Started
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000
-npm run build    # Static export to /out
-npm run lint
-npm run test
+npm run dev          # http://localhost:3000
+npm run build        # Production build (.next/)
+npm run lint         # ESLint via eslint-config-next
+npm run typecheck    # tsc --noEmit
+npm run test         # Vitest
 ```
 
-## Content System
-
-All content lives in `/content`. Four types:
-
-### Blog Posts (`/content/blog/*.md`)
-
-Standard markdown with YAML frontmatter:
-
-```yaml
-title: "Post Title"
-date: "2025-01-01"
-categories: ["python", "ml"]
-description: "Short description for cards and SEO"
-featured: true  # Appears on homepage carousel
-```
-
-### Projects (`/content/projects/`)
-
-Three formats supported — pick one per project:
-
-- **Markdown** (`.md`): Same frontmatter as blog posts
-- **Notebook** (`.ipynb`): Jupyter notebook with Quarto-style YAML frontmatter in the first raw/markdown cell
-- **Webapp** (`.json`): Config file pointing to a standalone app (uses `externalUrl` field)
-
-### Concepts (`/content/concepts/*.md`)
-
-Interactive explainers. Each concept has:
-
-1. A markdown file with frontmatter including a `component` field
-2. A React component in `/components/concepts/` (must be `'use client'`, default export)
-
-Register new components in `/components/concepts/index.ts` with a dynamic import.
-
-### Pages (`/content/pages/*.md`)
-
-Static pages like About.
+CI (`.github/workflows/ci.yml`) runs lint, typecheck, test, and build on every push and pull request.
 
 ## Architecture
 
-### Notebook Rendering Pipeline
+### Rendering model
 
-The standout feature of this site. The pipeline:
+Most pages are statically prerendered at build time. Pages that pull live external data — `/blogroll`, `/blogroll.xml`, `/reading`, `/about` — use **ISR** with `revalidate = 3600` so the build never depends on flaky upstreams. `/projects/[slug]` is server-rendered on demand to keep the Vercel cache small.
 
-1. **Parse** (`lib/notebook/parser.ts`): Reads `.ipynb` JSON, normalizes cell sources
-2. **Validate** (`lib/notebook/validator.ts`): Ensures valid notebook structure
-3. **Extract metadata** (`lib/notebook/metadata.ts`): Pulls title/date/categories from Quarto-style YAML in the first cell
-4. **Render** (`components/notebook/NotebookRenderer.tsx`): Orchestrates all cells with visibility controls and responsive TOC
+### npm workspaces
 
-Supported output types: text, HTML, images, Plotly charts, Jupyter widgets, error tracebacks.
+Domain-specific code lives in standalone workspace packages so each can be tested and reused independently:
 
-Quarto cell options are respected: `echo`, `output`, `code-fold`, `fig-cap`, etc.
+| Package | Purpose |
+|---|---|
+| `@blog/notebook-parser` | Jupyter notebook parsing, validation, Quarto metadata extraction, output utilities (the "Quarto clone"). |
+| `@blog/hardcover` | Hardcover GraphQL client for the reading list. |
+| `@blog/obsidian-md` | Obsidian-flavored markdown preprocessor (wikilinks, image embeds, highlights). |
+| `@blog/inoreader` | Inoreader RSS client for the blogroll. |
 
-### App Routes
+Next.js `transpilePackages` compiles the raw TypeScript in each. Always import from the package name (`@blog/notebook-parser`), never from internal paths.
 
-| Route | Purpose |
-|-------|---------|
-| `/` | Homepage with featured content carousels |
-| `/blog` | Blog listing (timeline view) |
-| `/blog/[slug]` | Blog post |
-| `/blog/tags/[tag]` | Posts filtered by tag |
-| `/projects` | Project listing (grid view) |
-| `/projects/[slug]` | Project detail (markdown, notebook, webapp, or external link) |
-| `/concepts` | Concepts listing (grid view) |
-| `/concepts/[slug]` | Interactive concept page |
-| `/about` | About page |
-| `/feed.xml`, `/atom.xml` | RSS/Atom feeds |
+### Content (`/content`)
 
-All routes use `generateStaticParams()` for static generation.
+Four content types share a parser in `lib/content.ts`:
+
+- **Blog posts** (`/content/blog/*.md`) — markdown with YAML frontmatter (`title`, `date`, `categories`, `description`, `featured`).
+- **Projects** (`/content/projects/*`) — markdown, notebook (`.ipynb` with Quarto frontmatter in the first cell), webapp config (`.json`), or external link (markdown with `externalUrl`).
+- **Concepts** (`/content/concepts/*.md`) — interactive explainers backed by a React component registered in `components/concepts/index.ts` (dynamic import with `ssr: false` because they use canvas/window).
+- **Pages** — currently only `/about` and `/`, hardcoded TSX.
+
+### Routes
+
+| Route | Notes |
+|---|---|
+| `/` | Featured-content carousels |
+| `/blog`, `/blog/[slug]`, `/blog/tags/[tag]` | Blog listing, post, and tag filter |
+| `/projects`, `/projects/[slug]` | Project grid and detail (dynamic) |
+| `/concepts`, `/concepts/[slug]` | Interactive concept pages |
+| `/blogroll` (+ `/blogroll.xml`) | Curated RSS reading list (ISR, OPML-style RSS) |
+| `/reading` | Hardcover reading list (ISR) |
+| `/about` | About page (ISR — pulls "currently reading") |
+| `/feed.xml`, `/atom.xml` | RSS / Atom for blog posts |
 
 ### Styling
 
-- **Tailwind CSS v4** with `@tailwindcss/typography` for prose
-- **Dark mode** via `next-themes` (class strategy) — VS Code Dark+ for dark, Solarized Light for light
-- **Fonts**: Inter (UI) and Merriweather (prose)
-- **Custom breakpoints**: `md-toc` (640px) and `code-80` (80ch + sidebar width) for responsive TOC layout
+- **Tailwind v4** with `@tailwindcss/typography` for prose.
+- **Dark mode** via `next-themes` (class strategy). Dark = VS Code Dark+, light = Solarized Light. Both are CSS custom properties in `app/globals.css` — don't add highlight.js theme files.
+- **Fonts**: Inter (UI) and Merriweather (prose).
+- **Custom breakpoints**: `md-toc` and `code-80` are project-specific (defined in `globals.css`) for the responsive TOC.
 
-### Key Patterns
+### Conventions
 
-- Path alias `@/*` maps to project root
-- Server components by default; `'use client'` only where interactivity is needed
-- Shared `CodeBlock` component for both notebook cells and blog markdown
-- Three-layer error boundaries in notebook rendering (notebook → cell → output)
-- `useMediaQuery` hook in `/lib/hooks.ts` for responsive behavior
+- Path alias `@/*` → project root.
+- Server components by default; `'use client'` only where interactivity is needed.
+- Three-layer error boundaries in notebook rendering: notebook → cell → output.
+- Notebook HTML output is sanitized via `isomorphic-dompurify`.
+- Per-page `metadata.title` exports automatically combine with the `'%s — Data Spencer'` template in `app/layout.tsx`.
+
+## Testing
+
+```bash
+npm run test                          # all tests
+npm -w @blog/notebook-parser run test # one workspace
+npx vitest run path/to/file.test.ts   # single file
+```
+
+Vitest runs in `node` environment (no React/jsdom). React component tests are intentionally not wired up yet.

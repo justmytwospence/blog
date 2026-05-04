@@ -135,17 +135,7 @@ export function InteractiveTable({ markdown, tableId, disableSorting = false, in
   }, [tableData, indexColumns]);
 
   const rowsPerPage = 10;
-
-  if (!tableData) {
-    // Fallback: render as plain text if parsing fails
-    return (
-      <div className="my-4 p-4 bg-gray-50 dark:bg-stone-900 rounded border border-gray-300 dark:border-stone-700">
-        <pre className="text-sm whitespace-pre-wrap">{markdown}</pre>
-      </div>
-    );
-  }
-
-  const { headers, rows } = tableData;
+  const rows = tableData?.rows ?? [];
 
   // Sort rows if a column is selected
   const sortedRows = useMemo(() => {
@@ -174,7 +164,7 @@ export function InteractiveTable({ markdown, tableId, disableSorting = false, in
   // Paginate rows
   const totalPages = Math.ceil(sortedRows.length / rowsPerPage);
   const needsPagination = sortedRows.length > rowsPerPage;
-  
+
   const paginatedRows = useMemo(() => {
     if (!needsPagination) {
       return sortedRows;
@@ -183,6 +173,17 @@ export function InteractiveTable({ markdown, tableId, disableSorting = false, in
     const end = start + rowsPerPage;
     return sortedRows.slice(start, end);
   }, [sortedRows, currentPage, needsPagination]);
+
+  if (!tableData) {
+    // Fallback: render as plain text if parsing fails
+    return (
+      <div className="my-4 p-4 bg-gray-50 dark:bg-stone-900 rounded border border-gray-300 dark:border-stone-700">
+        <pre className="text-sm whitespace-pre-wrap">{markdown}</pre>
+      </div>
+    );
+  }
+
+  const { headers } = tableData;
 
   // Handle column header click for sorting
   const handleHeaderClick = (columnIndex: number) => {

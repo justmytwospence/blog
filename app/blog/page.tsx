@@ -1,11 +1,18 @@
 import { getAllBlogPosts } from '@/lib/content';
 import Link from 'next/link';
+import { PageContainer } from '@/components/PageContainer';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Blog',
+  description: 'Technical articles, insights, and tutorials on data science and machine learning.',
+};
 
 export default function BlogPage() {
   const posts = getAllBlogPosts();
 
   return (
-    <main className="px-4 sm:px-6 lg:px-8 pt-4 pb-2 sm:py-8 max-w-3xl mx-auto">
+    <PageContainer width="prose">
       {/* Page header */}
       <div className="mb-12">
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-[#d4d4d4]">
@@ -72,6 +79,6 @@ export default function BlogPage() {
           </p>
         </div>
       )}
-    </main>
+    </PageContainer>
   );
 }

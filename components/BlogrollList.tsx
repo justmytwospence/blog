@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { BlogrollItem } from '@/lib/inoreader';
+import type { BlogrollItem } from '@blog/inoreader';
 
 function getDomain(url: string): string {
   try {

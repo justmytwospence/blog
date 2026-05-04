@@ -7,6 +7,8 @@
 
 import type { HardcoverBook, UserBook, ReadingListData } from './types';
 
+export type { HardcoverBook, UserBook, ReadingListData };
+
 // ─── Constants ─────────────────────────────────────────────────────
 
 const HARDCOVER_GRAPHQL_ENDPOINT = 'https://api.hardcover.app/v1/graphql';

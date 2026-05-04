@@ -1,21 +1,29 @@
 {
   "permissions": {
     "allow": [
-      "Bash(xargs:*)",
       "Bash(npm run build:*)",
-      "Bash(npm run lint:*)",
-      "Bash(npx next lint:*)",
-      "Bash(node_modules/.bin/next lint:*)",
-      "Bash(npx vitest:*)",
       "Bash(npm run dev:*)",
-      "Bash(grep:*)",
-      "WebSearch",
-      "WebFetch(domain:www.npmjs.com)",
-      "WebFetch(domain:github.com)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm run typecheck:*)",
+      "Bash(npm test:*)",
       "Bash(npm install:*)",
+      "Bash(npm -w:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx vitest:*)",
       "Bash(git diff:*)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(grep:*)",
+      "Bash(xargs:*)",
+      "Bash(chmod +x:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.npmjs.com)",
       "WebFetch(domain:polypane.app)",
-      "Bash(chmod +x:*)"
+      "WebFetch(domain:nextjs.org)",
+      "WebFetch(domain:vercel.com)"
     ]
   }
 }

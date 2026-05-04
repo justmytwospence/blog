@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "lib": ["esnext"],
+    "types": ["vitest/globals", "node"]
+  },
+  "include": ["src/**/*.ts", "__tests__/**/*.ts"]
+}

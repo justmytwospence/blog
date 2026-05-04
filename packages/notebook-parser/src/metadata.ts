@@ -185,17 +185,7 @@ export function parseQuartoFrontmatter(cell: NotebookCell): Partial<ExtractedMet
     if (Object.keys(execute).length > 0) {
       metadata.execute = execute;
     }
-    
-    // Debug logging
-    if (typeof window !== 'undefined') {
-      console.log('[metadata.ts] Parsed frontmatter:', {
-        rawData: data,
-        executeSource: executeSource,
-        parsedExecute: execute,
-        fullMetadata: metadata
-      });
-    }
-    
+
     return metadata;
   } catch (error) {
     // If YAML parsing fails, return null

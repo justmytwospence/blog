@@ -1,14 +1,21 @@
 import Image from 'next/image';
-import { getCurrentlyReading } from '@/lib/hardcover';
+import { getCurrentlyReading } from '@blog/hardcover';
 import { CurrentlyReadingWidget } from '@/components/CurrentlyReadingWidget';
+import { PageContainer } from '@/components/PageContainer';
+import type { Metadata } from 'next';
 
 export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: 'About',
+  description: 'About Spencer Boucher — data scientist, cyclist, and reader.',
+};
 
 export default async function AboutPage() {
   const currentlyReading = await getCurrentlyReading(3);
 
   return (
-    <main className="px-4 sm:px-6 lg:px-8 pt-4 pb-2 sm:py-12 max-w-7xl mx-auto">
+    <PageContainer width="wide" className="sm:py-12">
       {/* Hero Section */}
       <div className="mb-12">
         <div className="flex items-start justify-between mb-6 flex-wrap gap-4">
@@ -264,6 +271,6 @@ export default async function AboutPage() {
       </div>
 
       <CurrentlyReadingWidget books={currentlyReading} />
-    </main>
+    </PageContainer>
   );
 }

@@ -6,6 +6,7 @@
  * table of contents generation, and HTML sanitization.
  */
 
+import sanitizeHtmlLib from 'sanitize-html';
 import type {
   Notebook,
   NotebookCell,
@@ -279,38 +280,30 @@ export function extractFigureReferences(notebook: Notebook): FigureReference[] {
 }
 
 /**
- * Sanitize HTML content to prevent XSS
- * 
- * Uses DOMPurify to remove dangerous elements and attributes from HTML.
- * This is a placeholder implementation that should be replaced with actual
- * DOMPurify integration in the browser environment.
- * 
- * @param html - HTML string to sanitize
- * @returns Sanitized HTML string
+ * Sanitize HTML content to prevent XSS.
+ *
+ * Uses sanitize-html (pure JS, no jsdom) so the same call works under
+ * Next.js SSR and in the browser without ESM/CJS interop issues. The
+ * allowlist is roomy enough for typical Jupyter HTML output (tables,
+ * formatted text, images) while stripping <script>, event handlers,
+ * and javascript: URLs.
  */
 export function sanitizeHtml(html: string): string {
-  // In a real implementation, this would use DOMPurify:
-  // import DOMPurify from 'dompurify';
-  // return DOMPurify.sanitize(html);
-  
-  // Ensure html is a string
-  if (typeof html !== 'string') {
-    return String(html || '');
-  }
-  
-  // For now, provide a basic implementation that removes script tags
-  // This is NOT production-ready and should be replaced with DOMPurify
-  let sanitized = html;
-  
-  // Remove script tags
-  sanitized = sanitized.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-  
-  // Remove event handlers (onclick, onerror, etc.)
-  sanitized = sanitized.replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, '');
-  sanitized = sanitized.replace(/\s*on\w+\s*=\s*[^\s>]*/gi, '');
-  
-  // Remove javascript: protocol
-  sanitized = sanitized.replace(/javascript:/gi, '');
-  
-  return sanitized;
+  if (typeof html !== 'string') return '';
+  return sanitizeHtmlLib(html, {
+    allowedTags: sanitizeHtmlLib.defaults.allowedTags.concat([
+      'img', 'figure', 'figcaption', 'span', 'div', 'pre', 'mark',
+      'sub', 'sup', 'details', 'summary', 'colgroup', 'col',
+    ]),
+    allowedAttributes: {
+      ...sanitizeHtmlLib.defaults.allowedAttributes,
+      '*': ['class', 'id', 'style', 'title', 'lang', 'dir'],
+      img: ['src', 'srcset', 'alt', 'title', 'width', 'height', 'loading'],
+      a: ['href', 'name', 'target', 'rel', 'title'],
+      th: ['scope', 'colspan', 'rowspan', 'class', 'style'],
+      td: ['colspan', 'rowspan', 'class', 'style'],
+    },
+    allowedSchemes: ['http', 'https', 'mailto', 'data'],
+    allowedSchemesByTag: { img: ['http', 'https', 'data'] },
+  });
 }

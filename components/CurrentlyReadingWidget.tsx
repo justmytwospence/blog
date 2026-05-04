@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { UserBook } from '@/lib/types';
+import type { UserBook } from '@blog/hardcover/types';
 import { BookCard } from '@/components/BookCard';
 
 interface CurrentlyReadingWidgetProps {

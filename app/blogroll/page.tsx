@@ -1,23 +1,24 @@
-import { getBlogrollItems } from '@/lib/inoreader';
+import { getBlogrollItems } from '@blog/inoreader';
 import { BlogrollList } from '@/components/BlogrollList';
+import { PageContainer } from '@/components/PageContainer';
 import type { Metadata } from 'next';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Blogroll',
-  description: "Articles and links I've found interesting, curated from my RSS reader.",
+  description: "Things I've read recently and thought worth sharing — articles, posts, and links from across the web.",
 };
 
 export default async function BlogrollPage() {
   const items = await getBlogrollItems();
 
   return (
-    <main className="px-4 sm:px-6 lg:px-8 pt-4 pb-2 sm:py-8 max-w-3xl mx-auto">
+    <PageContainer width="prose">
       <div className="mb-12">
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-[#d4d4d4]">Blogroll</h1>
         <p className="text-lg text-gray-600 dark:text-[#cccccc]">
-          Articles and links I've found interesting, curated from my RSS reader.{' '}
+          Things I&rsquo;ve read recently and thought worth sharing.{' '}
           <a
             href="/blogroll.xml"
             className="text-blue-600 dark:text-blue-400 hover:underline"
@@ -36,6 +37,6 @@ export default async function BlogrollPage() {
           </p>
         </div>
       )}
-    </main>
+    </PageContainer>
   );
 }

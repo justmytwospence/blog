@@ -2,13 +2,7 @@
  * Type definitions for the portfolio website
  */
 
-/**
- * Static page content (home, about, contact)
- */
-export interface PageContent {
-  title: string;
-  content: string; // Markdown content
-}
+import type { Notebook } from '@blog/notebook-parser/types';
 
 /**
  * Base metadata for all content items
@@ -53,7 +47,7 @@ export interface MarkdownContent {
  */
 export interface NotebookContent {
   type: 'notebook';
-  notebookData: any; // Raw ipynb JSON object
+  notebookData: Notebook;
   metadata: ContentMetadata;
 }
 
@@ -100,19 +94,6 @@ export interface Concept extends ContentMetadata {
 export type Content = MarkdownContent | NotebookContent | WebappContent | LinkContent | ConceptContent;
 
 /**
- * Frontmatter structure for markdown files
- */
-export interface Frontmatter {
-  title: string;
-  date: string;
-  categories?: string[];
-  description?: string;
-  featured?: boolean;
-  externalUrl?: string;
-  [key: string]: any;
-}
-
-/**
  * Webapp configuration file structure
  */
 export interface WebappConfig {
@@ -125,28 +106,3 @@ export interface WebappConfig {
   featured?: boolean;
 }
 
-// ─── Hardcover / Reading List Types ────────────────────────────────
-
-export interface HardcoverBook {
-  title: string;
-  slug: string;
-  description: string | null;
-  pages: number | null;
-  imageUrl: string | null;
-  authors: string[];
-  hardcoverUrl: string;
-  isFiction: boolean;
-}
-
-export interface UserBook {
-  book: HardcoverBook;
-  rating: number | null;
-  dateAdded: string | null;
-}
-
-export interface ReadingListData {
-  currentlyReading: UserBook[];
-  wantToRead: UserBook[];
-  recentlyRead: UserBook[];
-  fetchedAt: string;
-}

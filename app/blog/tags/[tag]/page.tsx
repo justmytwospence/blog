@@ -1,4 +1,5 @@
 import { getAllBlogPosts } from '@/lib/content';
+import { PageContainer } from '@/components/PageContainer';
 import Link from 'next/link';
 
 // Generate static params for all tags
@@ -31,7 +32,7 @@ export default async function BlogTagPage({
   );
 
   return (
-    <main className="px-4 sm:px-6 lg:px-8 pt-4 pb-2 sm:py-8 max-w-3xl mx-auto">
+    <PageContainer width="prose">
       {/* Page header */}
       <div className="mb-12">
         <Link 
@@ -105,6 +106,6 @@ export default async function BlogTagPage({
           </p>
         </div>
       )}
-    </main>
+    </PageContainer>
   );
 }
