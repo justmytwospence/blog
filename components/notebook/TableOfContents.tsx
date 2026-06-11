@@ -15,8 +15,9 @@
 
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import type { TocEntry } from '@blog/notebook-parser/types';
+import { useTocNavigation, formatTocMarkdown } from './useTocNavigation';
 
 interface TableOfContentsProps {
   /** Table of contents entries generated from notebook headings */
@@ -27,46 +28,6 @@ interface TableOfContentsProps {
   variant?: 'sidebar' | 'header';
   /** Callback when navigating (for closing header TOC) */
   onNavigate?: () => void;
-}
-
-/**
- * Format markdown text (bold and italic) to JSX
- */
-function formatMarkdown(text: string): React.ReactNode {
-  // Split by bold (**text**)
-  const parts: React.ReactNode[] = [];
-  const remaining = text;
-  let key = 0;
-  
-  // Process bold and italic patterns
-  const boldPattern = /\*\*(.+?)\*\*/g;
-  const italicPattern = /\*(.+?)\*/g;
-  
-  // First pass: handle bold
-  const boldParts = remaining.split(boldPattern);
-  
-  for (let i = 0; i < boldParts.length; i++) {
-    if (i % 2 === 0) {
-      // Not bold - check for italic
-      const italicParts = boldParts[i].split(italicPattern);
-      for (let j = 0; j < italicParts.length; j++) {
-        if (j % 2 === 0) {
-          // Plain text
-          if (italicParts[j]) {
-            parts.push(italicParts[j]);
-          }
-        } else {
-          // Italic
-          parts.push(<em key={`em-${key++}`}>{italicParts[j]}</em>);
-        }
-      }
-    } else {
-      // Bold text
-      parts.push(<strong key={`strong-${key++}`}>{boldParts[i]}</strong>);
-    }
-  }
-  
-  return parts.length > 0 ? parts : text;
 }
 
 /**
@@ -129,7 +90,7 @@ function TocEntryItem({
           onClick={(e) => e.preventDefault()}
           className="flex-1 text-sm leading-tight"
         >
-          {formatMarkdown(entry.text)}
+          {formatTocMarkdown(entry.text)}
         </a>
       </div>
       {hasChildren && !isCollapsed && (
@@ -162,113 +123,10 @@ function TocEntryItem({
  * - Sticky positioning on large screens
  */
 export function TableOfContents({ entries, className = '', variant = 'sidebar', onNavigate }: TableOfContentsProps) {
-  const [activeId, setActiveId] = useState<string | null>(null);
-  const [collapsedIds, setCollapsedIds] = useState<Set<string>>(new Set());
-
-  /**
-   * Toggle collapse state for a TOC entry
-   */
-  const handleToggleCollapse = useCallback((id: string) => {
-    setCollapsedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
-      return next;
-    });
-  }, []);
-
-  /**
-   * Navigate to a heading with smooth scroll
-   * Dynamically accounts for fixed navbar height + padding
-   */
-  const handleNavigate = useCallback((id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      // Get the navbar height dynamically
-      const navbar = document.querySelector('nav');
-      const navbarHeight = navbar ? navbar.offsetHeight : 65;
-      const padding = 20; // Additional padding for breathing room
-      const offset = navbarHeight + padding;
-      
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-      
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-      
-      // Update URL hash without triggering scroll
-      window.history.pushState(null, '', `#${id}`);
-      
-      // Call onNavigate callback if provided (for closing header TOC)
-      onNavigate?.();
-    }
-  }, [onNavigate]);
-
-  /**
-   * Track scroll position and highlight current section
-   */
-  useEffect(() => {
-    // Collect all heading IDs in order
-    const headingIds: string[] = [];
-    const collectIds = (entries: TocEntry[]) => {
-      entries.forEach((entry) => {
-        headingIds.push(entry.id);
-        if (entry.children.length > 0) {
-          collectIds(entry.children);
-        }
-      });
-    };
-    collectIds(entries);
-
-    if (headingIds.length === 0) {
-      return;
-    }
-
-    /**
-     * Find the currently visible heading based on scroll position
-     */
-    const updateActiveHeading = () => {
-      // Get all heading elements
-      const headingElements = headingIds
-        .map((id) => document.getElementById(id))
-        .filter((el): el is HTMLElement => el !== null);
-
-      if (headingElements.length === 0) {
-        return;
-      }
-
-      // Find the heading that is currently in view
-      // We consider a heading "active" if it's above the middle of the viewport
-      const scrollPosition = window.scrollY + window.innerHeight / 3;
-
-      let currentId = headingIds[0];
-      for (let i = 0; i < headingElements.length; i++) {
-        const element = headingElements[i];
-        if (element.offsetTop <= scrollPosition) {
-          currentId = headingIds[i];
-        } else {
-          break;
-        }
-      }
-
-      setActiveId(currentId);
-    };
-
-    // Update on scroll
-    window.addEventListener('scroll', updateActiveHeading, { passive: true });
-    
-    // Initial update
-    updateActiveHeading();
-
-    return () => {
-      window.removeEventListener('scroll', updateActiveHeading);
-    };
-  }, [entries]);
+  const { activeId, collapsedIds, toggleCollapse, navigate } = useTocNavigation(
+    entries,
+    onNavigate,
+  );
 
   // Don't render if no entries
   if (entries.length === 0) {
@@ -300,8 +158,8 @@ export function TableOfContents({ entries, className = '', variant = 'sidebar', 
               entry={entry}
               activeId={activeId}
               collapsedIds={collapsedIds}
-              onToggleCollapse={handleToggleCollapse}
-              onNavigate={handleNavigate}
+              onToggleCollapse={toggleCollapse}
+              onNavigate={navigate}
             />
           ))}
         </ul>
