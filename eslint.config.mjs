@@ -9,6 +9,7 @@ export default [
       'out/**',
       'node_modules/**',
       'worktrees/**',
+      '.venv/**',
       '.claude/**',
       '.vercel/**',
       'packages/*/dist/**',
