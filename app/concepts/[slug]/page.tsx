@@ -1,5 +1,5 @@
 import { getAllConcepts, getConceptBySlug } from '@/lib/content';
-import ReactMarkdown from 'react-markdown';
+import { ArticleMarkdown } from '@/components/ArticleMarkdown';
 import { ConceptLoader } from '@/components/concepts/ConceptLoader';
 import { PageContainer } from '@/components/PageContainer';
 import { notFound } from 'next/navigation';
@@ -82,7 +82,7 @@ export default async function ConceptDetailPage({
 
         {content.content.trim() && (
           <article className="prose dark:prose-invert max-w-none mb-8">
-            <ReactMarkdown>{content.content}</ReactMarkdown>
+            <ArticleMarkdown content={content.content} />
           </article>
         )}
 

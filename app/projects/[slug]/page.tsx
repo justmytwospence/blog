@@ -1,7 +1,5 @@
 import { getAllProjects, getProjectBySlug } from '@/lib/content';
-import ReactMarkdown from 'react-markdown';
-import rehypeHighlight from 'rehype-highlight';
-import { languages } from '@/lib/highlight';
+import { ArticleMarkdown } from '@/components/ArticleMarkdown';
 import { NotebookRenderer } from '@/components/notebook/NotebookRenderer';
 import { NotebookErrorBoundary } from '@/components/notebook/errors/NotebookErrorBoundary';
 import { PageContainer } from '@/components/PageContainer';
@@ -129,9 +127,7 @@ export default async function ProjectDetailPage({
         {/* Render markdown content if available */}
         {(content.type === 'markdown' || content.type === 'link') && content.content && (
           <article className="prose dark:prose-invert max-w-none mt-12">
-            <ReactMarkdown rehypePlugins={[[rehypeHighlight, { languages }]]}>
-              {content.content}
-            </ReactMarkdown>
+            <ArticleMarkdown content={content.content} />
           </article>
         )}
       </PageContainer>
@@ -142,43 +138,40 @@ export default async function ProjectDetailPage({
     return (
       <PageContainer width="prose">
         <article className="prose dark:prose-invert max-w-none">
-          <ReactMarkdown
-            rehypePlugins={[[rehypeHighlight, { languages }]]}
-            components={{
-              h1: ({ node, children, ...props }) => (
-                <>
-                  <div className="flex items-center gap-2 mb-3 not-prose">
-                    <span className="text-xs px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-medium">
-                      Article
-                    </span>
-                    <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">
-                      {formatDate(content.metadata.date)}
-                    </span>
+          <ArticleMarkdown
+            content={content.content}
+            beforeTitle={
+              <div className="flex items-center gap-2 mb-3 not-prose">
+                <span className="text-xs px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-medium">
+                  Article
+                </span>
+                <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">
+                  {formatDate(content.metadata.date)}
+                </span>
+              </div>
+            }
+            afterTitle={
+              <>
+                {content.metadata.description && (
+                  <p className="lead text-lg text-gray-600 dark:text-[#cccccc] not-prose mb-4">
+                    {content.metadata.description}
+                  </p>
+                )}
+                {content.metadata.categories && content.metadata.categories.length > 0 && (
+                  <div className="flex flex-wrap gap-2 not-prose mb-8">
+                    {content.metadata.categories.map((category) => (
+                      <span
+                        key={category}
+                        className="text-sm px-3 py-1 rounded bg-gray-100 dark:bg-[#3a3d41] text-gray-700 dark:text-[#cccccc]"
+                      >
+                        {category}
+                      </span>
+                    ))}
                   </div>
-                  <h1 {...props}>{children}</h1>
-                  {content.metadata.description && (
-                    <p className="lead text-lg text-gray-600 dark:text-[#cccccc] not-prose mb-4">
-                      {content.metadata.description}
-                    </p>
-                  )}
-                  {content.metadata.categories && content.metadata.categories.length > 0 && (
-                    <div className="flex flex-wrap gap-2 not-prose mb-8">
-                      {content.metadata.categories.map((category) => (
-                        <span
-                          key={category}
-                          className="text-sm px-3 py-1 rounded bg-gray-100 dark:bg-[#3a3d41] text-gray-700 dark:text-[#cccccc]"
-                        >
-                          {category}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </>
-              ),
-            }}
-          >
-            {content.content}
-          </ReactMarkdown>
+                )}
+              </>
+            }
+          />
         </article>
       </PageContainer>
     );
