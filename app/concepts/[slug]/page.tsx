@@ -26,6 +26,13 @@ export async function generateMetadata({
   return {
     title: content.metadata.title,
     description: content.metadata.description,
+    alternates: { canonical: `/concepts/${slug}` },
+    openGraph: {
+      title: content.metadata.title,
+      description: content.metadata.description,
+      url: `/concepts/${slug}`,
+      type: 'website',
+    },
   };
 }
 

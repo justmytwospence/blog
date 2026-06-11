@@ -32,6 +32,14 @@ export async function generateMetadata({
   return {
     title: content.metadata.title,
     description: content.metadata.description,
+    alternates: { canonical: `/projects/${slug}` },
+    openGraph: {
+      title: content.metadata.title,
+      description: content.metadata.description,
+      url: `/projects/${slug}`,
+      type: 'article',
+      publishedTime: content.metadata.date,
+    },
   };
 }
 
