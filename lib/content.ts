@@ -25,6 +25,38 @@ function calculateReadingTime(content: string): number {
   return Math.max(1, Math.ceil(wordCount / WORDS_PER_MINUTE));
 }
 
+interface CommonFrontmatter {
+  title?: unknown;
+  date?: unknown;
+  categories?: unknown;
+  tags?: unknown;
+  description?: unknown;
+  featured?: unknown;
+}
+
+// gray-matter parses unquoted YAML dates as Date objects at UTC midnight,
+// so the YYYY-MM-DD slice round-trips the value as written.
+function normalizeDate(date: unknown): string {
+  if (date instanceof Date) return date.toISOString().slice(0, 10);
+  if (date) return String(date);
+  return new Date().toISOString();
+}
+
+/**
+ * Map the frontmatter fields shared by every content type
+ * (blog, project, concept, webapp config).
+ */
+function mapCommonMetadata(data: CommonFrontmatter, slug: string) {
+  return {
+    slug,
+    title: data.title ? String(data.title) : slug,
+    date: normalizeDate(data.date),
+    categories: (data.categories ?? data.tags ?? []) as string[],
+    description: data.description ? String(data.description) : '',
+    featured: Boolean(data.featured),
+  };
+}
+
 /**
  * Get all projects sorted by date (newest first)
  */
@@ -59,13 +91,8 @@ export function getAllProjects(): Project[] {
         
         projects.push({
           category: 'project',
-          slug,
           type: data.externalUrl ? 'link' : 'markdown',
-          title: data.title || slug,
-          date: data.date || new Date().toISOString(),
-          categories: data.categories || [],
-          description: data.description || '',
-          featured: data.featured || false,
+          ...mapCommonMetadata(data, slug),
           externalUrl: data.externalUrl,
         });
       } else if (file.endsWith('.ipynb')) {
@@ -92,13 +119,8 @@ export function getAllProjects(): Project[] {
         
         projects.push({
           category: 'project',
-          slug,
           type: 'webapp',
-          title: config.title || slug,
-          date: config.date || new Date().toISOString(),
-          categories: config.categories || [],
-          description: config.description || '',
-          featured: config.featured || false,
+          ...mapCommonMetadata(config, slug),
         });
       }
     } catch (error) {
@@ -138,29 +160,19 @@ export function getProjectBySlug(slug: string): Content | null {
             type: 'link',
             content,
             metadata: {
-              slug,
               type: 'link',
-              title: data.title || slug,
-              date: data.date || new Date().toISOString(),
-              categories: data.categories || [],
-              description: data.description || '',
-              featured: data.featured || false,
+              ...mapCommonMetadata(data, slug),
               externalUrl: data.externalUrl,
             },
           };
         }
-        
+
         return {
           type: 'markdown',
           content,
           metadata: {
-            slug,
             type: 'markdown',
-            title: data.title || slug,
-            date: data.date || new Date().toISOString(),
-            categories: data.categories || [],
-            description: data.description || '',
-            featured: data.featured || false,
+            ...mapCommonMetadata(data, slug),
             externalUrl: data.externalUrl,
           },
         };
@@ -192,13 +204,8 @@ export function getProjectBySlug(slug: string): Content | null {
           url: config.url,
           height: config.height || '800px',
           metadata: {
-            slug,
             type: 'webapp',
-            title: config.title || slug,
-            date: config.date || new Date().toISOString(),
-            categories: config.categories || [],
-            description: config.description || '',
-            featured: config.featured || false,
+            ...mapCommonMetadata(config, slug),
           },
         };
       }
@@ -229,13 +236,8 @@ export function getAllBlogPosts(): BlogPost[] {
 
       posts.push({
         category: 'blog',
-        slug,
         type: 'markdown',
-        title: data.title || slug,
-        date: data.date || new Date().toISOString(),
-        categories: data.categories || data.tags || [],
-        description: data.description || '',
-        featured: data.featured || false,
+        ...mapCommonMetadata(data, slug),
         readingTime: calculateReadingTime(content),
       });
     } catch (error) {
@@ -265,13 +267,8 @@ export function getBlogPostBySlug(slug: string): MarkdownContent | null {
     type: 'markdown',
     content: preprocessObsidian(content, slug),
     metadata: {
-      slug,
       type: 'markdown',
-      title: data.title || slug,
-      date: data.date || new Date().toISOString(),
-      categories: data.categories || data.tags || [],
-      description: data.description || '',
-      featured: data.featured || false,
+      ...mapCommonMetadata(data, slug),
     },
   };
 }
@@ -299,13 +296,8 @@ export function getAllConcepts(): Concept[] {
 
       concepts.push({
         category: 'concept',
-        slug,
         type: 'component',
-        title: data.title || slug,
-        date: data.date || new Date().toISOString(),
-        categories: data.categories || [],
-        description: data.description || '',
-        featured: data.featured || false,
+        ...mapCommonMetadata(data, slug),
         component: data.component || slug,
       });
     } catch (error) {
@@ -334,13 +326,8 @@ export function getConceptBySlug(slug: string): ConceptContent | null {
     content,
     component: data.component || slug,
     metadata: {
-      slug,
       type: 'component',
-      title: data.title || slug,
-      date: data.date || new Date().toISOString(),
-      categories: data.categories || [],
-      description: data.description || '',
-      featured: data.featured || false,
+      ...mapCommonMetadata(data, slug),
     },
   };
 }
