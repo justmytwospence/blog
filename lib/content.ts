@@ -114,9 +114,9 @@ export function getAllProjects(): Project[] {
 /**
  * Get project content by slug
  */
-export function getProjectBySlug(slug: string): Content {
+export function getProjectBySlug(slug: string): Content | null {
   if (!fs.existsSync(PROJECTS_DIR)) {
-    throw new Error('Projects directory not found');
+    return null;
   }
   
   // Try different file extensions
@@ -205,7 +205,7 @@ export function getProjectBySlug(slug: string): Content {
     }
   }
   
-  throw new Error(`Project not found: ${slug}`);
+  return null;
 }
 
 /**
@@ -251,11 +251,11 @@ export function getAllBlogPosts(): BlogPost[] {
 /**
  * Get blog post content by slug
  */
-export function getBlogPostBySlug(slug: string): MarkdownContent {
+export function getBlogPostBySlug(slug: string): MarkdownContent | null {
   const filePath = path.join(BLOG_DIR, `${slug}.md`);
-  
+
   if (!fs.existsSync(filePath)) {
-    throw new Error(`Blog post not found: ${slug}`);
+    return null;
   }
   
   const fileContents = fs.readFileSync(filePath, 'utf8');
@@ -319,11 +319,11 @@ export function getAllConcepts(): Concept[] {
 /**
  * Get concept content by slug
  */
-export function getConceptBySlug(slug: string): ConceptContent {
+export function getConceptBySlug(slug: string): ConceptContent | null {
   const filePath = path.join(CONCEPTS_DIR, `${slug}.md`);
 
   if (!fs.existsSync(filePath)) {
-    throw new Error(`Concept not found: ${slug}`);
+    return null;
   }
 
   const fileContents = fs.readFileSync(filePath, 'utf8');

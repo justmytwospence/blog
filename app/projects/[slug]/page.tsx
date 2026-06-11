@@ -6,6 +6,8 @@ import { NotebookRenderer } from '@/components/notebook/NotebookRenderer';
 import { NotebookErrorBoundary } from '@/components/notebook/errors/NotebookErrorBoundary';
 import { PageContainer } from '@/components/PageContainer';
 import { extractMetadata } from '@blog/notebook-parser';
+import { notFound } from 'next/navigation';
+import { formatDate } from '@/lib/format';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,6 +27,7 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const content = getProjectBySlug(slug);
+  if (!content) notFound();
 
   return {
     title: content.metadata.title,
@@ -39,6 +42,7 @@ export default async function ProjectDetailPage({
 }) {
   const { slug } = await params;
   const content = getProjectBySlug(slug);
+  if (!content) notFound();
 
   // External link projects
   if (content.type === 'link' || content.metadata.externalUrl) {
@@ -49,11 +53,7 @@ export default async function ProjectDetailPage({
             External Project
           </span>
           <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">
-            {new Date(content.metadata.date).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
+            {formatDate(content.metadata.date)}
           </span>
         </div>
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">
@@ -144,11 +144,7 @@ export default async function ProjectDetailPage({
                       Article
                     </span>
                     <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">
-                      {new Date(content.metadata.date).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
+                      {formatDate(content.metadata.date)}
                     </span>
                   </div>
                   <h1 {...props}>{children}</h1>

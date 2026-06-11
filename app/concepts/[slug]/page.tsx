@@ -2,6 +2,8 @@ import { getAllConcepts, getConceptBySlug } from '@/lib/content';
 import ReactMarkdown from 'react-markdown';
 import { ConceptLoader } from '@/components/concepts/ConceptLoader';
 import { PageContainer } from '@/components/PageContainer';
+import { notFound } from 'next/navigation';
+import { formatDate } from '@/lib/format';
 
 export const dynamicParams = false;
 
@@ -19,6 +21,7 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const content = getConceptBySlug(slug);
+  if (!content) notFound();
 
   return {
     title: content.metadata.title,
@@ -33,6 +36,7 @@ export default async function ConceptDetailPage({
 }) {
   const { slug } = await params;
   const content = getConceptBySlug(slug);
+  if (!content) notFound();
 
   return (
     <PageContainer width="app">
@@ -42,11 +46,7 @@ export default async function ConceptDetailPage({
             Interactive Concept
           </span>
           <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">
-            {new Date(content.metadata.date).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
+            {formatDate(content.metadata.date)}
           </span>
         </div>
 

@@ -10,6 +10,8 @@ import { CodeBlock } from '@/components/CodeBlock';
 import { MermaidBlock } from '@/components/MermaidBlock';
 import { PageContainer } from '@/components/PageContainer';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { formatDate } from '@/lib/format';
 import 'katex/dist/katex.min.css';
 
 // Extract YouTube video ID from a URL (youtube.com/watch?v=, youtu.be/, youtube.com/embed/)
@@ -68,7 +70,8 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const post = getBlogPostBySlug(slug);
-  
+  if (!post) notFound();
+
   return {
     title: post.metadata.title,
     description: post.metadata.description,
@@ -82,6 +85,7 @@ export default async function BlogPostPage({
 }) {
   const { slug } = await params;
   const post = getBlogPostBySlug(slug);
+  if (!post) notFound();
   const readingTime = calculateReadingTime(post.content);
 
   return (
@@ -94,13 +98,7 @@ export default async function BlogPostPage({
             h1: ({ node, children, ...props }) => (
               <>
                 <div className="flex items-center gap-2 mb-3 not-prose text-sm text-gray-500 dark:text-gray-400">
-                  <span>
-                    {new Date(post.metadata.date).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                  </span>
+                  <span>{formatDate(post.metadata.date)}</span>
                   <span className="text-gray-400 dark:text-gray-500">•</span>
                   <span>{readingTime} min read</span>
                 </div>

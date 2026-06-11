@@ -78,12 +78,16 @@ export async function generateFeed(): Promise<Feed> {
       if (category === 'blog') {
         // Get full blog post content and convert to HTML
         const fullPost = getBlogPostBySlug(item.slug);
-        htmlContent = await markdownToHtml(fullPost.content);
+        htmlContent = fullPost
+          ? await markdownToHtml(fullPost.content)
+          : `<p>${item.description || ''}</p>`;
       } else {
         // Get project content
         const fullProject = getProjectBySlug(item.slug);
 
-        if (fullProject.type === 'markdown') {
+        if (!fullProject) {
+          htmlContent = `<p>${item.description || ''}</p>`;
+        } else if (fullProject.type === 'markdown') {
           htmlContent = await markdownToHtml(fullProject.content);
         } else if (fullProject.type === 'notebook') {
           // For notebooks, use description with a link to view the full notebook
