@@ -10,12 +10,7 @@ import {
   getProjectBySlug,
 } from './content';
 import { BlogPost, Project } from './types';
-
-const SITE_URL = 'https://spencerboucher.com';
-const AUTHOR = {
-  name: 'Spencer Boucher',
-  link: SITE_URL,
-};
+import { SITE_URL, AUTHOR } from './site';
 
 /**
  * Convert markdown content to HTML string
