@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Project } from '@/lib/types';
+import { formatDate } from '@/lib/format';
 
 interface ProjectCardProps {
   project: Project;
@@ -34,11 +35,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           {getTypeBadge(project.type)}
         </span>
         <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">
-          {new Date(project.date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-          })}
+          {formatDate(project.date, 'short')}
         </span>
       </div>
 
