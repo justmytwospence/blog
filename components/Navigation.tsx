@@ -1,21 +1,23 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ThemeToggle } from './ThemeToggle';
 
 export function Navigation() {
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About' },
-    { href: '/adventures', label: 'Adventures' },
     { href: '/projects', label: 'Projects' },
     { href: '/concepts', label: 'Concepts' },
     { href: '/blog', label: 'Blog' },
     { href: '/blogroll', label: 'Blogroll' },
     { href: '/reading', label: 'Reading' },
+    { href: '/adventures', label: 'Adventures' },
   ];
 
   const isActive = (href: string) => {
@@ -27,17 +29,19 @@ export function Navigation() {
 
   return (
     <>
-      {/* Desktop nav - sticky top (md+; below md uses the bottom bar so 8 links don't overflow) */}
-      <nav className="hidden md:block sticky top-0 z-50 border-b border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200">
+      {/* Desktop nav - sticky top (lg+; medium widths use the hamburger bar below) */}
+      <nav className="hidden lg:block sticky top-0 z-50 border-b border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Desktop Navigation Links */}
-            <div className="flex space-x-4 lg:space-x-6">
+          <div className="flex items-center gap-4 h-16">
+            {/* Desktop Navigation Links — Adventures pushed to the far right via ml-auto */}
+            <div className="flex flex-1 items-center gap-4 lg:gap-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={`inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors duration-200 ${
+                    link.label === 'Adventures' ? 'ml-auto' : ''
+                  } ${
                     isActive(link.href)
                       ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
                       : 'text-gray-700 dark:text-[#cccccc] hover:text-gray-900 dark:hover:text-[#d4d4d4] border-b-2 border-transparent hover:border-gray-300 dark:hover:border-[#454545]'
@@ -70,6 +74,65 @@ export function Navigation() {
               <ThemeToggle />
             </div>
           </div>
+        </div>
+      </nav>
+
+      {/* Medium nav - hamburger bar for half-screen desktop widths (md to lg) */}
+      <nav className="hidden md:block lg:hidden sticky top-0 z-50 border-b border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between h-16">
+            <Link href="/" className="text-base font-semibold text-gray-900 dark:text-[#d4d4d4]">
+              Data Spencer
+            </Link>
+            <div className="flex items-center space-x-2">
+              <a
+                href="/feed.xml"
+                className="flex items-center justify-center p-2 rounded-lg bg-gray-200 dark:bg-[#252526] hover:bg-gray-300 dark:hover:bg-[#3a3d41] transition-colors duration-200"
+                title="RSS Feed"
+                aria-label="RSS Feed"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 text-gray-700 dark:text-yellow-500">
+                  <path d="M3.75 3a.75.75 0 0 0-.75.75v.5c0 .414.336.75.75.75H4a9 9 0 0 1 9 9v.25c0 .414.336.75.75.75h.5a.75.75 0 0 0 .75-.75V14c0-6.075-4.925-11-11-11h-.25Z" />
+                  <path d="M3 7.75A.75.75 0 0 1 3.75 7H4a6 6 0 0 1 6 6v.25a.75.75 0 0 1-.75.75h-.5a.75.75 0 0 1-.75-.75V13a4 4 0 0 0-4-4h-.25A.75.75 0 0 1 3 8.25v-.5Z" />
+                  <path d="M6 14a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
+                </svg>
+              </a>
+              <ThemeToggle />
+              <button
+                type="button"
+                onClick={() => setMenuOpen((o) => !o)}
+                aria-label="Menu"
+                aria-expanded={menuOpen}
+                className="flex items-center justify-center p-2 rounded-lg text-gray-700 dark:text-[#cccccc] hover:bg-gray-200 dark:hover:bg-[#3a3d41] transition-colors duration-200"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {menuOpen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  )}
+                </svg>
+              </button>
+            </div>
+          </div>
+          {menuOpen && (
+            <div className="flex flex-col gap-1 pb-3">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className={`rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+                    isActive(link.href)
+                      ? 'bg-blue-50 text-blue-600 dark:bg-[#3a3d41] dark:text-blue-400'
+                      : 'text-gray-700 dark:text-[#cccccc] hover:bg-gray-100 dark:hover:bg-[#3a3d41]'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </nav>
 
