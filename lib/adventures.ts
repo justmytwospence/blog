@@ -11,7 +11,7 @@ import { preprocessObsidian } from '@blog/obsidian-md';
 import type { AdventureActivity, AdventureStats, SportType } from '@blog/strava/types';
 import { parseStravaIds, usesIdArray } from '@blog/strava';
 
-export type { AdventureActivity, AdventureStats, SportType };
+export type { AdventureActivity, AdventureStats, SportType, AdventureTrack } from '@blog/strava/types';
 
 const ADVENTURES_DIR = path.join(process.cwd(), 'content', 'adventures');
 const SNAPSHOT_DIR = path.join(process.cwd(), 'data', 'adventures');

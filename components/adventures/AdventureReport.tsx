@@ -5,7 +5,12 @@ import { formatDate } from '@/lib/format';
 import { formatDistance, formatElevation, formatDuration } from '@/lib/units';
 import { SportBadge } from './SportBadge';
 import { AdventureStats } from './AdventureStats';
-import type { Adventure, AdventureDay, ResolvedPhoto } from '@/lib/adventures';
+import { RouteMap } from './RouteMap';
+import { ElevationProfile } from './ElevationProfile';
+import { MetricCharts } from './MetricCharts';
+import { PhotoGallery } from './PhotoGallery';
+import { HoverReset } from './HoverReset';
+import type { Adventure, AdventureDay } from '@/lib/adventures';
 
 function placeOf(loc: { city: string | null; state: string | null; country: string | null }): string {
   return [loc.city, loc.state ?? loc.country].filter(Boolean).join(', ');
@@ -40,34 +45,6 @@ function ReportMeta({ adventure }: { adventure: Adventure }) {
         </span>
       ))}
     </div>
-  );
-}
-
-function PhotoGrid({ photos }: { photos: ResolvedPhoto[] }) {
-  return (
-    <section className="mt-8">
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
-        {photos.map((p) => (
-          <a
-            key={p.src}
-            href={p.src}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={p.caption ?? 'View photo'}
-            className="block overflow-hidden rounded-lg bg-gray-100 dark:bg-[#252526]"
-          >
-            {/* Replaced by a PhotoSwipe lightbox in Phase 4. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={p.thumb}
-              alt={p.caption ?? ''}
-              loading="lazy"
-              className="aspect-[4/3] w-full object-cover transition-transform hover:scale-105"
-            />
-          </a>
-        ))}
-      </div>
-    </section>
   );
 }
 
@@ -139,12 +116,15 @@ function StravaLinks({ adventure }: { adventure: Adventure }) {
 
 export function AdventureReport({ adventure }: { adventure: Adventure }) {
   const loc = placeOf(adventure.location);
+  // Phase 4 renders the map/charts for single-activity reports; Phase 7 adds the multi-day combined map.
+  const track = adventure.isMultiDay ? null : adventure.primaryActivity.track;
   const epic = `${formatDistance(adventure.totals.distanceMeters)} · ${formatElevation(
     adventure.totals.elevationGainMeters,
   )} · ${formatDuration(adventure.totals.movingTimeSeconds)}`;
 
   return (
     <div>
+      <HoverReset />
       <Link
         href="/adventures"
         className="mb-6 inline-flex items-center gap-1 text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-[#a6a6a6] dark:hover:text-[#d4d4d4]"
@@ -164,14 +144,22 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
         <ReportMeta adventure={adventure} />
       </header>
 
-      {/* TODO Phase 4: interactive route map (geotagged photos, metric coloring, GPX),
-          grade-colored elevation profile, and metric charts mount here. */}
+      {track && track.coordinates.length > 1 && (
+        <div className="mb-8">
+          <RouteMap track={track} photos={adventure.allPhotos} title={adventure.title} />
+        </div>
+      )}
 
       <AdventureStats stats={adventure.totals} sportType={adventure.sportType} />
 
+      {track && track.altitude.length > 1 && <ElevationProfile track={track} />}
+      {track && <MetricCharts track={track} />}
+
       {adventure.isMultiDay && <DayBreakdown adventure={adventure} />}
 
-      {adventure.allPhotos.length > 0 && <PhotoGrid photos={adventure.allPhotos} />}
+      {adventure.allPhotos.length > 0 && (
+        <PhotoGallery photos={adventure.allPhotos} galleryId={`adv-${adventure.slug}`} />
+      )}
 
       {adventure.content.trim() && (
         <article className="prose mt-8 max-w-none dark:prose-invert">
