@@ -5,8 +5,9 @@ sport: TrailRun
 featured: true
 rating: 4
 type: trail-run
-tags: [boulder, vert]
+tags: [taos, new-mexico, sangre-de-cristo, vert]
 hidden: false
 ---
 
-A big climb up to Gold Hill above Boulder — steep, sustained, and worth every foot of vert.
+A steep, sustained climb to Gold Hill in the Sangre de Cristo range above Arroyo Hondo, New Mexico —
+high-country running near Taos, with big vert the whole way up.
