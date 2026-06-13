@@ -22,9 +22,9 @@ export function YearlyChart({ totals }: { totals: YearlyTotals }) {
   const dark = useIsDark();
   const [metric, setMetric] = useState<Metric>('distance');
 
-  // Only years with a meaningful number of logged days (drops stray/old sparse years).
+  // Only years with substantial logged volume (drops sparse early years like 2020-2021).
   const years = Object.entries(totals.years)
-    .filter(([, pts]) => pts.length >= 20)
+    .filter(([, pts]) => pts.length >= 50)
     .sort((a, b) => Number(a[0]) - Number(b[0]));
 
   if (years.length === 0) return null;
