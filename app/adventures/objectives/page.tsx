@@ -5,7 +5,7 @@ import { ObjectivesView } from '@/components/adventures/ObjectivesView';
 import { getObjectives } from '@/lib/adventures';
 
 export const metadata: Metadata = {
-  title: 'Objectives',
+  title: 'Future Objectives',
   description: 'Routes, peaks, traverses, and trips still on the list.',
 };
 
@@ -21,7 +21,7 @@ export default function ObjectivesPage() {
         ← Adventures
       </Link>
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-[#d4d4d4]">Objectives</h1>
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-[#d4d4d4]">Future Objectives</h1>
         <p className="mt-2 text-gray-600 dark:text-[#cccccc]">
           Routes, peaks, and trips still on the list — the forward-looking half of the logbook.
         </p>
