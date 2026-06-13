@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { BlogrollItem } from '@blog/inoreader';
 
 function getDomain(url: string): string {
@@ -13,21 +13,30 @@ function getDomain(url: string): string {
 
 // Sentinel category key for items that carry no tags of their own.
 const OTHER = '__other__';
+// How many articles to reveal per infinite-scroll batch.
+const BATCH = 12;
 
 type Feed = { key: string; label: string; href: string };
 type Group = { key: string; label: string; feeds: Feed[] };
 
 export function BlogrollList({ items }: { items: BlogrollItem[] }) {
   // A single piece of state drives both the open accordion group and the
-  // article filter: null = "All feeds" (everything collapsed, every article
-  // shown); otherwise the open category is also the active filter.
+  // article filter: null = "All feeds"; otherwise the open category is the
+  // active filter.
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  // Infinite scroll: how many of `items` have been revealed so far.
+  const [loadedCount, setLoadedCount] = useState(BATCH);
 
+  const loaded = useMemo(() => items.slice(0, loadedCount), [items, loadedCount]);
+  const hasMore = loadedCount < items.length;
+
+  // The feeds sidebar reflects what's been loaded so far, so its counts grow
+  // as new batches scroll in.
   const { groups, totalFeeds } = useMemo(() => {
     const catToFeeds = new Map<string, Map<string, Feed>>();
     const allFeedKeys = new Set<string>();
 
-    for (const item of items) {
+    for (const item of loaded) {
       const domain = getDomain(item.sourceUrl || item.url);
       const label = item.sourceName?.trim() || domain;
       const href = item.sourceUrl || `https://${domain}`;
@@ -42,7 +51,6 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
           catToFeeds.set(cat, feedsMap);
         }
         const existing = feedsMap.get(domain);
-        // Prefer a real source name over a bare domain if we see one later.
         if (!existing || (existing.label === domain && label !== domain)) {
           feedsMap.set(domain, feed);
         }
@@ -53,12 +61,9 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
       .map(([key, feedsMap]) => ({
         key,
         label: key === OTHER ? 'Other' : key,
-        feeds: Array.from(feedsMap.values()).sort((a, b) =>
-          a.label.localeCompare(b.label)
-        ),
+        feeds: Array.from(feedsMap.values()).sort((a, b) => a.label.localeCompare(b.label)),
       }))
       .sort((a, b) => {
-        // "Other" always last; otherwise most feeds first, then alphabetical.
         if (a.key === OTHER) return 1;
         if (b.key === OTHER) return -1;
         if (b.feeds.length !== a.feeds.length) return b.feeds.length - a.feeds.length;
@@ -66,18 +71,64 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
       });
 
     return { groups, totalFeeds: allFeedKeys.size };
-  }, [items]);
+  }, [loaded]);
 
-  const filteredItems = useMemo(() => {
-    if (activeCategory === null) return items;
-    if (activeCategory === OTHER) return items.filter((item) => item.categories.length === 0);
-    return items.filter((item) => item.categories.includes(activeCategory));
-  }, [items, activeCategory]);
+  const visibleItems = useMemo(() => {
+    if (activeCategory === null) return loaded;
+    if (activeCategory === OTHER) return loaded.filter((item) => item.categories.length === 0);
+    return loaded.filter((item) => item.categories.includes(activeCategory));
+  }, [loaded, activeCategory]);
+
+  // Reveal the next batch whenever the sentinel scrolls into view. Re-running
+  // on loadedCount lets a short page keep filling until the viewport is full.
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const node = sentinelRef.current;
+    if (!node || !hasMore) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setLoadedCount((count) => Math.min(items.length, count + BATCH));
+        }
+      },
+      { rootMargin: '600px 0px' }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [hasMore, loadedCount, items.length]);
+
+  const header = (
+    <div className="mb-8">
+      <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-[#d4d4d4]">Blogroll</h1>
+      <p className="text-lg text-gray-600 dark:text-[#cccccc]">
+        Things I&rsquo;ve read recently and thought worth sharing.{' '}
+        <a href="/blogroll.xml" className="text-blue-600 dark:text-blue-400 hover:underline">
+          Subscribe
+        </a>
+      </p>
+    </div>
+  );
+
+  if (items.length === 0) {
+    return (
+      <>
+        {header}
+        <div className="text-center py-12">
+          <p className="text-gray-500 dark:text-[#a6a6a6]">
+            Blogroll data is not available right now. Check back soon!
+          </p>
+        </div>
+      </>
+    );
+  }
 
   return (
-    <div className="lg:grid lg:grid-cols-[1fr_280px] lg:gap-10 lg:items-start">
-      {/* Feeds sidebar — sticky on the right at lg+, stacked on top below it */}
-      <aside className="mb-10 lg:mb-0 lg:order-2 lg:sticky lg:top-[97px] self-start">
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] lg:gap-x-10 lg:items-start">
+      {/* Header — left column, top row (so the sidebar can align to it) */}
+      <div className="lg:col-start-1 lg:row-start-1">{header}</div>
+
+      {/* Feeds sidebar — right column, floated to the top; sticky on lg+ */}
+      <aside className="mb-8 self-start lg:order-none lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:mb-0 lg:sticky lg:top-[97px]">
         <div className="flex flex-col rounded-lg border border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] shadow-sm lg:max-h-[calc(100vh-7rem)]">
           <div className="flex shrink-0 items-baseline justify-between px-4 pt-4 pb-2">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-[#a6a6a6]">
@@ -153,10 +204,10 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
         </div>
       </aside>
 
-      {/* Article stream */}
-      <div className="min-w-0 lg:order-1">
+      {/* Article stream — left column, second row */}
+      <div className="min-w-0 lg:col-start-1 lg:row-start-2">
         <div className="space-y-12">
-          {filteredItems.map((item) => (
+          {visibleItems.map((item) => (
             <article key={item.url} className="border-b border-gray-200 dark:border-[#303031] pb-12 last:border-b-0">
               <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-[#a6a6a6] mb-3">
                 {item.sourceUrl ? (
@@ -171,9 +222,7 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
                 ) : item.sourceName ? (
                   <span>{item.sourceName}</span>
                 ) : null}
-                {(item.sourceUrl || item.sourceName) && item.publishedDate && (
-                  <span>&middot;</span>
-                )}
+                {(item.sourceUrl || item.sourceName) && item.publishedDate && <span>&middot;</span>}
                 {item.publishedDate && (
                   <time dateTime={new Date(item.publishedDate).toISOString()}>
                     {new Date(item.publishedDate).toLocaleDateString('en-US', {
@@ -191,12 +240,7 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
                 )}
               </div>
 
-              <a
-                href={item.url}
-                className="group block"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href={item.url} className="group block" target="_blank" rel="noopener noreferrer">
                 <h2 className="text-2xl font-bold mb-3 text-gray-900 dark:text-[#d4d4d4] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                   {item.title}
                 </h2>
@@ -223,14 +267,15 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
               )}
             </article>
           ))}
-          {filteredItems.length === 0 && (
+          {visibleItems.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-500 dark:text-[#a6a6a6]">
-                No articles in this category.
-              </p>
+              <p className="text-gray-500 dark:text-[#a6a6a6]">No articles in this category.</p>
             </div>
           )}
         </div>
+
+        {/* Infinite-scroll sentinel */}
+        {hasMore && <div ref={sentinelRef} className="h-10" aria-hidden="true" />}
       </div>
     </div>
   );

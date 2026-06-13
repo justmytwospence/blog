@@ -16,7 +16,10 @@ import { XMLParser } from 'fast-xml-parser';
  */
 const PUBLIC_TAG = 'Archive';
 const INOREADER_USER_ID = '1003561864';
-const FEED_URL = `https://www.inoreader.com/stream/user/${INOREADER_USER_ID}/tag/${PUBLIC_TAG}`;
+// `n` controls how many items the stream returns (default 20); fetch a deeper
+// history so the blogroll has enough to scroll through.
+const FEED_ITEM_COUNT = 100;
+const FEED_URL = `https://www.inoreader.com/stream/user/${INOREADER_USER_ID}/tag/${PUBLIC_TAG}?n=${FEED_ITEM_COUNT}`;
 
 // ─── Types ─────────────────────────────────────────────────────────
 
