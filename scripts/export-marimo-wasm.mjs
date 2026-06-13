@@ -15,8 +15,9 @@
  *
  * marimo is invoked via `marimo` if on PATH, else `uvx marimo` (no global install needed).
  */
-import { readdirSync, readFileSync, existsSync, rmSync, statSync } from 'node:fs';
+import { readdirSync, readFileSync, writeFileSync, mkdtempSync, existsSync, rmSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 import matter from 'gray-matter';
 
@@ -49,6 +50,35 @@ function readFrontmatter(src) {
   } catch {
     return {};
   }
+}
+
+// Remove the first @app.cell block if it's the frontmatter cell (its mo.md content
+// starts with `---`). The blog uses that cell for metadata, but marimo would render the
+// raw YAML in the WASM app — so we strip it from the exported copy (the source .py keeps
+// it). Cells define nothing, so removal is safe; the source file is untouched.
+function stripFrontmatterCell(src) {
+  const lines = src.split('\n');
+  for (let i = 0; i < lines.length; i++) {
+    if (!/^@app\.cell\b/.test(lines[i])) continue;
+    // Block runs until the next top-level @app.* / setup / __main__ construct (or EOF).
+    let end = lines.length;
+    for (let k = i + 1; k < lines.length; k++) {
+      if (/^@app\.|^with\s+app\.setup|^if\s+__name__/.test(lines[k])) {
+        end = k;
+        break;
+      }
+    }
+    const block = lines.slice(i, end).join('\n');
+    const m = block.match(/(?:mo|marimo)\.md\(\s*[rR]?("""|''')([\s\S]*?)\1/);
+    const firstLine = m
+      ? m[2].replace(/^\n/, '').split('\n').map((s) => s.trim()).find((s) => s.length)
+      : null;
+    if (firstLine === '---') {
+      return [...lines.slice(0, i), ...lines.slice(end)].join('\n');
+    }
+    break; // frontmatter is always the first cell; stop after checking it
+  }
+  return src;
 }
 
 // Resolve a marimo invocation: prefer `marimo` on PATH, else `uvx marimo`.
@@ -101,11 +131,17 @@ function main() {
     const codeFold = fm.format?.['code-fold'] ?? fm['code-fold'];
     const hideCode = echo === false || codeFold === 'hide' || codeFold === true;
 
+    // Export from a temp copy with the frontmatter cell stripped, so the WASM app
+    // doesn't render the raw YAML. PEP 723 deps + all real cells are preserved.
+    const tmpDir = mkdtempSync(join(tmpdir(), 'marimo-wasm-'));
+    const tmpPy = join(tmpDir, `${slug}.py`);
+    writeFileSync(tmpPy, stripFrontmatterCell(src), 'utf8');
+
     const outDir = join(OUT_ROOT, slug);
     const args = [
       'export',
       'html-wasm',
-      join('content', 'projects', file),
+      tmpPy,
       '-o',
       outDir,
       '--mode',
@@ -116,6 +152,7 @@ function main() {
     const [cmd, cmdArgs] = marimoCmd(args);
     console.log(`  export: ${slug} (mode=${mode}, ${hideCode ? 'no-show-code' : 'show-code'})`);
     execFileSync(cmd, cmdArgs, { stdio: 'inherit' });
+    rmSync(tmpDir, { recursive: true, force: true });
 
     // marimo drops a dev-assistant CLAUDE.md template into the export; not for serving.
     const stray = join(outDir, 'CLAUDE.md');
