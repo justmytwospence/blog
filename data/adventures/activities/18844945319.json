@@ -6,9 +6,9 @@
   "date": "2026-06-08",
   "timezone": "(GMT-07:00) America/Denver",
   "location": {
-    "city": null,
-    "state": null,
-    "country": null
+    "city": "Arroyo Hondo",
+    "state": "New Mexico",
+    "country": "United States of America"
   },
   "stats": {
     "distanceMeters": 13076.5,
@@ -1693,6 +1693,6 @@
   "gear": "La Sportiva Prodigio Pro White/Black",
   "description": "Going to have to work my way back to the VK legs I had last summer yeesh. Feels good to be back in the alpine",
   "stravaUrl": "https://www.strava.com/activities/18844945319",
-  "syncedAt": "2026-06-13T17:51:09.600Z",
+  "syncedAt": "2026-06-13T18:23:24.603Z",
   "sourceHash": "73ab2f5e556020f52e6fd6f29252c38a4824ce6f071076f294bf5d6f3266a284"
 }
