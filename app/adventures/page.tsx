@@ -36,7 +36,6 @@ export default function AdventuresPage() {
           Future Objectives →
         </Link>
       </div>
-      <StatsBanner stats={stats} />
       <Suspense
         fallback={<div className="py-12 text-center text-gray-500 dark:text-[#a6a6a6]">Loading…</div>}
       >
@@ -44,7 +43,7 @@ export default function AdventuresPage() {
       </Suspense>
       <details className="mt-12 border-t border-gray-200 pt-6 dark:border-[#303031]">
         <summary className="cursor-pointer text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-[#a6a6a6] dark:hover:text-[#d4d4d4]">
-          Training volume — {formatDistance(grand.distanceMeters)} · {formatElevation(grand.elevationGainMeters)} all-time
+          Lifetime stats — {formatDistance(grand.distanceMeters)} · {formatElevation(grand.elevationGainMeters)} all-time
         </summary>
         <div className="mt-4">
           <div className="mb-4 grid grid-cols-2 gap-3 sm:max-w-lg">
@@ -65,6 +64,7 @@ export default function AdventuresPage() {
               </div>
             </div>
           </div>
+          <StatsBanner stats={stats} />
           <YearlyChart totals={yearly} />
         </div>
       </details>
