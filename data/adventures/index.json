@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-06-13T16:58:58.903Z",
+  "activities": [
+    {
+      "stravaId": 18844945319,
+      "date": "2026-06-08",
+      "sportType": "TrailRun",
+      "name": "Lobo Peak via Yerba Canyon",
+      "hasTrack": true,
+      "photoCount": 3
+    },
+    {
+      "stravaId": 18893341377,
+      "date": "2026-06-12",
+      "sportType": "TrailRun",
+      "name": "Gold Hill",
+      "hasTrack": true,
+      "photoCount": 3
+    }
+  ]
+}
