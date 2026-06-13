@@ -21,7 +21,6 @@ export type {
 
 const ADVENTURES_DIR = path.join(process.cwd(), 'content', 'adventures');
 const SNAPSHOT_DIR = path.join(process.cwd(), 'data', 'adventures');
-const PUBLIC_ADVENTURES = path.join(process.cwd(), 'public', 'adventures');
 const ACTIVITIES_DIR = path.join(SNAPSHOT_DIR, 'activities');
 const OBJECTIVES_FILE = path.join(SNAPSHOT_DIR, 'objectives.json');
 const YEARLY_FILE = path.join(SNAPSHOT_DIR, 'yearly-totals.json');
@@ -327,7 +326,10 @@ function toSummary(adv: Adventure): AdventureSummary {
     location: adv.location,
     coverThumb: adv.coverPhoto?.thumb ?? null,
     summaryPolyline: adv.primaryActivity.track?.summaryPolyline ?? null,
-    routeThumb: fs.existsSync(path.join(PUBLIC_ADVENTURES, String(adv.primaryActivity.stravaId), 'route.jpg'))
+    // The sync writes route.jpg whenever the activity has a route, so the polyline's presence
+    // tells us the thumbnail exists — without an fs check that would drag public/ into the
+    // serverless trace (and blow past Vercel's function-size limit).
+    routeThumb: adv.primaryActivity.track?.summaryPolyline
       ? `/adventures/${adv.primaryActivity.stravaId}/route.jpg`
       : null,
     dayCount: adv.days.length,
