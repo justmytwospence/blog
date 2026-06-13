@@ -34,11 +34,13 @@ export function AdventureStats({
     items.push({ label: 'Max HR', value: `${Math.round(stats.maxHeartrate)} bpm` });
 
   return (
+    // Flex-wrap (not a fixed grid) so cells grow to fill every row, including the last — no empty
+    // gray cells when the count doesn't divide evenly. min/basis keeps them readable as it wraps.
     <dl
-      className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-px overflow-hidden rounded-lg border border-gray-200 bg-gray-200 dark:border-[#303031] dark:bg-[#303031] ${className}`}
+      className={`flex flex-wrap gap-px overflow-hidden rounded-lg border border-gray-200 bg-gray-200 dark:border-[#303031] dark:bg-[#303031] ${className}`}
     >
       {items.map((it) => (
-        <div key={it.label} className="bg-white px-4 py-3 dark:bg-[#252526]">
+        <div key={it.label} className="grow basis-[150px] bg-white px-4 py-3 dark:bg-[#252526]">
           <dt className="text-xs uppercase tracking-wide text-gray-500 dark:text-[#a6a6a6]">
             {it.label}
           </dt>
