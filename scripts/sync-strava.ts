@@ -40,6 +40,7 @@ import {
   readCompanions,
   sleep,
 } from './strava-shared';
+import { buildRouteThumb } from './route-thumb';
 
 const SCHEMA_VERSION = 1;
 const PACING_MS = 300;
@@ -186,6 +187,13 @@ async function main(): Promise<void> {
     if (!detail) {
       console.warn(`[strava] no detail for ${id} — keeping existing snapshot if present.`);
       continue;
+    }
+
+    // Static map thumbnail (basemap + route) for cards — generated once unless --force.
+    const thumbPath = path.join(PUBLIC_DIR, String(id), 'route.jpg');
+    if (detail.map?.summary_polyline && (FORCE || !fs.existsSync(thumbPath))) {
+      const ok = await buildRouteThumb(decodePolyline(detail.map.summary_polyline), thumbPath);
+      if (ok) console.log(`[strava] route thumb ${id}`);
     }
 
     const hash = sourceHash(detail);

@@ -21,6 +21,7 @@ export type {
 
 const ADVENTURES_DIR = path.join(process.cwd(), 'content', 'adventures');
 const SNAPSHOT_DIR = path.join(process.cwd(), 'data', 'adventures');
+const PUBLIC_ADVENTURES = path.join(process.cwd(), 'public', 'adventures');
 const ACTIVITIES_DIR = path.join(SNAPSHOT_DIR, 'activities');
 const OBJECTIVES_FILE = path.join(SNAPSHOT_DIR, 'objectives.json');
 const YEARLY_FILE = path.join(SNAPSHOT_DIR, 'yearly-totals.json');
@@ -85,6 +86,7 @@ export interface AdventureSummary {
   location: { city: string | null; state: string | null; country: string | null };
   coverThumb: string | null;
   summaryPolyline: string | null;
+  routeThumb: string | null; // committed static map (basemap + route), if synced
   dayCount: number;
   totals: Pick<AdventureStats, 'distanceMeters' | 'elevationGainMeters' | 'movingTimeSeconds'>;
 }
@@ -322,6 +324,9 @@ function toSummary(adv: Adventure): AdventureSummary {
     location: adv.location,
     coverThumb: adv.coverPhoto?.thumb ?? null,
     summaryPolyline: adv.primaryActivity.track?.summaryPolyline ?? null,
+    routeThumb: fs.existsSync(path.join(PUBLIC_ADVENTURES, String(adv.primaryActivity.stravaId), 'route.jpg'))
+      ? `/adventures/${adv.primaryActivity.stravaId}/route.jpg`
+      : null,
     dayCount: adv.days.length,
     totals: {
       distanceMeters: adv.totals.distanceMeters,

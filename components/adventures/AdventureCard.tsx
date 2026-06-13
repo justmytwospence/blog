@@ -13,6 +13,8 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
     .filter(Boolean)
     .join(', ');
   const route = adventure.summaryPolyline;
+  const routeImg = adventure.routeThumb;
+  const hasRouteBase = Boolean(routeImg || route);
 
   return (
     <Link
@@ -20,12 +22,16 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
       className="group block overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md transition-shadow hover:shadow-lg dark:border-[#303031] dark:bg-[#252526]"
     >
       <div className="relative h-44 w-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-[#2a2a2b] dark:to-[#1e1e1e]">
-        {/* Route shape as the base layer — shown when there's no photo, and revealed on hover when there is. */}
-        {route && (
+        {/* Route as the base layer — a static basemap+route image if synced, else a bare SVG shape.
+            Shown when there's no photo, and revealed on hover when there is. */}
+        {routeImg ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={routeImg} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+        ) : route ? (
           <div className="absolute inset-0 flex items-center justify-center p-3">
             <RouteThumb polyline={route} stroke={sportColor(adventure.sportType)} className="h-full w-full opacity-80" />
           </div>
-        )}
+        ) : null}
         {adventure.coverThumb && (
           // Local static image; intrinsic next/image isn't needed for a fixed-height cover.
           // eslint-disable-next-line @next/next/no-img-element
@@ -34,7 +40,7 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
             alt=""
             loading="lazy"
             className={`absolute inset-0 h-full w-full object-cover ${
-              route ? 'transition-opacity duration-300 group-hover:opacity-0' : ''
+              hasRouteBase ? 'transition-opacity duration-300 group-hover:opacity-0' : ''
             }`}
           />
         )}
