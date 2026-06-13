@@ -1,3 +1,5 @@
+'use client';
+
 import projectNames from '@/lib/project-names';
 
 type DayEntry = { c: number; r: string[] };
@@ -38,15 +40,18 @@ function isoDay(date: Date): string {
 }
 
 function fmtDay(date: Date): string {
-  return date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    timeZone: 'UTC',
-  });
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 }
 
-export function ContributionCalendar({ data }: { data: ActivityData }) {
+interface CalendarProps {
+  data: ActivityData;
+  focusSlugs: string[] | null;
+  hoverDay: string | null;
+  onDayEnter: (repos: string[], dayKey: string) => void;
+  onLeave: () => void;
+}
+
+export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, onLeave }: CalendarProps) {
   // Anchor the grid to the Saturday of the snapshot's final week, then walk
   // back 53 weeks to a Sunday so every column is a full Sun–Sat week.
   const end = new Date(`${data.endDate}T00:00:00Z`);
@@ -57,11 +62,10 @@ export function ContributionCalendar({ data }: { data: ActivityData }) {
     Array.from({ length: 7 }, (_, d) => {
       const date = addDaysUTC(gridStart, w * 7 + d);
       const entry = data.days[isoDay(date)];
-      return { date, count: entry?.c ?? 0, repos: entry?.r ?? [] };
+      return { key: isoDay(date), date, count: entry?.c ?? 0, repos: entry?.r ?? [] };
     })
   );
 
-  // Label a column with its month when the month changes from the prior column.
   const monthLabels = columns.map((col, w) => {
     const month = col[0].date.getUTCMonth();
     const prev = w > 0 ? columns[w - 1][0].date.getUTCMonth() : -1;
@@ -70,27 +74,16 @@ export function ContributionCalendar({ data }: { data: ActivityData }) {
 
   const colsTemplate = `repeat(${WEEKS}, ${CELL}px)`;
   const rowsTemplate = `repeat(7, ${CELL}px)`;
+  const focusing = focusSlugs !== null && focusSlugs.length > 0;
 
   return (
-    <section className="mb-10 rounded-lg border border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] p-5 shadow-sm">
-      <div className="mb-4 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-[#a6a6a6]">
-          Activity
-        </h2>
-        <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">
-          {data.totalCommits.toLocaleString()} commits across {data.repoCount} projects in the past year
-        </span>
-      </div>
-
+    <div className="mb-10">
       <div className="overflow-x-auto">
-        <div className="inline-block">
+        <div className="inline-block" onMouseLeave={onLeave}>
           {/* Month labels */}
           <div className="ml-8 grid" style={{ gridTemplateColumns: colsTemplate, gap: `${GAP}px` }}>
             {monthLabels.map((label, i) => (
-              <div
-                key={i}
-                className="h-4 whitespace-nowrap text-[10px] leading-4 text-gray-400 dark:text-[#6e6e6e]"
-              >
+              <div key={i} className="h-4 whitespace-nowrap text-[10px] leading-4 text-gray-400 dark:text-[#6e6e6e]">
                 {label}
               </div>
             ))}
@@ -125,6 +118,8 @@ export function ContributionCalendar({ data }: { data: ActivityData }) {
               {columns.flatMap((col) =>
                 col.map((cell) => {
                   const lvl = level(cell.count);
+                  const matches = !focusing || cell.repos.some((r) => focusSlugs!.includes(r));
+                  const isHovered = hoverDay === cell.key;
                   const names = cell.repos.map((s) => projectNames[s] ?? s);
                   const title =
                     cell.count > 0
@@ -132,9 +127,12 @@ export function ContributionCalendar({ data }: { data: ActivityData }) {
                       : `No commits on ${fmtDay(cell.date)}`;
                   return (
                     <div
-                      key={isoDay(cell.date)}
+                      key={cell.key}
                       title={title}
-                      className={`h-[11px] w-[11px] rounded-[2px] ${LEVEL_LIGHT[lvl]} ${LEVEL_DARK[lvl]}`}
+                      onMouseEnter={() => onDayEnter(cell.repos, cell.key)}
+                      className={`h-[11px] w-[11px] rounded-[2px] transition-opacity duration-150 ${LEVEL_LIGHT[lvl]} ${LEVEL_DARK[lvl]} ${
+                        focusing && !matches ? 'opacity-20' : 'opacity-100'
+                      } ${isHovered ? 'ring-1 ring-gray-500 dark:ring-gray-300' : ''}`}
                     />
                   );
                 })
@@ -142,16 +140,21 @@ export function ContributionCalendar({ data }: { data: ActivityData }) {
             </div>
           </div>
 
-          {/* Legend */}
-          <div className="mt-3 flex items-center justify-end gap-1 text-[10px] text-gray-400 dark:text-[#6e6e6e]">
-            <span className="mr-1">Less</span>
-            {[0, 1, 2, 3, 4].map((l) => (
-              <div key={l} className={`h-[11px] w-[11px] rounded-[2px] ${LEVEL_LIGHT[l]} ${LEVEL_DARK[l]}`} />
-            ))}
-            <span className="ml-1">More</span>
+          {/* Caption + legend */}
+          <div className="ml-8 mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+            <span className="text-xs text-gray-500 dark:text-[#a6a6a6]">
+              {data.totalCommits.toLocaleString()} commits across {data.repoCount} projects in the past year
+            </span>
+            <div className="flex items-center gap-1 text-[10px] text-gray-400 dark:text-[#6e6e6e]">
+              <span className="mr-1">Less</span>
+              {[0, 1, 2, 3, 4].map((l) => (
+                <div key={l} className={`h-[11px] w-[11px] rounded-[2px] ${LEVEL_LIGHT[l]} ${LEVEL_DARK[l]}`} />
+              ))}
+              <span className="ml-1">More</span>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

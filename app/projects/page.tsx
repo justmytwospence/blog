@@ -1,6 +1,5 @@
 import { getAllProjects } from '@/lib/content';
-import { ProjectCard } from '@/components/ProjectCard';
-import { ContributionCalendar } from '@/components/ContributionCalendar';
+import { ProjectsExplorer } from '@/components/ProjectsExplorer';
 import { PageContainer } from '@/components/PageContainer';
 import activity from '@/data/project-activity.json';
 import type { Metadata } from 'next';
@@ -25,16 +24,9 @@ export default function ProjectsPage() {
         </p>
       </div>
 
-      {/* Activity calendar */}
-      <ContributionCalendar data={activity} />
-
-      {/* Projects grid */}
+      {/* Activity calendar + project cards (linked on hover) */}
       {projects.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
+        <ProjectsExplorer projects={projects} activity={activity} />
       ) : (
         <div className="text-center py-12">
           <p className="text-gray-500 dark:text-[#a6a6a6]">
