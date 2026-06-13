@@ -7,10 +7,6 @@ import {
   type UnitSystem,
 } from '@/lib/units';
 
-function commas(n: number): string {
-  return Math.round(n).toLocaleString('en-US');
-}
-
 /** Responsive stat grid for a report (or one day of a trip). Omits cells whose data is absent. */
 export function AdventureStats({
   stats,
@@ -36,9 +32,6 @@ export function AdventureStats({
     items.push({ label: 'Avg HR', value: `${Math.round(stats.avgHeartrate)} bpm` });
   if (stats.maxHeartrate != null)
     items.push({ label: 'Max HR', value: `${Math.round(stats.maxHeartrate)} bpm` });
-  if (stats.calories != null) items.push({ label: 'Calories', value: commas(stats.calories) });
-  if (stats.sufferScore != null)
-    items.push({ label: 'Relative effort', value: commas(stats.sufferScore) });
 
   return (
     <dl
