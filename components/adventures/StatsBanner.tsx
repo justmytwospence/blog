@@ -10,11 +10,7 @@ export function StatsBanner({ stats }: { stats: LifetimeStats }) {
   const headline: Array<{ label: string; value: string }> = [
     { label: 'Total distance', value: formatDistance(stats.totalDistanceMeters) },
     { label: 'Total vertical', value: formatElevation(stats.totalElevationGainMeters) },
-    { label: 'Places', value: `${stats.states.length} states · ${stats.countries.length} countries` },
   ];
-  if (records.highestPoint) {
-    headline.push({ label: 'Highest point', value: formatElevation(records.highestPoint.meters) });
-  }
 
   const recordChips = [
     records.longestDistance && {
@@ -39,7 +35,7 @@ export function StatsBanner({ stats }: { stats: LifetimeStats }) {
 
   return (
     <section className="mb-8" aria-label="Lifetime statistics">
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:max-w-lg">
         {headline.map((c) => (
           <div
             key={c.label}
