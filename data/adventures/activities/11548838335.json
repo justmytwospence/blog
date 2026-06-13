@@ -1,0 +1,150 @@
+{
+  "stravaId": 11548838335,
+  "name": "Colorado Triathlon: Swim",
+  "sportType": "Swim",
+  "startLocal": "2024-06-01T07:52:07Z",
+  "date": "2024-06-01",
+  "timezone": "(GMT-07:00) America/Denver",
+  "location": {
+    "city": "Boulder",
+    "state": "Colorado",
+    "country": "United States of America"
+  },
+  "stats": {
+    "distanceMeters": 715.4,
+    "movingTimeSeconds": 958,
+    "elapsedTimeSeconds": 958,
+    "elevationGainMeters": 0,
+    "elevHighMeters": 1579.7,
+    "elevLowMeters": 1579.7,
+    "avgSpeedMetersPerSec": 0.747,
+    "maxSpeedMetersPerSec": 1.076,
+    "avgHeartrate": 146.2,
+    "maxHeartrate": 157,
+    "avgCadence": 30.1,
+    "avgWatts": null,
+    "maxWatts": null,
+    "calories": 112,
+    "sufferScore": 11
+  },
+  "track": {
+    "coordinates": [
+      [
+        -105.227702,
+        40.072751
+      ],
+      [
+        -105.225709,
+        40.072663
+      ],
+      [
+        -105.224986,
+        40.072829
+      ],
+      [
+        -105.223693,
+        40.072849
+      ],
+      [
+        -105.223991,
+        40.072098
+      ],
+      [
+        -105.227531,
+        40.071765
+      ]
+    ],
+    "altitude": [
+      1579.7,
+      1579.7,
+      1579.7,
+      1579.7,
+      1579.7,
+      1579.7
+    ],
+    "distance": [
+      0,
+      152,
+      217.8,
+      333.5,
+      411.3,
+      715.4
+    ],
+    "grade": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "velocity": [
+      0,
+      0.802,
+      0.712,
+      0.586,
+      0.854,
+      0.956
+    ],
+    "heartrate": [
+      105,
+      148,
+      147,
+      144,
+      141,
+      157
+    ],
+    "summaryPolyline": "uuqsFdhgaSEyAT}D@wBIyAUu@CoBG_A@S?o@DMf@J\\?PB|@j@A|@DpBPtCLfA?pANnAB`AHpA",
+    "bounds": {
+      "minLat": 40.071765,
+      "minLng": -105.227702,
+      "maxLat": 40.072849,
+      "maxLng": -105.223693
+    },
+    "pointCount": 6
+  },
+  "weather": {
+    "tempC": 17.4,
+    "windMetersPerSec": 0.45,
+    "precipitationMm": 0,
+    "weatherCode": 0,
+    "observedAtLocal": "2024-06-01T08:00"
+  },
+  "photos": [
+    {
+      "id": "1386140A-8A30-4CBB-BEBC-15892BC718E2",
+      "file": "photo-1386140A-8A30-4CBB-BEBC-15892BC718E2.jpg",
+      "sourceUrl": "",
+      "width": 1600,
+      "height": 1200,
+      "caption": "",
+      "lat": 40.0716055,
+      "lng": -105.227945
+    },
+    {
+      "id": "45B3FA80-DB28-40CB-A2AB-BFB9841CD0B2",
+      "file": "photo-45B3FA80-DB28-40CB-A2AB-BFB9841CD0B2.jpg",
+      "sourceUrl": "",
+      "width": 1600,
+      "height": 1200,
+      "caption": "",
+      "lat": 40.07160283333333,
+      "lng": -105.22795
+    },
+    {
+      "id": "7988277D-72C3-44FC-BE06-056DF4667161",
+      "file": "photo-7988277D-72C3-44FC-BE06-056DF4667161.jpg",
+      "sourceUrl": "",
+      "width": 1600,
+      "height": 1200,
+      "caption": "",
+      "lat": 40.07160283333333,
+      "lng": -105.22795833333333
+    }
+  ],
+  "gear": null,
+  "description": "Missed my wave because I didn’t know about the colored swim caps derrrrp. Went out with 14 instead of 13. The out was straight into the sun which was tricky but I didn’t get a black eye. My breathing was too heavy to do my normal bilateral pattern so I switched to every other stroke. Didn’t really settle into a good rhythm until halfway back. Not too bad! Split time 17:13",
+  "stravaUrl": "https://www.strava.com/activities/11548838335",
+  "syncedAt": "2026-06-13T20:47:34.820Z",
+  "sourceHash": "ba128128fdfb20419d4ad1a290c8449ad0802850b75be7d66df65a1c4f1d5c29"
+}
