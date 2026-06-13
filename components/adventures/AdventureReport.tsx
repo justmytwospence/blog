@@ -150,7 +150,9 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
       )}
 
       {!adventure.isMultiDay && adventure.allPhotos.length > 0 && (
-        <PhotoGallery photos={adventure.allPhotos} galleryId={`adv-${adventure.slug}`} />
+        <div className="mb-8">
+          <PhotoGallery photos={adventure.allPhotos} galleryId={`adv-${adventure.slug}`} />
+        </div>
       )}
 
       <AdventureStats stats={adventure.totals} sportType={adventure.sportType} />
