@@ -1,6 +1,8 @@
 import { getAllProjects } from '@/lib/content';
 import { ProjectCard } from '@/components/ProjectCard';
+import { ContributionCalendar } from '@/components/ContributionCalendar';
 import { PageContainer } from '@/components/PageContainer';
+import activity from '@/data/project-activity.json';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -22,6 +24,9 @@ export default function ProjectsPage() {
           Explore my data science projects, analyses, and interactive applications.
         </p>
       </div>
+
+      {/* Activity calendar */}
+      <ContributionCalendar data={activity} />
 
       {/* Projects grid */}
       {projects.length > 0 ? (

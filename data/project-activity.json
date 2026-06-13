@@ -1,0 +1,457 @@
+{
+  "generatedAt": "2026-06-13T21:41:22.178Z",
+  "endDate": "2026-06-13",
+  "weeks": 53,
+  "maxCount": 60,
+  "totalCommits": 662,
+  "repoCount": 13,
+  "updated": {
+    "bayesdag": "2026-06-11",
+    "cloudposterior": "2026-06-05",
+    "arviz-mcp": "2026-06-02",
+    "strava-mcp": "2026-03-16",
+    "ynab-mcp": "2026-05-12",
+    "hardcover-mcp": "2026-03-16",
+    "inoreader-mcp": "2026-05-11",
+    "inoreader-obsidian": "2026-05-13",
+    "pacing": "2025-12-02",
+    "swimcue": "2025-10-31",
+    "homelab": "2026-06-09",
+    "vertfarmer": "2026-06-11",
+    "ifs-journal": "2026-04-27"
+  },
+  "days": {
+    "2025-07-17": {
+      "c": 7,
+      "r": [
+        "vertfarmer"
+      ]
+    },
+    "2025-10-24": {
+      "c": 1,
+      "r": [
+        "swimcue"
+      ]
+    },
+    "2025-10-26": {
+      "c": 24,
+      "r": [
+        "ifs-journal"
+      ]
+    },
+    "2025-10-27": {
+      "c": 1,
+      "r": [
+        "ifs-journal"
+      ]
+    },
+    "2025-10-31": {
+      "c": 1,
+      "r": [
+        "swimcue"
+      ]
+    },
+    "2025-11-25": {
+      "c": 9,
+      "r": [
+        "ifs-journal",
+        "vertfarmer"
+      ]
+    },
+    "2025-11-26": {
+      "c": 15,
+      "r": [
+        "vertfarmer"
+      ]
+    },
+    "2025-11-27": {
+      "c": 3,
+      "r": [
+        "vertfarmer"
+      ]
+    },
+    "2025-11-28": {
+      "c": 1,
+      "r": [
+        "vertfarmer"
+      ]
+    },
+    "2025-11-29": {
+      "c": 7,
+      "r": [
+        "vertfarmer"
+      ]
+    },
+    "2025-11-30": {
+      "c": 1,
+      "r": [
+        "vertfarmer"
+      ]
+    },
+    "2025-12-01": {
+      "c": 5,
+      "r": [
+        "pacing"
+      ]
+    },
+    "2025-12-02": {
+      "c": 3,
+      "r": [
+        "pacing"
+      ]
+    },
+    "2025-12-03": {
+      "c": 10,
+      "r": [
+        "vertfarmer"
+      ]
+    },
+    "2026-03-02": {
+      "c": 3,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-03-04": {
+      "c": 19,
+      "r": [
+        "inoreader-obsidian"
+      ]
+    },
+    "2026-03-05": {
+      "c": 2,
+      "r": [
+        "homelab",
+        "inoreader-obsidian"
+      ]
+    },
+    "2026-03-06": {
+      "c": 2,
+      "r": [
+        "inoreader-obsidian"
+      ]
+    },
+    "2026-03-08": {
+      "c": 7,
+      "r": [
+        "hardcover-mcp",
+        "inoreader-mcp",
+        "strava-mcp",
+        "ynab-mcp"
+      ]
+    },
+    "2026-03-09": {
+      "c": 7,
+      "r": [
+        "inoreader-mcp",
+        "inoreader-obsidian",
+        "strava-mcp",
+        "ynab-mcp"
+      ]
+    },
+    "2026-03-10": {
+      "c": 2,
+      "r": [
+        "inoreader-mcp"
+      ]
+    },
+    "2026-03-12": {
+      "c": 2,
+      "r": [
+        "inoreader-mcp"
+      ]
+    },
+    "2026-03-13": {
+      "c": 2,
+      "r": [
+        "inoreader-mcp"
+      ]
+    },
+    "2026-03-15": {
+      "c": 1,
+      "r": [
+        "inoreader-mcp"
+      ]
+    },
+    "2026-03-16": {
+      "c": 7,
+      "r": [
+        "hardcover-mcp",
+        "inoreader-mcp",
+        "strava-mcp",
+        "ynab-mcp"
+      ]
+    },
+    "2026-03-17": {
+      "c": 32,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-03-18": {
+      "c": 18,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-03-19": {
+      "c": 1,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-03-20": {
+      "c": 15,
+      "r": [
+        "homelab",
+        "inoreader-mcp"
+      ]
+    },
+    "2026-03-21": {
+      "c": 12,
+      "r": [
+        "cloudposterior",
+        "homelab",
+        "inoreader-mcp"
+      ]
+    },
+    "2026-03-22": {
+      "c": 29,
+      "r": [
+        "cloudposterior"
+      ]
+    },
+    "2026-03-24": {
+      "c": 1,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-03-25": {
+      "c": 7,
+      "r": [
+        "homelab",
+        "inoreader-mcp"
+      ]
+    },
+    "2026-03-26": {
+      "c": 13,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-03-27": {
+      "c": 5,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-03-28": {
+      "c": 5,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-03-29": {
+      "c": 3,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-03-31": {
+      "c": 5,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-04-01": {
+      "c": 3,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-04-02": {
+      "c": 3,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-04-06": {
+      "c": 7,
+      "r": [
+        "homelab",
+        "ynab-mcp"
+      ]
+    },
+    "2026-04-13": {
+      "c": 4,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-04-21": {
+      "c": 9,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-04-22": {
+      "c": 5,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-04-23": {
+      "c": 47,
+      "r": [
+        "homelab",
+        "ifs-journal"
+      ]
+    },
+    "2026-04-24": {
+      "c": 26,
+      "r": [
+        "homelab",
+        "ifs-journal",
+        "vertfarmer"
+      ]
+    },
+    "2026-04-25": {
+      "c": 9,
+      "r": [
+        "ifs-journal",
+        "vertfarmer"
+      ]
+    },
+    "2026-04-26": {
+      "c": 19,
+      "r": [
+        "homelab",
+        "ifs-journal",
+        "inoreader-mcp",
+        "vertfarmer",
+        "ynab-mcp"
+      ]
+    },
+    "2026-04-27": {
+      "c": 19,
+      "r": [
+        "cloudposterior",
+        "ifs-journal",
+        "vertfarmer"
+      ]
+    },
+    "2026-04-28": {
+      "c": 7,
+      "r": [
+        "homelab",
+        "vertfarmer"
+      ]
+    },
+    "2026-04-29": {
+      "c": 1,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-05-01": {
+      "c": 1,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-05-03": {
+      "c": 7,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-05-05": {
+      "c": 3,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-05-10": {
+      "c": 1,
+      "r": [
+        "inoreader-mcp"
+      ]
+    },
+    "2026-05-12": {
+      "c": 6,
+      "r": [
+        "homelab",
+        "ynab-mcp"
+      ]
+    },
+    "2026-05-13": {
+      "c": 2,
+      "r": [
+        "inoreader-obsidian"
+      ]
+    },
+    "2026-05-27": {
+      "c": 5,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-05-29": {
+      "c": 2,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-06-01": {
+      "c": 2,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-06-02": {
+      "c": 48,
+      "r": [
+        "arviz-mcp",
+        "bayesdag",
+        "cloudposterior"
+      ]
+    },
+    "2026-06-03": {
+      "c": 27,
+      "r": [
+        "bayesdag",
+        "cloudposterior",
+        "homelab"
+      ]
+    },
+    "2026-06-04": {
+      "c": 25,
+      "r": [
+        "bayesdag",
+        "cloudposterior",
+        "homelab"
+      ]
+    },
+    "2026-06-05": {
+      "c": 10,
+      "r": [
+        "bayesdag",
+        "cloudposterior"
+      ]
+    },
+    "2026-06-09": {
+      "c": 16,
+      "r": [
+        "homelab"
+      ]
+    },
+    "2026-06-11": {
+      "c": 60,
+      "r": [
+        "bayesdag",
+        "vertfarmer"
+      ]
+    }
+  }
+}
