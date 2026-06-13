@@ -102,10 +102,12 @@ for (const { slug, repo } of PROJECTS) {
 }
 
 const days = {};
+const activeRepos = new Set();
 let maxCount = 0;
 let totalCommits = 0;
 for (const [date, entry] of [...dayCounts.entries()].sort()) {
   days[date] = { c: entry.c, r: [...entry.r].sort() };
+  for (const slug of entry.r) activeRepos.add(slug);
   maxCount = Math.max(maxCount, entry.c);
   totalCommits += entry.c;
 }
@@ -120,7 +122,7 @@ const output = {
   weeks: 53,
   maxCount,
   totalCommits,
-  repoCount: PROJECTS.length,
+  repoCount: activeRepos.size,
   updated,
   days,
 };
