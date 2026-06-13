@@ -1,6 +1,158 @@
 {
-  "generatedAt": "2026-06-13T18:23:24.986Z",
+  "generatedAt": "2026-06-13T18:32:59.913Z",
   "activities": [
+    {
+      "stravaId": 15700664792,
+      "date": "2025-09-04",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 1: Waterton Canyon → Buffalo Creek",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 15718655446,
+      "date": "2025-09-05",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 2: Buffalo Creek → Lost Creek Wilderness",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
+      "stravaId": 15723153418,
+      "date": "2025-09-06",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 3: Lost Creek Wilderness → Georgia Pass",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 15734625923,
+      "date": "2025-09-07",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 4: Georgia Pass → Breckenridge",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 15751937304,
+      "date": "2025-09-08",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 5: Breckenridge → Searle Pass",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 15764801940,
+      "date": "2025-09-09",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 6: Searle Pass → Turquoise Lake",
+      "hasTrack": true,
+      "photoCount": 7
+    },
+    {
+      "stravaId": 15769900033,
+      "date": "2025-09-10",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 7: Turquoise Lake → Twin Lakes",
+      "hasTrack": true,
+      "photoCount": 7
+    },
+    {
+      "stravaId": 15799736403,
+      "date": "2025-09-12",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 9: Hope Pass + Lake Ann Pass",
+      "hasTrack": true,
+      "photoCount": 4
+    },
+    {
+      "stravaId": 15813199536,
+      "date": "2025-09-13",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 10: Cottonwood Pass + Tincup Pass",
+      "hasTrack": true,
+      "photoCount": 6
+    },
+    {
+      "stravaId": 15814306652,
+      "date": "2025-09-14",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 11: Tunnel Lake to Boss Lake to Monarch Pass",
+      "hasTrack": true,
+      "photoCount": 9
+    },
+    {
+      "stravaId": 15832507251,
+      "date": "2025-09-15",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 12: Monarch Pass to Sargents Mesa",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 15857368235,
+      "date": "2025-09-17",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 14: Saguache Park Road to San Luis Pass",
+      "hasTrack": true,
+      "photoCount": 10
+    },
+    {
+      "stravaId": 15857450679,
+      "date": "2025-09-16",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 13: Sargents Mesa to Cochetopa Pass",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 15859524943,
+      "date": "2025-09-18",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 15: San Luis Pass to Snow Mesa",
+      "hasTrack": true,
+      "photoCount": 9
+    },
+    {
+      "stravaId": 15891802002,
+      "date": "2025-09-20",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 17",
+      "hasTrack": true,
+      "photoCount": 6
+    },
+    {
+      "stravaId": 15893943783,
+      "date": "2025-09-21",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 18",
+      "hasTrack": true,
+      "photoCount": 11
+    },
+    {
+      "stravaId": 15922910253,
+      "date": "2025-09-23",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 20: Silverton to Blackhawk Pass",
+      "hasTrack": true,
+      "photoCount": 20
+    },
+    {
+      "stravaId": 15926865039,
+      "date": "2025-09-24",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 21: Blackhawk Pass to Taylor Lake",
+      "hasTrack": true,
+      "photoCount": 10
+    },
+    {
+      "stravaId": 15937025985,
+      "date": "2025-09-25",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 22: Taylor Lake to Durango",
+      "hasTrack": true,
+      "photoCount": 3
+    },
     {
       "stravaId": 18844945319,
       "date": "2026-06-08",
