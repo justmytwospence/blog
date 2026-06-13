@@ -60,6 +60,13 @@ export interface RawSummaryActivity {
   private?: boolean;
   /** Strava workout type. Run: 1 = race. Ride: 11 = race. */
   workout_type?: number | null;
+  /** True for indoor trainer / treadmill efforts (TrainerRoad, Zwift, etc.). */
+  trainer?: boolean;
+  /** True for commutes. */
+  commute?: boolean;
+  /** Pool swims set this; open-water swims don't. */
+  pool_length?: number | null;
+  map?: RawActivityMap;
 }
 
 export interface RawDetailedActivity extends RawSummaryActivity {
