@@ -149,6 +149,10 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
         </div>
       )}
 
+      {!adventure.isMultiDay && adventure.allPhotos.length > 0 && (
+        <PhotoGallery photos={adventure.allPhotos} galleryId={`adv-${adventure.slug}`} />
+      )}
+
       <AdventureStats stats={adventure.totals} sportType={adventure.sportType} />
 
       {adventure.primaryActivity.gear && (
@@ -171,10 +175,6 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
           fallbackSport={adventure.sportType}
           unit={adventure.isMultiSport ? 'leg' : 'day'}
         />
-      )}
-
-      {!adventure.isMultiDay && adventure.allPhotos.length > 0 && (
-        <PhotoGallery photos={adventure.allPhotos} galleryId={`adv-${adventure.slug}`} />
       )}
 
       {adventure.content.trim() && (
