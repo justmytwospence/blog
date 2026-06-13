@@ -299,18 +299,6 @@ export default async function AboutPage() {
         </div>
       </div>
 
-      {/* Lately Section */}
-      <div className="mb-12">
-        <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
-          Lately
-        </h2>
-        <div className="p-6 bg-white dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-700">
-          <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-            When I'm not modeling data, I'm out in the mountains — running, skiing, cycling, and climbing — and back home tinkering with a self-hosted homelab.
-          </p>
-        </div>
-      </div>
-
       <CurrentlyReadingWidget books={currentlyReading} />
     </PageContainer>
   );
