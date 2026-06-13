@@ -36,7 +36,7 @@ interface CommonFrontmatter {
 
 // gray-matter parses unquoted YAML dates as Date objects at UTC midnight,
 // so the YYYY-MM-DD slice round-trips the value as written.
-function normalizeDate(date: unknown): string {
+export function normalizeDate(date: unknown): string {
   if (date instanceof Date) return date.toISOString().slice(0, 10);
   if (date) return String(date);
   return new Date().toISOString();
@@ -46,7 +46,7 @@ function normalizeDate(date: unknown): string {
  * Map the frontmatter fields shared by every content type
  * (blog, project, concept, webapp config).
  */
-function mapCommonMetadata(data: CommonFrontmatter, slug: string) {
+export function mapCommonMetadata(data: CommonFrontmatter, slug: string) {
   return {
     slug,
     title: data.title ? String(data.title) : slug,
