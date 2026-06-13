@@ -16,7 +16,8 @@
     "polypane": "open -a Polypane --args --remote-debugging-port=5858",
     "sync:strava": "tsx scripts/sync-strava.ts",
     "strava:inbox": "tsx scripts/strava-inbox.ts",
-    "strava:bootstrap": "tsx scripts/strava-bootstrap.ts"
+    "strava:bootstrap": "tsx scripts/strava-bootstrap.ts",
+    "strava:sweep": "tsx scripts/strava-sweep.ts"
   },
   "workspaces": [
     "packages/*"

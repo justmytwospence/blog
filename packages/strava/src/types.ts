@@ -58,6 +58,8 @@ export interface RawSummaryActivity {
   total_elevation_gain: number;
   total_photo_count?: number;
   private?: boolean;
+  /** Strava workout type. Run: 1 = race. Ride: 11 = race. */
+  workout_type?: number | null;
 }
 
 export interface RawDetailedActivity extends RawSummaryActivity {

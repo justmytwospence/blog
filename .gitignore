@@ -84,3 +84,9 @@ __pycache__/
 
 # Data files (if you don't want to commit them)
 # content/projects/data/
+
+# strava history triage output (local only)
+/.strava-sweep.json
+
+# local scratch (screenshots, review docs)
+/.tmp-screens/
