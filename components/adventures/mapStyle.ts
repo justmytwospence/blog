@@ -43,3 +43,32 @@ export const DAY_COLORS = [
 export function dayColor(i: number): string {
   return DAY_COLORS[i % DAY_COLORS.length];
 }
+
+/** A hex color per sport family, for tinting routes on the library overview map. */
+const SPORT_HEX: Record<string, string> = {
+  TrailRun: '#059669',
+  Run: '#059669',
+  Walk: '#6b7280',
+  Hike: '#ea580c',
+  Mountaineering: '#ea580c',
+  RockClimbing: '#ea580c',
+  Ride: '#d97706',
+  GravelRide: '#d97706',
+  MountainBikeRide: '#d97706',
+  EBikeRide: '#d97706',
+  VirtualRide: '#d97706',
+  NordicSki: '#0284c7',
+  BackcountrySki: '#0284c7',
+  AlpineSki: '#0284c7',
+  Snowboard: '#0284c7',
+  Snowshoe: '#0284c7',
+  Swim: '#0891b2',
+  StandUpPaddling: '#0891b2',
+  Kayaking: '#0891b2',
+  Canoeing: '#0891b2',
+  Rowing: '#0891b2',
+};
+
+export function sportColor(sport: string): string {
+  return SPORT_HEX[sport] ?? '#6b7280';
+}

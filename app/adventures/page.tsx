@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { PageContainer } from '@/components/PageContainer';
 import { StatsBanner } from '@/components/adventures/StatsBanner';
@@ -23,7 +24,11 @@ export default function AdventuresPage() {
         </p>
       </div>
       <StatsBanner stats={stats} />
-      <LibraryView adventures={adventures} />
+      <Suspense
+        fallback={<div className="py-12 text-center text-gray-500 dark:text-[#a6a6a6]">Loading…</div>}
+      >
+        <LibraryView adventures={adventures} />
+      </Suspense>
     </PageContainer>
   );
 }
