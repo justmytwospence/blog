@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { PageContainer } from '@/components/PageContainer';
 import { StatsBanner } from '@/components/adventures/StatsBanner';
 import { LibraryView } from '@/components/adventures/LibraryView';
@@ -17,11 +18,19 @@ export default function AdventuresPage() {
 
   return (
     <PageContainer width="wide">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-[#d4d4d4]">Adventures</h1>
-        <p className="mt-2 text-gray-600 dark:text-[#cccccc]">
-          A curated log of long days out — runs, climbs, skis, and rides worth remembering.
-        </p>
+      <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-[#d4d4d4]">Adventures</h1>
+          <p className="mt-2 text-gray-600 dark:text-[#cccccc]">
+            A curated log of long days out — runs, climbs, skis, and rides worth remembering.
+          </p>
+        </div>
+        <Link
+          href="/adventures/objectives"
+          className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
+        >
+          Objectives →
+        </Link>
       </div>
       <StatsBanner stats={stats} />
       <Suspense
