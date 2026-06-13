@@ -74,16 +74,17 @@ function sourceHash(detail: RawDetailedActivity): string {
 }
 
 async function withBackoff<T>(fn: () => Promise<T>, label: string): Promise<T> {
-  let delay = 1000;
-  for (let attempt = 0; attempt < 6; attempt++) {
+  let delay = 2000;
+  // Patient enough to wait out a full 15-minute Strava rate-limit window.
+  for (let attempt = 0; attempt < 14; attempt++) {
     try {
       return await fn();
     } catch (err) {
       if (err instanceof RateLimitError) {
         const wait = err.retryAfterMs ?? delay;
-        console.warn(`[strava] 429 on ${label}; backing off ${wait}ms`);
+        console.warn(`[strava] 429 on ${label}; backing off ${Math.round(wait / 1000)}s (attempt ${attempt + 1})`);
         await sleep(wait);
-        delay = Math.min(delay * 2, 60000);
+        delay = Math.min(delay * 2, 120000);
       } else {
         throw err;
       }
@@ -233,7 +234,13 @@ async function main(): Promise<void> {
       await sleep(PACING_MS);
     }
 
-    const rawPhotos = await withBackoff(() => getActivityPhotos(access, id), `photos ${id}`);
+    // Photos are optional — never let a rate-limited photo fetch abort the whole sync.
+    let rawPhotos: Awaited<ReturnType<typeof getActivityPhotos>> = [];
+    try {
+      rawPhotos = await withBackoff(() => getActivityPhotos(access, id), `photos ${id}`);
+    } catch (err) {
+      console.warn(`[strava] photos ${id} skipped:`, err instanceof Error ? err.message : err);
+    }
     await sleep(PACING_MS);
     const built = buildPhotosFromRaw(rawPhotos);
     const { photos, fetched } = await downloadPhotos(built, path.join(PUBLIC_DIR, String(id)));

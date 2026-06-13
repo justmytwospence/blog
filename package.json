@@ -17,7 +17,8 @@
     "sync:strava": "tsx scripts/sync-strava.ts",
     "strava:inbox": "tsx scripts/strava-inbox.ts",
     "strava:bootstrap": "tsx scripts/strava-bootstrap.ts",
-    "strava:sweep": "tsx scripts/strava-sweep.ts"
+    "strava:sweep": "tsx scripts/strava-sweep.ts",
+    "strava:thumbs": "tsx scripts/regen-thumbs.ts"
   },
   "workspaces": [
     "packages/*"
