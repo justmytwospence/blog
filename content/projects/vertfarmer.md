@@ -6,4 +6,9 @@ description: "Plan terrain-aware routes in the browser: drop waypoints on a topo
 featured: true
 type: "external"
 externalUrl: "https://vertfarm.app"
+links:
+  - label: "Live"
+    url: "https://vertfarm.app"
+  - label: "GitHub"
+    url: "https://github.com/justmytwospence/firsttracks"
 ---

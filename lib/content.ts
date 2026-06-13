@@ -83,6 +83,7 @@ export function getAllProjects(): Project[] {
           description: data.description || '',
           featured: data.featured || false,
           externalUrl: data.externalUrl,
+          links: data.links,
         });
       } else if (file.endsWith('.ipynb')) {
         // Notebook project

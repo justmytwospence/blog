@@ -42,8 +42,8 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-6">
           {projects.map((project) => {
-            const href = project.externalUrl || `/projects/${project.slug}`;
-            const isExternal = !!project.externalUrl;
+            const href = project.links?.[0]?.url || project.externalUrl || `/projects/${project.slug}`;
+            const isExternal = Boolean(project.links?.[0]?.url || project.externalUrl);
             
             return (
             <div

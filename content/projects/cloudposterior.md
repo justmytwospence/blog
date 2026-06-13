@@ -6,4 +6,9 @@ description: "Stop waiting for MCMC. A context manager that offloads PyMC sampli
 featured: true
 type: "external"
 externalUrl: "https://github.com/justmytwospence/cloudposterior"
+links:
+  - label: "Docs"
+    url: "https://justmytwospence.github.io/cloudposterior/"
+  - label: "GitHub"
+    url: "https://github.com/justmytwospence/cloudposterior"
 ---
