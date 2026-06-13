@@ -8,6 +8,7 @@ import { AdventureStats } from './AdventureStats';
 import { RouteMap } from './RouteMap';
 import { ElevationProfile } from './ElevationProfile';
 import { MetricCharts } from './MetricCharts';
+import { TerrainAnalysis } from './TerrainAnalysis';
 import { PhotoGallery } from './PhotoGallery';
 import { HoverReset } from './HoverReset';
 import { WeatherBadge } from './WeatherBadge';
@@ -90,6 +91,13 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
   const loc = placeOf(adventure.location);
   // Phase 4 renders the map/charts for single-activity reports; Phase 7 adds the multi-day combined map.
   const track = adventure.isMultiDay ? null : adventure.primaryActivity.track;
+  // Terrain analysis (grade dist + aspect rose) only for steep/ski-type single-activity reports.
+  const STEEP_SPORTS = new Set(['BackcountrySki', 'AlpineSki', 'NordicSki', 'Snowboard', 'Snowshoe', 'Mountaineering']);
+  const STEEP_TYPES = new Set(['peak', 'scramble', 'traverse', 'mountaineering', 'ski', 'ski-mo', 'high-route']);
+  const showTerrain =
+    !!track &&
+    track.coordinates.length > 1 &&
+    (STEEP_SPORTS.has(adventure.sportType) || (adventure.type != null && STEEP_TYPES.has(adventure.type)));
   const epic = `${formatDistance(adventure.totals.distanceMeters)} · ${formatElevation(
     adventure.totals.elevationGainMeters,
   )} · ${formatDuration(adventure.totals.movingTimeSeconds)}`;
@@ -144,6 +152,7 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
         track && track.altitude.length > 1 && <ElevationProfile track={track} />
       )}
       {track && <MetricCharts track={track} />}
+      {showTerrain && track && <TerrainAnalysis track={track} />}
 
       {adventure.isMultiDay && (
         <TripDayBreakdown days={adventure.days} fallbackSport={adventure.sportType} />
