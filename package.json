@@ -13,7 +13,10 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest --run",
-    "polypane": "open -a Polypane --args --remote-debugging-port=5858"
+    "polypane": "open -a Polypane --args --remote-debugging-port=5858",
+    "sync:strava": "tsx scripts/sync-strava.ts",
+    "strava:inbox": "tsx scripts/strava-inbox.ts",
+    "strava:bootstrap": "tsx scripts/strava-bootstrap.ts"
   },
   "workspaces": [
     "packages/*"
@@ -23,6 +26,7 @@
     "@blog/inoreader": "*",
     "@blog/notebook-parser": "*",
     "@blog/obsidian-md": "*",
+    "@blog/strava": "*",
     "@r4ai/remark-callout": "^0.6.2",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
@@ -60,7 +64,9 @@
     "eslint": "^9.18.0",
     "eslint-config-next": "^16.1.6",
     "postcss": "^8.5.6",
+    "sharp": "^0.34.0",
     "tailwindcss": "^4.1.17",
+    "tsx": "^4.20.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.10"
   }

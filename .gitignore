@@ -31,6 +31,9 @@ pnpm-debug.log*
 .env.test.local
 .env.production.local
 
+# strava sync local token (rotated refresh token)
+/.strava-token.json
+
 # vercel
 .vercel
 

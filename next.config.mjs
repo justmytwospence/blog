@@ -15,6 +15,7 @@ const nextConfig = {
     '@blog/hardcover',
     '@blog/inoreader',
     '@blog/obsidian-md',
+    '@blog/strava',
   ],
   images: {
     remotePatterns: [
