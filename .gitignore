@@ -90,3 +90,6 @@ __pycache__/
 
 # local scratch (screenshots, review docs)
 /.tmp-screens/
+
+# 14ers route-options scratch reference
+/scripts/14ers-routes.json
