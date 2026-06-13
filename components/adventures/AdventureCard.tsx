@@ -3,6 +3,8 @@ import { Star } from 'lucide-react';
 import { formatDate } from '@/lib/format';
 import { formatDistance, formatElevation, formatDuration } from '@/lib/units';
 import { SportBadge } from './SportBadge';
+import { RouteThumb } from './RouteThumb';
+import { sportColor } from './mapStyle';
 import type { AdventureSummary } from '@/lib/adventures';
 
 export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
@@ -10,19 +12,33 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
   const place = [adventure.location.city, adventure.location.state ?? adventure.location.country]
     .filter(Boolean)
     .join(', ');
+  const route = adventure.summaryPolyline;
 
   return (
     <Link
       href={`/adventures/${adventure.slug}`}
       className="group block overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md transition-shadow hover:shadow-lg dark:border-[#303031] dark:bg-[#252526]"
     >
-      {adventure.coverThumb ? (
-        // Local static image; intrinsic next/image isn't needed for a fixed-height cover.
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={adventure.coverThumb} alt="" className="h-44 w-full object-cover" loading="lazy" />
-      ) : (
-        <div className="h-44 w-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-[#2a2a2b] dark:to-[#1e1e1e]" />
-      )}
+      <div className="relative h-44 w-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-[#2a2a2b] dark:to-[#1e1e1e]">
+        {/* Route shape as the base layer — shown when there's no photo, and revealed on hover when there is. */}
+        {route && (
+          <div className="absolute inset-0 flex items-center justify-center p-3">
+            <RouteThumb polyline={route} stroke={sportColor(adventure.sportType)} className="h-full w-full opacity-80" />
+          </div>
+        )}
+        {adventure.coverThumb && (
+          // Local static image; intrinsic next/image isn't needed for a fixed-height cover.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={adventure.coverThumb}
+            alt=""
+            loading="lazy"
+            className={`absolute inset-0 h-full w-full object-cover ${
+              route ? 'transition-opacity duration-300 group-hover:opacity-0' : ''
+            }`}
+          />
+        )}
+      </div>
       <div className="p-5">
         <div className="mb-2 flex items-center gap-2">
           <SportBadge sportType={adventure.sportType} size="sm" />
