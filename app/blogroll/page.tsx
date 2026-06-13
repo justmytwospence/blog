@@ -14,7 +14,7 @@ export default async function BlogrollPage() {
   const items = await getBlogrollItems();
 
   return (
-    <PageContainer width="prose">
+    <PageContainer width="wide">
       <div className="mb-12">
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-[#d4d4d4]">Blogroll</h1>
         <p className="text-lg text-gray-600 dark:text-[#cccccc]">
