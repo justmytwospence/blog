@@ -13,8 +13,9 @@ export function TripElevation({ days, unit = 'day' }: { days: AdventureDay[]; un
   const dark = useIsDark();
   const label = unit === 'leg' ? 'Leg' : 'Day';
 
-  // One dataset per day. Each day fills its own x-range down to the baseline, so there are
-  // no cross-day connecting segments — those are what produced the triangular fill wedges.
+  // One dataset per day. Each day fills its own x-range down to the baseline. Advance the
+  // cumulative distance by the TRACK's end (not the activity's total) so consecutive days are
+  // contiguous on the x-axis — bridging across that gap is what produced the triangular fills.
   const datasets = useMemo(() => {
     const out: Array<{
       label: string;
@@ -32,9 +33,6 @@ export function TripElevation({ days, unit = 'day' }: { days: AdventureDay[]; un
       const t = days[di].activity.track;
       if (t && t.altitude && t.altitude.length >= 2) {
         const data: Array<{ x: number; y: number }> = [];
-        // Bridge to the previous day's final point so adjacent fills meet with no seam.
-        const prev = out[out.length - 1];
-        if (prev && prev.data.length) data.push(prev.data[prev.data.length - 1]);
         for (let i = 0; i < t.altitude.length; i++) {
           data.push({ x: metersToMiles(cumulative + (t.distance[i] ?? 0)), y: metersToFeet(t.altitude[i]) });
         }
@@ -50,8 +48,10 @@ export function TripElevation({ days, unit = 'day' }: { days: AdventureDay[]; un
           pointHoverRadius: 0,
           tension: 0,
         });
+        cumulative += t.distance[t.distance.length - 1] ?? days[di].activity.stats.distanceMeters;
+      } else {
+        cumulative += days[di].activity.stats.distanceMeters;
       }
-      cumulative += days[di].activity.stats.distanceMeters;
     }
     return out;
   }, [days, label]);
