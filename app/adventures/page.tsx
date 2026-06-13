@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { PageContainer } from '@/components/PageContainer';
 import { StatsBanner } from '@/components/adventures/StatsBanner';
 import { LibraryView } from '@/components/adventures/LibraryView';
-import { getAllAdventures, getLifetimeStats } from '@/lib/adventures';
+import { YearlyChart } from '@/components/adventures/YearlyChart';
+import { getAllAdventures, getLifetimeStats, getYearlyTotals } from '@/lib/adventures';
 
 export const metadata: Metadata = {
   title: 'Adventures',
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
 export default function AdventuresPage() {
   const adventures = getAllAdventures();
   const stats = getLifetimeStats();
+  const yearly = getYearlyTotals();
 
   return (
     <PageContainer width="wide">
@@ -29,10 +31,11 @@ export default function AdventuresPage() {
           href="/adventures/objectives"
           className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
         >
-          Objectives →
+          Future Objectives →
         </Link>
       </div>
       <StatsBanner stats={stats} />
+      <YearlyChart totals={yearly} />
       <Suspense
         fallback={<div className="py-12 text-center text-gray-500 dark:text-[#a6a6a6]">Loading…</div>}
       >

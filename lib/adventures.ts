@@ -23,6 +23,7 @@ const ADVENTURES_DIR = path.join(process.cwd(), 'content', 'adventures');
 const SNAPSHOT_DIR = path.join(process.cwd(), 'data', 'adventures');
 const ACTIVITIES_DIR = path.join(SNAPSHOT_DIR, 'activities');
 const OBJECTIVES_FILE = path.join(SNAPSHOT_DIR, 'objectives.json');
+const YEARLY_FILE = path.join(SNAPSHOT_DIR, 'yearly-totals.json');
 
 // ─── Public types ──────────────────────────────────────────────────
 
@@ -417,6 +418,26 @@ export function getLifetimeStats(): LifetimeStats {
       highestPoint,
     },
   };
+}
+
+export interface YearPoint {
+  doy: number; // day of year, 1-366
+  distM: number; // cumulative distance (meters) through that day
+  gainM: number; // cumulative elevation gain (meters) through that day
+}
+export interface YearlyTotals {
+  years: Record<string, YearPoint[]>;
+}
+
+/** Cumulative distance + elevation by day-of-year per year, across the full activity history. */
+export function getYearlyTotals(): YearlyTotals {
+  if (!fs.existsSync(YEARLY_FILE)) return { years: {} };
+  try {
+    return JSON.parse(fs.readFileSync(YEARLY_FILE, 'utf8')) as YearlyTotals;
+  } catch (err) {
+    console.error('[adventures] bad yearly-totals.json:', err);
+    return { years: {} };
+  }
 }
 
 /** Slugs of objectives already fulfilled by a published report — by explicit `objective:` link or matching slug. */
