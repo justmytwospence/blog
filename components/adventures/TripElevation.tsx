@@ -58,6 +58,8 @@ export function TripElevation({ days }: { days: AdventureDay[] }) {
 
   const tick = chartTick(dark);
   const grid = chartGrid(dark);
+  const lastDay = datasets[datasets.length - 1].data;
+  const maxX = lastDay[lastDay.length - 1]?.x;
 
   const data = { datasets };
 
@@ -80,6 +82,8 @@ export function TripElevation({ days }: { days: AdventureDay[] }) {
     scales: {
       x: {
         type: 'linear',
+        min: 0,
+        max: maxX,
         title: { display: true, text: 'Distance (mi)', color: tick },
         ticks: { color: tick, maxTicksLimit: 10 },
         grid: { color: grid },

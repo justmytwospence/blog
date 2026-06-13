@@ -76,6 +76,8 @@ export function MetricCharts({ track }: { track: AdventureTrack }) {
     scales: {
       x: {
         type: 'linear',
+        min: 0,
+        max: points[points.length - 1]?.x,
         title: { display: true, text: 'Distance (mi)', color: tick },
         ticks: { color: tick, maxTicksLimit: 8 },
         grid: { color: grid },
