@@ -1,0 +1,29 @@
+import type { Metadata } from 'next';
+import { PageContainer } from '@/components/PageContainer';
+import { StatsBanner } from '@/components/adventures/StatsBanner';
+import { LibraryView } from '@/components/adventures/LibraryView';
+import { getAllAdventures, getLifetimeStats } from '@/lib/adventures';
+
+export const metadata: Metadata = {
+  title: 'Adventures',
+  description:
+    'A curated library of trail runs, mountaineering, skiing, and cycling — automated trip reports with maps, stats, and photos.',
+};
+
+export default function AdventuresPage() {
+  const adventures = getAllAdventures();
+  const stats = getLifetimeStats();
+
+  return (
+    <PageContainer width="wide">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-[#d4d4d4]">Adventures</h1>
+        <p className="mt-2 text-gray-600 dark:text-[#cccccc]">
+          A curated log of long days out — runs, climbs, skis, and rides worth remembering.
+        </p>
+      </div>
+      <StatsBanner stats={stats} />
+      <LibraryView adventures={adventures} />
+    </PageContainer>
+  );
+}

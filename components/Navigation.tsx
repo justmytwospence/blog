@@ -10,6 +10,7 @@ export function Navigation() {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About' },
+    { href: '/adventures', label: 'Adventures' },
     { href: '/projects', label: 'Projects' },
     { href: '/concepts', label: 'Concepts' },
     { href: '/blog', label: 'Blog' },
@@ -74,12 +75,12 @@ export function Navigation() {
 
       {/* Mobile nav - fixed bottom bar */}
       <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200 safe-area-bottom">
-        <div className="flex justify-evenly items-center h-16">
+        <div className="flex justify-evenly items-center h-16 overflow-x-auto">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`flex flex-col items-center justify-center py-2 text-xs font-medium transition-colors duration-200 ${
+              className={`flex shrink-0 flex-col items-center justify-center px-2 py-2 text-xs font-medium transition-colors duration-200 ${
                 isActive(link.href)
                   ? 'text-blue-600 dark:text-blue-400'
                   : 'text-gray-600 dark:text-[#a6a6a6]'
@@ -93,6 +94,11 @@ export function Navigation() {
               {link.label === 'About' && (
                 <svg className="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              )}
+              {link.label === 'Adventures' && (
+                <svg className="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 19h18L15 8l-3.5 6L9 11l-6 8z" />
                 </svg>
               )}
               {link.label === 'Projects' && (
