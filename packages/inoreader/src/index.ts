@@ -59,6 +59,35 @@ function truncate(text: string, maxLength: number): string {
   return (lastSpace > 0 ? truncated.slice(0, lastSpace) : truncated) + '...';
 }
 
+/**
+ * Decode the common HTML entities (named + numeric) found in feed titles and
+ * summaries. fast-xml-parser only decodes XML entities, so e.g. &rsquo; or
+ * &ecirc; would otherwise render literally (e.g. "Bri&rsquo;s Substack").
+ */
+const NAMED_ENTITIES: Record<string, string> = {
+  amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
+  rsquo: '’', lsquo: '‘', ldquo: '“', rdquo: '”',
+  ndash: '–', mdash: '—', hellip: '…', middot: '·',
+  eacute: 'é', egrave: 'è', ecirc: 'ê', euml: 'ë',
+  agrave: 'à', acirc: 'â', auml: 'ä', aacute: 'á',
+  ouml: 'ö', uuml: 'ü', iuml: 'ï', ccedil: 'ç',
+  ntilde: 'ñ', oslash: 'ø', aring: 'å', szlig: 'ß',
+  copy: '©', reg: '®', trade: '™', deg: '°',
+};
+
+function decodeEntities(text: string): string {
+  return text.replace(/&(#x?[0-9a-f]+|[a-z][a-z0-9]*);/gi, (match, code: string) => {
+    if (code[0] === '#') {
+      const cp =
+        code[1] === 'x' || code[1] === 'X'
+          ? parseInt(code.slice(2), 16)
+          : parseInt(code.slice(1), 10);
+      return Number.isFinite(cp) && cp >= 0 && cp <= 0x10ffff ? String.fromCodePoint(cp) : match;
+    }
+    return NAMED_ENTITIES[code.toLowerCase()] ?? match;
+  });
+}
+
 function normalizeCategories(raw: string | string[] | undefined): string[] {
   if (!raw) return [];
   const cats = Array.isArray(raw) ? raw : [raw];
@@ -79,14 +108,19 @@ function estimateReadingTime(wordCount: number): number | null {
 
 function transformItem(raw: RawRssItem, sourceAttr: Record<string, string> | undefined): BlogrollItem {
   const description = raw.description ?? '';
-  const plainText = stripHtml(description);
+  const plainText = decodeEntities(stripHtml(description));
   const wordCount = plainText.split(/\s+/).filter(Boolean).length;
 
+  // <source url="...">Feed Title</source> parses to a string when it has no
+  // attributes, or an object ({ '@_url', '#text' }) when it does — read the
+  // feed title from whichever shape we got.
+  const sourceName = typeof raw.source === 'string' ? raw.source : (sourceAttr?.['#text'] ?? null);
+
   return {
-    title: raw.title,
+    title: decodeEntities(raw.title),
     url: raw.link,
-    author: raw['dc:creator'] ?? null,
-    sourceName: typeof raw.source === 'string' ? raw.source : null,
+    author: raw['dc:creator'] ? decodeEntities(raw['dc:creator']) : null,
+    sourceName: sourceName ? decodeEntities(sourceName) : null,
     sourceUrl: sourceAttr?.['@_url'] ?? null,
     publishedDate: raw.pubDate ?? '',
     summary: truncate(plainText, 200),
