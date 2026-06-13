@@ -105,9 +105,13 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
               <div />
             </div>
 
-            {/* Day cells, filled column-by-column (one column per week) */}
+            {/* Day cells, filled column-by-column (one column per week). The
+                grid is exposed as a single labelled image so assistive tech
+                gets the summary instead of 371 individual cells. */}
             <div
               className="grid"
+              role="img"
+              aria-label={`Project commit activity over the past year: ${data.totalCommits.toLocaleString('en-US')} commits across ${data.repoCount} projects.`}
               style={{
                 gridTemplateColumns: colsTemplate,
                 gridTemplateRows: rowsTemplate,
@@ -143,7 +147,7 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
           {/* Caption + legend */}
           <div className="ml-8 mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
             <span className="text-xs text-gray-500 dark:text-[#a6a6a6]">
-              {data.totalCommits.toLocaleString()} commits across {data.repoCount} projects in the past year
+              {data.totalCommits.toLocaleString('en-US')} commits across {data.repoCount} projects in the past year
             </span>
             <div className="flex items-center gap-1 text-[10px] text-gray-400 dark:text-[#6e6e6e]">
               <span className="mr-1">Less</span>
