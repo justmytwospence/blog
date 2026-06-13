@@ -60,9 +60,6 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
                   <span className="text-xs px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
                     {project.type}
                   </span>
-                  <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">
-                    {new Date(project.date).toLocaleDateString()}
-                  </span>
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-[#d4d4d4]">
                   {project.title}

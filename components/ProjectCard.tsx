@@ -28,17 +28,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
       rel={isExternal ? 'noopener noreferrer' : undefined}
       className="block p-6 bg-white dark:bg-[#252526] rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200 dark:border-[#303031]"
     >
-      {/* Type badge and date */}
+      {/* Type badge */}
       <div className="flex items-center gap-2 mb-3">
         <span className="text-xs px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-medium">
           {getTypeBadge(project.type)}
-        </span>
-        <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">
-          {new Date(project.date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-          })}
         </span>
       </div>
 
