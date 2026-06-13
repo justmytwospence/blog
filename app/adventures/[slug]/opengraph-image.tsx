@@ -1,14 +1,12 @@
 import { ImageResponse } from 'next/og';
-import { getAllAdventures, getAdventureBySlug } from '@/lib/adventures';
+import { getAdventureBySlug } from '@/lib/adventures';
 import { formatDistance, formatElevation, formatDuration } from '@/lib/units';
 
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
-export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return getAllAdventures().map((a) => ({ slug: a.slug }));
-}
+// Generated on-demand and cached at the edge (not prerendered) so the Satori renders don't
+// run for every adventure on every build — the report HTML stays statically prerendered.
 
 /** Normalize a [lng,lat] track into an SVG polyline (y inverted so north is up). */
 function routeSvg(coords: Array<[number, number]>): string | null {
