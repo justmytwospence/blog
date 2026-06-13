@@ -263,6 +263,8 @@ async function main(): Promise<void> {
     }
     fs.writeFileSync(jsonPath, JSON.stringify(activity, null, 2));
     cache[String(id)] = { sourceHash: hash, syncedAt: activity.syncedAt };
+    // Persist the cache after every activity so an interrupted run resumes without re-fetching.
+    fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
     synced++;
     console.log(`[strava] synced ${id} — ${activity.name}`);
   }
