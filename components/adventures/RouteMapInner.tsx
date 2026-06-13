@@ -5,9 +5,9 @@ import { MapContainer, TileLayer, Polyline, Marker, CircleMarker, useMap, useMap
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {
-  OPENTOPO_URL,
-  OPENTOPO_ATTRIBUTION,
-  OPENTOPO_MAX_ZOOM,
+  TILE_URL,
+  TILE_ATTRIBUTION,
+  TILE_MAX_ZOOM,
   gradeColor,
   rampColor,
   type RouteColorMetric,
@@ -138,7 +138,7 @@ export function RouteMapInner({
       style={{ height: '100%', width: '100%' }}
       className="h-full w-full"
     >
-      <TileLayer url={OPENTOPO_URL} attribution={OPENTOPO_ATTRIBUTION} maxZoom={OPENTOPO_MAX_ZOOM} />
+      <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} maxZoom={TILE_MAX_ZOOM} />
       <ResizeHandler />
       <RefitOnToggle bounds={bounds} full={full} />
       <HoverTracker pts={pts} />

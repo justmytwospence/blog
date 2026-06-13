@@ -6,7 +6,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import Link from 'next/link';
 import { decodePolyline } from '@blog/strava';
-import { OPENTOPO_URL, OPENTOPO_ATTRIBUTION, OPENTOPO_MAX_ZOOM, sportColor } from './mapStyle';
+import { TILE_URL, TILE_ATTRIBUTION, TILE_MAX_ZOOM, sportColor } from './mapStyle';
 import { formatDistance, formatElevation } from '@/lib/units';
 import type { AdventureSummary } from '@/lib/adventures';
 
@@ -70,7 +70,7 @@ export function AdventuresMapInner({ items }: { items: AdventureSummary[] }) {
 
   return (
     <MapContainer scrollWheelZoom={false} style={{ height: '100%', width: '100%' }} className="h-full w-full" {...mapProps}>
-      <TileLayer url={OPENTOPO_URL} attribution={OPENTOPO_ATTRIBUTION} maxZoom={OPENTOPO_MAX_ZOOM} />
+      <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} maxZoom={TILE_MAX_ZOOM} />
       <ResizeHandler />
       <FitBounds bounds={bounds} />
       {routes.map((r) => (

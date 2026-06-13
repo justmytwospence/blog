@@ -3,10 +3,12 @@
  * Tile config, metric color ramps, and the multi-day palette.
  */
 
-export const OPENTOPO_URL = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
-export const OPENTOPO_ATTRIBUTION =
-  'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, SRTM | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)';
-export const OPENTOPO_MAX_ZOOM = 17;
+// Esri World Topo — muted, natural topographic relief (no API key). Note the {z}/{y}/{x} tile order.
+export const TILE_URL =
+  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}';
+export const TILE_ATTRIBUTION =
+  'Tiles &copy; <a href="https://www.esri.com/">Esri</a> &mdash; Esri, DeLorme, NAVTEQ, TomTom, USGS, NPS and the GIS user community';
+export const TILE_MAX_ZOOM = 19;
 
 /** The metric a route can be colored by. */
 export type RouteColorMetric = 'grade' | 'speed' | 'hr';

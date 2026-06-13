@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { MapContainer, TileLayer, Polyline, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { OPENTOPO_URL, OPENTOPO_ATTRIBUTION, OPENTOPO_MAX_ZOOM, dayColor } from './mapStyle';
+import { TILE_URL, TILE_ATTRIBUTION, TILE_MAX_ZOOM, dayColor } from './mapStyle';
 import { ResizeHandler, dotIcon, PhotoPins } from './leafletShared';
 import type { AdventureDay, ResolvedPhoto } from '@/lib/adventures';
 
@@ -39,7 +39,7 @@ export function TripMapInner({ days, photos = [] }: { days: AdventureDay[]; phot
       style={{ height: '100%', width: '100%' }}
       className="h-full w-full"
     >
-      <TileLayer url={OPENTOPO_URL} attribution={OPENTOPO_ATTRIBUTION} maxZoom={OPENTOPO_MAX_ZOOM} />
+      <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} maxZoom={TILE_MAX_ZOOM} />
       <ResizeHandler />
       {dayLines.map((d, i) => (
         <Polyline key={i} positions={d.positions} pathOptions={{ color: d.color, weight: 4, opacity: 0.9 }} />

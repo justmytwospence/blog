@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { MapContainer, TileLayer, CircleMarker, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { OPENTOPO_URL, OPENTOPO_ATTRIBUTION, OPENTOPO_MAX_ZOOM } from './mapStyle';
+import { TILE_URL, TILE_ATTRIBUTION, TILE_MAX_ZOOM } from './mapStyle';
 import { ResizeHandler } from './leafletShared';
 import { REGION_CENTROIDS, regionName } from './regionCentroids';
 import type { Objective } from '@/lib/adventures';
@@ -39,7 +39,7 @@ export function ObjectivesMapInner({
 
   return (
     <MapContainer scrollWheelZoom={false} style={{ height: '100%', width: '100%' }} className="h-full w-full" {...mapProps}>
-      <TileLayer url={OPENTOPO_URL} attribution={OPENTOPO_ATTRIBUTION} maxZoom={OPENTOPO_MAX_ZOOM} />
+      <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} maxZoom={TILE_MAX_ZOOM} />
       <ResizeHandler />
       {markers.map((m) => (
         <CircleMarker
