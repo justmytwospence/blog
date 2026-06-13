@@ -66,7 +66,7 @@ export default function RootLayout({
         >
           <div className="flex flex-col min-h-screen bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-[#d4d4d4] transition-colors duration-200">
             <Navigation />
-            <div className="flex-1 pb-20 sm:pb-0">
+            <div className="flex-1 pb-20 md:pb-0">
               {children}
             </div>
           </div>

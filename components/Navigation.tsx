@@ -27,12 +27,12 @@ export function Navigation() {
 
   return (
     <>
-      {/* Desktop nav - sticky top */}
-      <nav className="hidden sm:block sticky top-0 z-50 border-b border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200">
+      {/* Desktop nav - sticky top (md+; below md uses the bottom bar so 8 links don't overflow) */}
+      <nav className="hidden md:block sticky top-0 z-50 border-b border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Desktop Navigation Links */}
-            <div className="flex space-x-8">
+            <div className="flex space-x-4 lg:space-x-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -73,8 +73,8 @@ export function Navigation() {
         </div>
       </nav>
 
-      {/* Mobile nav - fixed bottom bar */}
-      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200 safe-area-bottom">
+      {/* Mobile nav - fixed bottom bar (below md) */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200 safe-area-bottom">
         <div className="flex justify-evenly items-center h-16 overflow-x-auto">
           {navLinks.map((link) => (
             <Link
