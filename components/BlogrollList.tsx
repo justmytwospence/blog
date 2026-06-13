@@ -13,8 +13,12 @@ function getDomain(url: string): string {
 
 // Sentinel category key for items that carry no tags of their own.
 const OTHER = '__other__';
-// How many articles to reveal per infinite-scroll batch.
-const BATCH = 12;
+// Initial render count, then a small increment per infinite-scroll batch.
+const INITIAL_BATCH = 12;
+const SCROLL_BATCH = 5;
+// Brief pause so the loading indicator is perceptible (data is already
+// client-side, so the reveal itself is instant).
+const LOAD_DELAY_MS = 350;
 
 type Feed = { key: string; label: string; href: string };
 type Group = { key: string; label: string; feeds: Feed[] };
@@ -25,7 +29,8 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
   // active filter.
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   // Infinite scroll: how many of `items` have been revealed so far.
-  const [loadedCount, setLoadedCount] = useState(BATCH);
+  const [loadedCount, setLoadedCount] = useState(INITIAL_BATCH);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   const loaded = useMemo(() => items.slice(0, loadedCount), [items, loadedCount]);
   const hasMore = loadedCount < items.length;
@@ -79,23 +84,31 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
     return loaded.filter((item) => item.categories.includes(activeCategory));
   }, [loaded, activeCategory]);
 
-  // Reveal the next batch whenever the sentinel scrolls into view. Re-running
-  // on loadedCount lets a short page keep filling until the viewport is full.
+  // When the sentinel scrolls into view, flag a load. Re-running on loadedCount
+  // lets a short page keep filling until the viewport is covered.
   const sentinelRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const node = sentinelRef.current;
     if (!node || !hasMore) return;
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
-          setLoadedCount((count) => Math.min(items.length, count + BATCH));
-        }
+        if (entries[0].isIntersecting) setLoadingMore(true);
       },
-      { rootMargin: '600px 0px' }
+      { rootMargin: '200px 0px' }
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [hasMore, loadedCount, items.length]);
+  }, [hasMore, loadedCount]);
+
+  // Reveal the next (small) batch after a brief delay so the spinner is visible.
+  useEffect(() => {
+    if (!loadingMore) return;
+    const timer = setTimeout(() => {
+      setLoadedCount((count) => Math.min(items.length, count + SCROLL_BATCH));
+      setLoadingMore(false);
+    }, LOAD_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [loadingMore, items.length]);
 
   const header = (
     <div className="mb-8">
@@ -274,8 +287,24 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
           )}
         </div>
 
-        {/* Infinite-scroll sentinel */}
-        {hasMore && <div ref={sentinelRef} className="h-10" aria-hidden="true" />}
+        {/* Infinite-scroll sentinel + loading indicator */}
+        {hasMore && (
+          <div ref={sentinelRef} className="flex justify-center py-8" aria-live="polite">
+            {loadingMore && (
+              <span className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-[#a6a6a6]">
+                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
+                </svg>
+                Loading more&hellip;
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
