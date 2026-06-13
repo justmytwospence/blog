@@ -5,6 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { parseStravaIds } from '@blog/strava';
 
 export const REPO_ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 export const CONTENT_DIR = path.join(REPO_ROOT, 'content', 'adventures');
@@ -99,18 +100,12 @@ export function readCompanions(matterFn: (s: string) => { data: Record<string, u
     if (!f.endsWith('.md') || f === 'objectives.md' || f.startsWith('.')) continue;
     try {
       const fm = matterFn(fs.readFileSync(path.join(CONTENT_DIR, f), 'utf8')).data;
-      const ids: number[] = [];
-      const raw = fm.strava_ids ?? fm.strava_id;
-      if (Array.isArray(raw)) {
-        for (const v of raw) {
-          const n = Number(v);
-          if (!Number.isNaN(n)) ids.push(n);
-        }
-      } else if (raw != null) {
-        const n = Number(raw);
-        if (!Number.isNaN(n)) ids.push(n);
-      }
-      out.push({ file: f, slug: f.replace(/\.md$/, ''), ids, hidden: Boolean(fm.hidden) });
+      out.push({
+        file: f,
+        slug: f.replace(/\.md$/, ''),
+        ids: parseStravaIds(fm),
+        hidden: Boolean(fm.hidden),
+      });
     } catch (err) {
       console.error(`[strava] could not parse ${f}:`, err);
     }

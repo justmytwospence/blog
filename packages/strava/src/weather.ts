@@ -7,6 +7,17 @@ import type { AdventureWeather } from './types';
 
 const ARCHIVE_URL = 'https://archive-api.open-meteo.com/v1/archive';
 
+/**
+ * Minutes-since-midnight from an ISO-ish timestamp, IGNORING any timezone offset.
+ * Both Strava `start_date_local` (suffixed with a misleading 'Z') and Open-Meteo's
+ * `timezone:auto` hourly times represent the activity's local wall clock, so we match
+ * on the naive local time rather than absolute epoch ms (which would mis-parse the 'Z').
+ */
+function minutesOfDay(iso: string): number {
+  const m = iso.match(/T(\d{2}):(\d{2})/);
+  return m ? Number(m[1]) * 60 + Number(m[2]) : 12 * 60;
+}
+
 export async function fetchHistoricalWeather(opts: {
   lat: number;
   lng: number;
@@ -42,13 +53,11 @@ export async function fetchHistoricalWeather(opts: {
     const h = json.hourly;
     if (!h || !Array.isArray(h.time) || h.time.length === 0) return null;
 
-    const targetMs = opts.startLocalIso
-      ? new Date(opts.startLocalIso).getTime()
-      : new Date(`${opts.date}T12:00`).getTime();
+    const targetMin = opts.startLocalIso ? minutesOfDay(opts.startLocalIso) : 12 * 60;
     let bestIdx = 0;
     let bestDiff = Number.POSITIVE_INFINITY;
     for (let i = 0; i < h.time.length; i++) {
-      const diff = Math.abs(new Date(h.time[i]).getTime() - targetMs);
+      const diff = Math.abs(minutesOfDay(h.time[i]) - targetMin);
       if (diff < bestDiff) {
         bestDiff = diff;
         bestIdx = i;

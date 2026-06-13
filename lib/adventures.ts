@@ -9,6 +9,7 @@ import matter from 'gray-matter';
 import { mapCommonMetadata, normalizeDate } from './content';
 import { preprocessObsidian } from '@blog/obsidian-md';
 import type { AdventureActivity, AdventureStats, SportType } from '@blog/strava/types';
+import { parseStravaIds, usesIdArray } from '@blog/strava';
 
 export type { AdventureActivity, AdventureStats, SportType };
 
@@ -192,6 +193,7 @@ export function computeTotals(acts: AdventureActivity[]): AdventureStats {
   const maxW = present((x) => x.maxWatts);
   const cal = present((x) => x.calories);
   const suf = present((x) => x.sufferScore);
+  const maxSpd = present((x) => x.maxSpeedMetersPerSec);
 
   return {
     distanceMeters,
@@ -201,7 +203,7 @@ export function computeTotals(acts: AdventureActivity[]): AdventureStats {
     elevHighMeters: elevHi.length ? Math.max(...elevHi) : null,
     elevLowMeters: elevLo.length ? Math.min(...elevLo) : null,
     avgSpeedMetersPerSec: movingTimeSeconds > 0 ? distanceMeters / movingTimeSeconds : 0,
-    maxSpeedMetersPerSec: Math.max(0, ...st.map((x) => x.maxSpeedMetersPerSec)),
+    maxSpeedMetersPerSec: maxSpd.length ? Math.max(...maxSpd) : 0,
     avgHeartrate: timeWeighted((x) => x.avgHeartrate),
     maxHeartrate: maxHr.length ? Math.max(...maxHr) : null,
     avgCadence: timeWeighted((x) => x.avgCadence),
@@ -223,19 +225,14 @@ interface ParsedCompanion {
 function parseCompanion(file: string): ParsedCompanion | null {
   try {
     const { data, content } = matter(fs.readFileSync(path.join(ADVENTURES_DIR, file), 'utf8'));
-    const usedIdsArray = Array.isArray((data as Record<string, unknown>).strava_ids);
-    const raw = (data as Record<string, unknown>).strava_ids ?? (data as Record<string, unknown>).strava_id;
-    const ids: number[] = [];
-    if (Array.isArray(raw)) {
-      for (const v of raw) {
-        const n = Number(v);
-        if (!Number.isNaN(n)) ids.push(n);
-      }
-    } else if (raw != null) {
-      const n = Number(raw);
-      if (!Number.isNaN(n)) ids.push(n);
-    }
-    return { slug: file.replace(/\.md$/, ''), data: data as Record<string, unknown>, content, ids, usedIdsArray };
+    const fm = data as Record<string, unknown>;
+    return {
+      slug: file.replace(/\.md$/, ''),
+      data: fm,
+      content,
+      ids: parseStravaIds(fm),
+      usedIdsArray: usesIdArray(fm),
+    };
   } catch (err) {
     console.error(`[adventures] bad companion ${file}:`, err);
     return null;

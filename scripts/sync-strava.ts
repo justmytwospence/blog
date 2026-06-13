@@ -21,6 +21,7 @@ import {
   fetchHistoricalWeather,
   transformDetailToActivity,
   buildPhotosFromRaw,
+  decodePolyline,
   RateLimitError,
   type RawDetailedActivity,
   type AdventurePhoto,
@@ -77,8 +78,9 @@ async function withBackoff<T>(fn: () => Promise<T>, label: string): Promise<T> {
       return await fn();
     } catch (err) {
       if (err instanceof RateLimitError) {
-        console.warn(`[strava] 429 on ${label}; backing off ${delay}ms`);
-        await sleep(delay);
+        const wait = err.retryAfterMs ?? delay;
+        console.warn(`[strava] 429 on ${label}; backing off ${wait}ms`);
+        await sleep(wait);
         delay = Math.min(delay * 2, 60000);
       } else {
         throw err;
@@ -88,25 +90,41 @@ async function withBackoff<T>(fn: () => Promise<T>, label: string): Promise<T> {
   throw new Error(`[strava] gave up after rate-limit retries on ${label}`);
 }
 
-async function downloadPhotos(photos: AdventurePhoto[], dir: string): Promise<AdventurePhoto[]> {
-  if (photos.length === 0) return [];
+async function downloadPhotos(
+  photos: AdventurePhoto[],
+  dir: string,
+): Promise<{ photos: AdventurePhoto[]; fetched: number }> {
+  if (photos.length === 0) return { photos: [], fetched: 0 };
   fs.mkdirSync(dir, { recursive: true });
   const out: AdventurePhoto[] = [];
+  let fetched = 0;
+  const nonEmpty = (p: string): boolean => fs.existsSync(p) && fs.statSync(p).size > 0;
   for (const ph of photos) {
     const safe = ph.id.replace(/[^a-zA-Z0-9_-]/g, '');
     const base = `photo-${safe}`;
     const displayPath = path.join(dir, `${base}.jpg`);
     const thumbPath = path.join(dir, `${base}-thumb.jpg`);
     try {
-      if (!fs.existsSync(displayPath) || !fs.existsSync(thumbPath)) {
+      if (!nonEmpty(displayPath) || !nonEmpty(thumbPath)) {
         const res = await fetch(ph.sourceUrl);
         if (!res.ok) {
           console.error(`[strava] photo ${ph.id} download ${res.status}`);
           continue;
         }
         const buf = Buffer.from(await res.arrayBuffer());
-        await sharp(buf).rotate().resize({ width: 1600, withoutEnlargement: true }).jpeg({ quality: 82, progressive: true }).toFile(displayPath);
-        await sharp(buf).rotate().resize({ width: 480, withoutEnlargement: true }).jpeg({ quality: 72, progressive: true }).toFile(thumbPath);
+        if (buf.length === 0) {
+          console.error(`[strava] photo ${ph.id} empty body`);
+          continue;
+        }
+        // Write to temp paths then rename, so a crash mid-write never leaves a truncated
+        // file that the presence check would later treat as a complete download.
+        const dTmp = `${displayPath}.tmp`;
+        const tTmp = `${thumbPath}.tmp`;
+        await sharp(buf).rotate().resize({ width: 1600, withoutEnlargement: true }).jpeg({ quality: 82, progressive: true }).toFile(dTmp);
+        await sharp(buf).rotate().resize({ width: 480, withoutEnlargement: true }).jpeg({ quality: 72, progressive: true }).toFile(tTmp);
+        fs.renameSync(dTmp, displayPath);
+        fs.renameSync(tTmp, thumbPath);
+        fetched += 1;
       }
       const meta = await sharp(displayPath).metadata();
       out.push({
@@ -120,7 +138,7 @@ async function downloadPhotos(photos: AdventurePhoto[], dir: string): Promise<Ad
       console.error(`[strava] photo ${ph.id} failed:`, err);
     }
   }
-  return out;
+  return { photos: out, fetched };
 }
 
 async function main(): Promise<void> {
@@ -131,8 +149,11 @@ async function main(): Promise<void> {
   const neededIds = new Set<number>();
   for (const c of companions) c.ids.forEach((id) => neededIds.add(id));
 
-  if (neededIds.size === 0) {
-    console.log('[strava] no activities referenced by content/adventures/*.md — nothing to sync.');
+  if (neededIds.size === 0 && !process.argv.includes('--prune-all')) {
+    console.warn(
+      '[strava] no activities referenced by content/adventures/*.md — refusing to prune the snapshot. Pass --prune-all to wipe it.',
+    );
+    return;
   }
 
   // Auth (persist rotation immediately).
@@ -183,12 +204,19 @@ async function main(): Promise<void> {
     if (!detail.map?.summary_polyline && (!streams || !streams.latlng)) missingGeo.push(id);
 
     let weather: AdventureWeather | null = null;
+    let weatherLat: number | null = null;
+    let weatherLng: number | null = null;
     const startLatLng = detail.start_latlng;
     if (Array.isArray(startLatLng) && startLatLng.length === 2) {
-      const [lat, lng] = startLatLng as [number, number];
+      [weatherLat, weatherLng] = startLatLng as [number, number];
+    } else if (detail.map?.summary_polyline) {
+      const pts = decodePolyline(detail.map.summary_polyline);
+      if (pts.length > 0) [weatherLat, weatherLng] = pts[0];
+    }
+    if (weatherLat != null && weatherLng != null) {
       weather = await fetchHistoricalWeather({
-        lat,
-        lng,
+        lat: weatherLat,
+        lng: weatherLng,
         date: (detail.start_date_local ?? '').slice(0, 10),
         startLocalIso: detail.start_date_local,
       });
@@ -199,9 +227,8 @@ async function main(): Promise<void> {
     const rawPhotos = await withBackoff(() => getActivityPhotos(access, id), `photos ${id}`);
     await sleep(PACING_MS);
     const built = buildPhotosFromRaw(rawPhotos);
-    const before = countFiles(path.join(PUBLIC_DIR, String(id)));
-    const photos = await downloadPhotos(built, path.join(PUBLIC_DIR, String(id)));
-    photosDownloaded += Math.max(0, countFiles(path.join(PUBLIC_DIR, String(id))) - before) / 2;
+    const { photos, fetched } = await downloadPhotos(built, path.join(PUBLIC_DIR, String(id)));
+    photosDownloaded += fetched;
 
     const activity = transformDetailToActivity(detail, streams, weather, photos, {
       syncedAt: new Date().toISOString(),
@@ -263,11 +290,6 @@ async function main(): Promise<void> {
       `${missingGeo.length ? `no-geo: ${missingGeo.join(',')}. ` : ''}` +
       `${missingWeather.length ? `no-weather: ${missingWeather.join(',')}.` : ''}`,
   );
-}
-
-function countFiles(dir: string): number {
-  if (!fs.existsSync(dir)) return 0;
-  return fs.readdirSync(dir).length;
 }
 
 main().catch((err) => {

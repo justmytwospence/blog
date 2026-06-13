@@ -25,7 +25,9 @@ export class RateLimitError extends Error {
 async function get<T>(url: string, token: string): Promise<T | null> {
   const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
   if (res.status === 429) {
-    throw new RateLimitError();
+    const retryAfter = res.headers.get('retry-after');
+    const ms = retryAfter ? Number(retryAfter) * 1000 : NaN;
+    throw new RateLimitError(Number.isFinite(ms) ? ms : undefined);
   }
   if (!res.ok) {
     console.error(`[strava] ${res.status} ${res.statusText} for ${url}`);
