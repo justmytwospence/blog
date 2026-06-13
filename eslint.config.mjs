@@ -12,6 +12,9 @@ export default [
       '.claude/**',
       '.vercel/**',
       'packages/*/dist/**',
+      // Committed static assets (e.g. marimo WASM exports under public/marimo/) are
+      // generated, minified bundles — never our source to lint.
+      'public/**',
       'next-env.d.ts',
     ],
   },

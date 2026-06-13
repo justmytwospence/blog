@@ -4,6 +4,7 @@ import rehypeHighlight from 'rehype-highlight';
 import { languages } from '@/lib/highlight';
 import { NotebookRenderer } from '@/components/notebook/NotebookRenderer';
 import { NotebookErrorBoundary } from '@/components/notebook/errors/NotebookErrorBoundary';
+import { MarimoEmbed } from '@/components/notebook/MarimoEmbed';
 import { PageContainer } from '@/components/PageContainer';
 import { extractMetadata } from '@blog/notebook-parser';
 
@@ -199,16 +200,38 @@ export default async function ProjectDetailPage({
 
     const notebookMetadata = extractMetadata(notebookData, content.metadata.slug);
 
-    return (
-      <PageContainer width="wide">
-        <NotebookErrorBoundary notebookTitle={content.metadata.title}>
-          <NotebookRenderer
-            notebook={notebookData}
-            metadata={notebookMetadata}
-          />
-        </NotebookErrorBoundary>
-      </PageContainer>
+    const staticBody = (
+      <NotebookErrorBoundary notebookTitle={content.metadata.title}>
+        <NotebookRenderer
+          notebook={notebookData}
+          metadata={notebookMetadata}
+        />
+      </NotebookErrorBoundary>
     );
+
+    // Interactive marimo notebooks (opt-in via `interactive: true`) render the live
+    // WASM notebook; the static body is the SSR/no-JS fallback. Everything else —
+    // Jupyter and non-interactive marimo — uses the static pipeline. The committed
+    // export under public/marimo/<slug>/ is the author's responsibility (npm run
+    // notebooks:wasm); we gate on the flag, not a runtime fs check, because public/
+    // is served from the CDN and isn't reliably on the serverless function's disk.
+    const interactiveAvailable =
+      content.metadata.notebookEngine === 'marimo' &&
+      content.metadata.interactive === true;
+
+    if (interactiveAvailable) {
+      return (
+        <PageContainer width="app">
+          <MarimoEmbed
+            src={`/marimo/${content.metadata.slug}/index.html`}
+            title={content.metadata.title}
+            fallback={staticBody}
+          />
+        </PageContainer>
+      );
+    }
+
+    return <PageContainer width="wide">{staticBody}</PageContainer>;
   }
 
   if (content.type === 'webapp') {

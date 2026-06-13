@@ -47,6 +47,26 @@ Python, no execution.
   cells (`mo.sql(...)`), `@app.function`, `@app.class_definition`, and `with app.setup:`
   blocks render as code cells.
 
+### Interactive (WebAssembly)
+
+Because a static render has no outputs and no interactivity, a marimo notebook can opt in to
+a live, in-browser (Pyodide/WASM) view:
+
+- Set `interactive: true` in the notebook's frontmatter. Declare runtime deps with a PEP 723
+  block (`# /// script … dependencies = [...] ///`) — they load in-browser via micropip.
+- Run `npm run notebooks:wasm` (in the site root) and **commit** the generated
+  `public/marimo/<slug>/`. The site embeds it in an `<iframe>` on `/projects/<slug>`; the
+  static render is the SSR/no-JS fallback. CI/Vercel deploy the artifact as-is — no
+  build-time Python (the script uses `marimo` on PATH or `uvx marimo`).
+- **Orthogonal knobs**: editability via `interactive-mode: edit | run` (default `run`);
+  code visibility reuses the existing `execute.echo` / `format.code-fold` metadata
+  (→ marimo `--show-code`/`--no-show-code`).
+- **Caveats**: each export is **~25–30 MB** (marimo's frontend bundle) committed per
+  interactive notebook; Pyodide cold-loads (a few seconds) and needs CDN access (not
+  offline); DuckDB is limited and PyTorch is unavailable in Pyodide; `mo.ui.microphone()`
+  is blocked by the site's global `Permissions-Policy`. Jupyter `.ipynb` notebooks cannot be
+  WASM-exported and always use the static pipeline.
+
 ## HTML sanitization
 
 `sanitizeHtml` uses [`isomorphic-dompurify`](https://www.npmjs.com/package/isomorphic-dompurify) so the same call works under Next.js SSR (jsdom) and in the browser.

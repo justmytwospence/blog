@@ -16,6 +16,12 @@ export interface ContentMetadata {
   description?: string;
   featured?: boolean;
   externalUrl?: string;
+  /** Which notebook engine produced a `type: 'notebook'` item. */
+  notebookEngine?: 'jupyter' | 'marimo';
+  /** marimo only: opt in to an interactive WebAssembly (Pyodide) embed. */
+  interactive?: boolean;
+  /** marimo only: editability of the interactive embed (marimo `--mode`). */
+  interactiveMode?: 'edit' | 'run';
 }
 
 /**

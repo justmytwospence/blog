@@ -13,6 +13,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest --run",
+    "notebooks:wasm": "node scripts/export-marimo-wasm.mjs",
     "polypane": "open -a Polypane --args --remote-debugging-port=5858"
   },
   "workspaces": [

@@ -26,6 +26,30 @@ function calculateReadingTime(content: string): number {
 }
 
 /**
+ * Read marimo-only interactive flags from a notebook's first (frontmatter) cell.
+ * Used to decide whether to serve the interactive WASM embed for a `.py` notebook.
+ */
+function readMarimoInteractive(
+  notebook: { cells?: Array<{ cell_type: string; source: string | string[] }> }
+): { interactive: boolean; interactiveMode?: 'edit' | 'run' } {
+  const first = notebook.cells?.[0];
+  if (!first || (first.cell_type !== 'markdown' && first.cell_type !== 'raw')) {
+    return { interactive: false };
+  }
+  const src = Array.isArray(first.source) ? first.source.join('') : first.source;
+  if (!src.trim().startsWith('---')) return { interactive: false };
+  try {
+    const data = matter(src).data as Record<string, unknown>;
+    const interactive = data.interactive === true || data.interactive === 'true';
+    const mode = data['interactive-mode'];
+    const interactiveMode = mode === 'edit' || mode === 'run' ? mode : undefined;
+    return { interactive, interactiveMode };
+  } catch {
+    return { interactive: false };
+  }
+}
+
+/**
  * Get all projects sorted by date (newest first)
  */
 export function getAllProjects(): Project[] {
@@ -79,6 +103,7 @@ export function getAllProjects(): Project[] {
           category: 'project',
           slug,
           type: 'notebook',
+          notebookEngine: 'jupyter',
           title: metadata.title,
           date: metadata.date,
           categories: metadata.categories,
@@ -94,11 +119,15 @@ export function getAllProjects(): Project[] {
 
         const notebook = parseMarimoNotebook(filePath);
         const metadata = extractMetadata(notebook, slug);
+        const { interactive, interactiveMode } = readMarimoInteractive(notebook);
 
         projects.push({
           category: 'project',
           slug,
           type: 'notebook',
+          notebookEngine: 'marimo',
+          interactive,
+          interactiveMode,
           title: metadata.title,
           date: metadata.date,
           categories: metadata.categories,
@@ -196,6 +225,7 @@ export function getProjectBySlug(slug: string): Content {
           metadata: {
             slug,
             type: 'notebook',
+            notebookEngine: 'jupyter',
             title: metadata.title,
             date: metadata.date,
             categories: metadata.categories,
@@ -211,6 +241,7 @@ export function getProjectBySlug(slug: string): Content {
 
         const notebook = parseMarimoNotebook(filePath);
         const metadata = extractMetadata(notebook, slug);
+        const { interactive, interactiveMode } = readMarimoInteractive(notebook);
 
         return {
           type: 'notebook',
@@ -218,6 +249,9 @@ export function getProjectBySlug(slug: string): Content {
           metadata: {
             slug,
             type: 'notebook',
+            notebookEngine: 'marimo',
+            interactive,
+            interactiveMode,
             title: metadata.title,
             date: metadata.date,
             categories: metadata.categories,
