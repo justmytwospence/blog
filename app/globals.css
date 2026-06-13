@@ -9,6 +9,15 @@
     overflow-y: visible !important;
     height: auto !important;
   }
+
+  /* Tailwind v4's Preflight no longer sets a pointer cursor on buttons.
+     Restore it for anything clickable (links already get it natively).
+     Kept in @layer base so `cursor-*` utilities still win. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary {
+    cursor: pointer;
+  }
 }
 
 /* Prevent unnecessary scrollbars and fix sticky positioning */
