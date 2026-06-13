@@ -1652,11 +1652,11 @@
     "pointCount": 178
   },
   "weather": {
-    "tempC": 19.9,
-    "windMetersPerSec": 3.25,
+    "tempC": 22.9,
+    "windMetersPerSec": 4.34,
     "precipitationMm": 0,
-    "weatherCode": 0,
-    "observedAtLocal": "2026-06-08T11:00"
+    "weatherCode": 2,
+    "observedAtLocal": "2026-06-08T17:00"
   },
   "photos": [
     {
@@ -1693,6 +1693,6 @@
   "gear": "La Sportiva Prodigio Pro White/Black",
   "description": "Going to have to work my way back to the VK legs I had last summer yeesh. Feels good to be back in the alpine",
   "stravaUrl": "https://www.strava.com/activities/18844945319",
-  "syncedAt": "2026-06-13T16:58:58.896Z",
+  "syncedAt": "2026-06-13T17:51:09.600Z",
   "sourceHash": "73ab2f5e556020f52e6fd6f29252c38a4824ce6f071076f294bf5d6f3266a284"
 }

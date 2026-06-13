@@ -1526,11 +1526,11 @@
     "pointCount": 164
   },
   "weather": {
-    "tempC": 10.5,
-    "windMetersPerSec": 1.48,
+    "tempC": 17,
+    "windMetersPerSec": 2.69,
     "precipitationMm": 0,
-    "weatherCode": 2,
-    "observedAtLocal": "2026-06-12T03:00"
+    "weatherCode": 0,
+    "observedAtLocal": "2026-06-12T09:00"
   },
   "photos": [
     {
@@ -1567,6 +1567,6 @@
   "gear": "La Sportiva Prodigio Pro White/Black",
   "description": "None cannot find who seeketh; on this terrestrial ball. Apparently I’m in my reading Emily Dickinson on mountaintop era.\n\nPlanned on tagging Bull of the Woods too but got confused/ scared off by some private property signs. Wind mitigated the temperature nicely, planning on Wheeler cirque to Kachina across the valley on Sunday.\n\nTook it easy up and down because I’m not recovering well at altitude right now and injuries flaring up",
   "stravaUrl": "https://www.strava.com/activities/18893341377",
-  "syncedAt": "2026-06-13T16:58:56.116Z",
+  "syncedAt": "2026-06-13T17:51:05.543Z",
   "sourceHash": "f5fb0cd73dd8ae3f36b224dfd5921839d503f4b6c0e4e464c34bccf6e49c3925"
 }
