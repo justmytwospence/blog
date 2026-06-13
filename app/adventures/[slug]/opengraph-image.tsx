@@ -54,9 +54,15 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const place = [adventure.location.city, adventure.location.state ?? adventure.location.country]
     .filter(Boolean)
     .join(', ');
-  const svg = adventure.primaryActivity.track
-    ? routeSvg(adventure.primaryActivity.track.coordinates)
-    : null;
+  let coords = adventure.isMultiDay
+    ? adventure.days.flatMap((d) => d.activity.track?.coordinates ?? [])
+    : adventure.primaryActivity.track?.coordinates ?? [];
+  // Decimate so the OG image's polyline data URI stays small.
+  if (coords.length > 800) {
+    const step = Math.ceil(coords.length / 800);
+    coords = coords.filter((_, i) => i % step === 0);
+  }
+  const svg = coords.length > 1 ? routeSvg(coords) : null;
   const svgUri = svg ? `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}` : null;
 
   return new ImageResponse(

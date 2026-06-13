@@ -11,7 +11,10 @@ import { MetricCharts } from './MetricCharts';
 import { PhotoGallery } from './PhotoGallery';
 import { HoverReset } from './HoverReset';
 import { WeatherBadge } from './WeatherBadge';
-import type { Adventure, AdventureDay } from '@/lib/adventures';
+import { TripMap } from './TripMap';
+import { TripElevation } from './TripElevation';
+import { TripDayBreakdown } from './TripDayBreakdown';
+import type { Adventure } from '@/lib/adventures';
 
 function placeOf(loc: { city: string | null; state: string | null; country: string | null }): string {
   return [loc.city, loc.state ?? loc.country].filter(Boolean).join(', ');
@@ -46,38 +49,6 @@ function ReportMeta({ adventure }: { adventure: Adventure }) {
         </span>
       ))}
     </div>
-  );
-}
-
-function DayRow({ day, sportType }: { day: AdventureDay; sportType: Adventure['sportType'] }) {
-  const a = day.activity;
-  return (
-    <div className="rounded-lg border border-gray-200 p-4 dark:border-[#303031]">
-      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-        <span className="font-semibold text-gray-900 dark:text-[#d4d4d4]">
-          Day {day.dayIndex + 1}
-          {day.title ? ` — ${day.title}` : ''}
-        </span>
-        <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">{formatDate(a.date, 'short')}</span>
-      </div>
-      {day.caption && <p className="mt-1 text-sm text-gray-600 dark:text-[#cccccc]">{day.caption}</p>}
-      <div className="mt-3">
-        <AdventureStats stats={a.stats} sportType={a.sportType || sportType} />
-      </div>
-    </div>
-  );
-}
-
-function DayBreakdown({ adventure }: { adventure: Adventure }) {
-  return (
-    <section className="mt-8">
-      <h2 className="mb-3 text-xl font-semibold text-gray-900 dark:text-[#d4d4d4]">Day by day</h2>
-      <div className="space-y-3">
-        {adventure.days.map((d) => (
-          <DayRow key={d.dayIndex} day={d} sportType={adventure.sportType} />
-        ))}
-      </div>
-    </section>
   );
 }
 
@@ -153,6 +124,11 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
           <RouteMap track={track} photos={adventure.allPhotos} title={adventure.title} />
         </div>
       )}
+      {adventure.isMultiDay && (
+        <div className="mb-8">
+          <TripMap days={adventure.days} photos={adventure.allPhotos} title={adventure.title} />
+        </div>
+      )}
 
       <AdventureStats stats={adventure.totals} sportType={adventure.sportType} />
 
@@ -162,12 +138,18 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
         </p>
       )}
 
-      {track && track.altitude.length > 1 && <ElevationProfile track={track} />}
+      {adventure.isMultiDay ? (
+        <TripElevation days={adventure.days} />
+      ) : (
+        track && track.altitude.length > 1 && <ElevationProfile track={track} />
+      )}
       {track && <MetricCharts track={track} />}
 
-      {adventure.isMultiDay && <DayBreakdown adventure={adventure} />}
+      {adventure.isMultiDay && (
+        <TripDayBreakdown days={adventure.days} fallbackSport={adventure.sportType} />
+      )}
 
-      {adventure.allPhotos.length > 0 && (
+      {!adventure.isMultiDay && adventure.allPhotos.length > 0 && (
         <PhotoGallery photos={adventure.allPhotos} galleryId={`adv-${adventure.slug}`} />
       )}
 

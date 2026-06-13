@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef } from 'react';
-import { MapContainer, TileLayer, Polyline, Marker, Popup, CircleMarker, useMap, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Polyline, Marker, CircleMarker, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {
@@ -12,37 +12,11 @@ import {
   rampColor,
   type RouteColorMetric,
 } from './mapStyle';
+import { ResizeHandler, dotIcon, PhotoPins } from './leafletShared';
 import { useHoverStore } from './hoverStore';
 import type { AdventureTrack, ResolvedPhoto } from '@/lib/adventures';
 
 type LatLng = [number, number];
-
-const dotIcon = (color: string) =>
-  L.divIcon({
-    className: '',
-    html: `<span style="display:block;width:14px;height:14px;border-radius:50%;background:${color};border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.35)"></span>`,
-    iconSize: [14, 14],
-    iconAnchor: [7, 7],
-  });
-
-const photoIcon = L.divIcon({
-  className: '',
-  html: `<span style="display:flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:4px;background:#1e293b;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.35);color:#fff;font-size:10px">▣</span>`,
-  iconSize: [18, 18],
-  iconAnchor: [9, 9],
-});
-
-/** Keep Leaflet sized when the container resizes (mobile rotate, fullscreen). Does not change the view. */
-function ResizeHandler() {
-  const map = useMap();
-  useEffect(() => {
-    const container = map.getContainer();
-    const ro = new ResizeObserver(() => map.invalidateSize());
-    ro.observe(container);
-    return () => ro.disconnect();
-  }, [map]);
-  return null;
-}
 
 /** Refit the route to the viewport only when fullscreen toggles (not on incidental reflows). */
 function RefitOnToggle({ bounds, full }: { bounds: L.LatLngBounds; full: boolean }) {
@@ -81,7 +55,6 @@ function HoverTracker({ pts }: { pts: L.LatLng[] }) {
   return null;
 }
 
-/** The synced hover marker (re-renders only itself as the hover index changes). */
 function HoverMarker({ latlngs }: { latlngs: LatLng[] }) {
   const i = useHoverStore((s) => s.hoverIndex);
   if (i < 0 || i >= latlngs.length) return null;
@@ -157,14 +130,6 @@ export function RouteMapInner({
     return latlngs[bi];
   }, [track.altitude, latlngs]);
 
-  const pins = useMemo(
-    () =>
-      photos.filter(
-        (p): p is ResolvedPhoto & { lat: number; lng: number } => p.lat != null && p.lng != null,
-      ),
-    [photos],
-  );
-
   return (
     <MapContainer
       bounds={bounds}
@@ -182,17 +147,7 @@ export function RouteMapInner({
       ))}
       <Marker position={latlngs[0]} icon={dotIcon('#16a34a')} />
       {summit && <Marker position={summit} icon={dotIcon('#ea580c')} />}
-      {pins.map((p) => (
-        <Marker key={p.src} position={[p.lat, p.lng]} icon={photoIcon}>
-          <Popup>
-            <a href={p.src} target="_blank" rel="noopener noreferrer">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={p.thumb} alt={p.caption ?? ''} style={{ width: 160, height: 'auto', borderRadius: 6, display: 'block' }} />
-            </a>
-            {p.caption && <div style={{ marginTop: 4, fontSize: 12 }}>{p.caption}</div>}
-          </Popup>
-        </Marker>
-      ))}
+      <PhotoPins photos={photos} />
       <HoverMarker latlngs={latlngs} />
     </MapContainer>
   );
