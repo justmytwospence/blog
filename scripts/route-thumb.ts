@@ -92,19 +92,44 @@ export async function buildRouteThumb(
     .png()
     .toBuffer();
 
-  // Crop to the route's pixel bbox with padding.
+  // Crop to the route's pixel bbox, expanded to the card's aspect (centered) so the WHOLE route
+  // is visible with even margin and the later object-cover doesn't clip it.
+  const OUT_W = 600;
+  const OUT_H = 300;
+  const ASPECT = OUT_W / OUT_H;
   const pxs = txs.map((t) => (t - xMin) * TILE);
   const pys = tys.map((t) => (t - yMin) * TILE);
-  const pad = 28;
-  const left = Math.max(0, Math.floor(Math.min(...pxs) - pad));
-  const top = Math.max(0, Math.floor(Math.min(...pys) - pad));
-  const right = Math.min(W, Math.ceil(Math.max(...pxs) + pad));
-  const bottom = Math.min(H, Math.ceil(Math.max(...pys) + pad));
+  const minPx = Math.min(...pxs);
+  const maxPx = Math.max(...pxs);
+  const minPy = Math.min(...pys);
+  const maxPy = Math.max(...pys);
+  const rw = Math.max(1, maxPx - minPx);
+  const rh = Math.max(1, maxPy - minPy);
+  const pad = Math.max(24, 0.08 * Math.max(rw, rh));
+  let x0 = minPx - pad;
+  let y0 = minPy - pad;
+  let x1 = maxPx + pad;
+  let y1 = maxPy + pad;
+  const cw = x1 - x0;
+  const ch = y1 - y0;
+  if (cw / ch < ASPECT) {
+    const ex = (ch * ASPECT - cw) / 2;
+    x0 -= ex;
+    x1 += ex;
+  } else {
+    const ey = (cw / ASPECT - ch) / 2;
+    y0 -= ey;
+    y1 += ey;
+  }
+  const left = Math.max(0, Math.round(x0));
+  const top = Math.max(0, Math.round(y0));
+  const width = Math.max(1, Math.min(W - left, Math.round(x1) - left));
+  const height = Math.max(1, Math.min(H - top, Math.round(y1) - top));
 
   fs.mkdirSync(outPath.replace(/\/[^/]+$/, ''), { recursive: true });
   await sharp(stitched)
-    .extract({ left, top, width: Math.max(1, right - left), height: Math.max(1, bottom - top) })
-    .resize({ width: 600, height: 360, fit: 'cover', position: 'center' })
+    .extract({ left, top, width, height })
+    .resize({ width: OUT_W, height: OUT_H, fit: 'cover', position: 'center' })
     .jpeg({ quality: 80, progressive: true })
     .toFile(outPath);
   return true;
