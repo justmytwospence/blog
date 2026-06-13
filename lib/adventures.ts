@@ -87,6 +87,7 @@ export interface AdventureSummary {
   coverThumb: string | null;
   summaryPolyline: string | null;
   routeThumb: string | null; // committed static map (basemap + route), if synced
+  isMultiSport: boolean;
   dayCount: number;
   totals: Pick<AdventureStats, 'distanceMeters' | 'elevationGainMeters' | 'movingTimeSeconds'>;
 }
@@ -317,6 +318,7 @@ function toSummary(adv: Adventure): AdventureSummary {
     date: adv.date,
     sportType: adv.sportType,
     isMultiDay: adv.isMultiDay,
+    isMultiSport: adv.isMultiSport,
     featured: adv.featured,
     description: adv.description,
     type: adv.type,

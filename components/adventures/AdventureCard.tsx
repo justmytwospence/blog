@@ -50,7 +50,7 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
           <SportBadge sportType={adventure.sportType} size="sm" />
           {adventure.isMultiDay && (
             <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-700 dark:bg-[#3a3d41] dark:text-[#cccccc]">
-              {adventure.dayCount} days
+              {adventure.dayCount} {adventure.isMultiSport ? 'legs' : 'days'}
             </span>
           )}
           <span className="ml-auto text-sm text-gray-500 dark:text-[#a6a6a6]">
