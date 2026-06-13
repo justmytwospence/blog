@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import { getCurrentlyReading } from '@blog/hardcover';
 import { CurrentlyReadingWidget } from '@/components/CurrentlyReadingWidget';
+import { RecentAdventuresWidget } from '@/components/adventures/RecentAdventuresWidget';
+import { getAllAdventures } from '@/lib/adventures';
 import { PageContainer } from '@/components/PageContainer';
 import type { Metadata } from 'next';
 
@@ -13,6 +15,7 @@ export const metadata: Metadata = {
 
 export default async function AboutPage() {
   const currentlyReading = await getCurrentlyReading(3);
+  const recentAdventures = getAllAdventures().slice(0, 3);
 
   return (
     <PageContainer width="wide" className="sm:py-12">
@@ -269,6 +272,8 @@ export default async function AboutPage() {
           </div>
         </div>
       </div>
+
+      <RecentAdventuresWidget adventures={recentAdventures} />
 
       <CurrentlyReadingWidget books={currentlyReading} />
     </PageContainer>
