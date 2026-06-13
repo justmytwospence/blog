@@ -31,6 +31,8 @@ const REGION_NAMES: Record<string, string> = {
   AK: 'Alaska',
   TN: 'Tennessee',
   BC: 'British Columbia',
+  'UT-AZ': 'Utah / Arizona',
+  'WA-MT-ID': 'Washington / Montana / Idaho',
   international: 'International',
 };
 

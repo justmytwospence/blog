@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { type ChartOptions, type ScriptableLineSegmentContext } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useIsDark, chartGrid, chartTick } from './chartShared';
@@ -11,19 +12,22 @@ import type { AdventureDay } from '@/lib/adventures';
 export function TripElevation({ days }: { days: AdventureDay[] }) {
   const dark = useIsDark();
 
-  const points: Array<{ x: number; y: number }> = [];
-  const dayIdx: number[] = [];
-  let cumulative = 0;
-  for (let di = 0; di < days.length; di++) {
-    const t = days[di].activity.track;
-    if (t && t.altitude && t.altitude.length >= 2) {
-      for (let i = 0; i < t.altitude.length; i++) {
-        points.push({ x: metersToMiles(cumulative + (t.distance[i] ?? 0)), y: metersToFeet(t.altitude[i]) });
-        dayIdx.push(di);
+  const { points, dayIdx } = useMemo(() => {
+    const pts: Array<{ x: number; y: number }> = [];
+    const idx: number[] = [];
+    let cumulative = 0;
+    for (let di = 0; di < days.length; di++) {
+      const t = days[di].activity.track;
+      if (t && t.altitude && t.altitude.length >= 2) {
+        for (let i = 0; i < t.altitude.length; i++) {
+          pts.push({ x: metersToMiles(cumulative + (t.distance[i] ?? 0)), y: metersToFeet(t.altitude[i]) });
+          idx.push(di);
+        }
       }
+      cumulative += days[di].activity.stats.distanceMeters;
     }
-    cumulative += days[di].activity.stats.distanceMeters;
-  }
+    return { points: pts, dayIdx: idx };
+  }, [days]);
   if (points.length < 2) return null;
 
   const tick = chartTick(dark);

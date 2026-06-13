@@ -89,7 +89,6 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           <div style={{ display: 'flex', fontSize: 34, color: '#cbd5e1', marginTop: 12 }}>{stat}</div>
         </div>
         {svgUri ? (
-          // eslint-disable-next-line @next/next/no-img-element
           <img src={svgUri} width={1000} height={300} alt="" style={{ alignSelf: 'center' }} />
         ) : (
           <div style={{ display: 'flex' }} />

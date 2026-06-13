@@ -37,6 +37,16 @@ function ResizeHandler() {
   return null;
 }
 
+/** Refit the live map when the filtered route set (bounds) changes — react-leaflet reads `bounds` only at mount. */
+function FitBounds({ bounds }: { bounds: L.LatLngBounds | null }) {
+  const map = useMap();
+  useEffect(() => {
+    map.invalidateSize();
+    if (bounds) map.fitBounds(bounds, { padding: [40, 40] });
+  }, [map, bounds]);
+  return null;
+}
+
 export function AdventuresMapInner({ items }: { items: AdventureSummary[] }) {
   const routes = useMemo<Route[]>(() => {
     const out: Route[] = [];
@@ -62,6 +72,7 @@ export function AdventuresMapInner({ items }: { items: AdventureSummary[] }) {
     <MapContainer scrollWheelZoom={false} style={{ height: '100%', width: '100%' }} className="h-full w-full" {...mapProps}>
       <TileLayer url={OPENTOPO_URL} attribution={OPENTOPO_ATTRIBUTION} maxZoom={OPENTOPO_MAX_ZOOM} />
       <ResizeHandler />
+      <FitBounds bounds={bounds} />
       {routes.map((r) => (
         <Polyline key={r.item.slug} positions={r.positions} pathOptions={{ color: r.color, weight: 3, opacity: 0.85 }}>
           <Tooltip sticky>{r.item.title}</Tooltip>

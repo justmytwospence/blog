@@ -56,6 +56,17 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
     router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
   }, [view, sport, place, sortKey, pathname, router]);
 
+  // Restore state from the URL on back/forward navigation.
+  useEffect(() => {
+    const v = params.get('view');
+    setView(isView(v) ? v : 'grid');
+    setSport((params.get('sport') as SportType) || null);
+    setPlace(params.get('place') || null);
+    const s = params.get('sort');
+    setSortKey(isSort(s) ? s : 'date');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params]);
+
   const sports = useMemo(
     () => Array.from(new Set(adventures.map((a) => a.sportType))).sort() as SportType[],
     [adventures],
@@ -128,7 +139,7 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
               ))}
             </select>
           )}
-          {view !== 'map' && (
+          {view === 'grid' && (
             <label className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-[#a6a6a6]">
               Sort
               <select value={sortKey} onChange={(e) => setSortKey(e.target.value as SortKey)} aria-label="Sort adventures" className={selectCls}>

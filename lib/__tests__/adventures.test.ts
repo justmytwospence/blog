@@ -92,7 +92,15 @@ describe('read API against the committed snapshot', () => {
     expect(getAdventureBySlug('does-not-exist')).toBeNull();
   });
 
-  it('returns an empty objectives list until seeded', () => {
-    expect(getObjectives().objectives).toEqual([]);
+  it('exposes the seeded objectives, and only incomplete ones', () => {
+    const { objectives } = getObjectives();
+    expect(objectives.length).toBeGreaterThan(0);
+    // The wishlist is forward-looking: completed objectives live as reports, not here.
+    expect(objectives.every((o) => o.status === 'todo')).toBe(true);
+    // Every objective should carry the fields the cards/map rely on.
+    for (const o of objectives) {
+      expect(o.slug).toBeTruthy();
+      expect(o.title).toBeTruthy();
+    }
   });
 });
