@@ -128,7 +128,8 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
             adventure.isMultiDay && <span>· {adventure.days.length} days</span>
           )}
           {loc && <span>· {loc}</span>}
-          {adventure.primaryActivity.weather && (
+          {/* Single-day only — a trip's overall weather is meaningless; it lives per-day below. */}
+          {!adventure.isMultiDay && adventure.primaryActivity.weather && (
             <WeatherBadge weather={adventure.primaryActivity.weather} />
           )}
         </div>
