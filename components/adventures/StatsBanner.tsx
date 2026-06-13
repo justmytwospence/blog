@@ -7,11 +7,6 @@ export function StatsBanner({ stats }: { stats: LifetimeStats }) {
   if (stats.adventureCount === 0) return null;
   const { records } = stats;
 
-  const headline: Array<{ label: string; value: string }> = [
-    { label: 'Total distance', value: formatDistance(stats.totalDistanceMeters) },
-    { label: 'Total vertical', value: formatElevation(stats.totalElevationGainMeters) },
-  ];
-
   const recordChips = [
     records.longestDistance && {
       label: 'Longest',
@@ -35,24 +30,8 @@ export function StatsBanner({ stats }: { stats: LifetimeStats }) {
 
   return (
     <section className="mb-8" aria-label="Lifetime statistics">
-      <div className="grid grid-cols-2 gap-3 sm:max-w-lg">
-        {headline.map((c) => (
-          <div
-            key={c.label}
-            className="rounded-lg border border-gray-200 bg-white px-4 py-3 dark:border-[#303031] dark:bg-[#252526]"
-          >
-            <div className="text-2xl font-bold tabular-nums text-gray-900 dark:text-[#d4d4d4]">
-              {c.value}
-            </div>
-            <div className="mt-0.5 text-xs uppercase tracking-wide text-gray-500 dark:text-[#a6a6a6]">
-              {c.label}
-            </div>
-          </div>
-        ))}
-      </div>
-
       {stats.bySport.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2">
           {stats.bySport.map((s) => {
             const m = sportMeta(s.sportType);
             return (

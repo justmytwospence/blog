@@ -5,7 +5,8 @@ import { PageContainer } from '@/components/PageContainer';
 import { StatsBanner } from '@/components/adventures/StatsBanner';
 import { LibraryView } from '@/components/adventures/LibraryView';
 import { YearlyChart } from '@/components/adventures/YearlyChart';
-import { getAllAdventures, getLifetimeStats, getYearlyTotals } from '@/lib/adventures';
+import { getAllAdventures, getLifetimeStats, getYearlyTotals, getActivityGrandTotals } from '@/lib/adventures';
+import { formatDistance, formatElevation } from '@/lib/units';
 
 export const metadata: Metadata = {
   title: 'Adventures',
@@ -17,6 +18,7 @@ export default function AdventuresPage() {
   const adventures = getAllAdventures();
   const stats = getLifetimeStats();
   const yearly = getYearlyTotals();
+  const grand = getActivityGrandTotals();
 
   return (
     <PageContainer width="wide">
@@ -42,9 +44,27 @@ export default function AdventuresPage() {
       </Suspense>
       <details className="mt-12 border-t border-gray-200 pt-6 dark:border-[#303031]">
         <summary className="cursor-pointer text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-[#a6a6a6] dark:hover:text-[#d4d4d4]">
-          Training volume, year over year
+          Training volume — {formatDistance(grand.distanceMeters)} · {formatElevation(grand.elevationGainMeters)} all-time
         </summary>
         <div className="mt-4">
+          <div className="mb-4 grid grid-cols-2 gap-3 sm:max-w-lg">
+            <div className="rounded-lg border border-gray-200 bg-white px-4 py-3 dark:border-[#303031] dark:bg-[#252526]">
+              <div className="text-2xl font-bold tabular-nums text-gray-900 dark:text-[#d4d4d4]">
+                {formatDistance(grand.distanceMeters)}
+              </div>
+              <div className="mt-0.5 text-xs uppercase tracking-wide text-gray-500 dark:text-[#a6a6a6]">
+                Total distance (all activities)
+              </div>
+            </div>
+            <div className="rounded-lg border border-gray-200 bg-white px-4 py-3 dark:border-[#303031] dark:bg-[#252526]">
+              <div className="text-2xl font-bold tabular-nums text-gray-900 dark:text-[#d4d4d4]">
+                {formatElevation(grand.elevationGainMeters)}
+              </div>
+              <div className="mt-0.5 text-xs uppercase tracking-wide text-gray-500 dark:text-[#a6a6a6]">
+                Total vertical (all activities)
+              </div>
+            </div>
+          </div>
           <YearlyChart totals={yearly} />
         </div>
       </details>

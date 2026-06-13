@@ -448,6 +448,21 @@ export function getYearlyTotals(): YearlyTotals {
   }
 }
 
+/** All-time distance + elevation across the FULL activity history (not just published adventures). */
+export function getActivityGrandTotals(): { distanceMeters: number; elevationGainMeters: number } {
+  const { years } = getYearlyTotals();
+  let distanceMeters = 0;
+  let elevationGainMeters = 0;
+  for (const pts of Object.values(years)) {
+    const last = pts[pts.length - 1];
+    if (last) {
+      distanceMeters += last.distM;
+      elevationGainMeters += last.gainM;
+    }
+  }
+  return { distanceMeters, elevationGainMeters };
+}
+
 /** Slugs of objectives already fulfilled by a published report — by explicit `objective:` link or matching slug. */
 function fulfilledObjectiveSlugs(): Set<string> {
   const done = new Set<string>();
