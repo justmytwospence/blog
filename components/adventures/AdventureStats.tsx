@@ -23,9 +23,12 @@ export function AdventureStats({
   const items: Array<{ label: string; value: string }> = [
     { label: 'Distance', value: formatDistance(stats.distanceMeters, unit) },
     { label: 'Elevation gain', value: formatElevation(stats.elevationGainMeters, unit) },
-    { label: 'Moving time', value: formatDuration(stats.movingTimeSeconds) },
-    { label: paceSpeed.label, value: paceSpeed.value },
   ];
+  // Manual route imports have no recorded time, so moving time / pace don't apply.
+  if (stats.movingTimeSeconds > 0) {
+    items.push({ label: 'Moving time', value: formatDuration(stats.movingTimeSeconds) });
+    items.push({ label: paceSpeed.label, value: paceSpeed.value });
+  }
   if (stats.elevHighMeters != null)
     items.push({ label: 'High point', value: formatElevation(stats.elevHighMeters, unit) });
   if (stats.avgHeartrate != null)

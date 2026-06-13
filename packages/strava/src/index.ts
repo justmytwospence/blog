@@ -15,7 +15,7 @@ export {
   getActivityPhotos,
   type ListActivitiesOptions,
 } from './client';
-export { decodePolyline, downsampleTrack, type TrackPoint } from './polyline';
+export { decodePolyline, encodePolyline, downsampleTrack, type TrackPoint } from './polyline';
 export { fetchHistoricalWeather } from './weather';
 export { transformDetailToActivity, mapSportType, buildPhotosFromRaw } from './transform';
 export { parseStravaIds, usesIdArray } from './companions';

@@ -90,6 +90,7 @@ export interface Companion {
   slug: string;
   ids: number[];
   hidden: boolean;
+  source: string | null; // non-Strava origin (e.g. "14ers") — sync keeps but doesn't fetch these
 }
 
 /** Read all report companion files and the Strava ids they reference. */
@@ -105,6 +106,7 @@ export function readCompanions(matterFn: (s: string) => { data: Record<string, u
         slug: f.replace(/\.md$/, ''),
         ids: parseStravaIds(fm),
         hidden: Boolean(fm.hidden),
+        source: fm.source ? String(fm.source) : null,
       });
     } catch (err) {
       console.error(`[strava] could not parse ${f}:`, err);

@@ -47,6 +47,32 @@ export function decodePolyline(str: string, precision = 5): Array<[number, numbe
   return coordinates;
 }
 
+/** Encode [lat, lng] pairs into a Google-encoded polyline string (inverse of decodePolyline). */
+export function encodePolyline(coords: Array<[number, number]>, precision = 5): string {
+  const factor = Math.pow(10, precision);
+  let lastLat = 0;
+  let lastLng = 0;
+  let out = '';
+  const enc = (v: number): string => {
+    let value = v < 0 ? ~(v << 1) : v << 1;
+    let s = '';
+    while (value >= 0x20) {
+      s += String.fromCharCode((0x20 | (value & 0x1f)) + 63);
+      value >>= 5;
+    }
+    s += String.fromCharCode(value + 63);
+    return s;
+  };
+  for (const [lat, lng] of coords) {
+    const la = Math.round(lat * factor);
+    const ln = Math.round(lng * factor);
+    out += enc(la - lastLat) + enc(ln - lastLng);
+    lastLat = la;
+    lastLng = ln;
+  }
+  return out;
+}
+
 /** Perpendicular distance (meters) from point p to segment a→b via local equirectangular projection. */
 function perpDistanceMeters(p: TrackPoint, a: TrackPoint, b: TrackPoint): number {
   const R = 6371000;

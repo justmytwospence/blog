@@ -18,7 +18,8 @@
     "strava:inbox": "tsx scripts/strava-inbox.ts",
     "strava:bootstrap": "tsx scripts/strava-bootstrap.ts",
     "strava:sweep": "tsx scripts/strava-sweep.ts",
-    "strava:thumbs": "tsx scripts/regen-thumbs.ts"
+    "strava:thumbs": "tsx scripts/regen-thumbs.ts",
+    "add:14ers": "tsx scripts/add-14ers.ts"
   },
   "workspaces": [
     "packages/*"

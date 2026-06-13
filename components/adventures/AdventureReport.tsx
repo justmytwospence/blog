@@ -54,6 +54,8 @@ function ReportMeta({ adventure }: { adventure: Adventure }) {
 }
 
 function StravaLinks({ adventure }: { adventure: Adventure }) {
+  // Manual (non-Strava) imports have no Strava URL — the source link lives in the prose instead.
+  if (adventure.days.length === 1 && !adventure.primaryActivity.stravaUrl) return null;
   return (
     <div className="mt-8 border-t border-gray-200 pt-4 text-sm text-gray-500 dark:border-[#303031] dark:text-[#a6a6a6]">
       {adventure.days.length === 1 ? (
@@ -98,9 +100,14 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
     !!track &&
     track.coordinates.length > 1 &&
     (STEEP_SPORTS.has(adventure.sportType) || (adventure.type != null && STEEP_TYPES.has(adventure.type)));
-  const epic = `${formatDistance(adventure.totals.distanceMeters)} · ${formatElevation(
-    adventure.totals.elevationGainMeters,
-  )} · ${formatDuration(adventure.totals.movingTimeSeconds)}`;
+  const epic = [
+    formatDistance(adventure.totals.distanceMeters),
+    formatElevation(adventure.totals.elevationGainMeters),
+    // Manual route imports have no recorded time.
+    adventure.totals.movingTimeSeconds > 0 ? formatDuration(adventure.totals.movingTimeSeconds) : null,
+  ]
+    .filter(Boolean)
+    .join(' · ');
 
   return (
     <div>

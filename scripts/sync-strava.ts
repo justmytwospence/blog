@@ -150,7 +150,11 @@ async function main(): Promise<void> {
 
   const companions = readCompanions((s) => matter(s));
   const neededIds = new Set<number>();
-  for (const c of companions) c.ids.forEach((id) => neededIds.add(id));
+  const manualIds = new Set<number>(); // non-Strava (e.g. 14ers) — kept by GC, never fetched
+  for (const c of companions) {
+    c.ids.forEach((id) => neededIds.add(id));
+    if (c.source) c.ids.forEach((id) => manualIds.add(id));
+  }
 
   if (neededIds.size === 0 && !process.argv.includes('--prune-all')) {
     console.warn(
@@ -182,6 +186,7 @@ async function main(): Promise<void> {
   const missingWeather: number[] = [];
 
   for (const id of neededIds) {
+    if (manualIds.has(id)) continue; // non-Strava import; keep its committed snapshot, don't fetch
     const jsonPath = path.join(ACTIVITIES_DIR, `${id}.json`);
     const detail = await withBackoff(() => getActivityDetail(access, id), `detail ${id}`);
     await sleep(PACING_MS);
