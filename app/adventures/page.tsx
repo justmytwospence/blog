@@ -35,12 +35,19 @@ export default function AdventuresPage() {
         </Link>
       </div>
       <StatsBanner stats={stats} />
-      <YearlyChart totals={yearly} />
       <Suspense
         fallback={<div className="py-12 text-center text-gray-500 dark:text-[#a6a6a6]">Loading…</div>}
       >
         <LibraryView adventures={adventures} />
       </Suspense>
+      <details className="mt-12 border-t border-gray-200 pt-6 dark:border-[#303031]">
+        <summary className="cursor-pointer text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-[#a6a6a6] dark:hover:text-[#d4d4d4]">
+          Training volume, year over year
+        </summary>
+        <div className="mt-4">
+          <YearlyChart totals={yearly} />
+        </div>
+      </details>
     </PageContainer>
   );
 }
