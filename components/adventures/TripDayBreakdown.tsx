@@ -4,12 +4,14 @@ import { useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { formatDate } from '@/lib/format';
 import { AdventureStats } from './AdventureStats';
+import { SportBadge } from './SportBadge';
 import { dayColor } from './mapStyle';
 import type { AdventureDay, SportType } from '@/lib/adventures';
 
-function DayRow({ day, fallbackSport }: { day: AdventureDay; fallbackSport: SportType }) {
+function DayRow({ day, fallbackSport, unit }: { day: AdventureDay; fallbackSport: SportType; unit: 'day' | 'leg' }) {
   const [open, setOpen] = useState(false);
   const a = day.activity;
+  const label = unit === 'leg' ? 'Leg' : 'Day';
   return (
     <div className="rounded-lg border border-gray-200 dark:border-[#303031]">
       <button
@@ -19,11 +21,12 @@ function DayRow({ day, fallbackSport }: { day: AdventureDay; fallbackSport: Spor
         className="flex w-full items-center gap-3 px-4 py-3 text-left"
       >
         <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: dayColor(day.dayIndex) }} aria-hidden="true" />
+        {unit === 'leg' && <SportBadge sportType={a.sportType || fallbackSport} size="sm" />}
         <span className="font-semibold text-gray-900 dark:text-[#d4d4d4]">
-          Day {day.dayIndex + 1}
+          {label} {day.dayIndex + 1}
           {day.title ? ` — ${day.title}` : ''}
         </span>
-        <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">{formatDate(a.date, 'short')}</span>
+        {unit === 'day' && <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">{formatDate(a.date, 'short')}</span>}
         <span className="ml-auto text-gray-400 dark:text-[#6b6b6b]" aria-hidden="true">
           {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
         </span>
@@ -63,13 +66,23 @@ function DayRow({ day, fallbackSport }: { day: AdventureDay; fallbackSport: Spor
   );
 }
 
-export function TripDayBreakdown({ days, fallbackSport }: { days: AdventureDay[]; fallbackSport: SportType }) {
+export function TripDayBreakdown({
+  days,
+  fallbackSport,
+  unit = 'day',
+}: {
+  days: AdventureDay[];
+  fallbackSport: SportType;
+  unit?: 'day' | 'leg';
+}) {
   return (
     <section className="mt-8">
-      <h2 className="mb-3 text-xl font-semibold text-gray-900 dark:text-[#d4d4d4]">Day by day</h2>
+      <h2 className="mb-3 text-xl font-semibold text-gray-900 dark:text-[#d4d4d4]">
+        {unit === 'leg' ? 'Leg by leg' : 'Day by day'}
+      </h2>
       <div className="space-y-2">
         {days.map((d) => (
-          <DayRow key={d.dayIndex} day={d} fallbackSport={fallbackSport} />
+          <DayRow key={d.dayIndex} day={d} fallbackSport={fallbackSport} unit={unit} />
         ))}
       </div>
     </section>

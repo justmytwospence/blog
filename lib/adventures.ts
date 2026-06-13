@@ -52,6 +52,7 @@ export interface Adventure {
   date: string; // YYYY-MM-DD
   sportType: SportType;
   isMultiDay: boolean;
+  isMultiSport: boolean; // multiple activities on the SAME day (e.g. a triathlon) — legs, not days
   featured: boolean;
   hidden: boolean;
   description: string;
@@ -288,6 +289,8 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
     date,
     sportType,
     isMultiDay: pc.usedIdsArray || acts.length > 1,
+    // Same calendar day across all members → a multi-sport event (triathlon), shown as legs.
+    isMultiSport: acts.length > 1 && acts.every((a) => a.date === primary.date),
     featured: common.featured,
     hidden: Boolean(pc.data.hidden),
     description: common.description,

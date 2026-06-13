@@ -77,7 +77,7 @@ function StravaLinks({ adventure }: { adventure: Adventure }) {
                 rel="noopener noreferrer"
                 className="hover:text-gray-700 dark:hover:text-[#d4d4d4]"
               >
-                Day {d.dayIndex + 1}
+                {adventure.isMultiSport ? 'Leg' : 'Day'} {d.dayIndex + 1}
               </a>
             </span>
           ))}
@@ -114,9 +114,19 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
 
       <header className="mb-8">
         <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-[#a6a6a6]">
-          <SportBadge sportType={adventure.sportType} />
+          {adventure.isMultiSport ? (
+            [...new Set(adventure.days.map((d) => d.activity.sportType))].map((s) => (
+              <SportBadge key={s} sportType={s} />
+            ))
+          ) : (
+            <SportBadge sportType={adventure.sportType} />
+          )}
           <span>{formatDate(adventure.date)}</span>
-          {adventure.isMultiDay && <span>· {adventure.days.length} days</span>}
+          {adventure.isMultiSport ? (
+            <span>· {adventure.days.length} legs</span>
+          ) : (
+            adventure.isMultiDay && <span>· {adventure.days.length} days</span>
+          )}
           {loc && <span>· {loc}</span>}
           {adventure.primaryActivity.weather && (
             <WeatherBadge weather={adventure.primaryActivity.weather} />
@@ -147,7 +157,7 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
       )}
 
       {adventure.isMultiDay ? (
-        <TripElevation days={adventure.days} />
+        <TripElevation days={adventure.days} unit={adventure.isMultiSport ? 'leg' : 'day'} />
       ) : (
         track && track.altitude.length > 1 && <ElevationProfile track={track} />
       )}
@@ -155,7 +165,11 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
       {showTerrain && track && <TerrainAnalysis track={track} />}
 
       {adventure.isMultiDay && (
-        <TripDayBreakdown days={adventure.days} fallbackSport={adventure.sportType} />
+        <TripDayBreakdown
+          days={adventure.days}
+          fallbackSport={adventure.sportType}
+          unit={adventure.isMultiSport ? 'leg' : 'day'}
+        />
       )}
 
       {!adventure.isMultiDay && adventure.allPhotos.length > 0 && (

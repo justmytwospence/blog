@@ -8,9 +8,10 @@ import { dayColor } from './mapStyle';
 import { metersToMiles, metersToFeet } from '@/lib/units';
 import type { AdventureDay } from '@/lib/adventures';
 
-/** Combined elevation profile across all days: continuous cumulative distance, colored by day. */
-export function TripElevation({ days }: { days: AdventureDay[] }) {
+/** Combined elevation profile across all days (or legs): continuous cumulative distance, colored per segment. */
+export function TripElevation({ days, unit = 'day' }: { days: AdventureDay[]; unit?: 'day' | 'leg' }) {
   const dark = useIsDark();
+  const label = unit === 'leg' ? 'Leg' : 'Day';
 
   // One dataset per day. Each day fills its own x-range down to the baseline, so there are
   // no cross-day connecting segments — those are what produced the triangular fill wedges.
@@ -39,7 +40,7 @@ export function TripElevation({ days }: { days: AdventureDay[] }) {
         }
         const color = dayColor(di);
         out.push({
-          label: `Day ${di + 1}`,
+          label: `${label} ${di + 1}`,
           data,
           borderColor: color,
           backgroundColor: `${color}22`,
@@ -53,7 +54,7 @@ export function TripElevation({ days }: { days: AdventureDay[] }) {
       cumulative += days[di].activity.stats.distanceMeters;
     }
     return out;
-  }, [days]);
+  }, [days, label]);
   if (datasets.length === 0) return null;
 
   const tick = chartTick(dark);
