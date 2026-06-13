@@ -419,13 +419,28 @@ export function getLifetimeStats(): LifetimeStats {
   };
 }
 
-/** Objectives wishlist — only incomplete ones (completed objectives live as reports). */
+/** Slugs of objectives already fulfilled by a published report — by explicit `objective:` link or matching slug. */
+function fulfilledObjectiveSlugs(): Set<string> {
+  const done = new Set<string>();
+  for (const a of allAdventures()) {
+    done.add(a.slug);
+    if (a.objective) done.add(a.objective);
+  }
+  return done;
+}
+
+/**
+ * Objectives wishlist — only the still-to-do ones. An objective drops off once it's been done:
+ * either its source note is marked complete, or a published report fulfills it (so the Colorado
+ * Trail won't sit on the wishlist while its trip report exists).
+ */
 export function getObjectives(): ObjectivesData {
   if (!fs.existsSync(OBJECTIVES_FILE)) return { objectives: [] };
   try {
     const data = JSON.parse(fs.readFileSync(OBJECTIVES_FILE, 'utf8')) as { objectives?: Objective[] };
+    const done = fulfilledObjectiveSlugs();
     const objectives = (data.objectives ?? []).filter(
-      (o) => o.status !== 'completed' && o.status !== 'done',
+      (o) => o.status !== 'completed' && o.status !== 'done' && !done.has(o.slug) && !o.completedSlug,
     );
     return { objectives };
   } catch (err) {

@@ -8,6 +8,7 @@ rating: 5
 tags: [colorado, thru-hike, 14ers]
 featured: true
 hidden: false
+objective: colorado-trail
 days:
   - { title: "Waterton Canyon → Buffalo Creek" }
   - { title: "Buffalo Creek → Lost Creek Wilderness" }
