@@ -136,8 +136,11 @@ function transformItem(raw: RawRssItem, sourceAttr: Record<string, string> | und
  * Returns an empty array on any failure.
  */
 export async function getBlogrollItems(): Promise<BlogrollItem[]> {
+  // Abort a hung feed so it can't stall page generation / ISR revalidation.
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10_000);
   try {
-    const res = await fetch(FEED_URL);
+    const res = await fetch(FEED_URL, { signal: controller.signal });
 
     if (!res.ok) {
       console.error(`[inoreader] Feed returned ${res.status} ${res.statusText}`);
@@ -163,5 +166,7 @@ export async function getBlogrollItems(): Promise<BlogrollItem[]> {
   } catch (err) {
     console.error('[inoreader] Fetch failed:', err);
     return [];
+  } finally {
+    clearTimeout(timeout);
   }
 }
