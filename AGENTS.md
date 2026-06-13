@@ -17,12 +17,13 @@ CI runs all four on every push and PR (`.github/workflows/ci.yml`).
 ## Gotchas
 
 - **npm workspaces**: Domain integrations live in `packages/`. Always import from the package name, never from internal paths or `lib/`. Next.js `transpilePackages` compiles the raw TypeScript.
-  - `@blog/notebook-parser` (+ `/types`, `/utils`) — Jupyter parsing, Quarto metadata, output utilities
+  - `@blog/notebook-parser` (+ `/types`, `/utils`) — Jupyter (`.ipynb`) and marimo (`.py`) parsing, Quarto metadata, output utilities
   - `@blog/hardcover` (+ `/types`) — Hardcover GraphQL client (reading list)
   - `@blog/obsidian-md` — Obsidian markdown preprocessor
   - `@blog/inoreader` — Inoreader RSS client (blogroll)
 - **ISR, not static export**: The site no longer uses `output: 'export'`. Most pages are statically generated at build time. Pages with external data (blogroll, reading, about) use ISR with `revalidate = 3600`. `/projects/[slug]` is server-rendered on demand to keep the Vercel cache small. The `generateStaticParams()` requirement still applies for dynamic SSG routes.
 - **Notebook metadata**: The first cell of `.ipynb` files must be a raw or markdown cell containing Quarto-style YAML frontmatter. If you create test notebooks, include this or metadata extraction silently returns empty.
+- **marimo notebooks**: `content/projects/*.py` that are marimo notebooks (detected via `isMarimoSource` — must `import marimo` and build a `marimo.App`) are parsed by `@blog/notebook-parser`'s `parseMarimoNotebook` into the same `Notebook` shape and rendered at `/projects/[slug]`. Put Quarto frontmatter in the **first `mo.md` cell** as a frontmatter-only `---` YAML block. marimo files store no outputs, so code cells render without output (interactive WASM embedding is a planned follow-up). Non-marimo `.py` scripts in `content/projects/` are ignored.
 - **Notebook HTML sanitization**: Notebook HTML output is sanitized via `isomorphic-dompurify` inside `@blog/notebook-parser/utils#sanitizeHtml`. The function is SSR-safe.
 - **Concepts registry**: Components in `/components/concepts/index.ts` use `next/dynamic` with `ssr: false` because they rely on browser APIs (canvas, window). Don't switch to regular imports or the build breaks.
 - **Custom Tailwind breakpoints**: `md-toc` and `code-80` are project-specific breakpoints defined in `globals.css`, not standard Tailwind. Don't remove them — the TOC responsive layout depends on them.

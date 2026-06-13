@@ -29,6 +29,9 @@ export type {
 // Export parser functions
 export { parseNotebook, parseNotebookFromString } from './parser';
 
+// Export marimo parser functions
+export { parseMarimoNotebook, parseMarimoFromString, isMarimoSource } from './marimo';
+
 // Export validator functions
 export { validateNotebook, validateCell, isValidNotebook } from './validator';
 

@@ -10,7 +10,7 @@ import {
   MarkdownContent,
   WebappConfig,
 } from './types';
-import { parseNotebook, extractMetadata } from '@blog/notebook-parser';
+import { parseNotebook, parseMarimoNotebook, isMarimoSource, extractMetadata } from '@blog/notebook-parser';
 import { preprocessObsidian } from '@blog/obsidian-md';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content');
@@ -49,8 +49,8 @@ export function getAllProjects(): Project[] {
       continue;
     }
     
-    const slug = file.replace(/\.(md|ipynb|json)$/, '');
-    
+    const slug = file.replace(/\.(md|ipynb|json|py)$/, '');
+
     try {
       if (file.endsWith('.md')) {
         // Markdown project
@@ -75,6 +75,26 @@ export function getAllProjects(): Project[] {
         // Extract metadata from notebook metadata or first cell
         const metadata = extractMetadata(notebook, slug);
         
+        projects.push({
+          category: 'project',
+          slug,
+          type: 'notebook',
+          title: metadata.title,
+          date: metadata.date,
+          categories: metadata.categories,
+          description: metadata.description,
+          featured: metadata.featured,
+        });
+      } else if (file.endsWith('.py')) {
+        // marimo notebook project (skip non-marimo .py scripts)
+        const fileContents = fs.readFileSync(filePath, 'utf8');
+        if (!isMarimoSource(fileContents)) {
+          continue;
+        }
+
+        const notebook = parseMarimoNotebook(filePath);
+        const metadata = extractMetadata(notebook, slug);
+
         projects.push({
           category: 'project',
           slug,
@@ -119,8 +139,8 @@ export function getProjectBySlug(slug: string): Content {
     throw new Error('Projects directory not found');
   }
   
-  // Try different file extensions
-  const extensions = ['.md', '.ipynb', '.json'];
+  // Try different file extensions (.py last so .md/.ipynb/.json win on collision)
+  const extensions = ['.md', '.ipynb', '.json', '.py'];
   
   for (const ext of extensions) {
     const filePath = path.join(PROJECTS_DIR, `${slug}${ext}`);
@@ -183,10 +203,32 @@ export function getProjectBySlug(slug: string): Content {
             featured: metadata.featured,
           },
         };
+      } else if (ext === '.py') {
+        // marimo notebook project (skip non-marimo .py scripts)
+        if (!isMarimoSource(fileContents)) {
+          continue;
+        }
+
+        const notebook = parseMarimoNotebook(filePath);
+        const metadata = extractMetadata(notebook, slug);
+
+        return {
+          type: 'notebook',
+          notebookData: notebook,
+          metadata: {
+            slug,
+            type: 'notebook',
+            title: metadata.title,
+            date: metadata.date,
+            categories: metadata.categories,
+            description: metadata.description,
+            featured: metadata.featured,
+          },
+        };
       } else if (ext === '.json') {
         // Webapp project
         const config: WebappConfig = JSON.parse(fileContents);
-        
+
         return {
           type: 'webapp',
           url: config.url,
