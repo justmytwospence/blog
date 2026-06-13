@@ -22,6 +22,7 @@ import {
   transformDetailToActivity,
   buildPhotosFromRaw,
   decodePolyline,
+  reverseGeocode,
   RateLimitError,
   type RawDetailedActivity,
   type AdventurePhoto,
@@ -234,6 +235,17 @@ async function main(): Promise<void> {
       syncedAt: new Date().toISOString(),
       sourceHash: hash,
     });
+    if (
+      !activity.location.city &&
+      !activity.location.state &&
+      !activity.location.country &&
+      weatherLat != null &&
+      weatherLng != null
+    ) {
+      const geo = await reverseGeocode(weatherLat, weatherLng);
+      if (geo) activity.location = geo;
+      await sleep(PACING_MS);
+    }
     fs.writeFileSync(jsonPath, JSON.stringify(activity, null, 2));
     cache[String(id)] = { sourceHash: hash, syncedAt: activity.syncedAt };
     synced++;

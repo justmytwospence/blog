@@ -10,6 +10,7 @@ import { ElevationProfile } from './ElevationProfile';
 import { MetricCharts } from './MetricCharts';
 import { PhotoGallery } from './PhotoGallery';
 import { HoverReset } from './HoverReset';
+import { WeatherBadge } from './WeatherBadge';
 import type { Adventure, AdventureDay } from '@/lib/adventures';
 
 function placeOf(loc: { city: string | null; state: string | null; country: string | null }): string {
@@ -138,6 +139,9 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
           <span>{formatDate(adventure.date)}</span>
           {adventure.isMultiDay && <span>· {adventure.days.length} days</span>}
           {loc && <span>· {loc}</span>}
+          {adventure.primaryActivity.weather && (
+            <WeatherBadge weather={adventure.primaryActivity.weather} />
+          )}
         </div>
         <h1 className="mt-2 text-4xl font-bold text-gray-900 dark:text-[#d4d4d4]">{adventure.title}</h1>
         <p className="mt-1 text-lg tabular-nums text-gray-600 dark:text-[#cccccc]">{epic}</p>
@@ -151,6 +155,12 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
       )}
 
       <AdventureStats stats={adventure.totals} sportType={adventure.sportType} />
+
+      {adventure.primaryActivity.gear && (
+        <p className="mt-3 text-sm text-gray-500 dark:text-[#a6a6a6]">
+          Gear: {adventure.primaryActivity.gear}
+        </p>
+      )}
 
       {track && track.altitude.length > 1 && <ElevationProfile track={track} />}
       {track && <MetricCharts track={track} />}

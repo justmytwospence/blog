@@ -35,7 +35,6 @@ export async function generateMetadata({
       url: `/adventures/${slug}`,
       type: 'article',
       publishedTime: adventure.date,
-      images: adventure.coverPhoto ? [adventure.coverPhoto.src] : undefined,
     },
   };
 }
