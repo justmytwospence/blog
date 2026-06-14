@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-14T14:47:09.251Z",
+  "generatedAt": "2026-06-14T23:41:55.748Z",
   "activities": [
     {
       "stravaId": 18893341377,
@@ -816,6 +816,14 @@
       "name": "Coleman Deming",
       "hasTrack": true,
       "photoCount": 7
+    },
+    {
+      "stravaId": 9158932057,
+      "date": "2023-05-25",
+      "sportType": "Hike",
+      "name": "Mount Baker approach",
+      "hasTrack": true,
+      "photoCount": 0
     },
     {
       "stravaId": 8511930915,
