@@ -13,6 +13,7 @@ import {
   Sailboat,
   Activity,
 } from 'lucide-react';
+import { Running } from './SportIcons';
 import type { SportType } from '@/lib/adventures';
 
 export interface SportMeta {
@@ -29,8 +30,8 @@ const ALPINE = 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-or
 const WATER = 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-300';
 
 const META: Partial<Record<SportType, SportMeta>> = {
-  TrailRun: { label: 'Trail Run', Icon: Footprints, pill: RUN },
-  Run: { label: 'Run', Icon: Footprints, pill: RUN },
+  TrailRun: { label: 'Trail Run', Icon: Running, pill: RUN },
+  Run: { label: 'Run', Icon: Running, pill: RUN },
   Walk: { label: 'Walk', Icon: Footprints, pill: GRAY },
   Hike: { label: 'Hike', Icon: Mountain, pill: ALPINE },
   Mountaineering: { label: 'Mountaineering', Icon: MountainSnow, pill: ALPINE },
