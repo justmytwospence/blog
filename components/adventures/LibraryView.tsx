@@ -7,6 +7,7 @@ import { AdventureCard } from './AdventureCard';
 import { AdventuresMap } from './AdventuresMap';
 import { AdventuresTable } from './AdventuresTable';
 import { sportMeta } from './sportMeta';
+import { FACET_LABELS, FACET_ORDER } from '@/lib/facets';
 import type { AdventureSummary, SportType } from '@/lib/adventures';
 
 type SortKey = 'date' | 'distance' | 'elevation' | 'time';
@@ -41,6 +42,7 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
   const [view, setView] = useState<View>(() => (isView(params.get('view')) ? (params.get('view') as View) : 'grid'));
   const [sport, setSport] = useState<SportType | null>(() => (params.get('sport') as SportType) || null);
   const [place, setPlace] = useState<string | null>(() => params.get('place') || null);
+  const [cat, setCat] = useState<string | null>(() => params.get('cat') || null);
   const [query, setQuery] = useState<string>(() => params.get('q') || '');
   const [sortKey, setSortKey] = useState<SortKey>(() =>
     isSort(params.get('sort')) ? (params.get('sort') as SortKey) : 'date',
@@ -52,11 +54,12 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
     if (view !== 'grid') q.set('view', view);
     if (sport) q.set('sport', sport);
     if (place) q.set('place', place);
+    if (cat) q.set('cat', cat);
     if (query.trim()) q.set('q', query.trim());
     if (sortKey !== 'date') q.set('sort', sortKey);
     const qs = q.toString();
     router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
-  }, [view, sport, place, query, sortKey, pathname, router]);
+  }, [view, sport, place, cat, query, sortKey, pathname, router]);
 
   // Restore state from the URL on back/forward navigation.
   useEffect(() => {
@@ -64,6 +67,7 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
     setView(isView(v) ? v : 'grid');
     setSport((params.get('sport') as SportType) || null);
     setPlace(params.get('place') || null);
+    setCat(params.get('cat') || null);
     setQuery(params.get('q') || '');
     const s = params.get('sort');
     setSortKey(isSort(s) ? s : 'date');
@@ -79,6 +83,11 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
       Array.from(new Set(adventures.map(locationLabel).filter((p): p is string => Boolean(p)))).sort(),
     [adventures],
   );
+  const categories = useMemo(() => {
+    const present = new Set<string>();
+    for (const a of adventures) for (const f of a.facets) present.add(f);
+    return FACET_ORDER.filter((k) => present.has(k));
+  }, [adventures]);
 
   const sorted = useMemo(() => {
     const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
@@ -93,6 +102,7 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
     const list = adventures
       .filter((a) => !sport || a.sportType === sport)
       .filter((a) => !place || locationLabel(a) === place)
+      .filter((a) => !cat || a.facets.includes(cat))
       .filter(matches);
     list.sort((a, b) => {
       switch (sortKey) {
@@ -107,7 +117,7 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
       }
     });
     return list;
-  }, [adventures, sport, place, query, sortKey]);
+  }, [adventures, sport, place, cat, query, sortKey]);
 
   const pill = (active: boolean) =>
     `rounded-full px-3 py-1 text-sm transition-colors ${
@@ -153,6 +163,16 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
               className="w-56 rounded-md border border-gray-200 bg-white py-1.5 pl-8 pr-2 text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-[#303031] dark:bg-[#252526] dark:text-[#cccccc]"
             />
           </div>
+          {categories.length > 0 && (
+            <select value={cat ?? ''} onChange={(e) => setCat(e.target.value || null)} aria-label="Filter by category" className={selectCls}>
+              <option value="">All types</option>
+              {categories.map((c) => (
+                <option key={c} value={c}>
+                  {FACET_LABELS[c] ?? c}
+                </option>
+              ))}
+            </select>
+          )}
           {places.length > 1 && (
             <select value={place ?? ''} onChange={(e) => setPlace(e.target.value || null)} aria-label="Filter by location" className={selectCls}>
               <option value="">All locations</option>

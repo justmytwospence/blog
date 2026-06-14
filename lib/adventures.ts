@@ -7,6 +7,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { mapCommonMetadata, normalizeDate } from './content';
+import { FACET_ORDER } from './facets';
 import { preprocessObsidian } from '@blog/obsidian-md';
 import type { AdventureActivity, AdventureStats, SportType } from '@blog/strava/types';
 import { parseStravaIds, usesIdArray } from '@blog/strava';
@@ -64,6 +65,7 @@ export interface Adventure {
   difficulty: string | null;
   grade: string | null;
   peakClass: PeakClass | null;
+  facets: string[]; // filterable kinds: 14er/13er/race/couloir/scramble/traverse/thru-hike
   rating: number | null;
   objective: string | null; // slug of fulfilled objective
   group: string | null; // shared key across repeat trips of the same route
@@ -87,6 +89,7 @@ export interface AdventureSummary {
   type: string | null;
   difficulty: string | null;
   peakClass: PeakClass | null;
+  facets: string[];
   rating: number | null;
   tags: string[];
   location: { city: string | null; state: string | null; country: string | null };
@@ -203,6 +206,25 @@ function derivePeakClass(
   return null;
 }
 
+/** Filterable kinds an outing belongs to — by explicit type, title, peak class, or race flag. */
+function deriveFacets(
+  type: string | null,
+  title: string,
+  peakClass: PeakClass | null,
+  isRace: boolean,
+): string[] {
+  const f = new Set<string>();
+  if (peakClass) f.add(peakClass);
+  if (isRace) f.add('race');
+  const t = (type ?? '').toLowerCase();
+  const lc = title.toLowerCase();
+  if (t === 'couloir' || /couloir/.test(lc)) f.add('couloir');
+  if (t === 'scramble' || /scramble/.test(lc)) f.add('scramble');
+  if (t === 'traverse' || /traverse/.test(lc)) f.add('traverse');
+  if (t === 'thru-hike') f.add('thru-hike');
+  return FACET_ORDER.filter((k) => f.has(k));
+}
+
 function readActivity(id: number): AdventureActivity | null {
   const p = path.join(ACTIVITIES_DIR, `${id}.json`);
   if (!fs.existsSync(p)) return null;
@@ -314,7 +336,10 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
   const sportType: SportType = (str(pc.data.sport) as SportType | null) ?? primary.sportType;
   const tags = Array.isArray(pc.data.tags) ? (pc.data.tags as unknown[]).map(String) : [];
   const elevHigh = Math.max(...acts.map((a) => a.stats.elevHighMeters ?? Number.NEGATIVE_INFINITY));
-  const peakClass = derivePeakClass(tags, str(pc.data.type), sportType, elevHigh);
+  const typeStr = str(pc.data.type);
+  const peakClass = derivePeakClass(tags, typeStr, sportType, elevHigh);
+  const isRace = Boolean(pc.data.race) || typeStr === 'race';
+  const facets = deriveFacets(typeStr, common.title, peakClass, isRace);
   const date = pc.data.date != null ? normalizeDate(pc.data.date) : primary.date;
   const dayMeta = Array.isArray(pc.data.days)
     ? (pc.data.days as Array<{ title?: unknown; caption?: unknown }>)
@@ -353,6 +378,7 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
     difficulty: str(pc.data.difficulty),
     grade: str(pc.data.grade),
     peakClass,
+    facets,
     rating: num(pc.data.rating),
     objective: str(pc.data.objective),
     group: str(pc.data.group),
@@ -379,6 +405,7 @@ function toSummary(adv: Adventure, tripCount = 1): AdventureSummary {
     type: adv.type,
     difficulty: adv.difficulty,
     peakClass: adv.peakClass,
+    facets: adv.facets,
     rating: adv.rating,
     tags: adv.tags,
     location: adv.location,
