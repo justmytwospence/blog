@@ -20,7 +20,8 @@
     "strava:sweep": "tsx scripts/strava-sweep.ts",
     "strava:thumbs": "tsx scripts/regen-thumbs.ts",
     "add:14ers": "tsx scripts/add-14ers.ts",
-    "add:pct": "tsx scripts/add-pct.ts"
+    "add:pct": "tsx scripts/add-pct.ts",
+    "source:routes": "tsx scripts/source-routes.ts"
   },
   "workspaces": [
     "packages/*"
