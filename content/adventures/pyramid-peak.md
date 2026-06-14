@@ -2,7 +2,7 @@
 title: "Pyramid Peak"
 strava_id: 10047
 date: 2020-09-05
-sport: Mountaineering
+sport: Hike
 type: peak
 difficulty: epic
 tags: [14er, elk]

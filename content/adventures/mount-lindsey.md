@@ -3,7 +3,7 @@ group: mount-lindsey
 title: "Mt. Lindsey"
 strava_id: 10043
 date: 2019-10-01
-sport: Mountaineering
+sport: Hike
 type: peak
 difficulty: hard
 tags: [14er, sangre-de-cristo]

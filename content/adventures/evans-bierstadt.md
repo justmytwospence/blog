@@ -2,7 +2,7 @@
 title: "Sawtooth Ridge Traverse"
 strava_ids: [10014, 10038]
 date: 2019-08-14
-sport: Mountaineering
+sport: Hike
 type: traverse
 difficulty: moderate
 tags: [14er, front-range, traverse]

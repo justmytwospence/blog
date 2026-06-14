@@ -2,7 +2,7 @@
 title: "Crestone Traverse"
 strava_id: 10070
 date: 2021-09-04
-sport: Mountaineering
+sport: Hike
 type: traverse
 difficulty: epic
 tags: [14er, sangre-de-cristo, traverse]

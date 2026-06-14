@@ -2,7 +2,7 @@
 title: "Mt. Sneffels"
 strava_id: 10027
 date: 2020-09-19
-sport: Mountaineering
+sport: Hike
 type: peak
 difficulty: hard
 tags: [14er, san-juan]

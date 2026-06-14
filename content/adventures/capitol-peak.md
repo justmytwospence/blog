@@ -3,7 +3,7 @@ group: capitol-peak
 title: "Capitol Peak"
 strava_id: 10029
 date: 2020-09-30
-sport: Mountaineering
+sport: Hike
 type: peak
 difficulty: epic
 tags: [14er, elk]

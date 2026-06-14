@@ -2,7 +2,7 @@
 title: "Longs Peak"
 strava_id: 10015
 date: 2019-07-14
-sport: Mountaineering
+sport: Hike
 type: peak
 difficulty: hard
 tags: [14er, front-range]

@@ -2,7 +2,7 @@
 title: "Crestone Needle"
 strava_id: 10019
 date: 2020-08-09
-sport: Mountaineering
+sport: Hike
 type: peak
 difficulty: hard
 tags: [14er, sangre-de-cristo]
