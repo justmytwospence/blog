@@ -874,3 +874,12 @@ mark {
 .leaflet-container {
   isolation: isolate;
 }
+
+/* Tailwind's Preflight no longer sets cursor:pointer on buttons — restore the hand for anything clickable. */
+button:not(:disabled),
+[role='button']:not([aria-disabled='true']),
+summary,
+label[for],
+select:not(:disabled) {
+  cursor: pointer;
+}
