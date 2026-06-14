@@ -1,4 +1,5 @@
 ---
+group: capitol-peak
 title: "Capitol Peak"
 strava_id: 10029
 date: 2020-09-30
