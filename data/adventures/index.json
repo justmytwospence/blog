@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-14T13:40:45.574Z",
+  "generatedAt": "2026-06-14T14:34:33.373Z",
   "activities": [
     {
       "stravaId": 18893341377,
@@ -1342,6 +1342,14 @@
       "date": "2019-05-23",
       "sportType": "Hike",
       "name": "Mt. Princeton",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 20170415,
+      "date": "2017-04-15",
+      "sportType": "Hike",
+      "name": "Pacific Crest Trail",
       "hasTrack": true,
       "photoCount": 0
     }

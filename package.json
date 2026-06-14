@@ -19,7 +19,8 @@
     "strava:bootstrap": "tsx scripts/strava-bootstrap.ts",
     "strava:sweep": "tsx scripts/strava-sweep.ts",
     "strava:thumbs": "tsx scripts/regen-thumbs.ts",
-    "add:14ers": "tsx scripts/add-14ers.ts"
+    "add:14ers": "tsx scripts/add-14ers.ts",
+    "add:pct": "tsx scripts/add-pct.ts"
   },
   "workspaces": [
     "packages/*"
