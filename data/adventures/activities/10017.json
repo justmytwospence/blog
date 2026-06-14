@@ -1,6 +1,6 @@
 {
   "stravaId": 10017,
-  "name": "Mt. Shavano & Tabeguache Peak",
+  "name": "Mt. Shavano",
   "sportType": "Hike",
   "startLocal": "2019-07-21T08:00:00Z",
   "date": "2019-07-21",
@@ -668,8 +668,8 @@
   "weather": null,
   "photos": [],
   "gear": null,
-  "description": "standard route · Class 2 · 14,229'",
+  "description": "shav1 · Class 2",
   "stravaUrl": "",
-  "syncedAt": "2026-06-13T23:14:54.667Z",
+  "syncedAt": "2026-06-14T02:36:01.758Z",
   "sourceHash": "14ers:shav1"
 }

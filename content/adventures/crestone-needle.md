@@ -12,4 +12,4 @@ hidden: false
 
 A Colorado 14er via the standard route — Crestone Needle (14,197'), Class 3. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=cnee1)
+Routes on 14ers.com: [Crestone Needle](https://www.14ers.com/route.php?route=cnee1)

@@ -1,6 +1,6 @@
 {
   "stravaId": 10012,
-  "name": "Castle Peak & Conundrum Peak",
+  "name": "Castle Peak",
   "sportType": "Hike",
   "startLocal": "2019-09-21T08:00:00Z",
   "date": "2019-09-21",
@@ -493,8 +493,8 @@
   "weather": null,
   "photos": [],
   "gear": null,
-  "description": "standard combo route · Class 2 · 14,265'",
+  "description": "cast1 · Class 2",
   "stravaUrl": "",
-  "syncedAt": "2026-06-13T23:15:17.339Z",
+  "syncedAt": "2026-06-14T02:36:31.059Z",
   "sourceHash": "14ers:cast1"
 }

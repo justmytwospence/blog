@@ -12,4 +12,4 @@ hidden: false
 
 A Colorado 14er via the standard route — La Plata Peak (14,336'), Class 2. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=lapl1)
+Routes on 14ers.com: [La Plata Peak](https://www.14ers.com/route.php?route=lapl1)

@@ -12,4 +12,4 @@ hidden: false
 
 A Colorado 14er via the North Ridge / Halo Ridge loop — Mt. of the Holy Cross (14,005'), Class 2. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=holy1)
+Routes on 14ers.com: [Mt. of the Holy Cross](https://www.14ers.com/route.php?route=holy1)

@@ -12,4 +12,4 @@ hidden: false
 
 A Colorado 14er via the Lulu Gulch — Huron Peak (14,003'), Class 2. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=huro4)
+Routes on 14ers.com: [Huron Peak](https://www.14ers.com/route.php?route=huro4)

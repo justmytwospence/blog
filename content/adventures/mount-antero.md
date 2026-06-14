@@ -12,4 +12,4 @@ hidden: false
 
 A Colorado 14er via the standard route — Mt. Antero (14,269'), Class 2. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=ante1)
+Routes on 14ers.com: [Mt. Antero](https://www.14ers.com/route.php?route=ante1)

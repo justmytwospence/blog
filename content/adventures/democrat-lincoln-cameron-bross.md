@@ -1,6 +1,6 @@
 ---
 title: "Mt. Democrat, Lincoln, Cameron & Bross"
-strava_id: 10028
+strava_ids: [10028, 10008, 10063, 10022]
 date: 2019-08-24
 sport: Hike
 type: peak
@@ -8,8 +8,13 @@ difficulty: moderate
 tags: [14er, mosquito]
 source: 14ers
 hidden: false
+days:
+  - title: "Mt. Democrat"
+  - title: "Mt. Lincoln"
+  - title: "Mt. Cameron"
+  - title: "Mt. Bross"
 ---
 
 A Colorado 14er link-up via the DeCaLiBron — the 4 summits (Mt. Democrat, Mt. Lincoln, Mt. Cameron, Mt. Bross), Class 2. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=demo1)
+Routes on 14ers.com: [Mt. Democrat](https://www.14ers.com/route.php?route=demo1) · [Mt. Lincoln](https://www.14ers.com/route.php?route=linc1) · [Mt. Cameron](https://www.14ers.com/route.php?route=came1) · [Mt. Bross](https://www.14ers.com/route.php?route=bros1)

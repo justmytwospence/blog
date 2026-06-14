@@ -12,4 +12,4 @@ hidden: false
 
 A Colorado 14er via the standard route — Mt. Princeton (14,197'), Class 2. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=prin1)
+Routes on 14ers.com: [Mt. Princeton](https://www.14ers.com/route.php?route=prin1)

@@ -1,6 +1,6 @@
 {
   "stravaId": 10003,
-  "name": "Mt. Harvard & Columbia",
+  "name": "Mt. Harvard",
   "sportType": "Hike",
   "startLocal": "2019-08-25T08:00:00Z",
   "date": "2019-08-25",
@@ -1032,8 +1032,8 @@
   "weather": null,
   "photos": [],
   "gear": null,
-  "description": "combo route · Class 2 · 14,420'",
+  "description": "harv1 · Class 2",
   "stravaUrl": "",
-  "syncedAt": "2026-06-13T23:15:07.322Z",
+  "syncedAt": "2026-06-14T02:36:20.226Z",
   "sourceHash": "14ers:harv1"
 }

@@ -1,6 +1,6 @@
 {
   "stravaId": 10006,
-  "name": "Uncompahgre Peak & Wetterhorn Peak",
+  "name": "Uncompahgre Peak",
   "sportType": "Mountaineering",
   "startLocal": "2020-08-23T08:00:00Z",
   "date": "2020-08-23",
@@ -493,8 +493,8 @@
   "weather": null,
   "photos": [],
   "gear": null,
-  "description": "combo route · Class 3 · 14,309'",
+  "description": "unco1 · Class 3",
   "stravaUrl": "",
-  "syncedAt": "2026-06-13T23:15:44.845Z",
+  "syncedAt": "2026-06-14T02:36:58.213Z",
   "sourceHash": "14ers:unco1"
 }

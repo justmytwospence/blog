@@ -12,4 +12,4 @@ hidden: false
 
 A Colorado 14er via the Barr Trail — Pikes Peak (14,110'), Class 1. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=pikeeast)
+Routes on 14ers.com: [Pikes Peak](https://www.14ers.com/route.php?route=pikeeast)

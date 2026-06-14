@@ -12,4 +12,4 @@ hidden: false
 
 A Colorado 14er via the from winter trailhead — Culebra Peak (14,047'), Class 2. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=cule1)
+Routes on 14ers.com: [Culebra Peak](https://www.14ers.com/route.php?route=cule1)

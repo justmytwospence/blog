@@ -12,4 +12,4 @@ hidden: false
 
 A Colorado 14er via the Crestones Traverse from Cottonwood — Crestone Peak (14,294'), Class 3. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=cpea2)
+Routes on 14ers.com: [Crestone Peak](https://www.14ers.com/route.php?route=cpea2)

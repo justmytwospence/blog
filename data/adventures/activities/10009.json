@@ -1,6 +1,6 @@
 {
   "stravaId": 10009,
-  "name": "Grays Peak & Torreys Peak",
+  "name": "Grays Peak",
   "sportType": "Hike",
   "startLocal": "2019-06-08T08:00:00Z",
   "date": "2019-06-08",
@@ -486,8 +486,8 @@
   "weather": null,
   "photos": [],
   "gear": null,
-  "description": "standard route · Class 2 · 14,270'",
+  "description": "gray1 · Class 2",
   "stravaUrl": "",
-  "syncedAt": "2026-06-13T23:14:49.369Z",
+  "syncedAt": "2026-06-14T02:35:56.059Z",
   "sourceHash": "14ers:gray1"
 }

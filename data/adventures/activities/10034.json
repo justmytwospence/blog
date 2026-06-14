@@ -1,6 +1,6 @@
 {
   "stravaId": 10034,
-  "name": "Challenger Point & Kit Carson Peak",
+  "name": "Challenger Point",
   "sportType": "Mountaineering",
   "startLocal": "2019-09-14T08:00:00Z",
   "date": "2019-09-14",
@@ -500,8 +500,8 @@
   "weather": null,
   "photos": [],
   "gear": null,
-  "description": "combo route · Class 3 · 14,165'",
+  "description": "chal1 · Class 3",
   "stravaUrl": "",
-  "syncedAt": "2026-06-13T23:15:15.056Z",
+  "syncedAt": "2026-06-14T02:36:27.788Z",
   "sourceHash": "14ers:chal1"
 }

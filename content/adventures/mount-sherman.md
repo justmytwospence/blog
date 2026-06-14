@@ -12,4 +12,4 @@ hidden: false
 
 A Colorado 14er via the standard route — Mt. Sherman (14,036'), Class 2. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=sher1)
+Routes on 14ers.com: [Mt. Sherman](https://www.14ers.com/route.php?route=sher1)

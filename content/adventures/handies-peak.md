@@ -12,4 +12,4 @@ hidden: false
 
 A Colorado 14er via the standard route — Handies Peak (14,048'), Class 1. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=hand1)
+Routes on 14ers.com: [Handies Peak](https://www.14ers.com/route.php?route=hand1)

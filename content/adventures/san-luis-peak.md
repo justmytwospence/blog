@@ -12,4 +12,4 @@ hidden: false
 
 A Colorado 14er via the standard route — San Luis Peak (14,014'), Class 1. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=sanl1)
+Routes on 14ers.com: [San Luis Peak](https://www.14ers.com/route.php?route=sanl1)

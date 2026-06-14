@@ -12,4 +12,4 @@ hidden: false
 
 A Colorado 14er via the standard route — Snowmass Mountain (14,092'), Class 3. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=snow1)
+Routes on 14ers.com: [Snowmass Mountain](https://www.14ers.com/route.php?route=snow1)

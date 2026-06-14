@@ -1,6 +1,6 @@
 {
   "stravaId": 10032,
-  "name": "Mt. Eolus, Windom Peak, Sunlight Peak & North Eolus",
+  "name": "Mt. Eolus",
   "sportType": "Mountaineering",
   "startLocal": "2020-09-25T08:00:00Z",
   "date": "2020-09-25",
@@ -605,8 +605,8 @@
   "weather": null,
   "photos": [],
   "gear": null,
-  "description": "from Purgatory · Class 4 · 14,087'",
+  "description": "eolu3 · Class 4",
   "stravaUrl": "",
-  "syncedAt": "2026-06-13T23:15:56.346Z",
+  "syncedAt": "2026-06-14T02:37:09.035Z",
   "sourceHash": "14ers:eolu3"
 }

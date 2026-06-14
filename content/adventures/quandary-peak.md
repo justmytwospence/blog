@@ -10,6 +10,6 @@ source: 14ers
 hidden: false
 ---
 
-Quandary Peak (14,265') via the East Ridge — Class 1. A Colorado 14er, climbed before I was on Strava.
+A Colorado 14er via the standard route — Quandary Peak (14,265'), Class 1. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=quan1)
+Routes on 14ers.com: [Quandary Peak](https://www.14ers.com/route.php?route=quan1)

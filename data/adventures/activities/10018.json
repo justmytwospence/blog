@@ -1,6 +1,6 @@
 {
   "stravaId": 10018,
-  "name": "Mt. Belford, Oxford & Missouri Mountain",
+  "name": "Mt. Belford",
   "sportType": "Hike",
   "startLocal": "2019-08-03T08:00:00Z",
   "date": "2019-08-03",
@@ -829,8 +829,8 @@
   "weather": null,
   "photos": [],
   "gear": null,
-  "description": "combo route · Class 2 · 14,197'",
+  "description": "belf1 · Class 2",
   "stravaUrl": "",
-  "syncedAt": "2026-06-13T23:15:00.117Z",
+  "syncedAt": "2026-06-14T02:36:06.998Z",
   "sourceHash": "14ers:belf1"
 }

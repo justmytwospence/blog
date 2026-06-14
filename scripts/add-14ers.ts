@@ -1,12 +1,12 @@
 /**
- * One-time importer for pre-Strava 14ers logged in a spreadsheet. Reads scripts/14ers.json
- * (each entry = one same-day outing: peak(s) + 14ers.com route slug + date/class/note), downloads
- * the route GPX from 14ers.com, and writes a committed "manual" adventure (activity JSON + content
- * stub + route thumbnail). Same-day link-ups become one report titled with every summit.
+ * One-time importer for pre-Strava 14ers logged in a spreadsheet. Reads scripts/14ers.json (each
+ * entry = one same-day outing with one or more peak "legs"), downloads each leg's route GPX from
+ * 14ers.com, and writes a committed "manual" adventure. Same-day link-ups become one multi-leg
+ * report (each peak's route is its own track — never stitched into a fake continuous line).
  *
  *   npm run add:14ers
  *
- * Flagged `source: 14ers` in the companion so the Strava sync keeps (but never fetches) them.
+ * Flagged `source: 14ers` so the Strava sync keeps (but never fetches) them.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -21,15 +21,19 @@ import {
 import { ACTIVITIES_DIR, CONTENT_DIR, PUBLIC_DIR, slugify, sleep } from './strava-shared';
 import { buildRouteThumb } from './route-thumb';
 
-interface Entry {
-  peaks: string[];
+interface Leg {
+  peak: string;
   peakid: number;
   route: string;
+}
+interface Entry {
+  peaks: string[];
   note: string;
   date: string;
   class: number;
   height: string;
   range: string;
+  legs: Leg[];
 }
 
 const GPX_URL = (slug: string) => `https://www.14ers.com/php14ers/download.php?file=${slug}.gpx&type=routegpx`;
@@ -58,7 +62,6 @@ function parseGpx(xml: string): Array<[number, number, number]> {
 const sport = (cls: number): SportType => (cls >= 3 ? 'Mountaineering' : 'Hike');
 const difficulty = (cls: number): string => (cls >= 4 ? 'epic' : cls >= 3 ? 'hard' : 'moderate');
 
-/** "Grays Peak & Torreys Peak"; "Mt. Democrat, Lincoln, Cameron & Bross". */
 function titleOf(peaks: string[]): string {
   if (peaks.length === 1) return peaks[0];
   const names = peaks.map((p, i) => (i === 0 ? p : p.replace(/^Mt\.?\s/, '')));
@@ -69,16 +72,21 @@ function slugOf(peaks: string[]): string {
   return slugify(peaks.map((p) => p.replace(/^Mt\.?\s/, '').replace(/\s+(Peak|Mountain|Point)$/, '')).join('-'));
 }
 
-async function build(e: Entry): Promise<boolean> {
-  const res = await fetch(GPX_URL(e.route), { headers: { 'User-Agent': 'Mozilla/5.0', Referer: ROUTE_URL(e.route) } });
+/** Fetch + parse a leg's GPX into a committed AdventureActivity; returns it plus the [lat,lng] track. */
+async function buildLeg(leg: Leg, e: Entry): Promise<{ activity: AdventureActivity; latlng: Array<[number, number]> } | null> {
+  if (!leg.route) {
+    console.error(`[14ers] ${leg.peak}: no route slug`);
+    return null;
+  }
+  const res = await fetch(GPX_URL(leg.route), { headers: { 'User-Agent': 'Mozilla/5.0', Referer: ROUTE_URL(leg.route) } });
   if (!res.ok) {
-    console.error(`[14ers] ${e.peaks[0]}: GPX ${res.status} (${e.route})`);
-    return false;
+    console.error(`[14ers] ${leg.peak}: GPX ${res.status} (${leg.route})`);
+    return null;
   }
   const raw = parseGpx(await res.text());
   if (raw.length < 2) {
-    console.error(`[14ers] ${e.peaks[0]}: no trackpoints in ${e.route}.gpx`);
-    return false;
+    console.error(`[14ers] ${leg.peak}: no trackpoints in ${leg.route}.gpx`);
+    return null;
   }
 
   const dist: number[] = [0];
@@ -102,14 +110,13 @@ async function build(e: Entry): Promise<boolean> {
   }
 
   const tps: TrackPoint[] = raw.map((p, i) => ({ lat: p[0], lng: p[1], alt: p[2], dist: dist[i], grade: grade[i], vel: 0, hr: 0 }));
-  const ds = downsampleTrack(tps, { maxPoints: 1400 });
+  const ds = downsampleTrack(tps, { maxPoints: 1200 });
   const summit = raw.reduce((best, p) => (p[2] > best[2] ? p : best), raw[0]);
   const geo = await reverseGeocode(summit[0], summit[1]);
-  const t = titleOf(e.peaks);
 
   const activity: AdventureActivity = {
-    stravaId: e.peakid,
-    name: t,
+    stravaId: leg.peakid,
+    name: leg.peak,
     sportType: sport(e.class),
     startLocal: `${e.date}T08:00:00Z`,
     date: e.date,
@@ -146,44 +153,45 @@ async function build(e: Entry): Promise<boolean> {
     weather: null,
     photos: [],
     gear: null,
-    description: `${e.note} · Class ${e.class} · ${e.height}`,
+    description: `${leg.route} · Class ${e.class}`,
     stravaUrl: '',
     syncedAt: new Date().toISOString(),
-    sourceHash: `14ers:${e.route}`,
+    sourceHash: `14ers:${leg.route}`,
   };
+  return { activity, latlng: ds.map((p) => [p.lat, p.lng]) };
+}
 
+async function build(e: Entry): Promise<boolean> {
   fs.mkdirSync(ACTIVITIES_DIR, { recursive: true });
-  fs.writeFileSync(path.join(ACTIVITIES_DIR, `${e.peakid}.json`), JSON.stringify(activity, null, 2));
-
-  const slug = slugOf(e.peaks);
-  const file = path.join(CONTENT_DIR, `${slug}.md`);
-  if (!fs.existsSync(file)) {
-    const peakList = e.peaks.length > 1 ? `the ${e.peaks.length} summits (${e.peaks.join(', ')})` : `${e.peaks[0]} (${e.height})`;
-    fs.writeFileSync(
-      file,
-      [
-        '---',
-        `title: "${t.replace(/"/g, '\\"')}"`,
-        `strava_id: ${e.peakid}`,
-        `date: ${e.date}`,
-        `sport: ${sport(e.class)}`,
-        'type: peak',
-        `difficulty: ${difficulty(e.class)}`,
-        `tags: [14er, ${slugify(e.range)}]`,
-        'source: 14ers',
-        'hidden: false',
-        '---',
-        '',
-        `A Colorado 14er${e.peaks.length > 1 ? ' link-up' : ''} via the ${e.note} — ${peakList}, Class ${e.class}. Climbed before I was on Strava.`,
-        '',
-        `[Route details on 14ers.com](${ROUTE_URL(e.route)})`,
-        '',
-      ].join('\n'),
-    );
+  const tracks: Array<Array<[number, number]>> = [];
+  const peakids: number[] = [];
+  for (const leg of e.legs) {
+    const built = await buildLeg(leg, e);
+    if (!built) return false;
+    fs.writeFileSync(path.join(ACTIVITIES_DIR, `${leg.peakid}.json`), JSON.stringify(built.activity, null, 2));
+    tracks.push(built.latlng);
+    peakids.push(leg.peakid);
+    await sleep(250);
   }
 
-  await buildRouteThumb(ds.map((p) => [p.lat, p.lng]), path.join(PUBLIC_DIR, String(e.peakid), 'route.jpg'));
-  console.log(`[14ers] ${t.padEnd(48)} ${(dist[dist.length - 1] / 1609.344).toFixed(1)}mi/${Math.round(gain * 3.28084)}ft  (${e.route} → ${slug})`);
+  const t = titleOf(e.peaks);
+  const slug = slugOf(e.peaks);
+  const multi = e.legs.length > 1;
+  const fm = ['---', `title: "${t.replace(/"/g, '\\"')}"`];
+  fm.push(multi ? `strava_ids: [${peakids.join(', ')}]` : `strava_id: ${peakids[0]}`);
+  fm.push(`date: ${e.date}`, `sport: ${sport(e.class)}`, 'type: peak', `difficulty: ${difficulty(e.class)}`, `tags: [14er, ${slugify(e.range)}]`, 'source: 14ers', 'hidden: false');
+  if (multi) {
+    fm.push('days:');
+    for (const leg of e.legs) fm.push(`  - title: "${leg.peak.replace(/"/g, '\\"')}"`);
+  }
+  const summits = multi ? `the ${e.peaks.length} summits (${e.peaks.join(', ')})` : `${e.peaks[0]} (${e.height})`;
+  fm.push('---', '', `A Colorado 14er${multi ? ' link-up' : ''} via the ${e.note} — ${summits}, Class ${e.class}. Climbed before I was on Strava.`, '');
+  fm.push(`Routes on 14ers.com: ${e.legs.map((l) => `[${l.peak}](${ROUTE_URL(l.route)})`).join(' · ')}`, '');
+  fs.writeFileSync(path.join(CONTENT_DIR, `${slug}.md`), fm.join('\n'));
+
+  // Combined thumbnail at the primary peak's id (each leg drawn as its own track).
+  await buildRouteThumb(tracks, path.join(PUBLIC_DIR, String(peakids[0]), 'route.jpg'));
+  console.log(`[14ers] ${t.padEnd(46)} ${e.legs.length} leg(s) → ${slug}`);
   return true;
 }
 
@@ -194,7 +202,7 @@ async function main(): Promise<void> {
   let ok = 0;
   for (const e of entries) {
     if (await build(e)) ok++;
-    await sleep(400);
+    await sleep(300);
   }
   console.log(`[14ers] done — ${ok}/${entries.length} outings imported.`);
 }

@@ -1,6 +1,6 @@
 {
   "stravaId": 10024,
-  "name": "Maroon Peak & North Maroon Peak",
+  "name": "Maroon Peak",
   "sportType": "Mountaineering",
   "startLocal": "2020-09-04T08:00:00Z",
   "date": "2020-09-04",
@@ -934,8 +934,8 @@
   "weather": null,
   "photos": [],
   "gear": null,
-  "description": "Bells Traverse (South to North) · Class 4 · 14,156'",
+  "description": "maro1 · Class 4",
   "stravaUrl": "",
-  "syncedAt": "2026-06-13T23:15:46.269Z",
+  "syncedAt": "2026-06-14T02:37:01.000Z",
   "sourceHash": "14ers:maro1"
 }

@@ -12,4 +12,4 @@ hidden: false
 
 A Colorado 14er via the standard route — Pyramid Peak (14,018'), Class 4. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=pyra1)
+Routes on 14ers.com: [Pyramid Peak](https://www.14ers.com/route.php?route=pyra1)

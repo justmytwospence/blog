@@ -1,6 +1,6 @@
 ---
 title: "Uncompahgre Peak & Wetterhorn Peak"
-strava_id: 10006
+strava_ids: [10006, 10049]
 date: 2020-08-23
 sport: Mountaineering
 type: peak
@@ -8,8 +8,11 @@ difficulty: hard
 tags: [14er, san-juan]
 source: 14ers
 hidden: false
+days:
+  - title: "Uncompahgre Peak"
+  - title: "Wetterhorn Peak"
 ---
 
 A Colorado 14er link-up via the combo route — the 2 summits (Uncompahgre Peak, Wetterhorn Peak), Class 3. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=unco1)
+Routes on 14ers.com: [Uncompahgre Peak](https://www.14ers.com/route.php?route=unco1) · [Wetterhorn Peak](https://www.14ers.com/route.php?route=wett1)

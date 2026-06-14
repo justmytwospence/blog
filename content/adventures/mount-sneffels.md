@@ -12,4 +12,4 @@ hidden: false
 
 A Colorado 14er via the Northwest Ridge via Blue Lakes — Mt. Sneffels (14,150'), Class 3. Climbed before I was on Strava.
 
-[Route details on 14ers.com](https://www.14ers.com/route.php?route=snef2)
+Routes on 14ers.com: [Mt. Sneffels](https://www.14ers.com/route.php?route=snef2)

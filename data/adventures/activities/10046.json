@@ -1,6 +1,6 @@
 {
   "stravaId": 10046,
-  "name": "Redcloud Peak & Sunshine Peak",
+  "name": "Redcloud Peak",
   "sportType": "Hike",
   "startLocal": "2020-08-21T08:00:00Z",
   "date": "2020-08-21",
@@ -731,8 +731,8 @@
   "weather": null,
   "photos": [],
   "gear": null,
-  "description": "standard combo route · Class 2 · 14,034'",
+  "description": "redc1 · Class 2",
   "stravaUrl": "",
-  "syncedAt": "2026-06-13T23:15:40.838Z",
+  "syncedAt": "2026-06-14T02:36:52.366Z",
   "sourceHash": "14ers:redc1"
 }

@@ -45,17 +45,23 @@ async function fetchTile(z: number, x: number, y: number): Promise<Buffer | null
  * Best-effort: returns false (without throwing) if tiles can't be fetched.
  */
 export async function buildRouteThumb(
-  coords: Array<[number, number]>,
+  coordsOrTracks: Array<[number, number]> | Array<Array<[number, number]>>,
   outPath: string,
   color = '#dc2626',
 ): Promise<boolean> {
-  if (!coords || coords.length < 2) return false;
+  // Accept a single track or several (each drawn separately — no connecting lines between them).
+  const tracks: Array<Array<[number, number]>> =
+    typeof (coordsOrTracks as Array<[number, number]>)[0]?.[0] === 'number'
+      ? [coordsOrTracks as Array<[number, number]>]
+      : (coordsOrTracks as Array<Array<[number, number]>>);
+  const all = tracks.flat().filter((p) => Array.isArray(p) && p.length === 2);
+  if (all.length < 2) return false;
 
   let minLat = Infinity;
   let maxLat = -Infinity;
   let minLng = Infinity;
   let maxLng = -Infinity;
-  for (const [lat, lng] of coords) {
+  for (const [lat, lng] of all) {
     if (lat < minLat) minLat = lat;
     if (lat > maxLat) maxLat = lat;
     if (lng < minLng) minLng = lng;
@@ -110,11 +116,17 @@ export async function buildRouteThumb(
   }
   if (composites.length === 0) return false;
 
-  // Route as an SVG overlay in stitched-image pixel space (white casing + colored line).
-  const pts = coords
-    .map(([lat, lng]) => `${(gx(lng) - originX).toFixed(1)},${(gy(lat) - originY).toFixed(1)}`)
-    .join(' ');
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><polyline points="${pts}" fill="none" stroke="#ffffff" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/></svg>`;
+  // Each track as its own SVG polyline (white casing + colored line) — never connected across tracks.
+  const polys = tracks
+    .map((t) => t.map(([lat, lng]) => `${(gx(lng) - originX).toFixed(1)},${(gy(lat) - originY).toFixed(1)}`).join(' '))
+    .filter((p) => p.length);
+  const casings = polys
+    .map((pts) => `<polyline points="${pts}" fill="none" stroke="#ffffff" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>`)
+    .join('');
+  const lines = polys
+    .map((pts) => `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>`)
+    .join('');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">${casings}${lines}</svg>`;
   composites.push({ input: Buffer.from(svg), left: 0, top: 0 });
 
   const stitched = await sharp({ create: { width: W, height: H, channels: 3, background: '#e8e8e8' } })
