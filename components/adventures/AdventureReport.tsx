@@ -55,7 +55,8 @@ function ReportMeta({ adventure }: { adventure: Adventure }) {
 
 function StravaLinks({ adventure }: { adventure: Adventure }) {
   // Manual (non-Strava) imports have no Strava URL — the source link lives in the prose instead.
-  if (adventure.days.length === 1 && !adventure.primaryActivity.stravaUrl) return null;
+  const withUrl = adventure.days.filter((d) => d.activity.stravaUrl);
+  if (withUrl.length === 0) return null;
   return (
     <div className="mt-8 border-t border-gray-200 pt-4 text-sm text-gray-500 dark:border-[#303031] dark:text-[#a6a6a6]">
       {adventure.days.length === 1 ? (
@@ -70,7 +71,7 @@ function StravaLinks({ adventure }: { adventure: Adventure }) {
       ) : (
         <span>
           On Strava:{' '}
-          {adventure.days.map((d, i) => (
+          {withUrl.map((d, i) => (
             <span key={d.activity.stravaId}>
               {i > 0 && ', '}
               <a
