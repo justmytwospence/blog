@@ -179,14 +179,16 @@ function CommentNode({ node, depth, sort }: { node: ThreadNode; depth: number; s
           >
             {post.author.displayName || `@${post.author.handle}`}
           </a>
-          <a
-            href={`https://bsky.app/profile/${post.author.handle}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-500 hover:underline dark:text-[#a6a6a6]"
-          >
-            @{post.author.handle}
-          </a>
+          {post.author.displayName && (
+            <a
+              href={`https://bsky.app/profile/${post.author.handle}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:underline dark:text-[#a6a6a6]"
+            >
+              @{post.author.handle}
+            </a>
+          )}
           <span className="text-gray-400 dark:text-[#6e6e6e]">·</span>
           <a
             href={url}
@@ -303,8 +305,9 @@ export function BlueskyComments({ postRef }: { postRef: string }) {
           replies: (thread.replies ?? []).filter((r) => !isPinPost(r)),
           webUrl: postWebUrl(thread.post.author, thread.post.uri),
         });
-      } catch {
+      } catch (err) {
         if (signal?.aborted || opts?.keepOnError) return;
+        console.error('[bluesky] failed to load thread:', err);
         setState({ status: 'error' });
       }
     },
