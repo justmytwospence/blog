@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
-import { LayoutGrid, Map as MapIcon, Table as TableIcon } from 'lucide-react';
+import { LayoutGrid, Map as MapIcon, Table as TableIcon, Search } from 'lucide-react';
 import { AdventureCard } from './AdventureCard';
 import { AdventuresMap } from './AdventuresMap';
 import { AdventuresTable } from './AdventuresTable';
@@ -41,20 +41,22 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
   const [view, setView] = useState<View>(() => (isView(params.get('view')) ? (params.get('view') as View) : 'grid'));
   const [sport, setSport] = useState<SportType | null>(() => (params.get('sport') as SportType) || null);
   const [place, setPlace] = useState<string | null>(() => params.get('place') || null);
+  const [query, setQuery] = useState<string>(() => params.get('q') || '');
   const [sortKey, setSortKey] = useState<SortKey>(() =>
     isSort(params.get('sort')) ? (params.get('sort') as SortKey) : 'date',
   );
 
-  // Keep the URL in sync so a filtered/sorted view is shareable.
+  // Keep the URL in sync so a filtered/sorted/searched view is shareable.
   useEffect(() => {
     const q = new URLSearchParams();
     if (view !== 'grid') q.set('view', view);
     if (sport) q.set('sport', sport);
     if (place) q.set('place', place);
+    if (query.trim()) q.set('q', query.trim());
     if (sortKey !== 'date') q.set('sort', sortKey);
     const qs = q.toString();
     router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
-  }, [view, sport, place, sortKey, pathname, router]);
+  }, [view, sport, place, query, sortKey, pathname, router]);
 
   // Restore state from the URL on back/forward navigation.
   useEffect(() => {
@@ -62,6 +64,7 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
     setView(isView(v) ? v : 'grid');
     setSport((params.get('sport') as SportType) || null);
     setPlace(params.get('place') || null);
+    setQuery(params.get('q') || '');
     const s = params.get('sort');
     setSortKey(isSort(s) ? s : 'date');
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,9 +81,19 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
   );
 
   const sorted = useMemo(() => {
+    const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    const matches = (a: AdventureSummary) => {
+      if (terms.length === 0) return true;
+      const hay = [a.title, a.location.city, a.location.state, a.location.country, a.type, ...a.tags]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      return terms.every((t) => hay.includes(t));
+    };
     const list = adventures
       .filter((a) => !sport || a.sportType === sport)
-      .filter((a) => !place || locationLabel(a) === place);
+      .filter((a) => !place || locationLabel(a) === place)
+      .filter(matches);
     list.sort((a, b) => {
       switch (sortKey) {
         case 'distance':
@@ -94,7 +107,7 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
       }
     });
     return list;
-  }, [adventures, sport, place, sortKey]);
+  }, [adventures, sport, place, query, sortKey]);
 
   const pill = (active: boolean) =>
     `rounded-full px-3 py-1 text-sm transition-colors ${
@@ -116,6 +129,17 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
   return (
     <>
       <div className="mb-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+        <div className="relative">
+          <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" aria-hidden="true" />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search peaks, places…"
+            aria-label="Search adventures"
+            className="w-44 rounded-md border border-gray-200 bg-white py-1.5 pl-8 pr-2 text-sm text-gray-700 placeholder:text-gray-400 focus:w-56 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-[#303031] dark:bg-[#252526] dark:text-[#cccccc]"
+          />
+        </div>
         {sports.length > 1 && (
           <div className="flex flex-wrap items-center gap-2">
             <button type="button" onClick={() => setSport(null)} aria-pressed={sport === null} className={pill(sport === null)}>
