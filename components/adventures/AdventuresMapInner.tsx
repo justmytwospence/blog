@@ -42,15 +42,43 @@ function FitBounds({ bounds }: { bounds: L.LatLngBounds | null }) {
   const map = useMap();
   useEffect(() => {
     if (!bounds) return;
-    // Defer to the next frame so the container has its real size before leaflet computes the zoom.
-    // fitBounds on a 0-sized container snaps to maxZoom (the whole-USA fit collapses to a single tile).
-    const raf = requestAnimationFrame(() => {
+    let settled = false;
+    const fit = (): boolean => {
+      const { x, y } = map.getSize();
+      if (x < 50 || y < 50) return false; // container not laid out yet — fitBounds would snap to maxZoom
       map.invalidateSize();
-      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14, animate: false });
+      map.fitBounds(bounds, { padding: [30, 30], maxZoom: 12, animate: false });
+      return true;
+    };
+    if (fit()) return;
+    // Mounted before the container had a real size (hidden tab / pre-layout) — fit as soon as it does.
+    const ro = new ResizeObserver(() => {
+      if (!settled && fit()) {
+        settled = true;
+        ro.disconnect();
+      }
     });
-    return () => cancelAnimationFrame(raf);
+    ro.observe(map.getContainer());
+    return () => ro.disconnect();
   }, [map, bounds]);
   return null;
+}
+
+/**
+ * Frame the dense cluster of activities rather than the full coast-to-coast extent. A handful of
+ * far-flung trips (PNW, California, the East Coast) would otherwise zoom the initial view out to
+ * "the whole USA"; trimming the outer 5% of start points on each axis keeps the map centered on
+ * where the activities actually are. Outliers stay on the map, just outside the initial viewport.
+ */
+function clusterBounds(routes: Route[]): L.LatLngBounds | null {
+  const starts = routes.map((r) => r.start);
+  if (starts.length === 0) return null;
+  if (starts.length < 8) return L.latLngBounds(starts);
+  const lats = starts.map((s) => s[0]).sort((a, b) => a - b);
+  const lngs = starts.map((s) => s[1]).sort((a, b) => a - b);
+  const at = (arr: number[], p: number) =>
+    arr[Math.min(arr.length - 1, Math.max(0, Math.round(p * (arr.length - 1))))];
+  return L.latLngBounds([at(lats, 0.05), at(lngs, 0.05)], [at(lats, 0.95), at(lngs, 0.95)]);
 }
 
 export function AdventuresMapInner({ items }: { items: AdventureSummary[] }) {
@@ -65,10 +93,7 @@ export function AdventuresMapInner({ items }: { items: AdventureSummary[] }) {
     return out;
   }, [items]);
 
-  const bounds = useMemo(() => {
-    const all = routes.flatMap((r) => r.positions);
-    return all.length ? L.latLngBounds(all) : null;
-  }, [routes]);
+  const bounds = useMemo(() => clusterBounds(routes), [routes]);
 
   // Start US-centered; FitBounds tightens to the actual routes once the container is laid out.
   // (Passing `bounds` at mount fits against a 0-sized container and snaps to maxZoom.)
