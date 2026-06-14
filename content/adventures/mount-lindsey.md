@@ -1,4 +1,5 @@
 ---
+group: mount-lindsey
 title: "Mt. Lindsey"
 strava_id: 10043
 date: 2019-10-01

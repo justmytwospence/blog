@@ -1,4 +1,5 @@
 ---
+group: quandary
 title: "Quandary Peak"
 strava_id: 10013
 date: 2019-06-01

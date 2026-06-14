@@ -1,4 +1,5 @@
 ---
+group: mount-princeton
 title: "Mt. Princeton"
 strava_id: 10020
 date: 2019-05-23

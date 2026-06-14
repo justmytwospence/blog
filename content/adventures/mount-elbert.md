@@ -1,4 +1,5 @@
 ---
+group: mount-elbert
 title: "Mt. Elbert"
 strava_id: 10001
 date: 2019-05-29

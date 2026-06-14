@@ -1,4 +1,5 @@
 ---
+group: chicago-basin
 title: "Mt. Eolus, Windom Peak, Sunlight Peak & North Eolus"
 strava_ids: [10032, 10033, 10039, 10066]
 date: 2020-09-25

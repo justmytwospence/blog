@@ -1,4 +1,5 @@
 ---
+group: holy-cross
 title: "Mt. of the Holy Cross"
 strava_id: 10051
 date: 2019-09-02
