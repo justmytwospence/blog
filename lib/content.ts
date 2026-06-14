@@ -8,6 +8,7 @@ import {
   Content,
   ConceptContent,
   MarkdownContent,
+  NotebookContent,
   WebappConfig,
 } from './types';
 import { parseNotebook, extractMetadata } from '@blog/notebook-parser';
@@ -235,14 +236,34 @@ export function getAllBlogPosts(): BlogPost[] {
     return [];
   }
   
-  const files = fs.readdirSync(BLOG_DIR).filter(file => typeof file === 'string' && file.endsWith('.md'));
+  const files = fs.readdirSync(BLOG_DIR).filter(
+    file => typeof file === 'string' && (file.endsWith('.md') || file.endsWith('.ipynb'))
+  );
   const posts: BlogPost[] = [];
-  
+
   for (const file of files) {
     const filePath = path.join(BLOG_DIR, file);
-    const slug = file.replace(/\.md$/, '');
-    
+    const slug = file.replace(/\.(md|ipynb)$/, '');
+
     try {
+      if (file.endsWith('.ipynb')) {
+        // Notebook blog post — metadata comes from the notebook's frontmatter cell.
+        const notebook = parseNotebook(filePath);
+        const metadata = extractMetadata(notebook, slug);
+
+        posts.push({
+          category: 'blog',
+          slug,
+          type: 'notebook',
+          title: metadata.title,
+          date: metadata.date,
+          categories: metadata.categories,
+          description: metadata.description,
+          featured: metadata.featured,
+        });
+        continue;
+      }
+
       const fileContents = fs.readFileSync(filePath, 'utf8');
       const { data, content } = matter(fileContents);
 
@@ -270,29 +291,49 @@ export function getAllBlogPosts(): BlogPost[] {
 /**
  * Get blog post content by slug
  */
-export function getBlogPostBySlug(slug: string): MarkdownContent {
-  const filePath = path.join(BLOG_DIR, `${slug}.md`);
-  
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Blog post not found: ${slug}`);
-  }
-  
-  const fileContents = fs.readFileSync(filePath, 'utf8');
-  const { data, content } = matter(fileContents);
+export function getBlogPostBySlug(slug: string): MarkdownContent | NotebookContent {
+  const mdPath = path.join(BLOG_DIR, `${slug}.md`);
 
-  return {
-    type: 'markdown',
-    content: preprocessObsidian(content, slug),
-    metadata: {
-      slug,
+  if (fs.existsSync(mdPath)) {
+    const fileContents = fs.readFileSync(mdPath, 'utf8');
+    const { data, content } = matter(fileContents);
+
+    return {
       type: 'markdown',
-      title: data.title || slug,
-      date: data.date || new Date().toISOString(),
-      categories: data.categories || data.tags || [],
-      description: data.description || '',
-      featured: data.featured || false,
-    },
-  };
+      content: preprocessObsidian(content, slug),
+      metadata: {
+        slug,
+        type: 'markdown',
+        title: data.title || slug,
+        date: data.date || new Date().toISOString(),
+        categories: data.categories || data.tags || [],
+        description: data.description || '',
+        featured: data.featured || false,
+      },
+    };
+  }
+
+  const nbPath = path.join(BLOG_DIR, `${slug}.ipynb`);
+  if (fs.existsSync(nbPath)) {
+    const notebook = parseNotebook(nbPath);
+    const metadata = extractMetadata(notebook, slug);
+
+    return {
+      type: 'notebook',
+      notebookData: notebook,
+      metadata: {
+        slug,
+        type: 'notebook',
+        title: metadata.title,
+        date: metadata.date,
+        categories: metadata.categories,
+        description: metadata.description,
+        featured: metadata.featured,
+      },
+    };
+  }
+
+  throw new Error(`Blog post not found: ${slug}`);
 }
 
 export { calculateReadingTime };
