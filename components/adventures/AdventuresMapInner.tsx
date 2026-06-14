@@ -41,8 +41,14 @@ function ResizeHandler() {
 function FitBounds({ bounds }: { bounds: L.LatLngBounds | null }) {
   const map = useMap();
   useEffect(() => {
-    map.invalidateSize();
-    if (bounds) map.fitBounds(bounds, { padding: [40, 40] });
+    if (!bounds) return;
+    // Defer to the next frame so the container has its real size before leaflet computes the zoom.
+    // fitBounds on a 0-sized container snaps to maxZoom (the whole-USA fit collapses to a single tile).
+    const raf = requestAnimationFrame(() => {
+      map.invalidateSize();
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14, animate: false });
+    });
+    return () => cancelAnimationFrame(raf);
   }, [map, bounds]);
   return null;
 }
@@ -64,12 +70,16 @@ export function AdventuresMapInner({ items }: { items: AdventureSummary[] }) {
     return all.length ? L.latLngBounds(all) : null;
   }, [routes]);
 
-  const mapProps = bounds
-    ? { bounds, boundsOptions: { padding: [24, 24] as [number, number] } }
-    : { center: [39, -98] as LatLng, zoom: 3 };
-
+  // Start US-centered; FitBounds tightens to the actual routes once the container is laid out.
+  // (Passing `bounds` at mount fits against a 0-sized container and snaps to maxZoom.)
   return (
-    <MapContainer scrollWheelZoom={false} style={{ height: '100%', width: '100%' }} className="h-full w-full" {...mapProps}>
+    <MapContainer
+      scrollWheelZoom={false}
+      style={{ height: '100%', width: '100%' }}
+      className="h-full w-full"
+      center={[39, -98] as LatLng}
+      zoom={4}
+    >
       <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} maxZoom={TILE_MAX_ZOOM} />
       <ResizeHandler />
       <FitBounds bounds={bounds} />
