@@ -1,22 +1,25 @@
 #!/usr/bin/env node
 /**
- * Regenerates data/project-activity.json — the data behind the projects page's
- * GitHub-style contribution calendar and the "last updated" sort order.
+ * Regenerates data/project-activity.json — the fallback snapshot for the live
+ * GitHub activity calendar (lib/github-activity.ts) and the source of the
+ * projects "last updated" sort order.
  *
- * Shells out to the GitHub CLI (`gh`), so it uses your existing auth and can
- * read private repos (e.g. homelab). Run from the repo root:
+ * Pulls the full GitHub contribution graph (all activity) plus a per-repo
+ * commit breakdown (for day<->card hover linking) via the GraphQL API, using
+ * the GitHub CLI for auth. Run from the repo root:
  *
  *   node scripts/sync-project-activity.mjs   (or: npm run sync:projects)
  *
- * The output is a committed snapshot; rerun it periodically to refresh.
+ * The output is a committed snapshot used when no GITHUB_TOKEN is configured;
+ * rerun it periodically to refresh it.
  */
 import { execFileSync } from 'node:child_process';
 import { writeFileSync, mkdirSync } from 'node:fs';
 
 const OWNER = 'justmytwospence';
 
-// Maps each project card slug -> the GitHub repo backing it.
-// (kcore is a notebook with no repo; it falls back to its frontmatter date.)
+// Maps each project card slug -> the GitHub repo backing it. Keep in sync with
+// REPO_TO_SLUG in lib/github-activity.ts. (kcore is a notebook with no repo.)
 const PROJECTS = [
   { slug: 'bayesdag', repo: 'bayesDAG' },
   { slug: 'cloudposterior', repo: 'cloudposterior' },
@@ -32,104 +35,85 @@ const PROJECTS = [
   { slug: 'vertfarmer', repo: 'firsttracks' },
   { slug: 'ifs-journal', repo: 'ifs-journal' },
 ];
+const repoToSlug = Object.fromEntries(PROJECTS.map((p) => [p.repo, p.slug]));
 
-const DAY = 86400;
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-function ghJson(apiPath) {
-  const out = execFileSync('gh', ['api', apiPath, '-H', 'Accept: application/vnd.github+json'], {
-    encoding: 'utf8',
-    maxBuffer: 64 * 1024 * 1024,
-  });
-  return JSON.parse(out);
+function ghJson(args) {
+  return JSON.parse(execFileSync('gh', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }));
 }
 
-function isoDay(unixSeconds) {
-  return new Date(unixSeconds * 1000).toISOString().slice(0, 10);
+const QUERY =
+  'query($login:String!,$from:DateTime!,$to:DateTime!){' +
+  'user(login:$login){contributionsCollection(from:$from,to:$to){' +
+  'contributionCalendar{totalContributions weeks{contributionDays{date contributionCount}}} ' +
+  'commitContributionsByRepository(maxRepositories:100){repository{name} contributions(first:100){nodes{occurredAt commitCount}}}' +
+  '}}}';
+
+const to = new Date();
+const from = new Date(to.getTime() - 365 * 24 * 60 * 60 * 1000);
+
+const gql = ghJson([
+  'api', 'graphql',
+  '-f', `query=${QUERY}`,
+  '-f', `login=${OWNER}`,
+  '-f', `from=${from.toISOString()}`,
+  '-f', `to=${to.toISOString()}`,
+]);
+const cc = gql.data.user.contributionsCollection;
+
+// Full contribution calendar (all activity) -> per-day counts.
+const days = {};
+let maxCount = 0;
+let endDate = '';
+for (const week of cc.contributionCalendar.weeks) {
+  for (const day of week.contributionDays) {
+    if (day.date > endDate) endDate = day.date;
+    if (day.contributionCount > 0) {
+      days[day.date] = { c: day.contributionCount, r: [] };
+      if (day.contributionCount > maxCount) maxCount = day.contributionCount;
+    }
+  }
 }
 
-const dayCounts = new Map(); // 'YYYY-MM-DD' -> { c: number, r: Set<slug> }
+// Per-repo commit days -> attribute project slugs for hover linking.
+for (const repo of cc.commitContributionsByRepository) {
+  const slug = repoToSlug[repo.repository.name];
+  if (!slug) continue;
+  for (const node of repo.contributions.nodes) {
+    const date = String(node.occurredAt).slice(0, 10);
+    const entry = days[date] || (days[date] = { c: 0, r: [] });
+    if (!entry.r.includes(slug)) entry.r.push(slug);
+  }
+}
+
+const sortedDays = {};
+for (const date of Object.keys(days).sort()) {
+  sortedDays[date] = { c: days[date].c, r: days[date].r.sort() };
+}
+
+// Last-updated timestamp per project (drives the projects sort order).
 const updated = {};
-let latestWeek = 0;
-
 for (const { slug, repo } of PROJECTS) {
-  // Last-updated timestamp (drives the projects sort order).
   try {
-    const meta = ghJson(`repos/${OWNER}/${repo}`);
+    const meta = ghJson(['api', `repos/${OWNER}/${repo}`, '-H', 'Accept: application/vnd.github+json']);
     updated[slug] = (meta.pushed_at || meta.updated_at || '').slice(0, 10);
   } catch (err) {
     console.error(`! ${repo}: failed to read repo metadata — ${err.message.split('\n')[0]}`);
   }
-
-  // Weekly commit activity for the last 52 weeks. GitHub returns 202 while it
-  // computes stats the first time, so retry a few times.
-  let weeks = null;
-  for (let attempt = 0; attempt < 6; attempt++) {
-    try {
-      const res = ghJson(`repos/${OWNER}/${repo}/stats/commit_activity`);
-      if (Array.isArray(res) && res.length > 0) {
-        weeks = res;
-        break;
-      }
-    } catch {
-      // empty body / 202 / transient — retry
-    }
-    await sleep(2000);
-  }
-  if (!weeks) {
-    console.error(`! ${repo}: no commit_activity returned (skipped)`);
-    continue;
-  }
-
-  let repoTotal = 0;
-  for (const w of weeks) {
-    latestWeek = Math.max(latestWeek, w.week);
-    for (let d = 0; d < 7; d++) {
-      const n = w.days[d];
-      if (!n) continue;
-      const date = isoDay(w.week + d * DAY);
-      let entry = dayCounts.get(date);
-      if (!entry) {
-        entry = { c: 0, r: new Set() };
-        dayCounts.set(date, entry);
-      }
-      entry.c += n;
-      entry.r.add(slug);
-      repoTotal += n;
-    }
-  }
-  console.log(`  ${repo}: ${repoTotal} commits/52wk, updated ${updated[slug] || '?'}`);
 }
-
-const days = {};
-const activeRepos = new Set();
-let maxCount = 0;
-let totalCommits = 0;
-for (const [date, entry] of [...dayCounts.entries()].sort()) {
-  days[date] = { c: entry.c, r: [...entry.r].sort() };
-  for (const slug of entry.r) activeRepos.add(slug);
-  maxCount = Math.max(maxCount, entry.c);
-  totalCommits += entry.c;
-}
-
-const endDate = latestWeek
-  ? isoDay(latestWeek + 6 * DAY)
-  : new Date().toISOString().slice(0, 10);
 
 const output = {
-  generatedAt: new Date().toISOString(),
+  generatedAt: to.toISOString(),
   endDate,
   weeks: 53,
   maxCount,
-  totalCommits,
-  repoCount: activeRepos.size,
+  total: cc.contributionCalendar.totalContributions,
   updated,
-  days,
+  days: sortedDays,
 };
 
 mkdirSync('data', { recursive: true });
 writeFileSync('data/project-activity.json', JSON.stringify(output, null, 2) + '\n');
 console.log(
-  `\nwrote data/project-activity.json — ${totalCommits} commits, max ${maxCount}/day, ` +
-    `${Object.keys(days).length} active days, window ending ${endDate}`
+  `wrote data/project-activity.json — ${output.total} contributions, max ${maxCount}/day, ` +
+    `${Object.keys(sortedDays).length} active days, window ending ${endDate}`
 );

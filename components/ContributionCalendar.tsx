@@ -7,8 +7,7 @@ type DayEntry = { c: number; r: string[] };
 export interface ActivityData {
   endDate: string;
   maxCount: number;
-  totalCommits: number;
-  repoCount: number;
+  total: number;
   days: Record<string, DayEntry>;
 }
 
@@ -111,7 +110,7 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
             <div
               className="grid"
               role="img"
-              aria-label={`Project commit activity over the past year: ${data.totalCommits.toLocaleString('en-US')} commits across ${data.repoCount} projects.`}
+              aria-label={`GitHub contribution activity over the past year: ${data.total.toLocaleString('en-US')} contributions.`}
               style={{
                 gridTemplateColumns: colsTemplate,
                 gridTemplateRows: rowsTemplate,
@@ -147,7 +146,7 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
           {/* Caption + legend */}
           <div className="ml-8 mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
             <span className="text-xs text-gray-500 dark:text-[#a6a6a6]">
-              {data.totalCommits.toLocaleString('en-US')} commits across {data.repoCount} projects in the past year
+              {data.total.toLocaleString('en-US')} contributions in the last year
             </span>
             <div className="flex items-center gap-1 text-[10px] text-gray-400 dark:text-[#6e6e6e]">
               <span className="mr-1">Less</span>
