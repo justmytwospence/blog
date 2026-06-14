@@ -330,6 +330,71 @@ describe('parseMarimoFromString — markdown extraction', () => {
   });
 });
 
+describe('parseMarimoFromString — column-0 mo.md content (hand-written notebooks)', () => {
+  // marimo *generated* files indent string content, but a hand-written notebook can put
+  // mo.md content at column 0. The parser must not truncate the cell at those lines.
+  const COL0 = `import marimo
+
+app = marimo.App()
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+---
+title: Hand Written
+categories: [hand]
+---
+
+# Intro
+""")
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+## Section
+
+:::{.callout-note}
+A note at column zero.
+:::
+""")
+    return
+
+
+@app.cell
+def _():
+    x = 1
+    return (x,)
+
+
+if __name__ == "__main__":
+    app.run()
+`;
+
+  it('keeps column-0 frontmatter inside mo.md and extracts metadata', () => {
+    const nb = parseMarimoFromString(COL0);
+    expect(nb.cells[0].cell_type).toBe('markdown');
+    expect(getCellSource(nb.cells[0]).trim().startsWith('---')).toBe(true);
+    expect(extractMetadata(nb, 'x').title).toBe('Hand Written');
+    expect(extractMetadata(nb, 'x').categories).toContain('hand');
+  });
+
+  it('keeps column-0 headings and callouts inside mo.md', () => {
+    const nb = parseMarimoFromString(COL0);
+    expect(nb.cells[1].cell_type).toBe('markdown');
+    const src = getCellSource(nb.cells[1]);
+    expect(src).toContain('## Section');
+    expect(src).toContain(':::{.callout-note}');
+  });
+
+  it('still parses the following code cell correctly (body not over-consumed)', () => {
+    const nb = parseMarimoFromString(COL0);
+    expect(nb.cells[2]).toMatchObject({ cell_type: 'code', source: 'x = 1' });
+  });
+});
+
 describe('parseMarimoFromString — decorator flags', () => {
   it('maps hide_code and disabled to code-fold metadata', () => {
     const nb = parseMarimoFromString(FLAGS);

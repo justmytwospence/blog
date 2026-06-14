@@ -131,7 +131,7 @@ export function parseMarimoFromString(src: string): Notebook {
     if (/^with\s+app\.setup\s*:/.test(line)) {
       const { body, next } = collectBody(lines, i + 1);
       i = next;
-      const source = dedent(trimBlankEdges(body).join('\n'));
+      const source = dedentBody(trimBlankEdges(body).join('\n'));
       if (source.trim() !== '') cells.push(makeCodeCell(source, {}, cells.length));
       continue;
     }
@@ -172,7 +172,7 @@ function buildAppCell(
   flags: DecoratorFlags,
   index: number
 ): NotebookCell | null {
-  const dedented = dedent(bodyLines.join('\n'));
+  const dedented = dedentBody(bodyLines.join('\n'));
   const source = stripAutoReturn(dedented);
   if (source.trim() === '') return null;
 
@@ -347,21 +347,49 @@ function findLogicalEnd(lines: string[], start: number): number {
 }
 
 /**
- * Collect an indented block body starting at `start`. A line belongs to the body if
- * it is blank or indented; the body ends at the next column-0 non-blank line.
- * (Relies on marimo indenting multi-line string contents, which it does on save.)
+ * Track triple-quoted string state across a line. Given the active delimiter (or null),
+ * scans the line toggling in/out of `"""` / `'''` strings and returns the delimiter still
+ * open at end of line (or null). Pragmatic: ignores `#` comments and single-quoted strings,
+ * which is fine for marimo cell bodies (the goal is not to break out mid-`mo.md` string).
+ */
+function scanTriple(line: string, delim: string | null): string | null {
+  let i = 0;
+  while (i < line.length) {
+    if (delim) {
+      const idx = line.indexOf(delim, i);
+      if (idx === -1) return delim; // string continues onto the next line
+      i = idx + 3;
+      delim = null;
+    } else {
+      const d1 = line.indexOf('"""', i);
+      const d2 = line.indexOf("'''", i);
+      if (d1 === -1 && d2 === -1) return null;
+      const useDq = d2 === -1 || (d1 !== -1 && d1 < d2);
+      delim = useDq ? '"""' : "'''";
+      i = (useDq ? d1 : d2) + 3;
+    }
+  }
+  return delim;
+}
+
+/**
+ * Collect a block body starting at `start`. A line belongs to the body if it is blank or
+ * indented; the body ends at the next column-0 non-blank line — UNLESS that line is inside
+ * a triple-quoted string (e.g. column-0 markdown inside `mo.md(r"""..."""`), which marimo
+ * generated files indent but hand-written ones may not).
  */
 function collectBody(lines: string[], start: number): { body: string[]; next: number } {
   const body: string[] = [];
   let j = start;
+  let delim: string | null = null;
   while (j < lines.length) {
     const l = lines[j];
-    if (l.trim() === '' || /^\s/.test(l)) {
-      body.push(l);
-      j++;
-    } else {
-      break;
+    if (delim === null && l.trim() !== '' && !/^\s/.test(l)) {
+      break; // top-level line, not inside a string → end of body
     }
+    body.push(l);
+    delim = scanTriple(l, delim);
+    j++;
   }
   return { body, next: j };
 }
@@ -394,6 +422,28 @@ function stripLeadingNoise(text: string): string {
   let k = 0;
   while (k < lines.length && (lines[k].trim() === '' || lines[k].trim().startsWith('#'))) k++;
   return lines.slice(k).join('\n');
+}
+
+/**
+ * Dedent a cell body by the *function-body* indent (the first non-blank line's indent),
+ * removing at most that many leading whitespace chars per line. Unlike `dedent` (common
+ * minimum), this is correct for ragged bodies where a `mo.md(r"""..."""` string's content
+ * sits at a shallower indent than the code (e.g. column-0 markdown in hand-written files):
+ * the code lines drop to column 0 while the string interior is left intact for
+ * `processMarkdown` to dedent on its own.
+ */
+function dedentBody(text: string): string {
+  const lines = text.split('\n');
+  const first = lines.find((l) => l.trim() !== '');
+  if (!first) return text;
+  const indent = (first.match(/^[ \t]*/) as RegExpMatchArray)[0].length;
+  if (!indent) return text;
+  return lines
+    .map((l) => {
+      const w = (l.match(/^[ \t]*/) as RegExpMatchArray)[0].length;
+      return l.slice(Math.min(w, indent));
+    })
+    .join('\n');
 }
 
 /** textwrap.dedent equivalent: remove the common leading whitespace from all lines. */
