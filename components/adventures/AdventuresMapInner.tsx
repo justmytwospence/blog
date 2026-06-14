@@ -47,7 +47,8 @@ function FitBounds({ bounds }: { bounds: L.LatLngBounds | null }) {
       const { x, y } = map.getSize();
       if (x < 50 || y < 50) return false; // container not laid out yet — fitBounds would snap to maxZoom
       map.invalidateSize();
-      map.fitBounds(bounds, { padding: [30, 30], maxZoom: 12, animate: false });
+      // Generous padding so routes get some breathing room from the viewport edges.
+      map.fitBounds(bounds, { padding: [70, 70], maxZoom: 12, animate: false });
       return true;
     };
     if (fit()) return;
