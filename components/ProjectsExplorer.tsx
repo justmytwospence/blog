@@ -57,7 +57,7 @@ export function ProjectsExplorer({ projects, activity }: { projects: Project[]; 
               key={project.slug}
               onMouseEnter={() => handleCardEnter(project.slug)}
               onMouseLeave={clear}
-              className={`transition-opacity duration-150 ${dimmed ? 'opacity-40' : 'opacity-100'}`}
+              className={`h-full transition-opacity duration-150 ${dimmed ? 'opacity-40' : 'opacity-100'}`}
             >
               <ProjectCard project={project} />
             </div>

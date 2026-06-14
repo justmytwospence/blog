@@ -5,17 +5,6 @@ interface ProjectCardProps {
   project: Project;
 }
 
-// Map project type to display badge
-function getTypeBadge(type: string): string {
-  const badges = {
-    markdown: 'Article',
-    notebook: 'Notebook',
-    webapp: 'App',
-    link: 'Link',
-  };
-  return badges[type as keyof typeof badges] || type;
-}
-
 // Pick an icon for a link chip based on its label.
 function LinkChipIcon({ label }: { label: string }) {
   const l = label.toLowerCase();
@@ -52,14 +41,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const isExternal = Boolean(links[0]?.url ?? project.externalUrl);
 
   return (
-    <div className="group relative flex flex-col p-6 bg-white dark:bg-[#252526] rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200 dark:border-[#303031]">
-      {/* Type badge */}
-      <div className="flex items-center gap-2 mb-3">
-        <span className="text-xs px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-medium">
-          {getTypeBadge(project.type)}
-        </span>
-      </div>
-
+    <div className="group relative flex h-full flex-col p-6 bg-white dark:bg-[#252526] rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200 dark:border-[#303031]">
       {/* Title */}
       <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-[#d4d4d4] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
         {project.title}
@@ -93,7 +75,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {/* Link chips (sit above the stretched link so they're individually clickable) */}
       {showChips && (
-        <div className="relative z-10 mt-4 flex flex-wrap gap-2">
+        <div className="relative z-10 mt-auto pt-4 flex flex-wrap gap-2">
           {links.map((lnk) => (
             <a
               key={lnk.url}
