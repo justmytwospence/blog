@@ -141,11 +141,7 @@ export function AdventureReport({
           )}
           {adventure.peakClass && <PeakBadge peakClass={adventure.peakClass} />}
           <span>{formatDate(adventure.date)}</span>
-          {adventure.isMultiSport ? (
-            <span>· {adventure.days.length} legs</span>
-          ) : (
-            adventure.isMultiDay && <span>· {adventure.days.length} days</span>
-          )}
+          {adventure.isMultiDay && !adventure.isMultiSport && <span>· {adventure.days.length} days</span>}
           {loc && <span>· {loc}</span>}
           {/* Single-day only — a trip's overall weather is meaningless; it lives per-day below. */}
           {!adventure.isMultiDay && adventure.primaryActivity.weather && (
@@ -170,6 +166,14 @@ export function AdventureReport({
         </div>
       )}
 
+      {/* Charts sit right under the map so the linked hover/brushing between them is visible at once. */}
+      {adventure.isMultiDay ? (
+        <TripElevation days={adventure.days} unit={adventure.isMultiSport ? 'leg' : 'day'} />
+      ) : (
+        track && track.altitude.length > 1 && <ElevationProfile track={track} />
+      )}
+      {track && <MetricCharts track={track} />}
+
       {!adventure.isMultiDay && adventure.allPhotos.length > 0 && (
         <div className="mb-8">
           <PhotoGallery photos={adventure.allPhotos} galleryId={`adv-${adventure.slug}`} />
@@ -184,12 +188,6 @@ export function AdventureReport({
         </p>
       )}
 
-      {adventure.isMultiDay ? (
-        <TripElevation days={adventure.days} unit={adventure.isMultiSport ? 'leg' : 'day'} />
-      ) : (
-        track && track.altitude.length > 1 && <ElevationProfile track={track} />
-      )}
-      {track && <MetricCharts track={track} />}
       {showTerrain && track && <TerrainAnalysis track={track} />}
 
       {adventure.isMultiDay && (

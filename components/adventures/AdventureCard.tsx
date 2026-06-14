@@ -50,9 +50,14 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
         <div className="mb-2 flex items-center gap-2">
           <SportBadge sportType={adventure.sportType} size="sm" />
           {adventure.peakClass && <PeakBadge peakClass={adventure.peakClass} />}
-          {adventure.isMultiDay && (
+          {adventure.facets.includes('race') && (
+            <span className="rounded-full border border-rose-300 bg-rose-50 px-2 py-0.5 text-xs font-medium text-rose-700 dark:border-rose-500/40 dark:bg-rose-900/30 dark:text-rose-300">
+              Race
+            </span>
+          )}
+          {adventure.isMultiDay && !adventure.isMultiSport && (
             <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-700 dark:bg-[#3a3d41] dark:text-[#cccccc]">
-              {adventure.dayCount} {adventure.isMultiSport ? 'legs' : 'days'}
+              {adventure.dayCount} days
             </span>
           )}
           {adventure.tripCount > 1 && (

@@ -158,6 +158,11 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                // The list filters live as you type, so Enter has nothing to submit — keep it from
+                // bubbling up to any default/extension form-submit behavior.
+                if (e.key === 'Enter') e.preventDefault();
+              }}
               placeholder="Search peaks, places…"
               aria-label="Search adventures"
               className="w-56 rounded-md border border-gray-200 bg-white py-1.5 pl-8 pr-2 text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-[#303031] dark:bg-[#252526] dark:text-[#cccccc]"
