@@ -66,6 +66,7 @@ export interface Adventure {
   peakClass: PeakClass | null;
   rating: number | null;
   objective: string | null; // slug of fulfilled objective
+  group: string | null; // shared key across repeat trips of the same route
   coverPhoto: ResolvedPhoto | null;
   content: string; // prose markdown (Obsidian-preprocessed)
   totals: AdventureStats; // aggregate across member activities
@@ -94,7 +95,15 @@ export interface AdventureSummary {
   routeThumb: string | null; // committed static map (basemap + route), if synced
   isMultiSport: boolean;
   dayCount: number;
+  tripCount: number; // number of repeat trips of this route the card stands in for (1 if unique)
   totals: Pick<AdventureStats, 'distanceMeters' | 'elevationGainMeters' | 'movingTimeSeconds'>;
+}
+
+/** A sibling trip of the same route, for the trip-switcher tabs on a report. */
+export interface TripRef {
+  slug: string;
+  title: string;
+  date: string;
 }
 
 export interface SportTotals {
@@ -346,6 +355,7 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
     peakClass,
     rating: num(pc.data.rating),
     objective: str(pc.data.objective),
+    group: str(pc.data.group),
     coverPhoto,
     content: preprocessObsidian(pc.content, pc.slug),
     totals: computeTotals(acts),
@@ -356,7 +366,7 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
   };
 }
 
-function toSummary(adv: Adventure): AdventureSummary {
+function toSummary(adv: Adventure, tripCount = 1): AdventureSummary {
   return {
     slug: adv.slug,
     title: adv.title,
@@ -381,6 +391,7 @@ function toSummary(adv: Adventure): AdventureSummary {
       ? `/adventures/${adv.primaryActivity.stravaId}/route.jpg`
       : null,
     dayCount: adv.days.length,
+    tripCount,
     totals: {
       distanceMeters: adv.totals.distanceMeters,
       elevationGainMeters: adv.totals.elevationGainMeters,
@@ -406,8 +417,47 @@ function allAdventures(): Adventure[] {
   return out.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
+/** Repeat trips of the same route share a `group` key; ungrouped reports are their own group. */
+function groupKey(a: Adventure): string {
+  return a.group ?? a.slug;
+}
+
+/**
+ * Library list — one card per route. Repeat trips collapse into a single representative (the most
+ * recent, since `allAdventures` is date-desc) carrying a `tripCount`; sorting then uses that latest
+ * date so a re-done route surfaces by its newest visit.
+ */
 export function getAllAdventures(): AdventureSummary[] {
-  return allAdventures().map(toSummary);
+  const byGroup = new Map<string, Adventure[]>();
+  for (const a of allAdventures()) {
+    const k = groupKey(a);
+    const list = byGroup.get(k);
+    if (list) list.push(a);
+    else byGroup.set(k, [a]);
+  }
+  return [...byGroup.values()]
+    .map((members) => toSummary(members[0], members.length))
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+/** Every report slug (including non-representative repeat trips) — for generateStaticParams. */
+export function getAllAdventureSlugs(): string[] {
+  return allAdventures().map((a) => a.slug);
+}
+
+/** {slug, date} for every report (each trip is a real page) — for the sitemap. */
+export function getAllAdventureRefs(): Array<{ slug: string; date: string }> {
+  return allAdventures().map((a) => ({ slug: a.slug, date: a.date }));
+}
+
+/** Sibling trips of a route, most-recent first. Empty when the route was done only once. */
+export function getAdventureTrips(slug: string): TripRef[] {
+  const target = allAdventures().find((a) => a.slug === slug);
+  if (!target) return [];
+  const key = groupKey(target);
+  const sibs = allAdventures().filter((a) => groupKey(a) === key);
+  if (sibs.length <= 1) return [];
+  return sibs.map((a) => ({ slug: a.slug, title: a.title, date: a.date }));
 }
 
 export function getAdventureBySlug(slug: string): Adventure | null {

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL } from '@/lib/site';
 import { getAllBlogPosts, getAllProjects, getAllConcepts } from '@/lib/content';
-import { getAllAdventures } from '@/lib/adventures';
+import { getAllAdventureRefs } from '@/lib/adventures';
 
 function when(date?: string): Date | undefined {
   if (!date) return undefined;
@@ -26,7 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: p === '' ? 1 : 0.6,
   }));
 
-  const adventures: MetadataRoute.Sitemap = getAllAdventures().map((a) => ({
+  const adventures: MetadataRoute.Sitemap = getAllAdventureRefs().map((a) => ({
     url: `${SITE_URL}/adventures/${a.slug}`,
     lastModified: when(a.date),
     changeFrequency: 'monthly',

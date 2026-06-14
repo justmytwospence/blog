@@ -2,14 +2,15 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PageContainer } from '@/components/PageContainer';
 import { AdventureReport } from '@/components/adventures/AdventureReport';
-import { getAllAdventures, getAdventureBySlug, type Adventure } from '@/lib/adventures';
+import { getAllAdventureSlugs, getAdventureBySlug, getAdventureTrips, type Adventure } from '@/lib/adventures';
 import { formatDistance, formatElevation, formatDuration } from '@/lib/units';
 import { SITE_URL } from '@/lib/site';
 
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  return getAllAdventures().map((a) => ({ slug: a.slug }));
+  // Every report, including non-representative repeat trips, so each trip's URL resolves.
+  return getAllAdventureSlugs().map((slug) => ({ slug }));
 }
 
 function placeOf(a: Adventure): string {
@@ -104,6 +105,7 @@ export default async function AdventurePage({
   const { slug } = await params;
   const adventure = getAdventureBySlug(slug);
   if (!adventure) notFound();
+  const trips = getAdventureTrips(slug);
 
   return (
     <PageContainer width="wide">
@@ -111,7 +113,7 @@ export default async function AdventurePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(adventure, slug)) }}
       />
-      <AdventureReport adventure={adventure} />
+      <AdventureReport adventure={adventure} trips={trips} activeSlug={slug} />
     </PageContainer>
   );
 }

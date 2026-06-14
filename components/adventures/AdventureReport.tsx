@@ -16,7 +16,8 @@ import { WeatherBadge } from './WeatherBadge';
 import { TripMap } from './TripMap';
 import { TripElevation } from './TripElevation';
 import { TripDayBreakdown } from './TripDayBreakdown';
-import type { Adventure } from '@/lib/adventures';
+import { TripTabs } from './TripTabs';
+import type { Adventure, TripRef } from '@/lib/adventures';
 
 function placeOf(loc: { city: string | null; state: string | null; country: string | null }): string {
   return [loc.city, loc.state ?? loc.country].filter(Boolean).join(', ');
@@ -91,7 +92,15 @@ function StravaLinks({ adventure }: { adventure: Adventure }) {
   );
 }
 
-export function AdventureReport({ adventure }: { adventure: Adventure }) {
+export function AdventureReport({
+  adventure,
+  trips = [],
+  activeSlug,
+}: {
+  adventure: Adventure;
+  trips?: TripRef[];
+  activeSlug?: string;
+}) {
   const loc = placeOf(adventure.location);
   // Phase 4 renders the map/charts for single-activity reports; Phase 7 adds the multi-day combined map.
   const track = adventure.isMultiDay ? null : adventure.primaryActivity.track;
@@ -147,6 +156,8 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
         <p className="mt-1 text-lg tabular-nums text-gray-600 dark:text-[#cccccc]">{epic}</p>
         <ReportMeta adventure={adventure} />
       </header>
+
+      {trips.length > 1 && activeSlug && <TripTabs trips={trips} activeSlug={activeSlug} />}
 
       {track && track.coordinates.length > 1 && (
         <div className="mb-8">
