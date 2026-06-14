@@ -356,10 +356,13 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
 
   let coverPhoto: ResolvedPhoto | null = null;
   const coverName = str(pc.data.cover_photo);
-  if (coverName) {
-    coverPhoto = allPhotos.find((p) => p.src.endsWith(coverName)) ?? null;
+  if (coverName === 'none') {
+    // Explicit opt-out (e.g. every photo is a selfie) — show the route thumbnail on the card instead.
+    coverPhoto = null;
+  } else {
+    if (coverName) coverPhoto = allPhotos.find((p) => p.src.endsWith(coverName)) ?? null;
+    if (!coverPhoto) coverPhoto = allPhotos[0] ?? null;
   }
-  if (!coverPhoto) coverPhoto = allPhotos[0] ?? null;
 
   return {
     slug: pc.slug,
