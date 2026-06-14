@@ -45,6 +45,9 @@ export interface AdventureDay {
   photos: ResolvedPhoto[];
 }
 
+/** A summit-elevation classification surfaced as a badge ("14er"/"13er"). */
+export type PeakClass = '14er' | '13er';
+
 export interface Adventure {
   slug: string;
   title: string;
@@ -60,6 +63,7 @@ export interface Adventure {
   type: string | null;
   difficulty: string | null;
   grade: string | null;
+  peakClass: PeakClass | null;
   rating: number | null;
   objective: string | null; // slug of fulfilled objective
   coverPhoto: ResolvedPhoto | null;
@@ -81,6 +85,7 @@ export interface AdventureSummary {
   description: string;
   type: string | null;
   difficulty: string | null;
+  peakClass: PeakClass | null;
   rating: number | null;
   tags: string[];
   location: { city: string | null; state: string | null; country: string | null };
@@ -151,6 +156,42 @@ function str(v: unknown): string | null {
 function num(v: unknown): number | null {
   const n = Number(v);
   return v != null && v !== '' && !Number.isNaN(n) ? n : null;
+}
+
+// Sports where a summit elevation means a peak was bagged (so a 14er/13er badge is meaningful).
+const SUMMIT_SPORTS = new Set<SportType>([
+  'Hike',
+  'Mountaineering',
+  'TrailRun',
+  'RockClimbing',
+  'BackcountrySki',
+  'AlpineSki',
+  'Snowboard',
+  'Snowshoe',
+]);
+const PEAKISH_TYPES = new Set(['peak', 'couloir', 'scramble', 'traverse', 'mountaineering']);
+
+/**
+ * Classify an outing's high point as a 14er/13er. The `14er` tag (on every imported 14er) is
+ * authoritative; otherwise derive from the summit elevation, but only for summit-style outings so
+ * a bike ride or road race that happens to climb high isn't mislabeled. An explicit `13er` tag wins.
+ */
+function derivePeakClass(
+  tags: string[],
+  type: string | null,
+  sport: SportType,
+  elevHighMeters: number,
+): PeakClass | null {
+  if (tags.includes('14er')) return '14er';
+  if (tags.includes('13er')) return '13er';
+  // A thru-hike or point-to-point race crosses high passes without bagging a peak — don't badge it.
+  if (type === 'thru-hike' || type === 'race') return null;
+  const peakish = (type != null && PEAKISH_TYPES.has(type)) || SUMMIT_SPORTS.has(sport);
+  if (!peakish || !Number.isFinite(elevHighMeters)) return null;
+  const ft = elevHighMeters * 3.28084;
+  if (ft >= 14000) return '14er';
+  if (ft >= 13000) return '13er';
+  return null;
 }
 
 function readActivity(id: number): AdventureActivity | null {
@@ -262,6 +303,9 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
   const common = mapCommonMetadata(pc.data, pc.slug);
   const primary = acts[0];
   const sportType: SportType = (str(pc.data.sport) as SportType | null) ?? primary.sportType;
+  const tags = Array.isArray(pc.data.tags) ? (pc.data.tags as unknown[]).map(String) : [];
+  const elevHigh = Math.max(...acts.map((a) => a.stats.elevHighMeters ?? Number.NEGATIVE_INFINITY));
+  const peakClass = derivePeakClass(tags, str(pc.data.type), sportType, elevHigh);
   const date = pc.data.date != null ? normalizeDate(pc.data.date) : primary.date;
   const dayMeta = Array.isArray(pc.data.days)
     ? (pc.data.days as Array<{ title?: unknown; caption?: unknown }>)
@@ -295,10 +339,11 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
     hidden: Boolean(pc.data.hidden),
     description: common.description,
     categories: common.categories,
-    tags: Array.isArray(pc.data.tags) ? (pc.data.tags as unknown[]).map(String) : [],
+    tags,
     type: str(pc.data.type),
     difficulty: str(pc.data.difficulty),
     grade: str(pc.data.grade),
+    peakClass,
     rating: num(pc.data.rating),
     objective: str(pc.data.objective),
     coverPhoto,
@@ -323,6 +368,7 @@ function toSummary(adv: Adventure): AdventureSummary {
     description: adv.description,
     type: adv.type,
     difficulty: adv.difficulty,
+    peakClass: adv.peakClass,
     rating: adv.rating,
     tags: adv.tags,
     location: adv.location,

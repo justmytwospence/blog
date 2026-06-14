@@ -3,6 +3,7 @@ import { Star } from 'lucide-react';
 import { formatDate } from '@/lib/format';
 import { formatDistance, formatElevation, formatDuration } from '@/lib/units';
 import { SportBadge } from './SportBadge';
+import { PeakBadge } from './PeakBadge';
 import { RouteThumb } from './RouteThumb';
 import { sportColor } from './mapStyle';
 import type { AdventureSummary } from '@/lib/adventures';
@@ -48,6 +49,7 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
       <div className="p-5">
         <div className="mb-2 flex items-center gap-2">
           <SportBadge sportType={adventure.sportType} size="sm" />
+          {adventure.peakClass && <PeakBadge peakClass={adventure.peakClass} />}
           {adventure.isMultiDay && (
             <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-700 dark:bg-[#3a3d41] dark:text-[#cccccc]">
               {adventure.dayCount} {adventure.isMultiSport ? 'legs' : 'days'}

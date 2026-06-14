@@ -4,6 +4,7 @@ import { ArticleMarkdown } from '@/components/ArticleMarkdown';
 import { formatDate } from '@/lib/format';
 import { formatDistance, formatElevation, formatDuration } from '@/lib/units';
 import { SportBadge } from './SportBadge';
+import { PeakBadge } from './PeakBadge';
 import { AdventureStats } from './AdventureStats';
 import { RouteMap } from './RouteMap';
 import { ElevationProfile } from './ElevationProfile';
@@ -129,6 +130,7 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
           ) : (
             <SportBadge sportType={adventure.sportType} />
           )}
+          {adventure.peakClass && <PeakBadge peakClass={adventure.peakClass} />}
           <span>{formatDate(adventure.date)}</span>
           {adventure.isMultiSport ? (
             <span>· {adventure.days.length} legs</span>
