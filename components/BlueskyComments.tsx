@@ -364,22 +364,20 @@ export function BlueskyComments({ postRef }: { postRef: string }) {
         )}
       </div>
 
-      {/* Engagement summary + primary CTA */}
+      {/* Compact root-post stats + a secondary link out to reply in the app.
+          The in-page composer below is the primary way to reply. */}
       {state.status === 'ready' && (
-        <div className="mb-8 flex flex-wrap items-center gap-x-5 gap-y-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 dark:border-[#303031] dark:bg-[#252526]">
-          <span className="text-sm text-gray-600 dark:text-[#cccccc]">Join the conversation</span>
-          <span className="flex items-center gap-4">
-            <StatPill icon={<Heart className="h-3.5 w-3.5" />} count={state.root.likeCount} />
-            <StatPill icon={<Repeat2 className="h-3.5 w-3.5" />} count={state.root.repostCount} />
-            <StatPill icon={<Quote className="h-3.5 w-3.5" />} count={state.root.quoteCount} />
-          </span>
+        <div className="mb-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+          <StatPill icon={<Heart className="h-3.5 w-3.5" />} count={state.root.likeCount} />
+          <StatPill icon={<Repeat2 className="h-3.5 w-3.5" />} count={state.root.repostCount} />
+          <StatPill icon={<Quote className="h-3.5 w-3.5" />} count={state.root.quoteCount} />
           <a
             href={state.webUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-auto inline-flex items-center gap-2 rounded-full bg-[#1185fe] px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-[#0a6fd6]"
+            className="inline-flex items-center gap-1.5 text-gray-500 transition-colors hover:text-blue-600 dark:text-[#a6a6a6] dark:hover:text-blue-400"
           >
-            <BlueskyLogo className="h-4 w-4" />
+            <BlueskyLogo className="h-3.5 w-3.5" />
             Reply on Bluesky
           </a>
         </div>
