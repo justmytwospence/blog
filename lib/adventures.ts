@@ -10,7 +10,7 @@ import { mapCommonMetadata, normalizeDate } from './content';
 import { FACET_ORDER } from './facets';
 import { preprocessObsidian } from '@blog/obsidian-md';
 import type { AdventureActivity, AdventureStats, SportType } from '@blog/strava/types';
-import { parseStravaIds, usesIdArray } from '@blog/strava';
+import { parseStravaIds, usesIdArray, decodePolyline, encodePolyline } from '@blog/strava';
 
 export type {
   AdventureActivity,
@@ -395,6 +395,20 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
   };
 }
 
+/**
+ * The route to draw on the library map. For a multi-day/multi-leg outing (a thru-hike like the
+ * Colorado Trail, a 14er link-up) stitch every member's polyline together so the whole route shows,
+ * not just the first day's segment.
+ */
+function mapPolyline(adv: Adventure): string | null {
+  const polys = adv.days
+    .map((d) => d.activity.track?.summaryPolyline)
+    .filter((p): p is string => Boolean(p));
+  if (polys.length === 0) return null;
+  if (polys.length === 1) return polys[0];
+  return encodePolyline(polys.flatMap((p) => decodePolyline(p)));
+}
+
 function toSummary(adv: Adventure, tripCount = 1): AdventureSummary {
   return {
     slug: adv.slug,
@@ -413,7 +427,7 @@ function toSummary(adv: Adventure, tripCount = 1): AdventureSummary {
     tags: adv.tags,
     location: adv.location,
     coverThumb: adv.coverPhoto?.thumb ?? null,
-    summaryPolyline: adv.primaryActivity.track?.summaryPolyline ?? null,
+    summaryPolyline: mapPolyline(adv),
     // The sync writes route.jpg whenever the activity has a route, so the polyline's presence
     // tells us the thumbnail exists — without an fs check that would drag public/ into the
     // serverless trace (and blow past Vercel's function-size limit).
