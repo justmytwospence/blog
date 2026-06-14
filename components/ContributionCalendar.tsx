@@ -17,8 +17,6 @@ const LEVEL_DARK = ['dark:bg-[#161b22]', 'dark:bg-[#0e4429]', 'dark:bg-[#006d32]
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 const WEEKS = 53;
-const CELL = 11; // px
-const GAP = 3; // px
 
 function level(count: number): number {
   if (count <= 0) return 0;
@@ -51,8 +49,8 @@ interface CalendarProps {
 }
 
 export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, onLeave }: CalendarProps) {
-  // Anchor the grid to the Saturday of the snapshot's final week, then walk
-  // back 53 weeks to a Sunday so every column is a full Sun–Sat week.
+  // Anchor the grid to the Saturday of the final week, then walk back 53 weeks
+  // to a Sunday so every column is a full Sun–Sat week.
   const end = new Date(`${data.endDate}T00:00:00Z`);
   const gridEnd = addDaysUTC(end, 6 - end.getUTCDay());
   const gridStart = addDaysUTC(gridEnd, -(WEEKS * 7 - 1));
@@ -71,91 +69,78 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
     return month !== prev ? MONTHS[month] : '';
   });
 
-  const colsTemplate = `repeat(${WEEKS}, ${CELL}px)`;
-  const rowsTemplate = `repeat(7, ${CELL}px)`;
   const focusing = focusSlugs !== null && focusSlugs.length > 0;
 
   return (
-    <div className="mb-10">
-      <div className="overflow-x-auto">
-        <div className="inline-block" onMouseLeave={onLeave}>
-          {/* Month labels */}
-          <div className="ml-8 grid" style={{ gridTemplateColumns: colsTemplate, gap: `${GAP}px` }}>
-            {monthLabels.map((label, i) => (
-              <div key={i} className="h-4 whitespace-nowrap text-[10px] leading-4 text-gray-400 dark:text-[#6e6e6e]">
-                {label}
-              </div>
-            ))}
-          </div>
-
-          <div className="flex gap-1">
-            {/* Weekday labels (Mon / Wed / Fri) */}
-            <div
-              className="grid w-7 shrink-0 text-[10px] text-gray-400 dark:text-[#6e6e6e]"
-              style={{ gridTemplateRows: rowsTemplate, gap: `${GAP}px` }}
-              aria-hidden="true"
-            >
-              <div />
-              <div className="leading-[11px]">Mon</div>
-              <div />
-              <div className="leading-[11px]">Wed</div>
-              <div />
-              <div className="leading-[11px]">Fri</div>
-              <div />
+    <div className="mb-10" onMouseLeave={onLeave}>
+      {/* Month labels — mirrors the week columns so they stay aligned */}
+      <div className="flex gap-2">
+        <div className="w-7 shrink-0" aria-hidden="true" />
+        <div className="flex flex-1 gap-[3px]">
+          {monthLabels.map((label, i) => (
+            <div key={i} className="min-w-0 flex-1 whitespace-nowrap text-[10px] leading-4 text-gray-400 dark:text-[#6e6e6e]">
+              {label}
             </div>
+          ))}
+        </div>
+      </div>
 
-            {/* Day cells, filled column-by-column (one column per week). The
-                grid is exposed as a single labelled image so assistive tech
-                gets the summary instead of 371 individual cells. */}
-            <div
-              className="grid"
-              role="img"
-              aria-label={`GitHub contribution activity over the past year: ${data.total.toLocaleString('en-US')} contributions.`}
-              style={{
-                gridTemplateColumns: colsTemplate,
-                gridTemplateRows: rowsTemplate,
-                gridAutoFlow: 'column',
-                gap: `${GAP}px`,
-              }}
-            >
-              {columns.flatMap((col) =>
-                col.map((cell) => {
-                  const lvl = level(cell.count);
-                  const matches = !focusing || cell.repos.some((r) => focusSlugs!.includes(r));
-                  const isHovered = hoverDay === cell.key;
-                  const names = cell.repos.map((s) => projectNames[s] ?? s);
-                  const title =
-                    cell.count > 0
-                      ? `${cell.count} commit${cell.count === 1 ? '' : 's'} on ${fmtDay(cell.date)} · ${names.join(', ')}`
-                      : `No commits on ${fmtDay(cell.date)}`;
-                  return (
-                    <div
-                      key={cell.key}
-                      title={title}
-                      onMouseEnter={() => onDayEnter(cell.repos, cell.key)}
-                      className={`h-[11px] w-[11px] rounded-[2px] transition-opacity duration-150 ${LEVEL_LIGHT[lvl]} ${LEVEL_DARK[lvl]} ${
-                        focusing && !matches ? 'opacity-20' : 'opacity-100'
-                      } ${isHovered ? 'ring-1 ring-gray-500 dark:ring-gray-300' : ''}`}
-                    />
-                  );
-                })
-              )}
+      <div className="mt-1 flex gap-2">
+        {/* Weekday labels (Mon / Wed / Fri), one slot per row */}
+        <div className="flex w-7 shrink-0 flex-col gap-[3px] text-[10px] text-gray-400 dark:text-[#6e6e6e]" aria-hidden="true">
+          {['', 'Mon', '', 'Wed', '', 'Fri', ''].map((label, i) => (
+            <div key={i} className="flex flex-1 items-center">
+              {label}
             </div>
-          </div>
+          ))}
+        </div>
 
-          {/* Caption + legend */}
-          <div className="ml-8 mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-            <span className="text-xs text-gray-500 dark:text-[#a6a6a6]">
-              {data.total.toLocaleString('en-US')} contributions in the last year
-            </span>
-            <div className="flex items-center gap-1 text-[10px] text-gray-400 dark:text-[#6e6e6e]">
-              <span className="mr-1">Less</span>
-              {[0, 1, 2, 3, 4].map((l) => (
-                <div key={l} className={`h-[11px] w-[11px] rounded-[2px] ${LEVEL_LIGHT[l]} ${LEVEL_DARK[l]}`} />
-              ))}
-              <span className="ml-1">More</span>
+        {/* Week columns — each grows equally to fill the width; cells stay square.
+            Exposed as a single labelled image so assistive tech gets the summary
+            rather than 371 individual cells. */}
+        <div
+          className="flex flex-1 gap-[3px]"
+          role="img"
+          aria-label={`GitHub contribution activity over the past year: ${data.total.toLocaleString('en-US')} contributions.`}
+        >
+          {columns.map((col, wi) => (
+            <div key={wi} className="flex flex-1 flex-col gap-[3px]">
+              {col.map((cell) => {
+                const lvl = level(cell.count);
+                const matches = !focusing || cell.repos.some((r) => focusSlugs!.includes(r));
+                const isHovered = hoverDay === cell.key;
+                const names = cell.repos.map((s) => projectNames[s] ?? s);
+                const title =
+                  cell.count > 0
+                    ? `${cell.count} commit${cell.count === 1 ? '' : 's'} on ${fmtDay(cell.date)} · ${names.join(', ')}`
+                    : `No commits on ${fmtDay(cell.date)}`;
+                return (
+                  <div
+                    key={cell.key}
+                    title={title}
+                    onMouseEnter={() => onDayEnter(cell.repos, cell.key)}
+                    className={`aspect-square w-full rounded-[2px] transition-opacity duration-150 ${LEVEL_LIGHT[lvl]} ${LEVEL_DARK[lvl]} ${
+                      focusing && !matches ? 'opacity-20' : 'opacity-100'
+                    } ${isHovered ? 'ring-1 ring-gray-500 dark:ring-gray-300' : ''}`}
+                  />
+                );
+              })}
             </div>
-          </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Caption + legend */}
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+        <span className="text-xs text-gray-500 dark:text-[#a6a6a6]">
+          {data.total.toLocaleString('en-US')} contributions in the last year
+        </span>
+        <div className="flex items-center gap-1 text-[10px] text-gray-400 dark:text-[#6e6e6e]">
+          <span className="mr-1">Less</span>
+          {[0, 1, 2, 3, 4].map((l) => (
+            <div key={l} className={`h-[11px] w-[11px] rounded-[2px] ${LEVEL_LIGHT[l]} ${LEVEL_DARK[l]}`} />
+          ))}
+          <span className="ml-1">More</span>
         </div>
       </div>
     </div>
