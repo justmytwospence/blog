@@ -48,18 +48,43 @@ Four content types share a parser in `lib/content.ts`:
 ### Comments (Bluesky)
 
 Blog posts can render a comment section sourced from a Bluesky post's replies — no
-database, no auth, no spam tooling (moderation is inherited from Bluesky). Workflow:
+database, no spam tooling (moderation is inherited from Bluesky). Workflow:
 
 1. Publish a Bluesky post linking to the article.
 2. Add its URL to the post frontmatter: `bluesky: "https://bsky.app/profile/<handle>/post/<rkey>"` (an `at://…` URI also works).
 
-`components/BlueskyComments.tsx` (a client island) then resolves the reference to an
-AT-URI and fetches the reply thread live from the public AppView
+**Reading** (`components/BlueskyComments.tsx`, a client island): resolves the reference
+to an AT-URI and fetches the reply thread live from the public AppView
 (`public.api.bsky.app`, unauthenticated) on each visit, so comments stay current
-without rebuilding. It renders nested threads (depth-capped, collapsible), rich-text
-facets (links/mentions/hashtags via UTF-8 byte offsets), image embeds, and a "Reply
-on Bluesky" CTA. Replying happens on Bluesky. The AT Protocol helpers and their unit
-tests live in `lib/bluesky.ts` / `lib/bluesky.test.ts`.
+without rebuilding. Renders nested threads (depth-capped, collapsible), rich-text
+facets (links/mentions/hashtags via UTF-8 byte offsets), image embeds, a sort toggle,
+and a "Reply on Bluesky" CTA. The AT Protocol read helpers and their unit tests live
+in `lib/bluesky.ts` / `lib/bluesky.test.ts`.
+
+**Writing** (`components/BlueskyComposer.tsx`): an in-page composer lets visitors sign
+in with their own Bluesky account and post a reply without leaving the article — the
+comment lands as a real threaded reply on Bluesky, authored by them. Auth is
+browser-only AT Protocol OAuth (PKCE + DPoP, no backend secrets) via
+`@atproto/oauth-client-browser`; the reply is created with `@atproto/api` (`RichText`
+facet detection + a `reply` strong-ref to the anchor post). Because these packages
+touch `window`/`indexedDB`/`crypto`, the composer (and the OAuth callback) are loaded
+through `dynamic(..., { ssr: false })` so they never enter the server bundle.
+
+OAuth setup:
+
+- **Client metadata** is served at `/client-metadata.json` (`app/client-metadata.json/route.ts`,
+  `force-static`). Its `client_id` must equal that URL, derived from
+  `NEXT_PUBLIC_SITE_ORIGIN` (defaults to `https://spencerboucher.com`). It requests
+  scope `atproto transition:generic` (read + write) and declares the redirect URI.
+- **Callback**: `/bluesky/callback` (`app/bluesky/callback/page.tsx`) completes the
+  redirect and returns the visitor to the post they were reading (carried in the OAuth
+  `state`). Shared client logic is in `lib/blueskyClient.ts` (browser-only) and
+  `lib/blueskyConfig.ts` (atproto-free constants, safe for the server route).
+- **Local dev**: on `localhost`/`127.0.0.1` the client uses a synthesized "loopback"
+  `client_id`, so no hosted metadata file is needed. Dev sessions expire quickly (~1 day)
+  and there's no silent sign-in — both are normal for loopback clients. Note: Vercel
+  *preview* deployments have a different origin than production, so OAuth sign-in only
+  works on `localhost` and the production domain, not on `*.vercel.app` previews.
 
 ### Routes
 

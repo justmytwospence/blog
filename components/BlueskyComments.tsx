@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Heart, Repeat2, MessageCircle, Quote, ChevronDown, ChevronRight } from 'lucide-react';
 import {
   getPostThread,
@@ -17,6 +18,12 @@ import {
   type BlueskyImagesEmbed,
   type SortMode,
 } from '@/lib/bluesky';
+
+// Loaded browser-only: the composer pulls in @atproto/oauth-client-browser,
+// which touches window/indexedDB/crypto and must never run during SSR.
+const BlueskyComposer = dynamic(() => import('@/components/BlueskyComposer'), {
+  ssr: false,
+});
 
 /** How many reply levels to render before deferring to Bluesky for the rest. */
 const MAX_DEPTH = 6;
@@ -280,17 +287,14 @@ export function BlueskyComments({ postRef }: { postRef: string }) {
   const [state, setState] = useState<LoadState>({ status: 'loading' });
   const [sort, setSort] = useState<SortMode>('top');
 
-  useEffect(() => {
-    const ctrl = new AbortController();
-
-    (async () => {
-      setState({ status: 'loading' });
+  const load = useCallback(
+    async (signal?: AbortSignal, opts?: { keepOnError?: boolean }) => {
       try {
-        const atUri = await resolveToAtUri(postRef, ctrl.signal);
-        const { thread } = await getPostThread(atUri, { depth: 10, signal: ctrl.signal });
-        if (ctrl.signal.aborted) return;
+        const atUri = await resolveToAtUri(postRef, signal);
+        const { thread } = await getPostThread(atUri, { depth: 10, signal });
+        if (signal?.aborted) return;
         if (!isThreadViewPost(thread)) {
-          setState({ status: 'unavailable' });
+          if (!opts?.keepOnError) setState({ status: 'unavailable' });
           return;
         }
         setState({
@@ -300,13 +304,25 @@ export function BlueskyComments({ postRef }: { postRef: string }) {
           webUrl: postWebUrl(thread.post.author, thread.post.uri),
         });
       } catch {
-        if (ctrl.signal.aborted) return;
+        if (signal?.aborted || opts?.keepOnError) return;
         setState({ status: 'error' });
       }
-    })();
+    },
+    [postRef],
+  );
 
+  useEffect(() => {
+    const ctrl = new AbortController();
+    (async () => {
+      await load(ctrl.signal);
+    })();
     return () => ctrl.abort();
-  }, [postRef]);
+  }, [load]);
+
+  // Refetch without flashing the skeleton or wiping comments on a transient error.
+  const refresh = useCallback(() => {
+    void load(undefined, { keepOnError: true });
+  }, [load]);
 
   const total = state.status === 'ready' ? countReplies(state.replies) : 0;
   const sortedTop = useMemo(
@@ -364,6 +380,15 @@ export function BlueskyComments({ postRef }: { postRef: string }) {
             Reply on Bluesky
           </a>
         </div>
+      )}
+
+      {/* In-page composer: sign in with Bluesky and reply without leaving */}
+      {state.status === 'ready' && (
+        <BlueskyComposer
+          rootUri={state.root.uri}
+          rootCid={state.root.cid}
+          onPosted={refresh}
+        />
       )}
 
       {state.status === 'loading' && <Skeleton />}
