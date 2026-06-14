@@ -14,7 +14,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import type { Notebook, ExtractedMetadata } from '@blog/notebook-parser/types';
-import { generateCellId, getNotebookLanguage, generateTableOfContents } from '@blog/notebook-parser/utils';
+import { generateCellId, getNotebookLanguage, generateTableOfContents, getCellOptions } from '@blog/notebook-parser/utils';
 import { CodeCell } from './cells/CodeCell';
 import { MarkdownCell } from './cells/MarkdownCell';
 import { CellErrorBoundary } from './errors/CellErrorBoundary';
@@ -46,9 +46,12 @@ export function NotebookRenderer({ notebook, metadata }: NotebookRendererProps) 
       const cellId = generateCellId(cell, index);
       
       if (cell.cell_type === 'code') {
-        // Determine initial code visibility
-        const cellOptions = cell.metadata || {};
-        
+        // Determine initial code visibility. Use getCellOptions so Quarto `#|` source
+        // directives (e.g. `#| code-fold: hide`) are honored for the INITIAL state, not
+        // just cell.metadata — otherwise `#| code-fold: hide` renders expanded. This keeps
+        // Jupyter (#| in source) and marimo (decorator -> metadata) at parity.
+        const cellOptions = getCellOptions(cell);
+
         // Check cell-level echo option
         if (cellOptions.echo === false) {
           codeVisMap.set(cellId, false);

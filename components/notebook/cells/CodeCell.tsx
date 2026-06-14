@@ -129,7 +129,7 @@ export function CodeCell({
                 <button
                   onClick={handleCodeToggle}
                   className="flex items-center gap-1 text-sm text-blue-600 dark:text-blue-400 hover:underline"
-                  aria-label={codeVisible ? 'Hide code' : 'Show code'}
+                  aria-label={codeVisible ? 'Hide code' : (cellOptions['code-summary'] || 'Show code')}
                 >
                   {codeVisible ? (
                     <>
@@ -139,7 +139,8 @@ export function CodeCell({
                   ) : (
                     <>
                       <ChevronRight className="w-4 h-4" />
-                      <span>Show code</span>
+                      {/* Quarto `code-summary` sets the collapsed fold label */}
+                      <span>{cellOptions['code-summary'] || 'Show code'}</span>
                     </>
                   )}
                 </button>
