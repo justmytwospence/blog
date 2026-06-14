@@ -129,17 +129,6 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
   return (
     <>
       <div className="mb-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-        <div className="relative">
-          <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" aria-hidden="true" />
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search peaks, places…"
-            aria-label="Search adventures"
-            className="w-44 rounded-md border border-gray-200 bg-white py-1.5 pl-8 pr-2 text-sm text-gray-700 placeholder:text-gray-400 focus:w-56 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-[#303031] dark:bg-[#252526] dark:text-[#cccccc]"
-          />
-        </div>
         {sports.length > 1 && (
           <div className="flex flex-wrap items-center gap-2">
             <button type="button" onClick={() => setSport(null)} aria-pressed={sport === null} className={pill(sport === null)}>
@@ -152,7 +141,18 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
             ))}
           </div>
         )}
-        <div className="ml-auto flex items-center gap-3">
+        <div className="ml-auto flex flex-wrap items-center justify-end gap-3">
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" aria-hidden="true" />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search peaks, places…"
+              aria-label="Search adventures"
+              className="w-56 rounded-md border border-gray-200 bg-white py-1.5 pl-8 pr-2 text-sm text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-[#303031] dark:bg-[#252526] dark:text-[#cccccc]"
+            />
+          </div>
           {places.length > 1 && (
             <select value={place ?? ''} onChange={(e) => setPlace(e.target.value || null)} aria-label="Filter by location" className={selectCls}>
               <option value="">All locations</option>
