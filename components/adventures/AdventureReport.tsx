@@ -187,11 +187,16 @@ export function AdventureReport({ adventure }: { adventure: Adventure }) {
         />
       )}
 
-      {adventure.content.trim() && (
+      {adventure.content.trim() ? (
         <article className="prose mt-8 max-w-none dark:prose-invert">
           <ArticleMarkdown content={adventure.content} />
         </article>
-      )}
+      ) : adventure.primaryActivity.description?.trim() ? (
+        // No manual trip report — fall back to the Strava activity description.
+        <article className="prose mt-8 max-w-none dark:prose-invert">
+          <p className="whitespace-pre-line">{adventure.primaryActivity.description}</p>
+        </article>
+      ) : null}
 
       <StravaLinks adventure={adventure} />
     </div>
