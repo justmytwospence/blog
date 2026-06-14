@@ -272,6 +272,7 @@ export function getBlogPostBySlug(slug: string): MarkdownContent {
       categories: data.categories || data.tags || [],
       description: data.description || '',
       featured: data.featured || false,
+      bluesky: data.bluesky || undefined,
     },
   };
 }

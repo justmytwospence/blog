@@ -9,6 +9,7 @@ import rehypeRaw from 'rehype-raw';
 import { CodeBlock } from '@/components/CodeBlock';
 import { MermaidBlock } from '@/components/MermaidBlock';
 import { PageContainer } from '@/components/PageContainer';
+import { BlueskyComments } from '@/components/BlueskyComments';
 import Link from 'next/link';
 import 'katex/dist/katex.min.css';
 
@@ -160,6 +161,7 @@ export default async function BlogPostPage({
           {post.content}
         </ReactMarkdown>
       </article>
+      {post.metadata.bluesky && <BlueskyComments postRef={post.metadata.bluesky} />}
     </PageContainer>
   );
 }

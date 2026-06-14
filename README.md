@@ -40,10 +40,26 @@ Next.js `transpilePackages` compiles the raw TypeScript in each. Always import f
 
 Four content types share a parser in `lib/content.ts`:
 
-- **Blog posts** (`/content/blog/*.md`) — markdown with YAML frontmatter (`title`, `date`, `categories`, `description`, `featured`).
+- **Blog posts** (`/content/blog/*.md`) — markdown with YAML frontmatter (`title`, `date`, `categories`, `description`, `featured`, optional `bluesky`).
 - **Projects** (`/content/projects/*`) — markdown, notebook (`.ipynb` with Quarto frontmatter in the first cell), webapp config (`.json`), or external link (markdown with `externalUrl`).
 - **Concepts** (`/content/concepts/*.md`) — interactive explainers backed by a React component registered in `components/concepts/index.ts` (dynamic import with `ssr: false` because they use canvas/window).
 - **Pages** — currently only `/about` and `/`, hardcoded TSX.
+
+### Comments (Bluesky)
+
+Blog posts can render a comment section sourced from a Bluesky post's replies — no
+database, no auth, no spam tooling (moderation is inherited from Bluesky). Workflow:
+
+1. Publish a Bluesky post linking to the article.
+2. Add its URL to the post frontmatter: `bluesky: "https://bsky.app/profile/<handle>/post/<rkey>"` (an `at://…` URI also works).
+
+`components/BlueskyComments.tsx` (a client island) then resolves the reference to an
+AT-URI and fetches the reply thread live from the public AppView
+(`public.api.bsky.app`, unauthenticated) on each visit, so comments stay current
+without rebuilding. It renders nested threads (depth-capped, collapsible), rich-text
+facets (links/mentions/hashtags via UTF-8 byte offsets), image embeds, and a "Reply
+on Bluesky" CTA. Replying happens on Bluesky. The AT Protocol helpers and their unit
+tests live in `lib/bluesky.ts` / `lib/bluesky.test.ts`.
 
 ### Routes
 
