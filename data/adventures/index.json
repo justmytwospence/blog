@@ -1,117 +1,533 @@
 {
-  "generatedAt": "2026-06-13T21:20:21.042Z",
+  "generatedAt": "2026-06-14T13:40:45.574Z",
   "activities": [
     {
-      "stravaId": 10002657312,
-      "date": "2023-10-08",
-      "sportType": "GravelRide",
-      "name": "Left Hand Gravel Double IPA",
+      "stravaId": 18893341377,
+      "date": "2026-06-12",
+      "sportType": "TrailRun",
+      "name": "Gold Hill",
       "hasTrack": true,
       "photoCount": 3
     },
     {
-      "stravaId": 10167860883,
-      "date": "2023-11-05",
-      "sportType": "Ride",
-      "name": "Horsetooth Iron Distance",
+      "stravaId": 18844945319,
+      "date": "2026-06-08",
+      "sportType": "TrailRun",
+      "name": "Lobo Peak via Yerba Canyon",
       "hasTrack": true,
-      "photoCount": 2
+      "photoCount": 3
     },
     {
-      "stravaId": 10464592281,
-      "date": "2023-12-30",
-      "sportType": "BackcountrySki",
-      "name": "Rollins Pass",
-      "hasTrack": true,
-      "photoCount": 7
-    },
-    {
-      "stravaId": 10597942063,
-      "date": "2024-01-20",
-      "sportType": "BackcountrySki",
-      "name": "12 Hours of Sunlight",
-      "hasTrack": true,
-      "photoCount": 0
-    },
-    {
-      "stravaId": 10697401427,
-      "date": "2024-02-04",
-      "sportType": "GravelRide",
-      "name": "Old Man Winter Rally part 2",
+      "stravaId": 16479667263,
+      "date": "2025-11-16",
+      "sportType": "Hike",
+      "name": "South Arapaho",
       "hasTrack": true,
       "photoCount": 4
     },
     {
-      "stravaId": 10828988183,
-      "date": "2024-02-24",
-      "sportType": "NordicSki",
-      "name": "Leadville Loppet 44k skate",
-      "hasTrack": true,
-      "photoCount": 1
-    },
-    {
-      "stravaId": 10861986332,
-      "date": "2024-02-29",
-      "sportType": "BackcountrySki",
-      "name": "Neff’s Canyon to Peak 9780",
-      "hasTrack": true,
-      "photoCount": 7
-    },
-    {
-      "stravaId": 10875702008,
-      "date": "2024-03-02",
-      "sportType": "BackcountrySki",
-      "name": "Wasatch Powderkeg Rando",
-      "hasTrack": true,
-      "photoCount": 1
-    },
-    {
-      "stravaId": 10919899566,
-      "date": "2024-03-08",
-      "sportType": "BackcountrySki",
-      "name": "Park City Rando 🥉",
-      "hasTrack": true,
-      "photoCount": 1
-    },
-    {
-      "stravaId": 11077552020,
-      "date": "2024-03-30",
-      "sportType": "BackcountrySki",
-      "name": "The Grand Reverse",
+      "stravaId": 16109565175,
+      "date": "2025-10-11",
+      "sportType": "TrailRun",
+      "name": "Grays",
       "hasTrack": true,
       "photoCount": 3
     },
     {
-      "stravaId": 11277272088,
-      "date": "2024-04-27",
-      "sportType": "Run",
-      "name": "Nashville Marathon",
+      "stravaId": 15937025985,
+      "date": "2025-09-25",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 22: Taylor Lake to Durango",
       "hasTrack": true,
-      "photoCount": 2
+      "photoCount": 3
     },
     {
-      "stravaId": 11442167104,
-      "date": "2024-05-18",
-      "sportType": "TrailRun",
-      "name": "Ram Party 50k",
+      "stravaId": 15926865039,
+      "date": "2025-09-24",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 21: Blackhawk Pass to Taylor Lake",
+      "hasTrack": true,
+      "photoCount": 10
+    },
+    {
+      "stravaId": 15922910253,
+      "date": "2025-09-23",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 20: Silverton to Blackhawk Pass",
+      "hasTrack": true,
+      "photoCount": 20
+    },
+    {
+      "stravaId": 15893943783,
+      "date": "2025-09-21",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 18",
+      "hasTrack": true,
+      "photoCount": 11
+    },
+    {
+      "stravaId": 15891802002,
+      "date": "2025-09-20",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 17",
       "hasTrack": true,
       "photoCount": 6
     },
     {
-      "stravaId": 11505965667,
-      "date": "2024-05-26",
+      "stravaId": 15859524943,
+      "date": "2025-09-18",
       "sportType": "Hike",
-      "name": "Front Porch → Lost Porch Scramble",
+      "name": "Colorado Trail Day 15: San Luis Pass to Snow Mesa",
+      "hasTrack": true,
+      "photoCount": 9
+    },
+    {
+      "stravaId": 15857368235,
+      "date": "2025-09-17",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 14: Saguache Park Road to San Luis Pass",
+      "hasTrack": true,
+      "photoCount": 10
+    },
+    {
+      "stravaId": 15857450679,
+      "date": "2025-09-16",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 13: Sargents Mesa to Cochetopa Pass",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 15832507251,
+      "date": "2025-09-15",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 12: Monarch Pass to Sargents Mesa",
       "hasTrack": true,
       "photoCount": 2
     },
     {
-      "stravaId": 11509043741,
-      "date": "2024-05-27",
-      "sportType": "Run",
-      "name": "BOLDERBoulder",
+      "stravaId": 15814306652,
+      "date": "2025-09-14",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 11: Tunnel Lake to Boss Lake to Monarch Pass",
+      "hasTrack": true,
+      "photoCount": 9
+    },
+    {
+      "stravaId": 15813199536,
+      "date": "2025-09-13",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 10: Cottonwood Pass + Tincup Pass",
+      "hasTrack": true,
+      "photoCount": 6
+    },
+    {
+      "stravaId": 15799736403,
+      "date": "2025-09-12",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 9: Hope Pass + Lake Ann Pass",
       "hasTrack": true,
       "photoCount": 4
+    },
+    {
+      "stravaId": 15769900033,
+      "date": "2025-09-10",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 7: Turquoise Lake → Twin Lakes",
+      "hasTrack": true,
+      "photoCount": 7
+    },
+    {
+      "stravaId": 15764801940,
+      "date": "2025-09-09",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 6: Searle Pass → Turquoise Lake",
+      "hasTrack": true,
+      "photoCount": 7
+    },
+    {
+      "stravaId": 15751937304,
+      "date": "2025-09-08",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 5: Breckenridge → Searle Pass",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 15734625923,
+      "date": "2025-09-07",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 4: Georgia Pass → Breckenridge",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 15723153418,
+      "date": "2025-09-06",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 3: Lost Creek Wilderness → Georgia Pass",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 15718655446,
+      "date": "2025-09-05",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 2: Buffalo Creek → Lost Creek Wilderness",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
+      "stravaId": 15700664792,
+      "date": "2025-09-04",
+      "sportType": "Hike",
+      "name": "Colorado Trail Day 1: Waterton Canyon → Buffalo Creek",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 15639669989,
+      "date": "2025-08-30",
+      "sportType": "TrailRun",
+      "name": "Medicine Bow Peak",
+      "hasTrack": true,
+      "photoCount": 7
+    },
+    {
+      "stravaId": 15627761949,
+      "date": "2025-08-29",
+      "sportType": "TrailRun",
+      "name": "Lewis Peak",
+      "hasTrack": true,
+      "photoCount": 6
+    },
+    {
+      "stravaId": 15528777405,
+      "date": "2025-08-20",
+      "sportType": "TrailRun",
+      "name": "Blanca Lake",
+      "hasTrack": true,
+      "photoCount": 3
+    },
+    {
+      "stravaId": 15530959538,
+      "date": "2025-08-20",
+      "sportType": "TrailRun",
+      "name": "Tailgunner",
+      "hasTrack": true,
+      "photoCount": 13
+    },
+    {
+      "stravaId": 15507265877,
+      "date": "2025-08-18",
+      "sportType": "TrailRun",
+      "name": "Lake Lillian",
+      "hasTrack": true,
+      "photoCount": 4
+    },
+    {
+      "stravaId": 15495133268,
+      "date": "2025-08-17",
+      "sportType": "TrailRun",
+      "name": "Hibox Peak",
+      "hasTrack": true,
+      "photoCount": 7
+    },
+    {
+      "stravaId": 15426563547,
+      "date": "2025-08-11",
+      "sportType": "Hike",
+      "name": "Wonderland Loop Day 5/5: Sunrise → Box Canyon",
+      "hasTrack": true,
+      "photoCount": 13
+    },
+    {
+      "stravaId": 15426563538,
+      "date": "2025-08-10",
+      "sportType": "Hike",
+      "name": "Wonderland Loop Day 4/5: Cataract Valley → Sunrise Camp",
+      "hasTrack": true,
+      "photoCount": 9
+    },
+    {
+      "stravaId": 15415776897,
+      "date": "2025-08-09",
+      "sportType": "Hike",
+      "name": "Wonderland Loop Day 3/5: Golden Lakes → Cataract Valley",
+      "hasTrack": true,
+      "photoCount": 10
+    },
+    {
+      "stravaId": 15415759784,
+      "date": "2025-08-08",
+      "sportType": "Hike",
+      "name": "Wonderland Loop Day 2/5: Devil's Dream → Golden Lakes",
+      "hasTrack": true,
+      "photoCount": 12
+    },
+    {
+      "stravaId": 15415758251,
+      "date": "2025-08-07",
+      "sportType": "Hike",
+      "name": "Wonderland Loop Day 1/5: Box Canyon → Devil's Dream",
+      "hasTrack": true,
+      "photoCount": 9
+    },
+    {
+      "stravaId": 15292806594,
+      "date": "2025-07-30",
+      "sportType": "TrailRun",
+      "name": "Kaleetan via White Ledges",
+      "hasTrack": true,
+      "photoCount": 15
+    },
+    {
+      "stravaId": 15259413002,
+      "date": "2025-07-27",
+      "sportType": "TrailRun",
+      "name": "Tinkham → Abiel → Silver",
+      "hasTrack": true,
+      "photoCount": 6
+    },
+    {
+      "stravaId": 15179671764,
+      "date": "2025-07-20",
+      "sportType": "TrailRun",
+      "name": "Gravel Lakes via Kendall Catwalk",
+      "hasTrack": true,
+      "photoCount": 13
+    },
+    {
+      "stravaId": 15105312452,
+      "date": "2025-07-13",
+      "sportType": "Hike",
+      "name": "Guye Peak Scramble",
+      "hasTrack": true,
+      "photoCount": 9
+    },
+    {
+      "stravaId": 15073658188,
+      "date": "2025-07-10",
+      "sportType": "TrailRun",
+      "name": "Putrid Pete’s Peak → Mount Defiance → Little Bandera Mountain",
+      "hasTrack": true,
+      "photoCount": 11
+    },
+    {
+      "stravaId": 14811983463,
+      "date": "2025-06-15",
+      "sportType": "Ride",
+      "name": "Whidbey Island",
+      "hasTrack": true,
+      "photoCount": 12
+    },
+    {
+      "stravaId": 14780453685,
+      "date": "2025-06-12",
+      "sportType": "TrailRun",
+      "name": "Mailbox Peak",
+      "hasTrack": true,
+      "photoCount": 6
+    },
+    {
+      "stravaId": 14759855645,
+      "date": "2025-06-10",
+      "sportType": "GravelRide",
+      "name": "Snoqualmie Valley Trail",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 14750710422,
+      "date": "2025-06-09",
+      "sportType": "TrailRun",
+      "name": "Mount Si",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 14739468284,
+      "date": "2025-06-08",
+      "sportType": "Ride",
+      "name": "Bainbridge Island",
+      "hasTrack": true,
+      "photoCount": 3
+    },
+    {
+      "stravaId": 14727621681,
+      "date": "2025-06-07",
+      "sportType": "Ride",
+      "name": "RAPHA SEA X OMTM | FAR 02 | RAINIER",
+      "hasTrack": true,
+      "photoCount": 5
+    },
+    {
+      "stravaId": 14600008433,
+      "date": "2025-05-26",
+      "sportType": "Run",
+      "name": "BolderBoulder",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 14521886080,
+      "date": "2025-05-18",
+      "sportType": "TrailRun",
+      "name": "Sopris Run-Off",
+      "hasTrack": true,
+      "photoCount": 4
+    },
+    {
+      "stravaId": 14379159037,
+      "date": "2025-05-04",
+      "sportType": "Hike",
+      "name": "Chasm Lake",
+      "hasTrack": true,
+      "photoCount": 6
+    },
+    {
+      "stravaId": 13826697830,
+      "date": "2025-03-08",
+      "sportType": "NordicSki",
+      "name": "Stampede 50k Skate",
+      "hasTrack": true,
+      "photoCount": 9
+    },
+    {
+      "stravaId": 13512848294,
+      "date": "2025-02-01",
+      "sportType": "NordicSki",
+      "name": "Alley Loop Marathon Skate",
+      "hasTrack": true,
+      "photoCount": 3
+    },
+    {
+      "stravaId": 13234934250,
+      "date": "2024-12-31",
+      "sportType": "BackcountrySki",
+      "name": "Winter Park",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 12932925432,
+      "date": "2024-11-18",
+      "sportType": "Hike",
+      "name": "Southern Goose Egg South Ramp + Slab Diagonal",
+      "hasTrack": true,
+      "photoCount": 3
+    },
+    {
+      "stravaId": 12761850351,
+      "date": "2024-10-27",
+      "sportType": "Ride",
+      "name": "Estes Century",
+      "hasTrack": true,
+      "photoCount": 3
+    },
+    {
+      "stravaId": 12650299449,
+      "date": "2024-10-13",
+      "sportType": "TrailRun",
+      "name": "Whim to Rim to Rim to Rim",
+      "hasTrack": true,
+      "photoCount": 15
+    },
+    {
+      "stravaId": 12536352467,
+      "date": "2024-09-29",
+      "sportType": "Hike",
+      "name": "Mt. Crested Butte via Guide’s Ridge",
+      "hasTrack": true,
+      "photoCount": 13
+    },
+    {
+      "stravaId": 12411095992,
+      "date": "2024-09-14",
+      "sportType": "TrailRun",
+      "name": "Run Rabbit Run",
+      "hasTrack": true,
+      "photoCount": 8
+    },
+    {
+      "stravaId": 12292366944,
+      "date": "2024-08-31",
+      "sportType": "TrailRun",
+      "name": "Home → Crosscut 50k",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 12182833189,
+      "date": "2024-08-18",
+      "sportType": "GravelRide",
+      "name": "SBT GRVL",
+      "hasTrack": true,
+      "photoCount": 5
+    },
+    {
+      "stravaId": 12113760097,
+      "date": "2024-08-10",
+      "sportType": "TrailRun",
+      "name": "Buffalo Mountain Loop",
+      "hasTrack": true,
+      "photoCount": 6
+    },
+    {
+      "stravaId": 12088986269,
+      "date": "2024-08-07",
+      "sportType": "Ride",
+      "name": "Mount Blue Sky",
+      "hasTrack": true,
+      "photoCount": 3
+    },
+    {
+      "stravaId": 12022485117,
+      "date": "2024-07-30",
+      "sportType": "TrailRun",
+      "name": "Washington via Huntington → Jackson",
+      "hasTrack": true,
+      "photoCount": 7
+    },
+    {
+      "stravaId": 11904113544,
+      "date": "2024-07-16",
+      "sportType": "GravelRide",
+      "name": "Old Fall River → Trail Ridge",
+      "hasTrack": true,
+      "photoCount": 3
+    },
+    {
+      "stravaId": 11825118414,
+      "date": "2024-07-06",
+      "sportType": "TrailRun",
+      "name": "Leadville Silver Rush 50",
+      "hasTrack": true,
+      "photoCount": 7
+    },
+    {
+      "stravaId": 11737976492,
+      "date": "2024-06-25",
+      "sportType": "TrailRun",
+      "name": "Harvard Peak",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 11714850711,
+      "date": "2024-06-22",
+      "sportType": "TrailRun",
+      "name": "34 for 34 (Lyons → Estes)",
+      "hasTrack": true,
+      "photoCount": 7
+    },
+    {
+      "stravaId": 11603818859,
+      "date": "2024-06-07",
+      "sportType": "TrailRun",
+      "name": "San Diego 100 Tail 30",
+      "hasTrack": true,
+      "photoCount": 2
     },
     {
       "stravaId": 11548838335,
@@ -138,610 +554,234 @@
       "photoCount": 2
     },
     {
-      "stravaId": 11603818859,
-      "date": "2024-06-07",
-      "sportType": "TrailRun",
-      "name": "San Diego 100 Tail 30",
+      "stravaId": 11509043741,
+      "date": "2024-05-27",
+      "sportType": "Run",
+      "name": "BOLDERBoulder",
+      "hasTrack": true,
+      "photoCount": 4
+    },
+    {
+      "stravaId": 11505965667,
+      "date": "2024-05-26",
+      "sportType": "Hike",
+      "name": "Front Porch → Lost Porch Scramble",
       "hasTrack": true,
       "photoCount": 2
     },
     {
-      "stravaId": 11714850711,
-      "date": "2024-06-22",
+      "stravaId": 11442167104,
+      "date": "2024-05-18",
       "sportType": "TrailRun",
-      "name": "34 for 34 (Lyons → Estes)",
-      "hasTrack": true,
-      "photoCount": 7
-    },
-    {
-      "stravaId": 11737976492,
-      "date": "2024-06-25",
-      "sportType": "TrailRun",
-      "name": "Harvard Peak",
-      "hasTrack": true,
-      "photoCount": 2
-    },
-    {
-      "stravaId": 11825118414,
-      "date": "2024-07-06",
-      "sportType": "TrailRun",
-      "name": "Leadville Silver Rush 50",
-      "hasTrack": true,
-      "photoCount": 7
-    },
-    {
-      "stravaId": 11904113544,
-      "date": "2024-07-16",
-      "sportType": "GravelRide",
-      "name": "Old Fall River → Trail Ridge",
-      "hasTrack": true,
-      "photoCount": 3
-    },
-    {
-      "stravaId": 12022485117,
-      "date": "2024-07-30",
-      "sportType": "TrailRun",
-      "name": "Washington via Huntington → Jackson",
-      "hasTrack": true,
-      "photoCount": 7
-    },
-    {
-      "stravaId": 12088986269,
-      "date": "2024-08-07",
-      "sportType": "Ride",
-      "name": "Mount Blue Sky",
-      "hasTrack": true,
-      "photoCount": 3
-    },
-    {
-      "stravaId": 12113760097,
-      "date": "2024-08-10",
-      "sportType": "TrailRun",
-      "name": "Buffalo Mountain Loop",
+      "name": "Ram Party 50k",
       "hasTrack": true,
       "photoCount": 6
     },
     {
-      "stravaId": 12182833189,
-      "date": "2024-08-18",
-      "sportType": "GravelRide",
-      "name": "SBT GRVL",
+      "stravaId": 11277272088,
+      "date": "2024-04-27",
+      "sportType": "Run",
+      "name": "Nashville Marathon",
       "hasTrack": true,
-      "photoCount": 5
+      "photoCount": 2
     },
     {
-      "stravaId": 12292366944,
-      "date": "2024-08-31",
-      "sportType": "TrailRun",
-      "name": "Home → Crosscut 50k",
+      "stravaId": 11077552020,
+      "date": "2024-03-30",
+      "sportType": "BackcountrySki",
+      "name": "The Grand Reverse",
+      "hasTrack": true,
+      "photoCount": 3
+    },
+    {
+      "stravaId": 10919899566,
+      "date": "2024-03-08",
+      "sportType": "BackcountrySki",
+      "name": "Park City Rando 🥉",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
+      "stravaId": 10875702008,
+      "date": "2024-03-02",
+      "sportType": "BackcountrySki",
+      "name": "Wasatch Powderkeg Rando",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
+      "stravaId": 10861986332,
+      "date": "2024-02-29",
+      "sportType": "BackcountrySki",
+      "name": "Neff’s Canyon to Peak 9780",
+      "hasTrack": true,
+      "photoCount": 7
+    },
+    {
+      "stravaId": 10828988183,
+      "date": "2024-02-24",
+      "sportType": "NordicSki",
+      "name": "Leadville Loppet 44k skate",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
+      "stravaId": 10697401427,
+      "date": "2024-02-04",
+      "sportType": "GravelRide",
+      "name": "Old Man Winter Rally part 2",
+      "hasTrack": true,
+      "photoCount": 4
+    },
+    {
+      "stravaId": 10597942063,
+      "date": "2024-01-20",
+      "sportType": "BackcountrySki",
+      "name": "12 Hours of Sunlight",
       "hasTrack": true,
       "photoCount": 0
     },
     {
-      "stravaId": 12411095992,
-      "date": "2024-09-14",
-      "sportType": "TrailRun",
-      "name": "Run Rabbit Run",
+      "stravaId": 10476150699,
+      "date": "2024-01-01",
+      "sportType": "BackcountrySki",
+      "name": "Rollins Pass Return",
       "hasTrack": true,
-      "photoCount": 8
+      "photoCount": 5
     },
     {
-      "stravaId": 12536352467,
-      "date": "2024-09-29",
-      "sportType": "Hike",
-      "name": "Mt. Crested Butte via Guide’s Ridge",
-      "hasTrack": true,
-      "photoCount": 13
-    },
-    {
-      "stravaId": 12650299449,
-      "date": "2024-10-13",
-      "sportType": "TrailRun",
-      "name": "Whim to Rim to Rim to Rim",
-      "hasTrack": true,
-      "photoCount": 15
-    },
-    {
-      "stravaId": 12761850351,
-      "date": "2024-10-27",
-      "sportType": "Ride",
-      "name": "Estes Century",
-      "hasTrack": true,
-      "photoCount": 3
-    },
-    {
-      "stravaId": 12932925432,
-      "date": "2024-11-18",
-      "sportType": "Hike",
-      "name": "Southern Goose Egg South Ramp + Slab Diagonal",
-      "hasTrack": true,
-      "photoCount": 3
-    },
-    {
-      "stravaId": 13234934250,
-      "date": "2024-12-31",
+      "stravaId": 10470822789,
+      "date": "2023-12-31",
       "sportType": "BackcountrySki",
       "name": "Winter Park",
       "hasTrack": true,
       "photoCount": 0
     },
     {
-      "stravaId": 13512848294,
-      "date": "2025-02-01",
-      "sportType": "NordicSki",
-      "name": "Alley Loop Marathon Skate",
+      "stravaId": 10464592281,
+      "date": "2023-12-30",
+      "sportType": "BackcountrySki",
+      "name": "Rollins Pass",
+      "hasTrack": true,
+      "photoCount": 7
+    },
+    {
+      "stravaId": 10167860883,
+      "date": "2023-11-05",
+      "sportType": "Ride",
+      "name": "Horsetooth Iron Distance",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 10002657312,
+      "date": "2023-10-08",
+      "sportType": "GravelRide",
+      "name": "Left Hand Gravel Double IPA",
       "hasTrack": true,
       "photoCount": 3
     },
     {
-      "stravaId": 13826697830,
-      "date": "2025-03-08",
-      "sportType": "NordicSki",
-      "name": "Stampede 50k Skate",
+      "stravaId": 9915162122,
+      "date": "2023-09-24",
+      "sportType": "Hike",
+      "name": "Capitol Peak",
       "hasTrack": true,
       "photoCount": 9
     },
     {
-      "stravaId": 14379159037,
-      "date": "2025-05-04",
-      "sportType": "Hike",
-      "name": "Chasm Lake",
+      "stravaId": 9869993261,
+      "date": "2023-09-17",
+      "sportType": "TrailRun",
+      "name": "Super Longs (Just Du It)",
+      "hasTrack": true,
+      "photoCount": 11
+    },
+    {
+      "stravaId": 9815850223,
+      "date": "2023-09-09",
+      "sportType": "TrailRun",
+      "name": "Ned*Ned Half Marathon",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 9778078372,
+      "date": "2023-09-03",
+      "sportType": "TrailRun",
+      "name": "Blue Lakes Cirque (from my front door!)",
       "hasTrack": true,
       "photoCount": 6
     },
     {
-      "stravaId": 14521886080,
-      "date": "2025-05-18",
+      "stravaId": 9688747593,
+      "date": "2023-08-20",
+      "sportType": "Hike",
+      "name": "Navajo",
+      "hasTrack": true,
+      "photoCount": 3
+    },
+    {
+      "stravaId": 9634232167,
+      "date": "2023-08-12",
       "sportType": "TrailRun",
-      "name": "Sopris Run-Off",
-      "hasTrack": true,
-      "photoCount": 4
-    },
-    {
-      "stravaId": 14600008433,
-      "date": "2025-05-26",
-      "sportType": "Run",
-      "name": "BolderBoulder",
-      "hasTrack": true,
-      "photoCount": 0
-    },
-    {
-      "stravaId": 14727621681,
-      "date": "2025-06-07",
-      "sportType": "Ride",
-      "name": "RAPHA SEA X OMTM | FAR 02 | RAINIER",
+      "name": "Ten Mile Traverse",
       "hasTrack": true,
       "photoCount": 5
     },
     {
-      "stravaId": 14739468284,
-      "date": "2025-06-08",
-      "sportType": "Ride",
-      "name": "Bainbridge Island",
-      "hasTrack": true,
-      "photoCount": 3
-    },
-    {
-      "stravaId": 14750710422,
-      "date": "2025-06-09",
+      "stravaId": 9579079616,
+      "date": "2023-08-03",
       "sportType": "TrailRun",
-      "name": "Mount Si",
-      "hasTrack": true,
-      "photoCount": 2
-    },
-    {
-      "stravaId": 14759855645,
-      "date": "2025-06-10",
-      "sportType": "GravelRide",
-      "name": "Snoqualmie Valley Trail",
-      "hasTrack": true,
-      "photoCount": 2
-    },
-    {
-      "stravaId": 14780453685,
-      "date": "2025-06-12",
-      "sportType": "TrailRun",
-      "name": "Mailbox Peak",
-      "hasTrack": true,
-      "photoCount": 6
-    },
-    {
-      "stravaId": 15073658188,
-      "date": "2025-07-10",
-      "sportType": "TrailRun",
-      "name": "Putrid Pete’s Peak → Mount Defiance → Little Bandera Mountain",
-      "hasTrack": true,
-      "photoCount": 11
-    },
-    {
-      "stravaId": 15105312452,
-      "date": "2025-07-13",
-      "sportType": "Hike",
-      "name": "Guye Peak Scramble",
-      "hasTrack": true,
-      "photoCount": 9
-    },
-    {
-      "stravaId": 15179671764,
-      "date": "2025-07-20",
-      "sportType": "TrailRun",
-      "name": "Gravel Lakes via Kendall Catwalk",
-      "hasTrack": true,
-      "photoCount": 13
-    },
-    {
-      "stravaId": 15259413002,
-      "date": "2025-07-27",
-      "sportType": "TrailRun",
-      "name": "Tinkham → Abiel → Silver",
-      "hasTrack": true,
-      "photoCount": 6
-    },
-    {
-      "stravaId": 15292806594,
-      "date": "2025-07-30",
-      "sportType": "TrailRun",
-      "name": "Kaleetan via White Ledges",
-      "hasTrack": true,
-      "photoCount": 15
-    },
-    {
-      "stravaId": 15415758251,
-      "date": "2025-08-07",
-      "sportType": "Hike",
-      "name": "Wonderland Loop Day 1/5: Box Canyon → Devil's Dream",
-      "hasTrack": true,
-      "photoCount": 9
-    },
-    {
-      "stravaId": 15415759784,
-      "date": "2025-08-08",
-      "sportType": "Hike",
-      "name": "Wonderland Loop Day 2/5: Devil's Dream → Golden Lakes",
+      "name": "The Enchantments",
       "hasTrack": true,
       "photoCount": 12
     },
     {
-      "stravaId": 15415776897,
-      "date": "2025-08-09",
-      "sportType": "Hike",
-      "name": "Wonderland Loop Day 3/5: Golden Lakes → Cataract Valley",
-      "hasTrack": true,
-      "photoCount": 10
-    },
-    {
-      "stravaId": 15426563538,
-      "date": "2025-08-10",
-      "sportType": "Hike",
-      "name": "Wonderland Loop Day 4/5: Cataract Valley → Sunrise Camp",
-      "hasTrack": true,
-      "photoCount": 9
-    },
-    {
-      "stravaId": 15426563547,
-      "date": "2025-08-11",
-      "sportType": "Hike",
-      "name": "Wonderland Loop Day 5/5: Sunrise → Box Canyon",
-      "hasTrack": true,
-      "photoCount": 13
-    },
-    {
-      "stravaId": 15495133268,
-      "date": "2025-08-17",
+      "stravaId": 9501289799,
+      "date": "2023-07-22",
       "sportType": "TrailRun",
-      "name": "Hibox Peak",
+      "name": "Neva, Jasper, et al",
       "hasTrack": true,
-      "photoCount": 7
+      "photoCount": 6
     },
     {
-      "stravaId": 15507265877,
-      "date": "2025-08-18",
+      "stravaId": 9457030155,
+      "date": "2023-07-15",
       "sportType": "TrailRun",
-      "name": "Lake Lillian",
+      "name": "La Plata via Ellingwood Ridge",
       "hasTrack": true,
-      "photoCount": 4
+      "photoCount": 14
     },
     {
-      "stravaId": 15528777405,
-      "date": "2025-08-20",
-      "sportType": "TrailRun",
-      "name": "Blanca Lake",
+      "stravaId": 9422027524,
+      "date": "2023-07-09",
+      "sportType": "RockClimbing",
+      "name": "Diamond attempt",
       "hasTrack": true,
       "photoCount": 3
     },
     {
-      "stravaId": 15530959538,
-      "date": "2025-08-20",
-      "sportType": "TrailRun",
-      "name": "Tailgunner",
-      "hasTrack": true,
-      "photoCount": 13
-    },
-    {
-      "stravaId": 15627761949,
-      "date": "2025-08-29",
-      "sportType": "TrailRun",
-      "name": "Lewis Peak",
-      "hasTrack": true,
-      "photoCount": 6
-    },
-    {
-      "stravaId": 15639669989,
-      "date": "2025-08-30",
-      "sportType": "TrailRun",
-      "name": "Medicine Bow Peak",
-      "hasTrack": true,
-      "photoCount": 7
-    },
-    {
-      "stravaId": 15700664792,
-      "date": "2025-09-04",
+      "stravaId": 9333536530,
+      "date": "2023-06-25",
       "sportType": "Hike",
-      "name": "Colorado Trail Day 1: Waterton Canyon → Buffalo Creek",
-      "hasTrack": true,
-      "photoCount": 2
-    },
-    {
-      "stravaId": 15718655446,
-      "date": "2025-09-05",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 2: Buffalo Creek → Lost Creek Wilderness",
-      "hasTrack": true,
-      "photoCount": 1
-    },
-    {
-      "stravaId": 15723153418,
-      "date": "2025-09-06",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 3: Lost Creek Wilderness → Georgia Pass",
-      "hasTrack": true,
-      "photoCount": 2
-    },
-    {
-      "stravaId": 15734625923,
-      "date": "2025-09-07",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 4: Georgia Pass → Breckenridge",
-      "hasTrack": true,
-      "photoCount": 0
-    },
-    {
-      "stravaId": 15751937304,
-      "date": "2025-09-08",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 5: Breckenridge → Searle Pass",
-      "hasTrack": true,
-      "photoCount": 2
-    },
-    {
-      "stravaId": 15764801940,
-      "date": "2025-09-09",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 6: Searle Pass → Turquoise Lake",
-      "hasTrack": true,
-      "photoCount": 7
-    },
-    {
-      "stravaId": 15769900033,
-      "date": "2025-09-10",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 7: Turquoise Lake → Twin Lakes",
-      "hasTrack": true,
-      "photoCount": 7
-    },
-    {
-      "stravaId": 15799736403,
-      "date": "2025-09-12",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 9: Hope Pass + Lake Ann Pass",
-      "hasTrack": true,
-      "photoCount": 4
-    },
-    {
-      "stravaId": 15813199536,
-      "date": "2025-09-13",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 10: Cottonwood Pass + Tincup Pass",
-      "hasTrack": true,
-      "photoCount": 6
-    },
-    {
-      "stravaId": 15814306652,
-      "date": "2025-09-14",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 11: Tunnel Lake to Boss Lake to Monarch Pass",
-      "hasTrack": true,
-      "photoCount": 9
-    },
-    {
-      "stravaId": 15832507251,
-      "date": "2025-09-15",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 12: Monarch Pass to Sargents Mesa",
-      "hasTrack": true,
-      "photoCount": 2
-    },
-    {
-      "stravaId": 15857368235,
-      "date": "2025-09-17",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 14: Saguache Park Road to San Luis Pass",
-      "hasTrack": true,
-      "photoCount": 10
-    },
-    {
-      "stravaId": 15857450679,
-      "date": "2025-09-16",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 13: Sargents Mesa to Cochetopa Pass",
-      "hasTrack": true,
-      "photoCount": 0
-    },
-    {
-      "stravaId": 15859524943,
-      "date": "2025-09-18",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 15: San Luis Pass to Snow Mesa",
-      "hasTrack": true,
-      "photoCount": 9
-    },
-    {
-      "stravaId": 15891802002,
-      "date": "2025-09-20",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 17",
-      "hasTrack": true,
-      "photoCount": 6
-    },
-    {
-      "stravaId": 15893943783,
-      "date": "2025-09-21",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 18",
+      "name": "Cross Couloir + Halo Ridge",
       "hasTrack": true,
       "photoCount": 11
     },
     {
-      "stravaId": 15922910253,
-      "date": "2025-09-23",
+      "stravaId": 9295204364,
+      "date": "2023-06-19",
       "sportType": "Hike",
-      "name": "Colorado Trail Day 20: Silverton to Blackhawk Pass",
+      "name": "Dreamweaver Couloir",
       "hasTrack": true,
-      "photoCount": 20
+      "photoCount": 9
     },
     {
-      "stravaId": 15926865039,
-      "date": "2025-09-24",
+      "stravaId": 9247767089,
+      "date": "2023-06-11",
       "sportType": "Hike",
-      "name": "Colorado Trail Day 21: Blackhawk Pass to Taylor Lake",
-      "hasTrack": true,
-      "photoCount": 10
-    },
-    {
-      "stravaId": 15937025985,
-      "date": "2025-09-25",
-      "sportType": "Hike",
-      "name": "Colorado Trail Day 22: Taylor Lake to Durango",
-      "hasTrack": true,
-      "photoCount": 3
-    },
-    {
-      "stravaId": 16109565175,
-      "date": "2025-10-11",
-      "sportType": "TrailRun",
-      "name": "Grays",
-      "hasTrack": true,
-      "photoCount": 3
-    },
-    {
-      "stravaId": 16479667263,
-      "date": "2025-11-16",
-      "sportType": "Hike",
-      "name": "South Arapaho",
-      "hasTrack": true,
-      "photoCount": 4
-    },
-    {
-      "stravaId": 18844945319,
-      "date": "2026-06-08",
-      "sportType": "TrailRun",
-      "name": "Lobo Peak via Yerba Canyon",
-      "hasTrack": true,
-      "photoCount": 3
-    },
-    {
-      "stravaId": 18893341377,
-      "date": "2026-06-12",
-      "sportType": "TrailRun",
-      "name": "Gold Hill",
-      "hasTrack": true,
-      "photoCount": 3
-    },
-    {
-      "stravaId": 3151927654,
-      "date": "2020-03-03",
-      "sportType": "Hike",
-      "name": "Boulder Skyline Traverse",
-      "hasTrack": true,
-      "photoCount": 0
-    },
-    {
-      "stravaId": 3277110171,
-      "date": "2020-04-09",
-      "sportType": "Hike",
-      "name": "Boulder Skyline Traverse",
-      "hasTrack": true,
-      "photoCount": 0
-    },
-    {
-      "stravaId": 3499441759,
-      "date": "2020-05-23",
-      "sportType": "Hike",
-      "name": "Mt Princeton",
-      "hasTrack": true,
-      "photoCount": 0
-    },
-    {
-      "stravaId": 3532144354,
-      "date": "2020-05-29",
-      "sportType": "Hike",
-      "name": "Mt Elbert",
-      "hasTrack": true,
-      "photoCount": 0
-    },
-    {
-      "stravaId": 5396815133,
-      "date": "2021-05-29",
-      "sportType": "Hike",
-      "name": "Conundrum Couloir",
-      "hasTrack": true,
-      "photoCount": 0
-    },
-    {
-      "stravaId": 5602135518,
-      "date": "2021-07-08",
-      "sportType": "Hike",
-      "name": "Eoulos, North Eolus, Sunlight, & Windom",
-      "hasTrack": true,
-      "photoCount": 0
-    },
-    {
-      "stravaId": 5869052972,
-      "date": "2021-08-28",
-      "sportType": "Hike",
-      "name": "Mt Lindsey",
-      "hasTrack": true,
-      "photoCount": 0
-    },
-    {
-      "stravaId": 8511930915,
-      "date": "2023-02-05",
-      "sportType": "Hike",
-      "name": "Quandary",
-      "hasTrack": true,
-      "photoCount": 0
-    },
-    {
-      "stravaId": 9158932231,
-      "date": "2023-05-28",
-      "sportType": "Hike",
-      "name": "Coleman Deming",
-      "hasTrack": true,
-      "photoCount": 7
-    },
-    {
-      "stravaId": 9172587486,
-      "date": "2023-05-30",
-      "sportType": "Hike",
-      "name": "Rainier approach to High Castle camp",
-      "hasTrack": true,
-      "photoCount": 1
-    },
-    {
-      "stravaId": 9185458286,
-      "date": "2023-06-01",
-      "sportType": "Hike",
-      "name": "Rainier summit via Kautz",
+      "name": "Skywalker Couloir",
       "hasTrack": true,
       "photoCount": 7
     },
@@ -754,108 +794,556 @@
       "photoCount": 0
     },
     {
-      "stravaId": 9247767089,
-      "date": "2023-06-11",
+      "stravaId": 9185458286,
+      "date": "2023-06-01",
       "sportType": "Hike",
-      "name": "Skywalker Couloir",
+      "name": "Rainier summit via Kautz",
       "hasTrack": true,
       "photoCount": 7
     },
     {
-      "stravaId": 9295204364,
-      "date": "2023-06-19",
+      "stravaId": 9172587486,
+      "date": "2023-05-30",
       "sportType": "Hike",
-      "name": "Dreamweaver Couloir",
+      "name": "Rainier approach to High Castle camp",
       "hasTrack": true,
-      "photoCount": 9
+      "photoCount": 1
     },
     {
-      "stravaId": 9333536530,
-      "date": "2023-06-25",
+      "stravaId": 9158932231,
+      "date": "2023-05-28",
       "sportType": "Hike",
-      "name": "Cross Couloir + Halo Ridge",
+      "name": "Coleman Deming",
       "hasTrack": true,
-      "photoCount": 11
+      "photoCount": 7
     },
     {
-      "stravaId": 9422027524,
-      "date": "2023-07-09",
-      "sportType": "RockClimbing",
-      "name": "Diamond attempt",
-      "hasTrack": true,
-      "photoCount": 3
-    },
-    {
-      "stravaId": 9457030155,
-      "date": "2023-07-15",
-      "sportType": "TrailRun",
-      "name": "La Plata via Ellingwood Ridge",
-      "hasTrack": true,
-      "photoCount": 14
-    },
-    {
-      "stravaId": 9501289799,
-      "date": "2023-07-22",
-      "sportType": "TrailRun",
-      "name": "Neva, Jasper, et al",
-      "hasTrack": true,
-      "photoCount": 6
-    },
-    {
-      "stravaId": 9579079616,
-      "date": "2023-08-03",
-      "sportType": "TrailRun",
-      "name": "The Enchantments",
-      "hasTrack": true,
-      "photoCount": 12
-    },
-    {
-      "stravaId": 9634232167,
-      "date": "2023-08-12",
-      "sportType": "TrailRun",
-      "name": "Ten Mile Traverse",
-      "hasTrack": true,
-      "photoCount": 5
-    },
-    {
-      "stravaId": 9688747593,
-      "date": "2023-08-20",
+      "stravaId": 8511930915,
+      "date": "2023-02-05",
       "sportType": "Hike",
-      "name": "Navajo",
+      "name": "Quandary",
       "hasTrack": true,
-      "photoCount": 3
+      "photoCount": 0
     },
     {
-      "stravaId": 9778078372,
-      "date": "2023-09-03",
-      "sportType": "TrailRun",
-      "name": "Blue Lakes Cirque (from my front door!)",
-      "hasTrack": true,
-      "photoCount": 6
-    },
-    {
-      "stravaId": 9815850223,
-      "date": "2023-09-09",
-      "sportType": "TrailRun",
-      "name": "Ned*Ned Half Marathon",
-      "hasTrack": true,
-      "photoCount": 2
-    },
-    {
-      "stravaId": 9869993261,
-      "date": "2023-09-17",
-      "sportType": "TrailRun",
-      "name": "Super Longs (Just Du It)",
-      "hasTrack": true,
-      "photoCount": 11
-    },
-    {
-      "stravaId": 9915162122,
-      "date": "2023-09-24",
+      "stravaId": 5869052972,
+      "date": "2021-08-28",
       "sportType": "Hike",
+      "name": "Mt Lindsey",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 5602135518,
+      "date": "2021-07-08",
+      "sportType": "Hike",
+      "name": "Eoulos, North Eolus, Sunlight, & Windom",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 5396815133,
+      "date": "2021-05-29",
+      "sportType": "Hike",
+      "name": "Conundrum Couloir",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10016,
+      "date": "2020-10-10",
+      "sportType": "Mountaineering",
+      "name": "Mt. Wilson",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10048,
+      "date": "2020-10-10",
+      "sportType": "Mountaineering",
+      "name": "Wilson Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10064,
+      "date": "2020-10-10",
+      "sportType": "Mountaineering",
+      "name": "El Diente Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10044,
+      "date": "2020-10-05",
+      "sportType": "Mountaineering",
+      "name": "Little Bear Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10007,
+      "date": "2020-10-04",
+      "sportType": "Mountaineering",
+      "name": "Crestone Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10029,
+      "date": "2020-09-30",
+      "sportType": "Mountaineering",
       "name": "Capitol Peak",
       "hasTrack": true,
-      "photoCount": 9
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10032,
+      "date": "2020-09-25",
+      "sportType": "Mountaineering",
+      "name": "Mt. Eolus",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10033,
+      "date": "2020-09-25",
+      "sportType": "Mountaineering",
+      "name": "Windom Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10039,
+      "date": "2020-09-25",
+      "sportType": "Mountaineering",
+      "name": "Sunlight Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10066,
+      "date": "2020-09-25",
+      "sportType": "Mountaineering",
+      "name": "North Eolus",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10027,
+      "date": "2020-09-19",
+      "sportType": "Mountaineering",
+      "name": "Mt. Sneffels",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10050,
+      "date": "2020-09-13",
+      "sportType": "Hike",
+      "name": "San Luis Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10047,
+      "date": "2020-09-05",
+      "sportType": "Mountaineering",
+      "name": "Pyramid Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10024,
+      "date": "2020-09-04",
+      "sportType": "Mountaineering",
+      "name": "Maroon Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10067,
+      "date": "2020-09-04",
+      "sportType": "Mountaineering",
+      "name": "North Maroon Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10006,
+      "date": "2020-08-23",
+      "sportType": "Mountaineering",
+      "name": "Uncompahgre Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10049,
+      "date": "2020-08-23",
+      "sportType": "Mountaineering",
+      "name": "Wetterhorn Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10040,
+      "date": "2020-08-21",
+      "sportType": "Hike",
+      "name": "Handies Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10046,
+      "date": "2020-08-21",
+      "sportType": "Hike",
+      "name": "Redcloud Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10053,
+      "date": "2020-08-21",
+      "sportType": "Hike",
+      "name": "Sunshine Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10037,
+      "date": "2020-08-10",
+      "sportType": "Hike",
+      "name": "Humboldt Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10019,
+      "date": "2020-08-09",
+      "sportType": "Mountaineering",
+      "name": "Crestone Needle",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10031,
+      "date": "2020-08-03",
+      "sportType": "Mountaineering",
+      "name": "Snowmass Mountain",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10010,
+      "date": "2020-07-29",
+      "sportType": "Hike",
+      "name": "Mt. Antero",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10021,
+      "date": "2020-07-17",
+      "sportType": "Hike",
+      "name": "Mt. Yale",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 3532144354,
+      "date": "2020-05-29",
+      "sportType": "Hike",
+      "name": "Mt Elbert",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 3499441759,
+      "date": "2020-05-23",
+      "sportType": "Hike",
+      "name": "Mt Princeton",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 3277110171,
+      "date": "2020-04-09",
+      "sportType": "Hike",
+      "name": "Boulder Skyline Traverse",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 3151927654,
+      "date": "2020-03-03",
+      "sportType": "Hike",
+      "name": "Boulder Skyline Traverse",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10041,
+      "date": "2020-01-02",
+      "sportType": "Hike",
+      "name": "Culebra Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10030,
+      "date": "2019-10-12",
+      "sportType": "Hike",
+      "name": "Pikes Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10043,
+      "date": "2019-10-01",
+      "sportType": "Mountaineering",
+      "name": "Mt. Lindsey",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10004,
+      "date": "2019-09-30",
+      "sportType": "Hike",
+      "name": "Blanca Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10042,
+      "date": "2019-09-30",
+      "sportType": "Hike",
+      "name": "Ellingwood Point",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10012,
+      "date": "2019-09-21",
+      "sportType": "Hike",
+      "name": "Castle Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10065,
+      "date": "2019-09-21",
+      "sportType": "Hike",
+      "name": "Conundrum Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10023,
+      "date": "2019-09-14",
+      "sportType": "Mountaineering",
+      "name": "Kit Carson Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10034,
+      "date": "2019-09-14",
+      "sportType": "Mountaineering",
+      "name": "Challenger Point",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10052,
+      "date": "2019-09-06",
+      "sportType": "Hike",
+      "name": "Huron Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10051,
+      "date": "2019-09-02",
+      "sportType": "Hike",
+      "name": "Mt. of the Holy Cross",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10002,
+      "date": "2019-09-01",
+      "sportType": "Hike",
+      "name": "Mt. Massive",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10003,
+      "date": "2019-08-25",
+      "sportType": "Hike",
+      "name": "Mt. Harvard",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10035,
+      "date": "2019-08-25",
+      "sportType": "Hike",
+      "name": "Mt. Columbia",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10008,
+      "date": "2019-08-24",
+      "sportType": "Hike",
+      "name": "Mt. Lincoln",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10022,
+      "date": "2019-08-24",
+      "sportType": "Hike",
+      "name": "Mt. Bross",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10028,
+      "date": "2019-08-24",
+      "sportType": "Hike",
+      "name": "Mt. Democrat",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10063,
+      "date": "2019-08-24",
+      "sportType": "Hike",
+      "name": "Mt. Cameron",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10014,
+      "date": "2019-08-14",
+      "sportType": "Hike",
+      "name": "Mt. Evans",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10038,
+      "date": "2019-08-14",
+      "sportType": "Hike",
+      "name": "Mt. Bierstadt",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10018,
+      "date": "2019-08-03",
+      "sportType": "Hike",
+      "name": "Mt. Belford",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10026,
+      "date": "2019-08-03",
+      "sportType": "Hike",
+      "name": "Mt. Oxford",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10036,
+      "date": "2019-08-03",
+      "sportType": "Hike",
+      "name": "Missouri Mountain",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10045,
+      "date": "2019-07-27",
+      "sportType": "Hike",
+      "name": "Mt. Sherman",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10017,
+      "date": "2019-07-21",
+      "sportType": "Hike",
+      "name": "Mt. Shavano",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10025,
+      "date": "2019-07-21",
+      "sportType": "Hike",
+      "name": "Tabeguache Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10015,
+      "date": "2019-07-14",
+      "sportType": "Mountaineering",
+      "name": "Longs Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10005,
+      "date": "2019-06-29",
+      "sportType": "Hike",
+      "name": "La Plata Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10009,
+      "date": "2019-06-08",
+      "sportType": "Hike",
+      "name": "Grays Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10011,
+      "date": "2019-06-08",
+      "sportType": "Hike",
+      "name": "Torreys Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10013,
+      "date": "2019-06-01",
+      "sportType": "Hike",
+      "name": "Quandary Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10001,
+      "date": "2019-05-29",
+      "sportType": "Hike",
+      "name": "Mt. Elbert",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10020,
+      "date": "2019-05-23",
+      "sportType": "Hike",
+      "name": "Mt. Princeton",
+      "hasTrack": true,
+      "photoCount": 0
     }
   ]
 }
