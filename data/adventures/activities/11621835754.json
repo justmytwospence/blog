@@ -1,0 +1,112 @@
+{
+  "stravaId": 11621835754,
+  "name": "Freeway",
+  "sportType": "Hike",
+  "startLocal": "2024-06-10T12:58:00Z",
+  "date": "2024-06-10",
+  "timezone": "(GMT-07:00) America/Denver",
+  "location": {
+    "city": "Boulder",
+    "state": "Colorado",
+    "country": "United States of America"
+  },
+  "stats": {
+    "distanceMeters": 332.6,
+    "movingTimeSeconds": 1204,
+    "elapsedTimeSeconds": 1299,
+    "elevationGainMeters": 177,
+    "elevHighMeters": 2128.6,
+    "elevLowMeters": 1949.4,
+    "avgSpeedMetersPerSec": 0.276,
+    "maxSpeedMetersPerSec": 1.058,
+    "avgHeartrate": 154.6,
+    "maxHeartrate": 164,
+    "avgCadence": 53.2,
+    "avgWatts": null,
+    "maxWatts": null,
+    "calories": 248,
+    "sufferScore": 24
+  },
+  "track": {
+    "coordinates": [
+      [
+        -105.291093,
+        39.989541
+      ],
+      [
+        -105.292056,
+        39.989622
+      ],
+      [
+        -105.29301,
+        39.99004
+      ],
+      [
+        -105.29336,
+        39.989883
+      ]
+    ],
+    "altitude": [
+      1950,
+      2032.2,
+      2104.4,
+      2126.6
+    ],
+    "distance": [
+      0,
+      166.1,
+      284.7,
+      332.6
+    ],
+    "grade": [
+      -14.2,
+      0,
+      46,
+      -46.6
+    ],
+    "velocity": [
+      0,
+      0.12,
+      0.612,
+      0.092
+    ],
+    "heartrate": [
+      164,
+      155,
+      158,
+      155
+    ],
+    "summaryPolyline": "smasFjtsaSACBB@FD?AB@AGFCNAEDB?N@CA?AD@GC@?@BBDEA@B@AA@BE@AFC??FCCCFC@BHA?@??DAACHD@BNCBCA@@C@CLD@?JDB?D?AGJ@BAH?FA?AHINGFA?AHEF@FAAEDGTANEDALE@?BCF@JED?B?AGDBFED@DEFBABHEBBD?HDD@ABLADLR?G@D",
+    "bounds": {
+      "minLat": 39.989541,
+      "minLng": -105.29336,
+      "maxLat": 39.99004,
+      "maxLng": -105.291093
+    },
+    "pointCount": 4
+  },
+  "weather": {
+    "tempC": 23.4,
+    "windMetersPerSec": 1.17,
+    "precipitationMm": 2.6,
+    "weatherCode": 63,
+    "observedAtLocal": "2024-06-10T13:00"
+  },
+  "photos": [
+    {
+      "id": "9054e697-67dd-48ae-a26e-817edf90e23d",
+      "file": "photo-9054e697-67dd-48ae-a26e-817edf90e23d.jpg",
+      "sourceUrl": "",
+      "width": 662,
+      "height": 238,
+      "caption": "",
+      "lat": null,
+      "lng": null
+    }
+  ],
+  "gear": null,
+  "description": "Timid scrambling on a poorly chosen line at the bottom almost cost me my end to end time goal but I managed to get it back.",
+  "stravaUrl": "https://www.strava.com/activities/11621835754",
+  "syncedAt": "2026-06-14T23:50:41.628Z",
+  "sourceHash": "90e222c29ec9cc212d9ad288ff48cee6fc351609268bf33cede2bec4b52aede2"
+}

@@ -1,0 +1,112 @@
+{
+  "stravaId": 10808305048,
+  "name": "Freeway",
+  "sportType": "Hike",
+  "startLocal": "2024-02-21T08:12:13Z",
+  "date": "2024-02-21",
+  "timezone": "(GMT-07:00) America/Denver",
+  "location": {
+    "city": "Boulder",
+    "state": "Colorado",
+    "country": "United States of America"
+  },
+  "stats": {
+    "distanceMeters": 352.4,
+    "movingTimeSeconds": 1247,
+    "elapsedTimeSeconds": 1567,
+    "elevationGainMeters": 175,
+    "elevHighMeters": 2126.6,
+    "elevLowMeters": 1946.6,
+    "avgSpeedMetersPerSec": 0.283,
+    "maxSpeedMetersPerSec": 1.072,
+    "avgHeartrate": 127.4,
+    "maxHeartrate": 151,
+    "avgCadence": 55.1,
+    "avgWatts": null,
+    "maxWatts": null,
+    "calories": 68,
+    "sufferScore": 8
+  },
+  "track": {
+    "coordinates": [
+      [
+        -105.291124,
+        39.989546
+      ],
+      [
+        -105.292022,
+        39.989607
+      ],
+      [
+        -105.292969,
+        39.990025
+      ],
+      [
+        -105.293373,
+        39.989873
+      ]
+    ],
+    "altitude": [
+      1946.6,
+      2031.8,
+      2101.2,
+      2121.6
+    ],
+    "distance": [
+      0,
+      170.2,
+      293.7,
+      352.4
+    ],
+    "grade": [
+      0,
+      44.5,
+      39.4,
+      -37.7
+    ],
+    "velocity": [
+      0,
+      0.41,
+      0.208,
+      0.004
+    ],
+    "heartrate": [
+      151,
+      129,
+      130,
+      113
+    ],
+    "summaryPolyline": "smasFptsaS@??DGL@BC@?A?BC?DDAEAFBECD@@EBFFBECFB??BEHBDACCBBD?ACB@CADBDAD?C?BFHACGH?BGH@@B??@@AA@@AFJCBAA@D?FGB@ACD@@?DADAADDELSTAF?A@BM\\AAA@EVGH@JIH?NINABB@AAED@HCB?@BAAHBDCT?EBH@CD?AABFAHHRCAHH",
+    "bounds": {
+      "minLat": 39.989546,
+      "minLng": -105.293373,
+      "maxLat": 39.990025,
+      "maxLng": -105.291124
+    },
+    "pointCount": 4
+  },
+  "weather": {
+    "tempC": -3,
+    "windMetersPerSec": 3.4,
+    "precipitationMm": 0,
+    "weatherCode": 0,
+    "observedAtLocal": "2024-02-21T08:00"
+  },
+  "photos": [
+    {
+      "id": "2473A61A-52F1-40FC-907D-25B7F785F6AB",
+      "file": "photo-2473A61A-52F1-40FC-907D-25B7F785F6AB.jpg",
+      "sourceUrl": "",
+      "width": 1600,
+      "height": 1200,
+      "caption": "",
+      "lat": 40.00184721666667,
+      "lng": -105.26777
+    }
+  ],
+  "gear": "La Sportiva Cyklon",
+  "description": "I haven’t scrambled in months and boy howdy it shows. I’m so much more timid when I’m not in my approach shoes. Quiet morning not a soul up there.",
+  "stravaUrl": "https://www.strava.com/activities/10808305048",
+  "syncedAt": "2026-06-14T23:50:38.264Z",
+  "sourceHash": "16e8d77235b8133106b59d1de5d6f48aa677a4968d9503014bfc1faf5042262d"
+}

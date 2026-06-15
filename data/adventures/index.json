@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-14T23:41:55.748Z",
+  "generatedAt": "2026-06-15T01:16:47.056Z",
   "activities": [
     {
       "stravaId": 18893341377,
@@ -18,12 +18,36 @@
       "photoCount": 3
     },
     {
+      "stravaId": 17098654976,
+      "date": "2026-01-18",
+      "sportType": "Hike",
+      "name": "Freeway",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 16479667263,
       "date": "2025-11-16",
       "sportType": "Hike",
       "name": "South Arapaho",
       "hasTrack": true,
       "photoCount": 4
+    },
+    {
+      "stravaId": 16379616197,
+      "date": "2025-11-06",
+      "sportType": "TrailRun",
+      "name": "Supermoon",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
+      "stravaId": 16307582897,
+      "date": "2025-10-30",
+      "sportType": "TrailRun",
+      "name": "Freeway",
+      "hasTrack": true,
+      "photoCount": 1
     },
     {
       "stravaId": 16109565175,
@@ -186,6 +210,14 @@
       "photoCount": 2
     },
     {
+      "stravaId": 15665973743,
+      "date": "2025-09-01",
+      "sportType": "TrailRun",
+      "name": "Freeway → Flagstaff",
+      "hasTrack": true,
+      "photoCount": 4
+    },
+    {
       "stravaId": 15639669989,
       "date": "2025-08-30",
       "sportType": "TrailRun",
@@ -200,6 +232,14 @@
       "name": "Lewis Peak",
       "hasTrack": true,
       "photoCount": 6
+    },
+    {
+      "stravaId": 15620146829,
+      "date": "2025-08-28",
+      "sportType": "TrailRun",
+      "name": "Auger Falls",
+      "hasTrack": true,
+      "photoCount": 7
     },
     {
       "stravaId": 15530959538,
@@ -282,12 +322,28 @@
       "photoCount": 15
     },
     {
+      "stravaId": 15270246698,
+      "date": "2025-07-28",
+      "sportType": "Other",
+      "name": "Middle Fork",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
       "stravaId": 15259413002,
       "date": "2025-07-27",
       "sportType": "TrailRun",
       "name": "Tinkham → Abiel → Silver",
       "hasTrack": true,
       "photoCount": 6
+    },
+    {
+      "stravaId": 15247234044,
+      "date": "2025-07-26",
+      "sportType": "TrailRun",
+      "name": "Granite Mountain",
+      "hasTrack": true,
+      "photoCount": 5
     },
     {
       "stravaId": 15179671764,
@@ -312,6 +368,62 @@
       "name": "Putrid Pete’s Peak → Mount Defiance → Little Bandera Mountain",
       "hasTrack": true,
       "photoCount": 11
+    },
+    {
+      "stravaId": 15049881881,
+      "date": "2025-07-08",
+      "sportType": "Other",
+      "name": "Sammamish River Trail",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
+      "stravaId": 15031123144,
+      "date": "2025-07-06",
+      "sportType": "TrailRun",
+      "name": "Thompson Point",
+      "hasTrack": true,
+      "photoCount": 9
+    },
+    {
+      "stravaId": 15020911238,
+      "date": "2025-07-05",
+      "sportType": "GravelRide",
+      "name": "Tolt Resevoir",
+      "hasTrack": true,
+      "photoCount": 5
+    },
+    {
+      "stravaId": 14988267330,
+      "date": "2025-07-02",
+      "sportType": "TrailRun",
+      "name": "McClellan Butte",
+      "hasTrack": true,
+      "photoCount": 8
+    },
+    {
+      "stravaId": 14916808519,
+      "date": "2025-06-25",
+      "sportType": "Hike",
+      "name": "Little Si Scramble",
+      "hasTrack": true,
+      "photoCount": 5
+    },
+    {
+      "stravaId": 14856196903,
+      "date": "2025-06-19",
+      "sportType": "GravelRide",
+      "name": "Der Beagle Loop",
+      "hasTrack": true,
+      "photoCount": 5
+    },
+    {
+      "stravaId": 14832729563,
+      "date": "2025-06-17",
+      "sportType": "TrailRun",
+      "name": "Mount Teneriffe via Kamikaze",
+      "hasTrack": true,
+      "photoCount": 6
     },
     {
       "stravaId": 14811983463,
@@ -362,6 +474,14 @@
       "photoCount": 5
     },
     {
+      "stravaId": 14653827815,
+      "date": "2025-05-31",
+      "sportType": "GravelRide",
+      "name": "Bozeman → Mystic Lake → Burke Park",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
       "stravaId": 14600008433,
       "date": "2025-05-26",
       "sportType": "Run",
@@ -394,6 +514,30 @@
       "photoCount": 9
     },
     {
+      "stravaId": 13732894881,
+      "date": "2025-02-26",
+      "sportType": "BackcountrySki",
+      "name": "Rise and Grind Rando #3",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 13663518656,
+      "date": "2025-02-18",
+      "sportType": "BackcountrySki",
+      "name": "Eldora Daytime",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 13565084714,
+      "date": "2025-02-07",
+      "sportType": "BackcountrySki",
+      "name": "Eldora x4.3",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 13512848294,
       "date": "2025-02-01",
       "sportType": "NordicSki",
@@ -402,10 +546,106 @@
       "photoCount": 3
     },
     {
+      "stravaId": 13484195802,
+      "date": "2025-01-29",
+      "sportType": "BackcountrySki",
+      "name": "Rise and Grind Rando #1",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 13247547222,
+      "date": "2025-01-02",
+      "sportType": "BackcountrySki",
+      "name": "Eldora Powder x4",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 13234934250,
       "date": "2024-12-31",
       "sportType": "BackcountrySki",
       "name": "Winter Park",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 13182623805,
+      "date": "2024-12-24",
+      "sportType": "BackcountrySki",
+      "name": "Eldora x4",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 13171336656,
+      "date": "2024-12-22",
+      "sportType": "Hike",
+      "name": "Bear x4.5",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 13155877168,
+      "date": "2024-12-20",
+      "sportType": "BackcountrySki",
+      "name": "Eldora x4",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 13149481605,
+      "date": "2024-12-19",
+      "sportType": "BackcountrySki",
+      "name": "Eldora x5",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 13128370353,
+      "date": "2024-12-16",
+      "sportType": "BackcountrySki",
+      "name": "Eldora x5",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 13100717467,
+      "date": "2024-12-12",
+      "sportType": "BackcountrySki",
+      "name": "Eldora x4.3",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 13079614592,
+      "date": "2024-12-09",
+      "sportType": "BackcountrySki",
+      "name": "Eldora x5",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 13059848535,
+      "date": "2024-12-06",
+      "sportType": "BackcountrySki",
+      "name": "Eldora x5",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 13038405549,
+      "date": "2024-12-03",
+      "sportType": "BackcountrySki",
+      "name": "Eldora x4.3",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 12936781993,
+      "date": "2024-11-19",
+      "sportType": "BackcountrySki",
+      "name": "A Basin Rise & Shine #2",
       "hasTrack": true,
       "photoCount": 0
     },
@@ -418,12 +658,28 @@
       "photoCount": 3
     },
     {
+      "stravaId": 12884000250,
+      "date": "2024-11-12",
+      "sportType": "BackcountrySki",
+      "name": "A Basin Rise & Shine #1",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 12761850351,
       "date": "2024-10-27",
       "sportType": "Ride",
       "name": "Estes Century",
       "hasTrack": true,
       "photoCount": 3
+    },
+    {
+      "stravaId": 12719866618,
+      "date": "2024-10-22",
+      "sportType": "TrailRun",
+      "name": "Home -> Super Rupair via Freeway",
+      "hasTrack": true,
+      "photoCount": 0
     },
     {
       "stravaId": 12650299449,
@@ -434,12 +690,44 @@
       "photoCount": 15
     },
     {
+      "stravaId": 12625943582,
+      "date": "2024-10-10",
+      "sportType": "Hike",
+      "name": "Third Flatiron East Face + Chimney Downclimb",
+      "hasTrack": true,
+      "photoCount": 3
+    },
+    {
+      "stravaId": 12610831236,
+      "date": "2024-10-08",
+      "sportType": "Hike",
+      "name": "First Flatiron Direct East Face",
+      "hasTrack": true,
+      "photoCount": 8
+    },
+    {
       "stravaId": 12536352467,
       "date": "2024-09-29",
       "sportType": "Hike",
       "name": "Mt. Crested Butte via Guide’s Ridge",
       "hasTrack": true,
       "photoCount": 13
+    },
+    {
+      "stravaId": 12518080914,
+      "date": "2024-09-27",
+      "sportType": "GravelRide",
+      "name": "Gothic Loop",
+      "hasTrack": true,
+      "photoCount": 16
+    },
+    {
+      "stravaId": 12438733852,
+      "date": "2024-09-17",
+      "sportType": "Hike",
+      "name": "Supermoon Scramble",
+      "hasTrack": true,
+      "photoCount": 4
     },
     {
       "stravaId": 12411095992,
@@ -450,6 +738,14 @@
       "photoCount": 8
     },
     {
+      "stravaId": 12307697088,
+      "date": "2024-09-02",
+      "sportType": "TrailRun",
+      "name": "Centennial Cone",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 12292366944,
       "date": "2024-08-31",
       "sportType": "TrailRun",
@@ -458,12 +754,60 @@
       "photoCount": 0
     },
     {
+      "stravaId": 12283952358,
+      "date": "2024-08-30",
+      "sportType": "TrailRun",
+      "name": "Freeway",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
+      "stravaId": 12241194055,
+      "date": "2024-08-25",
+      "sportType": "Hike",
+      "name": "Green West Ridge",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
+      "stravaId": 12233104136,
+      "date": "2024-08-24",
+      "sportType": "TrailRun",
+      "name": "Joder → Lefthand → Heil → Joder",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 12209935764,
+      "date": "2024-08-21",
+      "sportType": "Hike",
+      "name": "Camino → Fifth Flatiron",
+      "hasTrack": true,
+      "photoCount": 6
+    },
+    {
       "stravaId": 12182833189,
       "date": "2024-08-18",
       "sportType": "GravelRide",
       "name": "SBT GRVL",
       "hasTrack": true,
       "photoCount": 5
+    },
+    {
+      "stravaId": 12162836105,
+      "date": "2024-08-16",
+      "sportType": "Hike",
+      "name": "Freeway + Second West Face",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
+      "stravaId": 12149108523,
+      "date": "2024-08-14",
+      "sportType": "TrailRun",
+      "name": "Bear Peak + Canyon",
+      "hasTrack": true,
+      "photoCount": 0
     },
     {
       "stravaId": 12113760097,
@@ -490,6 +834,14 @@
       "photoCount": 7
     },
     {
+      "stravaId": 11971990235,
+      "date": "2024-07-24",
+      "sportType": "TrailRun",
+      "name": "Green West Ridge",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 11904113544,
       "date": "2024-07-16",
       "sportType": "GravelRide",
@@ -506,6 +858,14 @@
       "photoCount": 7
     },
     {
+      "stravaId": 11768852465,
+      "date": "2024-06-29",
+      "sportType": "TrailRun",
+      "name": "Frisco → Copper",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 11737976492,
       "date": "2024-06-25",
       "sportType": "TrailRun",
@@ -520,6 +880,14 @@
       "name": "34 for 34 (Lyons → Estes)",
       "hasTrack": true,
       "photoCount": 7
+    },
+    {
+      "stravaId": 11621835754,
+      "date": "2024-06-10",
+      "sportType": "Hike",
+      "name": "Freeway",
+      "hasTrack": true,
+      "photoCount": 1
     },
     {
       "stravaId": 11603818859,
@@ -552,6 +920,14 @@
       "name": "Colorado Triathlon: Swim",
       "hasTrack": true,
       "photoCount": 3
+    },
+    {
+      "stravaId": 11537324778,
+      "date": "2024-05-30",
+      "sportType": "TrailRun",
+      "name": "Regency + Royal Arch",
+      "hasTrack": true,
+      "photoCount": 2
     },
     {
       "stravaId": 11509043741,
@@ -594,6 +970,22 @@
       "photoCount": 3
     },
     {
+      "stravaId": 11035306565,
+      "date": "2024-03-25",
+      "sportType": "BackcountrySki",
+      "name": "Eldora x3",
+      "hasTrack": true,
+      "photoCount": 3
+    },
+    {
+      "stravaId": 11023995516,
+      "date": "2024-03-23",
+      "sportType": "Hike",
+      "name": "Royal Arch",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 10919899566,
       "date": "2024-03-08",
       "sportType": "BackcountrySki",
@@ -626,6 +1018,30 @@
       "photoCount": 1
     },
     {
+      "stravaId": 10808305048,
+      "date": "2024-02-21",
+      "sportType": "Hike",
+      "name": "Freeway",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
+      "stravaId": 10760920003,
+      "date": "2024-02-14",
+      "sportType": "BackcountrySki",
+      "name": "Morning Grind Rando #2",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10715346542,
+      "date": "2024-02-07",
+      "sportType": "BackcountrySki",
+      "name": "Eldora x4.3",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 10697401427,
       "date": "2024-02-04",
       "sportType": "GravelRide",
@@ -634,10 +1050,42 @@
       "photoCount": 4
     },
     {
+      "stravaId": 10696669560,
+      "date": "2024-02-04",
+      "sportType": "GravelRide",
+      "name": "Old Man Winter Rally part 1",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10668108518,
+      "date": "2024-01-31",
+      "sportType": "BackcountrySki",
+      "name": "Morning Grind Rando #1",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10660804441,
+      "date": "2024-01-30",
+      "sportType": "BackcountrySki",
+      "name": "A-Basin Rise and Shine Rando",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 10597942063,
       "date": "2024-01-20",
       "sportType": "BackcountrySki",
       "name": "12 Hours of Sunlight",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10525153441,
+      "date": "2024-01-09",
+      "sportType": "BackcountrySki",
+      "name": "Eldora x4",
       "hasTrack": true,
       "photoCount": 0
     },
@@ -666,6 +1114,86 @@
       "photoCount": 7
     },
     {
+      "stravaId": 10390827763,
+      "date": "2023-12-16",
+      "sportType": "Ride",
+      "name": "Mini Green Duathlon Part 3",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10390827459,
+      "date": "2023-12-16",
+      "sportType": "TrailRun",
+      "name": "Mini Green Duathlon Part 2: Green",
+      "hasTrack": true,
+      "photoCount": 3
+    },
+    {
+      "stravaId": 10390274003,
+      "date": "2023-12-16",
+      "sportType": "Ride",
+      "name": "Mini Green Duathlon Part 1: Super Flag",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 10384608997,
+      "date": "2023-12-15",
+      "sportType": "BackcountrySki",
+      "name": "Eldora x4",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10374546369,
+      "date": "2023-12-13",
+      "sportType": "BackcountrySki",
+      "name": "Eldora x3",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10332465103,
+      "date": "2023-12-05",
+      "sportType": "BackcountrySki",
+      "name": "A Basin Rise and Shine Rando #3",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10317828393,
+      "date": "2023-12-02",
+      "sportType": "BackcountrySki",
+      "name": "El Lobo Loco Rando",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10257141016,
+      "date": "2023-11-21",
+      "sportType": "BackcountrySki",
+      "name": "A Basin Rise and Shine Rando #2",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
+      "stravaId": 10207980260,
+      "date": "2023-11-12",
+      "sportType": "TrailRun",
+      "name": "South Boulder Skyline Loop",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10176850654,
+      "date": "2023-11-07",
+      "sportType": "BackcountrySki",
+      "name": "A Basin Rise and Shine Rando #1",
+      "hasTrack": true,
+      "photoCount": 4
+    },
+    {
       "stravaId": 10167860883,
       "date": "2023-11-05",
       "sportType": "Ride",
@@ -674,12 +1202,36 @@
       "photoCount": 2
     },
     {
+      "stravaId": 10033754831,
+      "date": "2023-10-13",
+      "sportType": "GravelRide",
+      "name": "Bike to Haunted Stage Shop",
+      "hasTrack": true,
+      "photoCount": 5
+    },
+    {
+      "stravaId": 10013041203,
+      "date": "2023-10-10",
+      "sportType": "TrailRun",
+      "name": "HomeFreeway",
+      "hasTrack": true,
+      "photoCount": 4
+    },
+    {
       "stravaId": 10002657312,
       "date": "2023-10-08",
       "sportType": "GravelRide",
       "name": "Left Hand Gravel Double IPA",
       "hasTrack": true,
       "photoCount": 3
+    },
+    {
+      "stravaId": 9950954368,
+      "date": "2023-09-30",
+      "sportType": "TrailRun",
+      "name": "Eldora Fall Fun Run 10k",
+      "hasTrack": true,
+      "photoCount": 1
     },
     {
       "stravaId": 9915162122,
@@ -698,6 +1250,22 @@
       "photoCount": 11
     },
     {
+      "stravaId": 9869987615,
+      "date": "2023-09-17",
+      "sportType": "Ride",
+      "name": "Longs Duathlon (Part 1: Morning Du)",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 9869977976,
+      "date": "2023-09-17",
+      "sportType": "Ride",
+      "name": "Longs Duathlon (part du)",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 9815850223,
       "date": "2023-09-09",
       "sportType": "TrailRun",
@@ -706,10 +1274,42 @@
       "photoCount": 2
     },
     {
+      "stravaId": 9778199089,
+      "date": "2023-09-03",
+      "sportType": "Ride",
+      "name": "Epilogue",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 9778078372,
       "date": "2023-09-03",
       "sportType": "TrailRun",
       "name": "Blue Lakes Cirque (from my front door!)",
+      "hasTrack": true,
+      "photoCount": 6
+    },
+    {
+      "stravaId": 9778078094,
+      "date": "2023-09-03",
+      "sportType": "Ride",
+      "name": "Escape from Indian Peaks Wilderness",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 9776590061,
+      "date": "2023-09-03",
+      "sportType": "Ride",
+      "name": "Brainard",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
+      "stravaId": 9753585465,
+      "date": "2023-08-30",
+      "sportType": "Hike",
+      "name": "Super Moon Second Scramble",
       "hasTrack": true,
       "photoCount": 6
     },
@@ -722,12 +1322,36 @@
       "photoCount": 3
     },
     {
+      "stravaId": 9675871689,
+      "date": "2023-08-18",
+      "sportType": "TrailRun",
+      "name": "Freeway + Second West Face",
+      "hasTrack": true,
+      "photoCount": 3
+    },
+    {
       "stravaId": 9634232167,
       "date": "2023-08-12",
       "sportType": "TrailRun",
       "name": "Ten Mile Traverse",
       "hasTrack": true,
       "photoCount": 5
+    },
+    {
+      "stravaId": 9606971880,
+      "date": "2023-08-08",
+      "sportType": "TrailRun",
+      "name": "Regency + Royal Arch",
+      "hasTrack": true,
+      "photoCount": 4
+    },
+    {
+      "stravaId": 9595294507,
+      "date": "2023-08-06",
+      "sportType": "TrailRun",
+      "name": "Home to Green via Second Flatiron",
+      "hasTrack": true,
+      "photoCount": 3
     },
     {
       "stravaId": 9579079616,
@@ -770,12 +1394,28 @@
       "photoCount": 11
     },
     {
+      "stravaId": 9314216444,
+      "date": "2023-06-22",
+      "sportType": "TrailRun",
+      "name": "Bear Peak + South Boulder Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 9295204364,
       "date": "2023-06-19",
       "sportType": "Hike",
       "name": "Dreamweaver Couloir",
       "hasTrack": true,
       "photoCount": 9
+    },
+    {
+      "stravaId": 9289779898,
+      "date": "2023-06-18",
+      "sportType": "TrailRun",
+      "name": "Bear Peak + South Boulder Peak",
+      "hasTrack": true,
+      "photoCount": 1
     },
     {
       "stravaId": 9247767089,
@@ -826,6 +1466,22 @@
       "photoCount": 0
     },
     {
+      "stravaId": 9108731112,
+      "date": "2023-05-20",
+      "sportType": "Hike",
+      "name": "Green via Freeway from home",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
+      "stravaId": 8925264200,
+      "date": "2023-04-20",
+      "sportType": "Hike",
+      "name": "Freeway",
+      "hasTrack": true,
+      "photoCount": 5
+    },
+    {
       "stravaId": 8511930915,
       "date": "2023-02-05",
       "sportType": "Hike",
@@ -850,10 +1506,66 @@
       "photoCount": 0
     },
     {
+      "stravaId": 5744638890,
+      "date": "2021-08-05",
+      "sportType": "Hike",
+      "name": "Freeway → Atalanta",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 5602135518,
       "date": "2021-07-08",
       "sportType": "Hike",
       "name": "Eoulos, North Eolus, Sunlight, & Windom",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 5581137947,
+      "date": "2021-07-05",
+      "sportType": "Hike",
+      "name": "Quandary West Ridge",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 5555991132,
+      "date": "2021-06-30",
+      "sportType": "Hike",
+      "name": "Freeway, Atalanta/Hubris, & Green Mountain",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 5519506323,
+      "date": "2021-06-23",
+      "sportType": "Hike",
+      "name": "South Sneak (the hard way) & Sunset Flatiron",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 5477371326,
+      "date": "2021-06-15",
+      "sportType": "Hike",
+      "name": "Regency, Royal Arch, & Fifth Flatiron East Face South",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 5449093975,
+      "date": "2021-06-10",
+      "sportType": "Hike",
+      "name": "The Spy, North Arete, SW descent, Green Mountain",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 5403492429,
+      "date": "2021-06-02",
+      "sportType": "Hike",
+      "name": "Green Mountain via Freeway",
       "hasTrack": true,
       "photoCount": 0
     },
@@ -1086,6 +1798,14 @@
       "date": "2020-04-09",
       "sportType": "Hike",
       "name": "Boulder Skyline Traverse",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 3178032358,
+      "date": "2020-03-12",
+      "sportType": "Hike",
+      "name": "First Flatiron",
       "hasTrack": true,
       "photoCount": 0
     },
