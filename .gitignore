@@ -31,6 +31,9 @@ pnpm-debug.log*
 .env.test.local
 .env.production.local
 
+# strava sync local token (rotated refresh token)
+/.strava-token.json
+
 # vercel
 .vercel
 
@@ -81,3 +84,17 @@ __pycache__/
 
 # Data files (if you don't want to commit them)
 # content/projects/data/
+
+# strava history triage output (local only)
+/.strava-sweep.json
+
+# deprecated one-time Strava bootstrapping tooling — kept locally, out of version control
+/scripts/strava-sweep.ts
+/scripts/strava-inbox.ts
+/scripts/strava-bootstrap.ts
+
+# local scratch (screenshots, review docs)
+/.tmp-screens/
+
+# 14ers route-options scratch reference
+/scripts/14ers-routes.json

@@ -1,0 +1,1457 @@
+{
+  "objectives": [
+    {
+      "slug": "aconcagua",
+      "title": "Aconcagua",
+      "type": "high-altitude",
+      "location": "international",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "winter"
+      ],
+      "distanceMi": 25,
+      "elevationGainFt": 13000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.summitpost.org/aconcagua/150226",
+      "multiSport": false,
+      "notes": "At 22,838 feet, Aconcagua is the highest peak in South America and the highest mountain outside of Asia. The Normal Route (Ruta Normal) is a non-technical climb but requires excellent acclimatization and stamina at extreme altitude.",
+      "completedSlug": null
+    },
+    {
+      "slug": "alpine-lakes-high-route",
+      "title": "Alpine Lakes High Route",
+      "type": "high-route",
+      "location": "WA",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 55,
+      "elevationGainFt": 20000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.andrewskurka.com/adventures/alpine-lakes-high-route/",
+      "multiSport": false,
+      "notes": "Andrew Skurka's Alpine Lakes High Route traverses the heart of Washington's Alpine Lakes Wilderness, linking dramatic alpine terrain through cross-country travel and class 2-3 scrambling. Spectacular scenery with minimal trail use.",
+      "completedSlug": null
+    },
+    {
+      "slug": "arizona-trail",
+      "title": "Arizona Trail",
+      "type": "thru-hike",
+      "location": "AZ",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "spring"
+      ],
+      "distanceMi": 800,
+      "elevationGainFt": 100000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://aztrail.org/",
+      "multiSport": false,
+      "notes": "The Arizona Trail traverses Arizona from Mexico to Utah through incredibly diverse terrain including Sonoran desert, sky islands, ponderosa forests, and the Grand Canyon. Spring is ideal to avoid summer heat and winter cold.",
+      "completedSlug": null
+    },
+    {
+      "slug": "asulkan-traverse",
+      "title": "Asulkan Traverse",
+      "type": "scramble",
+      "location": "BC",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 12,
+      "elevationGainFt": 6000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.mountainproject.com/route/112131850/asulkan-traverse",
+      "multiSport": false,
+      "notes": "Classic alpine traverse in Rogers Pass, BC connecting multiple peaks via exposed ridge scrambling. One of the premier ridge traverses in the Canadian Rockies with sustained difficulty and incredible exposure.",
+      "completedSlug": null
+    },
+    {
+      "slug": "badwater",
+      "title": "Badwater",
+      "type": "trail-run",
+      "location": "CA",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 135,
+      "elevationGainFt": 14600,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.badwater.com/",
+      "multiSport": false,
+      "notes": "Badwater 135 is billed as \"the world's toughest foot race\" - 135 miles from Death Valley's Badwater Basin (282 feet below sea level) to Whitney Portal (8,360 feet) in mid-July. Extreme heat routinely exceeds 120F.",
+      "completedSlug": null
+    },
+    {
+      "slug": "bailey-traverse",
+      "title": "Bailey Traverse",
+      "type": "traverse",
+      "location": "WA",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 8,
+      "elevationGainFt": 6500,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.mountainproject.com/route/107228092/bailey-traverse",
+      "multiSport": false,
+      "notes": "The Bailey Traverse is a spectacular alpine ridge traverse in the North Cascades connecting multiple summits along the Bailey Range in Olympic National Park. Features sustained scrambling and incredible exposure.",
+      "completedSlug": null
+    },
+    {
+      "slug": "baring-peak",
+      "title": "Baring Peak",
+      "type": "peak",
+      "location": "WA",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 16,
+      "elevationGainFt": 7600,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.mountainproject.com/route/105808279/north-ridge",
+      "multiSport": false,
+      "notes": "Baring Mountain is a striking 6,125-foot peak near Stevens Pass with an intimidating north face visible from Highway 2. The North Ridge route is a classic Cascade scramble with sustained exposure.",
+      "completedSlug": null
+    },
+    {
+      "slug": "blitzen-ridge",
+      "title": "Blitzen Ridge",
+      "type": "traverse",
+      "location": "CO",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 10,
+      "elevationGainFt": 5500,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.14ers.com/route.php?route=bier1",
+      "multiSport": false,
+      "notes": "Blitzen Ridge is a spectacular class 3 ridge traverse connecting Mt. Bierstadt (14,060 ft) and Mt. Evans (14,264 ft) in Colorado's Front Range. Known for dramatic exposure and technical scrambling along the connecting ridge.",
+      "completedSlug": null
+    },
+    {
+      "slug": "borah-peak",
+      "title": "Borah Peak",
+      "type": "peak",
+      "location": "ID",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 7,
+      "elevationGainFt": 5300,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.summitpost.org/borah-peak/150262",
+      "multiSport": false,
+      "notes": "Borah Peak at 12,662 feet is Idaho's highest point. The standard Southwest Ridge route is a straightforward but strenuous hike with one section of class 3 scrambling on Chicken-Out Ridge.",
+      "completedSlug": null
+    },
+    {
+      "slug": "canyoneering",
+      "title": "Canyoneering",
+      "type": "other",
+      "location": "UT",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "spring",
+        "fall"
+      ],
+      "distanceMi": 3,
+      "elevationGainFt": 500,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://ropewiki.com/Zion_National_Park",
+      "multiSport": false,
+      "notes": "Utah slot canyons offer world-class technical canyoneering. Popular objectives include Zion's subway, Orderville Canyon, mystery canyon, and countless slots near Escalante. Requires rappelling, swimming, problem-solving skills.",
+      "completedSlug": null
+    },
+    {
+      "slug": "chair-peak",
+      "title": "Chair Peak",
+      "type": "scramble",
+      "location": "WA",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "winter",
+        "spring"
+      ],
+      "distanceMi": 8,
+      "elevationGainFt": 3500,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.mountainproject.com/route/106305917/chair-peak",
+      "multiSport": false,
+      "notes": "Chair Peak is a popular 6,238-foot summit near Snoqualmie Pass offering excellent winter mountaineering and spring/summer scrambling. The north face provides steep snow climbing in winter, while summer offers exposed rock scrambling.",
+      "completedSlug": null
+    },
+    {
+      "slug": "chimborazo",
+      "title": "Chimborazo",
+      "type": "high-altitude",
+      "location": "international",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "year-round"
+      ],
+      "distanceMi": 10,
+      "elevationGainFt": 5000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.summitpost.org/chimborazo/150468",
+      "multiSport": false,
+      "notes": "At 20,564 feet, Chimborazo in Ecuador is the furthest point from Earth's center due to the equatorial bulge. Though lower than many Andean peaks, its location makes it technically the \"highest\" mountain. Non-technical but requires glacier",
+      "completedSlug": null
+    },
+    {
+      "slug": "collegiate-loop",
+      "title": "Collegiate Loop",
+      "type": "fastpack",
+      "location": "CO",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 165,
+      "elevationGainFt": 42000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.collegiateloop.com/",
+      "multiSport": false,
+      "notes": "The Collegiate Loop is a spectacular 165-mile loop in Colorado's Sawatch Range, circumnavigating the Collegiate Peaks Wilderness. Combines segments of the Colorado Trail and Continental Divide Trail with incredible alpine scenery.",
+      "completedSlug": null
+    },
+    {
+      "slug": "colorado-trail",
+      "title": "Colorado Trail",
+      "type": "thru-hike",
+      "location": "CO",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 485,
+      "elevationGainFt": 90000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://coloradotrail.org/",
+      "multiSport": false,
+      "notes": "The Colorado Trail traverses 485 miles from Denver to Durango through eight mountain ranges, six wilderness areas, and five river systems. Spectacular high-alpine scenery with sustained elevation above 10,000 feet.",
+      "completedSlug": null
+    },
+    {
+      "slug": "commando-run",
+      "title": "Commando Run",
+      "type": "ski",
+      "location": "CO",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "winter"
+      ],
+      "distanceMi": 18,
+      "elevationGainFt": 10800,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.14ers.com/route.php?route=comm1",
+      "multiSport": false,
+      "notes": "The Commando Run is an epic ski mountaineering traverse of the Tenmile Range near Breckenridge, summiting all ten Tenmile peaks in a single push. Classic Colorado ski mountaineering objective requiring fitness, ski skills, and routefinding.",
+      "completedSlug": null
+    },
+    {
+      "slug": "copper-triangle",
+      "title": "Copper Triangle",
+      "type": "cycle",
+      "location": "CO",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 78,
+      "elevationGainFt": 6000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.coppertriangle.com/",
+      "multiSport": false,
+      "notes": "The Copper Triangle is a challenging 78-mile high-altitude road cycling event in Colorado's mountains. The route climbs three mountain passes (Fremont, Tennessee, and Vail) all above 10,000 feet with spectacular Rocky Mountain scenery.",
+      "completedSlug": null
+    },
+    {
+      "slug": "cougar-traverse",
+      "title": "Cougar Traverse",
+      "type": "traverse",
+      "location": "WA",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 6,
+      "elevationGainFt": 4000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.wta.org/go-hiking/hikes/cougar-mountain",
+      "multiSport": false,
+      "notes": "Cougar Traverse is a moderate alpine traverse near Stevens Pass linking Cougar Mountain and other peaks. Nice introduction to Cascade alpine traversing with some scrambling and stunning views.",
+      "completedSlug": null
+    },
+    {
+      "slug": "denali",
+      "title": "Denali",
+      "type": "high-altitude",
+      "location": "AK",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "spring",
+        "summer"
+      ],
+      "distanceMi": 35,
+      "elevationGainFt": 13500,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.nps.gov/dena/planyourvisit/climbing.htm",
+      "multiSport": false,
+      "notes": "Denali (20,310 feet) is North America's highest peak and one of the Seven Summits. The West Buttress route is the most popular but still extremely demanding, requiring glacier travel, severe weather management, and excellent high-altitude",
+      "completedSlug": null
+    },
+    {
+      "slug": "enchanted-valley",
+      "title": "Enchanted Valley",
+      "type": "trail-run",
+      "location": "WA",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer",
+        "fall"
+      ],
+      "distanceMi": 26,
+      "elevationGainFt": 3000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.nps.gov/olym/planyourvisit/the-enchanted-valley.htm",
+      "multiSport": false,
+      "notes": "The Enchanted Valley in Olympic National Park is known as the \"Valley of 10,000 Waterfalls.\" Popular trail run or backpack destination featuring the historic Enchanted Valley Chalet surrounded by dramatic waterfall-covered valley walls.",
+      "completedSlug": null
+    },
+    {
+      "slug": "four-pass-loop",
+      "title": "Four Pass Loop",
+      "type": "trail-run",
+      "location": "CO",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 28,
+      "elevationGainFt": 8500,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.alltrails.com/trail/us/colorado/four-pass-loop",
+      "multiSport": false,
+      "notes": "The Four Pass Loop is one of Colorado's most spectacular alpine backpacking loops, crossing four 12,000+ foot passes in the Maroon Bells-Snowmass Wilderness. Stunning wildflowers, dramatic peaks, and sustained high-alpine terrain.",
+      "completedSlug": null
+    },
+    {
+      "slug": "gannett-peak",
+      "title": "Gannett Peak",
+      "type": "peak",
+      "location": "WY",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 40,
+      "elevationGainFt": 9000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.summitpost.org/gannett-peak/150291",
+      "multiSport": false,
+      "notes": "Gannett Peak (13,810 feet) is Wyoming's highest point, located in the remote Wind River Range. The standard route involves glacier travel and requires technical mountaineering skills. Typically done as 3-5 day expedition.",
+      "completedSlug": null
+    },
+    {
+      "slug": "going-to-the-sun-road",
+      "title": "Going to the Sun Road",
+      "type": "cycle",
+      "location": "MT",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 50,
+      "elevationGainFt": 3300,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.nps.gov/glac/planyourvisit/goingtothesunroad.htm",
+      "multiSport": false,
+      "notes": "Going-to-the-Sun Road is a spectacular 50-mile scenic highway crossing the Continental Divide in Glacier National Park. Cycling this iconic road offers stunning views of glaciers, alpine meadows, and the dramatic Garden Wall.",
+      "completedSlug": null
+    },
+    {
+      "slug": "grand-canyon-r2r2r-alternate",
+      "title": "Grand Canyon R2R2R Alternate",
+      "type": "trail-run",
+      "location": "AZ",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "spring",
+        "fall"
+      ],
+      "distanceMi": 48,
+      "elevationGainFt": 11000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.nps.gov/grca/planyourvisit/upload/R2R2R.pdf",
+      "multiSport": false,
+      "notes": "Rim-to-Rim-to-Rim (R2R2R) is a classic Grand Canyon challenge, descending from one rim to the Colorado River, climbing to the opposite rim, then reversing back. The alternate typically uses South Kaibab down and Bright Angel up.",
+      "completedSlug": null
+    },
+    {
+      "slug": "grand-teton-owen-spalding",
+      "title": "Grand Teton Owen Spalding",
+      "type": "scramble",
+      "location": "WY",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 15,
+      "elevationGainFt": 7000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.mountainproject.com/route/105933190/owen-spalding",
+      "multiSport": false,
+      "notes": "The Owen-Spalding route is the easiest and most popular route up the Grand Teton (13,775 ft). Though \"easiest,\" it's still a serious alpine climb requiring technical scrambling, route-finding, and glacier travel skills.",
+      "completedSlug": null
+    },
+    {
+      "slug": "grand-teton-picnic",
+      "title": "Grand Teton Picnic",
+      "type": "scramble",
+      "location": "WY",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 60,
+      "elevationGainFt": 10000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.mountainproject.com/route/105933190/owen-spalding",
+      "multiSport": true,
+      "notes": "The Grand Teton Picnic is a multi-sport linkup combining cycling, climbing the Grand Teton, and more cycling in a single push. Typically involves biking from town, climbing Owen-Spalding route, and biking back.",
+      "completedSlug": null
+    },
+    {
+      "slug": "great-divide-trail",
+      "title": "Great Divide Trail",
+      "type": "thru-hike",
+      "location": "international",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 690,
+      "elevationGainFt": 200000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://greatdividetrail.com/",
+      "multiSport": false,
+      "notes": "The Great Divide Trail follows the Continental Divide through the Canadian Rockies from Waterton Lakes to Kakwa Lake. Remote, rugged, and less-traveled than its southern cousins, with spectacular Rocky Mountain scenery.",
+      "completedSlug": null
+    },
+    {
+      "slug": "haute-route",
+      "title": "Haute Route",
+      "type": "trail-run",
+      "location": "international",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 120,
+      "elevationGainFt": 40000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.hauteroute.org/",
+      "multiSport": false,
+      "notes": "The Walker's Haute Route is a classic high-alpine trek from Chamonix, France to Zermatt, Switzerland. Traverses below the highest Alps peaks with sustained elevation, dramatic glaciers, and challenging passes.",
+      "completedSlug": null
+    },
+    {
+      "slug": "hayduke-trail",
+      "title": "Hayduke Trail",
+      "type": "thru-hike",
+      "location": "UT-AZ",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "spring"
+      ],
+      "distanceMi": 800,
+      "elevationGainFt": 160000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://haydukeroute.org/",
+      "multiSport": false,
+      "notes": "The Hayduke Trail is an 800-mile cross-country route through the Colorado Plateau's canyon country, linking six national parks and monuments. Extremely challenging navigation, water management, and route-finding through remote desert terrain.",
+      "completedSlug": null
+    },
+    {
+      "slug": "high-lonesome",
+      "title": "High Lonesome",
+      "type": "trail-run",
+      "location": "CO",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 100,
+      "elevationGainFt": 24000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.highlonesome100.com/",
+      "multiSport": false,
+      "notes": "The High Lonesome 100 is an ultra-endurance mountain race in Colorado's Sawatch Range. Features extreme elevation gain, multiple passes over 12,000 feet, and stunning high-alpine terrain. One of Colorado's most challenging 100-milers.",
+      "completedSlug": null
+    },
+    {
+      "slug": "idaho-panhandle-ramble",
+      "title": "Idaho Panhandle Ramble",
+      "type": "bikepack",
+      "location": "ID",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 200,
+      "elevationGainFt": 15000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://bikepacking.com/routes/idaho-panhandle-ramble/",
+      "multiSport": false,
+      "notes": "The Idaho Panhandle Ramble is a bikepacking route through northern Idaho's forests, lakes, and mountain passes. Mixes gravel roads, forest service roads, and some singletrack through remote and scenic country.",
+      "completedSlug": null
+    },
+    {
+      "slug": "kings-canyon-high-route",
+      "title": "Kings Canyon High Route",
+      "type": "high-route",
+      "location": "CA",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 65,
+      "elevationGainFt": 28000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.summitpost.org/kings-canyon-high-basin-route/171132",
+      "multiSport": false,
+      "notes": "The Kings Canyon High Route is a challenging cross-country trek through the remote high basins of Kings Canyon National Park. Spectacular alpine scenery with numerous high passes, off-trail navigation, and sustained difficulty.",
+      "completedSlug": null
+    },
+    {
+      "slug": "la-freeway",
+      "title": "LA Freeway",
+      "type": "scramble",
+      "location": "CO",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 8,
+      "elevationGainFt": 4800,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.14ers.com/route.php?route=torr6",
+      "multiSport": false,
+      "notes": "The LA Freeway is a challenging scramble route up Torreys Peak (14,275 ft) via the north ridge. Named for its wide, smooth rock slabs resembling a highway. Popular alternative to the standard route with sustained class 3 scrambling.",
+      "completedSlug": null
+    },
+    {
+      "slug": "little-bear-blanca-traverse",
+      "title": "Little Bear Blanca Traverse",
+      "type": "traverse",
+      "location": "CO",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 12,
+      "elevationGainFt": 7500,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.14ers.com/route.php?route=libe1",
+      "multiSport": false,
+      "notes": "The Little Bear to Blanca Peak traverse is one of Colorado's most challenging 14er routes, featuring the infamous class 4 \"Hourglass\" couloir on Little Bear. Technical scrambling, significant exposure, and loose rock characterize this committing",
+      "completedSlug": null
+    },
+    {
+      "slug": "lofoten-triple",
+      "title": "Lofoten Triple",
+      "type": "trail-run",
+      "location": "international",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 21,
+      "elevationGainFt": 8500,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://lofotentriple.com/",
+      "multiSport": false,
+      "notes": "The Lofoten Triple is a spectacular mountain running event in Norway's Lofoten Islands. Three summits in one day with dramatic elevation gain and stunning Arctic scenery. Known for technical terrain and incredible views.",
+      "completedSlug": null
+    },
+    {
+      "slug": "longs-cables-route",
+      "title": "Longs Cables Route",
+      "type": "scramble",
+      "location": "CO",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 15,
+      "elevationGainFt": 5100,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.14ers.com/route.php?route=long3",
+      "multiSport": false,
+      "notes": "The Cables Route (Loft Route) on Longs Peak is an exposed class 3-4 scramble providing an alternative to the standard Keyhole Route. Features sustained scrambling, significant exposure, and fixed cables on the crux sections.",
+      "completedSlug": null
+    },
+    {
+      "slug": "longs-peak-grand-slam",
+      "title": "Longs Peak Grand Slam",
+      "type": "scramble",
+      "location": "CO",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 20,
+      "elevationGainFt": 10000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.14ers.com/route.php?route=long1",
+      "multiSport": false,
+      "notes": "The Longs Peak Grand Slam involves summiting Longs Peak (14,259 ft) via all four major routes in a single 24-hour push: Keyhole, Cables, Kieners, and North Face. An epic test of endurance, technical ability, and mountain efficiency.",
+      "completedSlug": null
+    },
+    {
+      "slug": "loowit-trail",
+      "title": "Loowit Trail",
+      "type": "trail-run",
+      "location": "WA",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 30,
+      "elevationGainFt": 7000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.fs.usda.gov/recarea/giffordpinchot/recreation/recarea/?recid=34935",
+      "multiSport": false,
+      "notes": "The Loowit Trail circumnavigates Mount St. Helens, offering spectacular views of the volcano's blast zone, lava flows, and regenerating landscape. Popular as trail run or backpack with dramatic volcanic scenery throughout.",
+      "completedSlug": null
+    },
+    {
+      "slug": "meeker",
+      "title": "Meeker",
+      "type": "scramble",
+      "location": "CO",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 13,
+      "elevationGainFt": 5000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.14ers.com/route.php?route=meek1",
+      "multiSport": false,
+      "notes": "Mount Meeker (13,911 ft) is a challenging 13er adjacent to Longs Peak in Rocky Mountain National Park. The standard route involves sustained class 3-4 scrambling on loose rock with significant exposure.",
+      "completedSlug": null
+    },
+    {
+      "slug": "minturn-mile",
+      "title": "Minturn Mile",
+      "type": "cycle",
+      "location": "CO",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 15,
+      "elevationGainFt": 4500,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.strava.com/segments/634069",
+      "multiSport": false,
+      "notes": "The Minturn Mile is a brutal 4,500-foot climb from Minturn to the top of Battle Mountain via dirt/gravel roads. Popular training climb for Colorado cyclists, known for sustained steep grades and high-altitude suffering.",
+      "completedSlug": null
+    },
+    {
+      "slug": "mosquito-ten-mile-traverse",
+      "title": "Mosquito Ten Mile Traverse",
+      "type": "traverse",
+      "location": "CO",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 16,
+      "elevationGainFt": 9000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.14ers.com/route.php?route=demo1",
+      "multiSport": false,
+      "notes": "The Mosquito-Tenmile Traverse links multiple 13ers and 14ers across two Colorado ranges in a single push. Classic high-alpine ridge traverse with sustained elevation above 13,000 feet and spectacular Sawatch Range views.",
+      "completedSlug": null
+    },
+    {
+      "slug": "mt-adams",
+      "title": "Mt Adams",
+      "type": "peak",
+      "location": "WA",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 12,
+      "elevationGainFt": 6900,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.fs.usda.gov/recarea/giffordpinchot/recreation/recarea/?recid=31562",
+      "multiSport": false,
+      "notes": "Mount Adams (12,281 feet) is Washington's second-highest peak and a popular glacier climb. The South Climb route is non-technical but requires glacier travel skills, good fitness, and acclimatization.",
+      "completedSlug": null
+    },
+    {
+      "slug": "mt-marathon",
+      "title": "Mt Marathon",
+      "type": "peak",
+      "location": "AK",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 3,
+      "elevationGainFt": 3000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.mountmarathon.com/",
+      "multiSport": false,
+      "notes": "Mount Marathon Race in Seward, Alaska is one of America's oldest mountain races (since 1915). The race climbs 3,022 feet in 1.5 miles up the mountain, then descends at breakneck speed. Famous for steep terrain and controlled falls.",
+      "completedSlug": null
+    },
+    {
+      "slug": "mt-st-helens",
+      "title": "Mt St Helens",
+      "type": "peak",
+      "location": "WA",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 10,
+      "elevationGainFt": 4500,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.fs.usda.gov/recarea/giffordpinchot/recreation/recarea/?recid=31562",
+      "multiSport": false,
+      "notes": "Mount St. Helens (8,363 feet) is an active volcano famous for its 1980 eruption. The climb offers unique volcanic terrain including lava flows, pumice fields, and views into the crater. Requires permit via lottery system.",
+      "completedSlug": null
+    },
+    {
+      "slug": "mt-stuart",
+      "title": "Mt Stuart",
+      "type": "peak",
+      "location": "WA",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 20,
+      "elevationGainFt": 8000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.mountainproject.com/route/106070131/cascadian-couloir",
+      "multiSport": false,
+      "notes": "Mount Stuart (9,415 ft) is the highest non-volcanic peak in Washington. The Cascadian Couloir route is the standard scramble, but still requires glacier travel, sustained scrambling, and excellent routefinding in complex terrain.",
+      "completedSlug": null
+    },
+    {
+      "slug": "natchez-trace",
+      "title": "Natchez Trace",
+      "type": "cycle",
+      "location": "TN",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "spring",
+        "fall"
+      ],
+      "distanceMi": 444,
+      "elevationGainFt": 13000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.nps.gov/natr/planyourvisit/bicycling-the-trace.htm",
+      "multiSport": false,
+      "notes": "The Natchez Trace Parkway is a 444-mile scenic road from Natchez, Mississippi to Nashville, Tennessee, following historic Native American trails. Popular long-distance cycling route with smooth pavement, minimal traffic, and historical sites.",
+      "completedSlug": null
+    },
+    {
+      "slug": "nolans-14",
+      "title": "Nolans 14",
+      "type": "traverse",
+      "location": "CO",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 100,
+      "elevationGainFt": 46000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.nolans14.com/",
+      "multiSport": false,
+      "notes": "Nolan's 14 is one of the most difficult mountain running challenges in North America: summiting 14 of Colorado's 14,000-foot peaks in less than 60 hours. Requires exceptional fitness, mountain skills, and mental toughness.",
+      "completedSlug": null
+    },
+    {
+      "slug": "normans-13",
+      "title": "Normans 13",
+      "type": "high-route",
+      "location": "CA",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 35,
+      "elevationGainFt": 23000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.summitpost.org/norman-clyde-peak/150885",
+      "multiSport": false,
+      "notes": "Norman's 13 is an extreme Sierra high route linking 13 peaks over 13,000 feet in a single push, named after legendary mountaineer Norman Clyde. Requires class 4-5 climbing, glacier travel, and exceptional endurance.",
+      "completedSlug": null
+    },
+    {
+      "slug": "olympic-gcl",
+      "title": "Olympic GCL",
+      "type": "bikepack",
+      "location": "WA",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 360,
+      "elevationGainFt": 40000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://bikepacking.com/routes/olympic-gcl/",
+      "multiSport": false,
+      "notes": "The Olympic Great Circle Loop (GCL) circumnavigates Olympic National Park via gravel roads and trails through temperate rainforests, river valleys, and coastal areas. Remote, challenging bikepacking route with significant elevation and variable",
+      "completedSlug": null
+    },
+    {
+      "slug": "pacific-northwest-trail",
+      "title": "Pacific Northwest Trail",
+      "type": "thru-hike",
+      "location": "WA-MT-ID",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 1200,
+      "elevationGainFt": 180000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.pnt.org/",
+      "multiSport": false,
+      "notes": "The Pacific Northwest Trail traverses 1,200 miles from the Continental Divide in Montana to the Pacific Ocean in Washington, crossing three national parks (Glacier, North Cascades, Olympic) and seven mountain ranges.",
+      "completedSlug": null
+    },
+    {
+      "slug": "pawnee-buchanan",
+      "title": "Pawnee Buchanan",
+      "type": "trail-run",
+      "location": "CO",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 10,
+      "elevationGainFt": 3000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.14ers.com/route.php?route=pawn1",
+      "multiSport": false,
+      "notes": "The Pawnee-Buchanan loop links two popular Colorado 12ers (Pawnee Peak and Mount Buchanan) in a scenic loop in the Indian Peaks Wilderness. Popular trail run with sustained alpine scenery and moderate difficulty.",
+      "completedSlug": null
+    },
+    {
+      "slug": "pfiffner-traverse",
+      "title": "Pfiffner Traverse",
+      "type": "traverse",
+      "location": "CO",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 10,
+      "elevationGainFt": 5500,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.14ers.com/route.php?route=gray6",
+      "multiSport": false,
+      "notes": "The Pfiffner Traverse is a spectacular ridge traverse in the Front Range connecting Grays Peak (14,278 ft) and Torreys Peak (14,275 ft) via an exposed class 3 ridge. More challenging than the standard route with sustained scrambling.",
+      "completedSlug": null
+    },
+    {
+      "slug": "pico-de-orizaba",
+      "title": "Pico de Orizaba",
+      "type": "high-altitude",
+      "location": "international",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "winter",
+        "spring"
+      ],
+      "distanceMi": 8,
+      "elevationGainFt": 4500,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.summitpost.org/pico-de-orizaba/150343",
+      "multiSport": false,
+      "notes": "Pico de Orizaba (18,491 feet) is Mexico's highest peak and North America's third-highest. The Jamapa Glacier route is straightforward but requires glacier travel skills and acclimatization. Popular high-altitude training objective.",
+      "completedSlug": null
+    },
+    {
+      "slug": "pikes-peak",
+      "title": "Pikes Peak",
+      "type": "cycle",
+      "location": "CO",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 39,
+      "elevationGainFt": 7400,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.pikespeakhill.com/",
+      "multiSport": false,
+      "notes": "The Pikes Peak Hill Climb is \"The Race to the Clouds\" - a 12.42-mile paved road climbing from 9,390 feet to 14,115 feet on Pikes Peak. One of America's most famous cycling hill climbs with brutal sustained climbing at altitude.",
+      "completedSlug": null
+    },
+    {
+      "slug": "ptarmigan-traverse",
+      "title": "Ptarmigan Traverse",
+      "type": "traverse",
+      "location": "WA",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 35,
+      "elevationGainFt": 12000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.mountainproject.com/route/105806661/ptarmigan-traverse",
+      "multiSport": false,
+      "notes": "The Ptarmigan Traverse is one of North America's premier alpine traverses, linking dramatic peaks and glaciers across the North Cascades. Requires glacier travel, class 3-4 scrambling, routefinding, and sustained backcountry skills.",
+      "completedSlug": null
+    },
+    {
+      "slug": "rainbow-trail",
+      "title": "Rainbow Trail",
+      "type": "fastpack",
+      "location": "CO",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 100,
+      "elevationGainFt": 20000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.fs.usda.gov/recarea/psicc/recarea/?recid=12606",
+      "multiSport": false,
+      "notes": "The Rainbow Trail traverses 100 miles along the east side of the Sangre de Cristo Mountains in Colorado, offering spectacular views and moderate elevation gain. Popular backpacking route and increasingly done as fastpack.",
+      "completedSlug": null
+    },
+    {
+      "slug": "ripsaw-ridge",
+      "title": "Ripsaw Ridge",
+      "type": "scramble",
+      "location": "CO",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 8,
+      "elevationGainFt": 4000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.14ers.com/route.php?route=wilc3",
+      "multiSport": false,
+      "notes": "Ripsaw Ridge is a challenging class 3-4 scramble on Wilson Peak (14,023 ft) in Colorado's San Juan Mountains. Named for its jagged, serrated appearance, it offers sustained technical scrambling on solid rock.",
+      "completedSlug": null
+    },
+    {
+      "slug": "seki-loop",
+      "title": "SEKI Loop",
+      "type": "high-route",
+      "location": "CA",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 80,
+      "elevationGainFt": 35000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.summitpost.org/seki-loop/171090",
+      "multiSport": false,
+      "notes": "The SEKI Loop (Sequoia and Kings Canyon) is a spectacular loop route through the heart of the Sierra Nevada, combining trails and cross-country travel through pristine high basins and passes. Links iconic destinations with sustained alpine beauty.",
+      "completedSlug": null
+    },
+    {
+      "slug": "sangre-de-cristo-traverse",
+      "title": "Sangre de Cristo Traverse",
+      "type": "traverse",
+      "location": "CO",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 80,
+      "elevationGainFt": 45000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.14ers.com/php14ers/tripreport.php?trip=8951",
+      "multiSport": false,
+      "notes": "The Sangre de Cristo Traverse is an epic ridge traverse linking multiple 14ers and 13ers along Colorado's Sangre de Cristo Range. One of the state's longest and most committing high-alpine traverses requiring exceptional fitness and mountaineering",
+      "completedSlug": null
+    },
+    {
+      "slug": "sea-to-mt-daniel",
+      "title": "Sea to Mt Daniel",
+      "type": "peak",
+      "location": "WA",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 80,
+      "elevationGainFt": 9000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.strava.com/routes/3171643",
+      "multiSport": true,
+      "notes": "Sea to Summit linkup starting at Puget Sound and summiting Mount Daniel (7,960 ft), Washington's fifth-highest peak. Ultimate elevation gain linkup combining biking, trail running, and scrambling in a single push.",
+      "completedSlug": null
+    },
+    {
+      "slug": "shasta",
+      "title": "Shasta",
+      "type": "peak",
+      "location": "CA",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "spring",
+        "summer"
+      ],
+      "distanceMi": 12,
+      "elevationGainFt": 7300,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.summitpost.org/mount-shasta/150267",
+      "multiSport": false,
+      "notes": "Mount Shasta (14,179 feet) is a massive stratovolcano in Northern California and one of the most prominent peaks in the United States. The Avalanche Gulch route is straightforward but requires snow climbing skills and good fitness.",
+      "completedSlug": null
+    },
+    {
+      "slug": "sierra-high-route",
+      "title": "Sierra High Route",
+      "type": "high-route",
+      "location": "CA",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 195,
+      "elevationGainFt": 70000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://andrewskurka.com/adventures/sierra-high-route/",
+      "multiSport": false,
+      "notes": "The Sierra High Route is Steve Roper's legendary 195-mile cross-country traverse through the High Sierra, staying above 10,000 feet for most of the route. Considered one of North America's premier wilderness navigation challenges.",
+      "completedSlug": null
+    },
+    {
+      "slug": "sierre-zinal",
+      "title": "Sierre-Zinal",
+      "type": "trail-run",
+      "location": "international",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 19,
+      "elevationGainFt": 7200,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.sierre-zinal.com/",
+      "multiSport": false,
+      "notes": "Sierre-Zinal is one of the world's most prestigious mountain ultra-marathons, held annually in the Swiss Alps. The \"race of the five 4000ers\" features spectacular mountain scenery and brutally challenging terrain.",
+      "completedSlug": null
+    },
+    {
+      "slug": "softrock",
+      "title": "Softrock",
+      "type": "fastpack",
+      "location": "CO",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 50,
+      "elevationGainFt": 11000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.softrockendurance.com/",
+      "multiSport": false,
+      "notes": "The Softrock 50 is a challenging mountain ultra-endurance event in Colorado's Sawatch Range. Features sustained high-altitude running, technical terrain, and significant elevation gain through spectacular alpine scenery.",
+      "completedSlug": null
+    },
+    {
+      "slug": "te-araroa",
+      "title": "Te Araroa",
+      "type": "thru-hike",
+      "location": "international",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "winter"
+      ],
+      "distanceMi": 1900,
+      "elevationGainFt": 300000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.teararoa.org.nz/",
+      "multiSport": false,
+      "notes": "Te Araroa is New Zealand's 3,000 km (1,900 mile) trail from Cape Reinga to Bluff, traversing the length of both North and South Islands. Incredibly diverse terrain from beaches to alpine passes, with significant road walking sections.",
+      "completedSlug": null
+    },
+    {
+      "slug": "teanaway-traverse",
+      "title": "Teanaway Traverse",
+      "type": "traverse",
+      "location": "WA",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 10,
+      "elevationGainFt": 4000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.wta.org/go-hiking/hikes/iron-bear",
+      "multiSport": false,
+      "notes": "The Teanaway Traverse links multiple peaks in Washington's Teanaway region, offering excellent alpine scenery close to Seattle. Good introduction to Cascade ridge traversing with moderate difficulty and beautiful views.",
+      "completedSlug": null
+    },
+    {
+      "slug": "tetons-traverse",
+      "title": "Tetons Traverse",
+      "type": "traverse",
+      "location": "WY",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 25,
+      "elevationGainFt": 15000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.mountainproject.com/route/105933190/cathedral-traverse",
+      "multiSport": false,
+      "notes": "The Teton Traverse (or Cathedral Traverse) is a spectacular multi-day alpine traverse of the Teton Range, linking multiple peaks including the Grand Teton via technical climbing and exposed ridges. Classic American alpine objective.",
+      "completedSlug": null
+    },
+    {
+      "slug": "the-tooth",
+      "title": "The Tooth",
+      "type": "scramble",
+      "location": "WA",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 10,
+      "elevationGainFt": 3600,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.mountainproject.com/route/106070132/south-face",
+      "multiSport": false,
+      "notes": "The Tooth is a striking 5,604-foot peak near Snoqualmie Pass, featuring a distinctive tooth-like summit. The South Face route is a popular introduction to alpine rock climbing in the Cascades with excellent scrambling.",
+      "completedSlug": null
+    },
+    {
+      "slug": "three-brothers",
+      "title": "Three Brothers",
+      "type": "peak",
+      "location": "WA",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 10,
+      "elevationGainFt": 4000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.wta.org/go-hiking/hikes/three-brothers",
+      "multiSport": false,
+      "notes": "The Three Brothers are a trio of peaks near Snoqualmie Pass offering excellent scrambling and views. Popular training objective for Cascade mountaineering with moderate difficulty and straightforward access.",
+      "completedSlug": null
+    },
+    {
+      "slug": "tonto-trail",
+      "title": "Tonto Trail",
+      "type": "trail-run",
+      "location": "AZ",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "spring"
+      ],
+      "distanceMi": 95,
+      "elevationGainFt": 15000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.nps.gov/grca/planyourvisit/upload/tonto_trail.pdf",
+      "multiSport": false,
+      "notes": "The Tonto Trail traverses 95 miles through Grand Canyon National Park, following the Tonto Platform with incredible canyon views. Remote, exposed, and challenging desert hiking requiring excellent navigation and water management.",
+      "completedSlug": null
+    },
+    {
+      "slug": "triple-bypass",
+      "title": "Triple Bypass",
+      "type": "cycle",
+      "location": "CO",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 120,
+      "elevationGainFt": 10000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.triplebypass.com/",
+      "multiSport": false,
+      "notes": "The Triple Bypass is Colorado's premier cycling event, crossing three major mountain passes (Juniper, Loveland, and Vail) in a single day. 120 miles with 10,000 feet of climbing at high altitude.",
+      "completedSlug": null
+    },
+    {
+      "slug": "wurl",
+      "title": "WURL",
+      "type": "traverse",
+      "location": "UT",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 50,
+      "elevationGainFt": 36000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://fastestknowntime.com/route/wasatch-ultimate-ridge-linkup-wurl-ut",
+      "multiSport": false,
+      "notes": "The Wasatch Ultimate Ridge Linkup (WURL) links 11 major peaks along Utah's Wasatch Range in a single push. One of the most challenging mountain linkups in North America, requiring exceptional fitness and technical skills.",
+      "completedSlug": null
+    },
+    {
+      "slug": "washington-ellinor-traverse",
+      "title": "Washington Ellinor Traverse",
+      "type": "traverse",
+      "location": "WA",
+      "difficulty": "moderate",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 8,
+      "elevationGainFt": 4500,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.wta.org/go-hiking/hikes/mount-washington",
+      "multiSport": false,
+      "notes": "The Mount Washington to Mount Ellinor traverse in the Olympic Mountains is a popular ridge traverse offering spectacular views of Hood Canal, Puget Sound, and Olympic peaks. Moderate difficulty with sustained ridge travel.",
+      "completedSlug": null
+    },
+    {
+      "slug": "weminuche-traverse",
+      "title": "Weminuche Traverse",
+      "type": "traverse",
+      "location": "CO",
+      "difficulty": "epic",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 80,
+      "elevationGainFt": 30000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.hikingproject.com/trail/7009551/weminuche-wilderness-traverse",
+      "multiSport": false,
+      "notes": "The Weminuche Traverse crosses Colorado's largest wilderness area through the heart of the San Juan Mountains. Spectacular alpine scenery with sustained high elevation, multiple passes, and remote backcountry travel.",
+      "completedSlug": null
+    },
+    {
+      "slug": "wham-ridge",
+      "title": "Wham Ridge",
+      "type": "scramble",
+      "location": "CO",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 9,
+      "elevationGainFt": 5000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.14ers.com/route.php?route=snow3",
+      "multiSport": false,
+      "notes": "Wham Ridge is an exposed class 3-4 scramble route up Sneffels (14,158 ft) in Colorado's San Juan Mountains. Known for dramatic exposure, solid rock, and stunning views. More challenging alternative to standard Sneffels routes.",
+      "completedSlug": null
+    },
+    {
+      "slug": "whitney-mountaineers-route",
+      "title": "Whitney Mountaineers Route",
+      "type": "scramble",
+      "location": "CA",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "spring",
+        "summer"
+      ],
+      "distanceMi": 16,
+      "elevationGainFt": 6700,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.mountainproject.com/route/105790679/mountaineers-route",
+      "multiSport": false,
+      "notes": "The Mountaineers Route is a classic scramble up Mount Whitney (14,505 ft), the highest peak in the lower 48 states. Features sustained class 3 scrambling through a dramatic chute and excellent alpine terrain.",
+      "completedSlug": null
+    },
+    {
+      "slug": "wind-river-range",
+      "title": "Wind River Range",
+      "type": "high-route",
+      "location": "WY",
+      "difficulty": "hard",
+      "grade": null,
+      "season": [
+        "summer"
+      ],
+      "distanceMi": 80,
+      "elevationGainFt": 28000,
+      "status": "todo",
+      "dateCompleted": null,
+      "link": "https://www.summitpost.org/wind-river-high-route/170940",
+      "multiSport": false,
+      "notes": "The Wind River High Route traverses Wyoming's Wind River Range through spectacular alpine terrain, linking high passes and pristine basins. One of the finest high routes in the Lower 48 with sustained beauty and moderate difficulty.",
+      "completedSlug": null
+    }
+  ]
+}

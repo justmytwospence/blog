@@ -1,0 +1,364 @@
+{
+  "stravaId": 11548838507,
+  "name": "Colorado Triathlon: Run",
+  "sportType": "Run",
+  "startLocal": "2024-06-01T09:03:22Z",
+  "date": "2024-06-01",
+  "timezone": "(GMT-07:00) America/Denver",
+  "location": {
+    "city": "Boulder",
+    "state": "Colorado",
+    "country": "United States of America"
+  },
+  "stats": {
+    "distanceMeters": 4957.6,
+    "movingTimeSeconds": 1197,
+    "elapsedTimeSeconds": 1197,
+    "elevationGainMeters": 14.4,
+    "elevHighMeters": 1588.6,
+    "elevLowMeters": 1579.6,
+    "avgSpeedMetersPerSec": 4.142,
+    "maxSpeedMetersPerSec": 6.246,
+    "avgHeartrate": 163.2,
+    "maxHeartrate": 175,
+    "avgCadence": 88.7,
+    "avgWatts": 294.7,
+    "maxWatts": 368,
+    "calories": 280,
+    "sufferScore": 35
+  },
+  "track": {
+    "coordinates": [
+      [
+        -105.229363,
+        40.071365
+      ],
+      [
+        -105.228844,
+        40.070939
+      ],
+      [
+        -105.227828,
+        40.071106
+      ],
+      [
+        -105.227104,
+        40.07095
+      ],
+      [
+        -105.225177,
+        40.069951
+      ],
+      [
+        -105.224139,
+        40.069912
+      ],
+      [
+        -105.22267,
+        40.070056
+      ],
+      [
+        -105.221309,
+        40.069575
+      ],
+      [
+        -105.220534,
+        40.069713
+      ],
+      [
+        -105.212429,
+        40.076424
+      ],
+      [
+        -105.212355,
+        40.076629
+      ],
+      [
+        -105.212659,
+        40.077106
+      ],
+      [
+        -105.21253,
+        40.077318
+      ],
+      [
+        -105.211979,
+        40.077361
+      ],
+      [
+        -105.211831,
+        40.07754
+      ],
+      [
+        -105.211296,
+        40.081523
+      ],
+      [
+        -105.211839,
+        40.077497
+      ],
+      [
+        -105.212027,
+        40.07734
+      ],
+      [
+        -105.212538,
+        40.077304
+      ],
+      [
+        -105.212692,
+        40.077127
+      ],
+      [
+        -105.212376,
+        40.076564
+      ],
+      [
+        -105.21244,
+        40.076416
+      ],
+      [
+        -105.220562,
+        40.069756
+      ],
+      [
+        -105.220939,
+        40.069627
+      ],
+      [
+        -105.221406,
+        40.069644
+      ],
+      [
+        -105.222704,
+        40.070076
+      ],
+      [
+        -105.225034,
+        40.069939
+      ],
+      [
+        -105.227272,
+        40.071032
+      ],
+      [
+        -105.22825,
+        40.071129
+      ],
+      [
+        -105.228845,
+        40.070992
+      ],
+      [
+        -105.229226,
+        40.071511
+      ]
+    ],
+    "altitude": [
+      1582.8,
+      1584,
+      1583.6,
+      1583.6,
+      1588.6,
+      1588,
+      1586,
+      1585,
+      1584.2,
+      1580.8,
+      1580.8,
+      1582,
+      1582.6,
+      1582,
+      1580.8,
+      1581.4,
+      1581.2,
+      1581.2,
+      1582.4,
+      1582.6,
+      1581.6,
+      1581.2,
+      1582,
+      1582.8,
+      1583,
+      1584,
+      1586.2,
+      1580.4,
+      1580.8,
+      1581.2,
+      1580.2
+    ],
+    "distance": [
+      0,
+      68.2,
+      158.2,
+      222.7,
+      422.1,
+      511.5,
+      637.8,
+      767.1,
+      836.5,
+      1854.7,
+      1879.1,
+      1938.8,
+      1965,
+      2012,
+      2036.1,
+      2481.2,
+      2931.3,
+      2956,
+      3000.2,
+      3024.5,
+      3094.1,
+      3111.1,
+      4126.3,
+      4161.7,
+      4202,
+      4323.5,
+      4523.6,
+      4751.7,
+      4836.2,
+      4889.4,
+      4957.6
+    ],
+    "grade": [
+      0,
+      2.3,
+      1.2,
+      0,
+      1.3,
+      -2.3,
+      0,
+      -1.2,
+      -2.4,
+      -1.2,
+      1.2,
+      2.7,
+      2.5,
+      -2.5,
+      -2.5,
+      4.4,
+      0,
+      2.4,
+      0,
+      0,
+      -2.3,
+      -1.2,
+      2.6,
+      2.6,
+      0,
+      2.4,
+      0,
+      0,
+      0,
+      1,
+      -3.1
+    ],
+    "velocity": [
+      0,
+      4.35,
+      4.264,
+      4.306,
+      3.86,
+      4.178,
+      4.31,
+      4.294,
+      4.204,
+      4.04,
+      4.024,
+      3.928,
+      3.872,
+      3.824,
+      4.026,
+      3.648,
+      4.404,
+      4.114,
+      3.99,
+      4.104,
+      4.35,
+      4.284,
+      3.732,
+      3.944,
+      4.136,
+      4.19,
+      4.18,
+      4.516,
+      4.796,
+      4.878,
+      4.448
+    ],
+    "heartrate": [
+      132,
+      146,
+      152,
+      153,
+      161,
+      157,
+      159,
+      157,
+      157,
+      162,
+      163,
+      163,
+      163,
+      159,
+      161,
+      162,
+      165,
+      165,
+      165,
+      166,
+      165,
+      165,
+      169,
+      167,
+      168,
+      168,
+      170,
+      169,
+      171,
+      173,
+      175
+    ],
+    "summaryPolyline": "_mqsFprgaSB[DEh@[VYHO@S]qAEeB?S\\{Bd@sAfC}EPk@Fc@JqAC}BKiBO{D@[F]n@}ARu@PaA@]Cq@Ig@Oa@g@{@QQo@c@y@cAiEwFoA{Ac@o@mBaCYe@kBcCeDcEoAeBkDmEa@o@a@a@]k@wAmBKKYOM@SHc@`@SJSBYIOOEQC{AGO[KyAIsAQcDOmCUU@qAOsE[?BHBv@Bt@JjG^p@HfADbE\\bBDRLHVA\\?d@H`@LRTJN?LCbAs@LG\\JLVr@x@^h@Z`@bAvAnAzAx@jAv@~@xApB^b@fB~Bj@p@fAvA`@p@hHdJh@v@zBpCPN`@Xr@nAL\\Jj@@d@Ev@c@fBc@pAI`@Cf@@tA^xGAbAC\\[rAaArBkAxB[v@UdAE\\KvA?jAFl@Pp@?VIPIHm@d@QFS@",
+    "bounds": {
+      "minLat": 40.069575,
+      "minLng": -105.229363,
+      "maxLat": 40.081523,
+      "maxLng": -105.211296
+    },
+    "pointCount": 31
+  },
+  "weather": {
+    "tempC": 19.7,
+    "windMetersPerSec": 2.18,
+    "precipitationMm": 0,
+    "weatherCode": 0,
+    "observedAtLocal": "2024-06-01T09:00"
+  },
+  "photos": [
+    {
+      "id": "788C0E78-82DB-46F7-827C-FBDC328468A0",
+      "file": "photo-788C0E78-82DB-46F7-827C-FBDC328468A0.jpg",
+      "sourceUrl": "",
+      "width": 1200,
+      "height": 1600,
+      "caption": "",
+      "lat": 40.07143883333333,
+      "lng": -105.22941666666667
+    },
+    {
+      "id": "51B8B690-153F-4D0D-8977-14D2542365A0",
+      "file": "photo-51B8B690-153F-4D0D-8977-14D2542365A0.jpg",
+      "sourceUrl": "",
+      "width": 1600,
+      "height": 1200,
+      "caption": "",
+      "lat": 40.0437805,
+      "lng": -105.25392166666667
+    }
+  ],
+  "gear": "New Balance SuperComp Elite v4",
+  "description": "Couldn’t get my heart rate up easily because legs were rate limiting. Felt a bit slow but I guess that’s to be expected. Great morning! Learned a lot of dos and don’t dos, which is what this one was about - just learning the ropes. Official time 1:31:19. Run split 19:56. 42/413 overall, number one in the first-timer category! 7/413 in the run split??",
+  "stravaUrl": "https://www.strava.com/activities/11548838507",
+  "sourceHash": "a13247e9f2f0748b2d2d100857e1d5085d46c73f4660de616c17415a25c58512"
+}

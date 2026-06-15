@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Concept } from '@/lib/types';
+import { formatDate } from '@/lib/format';
 
 interface ConceptCardProps {
   concept: Concept;
@@ -16,11 +17,7 @@ export function ConceptCard({ concept }: ConceptCardProps) {
           Interactive
         </span>
         <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">
-          {new Date(concept.date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-          })}
+          {formatDate(concept.date, 'short')}
         </span>
       </div>
 

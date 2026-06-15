@@ -42,6 +42,38 @@ function calculateReadingTime(content: string): number {
   return Math.max(1, Math.ceil(wordCount / WORDS_PER_MINUTE));
 }
 
+interface CommonFrontmatter {
+  title?: unknown;
+  date?: unknown;
+  categories?: unknown;
+  tags?: unknown;
+  description?: unknown;
+  featured?: unknown;
+}
+
+// gray-matter parses unquoted YAML dates as Date objects at UTC midnight,
+// so the YYYY-MM-DD slice round-trips the value as written.
+export function normalizeDate(date: unknown): string {
+  if (date instanceof Date) return date.toISOString().slice(0, 10);
+  if (date) return String(date);
+  return new Date().toISOString();
+}
+
+/**
+ * Map the frontmatter fields shared by every content type
+ * (blog, project, concept, webapp config).
+ */
+export function mapCommonMetadata(data: CommonFrontmatter, slug: string) {
+  return {
+    slug,
+    title: data.title ? String(data.title) : slug,
+    date: normalizeDate(data.date),
+    categories: (data.categories ?? data.tags ?? []) as string[],
+    description: data.description ? String(data.description) : '',
+    featured: Boolean(data.featured),
+  };
+}
+
 /**
  * Get all projects sorted by date (newest first)
  */
@@ -76,13 +108,8 @@ export function getAllProjects(): Project[] {
         
         projects.push({
           category: 'project',
-          slug,
           type: data.externalUrl ? 'link' : 'markdown',
-          title: data.title || slug,
-          date: data.date || new Date().toISOString(),
-          categories: data.categories || [],
-          description: data.description || '',
-          featured: data.featured || false,
+          ...mapCommonMetadata(data, slug),
           externalUrl: data.externalUrl,
           links: data.links,
         });
@@ -110,13 +137,8 @@ export function getAllProjects(): Project[] {
         
         projects.push({
           category: 'project',
-          slug,
           type: 'webapp',
-          title: config.title || slug,
-          date: config.date || new Date().toISOString(),
-          categories: config.categories || [],
-          description: config.description || '',
-          featured: config.featured || false,
+          ...mapCommonMetadata(config, slug),
         });
       }
     } catch (error) {
@@ -134,9 +156,9 @@ export function getAllProjects(): Project[] {
 /**
  * Get project content by slug
  */
-export function getProjectBySlug(slug: string): Content {
+export function getProjectBySlug(slug: string): Content | null {
   if (!fs.existsSync(PROJECTS_DIR)) {
-    throw new Error('Projects directory not found');
+    return null;
   }
   
   // Try different file extensions
@@ -158,29 +180,19 @@ export function getProjectBySlug(slug: string): Content {
             type: 'link',
             content,
             metadata: {
-              slug,
               type: 'link',
-              title: data.title || slug,
-              date: data.date || new Date().toISOString(),
-              categories: data.categories || [],
-              description: data.description || '',
-              featured: data.featured || false,
+              ...mapCommonMetadata(data, slug),
               externalUrl: data.externalUrl,
             },
           };
         }
-        
+
         return {
           type: 'markdown',
           content,
           metadata: {
-            slug,
             type: 'markdown',
-            title: data.title || slug,
-            date: data.date || new Date().toISOString(),
-            categories: data.categories || [],
-            description: data.description || '',
-            featured: data.featured || false,
+            ...mapCommonMetadata(data, slug),
             externalUrl: data.externalUrl,
           },
         };
@@ -212,20 +224,15 @@ export function getProjectBySlug(slug: string): Content {
           url: config.url,
           height: config.height || '800px',
           metadata: {
-            slug,
             type: 'webapp',
-            title: config.title || slug,
-            date: config.date || new Date().toISOString(),
-            categories: config.categories || [],
-            description: config.description || '',
-            featured: config.featured || false,
+            ...mapCommonMetadata(config, slug),
           },
         };
       }
     }
   }
   
-  throw new Error(`Project not found: ${slug}`);
+  return null;
 }
 
 /**
@@ -269,13 +276,8 @@ export function getAllBlogPosts(): BlogPost[] {
 
       posts.push({
         category: 'blog',
-        slug,
         type: 'markdown',
-        title: data.title || slug,
-        date: data.date || new Date().toISOString(),
-        categories: data.categories || data.tags || [],
-        description: data.description || '',
-        featured: data.featured || false,
+        ...mapCommonMetadata(data, slug),
         readingTime: calculateReadingTime(content),
       });
     } catch (error) {
@@ -291,7 +293,7 @@ export function getAllBlogPosts(): BlogPost[] {
 /**
  * Get blog post content by slug
  */
-export function getBlogPostBySlug(slug: string): MarkdownContent | NotebookContent {
+export function getBlogPostBySlug(slug: string): MarkdownContent | NotebookContent | null {
   const mdPath = path.join(BLOG_DIR, `${slug}.md`);
 
   if (fs.existsSync(mdPath)) {
@@ -302,13 +304,8 @@ export function getBlogPostBySlug(slug: string): MarkdownContent | NotebookConte
       type: 'markdown',
       content: preprocessObsidian(content, slug),
       metadata: {
-        slug,
         type: 'markdown',
-        title: data.title || slug,
-        date: data.date || new Date().toISOString(),
-        categories: data.categories || data.tags || [],
-        description: data.description || '',
-        featured: data.featured || false,
+        ...mapCommonMetadata(data, slug),
       },
     };
   }
@@ -333,7 +330,7 @@ export function getBlogPostBySlug(slug: string): MarkdownContent | NotebookConte
     };
   }
 
-  throw new Error(`Blog post not found: ${slug}`);
+  return null;
 }
 
 export { calculateReadingTime };
@@ -359,13 +356,8 @@ export function getAllConcepts(): Concept[] {
 
       concepts.push({
         category: 'concept',
-        slug,
         type: 'component',
-        title: data.title || slug,
-        date: data.date || new Date().toISOString(),
-        categories: data.categories || [],
-        description: data.description || '',
-        featured: data.featured || false,
+        ...mapCommonMetadata(data, slug),
         component: data.component || slug,
       });
     } catch (error) {
@@ -379,11 +371,11 @@ export function getAllConcepts(): Concept[] {
 /**
  * Get concept content by slug
  */
-export function getConceptBySlug(slug: string): ConceptContent {
+export function getConceptBySlug(slug: string): ConceptContent | null {
   const filePath = path.join(CONCEPTS_DIR, `${slug}.md`);
 
   if (!fs.existsSync(filePath)) {
-    throw new Error(`Concept not found: ${slug}`);
+    return null;
   }
 
   const fileContents = fs.readFileSync(filePath, 'utf8');
@@ -394,13 +386,8 @@ export function getConceptBySlug(slug: string): ConceptContent {
     content,
     component: data.component || slug,
     metadata: {
-      slug,
       type: 'component',
-      title: data.title || slug,
-      date: data.date || new Date().toISOString(),
-      categories: data.categories || [],
-      description: data.description || '',
-      featured: data.featured || false,
+      ...mapCommonMetadata(data, slug),
     },
   };
 }

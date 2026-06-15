@@ -877,3 +877,21 @@ mark {
 .dark mark {
   background-color: rgb(133 77 14 / 0.4);
 }
+
+/*
+ * Leaflet sets high z-indexes on its internal panes/controls (up to ~1000). Without a stacking
+ * context on the map container, those escape and render above the sticky navbar (z-50). Isolating
+ * the container contains them; the fullscreen wrapper still sits above everything via its own z.
+ */
+.leaflet-container {
+  isolation: isolate;
+}
+
+/* Tailwind's Preflight no longer sets cursor:pointer on buttons — restore the hand for anything clickable. */
+button:not(:disabled),
+[role='button']:not([aria-disabled='true']),
+summary,
+label[for],
+select:not(:disabled) {
+  cursor: pointer;
+}
