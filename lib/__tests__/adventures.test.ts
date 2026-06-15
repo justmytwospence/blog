@@ -81,7 +81,8 @@ describe('read API against the committed snapshot', () => {
     expect(gh?.title).toBe('Gold Hill');
     expect(gh?.sportType).toBe('TrailRun');
     expect(gh?.rating).toBe(4);
-    expect(gh?.featured).toBe(true);
+    // Gold Hill is the seed example but not a featured highlight (those are PCT/CO Trail/Wonderland).
+    expect(gh?.featured).toBe(false);
     expect(gh?.totals.distanceMeters).toBeGreaterThan(16000);
     expect(gh?.allPhotos.length).toBe(3);
     expect(gh?.coverPhoto).not.toBeNull();
