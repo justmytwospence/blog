@@ -1,8 +1,5 @@
 ---
-title: "La Plata Peak"
 strava_id: 10005
-date: 2019-06-29
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, sawatch]

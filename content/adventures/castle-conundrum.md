@@ -1,8 +1,6 @@
 ---
 title: "Castle Peak & Conundrum Peak"
 strava_ids: [10012, 10065]
-date: 2019-09-21
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, elk]

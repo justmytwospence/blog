@@ -1,6 +1,5 @@
 ---
 race: true
-title: "Stampede 50k Skate"
 strava_id: 13826697830
 hidden: false
 ---

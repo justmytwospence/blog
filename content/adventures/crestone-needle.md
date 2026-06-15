@@ -1,7 +1,5 @@
 ---
-title: "Crestone Needle"
 strava_id: 10019
-date: 2020-08-09
 sport: Hike
 type: peak
 difficulty: hard

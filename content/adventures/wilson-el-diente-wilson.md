@@ -1,7 +1,6 @@
 ---
 title: "Mt. Wilson, El Diente Peak & Wilson Peak"
 strava_ids: [10016, 10064, 10048]
-date: 2020-10-10
 sport: Hike
 type: peak
 difficulty: epic

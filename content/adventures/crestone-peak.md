@@ -1,7 +1,5 @@
 ---
-title: "Crestone Peak"
 strava_id: 10007
-date: 2020-10-04
 sport: Hike
 type: peak
 difficulty: hard

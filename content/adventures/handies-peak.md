@@ -1,8 +1,5 @@
 ---
-title: "Handies Peak"
 strava_id: 10040
-date: 2020-08-21
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, san-juan]

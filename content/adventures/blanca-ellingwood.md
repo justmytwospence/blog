@@ -1,8 +1,6 @@
 ---
 title: "Blanca Peak & Ellingwood Point"
 strava_ids: [10004, 10042]
-date: 2019-09-30
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, sangre-de-cristo]

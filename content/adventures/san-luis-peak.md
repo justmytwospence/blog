@@ -1,8 +1,5 @@
 ---
-title: "San Luis Peak"
 strava_id: 10050
-date: 2020-09-13
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, san-juan]

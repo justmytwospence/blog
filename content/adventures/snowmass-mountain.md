@@ -1,7 +1,5 @@
 ---
-title: "Snowmass Mountain"
 strava_id: 10031
-date: 2020-08-03
 sport: Hike
 type: peak
 difficulty: hard

@@ -26,7 +26,6 @@ function placeOf(loc: { city: string | null; state: string | null; country: stri
 function ReportMeta({ adventure }: { adventure: Adventure }) {
   const chips: string[] = [];
   if (adventure.difficulty) chips.push(adventure.difficulty);
-  if (adventure.grade) chips.push(adventure.grade);
   if (adventure.type) chips.push(adventure.type);
   if (chips.length === 0 && adventure.tags.length === 0) return null;
   return (

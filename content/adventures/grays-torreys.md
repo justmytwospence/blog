@@ -1,8 +1,6 @@
 ---
 title: "Grays Peak & Torreys Peak"
 strava_ids: [10009, 10011]
-date: 2019-06-08
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, front-range]

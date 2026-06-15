@@ -1,7 +1,6 @@
 ---
 title: "Maroon Bells Traverse"
 strava_ids: [10024, 10067]
-date: 2020-09-04
 sport: Hike
 type: traverse
 difficulty: epic

@@ -1,7 +1,6 @@
 ---
 title: "Mt. Baker"
 strava_ids: [9158932057, 9158932231]
-date: 2023-05-25
 sport: Mountaineering
 type: peak
 difficulty: hard

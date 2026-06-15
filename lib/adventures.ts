@@ -64,7 +64,6 @@ export interface Adventure {
   tags: string[];
   type: string | null;
   difficulty: string | null;
-  grade: string | null;
   peakClass: PeakClass | null;
   facets: string[]; // filterable kinds: 14er/13er/race/couloir/scramble/traverse/thru-hike
   showHeartRate: boolean; // HR chart is opt-in (races); hidden by default
@@ -355,7 +354,8 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
 
   return {
     slug: pc.slug,
-    title: common.title,
+    // Title is editorial only when it differs from Strava — otherwise derive it from the snapshot.
+    title: str(pc.data.title) ?? primary.name ?? pc.slug,
     date,
     sportType,
     isMultiDay: pc.usedIdsArray || acts.length > 1,
@@ -368,10 +368,9 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
     tags,
     type: str(pc.data.type),
     difficulty: str(pc.data.difficulty),
-    grade: str(pc.data.grade),
     peakClass,
     facets,
-    showHeartRate: isRace || Boolean(pc.data.show_hr),
+    showHeartRate: isRace,
     laps: Boolean(pc.data.laps),
     objective: str(pc.data.objective),
     group: str(pc.data.group),

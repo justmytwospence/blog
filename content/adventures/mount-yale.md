@@ -1,8 +1,5 @@
 ---
-title: "Mt. Yale"
 strava_id: 10021
-date: 2020-07-17
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, sawatch]

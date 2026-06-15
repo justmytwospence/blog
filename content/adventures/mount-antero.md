@@ -1,8 +1,5 @@
 ---
-title: "Mt. Antero"
 strava_id: 10010
-date: 2020-07-29
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, sawatch]

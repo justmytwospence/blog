@@ -1,5 +1,4 @@
 ---
-title: "Quandary West Ridge"
 strava_id: 5581137947
 sport: Scramble
 type: scramble

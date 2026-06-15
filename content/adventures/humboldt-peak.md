@@ -1,8 +1,5 @@
 ---
-title: "Humboldt Peak"
 strava_id: 10037
-date: 2020-08-10
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, sangre-de-cristo]

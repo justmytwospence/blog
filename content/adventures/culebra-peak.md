@@ -1,8 +1,5 @@
 ---
-title: "Culebra Peak"
 strava_id: 10041
-date: 2020-01-02
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, sangre-de-cristo]

@@ -1,8 +1,6 @@
 ---
 title: "Mt. Belford, Oxford & Missouri Mountain"
 strava_ids: [10018, 10026, 10036]
-date: 2019-08-03
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, sawatch]

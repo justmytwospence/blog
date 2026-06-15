@@ -1,7 +1,5 @@
 ---
-title: "Gold Hill"
 strava_id: 18893341377
-sport: TrailRun
 type: trail-run
 tags: [taos, new-mexico, sangre-de-cristo, vert]
 hidden: false

@@ -2,7 +2,6 @@
 title: "Wonderland Loop"
 featured: true
 strava_ids: [15415758251, 15415759784, 15415776897, 15426563538, 15426563547]
-sport: Hike
 type: thru-hike
 difficulty: epic
 hidden: false

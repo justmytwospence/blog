@@ -1,8 +1,5 @@
 ---
-title: "Pacific Crest Trail"
 strava_id: 20170415
-date: 2017-04-15
-sport: Hike
 type: thru-hike
 difficulty: epic
 featured: true

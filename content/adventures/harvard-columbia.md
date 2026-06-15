@@ -1,8 +1,6 @@
 ---
 title: "Harvard–Columbia Traverse"
 strava_ids: [10003, 10035]
-date: 2019-08-25
-sport: Hike
 type: traverse
 difficulty: moderate
 tags: [14er, sawatch, traverse]

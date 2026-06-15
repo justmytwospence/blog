@@ -1,8 +1,5 @@
 ---
-title: "Huron Peak"
 strava_id: 10052
-date: 2019-09-06
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, sawatch]

@@ -1,7 +1,5 @@
 ---
-title: "Little Bear Peak"
 strava_id: 10044
-date: 2020-10-05
 sport: Hike
 type: peak
 difficulty: epic

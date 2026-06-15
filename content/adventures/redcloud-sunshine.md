@@ -1,8 +1,6 @@
 ---
 title: "Redcloud Peak & Sunshine Peak"
 strava_ids: [10046, 10053]
-date: 2020-08-21
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, san-juan]

@@ -1,8 +1,5 @@
 ---
-title: "Mt. Massive"
 strava_id: 10002
-date: 2019-09-01
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, sawatch]

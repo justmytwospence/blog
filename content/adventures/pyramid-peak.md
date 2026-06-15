@@ -1,7 +1,5 @@
 ---
-title: "Pyramid Peak"
 strava_id: 10047
-date: 2020-09-05
 sport: Hike
 type: peak
 difficulty: epic

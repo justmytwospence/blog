@@ -1,7 +1,5 @@
 ---
-title: "Mt. Sneffels"
 strava_id: 10027
-date: 2020-09-19
 sport: Hike
 type: peak
 difficulty: hard

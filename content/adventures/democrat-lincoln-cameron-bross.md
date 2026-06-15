@@ -1,8 +1,6 @@
 ---
 title: "Mt. Democrat, Lincoln, Cameron & Bross"
 strava_ids: [10028, 10008, 10063, 10022]
-date: 2019-08-24
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, mosquito]

@@ -1,8 +1,5 @@
 ---
-title: "Mt. Sherman"
 strava_id: 10045
-date: 2019-07-27
-sport: Hike
 type: peak
 difficulty: moderate
 tags: [14er, mosquito]
