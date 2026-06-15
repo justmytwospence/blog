@@ -1,0 +1,142 @@
+{
+  "stravaId": 10025,
+  "name": "Tabeguache Peak",
+  "sportType": "Hike",
+  "startLocal": "2019-07-21T08:00:00Z",
+  "date": "2019-07-21",
+  "timezone": null,
+  "location": {
+    "city": "Salida",
+    "state": "Colorado",
+    "country": "United States of America"
+  },
+  "stats": {
+    "distanceMeters": 1458,
+    "movingTimeSeconds": 0,
+    "elapsedTimeSeconds": 0,
+    "elevationGainMeters": 92,
+    "elevHighMeters": 4311,
+    "elevLowMeters": 4168,
+    "avgSpeedMetersPerSec": 0,
+    "maxSpeedMetersPerSec": 0,
+    "avgHeartrate": null,
+    "maxHeartrate": null,
+    "avgCadence": null,
+    "avgWatts": null,
+    "maxWatts": null,
+    "calories": null,
+    "sufferScore": null
+  },
+  "track": {
+    "coordinates": [
+      [
+        -106.239289,
+        38.619106
+      ],
+      [
+        -106.239671,
+        38.61979
+      ],
+      [
+        -106.241396,
+        38.621519
+      ],
+      [
+        -106.241698,
+        38.622239
+      ],
+      [
+        -106.242402,
+        38.623223
+      ],
+      [
+        -106.245459,
+        38.626094
+      ],
+      [
+        -106.245899,
+        38.626242
+      ],
+      [
+        -106.247284,
+        38.626198
+      ],
+      [
+        -106.248112,
+        38.626297
+      ],
+      [
+        -106.248883,
+        38.626157
+      ],
+      [
+        -106.249294,
+        38.626234
+      ],
+      [
+        -106.25,
+        38.62574
+      ],
+      [
+        -106.250862,
+        38.625518
+      ]
+    ],
+    "altitude": [
+      4311,
+      4301,
+      4292,
+      4273,
+      4250,
+      4182,
+      4173,
+      4179,
+      4198,
+      4217,
+      4224,
+      4233,
+      4261
+    ],
+    "distance": [
+      0,
+      84,
+      328,
+      413,
+      538,
+      955,
+      996,
+      1117,
+      1191,
+      1260,
+      1296,
+      1379,
+      1458
+    ],
+    "grade": [
+      0,
+      -11.5,
+      -2.4,
+      -19.2,
+      -17.9,
+      -7.9,
+      -19.8,
+      21.5,
+      26.7,
+      28.8,
+      19.1,
+      4.4,
+      35
+    ],
+    "velocity": [],
+    "heartrate": [],
+    "summaryPolyline": "mxujFpzlgSgCjAyIxIoCz@cEjC}PbR]vAFrGSdDZxCMpA`BlCj@jD",
+    "bounds": null,
+    "pointCount": 13
+  },
+  "weather": null,
+  "photos": [],
+  "gear": null,
+  "description": "tabe2 · Class 2",
+  "stravaUrl": "",
+  "sourceHash": "14ers:tabe2"
+}

@@ -1,7 +1,7 @@
 ---
 title: "Weekly Informed Priors: 2026-W09"
-date: 2026-02-27
-categories: [weekly, data-science, causal-inference, AI, philosophy]
+date: "2026-02-27"
+categories: ["weekly", "data-science", "causal-inference", "AI", "philosophy"]
 description: "Tabular ML benchmarks, mediation analysis deep dive with mermaid diagrams, Borges on English, AI safety, and Hegel as a salve for AI existential dread."
 ---
 

@@ -14,6 +14,12 @@ npm run test         # Vitest (--run mode)
 
 CI runs all four on every push and PR (`.github/workflows/ci.yml`).
 
+### Strava data pipeline (local, on demand — never at build)
+
+- `npm run sync:strava` — the one idempotent command. Refreshes rich per-activity snapshots for whitelisted reports, refreshes the committed all-activity index (`data/adventures/all-activities.json`, incremental; pass `-- --reindex` to rebuild the full history), then recomputes `lifetime-totals.json` / `yearly-totals.json` from that index. Re-running with no Strava-side change produces a zero diff: there are no per-run timestamps, and skip-unchanged compares each committed snapshot's own `sourceHash` (there is no `.sync-cache.json`).
+- `npm run sync:index` / `npm run sync:totals` — run those last two steps standalone.
+- **Deprecated, local-only, gitignored** one-time bootstrapping (kept for occasional re-auth/triage, intentionally out of version control): `scripts/strava-bootstrap.ts` (OAuth), `scripts/strava-sweep.ts` (full-history triage), `scripts/strava-inbox.ts` (stub scaffolding). Run via `npx tsx scripts/<name>.ts`. Don't wire them back into the build; the sweep still writes an older totals format.
+
 ## Gotchas
 
 - **npm workspaces**: Domain integrations live in `packages/`. Always import from the package name, never from internal paths or `lib/`. Next.js `transpilePackages` compiles the raw TypeScript.

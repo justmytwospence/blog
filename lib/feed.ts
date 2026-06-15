@@ -10,12 +10,9 @@ import {
   getProjectBySlug,
 } from './content';
 import { BlogPost, Project } from './types';
-
-const SITE_URL = 'https://spencerboucher.com';
-const AUTHOR = {
-  name: 'Spencer Boucher',
-  link: SITE_URL,
-};
+import { getAllAdventures, getAdventureBySlug } from './adventures';
+import { formatDistance, formatElevation, formatDuration } from './units';
+import { SITE_URL, AUTHOR } from './site';
 
 /**
  * Convert markdown content to HTML string
@@ -78,12 +75,22 @@ export async function generateFeed(): Promise<Feed> {
       if (category === 'blog') {
         // Get full blog post content and convert to HTML
         const fullPost = getBlogPostBySlug(item.slug);
-        htmlContent = await markdownToHtml(fullPost.content);
+        if (!fullPost) {
+          htmlContent = `<p>${item.description || ''}</p>`;
+        } else if (fullPost.type === 'notebook') {
+          // Notebooks have no markdown body — link out to the rendered post.
+          htmlContent = `<p>${item.description || 'View the full notebook on the website.'}</p>
+            <p><a href="${url}">View full notebook →</a></p>`;
+        } else {
+          htmlContent = await markdownToHtml(fullPost.content);
+        }
       } else {
         // Get project content
         const fullProject = getProjectBySlug(item.slug);
 
-        if (fullProject.type === 'markdown') {
+        if (!fullProject) {
+          htmlContent = `<p>${item.description || ''}</p>`;
+        } else if (fullProject.type === 'markdown') {
           htmlContent = await markdownToHtml(fullProject.content);
         } else if (fullProject.type === 'notebook') {
           // For notebooks, use description with a link to view the full notebook
@@ -114,6 +121,55 @@ export async function generateFeed(): Promise<Feed> {
       author: [AUTHOR],
       date: new Date(item.date),
       category: (item.categories || []).map((cat) => ({ name: cat })),
+    });
+  }
+
+  return feed;
+}
+
+/**
+ * Generate a SEPARATE feed for the Adventures section (distinct from the blog/projects feed).
+ */
+export async function generateAdventuresFeed(): Promise<Feed> {
+  const feed = new Feed({
+    title: 'Adventures — Spencer Boucher',
+    description: 'Trip reports: trail running, mountaineering, skiing, cycling, and more.',
+    id: `${SITE_URL}/adventures`,
+    link: `${SITE_URL}/adventures`,
+    language: 'en',
+    favicon: `${SITE_URL}/favicon.ico`,
+    copyright: `All rights reserved ${new Date().getFullYear()}, Spencer Boucher`,
+    updated: new Date(),
+    feedLinks: { rss2: `${SITE_URL}/adventures.xml` },
+    author: AUTHOR,
+  });
+
+  for (const a of getAllAdventures()) {
+    const url = `${SITE_URL}/adventures/${a.slug}`;
+    const stat = `${formatDistance(a.totals.distanceMeters)} · ${formatElevation(
+      a.totals.elevationGainMeters,
+    )} · ${formatDuration(a.totals.movingTimeSeconds)}`;
+    const place = [a.location.state ?? a.location.country].filter(Boolean).join('');
+    const header = [a.sportType, place].filter(Boolean).join(' · ');
+
+    let prose = '';
+    try {
+      const full = getAdventureBySlug(a.slug);
+      if (full?.content) prose = await markdownToHtml(full.content);
+    } catch (err) {
+      console.error(`Error processing adventure feed item ${a.slug}:`, err);
+    }
+
+    feed.addItem({
+      title: a.title,
+      id: url,
+      link: url,
+      description: a.description || stat,
+      content: `<p>${header} — ${stat}</p>${prose}`,
+      author: [AUTHOR],
+      date: new Date(a.date),
+      category: (a.tags || []).map((name) => ({ name })),
+      image: a.coverThumb ? `${SITE_URL}${a.coverThumb}` : undefined,
     });
   }
 

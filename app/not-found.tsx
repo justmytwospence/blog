@@ -62,8 +62,8 @@ export default function NotFound() {
               home page
             </Link>{' '}
             or check out the{' '}
-            <Link href="/contact" className="text-blue-600 dark:text-blue-400 hover:underline">
-              contact page
+            <Link href="/about" className="text-blue-600 dark:text-blue-400 hover:underline">
+              about page
             </Link>
             .
           </p>

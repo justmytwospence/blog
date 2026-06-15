@@ -1,0 +1,844 @@
+[
+  {
+    "peaks": [
+      "Mt. Princeton"
+    ],
+    "peakid": 10020,
+    "route": "prin1",
+    "note": "standard route",
+    "date": "2019-05-23",
+    "class": 2,
+    "height": "14,197'",
+    "range": "Sawatch",
+    "legs": [
+      {
+        "peak": "Mt. Princeton",
+        "peakid": 10020,
+        "route": "prin1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Mt. Elbert"
+    ],
+    "peakid": 10001,
+    "route": "elbe1",
+    "note": "standard route",
+    "date": "2019-05-29",
+    "class": 1,
+    "height": "14,433'",
+    "range": "Sawatch",
+    "legs": [
+      {
+        "peak": "Mt. Elbert",
+        "peakid": 10001,
+        "route": "elbe1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Quandary Peak"
+    ],
+    "peakid": 10013,
+    "route": "quan1",
+    "note": "standard route",
+    "date": "2019-06-01",
+    "class": 1,
+    "height": "14,265'",
+    "range": "Tenmile",
+    "legs": [
+      {
+        "peak": "Quandary Peak",
+        "peakid": 10013,
+        "route": "quan1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Grays Peak",
+      "Torreys Peak"
+    ],
+    "peakid": 10009,
+    "route": "gray1",
+    "note": "standard route",
+    "date": "2019-06-08",
+    "class": 2,
+    "height": "14,270'",
+    "range": "Front Range",
+    "legs": [
+      {
+        "peak": "Grays Peak",
+        "peakid": 10009,
+        "route": "gray1"
+      },
+      {
+        "peak": "Torreys Peak",
+        "peakid": 10011,
+        "route": "torr2"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "La Plata Peak"
+    ],
+    "peakid": 10005,
+    "route": "lapl1",
+    "note": "standard route",
+    "date": "2019-06-29",
+    "class": 2,
+    "height": "14,336'",
+    "range": "Sawatch",
+    "legs": [
+      {
+        "peak": "La Plata Peak",
+        "peakid": 10005,
+        "route": "lapl1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Longs Peak"
+    ],
+    "peakid": 10015,
+    "route": "long1",
+    "note": "Keyhole Route",
+    "date": "2019-07-14",
+    "class": 3,
+    "height": "14,255'",
+    "range": "Front Range",
+    "legs": [
+      {
+        "peak": "Longs Peak",
+        "peakid": 10015,
+        "route": "long1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Mt. Shavano",
+      "Tabeguache Peak"
+    ],
+    "peakid": 10017,
+    "route": "shav1",
+    "note": "standard route",
+    "date": "2019-07-21",
+    "class": 2,
+    "height": "14,229'",
+    "range": "Sawatch",
+    "legs": [
+      {
+        "peak": "Mt. Shavano",
+        "peakid": 10017,
+        "route": "shav1"
+      },
+      {
+        "peak": "Tabeguache Peak",
+        "peakid": 10025,
+        "route": "tabe2"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Mt. Sherman"
+    ],
+    "peakid": 10045,
+    "route": "sher1",
+    "note": "standard route",
+    "date": "2019-07-27",
+    "class": 2,
+    "height": "14,036'",
+    "range": "Mosquito",
+    "legs": [
+      {
+        "peak": "Mt. Sherman",
+        "peakid": 10045,
+        "route": "sher1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Mt. Belford",
+      "Mt. Oxford",
+      "Missouri Mountain"
+    ],
+    "peakid": 10018,
+    "route": "belf1",
+    "note": "combo route",
+    "date": "2019-08-03",
+    "class": 2,
+    "height": "14,197'",
+    "range": "Sawatch",
+    "legs": [
+      {
+        "peak": "Mt. Belford",
+        "peakid": 10018,
+        "route": "belf1"
+      },
+      {
+        "peak": "Mt. Oxford",
+        "peakid": 10026,
+        "route": "oxfo2"
+      },
+      {
+        "peak": "Missouri Mountain",
+        "peakid": 10036,
+        "route": "miss1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Mt. Evans",
+      "Mt. Bierstadt"
+    ],
+    "peakid": 10014,
+    "route": "bier1",
+    "note": "Sawtooth route",
+    "date": "2019-08-14",
+    "class": 2,
+    "height": "14,264'",
+    "range": "Front Range",
+    "legs": [
+      {
+        "peak": "Mt. Evans",
+        "peakid": 10014,
+        "route": "evan1"
+      },
+      {
+        "peak": "Mt. Bierstadt",
+        "peakid": 10038,
+        "route": "bier1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Mt. Democrat",
+      "Mt. Lincoln",
+      "Mt. Cameron",
+      "Mt. Bross"
+    ],
+    "peakid": 10028,
+    "route": "demo1",
+    "note": "DeCaLiBron",
+    "date": "2019-08-24",
+    "class": 2,
+    "height": "14,286'",
+    "range": "Mosquito",
+    "legs": [
+      {
+        "peak": "Mt. Democrat",
+        "peakid": 10028,
+        "route": "demo1"
+      },
+      {
+        "peak": "Mt. Lincoln",
+        "peakid": 10008,
+        "route": "linc1"
+      },
+      {
+        "peak": "Mt. Cameron",
+        "peakid": 10063,
+        "route": "came1"
+      },
+      {
+        "peak": "Mt. Bross",
+        "peakid": 10022,
+        "route": "bros1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Mt. Harvard",
+      "Mt. Columbia"
+    ],
+    "peakid": 10003,
+    "route": "harv1",
+    "note": "combo route",
+    "date": "2019-08-25",
+    "class": 2,
+    "height": "14,420'",
+    "range": "Sawatch",
+    "legs": [
+      {
+        "peak": "Mt. Harvard",
+        "peakid": 10003,
+        "route": "harv1"
+      },
+      {
+        "peak": "Mt. Columbia",
+        "peakid": 10035,
+        "route": "colu2"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Mt. Massive"
+    ],
+    "peakid": 10002,
+    "route": "mass2",
+    "note": "Southwest Slopes",
+    "date": "2019-09-01",
+    "class": 2,
+    "height": "14,421'",
+    "range": "Sawatch",
+    "legs": [
+      {
+        "peak": "Mt. Massive",
+        "peakid": 10002,
+        "route": "mass2"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Mt. of the Holy Cross"
+    ],
+    "peakid": 10051,
+    "route": "holy1",
+    "note": "North Ridge / Halo Ridge loop",
+    "date": "2019-09-02",
+    "class": 2,
+    "height": "14,005'",
+    "range": "Sawatch",
+    "legs": [
+      {
+        "peak": "Mt. of the Holy Cross",
+        "peakid": 10051,
+        "route": "holy1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Huron Peak"
+    ],
+    "peakid": 10052,
+    "route": "huro4",
+    "note": "Lulu Gulch",
+    "date": "2019-09-06",
+    "class": 2,
+    "height": "14,003'",
+    "range": "Sawatch",
+    "legs": [
+      {
+        "peak": "Huron Peak",
+        "peakid": 10052,
+        "route": "huro4"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Challenger Point",
+      "Kit Carson Peak"
+    ],
+    "peakid": 10034,
+    "route": "chal1",
+    "note": "combo route",
+    "date": "2019-09-14",
+    "class": 3,
+    "height": "14,165'",
+    "range": "Sangre de Cristo",
+    "legs": [
+      {
+        "peak": "Challenger Point",
+        "peakid": 10034,
+        "route": "chal1"
+      },
+      {
+        "peak": "Kit Carson Peak",
+        "peakid": 10023,
+        "route": "kitc2"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Castle Peak",
+      "Conundrum Peak"
+    ],
+    "peakid": 10012,
+    "route": "cast1",
+    "note": "standard combo route",
+    "date": "2019-09-21",
+    "class": 2,
+    "height": "14,265'",
+    "range": "Elk",
+    "legs": [
+      {
+        "peak": "Castle Peak",
+        "peakid": 10012,
+        "route": "cast1"
+      },
+      {
+        "peak": "Conundrum Peak",
+        "peakid": 10065,
+        "route": "conu1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Blanca Peak",
+      "Ellingwood Point"
+    ],
+    "peakid": 10004,
+    "route": "elli5",
+    "note": "North Ridge via South Zapata Creek",
+    "date": "2019-09-30",
+    "class": 2,
+    "height": "14,345'",
+    "range": "Sangre de Cristo",
+    "legs": [
+      {
+        "peak": "Blanca Peak",
+        "peakid": 10004,
+        "route": "blan1"
+      },
+      {
+        "peak": "Ellingwood Point",
+        "peakid": 10042,
+        "route": "elli2"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Mt. Lindsey"
+    ],
+    "peakid": 10043,
+    "route": "lind1",
+    "note": "standard route",
+    "date": "2019-10-01",
+    "class": 3,
+    "height": "14,042'",
+    "range": "Sangre de Cristo",
+    "legs": [
+      {
+        "peak": "Mt. Lindsey",
+        "peakid": 10043,
+        "route": "lind1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Pikes Peak"
+    ],
+    "peakid": 10030,
+    "route": "pikeeast",
+    "note": "Barr Trail",
+    "date": "2019-10-12",
+    "class": 1,
+    "height": "14,110'",
+    "range": "Front Range",
+    "legs": [
+      {
+        "peak": "Pikes Peak",
+        "peakid": 10030,
+        "route": "pikeeast"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Culebra Peak"
+    ],
+    "peakid": 10041,
+    "route": "cule1",
+    "note": "from winter trailhead",
+    "date": "2020-01-02",
+    "class": 2,
+    "height": "14,047'",
+    "range": "Sangre de Cristo",
+    "legs": [
+      {
+        "peak": "Culebra Peak",
+        "peakid": 10041,
+        "route": "cule1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Mt. Yale"
+    ],
+    "peakid": 10021,
+    "route": "yale1",
+    "note": "Southwest Slopes",
+    "date": "2020-07-17",
+    "class": 2,
+    "height": "14,196'",
+    "range": "Sawatch",
+    "legs": [
+      {
+        "peak": "Mt. Yale",
+        "peakid": 10021,
+        "route": "yale1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Mt. Antero"
+    ],
+    "peakid": 10010,
+    "route": "ante1",
+    "note": "standard route",
+    "date": "2020-07-29",
+    "class": 2,
+    "height": "14,269'",
+    "range": "Sawatch",
+    "legs": [
+      {
+        "peak": "Mt. Antero",
+        "peakid": 10010,
+        "route": "ante1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Snowmass Mountain"
+    ],
+    "peakid": 10031,
+    "route": "snow1",
+    "note": "standard route",
+    "date": "2020-08-03",
+    "class": 3,
+    "height": "14,092'",
+    "range": "Elk",
+    "legs": [
+      {
+        "peak": "Snowmass Mountain",
+        "peakid": 10031,
+        "route": "snow1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Crestone Needle"
+    ],
+    "peakid": 10019,
+    "route": "cnee1",
+    "note": "standard route",
+    "date": "2020-08-09",
+    "class": 3,
+    "height": "14,197'",
+    "range": "Sangre de Cristo",
+    "legs": [
+      {
+        "peak": "Crestone Needle",
+        "peakid": 10019,
+        "route": "cnee1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Humboldt Peak"
+    ],
+    "peakid": 10037,
+    "route": "humb1",
+    "note": "standard route",
+    "date": "2020-08-10",
+    "class": 2,
+    "height": "14,064'",
+    "range": "Sangre de Cristo",
+    "legs": [
+      {
+        "peak": "Humboldt Peak",
+        "peakid": 10037,
+        "route": "humb1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Redcloud Peak",
+      "Sunshine Peak"
+    ],
+    "peakid": 10046,
+    "route": "redc1",
+    "note": "standard combo route",
+    "date": "2020-08-21",
+    "class": 2,
+    "height": "14,034'",
+    "range": "San Juan",
+    "legs": [
+      {
+        "peak": "Redcloud Peak",
+        "peakid": 10046,
+        "route": "redc1"
+      },
+      {
+        "peak": "Sunshine Peak",
+        "peakid": 10053,
+        "route": "suns2"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Handies Peak"
+    ],
+    "peakid": 10040,
+    "route": "hand1",
+    "note": "standard route",
+    "date": "2020-08-21",
+    "class": 1,
+    "height": "14,048'",
+    "range": "San Juan",
+    "legs": [
+      {
+        "peak": "Handies Peak",
+        "peakid": 10040,
+        "route": "hand1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Uncompahgre Peak",
+      "Wetterhorn Peak"
+    ],
+    "peakid": 10006,
+    "route": "unco1",
+    "note": "combo route",
+    "date": "2020-08-23",
+    "class": 3,
+    "height": "14,309'",
+    "range": "San Juan",
+    "legs": [
+      {
+        "peak": "Uncompahgre Peak",
+        "peakid": 10006,
+        "route": "unco1"
+      },
+      {
+        "peak": "Wetterhorn Peak",
+        "peakid": 10049,
+        "route": "wett1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Maroon Peak",
+      "North Maroon Peak"
+    ],
+    "peakid": 10024,
+    "route": "maro1",
+    "note": "Bells Traverse (South to North)",
+    "date": "2020-09-04",
+    "class": 4,
+    "height": "14,156'",
+    "range": "Elk",
+    "legs": [
+      {
+        "peak": "Maroon Peak",
+        "peakid": 10024,
+        "route": "maro1"
+      },
+      {
+        "peak": "North Maroon Peak",
+        "peakid": 10067,
+        "route": "nmar2"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Pyramid Peak"
+    ],
+    "peakid": 10047,
+    "route": "pyra1",
+    "note": "standard route",
+    "date": "2020-09-05",
+    "class": 4,
+    "height": "14,018'",
+    "range": "Elk",
+    "legs": [
+      {
+        "peak": "Pyramid Peak",
+        "peakid": 10047,
+        "route": "pyra1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "San Luis Peak"
+    ],
+    "peakid": 10050,
+    "route": "sanl1",
+    "note": "standard route",
+    "date": "2020-09-13",
+    "class": 1,
+    "height": "14,014'",
+    "range": "San Juan",
+    "legs": [
+      {
+        "peak": "San Luis Peak",
+        "peakid": 10050,
+        "route": "sanl1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Mt. Sneffels"
+    ],
+    "peakid": 10027,
+    "route": "snef2",
+    "note": "Northwest Ridge via Blue Lakes",
+    "date": "2020-09-19",
+    "class": 3,
+    "height": "14,150'",
+    "range": "San Juan",
+    "legs": [
+      {
+        "peak": "Mt. Sneffels",
+        "peakid": 10027,
+        "route": "snef2"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Mt. Eolus",
+      "Windom Peak",
+      "Sunlight Peak",
+      "North Eolus"
+    ],
+    "peakid": 10032,
+    "route": "eolu3",
+    "note": "from Purgatory",
+    "date": "2020-09-25",
+    "class": 4,
+    "height": "14,087'",
+    "range": "San Juan",
+    "legs": [
+      {
+        "peak": "Mt. Eolus",
+        "peakid": 10032,
+        "route": "eolu3"
+      },
+      {
+        "peak": "Windom Peak",
+        "peakid": 10033,
+        "route": "wind1"
+      },
+      {
+        "peak": "Sunlight Peak",
+        "peakid": 10039,
+        "route": "sunl2"
+      },
+      {
+        "peak": "North Eolus",
+        "peakid": 10066,
+        "route": "neol4"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Capitol Peak"
+    ],
+    "peakid": 10029,
+    "route": "capi1",
+    "note": "standard route",
+    "date": "2020-09-30",
+    "class": 4,
+    "height": "14,130'",
+    "range": "Elk",
+    "legs": [
+      {
+        "peak": "Capitol Peak",
+        "peakid": 10029,
+        "route": "capi1"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Crestone Peak"
+    ],
+    "peakid": 10007,
+    "route": "cpea2",
+    "note": "Crestones Traverse from Cottonwood",
+    "date": "2020-10-04",
+    "class": 3,
+    "height": "14,294'",
+    "range": "Sangre de Cristo",
+    "legs": [
+      {
+        "peak": "Crestone Peak",
+        "peakid": 10007,
+        "route": "cpea2"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Little Bear Peak"
+    ],
+    "peakid": 10044,
+    "route": "litt3",
+    "note": "standard route",
+    "date": "2020-10-05",
+    "class": 4,
+    "height": "14,037'",
+    "range": "Sangre de Cristo",
+    "legs": [
+      {
+        "peak": "Little Bear Peak",
+        "peakid": 10044,
+        "route": "litt3"
+      }
+    ]
+  },
+  {
+    "peaks": [
+      "Mt. Wilson",
+      "El Diente Peak",
+      "Wilson Peak"
+    ],
+    "peakid": 10016,
+    "route": "kilp0",
+    "note": "Kilpacker \u2192 El Diente \u2192 Traverse \u2192 Mt Wilson \u2192 Wilson Peak \u2192 Navajo",
+    "date": "2020-10-10",
+    "class": 4,
+    "height": "14,246'",
+    "range": "San Juan",
+    "legs": [
+      {
+        "peak": "Mt. Wilson",
+        "peakid": 10016,
+        "route": "mwil2"
+      },
+      {
+        "peak": "El Diente Peak",
+        "peakid": 10064,
+        "route": "eldi3"
+      },
+      {
+        "peak": "Wilson Peak",
+        "peakid": 10048,
+        "route": "wils1"
+      }
+    ]
+  }
+]

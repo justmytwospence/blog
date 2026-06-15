@@ -1,4 +1,5 @@
 import { getAllBlogPosts } from '@/lib/content';
+import { formatDate } from '@/lib/format';
 import Link from 'next/link';
 import { PageContainer } from '@/components/PageContainer';
 import type { Metadata } from 'next';
@@ -29,13 +30,7 @@ export default function BlogPage() {
           {posts.map((post) => (
             <article key={post.slug} className="border-b border-gray-200 dark:border-[#303031] pb-12 last:border-b-0">
               <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-[#a6a6a6] mb-3">
-                <time dateTime={post.date}>
-                  {new Date(post.date).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </time>
+                <time dateTime={post.date}>{formatDate(post.date)}</time>
                 {post.readingTime && (
                   <>
                     <span>·</span>

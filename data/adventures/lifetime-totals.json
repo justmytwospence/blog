@@ -1,0 +1,1954 @@
+{
+  "bySport": [
+    {
+      "sportType": "Ride",
+      "count": 198,
+      "distanceMeters": 4838815,
+      "elevationGainMeters": 41772,
+      "movingTimeSeconds": 748740
+    },
+    {
+      "sportType": "TrailRun",
+      "count": 302,
+      "distanceMeters": 4155970,
+      "elevationGainMeters": 164234,
+      "movingTimeSeconds": 1845060
+    },
+    {
+      "sportType": "Run",
+      "count": 284,
+      "distanceMeters": 2799454,
+      "elevationGainMeters": 29821,
+      "movingTimeSeconds": 897960
+    },
+    {
+      "sportType": "GravelRide",
+      "count": 58,
+      "distanceMeters": 2540671,
+      "elevationGainMeters": 33567,
+      "movingTimeSeconds": 448140
+    },
+    {
+      "sportType": "Hike",
+      "count": 170,
+      "distanceMeters": 2152015,
+      "elevationGainMeters": 120476,
+      "movingTimeSeconds": 1928400
+    },
+    {
+      "sportType": "BackcountrySki",
+      "count": 141,
+      "distanceMeters": 1284417,
+      "elevationGainMeters": 103816,
+      "movingTimeSeconds": 839160
+    },
+    {
+      "sportType": "NordicSki",
+      "count": 49,
+      "distanceMeters": 986850,
+      "elevationGainMeters": 17004,
+      "movingTimeSeconds": 280920
+    },
+    {
+      "sportType": "VirtualRide",
+      "count": 20,
+      "distanceMeters": 612194,
+      "elevationGainMeters": 0,
+      "movingTimeSeconds": 75360
+    },
+    {
+      "sportType": "Walk",
+      "count": 128,
+      "distanceMeters": 299821,
+      "elevationGainMeters": 4661,
+      "movingTimeSeconds": 224640
+    },
+    {
+      "sportType": "Swim",
+      "count": 78,
+      "distanceMeters": 146933,
+      "elevationGainMeters": 5,
+      "movingTimeSeconds": 183900
+    },
+    {
+      "sportType": "RollerSki",
+      "count": 8,
+      "distanceMeters": 135024,
+      "elevationGainMeters": 626,
+      "movingTimeSeconds": 36240
+    },
+    {
+      "sportType": "InlineSkate",
+      "count": 7,
+      "distanceMeters": 38785,
+      "elevationGainMeters": 172,
+      "movingTimeSeconds": 15120
+    },
+    {
+      "sportType": "Snowshoe",
+      "count": 3,
+      "distanceMeters": 30738,
+      "elevationGainMeters": 1835,
+      "movingTimeSeconds": 36000
+    },
+    {
+      "sportType": "Kayaking",
+      "count": 2,
+      "distanceMeters": 18668,
+      "elevationGainMeters": 129,
+      "movingTimeSeconds": 16440
+    },
+    {
+      "sportType": "RockClimbing",
+      "count": 7,
+      "distanceMeters": 13518,
+      "elevationGainMeters": 1291,
+      "movingTimeSeconds": 58200
+    },
+    {
+      "sportType": "StandUpPaddling",
+      "count": 5,
+      "distanceMeters": 11104,
+      "elevationGainMeters": 10,
+      "movingTimeSeconds": 11580
+    },
+    {
+      "sportType": "Skateboard",
+      "count": 2,
+      "distanceMeters": 4828,
+      "elevationGainMeters": 83,
+      "movingTimeSeconds": 1620
+    },
+    {
+      "sportType": "Rowing",
+      "count": 2,
+      "distanceMeters": 0,
+      "elevationGainMeters": 0,
+      "movingTimeSeconds": 5400
+    }
+  ],
+  "totalDistanceMeters": 20069807,
+  "totalElevationGainMeters": 519501,
+  "totalMovingTimeSeconds": 7652880,
+  "activityCount": 1464,
+  "byYearSport": {
+    "2019": {
+      "Hike": {
+        "distanceMeters": 41360,
+        "elevationGainMeters": 1514,
+        "movingTimeSeconds": 38220
+      },
+      "Run": {
+        "distanceMeters": 8690,
+        "elevationGainMeters": 72,
+        "movingTimeSeconds": 3300
+      }
+    },
+    "2020": {
+      "Ride": {
+        "distanceMeters": 328950,
+        "elevationGainMeters": 1447,
+        "movingTimeSeconds": 12900
+      },
+      "Hike": {
+        "distanceMeters": 210985,
+        "elevationGainMeters": 13988,
+        "movingTimeSeconds": 200040
+      },
+      "Snowshoe": {
+        "distanceMeters": 20600,
+        "elevationGainMeters": 1370,
+        "movingTimeSeconds": 24900
+      }
+    },
+    "2021": {
+      "Hike": {
+        "distanceMeters": 248322,
+        "elevationGainMeters": 18580,
+        "movingTimeSeconds": 267600
+      }
+    },
+    "2022": {
+      "Hike": {
+        "distanceMeters": 78536,
+        "elevationGainMeters": 3799,
+        "movingTimeSeconds": 61020
+      }
+    },
+    "2023": {
+      "BackcountrySki": {
+        "distanceMeters": 535912,
+        "elevationGainMeters": 43644,
+        "movingTimeSeconds": 394500
+      },
+      "TrailRun": {
+        "distanceMeters": 633760,
+        "elevationGainMeters": 36252,
+        "movingTimeSeconds": 400500
+      },
+      "Run": {
+        "distanceMeters": 384472,
+        "elevationGainMeters": 3194,
+        "movingTimeSeconds": 133200
+      },
+      "Ride": {
+        "distanceMeters": 1973699,
+        "elevationGainMeters": 19595,
+        "movingTimeSeconds": 350160
+      },
+      "GravelRide": {
+        "distanceMeters": 613965,
+        "elevationGainMeters": 9015,
+        "movingTimeSeconds": 111360
+      },
+      "NordicSki": {
+        "distanceMeters": 81433,
+        "elevationGainMeters": 456,
+        "movingTimeSeconds": 27840
+      },
+      "VirtualRide": {
+        "distanceMeters": 462525,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 57180
+      },
+      "Walk": {
+        "distanceMeters": 10622,
+        "elevationGainMeters": 205,
+        "movingTimeSeconds": 8520
+      },
+      "Swim": {
+        "distanceMeters": 3541,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 8940
+      },
+      "Hike": {
+        "distanceMeters": 289682,
+        "elevationGainMeters": 22435,
+        "movingTimeSeconds": 336360
+      },
+      "RockClimbing": {
+        "distanceMeters": 13518,
+        "elevationGainMeters": 1291,
+        "movingTimeSeconds": 58200
+      },
+      "RollerSki": {
+        "distanceMeters": 0,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 7200
+      },
+      "Snowshoe": {
+        "distanceMeters": 10139,
+        "elevationGainMeters": 465,
+        "movingTimeSeconds": 11100
+      }
+    },
+    "2024": {
+      "BackcountrySki": {
+        "distanceMeters": 584353,
+        "elevationGainMeters": 48042,
+        "movingTimeSeconds": 350220
+      },
+      "Walk": {
+        "distanceMeters": 79502,
+        "elevationGainMeters": 1184,
+        "movingTimeSeconds": 61200
+      },
+      "Swim": {
+        "distanceMeters": 81433,
+        "elevationGainMeters": 5,
+        "movingTimeSeconds": 101940
+      },
+      "NordicSki": {
+        "distanceMeters": 296119,
+        "elevationGainMeters": 4545,
+        "movingTimeSeconds": 85020
+      },
+      "Hike": {
+        "distanceMeters": 176706,
+        "elevationGainMeters": 14242,
+        "movingTimeSeconds": 182460
+      },
+      "Ride": {
+        "distanceMeters": 812558,
+        "elevationGainMeters": 10273,
+        "movingTimeSeconds": 126900
+      },
+      "Run": {
+        "distanceMeters": 1125897,
+        "elevationGainMeters": 10848,
+        "movingTimeSeconds": 352620
+      },
+      "Rowing": {
+        "distanceMeters": 0,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 5400
+      },
+      "TrailRun": {
+        "distanceMeters": 1687075,
+        "elevationGainMeters": 55253,
+        "movingTimeSeconds": 673980
+      },
+      "GravelRide": {
+        "distanceMeters": 488758,
+        "elevationGainMeters": 7968,
+        "movingTimeSeconds": 85800
+      },
+      "Kayaking": {
+        "distanceMeters": 18668,
+        "elevationGainMeters": 129,
+        "movingTimeSeconds": 16440
+      },
+      "VirtualRide": {
+        "distanceMeters": 149669,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 18180
+      }
+    },
+    "2025": {
+      "TrailRun": {
+        "distanceMeters": 1436018,
+        "elevationGainMeters": 60203,
+        "movingTimeSeconds": 618960
+      },
+      "Run": {
+        "distanceMeters": 613804,
+        "elevationGainMeters": 7913,
+        "movingTimeSeconds": 202320
+      },
+      "Hike": {
+        "distanceMeters": 1096124,
+        "elevationGainMeters": 45216,
+        "movingTimeSeconds": 832980
+      },
+      "NordicSki": {
+        "distanceMeters": 609298,
+        "elevationGainMeters": 12003,
+        "movingTimeSeconds": 168060
+      },
+      "Swim": {
+        "distanceMeters": 60511,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 71280
+      },
+      "Walk": {
+        "distanceMeters": 97687,
+        "elevationGainMeters": 2195,
+        "movingTimeSeconds": 77220
+      },
+      "GravelRide": {
+        "distanceMeters": 1437949,
+        "elevationGainMeters": 16584,
+        "movingTimeSeconds": 250980
+      },
+      "RollerSki": {
+        "distanceMeters": 135024,
+        "elevationGainMeters": 626,
+        "movingTimeSeconds": 29040
+      },
+      "Ride": {
+        "distanceMeters": 602217,
+        "elevationGainMeters": 9618,
+        "movingTimeSeconds": 110520
+      },
+      "StandUpPaddling": {
+        "distanceMeters": 7564,
+        "elevationGainMeters": 10,
+        "movingTimeSeconds": 7980
+      },
+      "InlineSkate": {
+        "distanceMeters": 38785,
+        "elevationGainMeters": 172,
+        "movingTimeSeconds": 15120
+      },
+      "BackcountrySki": {
+        "distanceMeters": 164153,
+        "elevationGainMeters": 12131,
+        "movingTimeSeconds": 94440
+      },
+      "Skateboard": {
+        "distanceMeters": 4828,
+        "elevationGainMeters": 83,
+        "movingTimeSeconds": 1620
+      }
+    },
+    "2026": {
+      "TrailRun": {
+        "distanceMeters": 399117,
+        "elevationGainMeters": 12525,
+        "movingTimeSeconds": 151620
+      },
+      "Hike": {
+        "distanceMeters": 10300,
+        "elevationGainMeters": 701,
+        "movingTimeSeconds": 9720
+      },
+      "Walk": {
+        "distanceMeters": 112010,
+        "elevationGainMeters": 1077,
+        "movingTimeSeconds": 77700
+      },
+      "Run": {
+        "distanceMeters": 666590,
+        "elevationGainMeters": 7794,
+        "movingTimeSeconds": 206520
+      },
+      "Ride": {
+        "distanceMeters": 1121391,
+        "elevationGainMeters": 839,
+        "movingTimeSeconds": 148260
+      },
+      "StandUpPaddling": {
+        "distanceMeters": 3541,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 3600
+      },
+      "Swim": {
+        "distanceMeters": 1448,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 1740
+      }
+    }
+  },
+  "byMonthSport": {
+    "2026-06": {
+      "TrailRun": {
+        "distanceMeters": 43935,
+        "elevationGainMeters": 2850,
+        "movingTimeSeconds": 24720
+      },
+      "Hike": {
+        "distanceMeters": 1448,
+        "elevationGainMeters": 102,
+        "movingTimeSeconds": 1920
+      },
+      "Walk": {
+        "distanceMeters": 19151,
+        "elevationGainMeters": 208,
+        "movingTimeSeconds": 14220
+      },
+      "Run": {
+        "distanceMeters": 49246,
+        "elevationGainMeters": 1035,
+        "movingTimeSeconds": 16500
+      }
+    },
+    "2026-05": {
+      "Run": {
+        "distanceMeters": 182982,
+        "elevationGainMeters": 1929,
+        "movingTimeSeconds": 57060
+      },
+      "TrailRun": {
+        "distanceMeters": 101711,
+        "elevationGainMeters": 2425,
+        "movingTimeSeconds": 34440
+      },
+      "Ride": {
+        "distanceMeters": 131483,
+        "elevationGainMeters": 839,
+        "movingTimeSeconds": 18420
+      },
+      "Walk": {
+        "distanceMeters": 19634,
+        "elevationGainMeters": 166,
+        "movingTimeSeconds": 12960
+      }
+    },
+    "2026-04": {
+      "Run": {
+        "distanceMeters": 195696,
+        "elevationGainMeters": 2191,
+        "movingTimeSeconds": 59280
+      },
+      "Ride": {
+        "distanceMeters": 192478,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 24960
+      },
+      "Walk": {
+        "distanceMeters": 15772,
+        "elevationGainMeters": 117,
+        "movingTimeSeconds": 10500
+      },
+      "TrailRun": {
+        "distanceMeters": 50533,
+        "elevationGainMeters": 1511,
+        "movingTimeSeconds": 16860
+      },
+      "StandUpPaddling": {
+        "distanceMeters": 3541,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 3600
+      },
+      "Hike": {
+        "distanceMeters": 4345,
+        "elevationGainMeters": 235,
+        "movingTimeSeconds": 3420
+      }
+    },
+    "2026-03": {
+      "TrailRun": {
+        "distanceMeters": 86744,
+        "elevationGainMeters": 2067,
+        "movingTimeSeconds": 28980
+      },
+      "Walk": {
+        "distanceMeters": 48602,
+        "elevationGainMeters": 513,
+        "movingTimeSeconds": 33900
+      },
+      "Run": {
+        "distanceMeters": 102515,
+        "elevationGainMeters": 1034,
+        "movingTimeSeconds": 30360
+      },
+      "Ride": {
+        "distanceMeters": 337801,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 44160
+      },
+      "Swim": {
+        "distanceMeters": 1448,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 1740
+      }
+    },
+    "2026-02": {
+      "TrailRun": {
+        "distanceMeters": 28807,
+        "elevationGainMeters": 581,
+        "movingTimeSeconds": 9900
+      },
+      "Walk": {
+        "distanceMeters": 8851,
+        "elevationGainMeters": 73,
+        "movingTimeSeconds": 6120
+      },
+      "Run": {
+        "distanceMeters": 87066,
+        "elevationGainMeters": 808,
+        "movingTimeSeconds": 26640
+      },
+      "Ride": {
+        "distanceMeters": 459629,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 60720
+      }
+    },
+    "2026-01": {
+      "TrailRun": {
+        "distanceMeters": 87387,
+        "elevationGainMeters": 3092,
+        "movingTimeSeconds": 36720
+      },
+      "Run": {
+        "distanceMeters": 49085,
+        "elevationGainMeters": 798,
+        "movingTimeSeconds": 16680
+      },
+      "Hike": {
+        "distanceMeters": 4506,
+        "elevationGainMeters": 364,
+        "movingTimeSeconds": 4380
+      }
+    },
+    "2025-12": {
+      "TrailRun": {
+        "distanceMeters": 82559,
+        "elevationGainMeters": 2290,
+        "movingTimeSeconds": 30660
+      },
+      "Run": {
+        "distanceMeters": 78375,
+        "elevationGainMeters": 1252,
+        "movingTimeSeconds": 27000
+      },
+      "Hike": {
+        "distanceMeters": 13840,
+        "elevationGainMeters": 1216,
+        "movingTimeSeconds": 13620
+      },
+      "NordicSki": {
+        "distanceMeters": 2736,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 780
+      },
+      "Swim": {
+        "distanceMeters": 1770,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 2700
+      }
+    },
+    "2025-11": {
+      "TrailRun": {
+        "distanceMeters": 175740,
+        "elevationGainMeters": 6101,
+        "movingTimeSeconds": 65400
+      },
+      "Walk": {
+        "distanceMeters": 9978,
+        "elevationGainMeters": 206,
+        "movingTimeSeconds": 5940
+      },
+      "Run": {
+        "distanceMeters": 63891,
+        "elevationGainMeters": 1366,
+        "movingTimeSeconds": 22020
+      },
+      "Hike": {
+        "distanceMeters": 22209,
+        "elevationGainMeters": 1428,
+        "movingTimeSeconds": 21300
+      },
+      "Swim": {
+        "distanceMeters": 5794,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 6300
+      },
+      "NordicSki": {
+        "distanceMeters": 6276,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 1800
+      }
+    },
+    "2025-10": {
+      "Swim": {
+        "distanceMeters": 7081,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 8760
+      },
+      "TrailRun": {
+        "distanceMeters": 165923,
+        "elevationGainMeters": 7332,
+        "movingTimeSeconds": 71520
+      },
+      "GravelRide": {
+        "distanceMeters": 150152,
+        "elevationGainMeters": 1702,
+        "movingTimeSeconds": 25860
+      },
+      "Run": {
+        "distanceMeters": 77409,
+        "elevationGainMeters": 1726,
+        "movingTimeSeconds": 27060
+      },
+      "Walk": {
+        "distanceMeters": 2736,
+        "elevationGainMeters": 17,
+        "movingTimeSeconds": 1980
+      },
+      "Hike": {
+        "distanceMeters": 10461,
+        "elevationGainMeters": 137,
+        "movingTimeSeconds": 7380
+      },
+      "RollerSki": {
+        "distanceMeters": 3058,
+        "elevationGainMeters": 138,
+        "movingTimeSeconds": 1200
+      }
+    },
+    "2025-09": {
+      "Run": {
+        "distanceMeters": 19795,
+        "elevationGainMeters": 427,
+        "movingTimeSeconds": 7320
+      },
+      "TrailRun": {
+        "distanceMeters": 42809,
+        "elevationGainMeters": 1897,
+        "movingTimeSeconds": 16560
+      },
+      "Hike": {
+        "distanceMeters": 807569,
+        "elevationGainMeters": 28474,
+        "movingTimeSeconds": 588420
+      },
+      "Walk": {
+        "distanceMeters": 2092,
+        "elevationGainMeters": 35,
+        "movingTimeSeconds": 1380
+      }
+    },
+    "2025-08": {
+      "TrailRun": {
+        "distanceMeters": 189420,
+        "elevationGainMeters": 10640,
+        "movingTimeSeconds": 101100
+      },
+      "Ride": {
+        "distanceMeters": 9978,
+        "elevationGainMeters": 63,
+        "movingTimeSeconds": 1680
+      },
+      "Walk": {
+        "distanceMeters": 5794,
+        "elevationGainMeters": 121,
+        "movingTimeSeconds": 6840
+      },
+      "Run": {
+        "distanceMeters": 57293,
+        "elevationGainMeters": 1083,
+        "movingTimeSeconds": 18420
+      },
+      "GravelRide": {
+        "distanceMeters": 151278,
+        "elevationGainMeters": 1159,
+        "movingTimeSeconds": 25440
+      },
+      "Hike": {
+        "distanceMeters": 162383,
+        "elevationGainMeters": 8644,
+        "movingTimeSeconds": 129180
+      },
+      "Swim": {
+        "distanceMeters": 161,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 180
+      }
+    },
+    "2025-07": {
+      "Ride": {
+        "distanceMeters": 54074,
+        "elevationGainMeters": 405,
+        "movingTimeSeconds": 6720
+      },
+      "TrailRun": {
+        "distanceMeters": 229171,
+        "elevationGainMeters": 12685,
+        "movingTimeSeconds": 118800
+      },
+      "Run": {
+        "distanceMeters": 60029,
+        "elevationGainMeters": 584,
+        "movingTimeSeconds": 18600
+      },
+      "RollerSki": {
+        "distanceMeters": 69041,
+        "elevationGainMeters": 267,
+        "movingTimeSeconds": 13500
+      },
+      "GravelRide": {
+        "distanceMeters": 367896,
+        "elevationGainMeters": 3951,
+        "movingTimeSeconds": 64080
+      },
+      "Walk": {
+        "distanceMeters": 5955,
+        "elevationGainMeters": 293,
+        "movingTimeSeconds": 6180
+      },
+      "Hike": {
+        "distanceMeters": 7403,
+        "elevationGainMeters": 632,
+        "movingTimeSeconds": 9900
+      }
+    },
+    "2025-06": {
+      "Walk": {
+        "distanceMeters": 24945,
+        "elevationGainMeters": 600,
+        "movingTimeSeconds": 21660
+      },
+      "TrailRun": {
+        "distanceMeters": 133576,
+        "elevationGainMeters": 8401,
+        "movingTimeSeconds": 70620
+      },
+      "StandUpPaddling": {
+        "distanceMeters": 5794,
+        "elevationGainMeters": 8,
+        "movingTimeSeconds": 6240
+      },
+      "GravelRide": {
+        "distanceMeters": 421970,
+        "elevationGainMeters": 5867,
+        "movingTimeSeconds": 74760
+      },
+      "Run": {
+        "distanceMeters": 32831,
+        "elevationGainMeters": 21,
+        "movingTimeSeconds": 9960
+      },
+      "Hike": {
+        "distanceMeters": 5150,
+        "elevationGainMeters": 355,
+        "movingTimeSeconds": 5220
+      },
+      "RollerSki": {
+        "distanceMeters": 29773,
+        "elevationGainMeters": 25,
+        "movingTimeSeconds": 6000
+      },
+      "Ride": {
+        "distanceMeters": 287912,
+        "elevationGainMeters": 4143,
+        "movingTimeSeconds": 50220
+      },
+      "InlineSkate": {
+        "distanceMeters": 13358,
+        "elevationGainMeters": 74,
+        "movingTimeSeconds": 3540
+      }
+    },
+    "2025-05": {
+      "Walk": {
+        "distanceMeters": 7886,
+        "elevationGainMeters": 145,
+        "movingTimeSeconds": 6540
+      },
+      "GravelRide": {
+        "distanceMeters": 89319,
+        "elevationGainMeters": 1672,
+        "movingTimeSeconds": 18900
+      },
+      "Ride": {
+        "distanceMeters": 56327,
+        "elevationGainMeters": 822,
+        "movingTimeSeconds": 9060
+      },
+      "Hike": {
+        "distanceMeters": 18668,
+        "elevationGainMeters": 1176,
+        "movingTimeSeconds": 18000
+      },
+      "TrailRun": {
+        "distanceMeters": 178154,
+        "elevationGainMeters": 4975,
+        "movingTimeSeconds": 63060
+      },
+      "Run": {
+        "distanceMeters": 86905,
+        "elevationGainMeters": 522,
+        "movingTimeSeconds": 27480
+      },
+      "RollerSki": {
+        "distanceMeters": 10461,
+        "elevationGainMeters": 118,
+        "movingTimeSeconds": 3120
+      },
+      "StandUpPaddling": {
+        "distanceMeters": 1770,
+        "elevationGainMeters": 3,
+        "movingTimeSeconds": 1740
+      }
+    },
+    "2025-04": {
+      "TrailRun": {
+        "distanceMeters": 150313,
+        "elevationGainMeters": 3563,
+        "movingTimeSeconds": 50760
+      },
+      "Ride": {
+        "distanceMeters": 104446,
+        "elevationGainMeters": 2004,
+        "movingTimeSeconds": 18360
+      },
+      "BackcountrySki": {
+        "distanceMeters": 6920,
+        "elevationGainMeters": 727,
+        "movingTimeSeconds": 5220
+      },
+      "Run": {
+        "distanceMeters": 73225,
+        "elevationGainMeters": 579,
+        "movingTimeSeconds": 23400
+      },
+      "Walk": {
+        "distanceMeters": 1448,
+        "elevationGainMeters": 48,
+        "movingTimeSeconds": 1020
+      },
+      "GravelRide": {
+        "distanceMeters": 74352,
+        "elevationGainMeters": 490,
+        "movingTimeSeconds": 12180
+      },
+      "RollerSki": {
+        "distanceMeters": 22692,
+        "elevationGainMeters": 78,
+        "movingTimeSeconds": 5220
+      },
+      "InlineSkate": {
+        "distanceMeters": 25428,
+        "elevationGainMeters": 98,
+        "movingTimeSeconds": 11580
+      },
+      "Hike": {
+        "distanceMeters": 7725,
+        "elevationGainMeters": 257,
+        "movingTimeSeconds": 5580
+      },
+      "NordicSki": {
+        "distanceMeters": 26232,
+        "elevationGainMeters": 578,
+        "movingTimeSeconds": 6420
+      }
+    },
+    "2025-03": {
+      "Walk": {
+        "distanceMeters": 12070,
+        "elevationGainMeters": 273,
+        "movingTimeSeconds": 8940
+      },
+      "NordicSki": {
+        "distanceMeters": 232067,
+        "elevationGainMeters": 4745,
+        "movingTimeSeconds": 60120
+      },
+      "Swim": {
+        "distanceMeters": 10944,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 12960
+      },
+      "Run": {
+        "distanceMeters": 31865,
+        "elevationGainMeters": 216,
+        "movingTimeSeconds": 9660
+      },
+      "Hike": {
+        "distanceMeters": 21887,
+        "elevationGainMeters": 1617,
+        "movingTimeSeconds": 18240
+      },
+      "GravelRide": {
+        "distanceMeters": 102032,
+        "elevationGainMeters": 1000,
+        "movingTimeSeconds": 17220
+      },
+      "TrailRun": {
+        "distanceMeters": 88353,
+        "elevationGainMeters": 2319,
+        "movingTimeSeconds": 30480
+      },
+      "Ride": {
+        "distanceMeters": 65983,
+        "elevationGainMeters": 2017,
+        "movingTimeSeconds": 20400
+      },
+      "Skateboard": {
+        "distanceMeters": 4828,
+        "elevationGainMeters": 83,
+        "movingTimeSeconds": 1620
+      },
+      "BackcountrySki": {
+        "distanceMeters": 14806,
+        "elevationGainMeters": 1468,
+        "movingTimeSeconds": 9840
+      }
+    },
+    "2025-02": {
+      "BackcountrySki": {
+        "distanceMeters": 66305,
+        "elevationGainMeters": 5567,
+        "movingTimeSeconds": 38040
+      },
+      "Run": {
+        "distanceMeters": 11104,
+        "elevationGainMeters": 38,
+        "movingTimeSeconds": 3360
+      },
+      "NordicSki": {
+        "distanceMeters": 226113,
+        "elevationGainMeters": 3974,
+        "movingTimeSeconds": 58500
+      },
+      "Walk": {
+        "distanceMeters": 16415,
+        "elevationGainMeters": 265,
+        "movingTimeSeconds": 11220
+      },
+      "Swim": {
+        "distanceMeters": 23014,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 27000
+      },
+      "GravelRide": {
+        "distanceMeters": 80950,
+        "elevationGainMeters": 743,
+        "movingTimeSeconds": 12540
+      },
+      "Hike": {
+        "distanceMeters": 18829,
+        "elevationGainMeters": 1281,
+        "movingTimeSeconds": 16140
+      }
+    },
+    "2025-01": {
+      "Swim": {
+        "distanceMeters": 11748,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 13380
+      },
+      "NordicSki": {
+        "distanceMeters": 115873,
+        "elevationGainMeters": 2705,
+        "movingTimeSeconds": 40440
+      },
+      "BackcountrySki": {
+        "distanceMeters": 76122,
+        "elevationGainMeters": 4369,
+        "movingTimeSeconds": 41340
+      },
+      "Walk": {
+        "distanceMeters": 8369,
+        "elevationGainMeters": 192,
+        "movingTimeSeconds": 5520
+      },
+      "Run": {
+        "distanceMeters": 21082,
+        "elevationGainMeters": 99,
+        "movingTimeSeconds": 8040
+      },
+      "Ride": {
+        "distanceMeters": 23496,
+        "elevationGainMeters": 163,
+        "movingTimeSeconds": 4080
+      }
+    },
+    "2024-12": {
+      "BackcountrySki": {
+        "distanceMeters": 163992,
+        "elevationGainMeters": 15276,
+        "movingTimeSeconds": 89760
+      },
+      "Walk": {
+        "distanceMeters": 3380,
+        "elevationGainMeters": 68,
+        "movingTimeSeconds": 2280
+      },
+      "Swim": {
+        "distanceMeters": 14484,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 20460
+      },
+      "NordicSki": {
+        "distanceMeters": 180568,
+        "elevationGainMeters": 3120,
+        "movingTimeSeconds": 50100
+      },
+      "Hike": {
+        "distanceMeters": 47315,
+        "elevationGainMeters": 4744,
+        "movingTimeSeconds": 46320
+      },
+      "Ride": {
+        "distanceMeters": 72742,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 9000
+      },
+      "Run": {
+        "distanceMeters": 13197,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 4560
+      },
+      "Rowing": {
+        "distanceMeters": 0,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 1800
+      }
+    },
+    "2024-11": {
+      "Walk": {
+        "distanceMeters": 9334,
+        "elevationGainMeters": 100,
+        "movingTimeSeconds": 6780
+      },
+      "Run": {
+        "distanceMeters": 37498,
+        "elevationGainMeters": 371,
+        "movingTimeSeconds": 12120
+      },
+      "Ride": {
+        "distanceMeters": 173648,
+        "elevationGainMeters": 1362,
+        "movingTimeSeconds": 24000
+      },
+      "Hike": {
+        "distanceMeters": 24623,
+        "elevationGainMeters": 1845,
+        "movingTimeSeconds": 22980
+      },
+      "BackcountrySki": {
+        "distanceMeters": 69685,
+        "elevationGainMeters": 6509,
+        "movingTimeSeconds": 43920
+      },
+      "TrailRun": {
+        "distanceMeters": 55040,
+        "elevationGainMeters": 1537,
+        "movingTimeSeconds": 18960
+      }
+    },
+    "2024-10": {
+      "TrailRun": {
+        "distanceMeters": 286624,
+        "elevationGainMeters": 11029,
+        "movingTimeSeconds": 121620
+      },
+      "NordicSki": {
+        "distanceMeters": 12231,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 3600
+      },
+      "Swim": {
+        "distanceMeters": 7403,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 9240
+      },
+      "Ride": {
+        "distanceMeters": 235930,
+        "elevationGainMeters": 4347,
+        "movingTimeSeconds": 38940
+      },
+      "Run": {
+        "distanceMeters": 56327,
+        "elevationGainMeters": 493,
+        "movingTimeSeconds": 16980
+      },
+      "GravelRide": {
+        "distanceMeters": 30095,
+        "elevationGainMeters": 315,
+        "movingTimeSeconds": 5700
+      },
+      "Hike": {
+        "distanceMeters": 15933,
+        "elevationGainMeters": 1472,
+        "movingTimeSeconds": 19080
+      },
+      "Walk": {
+        "distanceMeters": 1931,
+        "elevationGainMeters": 20,
+        "movingTimeSeconds": 1380
+      }
+    },
+    "2024-09": {
+      "Hike": {
+        "distanceMeters": 38946,
+        "elevationGainMeters": 2149,
+        "movingTimeSeconds": 35340
+      },
+      "GravelRide": {
+        "distanceMeters": 42326,
+        "elevationGainMeters": 823,
+        "movingTimeSeconds": 10200
+      },
+      "TrailRun": {
+        "distanceMeters": 205191,
+        "elevationGainMeters": 5867,
+        "movingTimeSeconds": 76620
+      },
+      "Run": {
+        "distanceMeters": 57615,
+        "elevationGainMeters": 1107,
+        "movingTimeSeconds": 19920
+      },
+      "Walk": {
+        "distanceMeters": 7886,
+        "elevationGainMeters": 191,
+        "movingTimeSeconds": 6360
+      },
+      "Swim": {
+        "distanceMeters": 1931,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 2340
+      }
+    },
+    "2024-08": {
+      "TrailRun": {
+        "distanceMeters": 230941,
+        "elevationGainMeters": 8701,
+        "movingTimeSeconds": 95460
+      },
+      "Walk": {
+        "distanceMeters": 2897,
+        "elevationGainMeters": 67,
+        "movingTimeSeconds": 2580
+      },
+      "Run": {
+        "distanceMeters": 95273,
+        "elevationGainMeters": 759,
+        "movingTimeSeconds": 30120
+      },
+      "Hike": {
+        "distanceMeters": 16415,
+        "elevationGainMeters": 1272,
+        "movingTimeSeconds": 18060
+      },
+      "Swim": {
+        "distanceMeters": 3862,
+        "elevationGainMeters": 5,
+        "movingTimeSeconds": 4920
+      },
+      "GravelRide": {
+        "distanceMeters": 175901,
+        "elevationGainMeters": 2443,
+        "movingTimeSeconds": 26940
+      },
+      "Ride": {
+        "distanceMeters": 107343,
+        "elevationGainMeters": 2111,
+        "movingTimeSeconds": 21660
+      },
+      "Kayaking": {
+        "distanceMeters": 6437,
+        "elevationGainMeters": 11,
+        "movingTimeSeconds": 5640
+      }
+    },
+    "2024-07": {
+      "Walk": {
+        "distanceMeters": 18829,
+        "elevationGainMeters": 205,
+        "movingTimeSeconds": 14520
+      },
+      "TrailRun": {
+        "distanceMeters": 196662,
+        "elevationGainMeters": 6981,
+        "movingTimeSeconds": 85920
+      },
+      "Kayaking": {
+        "distanceMeters": 12231,
+        "elevationGainMeters": 118,
+        "movingTimeSeconds": 10800
+      },
+      "Run": {
+        "distanceMeters": 81755,
+        "elevationGainMeters": 675,
+        "movingTimeSeconds": 25800
+      },
+      "Ride": {
+        "distanceMeters": 130518,
+        "elevationGainMeters": 1538,
+        "movingTimeSeconds": 20100
+      },
+      "Swim": {
+        "distanceMeters": 7242,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 9120
+      },
+      "GravelRide": {
+        "distanceMeters": 67753,
+        "elevationGainMeters": 1580,
+        "movingTimeSeconds": 11700
+      },
+      "Hike": {
+        "distanceMeters": 1127,
+        "elevationGainMeters": 33,
+        "movingTimeSeconds": 960
+      }
+    },
+    "2024-06": {
+      "TrailRun": {
+        "distanceMeters": 303039,
+        "elevationGainMeters": 9865,
+        "movingTimeSeconds": 133860
+      },
+      "Hike": {
+        "distanceMeters": 9656,
+        "elevationGainMeters": 1042,
+        "movingTimeSeconds": 14040
+      },
+      "Run": {
+        "distanceMeters": 71294,
+        "elevationGainMeters": 970,
+        "movingTimeSeconds": 21240
+      },
+      "Swim": {
+        "distanceMeters": 11265,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 14040
+      },
+      "GravelRide": {
+        "distanceMeters": 55361,
+        "elevationGainMeters": 1385,
+        "movingTimeSeconds": 12480
+      },
+      "Ride": {
+        "distanceMeters": 34601,
+        "elevationGainMeters": 344,
+        "movingTimeSeconds": 4320
+      }
+    },
+    "2024-05": {
+      "TrailRun": {
+        "distanceMeters": 186040,
+        "elevationGainMeters": 5147,
+        "movingTimeSeconds": 67020
+      },
+      "Swim": {
+        "distanceMeters": 9012,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 11160
+      },
+      "Run": {
+        "distanceMeters": 88192,
+        "elevationGainMeters": 732,
+        "movingTimeSeconds": 25680
+      },
+      "Ride": {
+        "distanceMeters": 57775,
+        "elevationGainMeters": 571,
+        "movingTimeSeconds": 8880
+      },
+      "Walk": {
+        "distanceMeters": 9656,
+        "elevationGainMeters": 48,
+        "movingTimeSeconds": 6600
+      },
+      "Hike": {
+        "distanceMeters": 9817,
+        "elevationGainMeters": 760,
+        "movingTimeSeconds": 11640
+      }
+    },
+    "2024-04": {
+      "Walk": {
+        "distanceMeters": 18829,
+        "elevationGainMeters": 398,
+        "movingTimeSeconds": 15840
+      },
+      "Run": {
+        "distanceMeters": 213560,
+        "elevationGainMeters": 2059,
+        "movingTimeSeconds": 64320
+      },
+      "Swim": {
+        "distanceMeters": 4828,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 5460
+      },
+      "TrailRun": {
+        "distanceMeters": 54879,
+        "elevationGainMeters": 1675,
+        "movingTimeSeconds": 17160
+      },
+      "VirtualRide": {
+        "distanceMeters": 32187,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 3780
+      },
+      "BackcountrySki": {
+        "distanceMeters": 8530,
+        "elevationGainMeters": 657,
+        "movingTimeSeconds": 5340
+      }
+    },
+    "2024-03": {
+      "BackcountrySki": {
+        "distanceMeters": 122793,
+        "elevationGainMeters": 6942,
+        "movingTimeSeconds": 75600
+      },
+      "Run": {
+        "distanceMeters": 198593,
+        "elevationGainMeters": 1468,
+        "movingTimeSeconds": 60240
+      },
+      "TrailRun": {
+        "distanceMeters": 70167,
+        "elevationGainMeters": 1760,
+        "movingTimeSeconds": 23280
+      },
+      "Hike": {
+        "distanceMeters": 12553,
+        "elevationGainMeters": 751,
+        "movingTimeSeconds": 12780
+      },
+      "NordicSki": {
+        "distanceMeters": 8851,
+        "elevationGainMeters": 225,
+        "movingTimeSeconds": 3240
+      },
+      "Swim": {
+        "distanceMeters": 3862,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 4320
+      }
+    },
+    "2024-02": {
+      "BackcountrySki": {
+        "distanceMeters": 72742,
+        "elevationGainMeters": 6086,
+        "movingTimeSeconds": 44640
+      },
+      "Run": {
+        "distanceMeters": 120862,
+        "elevationGainMeters": 1346,
+        "movingTimeSeconds": 40680
+      },
+      "Walk": {
+        "distanceMeters": 6759,
+        "elevationGainMeters": 86,
+        "movingTimeSeconds": 4860
+      },
+      "TrailRun": {
+        "distanceMeters": 63730,
+        "elevationGainMeters": 1701,
+        "movingTimeSeconds": 22320
+      },
+      "NordicSki": {
+        "distanceMeters": 50533,
+        "elevationGainMeters": 559,
+        "movingTimeSeconds": 14280
+      },
+      "Swim": {
+        "distanceMeters": 9495,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 10740
+      },
+      "Hike": {
+        "distanceMeters": 322,
+        "elevationGainMeters": 175,
+        "movingTimeSeconds": 1260
+      },
+      "VirtualRide": {
+        "distanceMeters": 32187,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 4020
+      },
+      "GravelRide": {
+        "distanceMeters": 75639,
+        "elevationGainMeters": 562,
+        "movingTimeSeconds": 11100
+      }
+    },
+    "2024-01": {
+      "BackcountrySki": {
+        "distanceMeters": 146611,
+        "elevationGainMeters": 12571,
+        "movingTimeSeconds": 90960
+      },
+      "Run": {
+        "distanceMeters": 91733,
+        "elevationGainMeters": 867,
+        "movingTimeSeconds": 30960
+      },
+      "GravelRide": {
+        "distanceMeters": 41682,
+        "elevationGainMeters": 860,
+        "movingTimeSeconds": 7680
+      },
+      "NordicSki": {
+        "distanceMeters": 43935,
+        "elevationGainMeters": 641,
+        "movingTimeSeconds": 13800
+      },
+      "VirtualRide": {
+        "distanceMeters": 85295,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 10380
+      },
+      "Swim": {
+        "distanceMeters": 8047,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 10140
+      },
+      "TrailRun": {
+        "distanceMeters": 34762,
+        "elevationGainMeters": 991,
+        "movingTimeSeconds": 11760
+      },
+      "Rowing": {
+        "distanceMeters": 0,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 3600
+      }
+    },
+    "2023-12": {
+      "BackcountrySki": {
+        "distanceMeters": 140174,
+        "elevationGainMeters": 9915,
+        "movingTimeSeconds": 89880
+      },
+      "TrailRun": {
+        "distanceMeters": 83203,
+        "elevationGainMeters": 2676,
+        "movingTimeSeconds": 31740
+      },
+      "Run": {
+        "distanceMeters": 82881,
+        "elevationGainMeters": 619,
+        "movingTimeSeconds": 26040
+      },
+      "Ride": {
+        "distanceMeters": 48280,
+        "elevationGainMeters": 1003,
+        "movingTimeSeconds": 8340
+      },
+      "GravelRide": {
+        "distanceMeters": 17542,
+        "elevationGainMeters": 325,
+        "movingTimeSeconds": 3000
+      },
+      "NordicSki": {
+        "distanceMeters": 16254,
+        "elevationGainMeters": 133,
+        "movingTimeSeconds": 5700
+      },
+      "VirtualRide": {
+        "distanceMeters": 16898,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 2160
+      }
+    },
+    "2023-11": {
+      "VirtualRide": {
+        "distanceMeters": 154658,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 18600
+      },
+      "Walk": {
+        "distanceMeters": 6598,
+        "elevationGainMeters": 132,
+        "movingTimeSeconds": 5400
+      },
+      "Swim": {
+        "distanceMeters": 2575,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 5760
+      },
+      "NordicSki": {
+        "distanceMeters": 48602,
+        "elevationGainMeters": 245,
+        "movingTimeSeconds": 15840
+      },
+      "BackcountrySki": {
+        "distanceMeters": 39590,
+        "elevationGainMeters": 3107,
+        "movingTimeSeconds": 26760
+      },
+      "Hike": {
+        "distanceMeters": 6116,
+        "elevationGainMeters": 336,
+        "movingTimeSeconds": 6900
+      },
+      "Run": {
+        "distanceMeters": 25267,
+        "elevationGainMeters": 227,
+        "movingTimeSeconds": 8220
+      },
+      "TrailRun": {
+        "distanceMeters": 89640,
+        "elevationGainMeters": 4318,
+        "movingTimeSeconds": 42180
+      },
+      "Ride": {
+        "distanceMeters": 205674,
+        "elevationGainMeters": 1844,
+        "movingTimeSeconds": 28860
+      }
+    },
+    "2023-10": {
+      "VirtualRide": {
+        "distanceMeters": 106700,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 13380
+      },
+      "TrailRun": {
+        "distanceMeters": 85295,
+        "elevationGainMeters": 4033,
+        "movingTimeSeconds": 42720
+      },
+      "NordicSki": {
+        "distanceMeters": 16576,
+        "elevationGainMeters": 78,
+        "movingTimeSeconds": 6300
+      },
+      "Run": {
+        "distanceMeters": 78053,
+        "elevationGainMeters": 677,
+        "movingTimeSeconds": 26460
+      },
+      "Walk": {
+        "distanceMeters": 4023,
+        "elevationGainMeters": 73,
+        "movingTimeSeconds": 3120
+      },
+      "GravelRide": {
+        "distanceMeters": 264254,
+        "elevationGainMeters": 3663,
+        "movingTimeSeconds": 42900
+      },
+      "Ride": {
+        "distanceMeters": 23657,
+        "elevationGainMeters": 527,
+        "movingTimeSeconds": 4020
+      },
+      "Swim": {
+        "distanceMeters": 966,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 3180
+      },
+      "Hike": {
+        "distanceMeters": 8369,
+        "elevationGainMeters": 828,
+        "movingTimeSeconds": 9420
+      },
+      "RockClimbing": {
+        "distanceMeters": 0,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 7200
+      },
+      "RollerSki": {
+        "distanceMeters": 0,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 7200
+      }
+    },
+    "2023-09": {
+      "TrailRun": {
+        "distanceMeters": 81755,
+        "elevationGainMeters": 4378,
+        "movingTimeSeconds": 54540
+      },
+      "VirtualRide": {
+        "distanceMeters": 184270,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 23040
+      },
+      "Run": {
+        "distanceMeters": 35888,
+        "elevationGainMeters": 460,
+        "movingTimeSeconds": 11820
+      },
+      "Ride": {
+        "distanceMeters": 315110,
+        "elevationGainMeters": 6051,
+        "movingTimeSeconds": 56100
+      },
+      "Hike": {
+        "distanceMeters": 28807,
+        "elevationGainMeters": 1761,
+        "movingTimeSeconds": 34800
+      },
+      "GravelRide": {
+        "distanceMeters": 131966,
+        "elevationGainMeters": 1774,
+        "movingTimeSeconds": 24720
+      }
+    },
+    "2023-08": {
+      "Run": {
+        "distanceMeters": 88353,
+        "elevationGainMeters": 830,
+        "movingTimeSeconds": 34560
+      },
+      "Hike": {
+        "distanceMeters": 22048,
+        "elevationGainMeters": 1382,
+        "movingTimeSeconds": 23700
+      },
+      "TrailRun": {
+        "distanceMeters": 130840,
+        "elevationGainMeters": 8361,
+        "movingTimeSeconds": 106980
+      },
+      "Ride": {
+        "distanceMeters": 230619,
+        "elevationGainMeters": 3948,
+        "movingTimeSeconds": 42120
+      },
+      "GravelRide": {
+        "distanceMeters": 163992,
+        "elevationGainMeters": 2272,
+        "movingTimeSeconds": 32700
+      },
+      "RockClimbing": {
+        "distanceMeters": 0,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 18000
+      }
+    },
+    "2023-07": {
+      "Ride": {
+        "distanceMeters": 351481,
+        "elevationGainMeters": 3084,
+        "movingTimeSeconds": 61800
+      },
+      "GravelRide": {
+        "distanceMeters": 36210,
+        "elevationGainMeters": 981,
+        "movingTimeSeconds": 8040
+      },
+      "RockClimbing": {
+        "distanceMeters": 13518,
+        "elevationGainMeters": 1291,
+        "movingTimeSeconds": 25800
+      },
+      "TrailRun": {
+        "distanceMeters": 59063,
+        "elevationGainMeters": 4281,
+        "movingTimeSeconds": 53460
+      },
+      "Run": {
+        "distanceMeters": 36532,
+        "elevationGainMeters": 320,
+        "movingTimeSeconds": 12900
+      },
+      "Hike": {
+        "distanceMeters": 10461,
+        "elevationGainMeters": 204,
+        "movingTimeSeconds": 9240
+      }
+    },
+    "2023-06": {
+      "Run": {
+        "distanceMeters": 37498,
+        "elevationGainMeters": 60,
+        "movingTimeSeconds": 13200
+      },
+      "TrailRun": {
+        "distanceMeters": 103964,
+        "elevationGainMeters": 8204,
+        "movingTimeSeconds": 68880
+      },
+      "Ride": {
+        "distanceMeters": 43935,
+        "elevationGainMeters": 1134,
+        "movingTimeSeconds": 9360
+      },
+      "Hike": {
+        "distanceMeters": 72581,
+        "elevationGainMeters": 5634,
+        "movingTimeSeconds": 91500
+      }
+    },
+    "2023-05": {
+      "Hike": {
+        "distanceMeters": 91572,
+        "elevationGainMeters": 9230,
+        "movingTimeSeconds": 109380
+      },
+      "Ride": {
+        "distanceMeters": 93342,
+        "elevationGainMeters": 2004,
+        "movingTimeSeconds": 17760
+      },
+      "RockClimbing": {
+        "distanceMeters": 0,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 7200
+      },
+      "BackcountrySki": {
+        "distanceMeters": 15772,
+        "elevationGainMeters": 1214,
+        "movingTimeSeconds": 11580
+      }
+    },
+    "2023-04": {
+      "Ride": {
+        "distanceMeters": 321869,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 52140
+      },
+      "BackcountrySki": {
+        "distanceMeters": 85134,
+        "elevationGainMeters": 7200,
+        "movingTimeSeconds": 61920
+      },
+      "Hike": {
+        "distanceMeters": 3541,
+        "elevationGainMeters": 406,
+        "movingTimeSeconds": 4260
+      }
+    },
+    "2023-03": {
+      "Ride": {
+        "distanceMeters": 339733,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 66660
+      },
+      "BackcountrySki": {
+        "distanceMeters": 88031,
+        "elevationGainMeters": 7587,
+        "movingTimeSeconds": 68280
+      },
+      "Snowshoe": {
+        "distanceMeters": 10139,
+        "elevationGainMeters": 465,
+        "movingTimeSeconds": 11100
+      },
+      "Hike": {
+        "distanceMeters": 11587,
+        "elevationGainMeters": 487,
+        "movingTimeSeconds": 13680
+      }
+    },
+    "2023-02": {
+      "Ride": {
+        "distanceMeters": 0,
+        "elevationGainMeters": 0,
+        "movingTimeSeconds": 3000
+      },
+      "BackcountrySki": {
+        "distanceMeters": 75639,
+        "elevationGainMeters": 6453,
+        "movingTimeSeconds": 64920
+      },
+      "Hike": {
+        "distanceMeters": 27037,
+        "elevationGainMeters": 1760,
+        "movingTimeSeconds": 26520
+      }
+    },
+    "2023-01": {
+      "BackcountrySki": {
+        "distanceMeters": 91572,
+        "elevationGainMeters": 8168,
+        "movingTimeSeconds": 71160
+      },
+      "Hike": {
+        "distanceMeters": 7564,
+        "elevationGainMeters": 407,
+        "movingTimeSeconds": 6960
+      }
+    },
+    "2022-11": {
+      "Hike": {
+        "distanceMeters": 18829,
+        "elevationGainMeters": 1022,
+        "movingTimeSeconds": 16620
+      }
+    },
+    "2022-10": {
+      "Hike": {
+        "distanceMeters": 23335,
+        "elevationGainMeters": 1651,
+        "movingTimeSeconds": 21600
+      }
+    },
+    "2022-02": {
+      "Hike": {
+        "distanceMeters": 36371,
+        "elevationGainMeters": 1126,
+        "movingTimeSeconds": 22800
+      }
+    },
+    "2021-12": {
+      "Hike": {
+        "distanceMeters": 3380,
+        "elevationGainMeters": 286,
+        "movingTimeSeconds": 2880
+      }
+    },
+    "2021-10": {
+      "Hike": {
+        "distanceMeters": 10622,
+        "elevationGainMeters": 766,
+        "movingTimeSeconds": 9000
+      }
+    },
+    "2021-09": {
+      "Hike": {
+        "distanceMeters": 35727,
+        "elevationGainMeters": 2853,
+        "movingTimeSeconds": 34080
+      }
+    },
+    "2021-08": {
+      "Hike": {
+        "distanceMeters": 53430,
+        "elevationGainMeters": 3906,
+        "movingTimeSeconds": 53400
+      }
+    },
+    "2021-07": {
+      "Hike": {
+        "distanceMeters": 37015,
+        "elevationGainMeters": 2985,
+        "movingTimeSeconds": 48240
+      }
+    },
+    "2021-06": {
+      "Hike": {
+        "distanceMeters": 89319,
+        "elevationGainMeters": 6631,
+        "movingTimeSeconds": 97560
+      }
+    },
+    "2021-05": {
+      "Hike": {
+        "distanceMeters": 18829,
+        "elevationGainMeters": 1152,
+        "movingTimeSeconds": 22440
+      }
+    },
+    "2020-09": {
+      "Ride": {
+        "distanceMeters": 258139,
+        "elevationGainMeters": 119,
+        "movingTimeSeconds": 60
+      }
+    },
+    "2020-07": {
+      "Hike": {
+        "distanceMeters": 22692,
+        "elevationGainMeters": 1407,
+        "movingTimeSeconds": 18120
+      }
+    },
+    "2020-05": {
+      "Hike": {
+        "distanceMeters": 22048,
+        "elevationGainMeters": 2263,
+        "movingTimeSeconds": 26280
+      },
+      "Ride": {
+        "distanceMeters": 64535,
+        "elevationGainMeters": 949,
+        "movingTimeSeconds": 11160
+      }
+    },
+    "2020-04": {
+      "Ride": {
+        "distanceMeters": 6276,
+        "elevationGainMeters": 378,
+        "movingTimeSeconds": 1680
+      },
+      "Hike": {
+        "distanceMeters": 34279,
+        "elevationGainMeters": 2240,
+        "movingTimeSeconds": 30240
+      }
+    },
+    "2020-03": {
+      "Hike": {
+        "distanceMeters": 113298,
+        "elevationGainMeters": 7359,
+        "movingTimeSeconds": 108420
+      },
+      "Snowshoe": {
+        "distanceMeters": 20600,
+        "elevationGainMeters": 1370,
+        "movingTimeSeconds": 24900
+      }
+    },
+    "2020-02": {
+      "Hike": {
+        "distanceMeters": 18668,
+        "elevationGainMeters": 719,
+        "movingTimeSeconds": 16980
+      }
+    },
+    "2019-12": {
+      "Hike": {
+        "distanceMeters": 25910,
+        "elevationGainMeters": 877,
+        "movingTimeSeconds": 24660
+      }
+    },
+    "2019-11": {
+      "Hike": {
+        "distanceMeters": 15450,
+        "elevationGainMeters": 637,
+        "movingTimeSeconds": 13560
+      },
+      "Run": {
+        "distanceMeters": 8690,
+        "elevationGainMeters": 72,
+        "movingTimeSeconds": 3300
+      }
+    }
+  }
+}

@@ -1,10 +1,9 @@
 import { Feed } from 'feed';
 import { getBlogrollItems } from '@blog/inoreader';
+import { SITE_URL, AUTHOR } from '@/lib/site';
 
 export const dynamic = 'force-static';
 export const revalidate = 3600;
-
-const SITE_URL = 'https://spencerboucher.com';
 
 export async function GET() {
   const items = await getBlogrollItems();
@@ -21,10 +20,7 @@ export async function GET() {
     feedLinks: {
       rss2: `${SITE_URL}/blogroll.xml`,
     },
-    author: {
-      name: 'Spencer Boucher',
-      link: SITE_URL,
-    },
+    author: AUTHOR,
   });
 
   for (const item of items) {

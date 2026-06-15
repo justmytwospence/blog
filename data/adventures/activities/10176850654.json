@@ -1,0 +1,510 @@
+{
+  "stravaId": 10176850654,
+  "name": "A Basin Rise and Shine Rando #1",
+  "sportType": "BackcountrySki",
+  "startLocal": "2023-11-07T07:00:39Z",
+  "date": "2023-11-07",
+  "timezone": "(GMT-07:00) America/Denver",
+  "location": {
+    "city": "Silverthorne",
+    "state": "Colorado",
+    "country": "United States of America"
+  },
+  "stats": {
+    "distanceMeters": 5902.6,
+    "movingTimeSeconds": 3611,
+    "elapsedTimeSeconds": 3849,
+    "elevationGainMeters": 646,
+    "elevHighMeters": 3528.4,
+    "elevLowMeters": 3302,
+    "avgSpeedMetersPerSec": 1.635,
+    "maxSpeedMetersPerSec": 12.77,
+    "avgHeartrate": 146.9,
+    "maxHeartrate": 159,
+    "avgCadence": null,
+    "avgWatts": null,
+    "maxWatts": null,
+    "calories": 675,
+    "sufferScore": 83
+  },
+  "track": {
+    "coordinates": [
+      [
+        -105.871526,
+        39.641567
+      ],
+      [
+        -105.869852,
+        39.639993
+      ],
+      [
+        -105.869217,
+        39.638755
+      ],
+      [
+        -105.869529,
+        39.636861
+      ],
+      [
+        -105.870264,
+        39.636165
+      ],
+      [
+        -105.870398,
+        39.635807
+      ],
+      [
+        -105.870395,
+        39.634079
+      ],
+      [
+        -105.870495,
+        39.633973
+      ],
+      [
+        -105.870667,
+        39.634708
+      ],
+      [
+        -105.870544,
+        39.635794
+      ],
+      [
+        -105.870418,
+        39.636152
+      ],
+      [
+        -105.86956,
+        39.636989
+      ],
+      [
+        -105.869348,
+        39.63899
+      ],
+      [
+        -105.870149,
+        39.640183
+      ],
+      [
+        -105.871598,
+        39.64154
+      ],
+      [
+        -105.87118,
+        39.641302
+      ],
+      [
+        -105.869932,
+        39.640099
+      ],
+      [
+        -105.869262,
+        39.638856
+      ],
+      [
+        -105.869491,
+        39.636968
+      ],
+      [
+        -105.870237,
+        39.63622
+      ],
+      [
+        -105.870416,
+        39.635821
+      ],
+      [
+        -105.87049,
+        39.634975
+      ],
+      [
+        -105.870337,
+        39.634114
+      ],
+      [
+        -105.870545,
+        39.633991
+      ],
+      [
+        -105.870569,
+        39.635793
+      ],
+      [
+        -105.870486,
+        39.636087
+      ],
+      [
+        -105.869634,
+        39.63696
+      ],
+      [
+        -105.869384,
+        39.63867
+      ],
+      [
+        -105.869463,
+        39.639151
+      ],
+      [
+        -105.869965,
+        39.639902
+      ],
+      [
+        -105.871529,
+        39.641508
+      ],
+      [
+        -105.869881,
+        39.64006
+      ],
+      [
+        -105.869248,
+        39.638835
+      ],
+      [
+        -105.869484,
+        39.636975
+      ],
+      [
+        -105.87029,
+        39.636127
+      ],
+      [
+        -105.870416,
+        39.635815
+      ],
+      [
+        -105.870492,
+        39.634999
+      ],
+      [
+        -105.870372,
+        39.634058
+      ],
+      [
+        -105.870529,
+        39.633998
+      ],
+      [
+        -105.87056,
+        39.635825
+      ],
+      [
+        -105.870416,
+        39.636154
+      ],
+      [
+        -105.869636,
+        39.636908
+      ],
+      [
+        -105.869382,
+        39.638977
+      ],
+      [
+        -105.870012,
+        39.639971
+      ],
+      [
+        -105.871516,
+        39.641498
+      ]
+    ],
+    "altitude": [
+      3302,
+      3360.2,
+      3406.6,
+      3467.8,
+      3486.8,
+      3497.4,
+      3522,
+      3524.4,
+      3520.6,
+      3509,
+      3502.8,
+      3477,
+      3415.6,
+      3368,
+      3314.4,
+      3318,
+      3362.6,
+      3406.8,
+      3467.4,
+      3489.4,
+      3498.2,
+      3515.8,
+      3524.6,
+      3525.4,
+      3514.2,
+      3510.2,
+      3485.2,
+      3430,
+      3412.6,
+      3383.4,
+      3317.2,
+      3364.8,
+      3409.6,
+      3469.8,
+      3492.6,
+      3498.8,
+      3517.6,
+      3526.8,
+      3526.4,
+      3510.8,
+      3504.6,
+      3484.4,
+      3419.4,
+      3381.4,
+      3320.2
+    ],
+    "distance": [
+      0,
+      243.6,
+      400.2,
+      624,
+      725.8,
+      767.9,
+      962.3,
+      986.2,
+      1064.4,
+      1184.9,
+      1223.1,
+      1348.1,
+      1597.4,
+      1759.6,
+      1990.5,
+      2037.6,
+      2218.4,
+      2378.9,
+      2602.9,
+      2711.6,
+      2758.7,
+      2855.1,
+      2951.3,
+      2987.6,
+      3187,
+      3218.7,
+      3343.7,
+      3546.4,
+      3602,
+      3702.4,
+      3952.2,
+      4179.8,
+      4337.9,
+      4556.9,
+      4677.5,
+      4715.6,
+      4807.2,
+      4912,
+      4944.1,
+      5140,
+      5178.5,
+      5290.8,
+      5536.2,
+      5667.4,
+      5902.6
+    ],
+    "grade": [
+      4.3,
+      31.2,
+      25.5,
+      21.9,
+      18.7,
+      21.2,
+      1.8,
+      15.5,
+      -10.3,
+      -12,
+      -17.2,
+      -15.6,
+      -29.6,
+      -24.5,
+      -1.7,
+      9.5,
+      27.5,
+      27.6,
+      18.5,
+      14.9,
+      17.5,
+      14.2,
+      7.6,
+      5.9,
+      -12.3,
+      -12.6,
+      -19.8,
+      -40.4,
+      -29.1,
+      -35.8,
+      -22.7,
+      29.8,
+      20,
+      21.2,
+      13.1,
+      23.7,
+      5.5,
+      3.6,
+      0,
+      -11.1,
+      -15.2,
+      -16.7,
+      -26.4,
+      -31,
+      0
+    ],
+    "velocity": [
+      0,
+      0.764,
+      1.102,
+      1.24,
+      1.05,
+      0.822,
+      1.506,
+      0.308,
+      5.394,
+      7.774,
+      9.326,
+      7.704,
+      6.966,
+      5.348,
+      0.282,
+      1.548,
+      1.066,
+      0.956,
+      1.184,
+      1.058,
+      1.004,
+      1.504,
+      1.292,
+      0.052,
+      9.23,
+      10.266,
+      9.232,
+      8.008,
+      8.25,
+      8.584,
+      0.276,
+      0.672,
+      1.012,
+      1.252,
+      1.236,
+      1.454,
+      1.284,
+      1.472,
+      0.512,
+      8.798,
+      9.568,
+      8.262,
+      6.974,
+      7.202,
+      0.124
+    ],
+    "heartrate": [
+      88,
+      155,
+      156,
+      156,
+      156,
+      158,
+      149,
+      130,
+      125,
+      124,
+      122,
+      129,
+      132,
+      131,
+      110,
+      129,
+      152,
+      153,
+      154,
+      154,
+      156,
+      154,
+      151,
+      136,
+      125,
+      125,
+      127,
+      133,
+      132,
+      131,
+      122,
+      149,
+      150,
+      151,
+      151,
+      155,
+      153,
+      150,
+      118,
+      116,
+      116,
+      120,
+      124,
+      122,
+      114
+    ],
+    "summaryPolyline": "wn}pF``eeSb@}@HG|@}@FCDC@EHCVWLQLIJQ\\[T]~@w@t@i@JEROVKLA`@STEXKh@Kb@@R@PAb@Bv@JnATnADr@N`@TTTv@lAZXLDR@d@PdBLlA?dBKN@n@CD@DD@HB?A??B?CBF?EAAKH_@JcBLUKKAa@AK@aAG[B[GO@u@OQIi@g@Qa@S_@MKKGUWe@U[@[KW?YEQLGAOQGAWDUIQJK@OOIGI@MNK?KQB?GCC@UEK?YD[AIDEF]FGDEJUDIFOXUCIBMTIFABE@GLQ@OLWLM^YJMZUJSZ[TYZOJWZYTK^QXIHG@CE@B?CA@@A?B?CA?@?E@D?@KHW\\o@XUFKFCDGb@_@FCV_@FCPQNOFOTSHOj@k@HEDILETSJEHITIPMXIt@[t@Mr@EbBFj@FTFf@HvAF^H`@NLH\\^r@dAPRVPv@PtAJf@Aj@Br@CdAMT@FAJIFARLDRCJ?C?@@AAC@?A@@AYAk@Fk@Li@@iAA[EO@MCc@@QCQAy@Oq@m@MS_AiAo@]o@O[?MEY@MEM@KAMEYBWKY?g@M[JMAKEYFOAO@KD[@QLKBQPYHWRMDYVKBSV[PKNOHW^i@f@QJa@`@UN]f@SNKPS`@KBGE@BABACB@A@ACBBH[h@}@TSRYhAeANSHEHMNMNWHENUTS`Aq@LGD?JINCTKHAv@]j@KdAAr@DZFb@@PHR@XDnABh@Jf@TXThAxA\\XLHTBXJ|@HdBDbAG|@Ox@?FB@LAD@ACBBAC?@@A?@ABDYD_@@QBU?o@D[CMBk@AWE}@@MEa@?q@OOK_@[KQMKQa@[WIMc@YMCO?KGMAMBM?KGMAKBSGYAYIUDWKIBKAKIKAIDK@KCUFKAKIG?KDO?KCWHK?_@VK?Y\\UBIFGLWJQPKDQVULMLENKFK@KTUNQXYNi@d@UZ[PYn@IFM@?@?A",
+    "bounds": {
+      "minLat": 39.633973,
+      "minLng": -105.871598,
+      "maxLat": 39.641567,
+      "maxLng": -105.869217
+    },
+    "pointCount": 45
+  },
+  "weather": {
+    "tempC": -0.4,
+    "windMetersPerSec": 5.05,
+    "precipitationMm": 0,
+    "weatherCode": 0,
+    "observedAtLocal": "2023-11-07T07:00"
+  },
+  "photos": [
+    {
+      "id": "00810759-1816-45DC-B61B-5377F04CA15A",
+      "file": "photo-00810759-1816-45DC-B61B-5377F04CA15A.jpg",
+      "sourceUrl": "",
+      "width": 1600,
+      "height": 1200,
+      "caption": "",
+      "lat": 39.65636333333333,
+      "lng": -105.88384166666667
+    },
+    {
+      "id": "C7C838DF-23DF-46F8-AC01-2C3FC97252FE",
+      "file": "photo-C7C838DF-23DF-46F8-AC01-2C3FC97252FE.jpg",
+      "sourceUrl": "",
+      "width": 1200,
+      "height": 1600,
+      "caption": "",
+      "lat": 39.942663333333336,
+      "lng": -105.23201666666667
+    },
+    {
+      "id": "FCF8B13F-F039-4F10-B93C-02D5E2D15722",
+      "file": "photo-FCF8B13F-F039-4F10-B93C-02D5E2D15722.jpg",
+      "sourceUrl": "",
+      "width": 1200,
+      "height": 1600,
+      "caption": "",
+      "lat": 39.657005,
+      "lng": -105.88708666666666
+    },
+    {
+      "id": "DC36334E-0E89-4E3A-8D70-6E76E1341328",
+      "file": "photo-DC36334E-0E89-4E3A-8D70-6E76E1341328.jpg",
+      "sourceUrl": "",
+      "width": 1200,
+      "height": 1600,
+      "caption": "",
+      "lat": 39.657005,
+      "lng": -105.88708666666666
+    }
+  ],
+  "gear": null,
+  "description": "First race in the books! Mostly just learned how this new gear works. Literally just pulled it out of the shop late last night. Missed the cutoff for a fourth lap by about 2 minutes which I can easily make up purely in transition time. Goals - add one more lap by #2 and then another lap by #4",
+  "stravaUrl": "https://www.strava.com/activities/10176850654",
+  "sourceHash": "0ec634246025e3213649f3972650c7b5e6b60ae532e87e54620a0ae6e8c68a1a"
+}

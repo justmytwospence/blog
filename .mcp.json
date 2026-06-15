@@ -9,6 +9,10 @@
         "--browserUrl=http://127.0.0.1:5858"
       ],
       "env": {}
+    },
+    "vercel": {
+      "type": "http",
+      "url": "https://mcp.vercel.com"
     }
   }
 }

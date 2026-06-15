@@ -1,15 +1,20 @@
 import { getAllProjects } from '@/lib/content';
-import { ProjectCard } from '@/components/ProjectCard';
+import { ProjectsExplorer } from '@/components/ProjectsExplorer';
 import { PageContainer } from '@/components/PageContainer';
+import { getActivity } from '@/lib/github-activity';
 import type { Metadata } from 'next';
+
+// Revalidate hourly so the live GitHub activity stays fresh between deploys.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Projects',
   description: 'Data science projects, analyses, and interactive applications.',
 };
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
   const projects = getAllProjects();
+  const activity = await getActivity();
 
   return (
     <PageContainer width="wide">
@@ -23,13 +28,9 @@ export default function ProjectsPage() {
         </p>
       </div>
 
-      {/* Projects grid */}
+      {/* Activity calendar + project cards (linked on hover) */}
       {projects.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
+        <ProjectsExplorer projects={projects} activity={activity} />
       ) : (
         <div className="text-center py-12">
           <p className="text-gray-500 dark:text-[#a6a6a6]">

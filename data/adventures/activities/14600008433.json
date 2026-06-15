@@ -1,0 +1,532 @@
+{
+  "stravaId": 14600008433,
+  "name": "BolderBoulder",
+  "sportType": "Run",
+  "startLocal": "2025-05-26T07:04:42Z",
+  "date": "2025-05-26",
+  "timezone": "(GMT-07:00) America/Denver",
+  "location": {
+    "city": "Boulder",
+    "state": "Colorado",
+    "country": "United States of America"
+  },
+  "stats": {
+    "distanceMeters": 10085.6,
+    "movingTimeSeconds": 2540,
+    "elapsedTimeSeconds": 2540,
+    "elevationGainMeters": 69,
+    "elevHighMeters": 1646.6,
+    "elevLowMeters": 1608.2,
+    "avgSpeedMetersPerSec": 3.971,
+    "maxSpeedMetersPerSec": 5.94,
+    "avgHeartrate": 164.5,
+    "maxHeartrate": 175,
+    "avgCadence": 87.8,
+    "avgWatts": 297.2,
+    "maxWatts": 388,
+    "calories": 590,
+    "sufferScore": 76
+  },
+  "track": {
+    "coordinates": [
+      [
+        -105.253567,
+        40.021544
+      ],
+      [
+        -105.253753,
+        40.024136
+      ],
+      [
+        -105.253734,
+        40.02893
+      ],
+      [
+        -105.253846,
+        40.029116
+      ],
+      [
+        -105.258268,
+        40.028967
+      ],
+      [
+        -105.258469,
+        40.02765
+      ],
+      [
+        -105.258478,
+        40.024547
+      ],
+      [
+        -105.263139,
+        40.023544
+      ],
+      [
+        -105.263527,
+        40.023474
+      ],
+      [
+        -105.263663,
+        40.023547
+      ],
+      [
+        -105.263748,
+        40.024478
+      ],
+      [
+        -105.263193,
+        40.025386
+      ],
+      [
+        -105.263026,
+        40.025936
+      ],
+      [
+        -105.263192,
+        40.027586
+      ],
+      [
+        -105.263315,
+        40.034512
+      ],
+      [
+        -105.26606,
+        40.034504
+      ],
+      [
+        -105.266309,
+        40.033849
+      ],
+      [
+        -105.26698,
+        40.033264
+      ],
+      [
+        -105.26845,
+        40.033491
+      ],
+      [
+        -105.269656,
+        40.033493
+      ],
+      [
+        -105.270332,
+        40.033368
+      ],
+      [
+        -105.270496,
+        40.033919
+      ],
+      [
+        -105.271202,
+        40.034597
+      ],
+      [
+        -105.272622,
+        40.034603
+      ],
+      [
+        -105.272743,
+        40.03375
+      ],
+      [
+        -105.272612,
+        40.028606
+      ],
+      [
+        -105.27267,
+        40.026876
+      ],
+      [
+        -105.272787,
+        40.026778
+      ],
+      [
+        -105.274795,
+        40.0268
+      ],
+      [
+        -105.27501,
+        40.027976
+      ],
+      [
+        -105.278295,
+        40.028025
+      ],
+      [
+        -105.28027,
+        40.027939
+      ],
+      [
+        -105.280302,
+        40.025722
+      ],
+      [
+        -105.280594,
+        40.0251
+      ],
+      [
+        -105.280542,
+        40.023705
+      ],
+      [
+        -105.278947,
+        40.019238
+      ],
+      [
+        -105.276532,
+        40.019678
+      ],
+      [
+        -105.27611,
+        40.018847
+      ],
+      [
+        -105.275838,
+        40.018772
+      ],
+      [
+        -105.269752,
+        40.01996
+      ],
+      [
+        -105.269184,
+        40.019049
+      ],
+      [
+        -105.263339,
+        40.020292
+      ],
+      [
+        -105.263181,
+        40.020243
+      ],
+      [
+        -105.263147,
+        40.013151
+      ],
+      [
+        -105.263385,
+        40.011453
+      ],
+      [
+        -105.263884,
+        40.010638
+      ],
+      [
+        -105.266382,
+        40.0105
+      ],
+      [
+        -105.266603,
+        40.010047
+      ],
+      [
+        -105.266585,
+        40.009162
+      ],
+      [
+        -105.266709,
+        40.008998
+      ],
+      [
+        -105.267026,
+        40.009056
+      ],
+      [
+        -105.267198,
+        40.00964
+      ]
+    ],
+    "altitude": [
+      1608.4,
+      1610.6,
+      1614,
+      1614,
+      1617.6,
+      1616,
+      1615,
+      1619,
+      1619,
+      1619.2,
+      1619.4,
+      1619.6,
+      1621.8,
+      1623.6,
+      1627.8,
+      1631.8,
+      1632.8,
+      1633.4,
+      1636.6,
+      1638.6,
+      1639.4,
+      1640,
+      1641.6,
+      1643.4,
+      1643.4,
+      1636.2,
+      1633.8,
+      1633.8,
+      1637.4,
+      1639.6,
+      1643.8,
+      1645.4,
+      1639.2,
+      1639.2,
+      1641,
+      1635.4,
+      1632.2,
+      1632,
+      1631.6,
+      1624.8,
+      1624.6,
+      1619,
+      1619,
+      1619.8,
+      1620.2,
+      1623.4,
+      1633,
+      1632,
+      1630.6,
+      1630.8,
+      1631.2,
+      1631
+    ],
+    "distance": [
+      0,
+      288.6,
+      822.3,
+      845.2,
+      1211.8,
+      1359.6,
+      1704.7,
+      2118.4,
+      2151.9,
+      2166.1,
+      2270.7,
+      2382.5,
+      2445.4,
+      2630.5,
+      3402.5,
+      3636.5,
+      3713.3,
+      3800.8,
+      3929.4,
+      4032.4,
+      4092,
+      4156,
+      4253.5,
+      4375.2,
+      4471,
+      5044.4,
+      5236.5,
+      5251.1,
+      5423.1,
+      5557.2,
+      5838.3,
+      6008.7,
+      6255.6,
+      6331.3,
+      6486.3,
+      7002.4,
+      7215.4,
+      7315.7,
+      7341.1,
+      7877.5,
+      7993.3,
+      8511.7,
+      8526.3,
+      9314.8,
+      9504.9,
+      9605.7,
+      9820.1,
+      9873.6,
+      9972,
+      9992.5,
+      10022.3,
+      10085.6
+    ],
+    "grade": [
+      0,
+      3.5,
+      0,
+      -1.4,
+      1.5,
+      -1.2,
+      0,
+      1.3,
+      0,
+      1.4,
+      -1.2,
+      4,
+      4.2,
+      -3.4,
+      0,
+      1.6,
+      0,
+      1.4,
+      1.4,
+      1.4,
+      1.6,
+      1.4,
+      2.8,
+      1.4,
+      -1.2,
+      -1.1,
+      0,
+      0,
+      0,
+      0,
+      1.4,
+      -1.3,
+      2.7,
+      0,
+      5.6,
+      -1.3,
+      -1.3,
+      1.3,
+      -1.2,
+      -2.6,
+      -1.4,
+      1.2,
+      0,
+      1.3,
+      1.4,
+      9.2,
+      6.5,
+      -6.4,
+      0,
+      0,
+      2.8,
+      -2.4
+    ],
+    "velocity": [
+      0,
+      4.42,
+      3.62,
+      3.74,
+      3.62,
+      4.14,
+      3.8,
+      3.76,
+      3.72,
+      3.54,
+      4.26,
+      3.88,
+      3.46,
+      4.32,
+      3.14,
+      3.44,
+      3.88,
+      3.76,
+      3.68,
+      3.88,
+      3.76,
+      3.66,
+      3.68,
+      3.8,
+      4.06,
+      4.58,
+      3.82,
+      3.68,
+      3.7,
+      3.2,
+      3.94,
+      3.8,
+      3.88,
+      4.04,
+      3.54,
+      4.06,
+      3.92,
+      4.16,
+      3.6,
+      3.84,
+      3.86,
+      4.28,
+      3.86,
+      4.16,
+      3.86,
+      3.54,
+      3.12,
+      4.28,
+      4.3,
+      4.1,
+      4.46,
+      4.84
+    ],
+    "heartrate": [
+      113,
+      151,
+      156,
+      156,
+      159,
+      159,
+      159,
+      163,
+      162,
+      162,
+      162,
+      163,
+      163,
+      163,
+      165,
+      166,
+      166,
+      166,
+      166,
+      167,
+      166,
+      166,
+      165,
+      166,
+      166,
+      163,
+      163,
+      164,
+      163,
+      165,
+      165,
+      165,
+      163,
+      162,
+      163,
+      166,
+      168,
+      169,
+      170,
+      168,
+      169,
+      174,
+      175,
+      170,
+      167,
+      168,
+      168,
+      169,
+      168,
+      168,
+      168,
+      169
+    ],
+    "summaryPolyline": "sugsFxilaSoCHu@?{@FkA@i@FmCHkC?WCmBBoAEkBAcDBo@Ci@BiB?Y@k@?[@g@CYHIJCbAJrADtBEvA@rGD@@DCHBbAHj@EbBFRJFZDfB@tBVhA?b@Bb@EZBdAC`CBnAEl@DTAr@Bf@EFBd@`DFl@TvA\\lDr@lFDl@R`AVnBLlAELGLMDa@HS?q@JcAKu@Uc@Q{AeAcAWi@IS@k@A[@}@AaAF_ARm@DiAIq@B{@?qBF}@?cAFaA@qAEq@Dq@Ai@D{FCa@F}@Ec@DoAEy@D[@w@Au@EGHBvACl@AbCBlBAj@@vACXBLFHh@Bp@R^NlBlBDN?FEb@YxBAlAGXC^?pFL|AJ`@?FOH_AD]Na@\\Sd@ORUPQHYXCFAN@r@ChC@|@BFDDJBh@FlBDfAE|DA`AGZ@\\Il@?NCfADdBA\\Cr@Fj@?\\Cp@Bz@EtADv@EjBB^FfBFdBIJHFLBb@?tABj@CvABlAEt@GNQHYBkDFKDELG|A?fDBdAEdIDjFClBBXJTDDj@BTCbAAVD`AA\\BxACd@Dt@EL@TXRNPDp@FxABhACfAKj@@pB_@~@W`@IjBg@b@Sb@OVGn@IdA]~AYd@Q\\GdAQj@S\\Qf@GJMBQ?Sk@oEMq@M_BSoA?ILUNGlAYx@]JQ@c@QgCg@eDO}AOiAOcBKu@C]_@cCI_AQiAKsAIw@_@wCN]ZMp@OlA_@HM?GKwAIa@SgBQq@QsAKk@m@yE[aDi@}DMqAKy@Qw@BYDCv@?j@E|@BhBCp@Bj@Cp@DdACV@x@ERDl@CxB@|EBh@CT@vACp@DZ?j@ChDCb@DjA?p@Dp@Dz@P`@@`@HtAb@hAv@BFBn@@n@?tDLrBBzA@LPHl@VZH\\@t@CN@jACLBRRBP?PGPGHo@TcAJ",
+    "bounds": {
+      "minLat": 40.008998,
+      "minLng": -105.280594,
+      "maxLat": 40.034603,
+      "maxLng": -105.253567
+    },
+    "pointCount": 52
+  },
+  "weather": {
+    "tempC": 8.3,
+    "windMetersPerSec": 1.7,
+    "precipitationMm": 0,
+    "weatherCode": 3,
+    "observedAtLocal": "2025-05-26T07:00"
+  },
+  "photos": [],
+  "gear": "New Balance Pacer v2",
+  "description": "Fun goodbye to Boulder for now. Super long portapotty lines so I missed my wave (AB) by a lot and went out with one of the later DX waves. Went out hot and caught up with the back of the next wave by the end of the first straightaway. From there it was nonstop bobbing and weaving. Was actually 20 seconds ahead of last year at the halfway mark because of the fast start, but then I lost a full minute on the downhill because I couldn’t hammer it in the crowd like I did last year. Passing/running with thousands of people while listening to Big Bootie in the rain was really fun though. Must have rushed the poop because I started having some poop pressure at the end. Definitely didn’t give it the full race effort and felt super fresh at the end so I’m actually happy with it as a fitness benchmark.",
+  "stravaUrl": "https://www.strava.com/activities/14600008433",
+  "sourceHash": "7ee90525d621516d445277332e11971147cb640c388c157a0597003f5086aff5"
+}
