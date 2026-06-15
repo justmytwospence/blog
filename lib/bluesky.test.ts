@@ -130,6 +130,19 @@ describe('richTextToSegments', () => {
     expect(segments[2].link).toEqual({ type: 'tag', value: 'cool' });
   });
 
+  it('renders non-http(s) link facets (e.g. javascript:) as plain text', () => {
+    const text = 'click me';
+    const facets: BlueskyFacet[] = [
+      {
+        index: { byteStart: 0, byteEnd: 8 },
+        features: [{ $type: 'app.bsky.richtext.facet#link', uri: 'javascript:alert(1)' }],
+      },
+    ];
+    const segments = richTextToSegments(text, facets);
+    expect(segments).toEqual([{ text: 'click me' }]);
+    expect(segments[0].link).toBeUndefined();
+  });
+
   it('ignores overlapping/degenerate facet ranges', () => {
     const text = 'abcdef';
     const facets: BlueskyFacet[] = [

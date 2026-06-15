@@ -239,7 +239,10 @@ export function richTextToSegments(
     const facetText = slice(byteStart, byteEnd);
     let link: RichTextSegment['link'] | undefined;
     if (feature?.$type === 'app.bsky.richtext.facet#link') {
-      link = { type: 'uri', value: (feature as { uri: string }).uri };
+      const uri = (feature as { uri: string }).uri;
+      // Only honor http(s) links; anything else (e.g. javascript:) renders as
+      // plain text so a malicious reply can't inject a dangerous href.
+      if (/^https?:\/\//i.test(uri)) link = { type: 'uri', value: uri };
     } else if (feature?.$type === 'app.bsky.richtext.facet#mention') {
       link = { type: 'mention', value: (feature as { did: string }).did };
     } else if (feature?.$type === 'app.bsky.richtext.facet#tag') {
