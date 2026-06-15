@@ -11,8 +11,6 @@
 import { BrowserOAuthClient } from '@atproto/oauth-client-browser';
 import { BLUESKY_SCOPE, BLUESKY_HANDLE_RESOLVER } from '@/lib/blueskyConfig';
 
-export { BLUESKY_SCOPE } from '@/lib/blueskyConfig';
-
 let clientPromise: Promise<BrowserOAuthClient> | null = null;
 let initPromise: ReturnType<BrowserOAuthClient['init']> | null = null;
 

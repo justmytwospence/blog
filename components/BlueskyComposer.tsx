@@ -100,6 +100,12 @@ export default function BlueskyComposer({ rootUri, rootCid, onPosted }: BlueskyC
       setError('Enter your Bluesky handle.');
       return;
     }
+    // AT Protocol's loopback OAuth rejects the `localhost` hostname; local dev
+    // must use a 127.0.0.1 address. Surface this clearly instead of a generic error.
+    if (window.location.hostname === 'localhost') {
+      setError('Local dev: open the site at http://127.0.0.1 (not localhost) to sign in.');
+      return;
+    }
     try {
       const client = await getBlueskyClient();
       // Full-page redirect to Bluesky; returns to /bluesky/callback, which sends

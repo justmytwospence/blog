@@ -433,18 +433,20 @@ export function BlueskyComments({ postRef }: { postRef: string }) {
         </div>
       )}
 
-      <p className="mt-8 text-xs text-gray-400 dark:text-[#6e6e6e]">
-        Comments are public replies to{' '}
-        <a
-          href={state.status === 'ready' ? state.webUrl : '#'}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:underline"
-        >
-          this post on Bluesky
-        </a>
-        , loaded live from the AT Protocol.
-      </p>
+      {state.status === 'ready' && (
+        <p className="mt-8 text-xs text-gray-400 dark:text-[#6e6e6e]">
+          Comments are public replies to{' '}
+          <a
+            href={state.webUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline"
+          >
+            this post on Bluesky
+          </a>
+          , loaded live from the AT Protocol.
+        </p>
+      )}
     </section>
   );
 }
