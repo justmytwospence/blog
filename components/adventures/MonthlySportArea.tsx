@@ -20,15 +20,19 @@ export function MonthlySportArea({ data }: { data: YearSportTotals }) {
   const dark = useIsDark();
   const [metric, setMetric] = useState<Metric>('duration');
 
-  // Continuous month axis (fill gaps with zeros so the seasonal waves read clearly).
+  // Continuous month axis (fill gaps with zeros so the seasonal waves read clearly). The early years
+  // are sparse, so the chart starts at 2023.
+  const START = '2023-01';
   const months = useMemo(() => {
-    const keys = Object.keys(data).sort();
+    const keys = Object.keys(data)
+      .filter((k) => k >= START)
+      .sort();
     if (keys.length === 0) return [];
-    const [y0, m0] = keys[0].split('-').map(Number);
-    const [y1, m1] = keys[keys.length - 1].split('-').map(Number);
+    const [, m1] = keys[keys.length - 1].split('-').map(Number);
+    const y1 = Number(keys[keys.length - 1].slice(0, 4));
     const out: string[] = [];
-    let y = y0;
-    let m = m0;
+    let y = 2023;
+    let m = 1;
     while (y < y1 || (y === y1 && m <= m1)) {
       out.push(`${y}-${String(m).padStart(2, '0')}`);
       if (++m > 12) {
@@ -41,7 +45,10 @@ export function MonthlySportArea({ data }: { data: YearSportTotals }) {
 
   const sports = useMemo(() => {
     const tot: Record<string, number> = {};
-    for (const mo of Object.values(data)) for (const [sp, t] of Object.entries(mo)) tot[sp] = (tot[sp] ?? 0) + t.distanceMeters;
+    for (const [ym, mo] of Object.entries(data)) {
+      if (ym < START) continue;
+      for (const [sp, t] of Object.entries(mo)) tot[sp] = (tot[sp] ?? 0) + t.distanceMeters;
+    }
     return Object.keys(tot).sort((a, b) => tot[b] - tot[a]);
   }, [data]);
 
