@@ -92,6 +92,34 @@ function StravaLinks({ adventure }: { adventure: Adventure }) {
   );
 }
 
+/**
+ * When there's no manual trip report, fall back to the Strava descriptions. For a multi-activity
+ * outing (a duathlon, a multi-day trip) append every member's description under its day/leg heading,
+ * not just the first.
+ */
+function StravaDescriptions({ adventure }: { adventure: Adventure }) {
+  const withDesc = adventure.days.filter((d) => d.activity.description?.trim());
+  if (withDesc.length === 0) return null;
+  if (withDesc.length === 1) {
+    return (
+      <article className="prose mt-8 max-w-none dark:prose-invert">
+        <p className="whitespace-pre-line">{withDesc[0].activity.description}</p>
+      </article>
+    );
+  }
+  const unit = adventure.isMultiSport ? 'Leg' : 'Day';
+  return (
+    <article className="prose mt-8 max-w-none dark:prose-invert">
+      {withDesc.map((d) => (
+        <div key={d.activity.stravaId}>
+          <h3>{d.title ?? `${unit} ${d.dayIndex + 1}`}</h3>
+          <p className="whitespace-pre-line">{d.activity.description}</p>
+        </div>
+      ))}
+    </article>
+  );
+}
+
 export function AdventureReport({
   adventure,
   trips = [],
@@ -172,7 +200,7 @@ export function AdventureReport({
       ) : (
         track && track.altitude.length > 1 && <ElevationProfile track={track} />
       )}
-      {track && <MetricCharts track={track} />}
+      {track && <MetricCharts track={track} showHeartRate={adventure.showHeartRate} />}
 
       {!adventure.isMultiDay && adventure.allPhotos.length > 0 && (
         <div className="mb-8">
@@ -202,12 +230,9 @@ export function AdventureReport({
         <article className="prose mt-8 max-w-none dark:prose-invert">
           <ArticleMarkdown content={adventure.content} />
         </article>
-      ) : adventure.primaryActivity.description?.trim() ? (
-        // No manual trip report — fall back to the Strava activity description.
-        <article className="prose mt-8 max-w-none dark:prose-invert">
-          <p className="whitespace-pre-line">{adventure.primaryActivity.description}</p>
-        </article>
-      ) : null}
+      ) : (
+        <StravaDescriptions adventure={adventure} />
+      )}
 
       <StravaLinks adventure={adventure} />
     </div>

@@ -10,7 +10,7 @@ import { mapCommonMetadata, normalizeDate } from './content';
 import { FACET_ORDER } from './facets';
 import { preprocessObsidian } from '@blog/obsidian-md';
 import type { AdventureActivity, AdventureStats, SportType } from '@blog/strava/types';
-import { parseStravaIds, usesIdArray, decodePolyline, encodePolyline } from '@blog/strava';
+import { parseStravaIds, usesIdArray } from '@blog/strava';
 
 export type {
   AdventureActivity,
@@ -25,6 +25,7 @@ const SNAPSHOT_DIR = path.join(process.cwd(), 'data', 'adventures');
 const ACTIVITIES_DIR = path.join(SNAPSHOT_DIR, 'activities');
 const OBJECTIVES_FILE = path.join(SNAPSHOT_DIR, 'objectives.json');
 const YEARLY_FILE = path.join(SNAPSHOT_DIR, 'yearly-totals.json');
+const LIFETIME_FILE = path.join(SNAPSHOT_DIR, 'lifetime-totals.json');
 
 // ─── Public types ──────────────────────────────────────────────────
 
@@ -66,6 +67,7 @@ export interface Adventure {
   grade: string | null;
   peakClass: PeakClass | null;
   facets: string[]; // filterable kinds: 14er/13er/race/couloir/scramble/traverse/thru-hike
+  showHeartRate: boolean; // HR chart is opt-in (races); hidden by default
   rating: number | null;
   objective: string | null; // slug of fulfilled objective
   group: string | null; // shared key across repeat trips of the same route
@@ -94,7 +96,8 @@ export interface AdventureSummary {
   tags: string[];
   location: { city: string | null; state: string | null; country: string | null };
   coverThumb: string | null;
-  summaryPolyline: string | null;
+  summaryPolyline: string | null; // primary leg, for the card's route shape
+  routePolylines: string[]; // every leg, drawn separately on the library map
   routeThumb: string | null; // committed static map (basemap + route), if synced
   isMultiSport: boolean;
   dayCount: number;
@@ -114,11 +117,13 @@ export interface SportTotals {
   count: number;
   distanceMeters: number;
   elevationGainMeters: number;
+  movingTimeSeconds: number;
 }
 
 export interface LifetimeStats {
   totalDistanceMeters: number;
   totalElevationGainMeters: number;
+  totalMovingTimeSeconds: number;
   adventureCount: number;
   bySport: SportTotals[];
   states: string[];
@@ -212,12 +217,14 @@ function deriveFacets(
   title: string,
   peakClass: PeakClass | null,
   isRace: boolean,
+  tags: string[],
 ): string[] {
   const f = new Set<string>();
   if (peakClass) f.add(peakClass);
   if (isRace) f.add('race');
   const t = (type ?? '').toLowerCase();
   const lc = title.toLowerCase();
+  if (tags.includes('duathlon') || /duathlon/.test(lc)) f.add('duathlon');
   if (t === 'couloir' || /couloir/.test(lc)) f.add('couloir');
   if (t === 'scramble' || /scramble/.test(lc)) f.add('scramble');
   if (t === 'traverse' || /traverse/.test(lc)) f.add('traverse');
@@ -339,7 +346,7 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
   const typeStr = str(pc.data.type);
   const peakClass = derivePeakClass(tags, typeStr, sportType, elevHigh);
   const isRace = Boolean(pc.data.race) || typeStr === 'race';
-  const facets = deriveFacets(typeStr, common.title, peakClass, isRace);
+  const facets = deriveFacets(typeStr, common.title, peakClass, isRace, tags);
   const date = pc.data.date != null ? normalizeDate(pc.data.date) : primary.date;
   const dayMeta = Array.isArray(pc.data.days)
     ? (pc.data.days as Array<{ title?: unknown; caption?: unknown }>)
@@ -382,6 +389,7 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
     grade: str(pc.data.grade),
     peakClass,
     facets,
+    showHeartRate: isRace || Boolean(pc.data.show_hr),
     rating: num(pc.data.rating),
     objective: str(pc.data.objective),
     group: str(pc.data.group),
@@ -393,20 +401,6 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
     allPhotos,
     primaryActivity: primary,
   };
-}
-
-/**
- * The route to draw on the library map. For a multi-day/multi-leg outing (a thru-hike like the
- * Colorado Trail, a 14er link-up) stitch every member's polyline together so the whole route shows,
- * not just the first day's segment.
- */
-function mapPolyline(adv: Adventure): string | null {
-  const polys = adv.days
-    .map((d) => d.activity.track?.summaryPolyline)
-    .filter((p): p is string => Boolean(p));
-  if (polys.length === 0) return null;
-  if (polys.length === 1) return polys[0];
-  return encodePolyline(polys.flatMap((p) => decodePolyline(p)));
 }
 
 function toSummary(adv: Adventure, tripCount = 1): AdventureSummary {
@@ -427,7 +421,12 @@ function toSummary(adv: Adventure, tripCount = 1): AdventureSummary {
     tags: adv.tags,
     location: adv.location,
     coverThumb: adv.coverPhoto?.thumb ?? null,
-    summaryPolyline: mapPolyline(adv),
+    summaryPolyline: adv.primaryActivity.track?.summaryPolyline ?? null,
+    // Each member leg as its own polyline so the map draws them separately — a thru-hike shows its
+    // whole route, and a link-up of two out-and-backs doesn't get a straight connector between them.
+    routePolylines: adv.days
+      .map((d) => d.activity.track?.summaryPolyline)
+      .filter((p): p is string => Boolean(p)),
     // The sync writes route.jpg whenever the activity has a route, so the polyline's presence
     // tells us the thumbnail exists — without an fs check that would drag public/ into the
     // serverless trace (and blow past Vercel's function-size limit).
@@ -520,31 +519,51 @@ export function getFeaturedAdventures(limit = 3): AdventureSummary[] {
   return (featured.length ? featured : all).slice(0, limit);
 }
 
+export interface YearSportTotals {
+  [year: string]: {
+    [sport: string]: { distanceMeters: number; elevationGainMeters: number; movingTimeSeconds: number };
+  };
+}
+
+interface LifetimeFile {
+  bySport: SportTotals[];
+  totalDistanceMeters: number;
+  totalElevationGainMeters: number;
+  totalMovingTimeSeconds: number;
+  byYearSport?: YearSportTotals;
+}
+
+/** Per-year, per-sport totals across the full human-powered history — for the composition chart. */
+export function getLifetimeByYearSport(): YearSportTotals {
+  return readLifetimeFile()?.byYearSport ?? {};
+}
+
+/** Committed full-history totals (every human-powered activity), or null if not generated yet. */
+function readLifetimeFile(): LifetimeFile | null {
+  if (!fs.existsSync(LIFETIME_FILE)) return null;
+  try {
+    return JSON.parse(fs.readFileSync(LIFETIME_FILE, 'utf8')) as LifetimeFile;
+  } catch (err) {
+    console.error('[adventures] bad lifetime-totals.json:', err);
+    return null;
+  }
+}
+
+/**
+ * Lifetime stats. Volume (by-sport totals, grand totals) reflects the FULL human-powered activity
+ * history; the record chips and place lists come from the published reports (the only ones we can
+ * link to). Falls back to published-only volume if the committed lifetime file is missing.
+ */
 export function getLifetimeStats(): LifetimeStats {
   const advs = allAdventures();
-  const bySport = new Map<SportType, SportTotals>();
   const states = new Set<string>();
   const countries = new Set<string>();
-  let totalDistanceMeters = 0;
-  let totalElevationGainMeters = 0;
   let longestDistance: Adventure | null = null;
   let mostVert: Adventure | null = null;
   let longestDuration: Adventure | null = null;
   let highestPoint: { meters: number; slug: string; title: string } | null = null;
 
   for (const a of advs) {
-    totalDistanceMeters += a.totals.distanceMeters;
-    totalElevationGainMeters += a.totals.elevationGainMeters;
-    const e = bySport.get(a.sportType) ?? {
-      sportType: a.sportType,
-      count: 0,
-      distanceMeters: 0,
-      elevationGainMeters: 0,
-    };
-    e.count += 1;
-    e.distanceMeters += a.totals.distanceMeters;
-    e.elevationGainMeters += a.totals.elevationGainMeters;
-    bySport.set(a.sportType, e);
     if (a.location.state) states.add(a.location.state);
     if (a.location.country) countries.add(a.location.country);
     if (!longestDistance || a.totals.distanceMeters > longestDistance.totals.distanceMeters) longestDistance = a;
@@ -556,11 +575,20 @@ export function getLifetimeStats(): LifetimeStats {
     }
   }
 
+  const lifetime = readLifetimeFile();
+  const totalDistanceMeters = lifetime?.totalDistanceMeters ?? advs.reduce((t, a) => t + a.totals.distanceMeters, 0);
+  const totalElevationGainMeters =
+    lifetime?.totalElevationGainMeters ?? advs.reduce((t, a) => t + a.totals.elevationGainMeters, 0);
+  const totalMovingTimeSeconds =
+    lifetime?.totalMovingTimeSeconds ?? advs.reduce((t, a) => t + a.totals.movingTimeSeconds, 0);
+  const bySport = lifetime?.bySport ?? [];
+
   return {
     totalDistanceMeters,
     totalElevationGainMeters,
+    totalMovingTimeSeconds,
     adventureCount: advs.length,
-    bySport: [...bySport.values()].sort((x, y) => y.distanceMeters - x.distanceMeters),
+    bySport: [...bySport].sort((x, y) => y.distanceMeters - x.distanceMeters),
     states: [...states].sort(),
     countries: [...countries].sort(),
     records: {
@@ -576,6 +604,7 @@ export interface YearPoint {
   doy: number; // day of year, 1-366
   distM: number; // cumulative distance (meters) through that day
   gainM: number; // cumulative elevation gain (meters) through that day
+  timeS: number; // cumulative moving time (seconds) through that day
 }
 export interface YearlyTotals {
   years: Record<string, YearPoint[]>;
@@ -592,19 +621,25 @@ export function getYearlyTotals(): YearlyTotals {
   }
 }
 
-/** All-time distance + elevation across the FULL activity history (not just published adventures). */
-export function getActivityGrandTotals(): { distanceMeters: number; elevationGainMeters: number } {
+/** All-time distance + elevation + time across the FULL activity history (not just published adventures). */
+export function getActivityGrandTotals(): {
+  distanceMeters: number;
+  elevationGainMeters: number;
+  movingTimeSeconds: number;
+} {
   const { years } = getYearlyTotals();
   let distanceMeters = 0;
   let elevationGainMeters = 0;
+  let movingTimeSeconds = 0;
   for (const pts of Object.values(years)) {
     const last = pts[pts.length - 1];
     if (last) {
       distanceMeters += last.distM;
       elevationGainMeters += last.gainM;
+      movingTimeSeconds += last.timeS ?? 0;
     }
   }
-  return { distanceMeters, elevationGainMeters };
+  return { distanceMeters, elevationGainMeters, movingTimeSeconds };
 }
 
 /** Slugs of objectives already fulfilled by a published report — by explicit `objective:` link or matching slug. */

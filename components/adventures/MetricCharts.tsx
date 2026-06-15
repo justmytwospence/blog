@@ -16,21 +16,22 @@ const META: Record<Metric, { label: string; color: string }> = {
   speed: { label: 'Speed (mph)', color: '#2563eb' },
 };
 
-export function MetricCharts({ track }: { track: AdventureTrack }) {
+export function MetricCharts({ track, showHeartRate = false }: { track: AdventureTrack; showHeartRate?: boolean }) {
   const chartRef = useRef<ChartJS<'line'> | null>(null);
   const setHoverIndex = useHoverStore((s) => s.setHoverIndex);
   const dark = useIsDark();
-  const [metric, setMetric] = useState<Metric>('hr');
+  const [metric, setMetric] = useState<Metric>('speed');
 
   useChartHoverSync(chartRef);
 
   const n = track.distance.length;
   const available = useMemo<Metric[]>(() => {
     const a: Metric[] = [];
-    if (track.heartrate?.length === n && n > 0) a.push('hr');
+    // Heart rate is opt-in (races) — hidden by default even when the data exists.
+    if (showHeartRate && track.heartrate?.length === n && n > 0) a.push('hr');
     if (track.velocity?.length === n && n > 0) a.push('speed');
     return a;
-  }, [track, n]);
+  }, [track, n, showHeartRate]);
 
   if (available.length === 0) return null;
   const effective: Metric = available.includes(metric) ? metric : available[0];

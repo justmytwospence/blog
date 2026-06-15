@@ -151,7 +151,7 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
             ))}
           </div>
         )}
-        <div className="ml-auto flex flex-wrap items-center justify-end gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <div className="relative">
             <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" aria-hidden="true" />
             <input

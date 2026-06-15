@@ -9,7 +9,7 @@ import type { YearlyTotals } from '@/lib/adventures';
 
 ChartJS.register(Legend);
 
-type Metric = 'distance' | 'elevation';
+type Metric = 'distance' | 'elevation' | 'duration';
 
 // Month-start day-of-year for x-axis ticks.
 const MONTH_STARTS = [1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335];
@@ -31,8 +31,8 @@ export function YearlyChart({ totals }: { totals: YearlyTotals }) {
 
   const tick = chartTick(dark);
   const grid = chartGrid(dark);
-  const convert = (p: { distM: number; gainM: number }) =>
-    metric === 'distance' ? metersToMiles(p.distM) : metersToFeet(p.gainM);
+  const convert = (p: { distM: number; gainM: number; timeS: number }) =>
+    metric === 'distance' ? metersToMiles(p.distM) : metric === 'elevation' ? metersToFeet(p.gainM) : p.timeS / 3600;
 
   const datasets = years.map(([year, pts], i) => {
     // newest year last in the sorted list → give it the lead color and a heavier line
@@ -50,7 +50,7 @@ export function YearlyChart({ totals }: { totals: YearlyTotals }) {
     };
   });
 
-  const unit = metric === 'distance' ? 'mi' : 'ft';
+  const unit = metric === 'distance' ? 'mi' : metric === 'elevation' ? 'ft' : 'h';
   const options: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
@@ -82,7 +82,16 @@ export function YearlyChart({ totals }: { totals: YearlyTotals }) {
         grid: { color: grid },
       },
       y: {
-        title: { display: true, text: metric === 'distance' ? 'Cumulative distance (mi)' : 'Cumulative gain (ft)', color: tick },
+        title: {
+          display: true,
+          text:
+            metric === 'distance'
+              ? 'Cumulative distance (mi)'
+              : metric === 'elevation'
+                ? 'Cumulative gain (ft)'
+                : 'Cumulative time (h)',
+          color: tick,
+        },
         ticks: { color: tick, callback: (v) => Number(v).toLocaleString() },
         grid: { color: grid },
       },
@@ -106,6 +115,9 @@ export function YearlyChart({ totals }: { totals: YearlyTotals }) {
           </button>
           <button type="button" onClick={() => setMetric('elevation')} aria-pressed={metric === 'elevation'} className={btn(metric === 'elevation')}>
             Elevation
+          </button>
+          <button type="button" onClick={() => setMetric('duration')} aria-pressed={metric === 'duration'} className={btn(metric === 'duration')}>
+            Duration
           </button>
         </div>
       </div>

@@ -15,7 +15,7 @@ type LatLng = [number, number];
 interface Route {
   item: AdventureSummary;
   color: string;
-  positions: LatLng[];
+  segments: LatLng[][]; // one per member leg, drawn separately (no connectors)
   start: LatLng;
 }
 
@@ -86,10 +86,16 @@ export function AdventuresMapInner({ items }: { items: AdventureSummary[] }) {
   const routes = useMemo<Route[]>(() => {
     const out: Route[] = [];
     for (const item of items) {
-      if (!item.summaryPolyline) continue;
-      const positions = decodePolyline(item.summaryPolyline) as LatLng[];
-      if (positions.length < 2) continue;
-      out.push({ item, color: sportColor(item.sportType), positions, start: positions[0] });
+      const polys = item.routePolylines?.length
+        ? item.routePolylines
+        : item.summaryPolyline
+          ? [item.summaryPolyline]
+          : [];
+      const segments = polys
+        .map((p) => decodePolyline(p) as LatLng[])
+        .filter((s) => s.length >= 2);
+      if (segments.length === 0) continue;
+      out.push({ item, color: sportColor(item.sportType), segments, start: segments[0][0] });
     }
     return out;
   }, [items]);
@@ -109,11 +115,13 @@ export function AdventuresMapInner({ items }: { items: AdventureSummary[] }) {
       <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} maxZoom={TILE_MAX_ZOOM} />
       <ResizeHandler />
       <FitBounds bounds={bounds} />
-      {routes.map((r) => (
-        <Polyline key={r.item.slug} positions={r.positions} pathOptions={{ color: r.color, weight: 3, opacity: 0.85 }}>
-          <Tooltip sticky>{r.item.title}</Tooltip>
-        </Polyline>
-      ))}
+      {routes.map((r) =>
+        r.segments.map((seg, si) => (
+          <Polyline key={`${r.item.slug}-${si}`} positions={seg} pathOptions={{ color: r.color, weight: 3, opacity: 0.85 }}>
+            <Tooltip sticky>{r.item.title}</Tooltip>
+          </Polyline>
+        )),
+      )}
       {routes.map((r) => (
         <Marker key={r.item.slug} position={r.start} icon={startIcon(r.color)}>
           <Popup>

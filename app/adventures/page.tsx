@@ -5,8 +5,15 @@ import { PageContainer } from '@/components/PageContainer';
 import { StatsBanner } from '@/components/adventures/StatsBanner';
 import { LibraryView } from '@/components/adventures/LibraryView';
 import { YearlyChart } from '@/components/adventures/YearlyChart';
-import { getAllAdventures, getLifetimeStats, getYearlyTotals, getActivityGrandTotals } from '@/lib/adventures';
-import { formatDistance, formatElevation } from '@/lib/units';
+import { YearSportBars } from '@/components/adventures/YearSportBars';
+import {
+  getAllAdventures,
+  getLifetimeStats,
+  getYearlyTotals,
+  getActivityGrandTotals,
+  getLifetimeByYearSport,
+} from '@/lib/adventures';
+import { formatDistance, formatElevation, formatDuration } from '@/lib/units';
 
 export const metadata: Metadata = {
   title: 'Adventures',
@@ -19,15 +26,13 @@ export default function AdventuresPage() {
   const stats = getLifetimeStats();
   const yearly = getYearlyTotals();
   const grand = getActivityGrandTotals();
+  const byYearSport = getLifetimeByYearSport();
 
   return (
     <PageContainer width="wide">
       <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-4xl font-bold text-gray-900 dark:text-[#d4d4d4]">Adventures</h1>
-          <p className="mt-2 text-gray-600 dark:text-[#cccccc]">
-            A curated log of long days out — runs, climbs, skis, and rides worth remembering.
-          </p>
         </div>
         <Link
           href="/adventures/objectives"
@@ -43,10 +48,11 @@ export default function AdventuresPage() {
       </Suspense>
       <details className="mt-12 border-t border-gray-200 pt-6 dark:border-[#303031]">
         <summary className="cursor-pointer text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-[#a6a6a6] dark:hover:text-[#d4d4d4]">
-          Lifetime stats — {formatDistance(grand.distanceMeters)} · {formatElevation(grand.elevationGainMeters)} all-time
+          Lifetime stats — {formatDistance(grand.distanceMeters)} · {formatElevation(grand.elevationGainMeters)} ·{' '}
+          {formatDuration(grand.movingTimeSeconds)} all-time
         </summary>
         <div className="mt-4">
-          <div className="mb-4 grid grid-cols-2 gap-3 sm:max-w-lg">
+          <div className="mb-4 grid grid-cols-2 gap-3 sm:max-w-2xl sm:grid-cols-3">
             <div className="rounded-lg border border-gray-200 bg-white px-4 py-3 dark:border-[#303031] dark:bg-[#252526]">
               <div className="text-2xl font-bold tabular-nums text-gray-900 dark:text-[#d4d4d4]">
                 {formatDistance(grand.distanceMeters)}
@@ -63,9 +69,18 @@ export default function AdventuresPage() {
                 Total vertical (all activities)
               </div>
             </div>
+            <div className="rounded-lg border border-gray-200 bg-white px-4 py-3 dark:border-[#303031] dark:bg-[#252526]">
+              <div className="text-2xl font-bold tabular-nums text-gray-900 dark:text-[#d4d4d4]">
+                {formatDuration(grand.movingTimeSeconds)}
+              </div>
+              <div className="mt-0.5 text-xs uppercase tracking-wide text-gray-500 dark:text-[#a6a6a6]">
+                Total time (all activities)
+              </div>
+            </div>
           </div>
-          <StatsBanner stats={stats} />
+          <YearSportBars data={byYearSport} />
           <YearlyChart totals={yearly} />
+          <StatsBanner stats={stats} />
         </div>
       </details>
     </PageContainer>

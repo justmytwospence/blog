@@ -29,7 +29,8 @@ const SKI = 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-300';
 const ALPINE = 'bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300';
 const WATER = 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-300';
 
-const META: Partial<Record<SportType, SportMeta>> = {
+const META: Record<string, SportMeta> = {
+  Scramble: { label: 'Scramble', Icon: Mountain, pill: ALPINE },
   TrailRun: { label: 'Trail Run', Icon: Running, pill: RUN },
   Run: { label: 'Run', Icon: Running, pill: RUN },
   Walk: { label: 'Walk', Icon: Footprints, pill: GRAY },
@@ -43,7 +44,8 @@ const META: Partial<Record<SportType, SportMeta>> = {
   EBikeRide: { label: 'E-Bike', Icon: Bike, pill: RIDE },
   VirtualRide: { label: 'Virtual Ride', Icon: Bike, pill: RIDE },
   NordicSki: { label: 'Nordic Ski', Icon: Snowflake, pill: SKI },
-  BackcountrySki: { label: 'Ski Mountaineering', Icon: Snowflake, pill: SKI },
+  RollerSki: { label: 'Rollerski', Icon: Snowflake, pill: SKI },
+  BackcountrySki: { label: 'Skimo', Icon: Snowflake, pill: SKI },
   AlpineSki: { label: 'Alpine Ski', Icon: Snowflake, pill: SKI },
   Snowboard: { label: 'Snowboard', Icon: Snowflake, pill: SKI },
   Swim: { label: 'Swim', Icon: Waves, pill: WATER },
