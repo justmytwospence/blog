@@ -97,7 +97,6 @@ async function main(): Promise<void> {
     gear: null,
     description: null,
     stravaUrl: '',
-    syncedAt: new Date().toISOString(),
     sourceHash: 'pct:osm-1225378',
   };
 

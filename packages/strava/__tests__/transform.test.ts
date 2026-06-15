@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { mapSportType, buildPhotosFromRaw, transformDetailToActivity } from '../src/transform';
 import type { RawDetailedActivity, RawStreamSet, RawPhoto } from '../src/types';
 
-const META = { syncedAt: '2026-01-01T00:00:00.000Z', sourceHash: 'abc' };
+const META = { sourceHash: 'abc' };
 
 function baseDetail(overrides: Partial<RawDetailedActivity> = {}): RawDetailedActivity {
   return {

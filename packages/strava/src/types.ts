@@ -215,7 +215,6 @@ export interface AdventureActivity {
   gear: string | null;
   description: string | null; // raw Strava description (not the report prose)
   stravaUrl: string;
-  syncedAt: string; // ISO
   sourceHash: string; // hash of mutating inputs → skip-unchanged
 }
 

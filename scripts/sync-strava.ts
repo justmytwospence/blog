@@ -23,34 +23,27 @@ import {
   buildPhotosFromRaw,
   decodePolyline,
   reverseGeocode,
-  RateLimitError,
   type RawDetailedActivity,
   type AdventurePhoto,
   type AdventureWeather,
 } from '@blog/strava';
 import {
   ACTIVITIES_DIR,
-  CACHE_FILE,
-  DATA_DIR,
-  INDEX_FILE,
   PUBLIC_DIR,
   getCreds,
   loadEnvLocal,
   persistRefreshToken,
   readCompanions,
   sleep,
+  withBackoff,
 } from './strava-shared';
 import { buildRouteThumb } from './route-thumb';
+import { refreshIndex } from './build-index';
+import { writeTotals } from './build-totals';
 
 const SCHEMA_VERSION = 1;
 const PACING_MS = 300;
 const FORCE = process.argv.includes('--force');
-
-interface CacheEntry {
-  sourceHash: string;
-  syncedAt: string;
-}
-type Cache = Record<string, CacheEntry>;
 
 function sourceHash(detail: RawDetailedActivity): string {
   return crypto
@@ -71,26 +64,6 @@ function sourceHash(detail: RawDetailedActivity): string {
       }),
     )
     .digest('hex');
-}
-
-async function withBackoff<T>(fn: () => Promise<T>, label: string): Promise<T> {
-  let delay = 2000;
-  // Patient enough to wait out a full 15-minute Strava rate-limit window.
-  for (let attempt = 0; attempt < 14; attempt++) {
-    try {
-      return await fn();
-    } catch (err) {
-      if (err instanceof RateLimitError) {
-        const wait = err.retryAfterMs ?? delay;
-        console.warn(`[strava] 429 on ${label}; backing off ${Math.round(wait / 1000)}s (attempt ${attempt + 1})`);
-        await sleep(wait);
-        delay = Math.min(delay * 2, 120000);
-      } else {
-        throw err;
-      }
-    }
-  }
-  throw new Error(`[strava] gave up after rate-limit retries on ${label}`);
 }
 
 async function downloadPhotos(
@@ -175,9 +148,6 @@ async function main(): Promise<void> {
   const access = token.accessToken;
 
   fs.mkdirSync(ACTIVITIES_DIR, { recursive: true });
-  const cache: Cache = fs.existsSync(CACHE_FILE)
-    ? (JSON.parse(fs.readFileSync(CACHE_FILE, 'utf8')) as Cache)
-    : {};
 
   let synced = 0;
   let skipped = 0;
@@ -203,9 +173,17 @@ async function main(): Promise<void> {
     }
 
     const hash = sourceHash(detail);
-    if (!FORCE && cache[String(id)]?.sourceHash === hash && fs.existsSync(jsonPath)) {
-      skipped++;
-      continue;
+    // Skip-unchanged by comparing against the committed snapshot's own hash — no separate cache file.
+    if (!FORCE && fs.existsSync(jsonPath)) {
+      try {
+        const prev = JSON.parse(fs.readFileSync(jsonPath, 'utf8')) as { sourceHash?: string };
+        if (prev.sourceHash === hash) {
+          skipped++;
+          continue;
+        }
+      } catch {
+        /* unreadable snapshot — fall through and resync */
+      }
     }
 
     const hasGeo =
@@ -252,7 +230,6 @@ async function main(): Promise<void> {
     photosDownloaded += fetched;
 
     const activity = transformDetailToActivity(detail, streams, weather, photos, {
-      syncedAt: new Date().toISOString(),
       sourceHash: hash,
     });
     if (
@@ -267,9 +244,6 @@ async function main(): Promise<void> {
       await sleep(PACING_MS);
     }
     fs.writeFileSync(jsonPath, JSON.stringify(activity, null, 2));
-    cache[String(id)] = { sourceHash: hash, syncedAt: activity.syncedAt };
-    // Persist the cache after every activity so an interrupted run resumes without re-fetching.
-    fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
     synced++;
     console.log(`[strava] synced ${id} — ${activity.name}`);
   }
@@ -282,7 +256,6 @@ async function main(): Promise<void> {
       const id = Number(f.replace('.json', ''));
       if (!neededIds.has(id)) {
         fs.rmSync(path.join(ACTIVITIES_DIR, f));
-        delete cache[String(id)];
         pruned++;
       }
     }
@@ -296,27 +269,10 @@ async function main(): Promise<void> {
     }
   }
 
-  // Rebuild the lightweight index.
-  const indexActivities = fs
-    .readdirSync(ACTIVITIES_DIR)
-    .filter((f) => f.endsWith('.json'))
-    .map((f) => {
-      const a = JSON.parse(fs.readFileSync(path.join(ACTIVITIES_DIR, f), 'utf8'));
-      return {
-        stravaId: a.stravaId,
-        date: a.date,
-        sportType: a.sportType,
-        name: a.name,
-        hasTrack: Boolean(a.track) && a.track.coordinates.length > 1,
-        photoCount: a.photos.length,
-      };
-    });
-  fs.mkdirSync(DATA_DIR, { recursive: true });
-  fs.writeFileSync(
-    INDEX_FILE,
-    JSON.stringify({ generatedAt: new Date().toISOString(), activities: indexActivities }, null, 2),
-  );
-  fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
+  // Refresh the committed all-activity index (incremental summary paging) and recompute the
+  // lifetime + yearly totals from it — the deterministic, idempotent stats pipeline.
+  const entries = await refreshIndex(access, { reindex: process.argv.includes('--reindex') });
+  writeTotals(entries);
 
   console.log(
     `[strava] done — synced ${synced}, skipped ${skipped} (unchanged), pruned ${pruned}, ` +

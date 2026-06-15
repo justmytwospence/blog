@@ -88,6 +88,11 @@ __pycache__/
 # strava history triage output (local only)
 /.strava-sweep.json
 
+# deprecated one-time Strava bootstrapping tooling — kept locally, out of version control
+/scripts/strava-sweep.ts
+/scripts/strava-inbox.ts
+/scripts/strava-bootstrap.ts
+
 # local scratch (screenshots, review docs)
 /.tmp-screens/
 

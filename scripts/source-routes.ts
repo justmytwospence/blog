@@ -113,7 +113,6 @@ async function buildActivity(
     gear: null,
     description: null,
     stravaUrl: '',
-    syncedAt: new Date().toISOString(),
     sourceHash: `14ers:${slug}`,
   };
   return { activity, latlng: ds.map((p) => [p.lat, p.lng]) };

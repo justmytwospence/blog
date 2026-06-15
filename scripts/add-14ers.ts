@@ -155,7 +155,6 @@ async function buildLeg(leg: Leg, e: Entry): Promise<{ activity: AdventureActivi
     gear: null,
     description: `${leg.route} · Class ${e.class}`,
     stravaUrl: '',
-    syncedAt: new Date().toISOString(),
     sourceHash: `14ers:${leg.route}`,
   };
   return { activity, latlng: ds.map((p) => [p.lat, p.lng]) };

@@ -1,6 +1,6 @@
 /**
  * Pure transforms: raw Strava shapes → normalized SI `AdventureActivity`.
- * No I/O. The sync script supplies `syncedAt`/`sourceHash` and downloads photos afterward.
+ * No I/O. The sync script supplies `sourceHash` and downloads photos afterward.
  */
 
 import type {
@@ -165,7 +165,7 @@ export function transformDetailToActivity(
   streams: RawStreamSet | null,
   weather: AdventureWeather | null,
   photos: AdventurePhoto[],
-  meta: { syncedAt: string; sourceHash: string },
+  meta: { sourceHash: string },
 ): AdventureActivity {
   const startLocal = detail.start_date_local ?? '';
   return {
@@ -203,7 +203,6 @@ export function transformDetailToActivity(
     gear: detail.gear?.name ?? null,
     description: detail.description ?? null,
     stravaUrl: `https://www.strava.com/activities/${detail.id}`,
-    syncedAt: meta.syncedAt,
     sourceHash: meta.sourceHash,
   };
 }

@@ -5,14 +5,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parseStravaIds } from '@blog/strava';
+import { parseStravaIds, RateLimitError } from '@blog/strava';
 
 export const REPO_ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 export const CONTENT_DIR = path.join(REPO_ROOT, 'content', 'adventures');
 export const DATA_DIR = path.join(REPO_ROOT, 'data', 'adventures');
 export const ACTIVITIES_DIR = path.join(DATA_DIR, 'activities');
 export const INDEX_FILE = path.join(DATA_DIR, 'index.json');
-export const CACHE_FILE = path.join(DATA_DIR, '.sync-cache.json');
+export const ALL_ACTIVITIES_FILE = path.join(DATA_DIR, 'all-activities.json');
+export const LIFETIME_FILE = path.join(DATA_DIR, 'lifetime-totals.json');
+export const YEARLY_FILE = path.join(DATA_DIR, 'yearly-totals.json');
 export const PUBLIC_DIR = path.join(REPO_ROOT, 'public', 'adventures');
 export const TOKEN_FILE = path.join(REPO_ROOT, '.strava-token.json');
 
@@ -71,6 +73,26 @@ export function persistRefreshToken(refreshToken: string): void {
 }
 
 export const sleep = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
+
+/** Retry an API call through Strava 429s, backing off up to a full 15-minute rate-limit window. */
+export async function withBackoff<T>(fn: () => Promise<T>, label: string): Promise<T> {
+  let delay = 2000;
+  for (let attempt = 0; attempt < 14; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      if (err instanceof RateLimitError) {
+        const wait = err.retryAfterMs ?? delay;
+        console.warn(`[strava] 429 on ${label}; backing off ${Math.round(wait / 1000)}s (attempt ${attempt + 1})`);
+        await sleep(wait);
+        delay = Math.min(delay * 2, 120000);
+      } else {
+        throw err;
+      }
+    }
+  }
+  throw new Error(`[strava] gave up after rate-limit retries on ${label}`);
+}
 
 export function slugify(s: string): string {
   return (

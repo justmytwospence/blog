@@ -41,7 +41,6 @@ function act(over: Partial<AdventureStats>, id = 1): AdventureActivity {
     gear: null,
     description: null,
     stravaUrl: '',
-    syncedAt: '',
     sourceHash: '',
   };
 }
