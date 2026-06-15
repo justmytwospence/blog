@@ -73,18 +73,24 @@ through `dynamic(..., { ssr: false })` so they never enter the server bundle.
 OAuth setup:
 
 - **Client metadata** is served at `/client-metadata.json` (`app/client-metadata.json/route.ts`,
-  `force-static`). Its `client_id` must equal that URL, derived from
-  `NEXT_PUBLIC_SITE_ORIGIN` (defaults to `https://spencerboucher.com`). It requests
-  scope `atproto transition:generic` (read + write) and declares the redirect URI.
+  `force-dynamic`). It **self-describes from the request origin** — `client_id`,
+  `client_uri`, and `redirect_uris` are derived from the incoming host — so the same code
+  works on production, Vercel previews, and any custom domain with no per-environment
+  config. It requests scope `atproto transition:generic` (read + write).
 - **Callback**: `/bluesky/callback` (`app/bluesky/callback/page.tsx`) completes the
   redirect and returns the visitor to the post they were reading (carried in the OAuth
   `state`). Shared client logic is in `lib/blueskyClient.ts` (browser-only) and
   `lib/blueskyConfig.ts` (atproto-free constants, safe for the server route).
 - **Local dev**: on `localhost`/`127.0.0.1` the client uses a synthesized "loopback"
-  `client_id`, so no hosted metadata file is needed. Dev sessions expire quickly (~1 day)
-  and there's no silent sign-in — both are normal for loopback clients. Note: Vercel
-  *preview* deployments have a different origin than production, so OAuth sign-in only
-  works on `localhost` and the production domain, not on `*.vercel.app` previews.
+  `client_id`, so no hosted metadata file is needed. Browse the dev server at
+  **`http://127.0.0.1:<port>`** (not `localhost`) — AT Protocol's loopback OAuth only
+  accepts `127.0.0.1`/`[::1]` redirect URIs. Dev sessions expire quickly (~1 day) with no
+  silent sign-in; both are normal for loopback clients.
+- **Requirement**: the *visitor's* account must be on a PDS that supports OAuth (all
+  `bsky.social` accounts do; a self-hosted PDS needs a recent `@atproto/pds` that serves
+  `/.well-known/oauth-protected-resource`). Vercel preview deployments must be publicly
+  reachable (disable Deployment Protection) so the authorization server can fetch the
+  client metadata.
 
 ### Routes
 
