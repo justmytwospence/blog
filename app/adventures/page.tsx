@@ -5,13 +5,13 @@ import { PageContainer } from '@/components/PageContainer';
 import { StatsBanner } from '@/components/adventures/StatsBanner';
 import { LibraryView } from '@/components/adventures/LibraryView';
 import { YearlyChart } from '@/components/adventures/YearlyChart';
-import { YearSportBars } from '@/components/adventures/YearSportBars';
+import { MonthlySportArea } from '@/components/adventures/MonthlySportArea';
 import {
   getAllAdventures,
   getLifetimeStats,
   getYearlyTotals,
   getActivityGrandTotals,
-  getLifetimeByYearSport,
+  getLifetimeByMonthSport,
 } from '@/lib/adventures';
 import { formatDistance, formatElevation, formatDuration } from '@/lib/units';
 
@@ -26,7 +26,7 @@ export default function AdventuresPage() {
   const stats = getLifetimeStats();
   const yearly = getYearlyTotals();
   const grand = getActivityGrandTotals();
-  const byYearSport = getLifetimeByYearSport();
+  const byMonthSport = getLifetimeByMonthSport();
 
   return (
     <PageContainer width="wide">
@@ -78,7 +78,7 @@ export default function AdventuresPage() {
               </div>
             </div>
           </div>
-          <YearSportBars data={byYearSport} />
+          <MonthlySportArea data={byMonthSport} />
           <YearlyChart totals={yearly} />
           <StatsBanner stats={stats} />
         </div>

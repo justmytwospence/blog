@@ -16,6 +16,11 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
   const route = adventure.summaryPolyline;
   const routeImg = adventure.routeThumb;
   const hasRouteBase = Boolean(routeImg || route);
+  // The type chip duplicates a badge when it's a race (Race badge) or matches the sport (e.g. Scramble).
+  const typeChip =
+    adventure.type && adventure.type !== 'race' && adventure.type.toLowerCase() !== adventure.sportType.toLowerCase()
+      ? adventure.type
+      : null;
 
   return (
     <Link
@@ -47,8 +52,10 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
         )}
       </div>
       <div className="p-5">
-        <div className="mb-2 flex items-center gap-2">
-          <SportBadge sportType={adventure.sportType} size="sm" />
+        <div className="mb-2 flex flex-wrap items-center gap-2">
+          {(adventure.sportTypes.length ? adventure.sportTypes : [adventure.sportType]).map((s) => (
+            <SportBadge key={s} sportType={s} size="sm" />
+          ))}
           {adventure.peakClass && <PeakBadge peakClass={adventure.peakClass} />}
           {adventure.facets.includes('race') && (
             <span className="rounded-full border border-rose-300 bg-rose-50 px-2 py-0.5 text-xs font-medium text-rose-700 dark:border-rose-500/40 dark:bg-rose-900/30 dark:text-rose-300">
@@ -60,9 +67,12 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
               {adventure.dayCount} days
             </span>
           )}
-          {adventure.tripCount > 1 && (
+          {(adventure.tripCount > 1 || adventure.lapCount > 1) && (
             <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
-              {adventure.tripCount} trips
+              {/* Show laps only when multi-lap sessions clearly dominate; otherwise count trips. */}
+              {adventure.lapCount >= adventure.tripCount * 1.5
+                ? `${adventure.lapCount} laps`
+                : `${adventure.tripCount} trips`}
             </span>
           )}
           <span className="ml-auto text-sm text-gray-500 dark:text-[#a6a6a6]">
@@ -78,7 +88,7 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
           <span>{formatElevation(adventure.totals.elevationGainMeters)} gain</span>
           <span>{formatDuration(adventure.totals.movingTimeSeconds)}</span>
         </div>
-        {(rating != null || adventure.type) && (
+        {(rating != null || typeChip) && (
           <div className="mt-3 flex items-center gap-2">
             {rating != null && (
               <span
@@ -90,9 +100,9 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
                 ))}
               </span>
             )}
-            {adventure.type && (
+            {typeChip && (
               <span className="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-600 dark:bg-[#3a3d41] dark:text-[#cccccc]">
-                {adventure.type}
+                {typeChip}
               </span>
             )}
           </div>
