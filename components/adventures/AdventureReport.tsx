@@ -175,7 +175,9 @@ export function AdventureReport({
       </header>
 
       {trips.length > 1 && activeSlug && <TripTabs trips={trips} activeSlug={activeSlug} />}
-      {trips.length > 1 && activeSlug && <RouteRecords trips={trips} activeSlug={activeSlug} />}
+      {trips.length > 1 && activeSlug && (
+        <RouteRecords trips={trips} activeSlug={activeSlug} isLaps={adventure.laps} />
+      )}
 
       {track && track.coordinates.length > 1 && (
         <div className="mb-8">
