@@ -109,21 +109,6 @@ export default async function AboutPage() {
             Companies I've Worked With
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {/* FieldGoal */}
-            <a
-              href="https://fieldgoal.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center h-24 p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
-            >
-              <Image
-                src="/logos/fieldgoal.svg"
-                alt="FieldGoal"
-                width={44}
-                height={44}
-              />
-            </a>
-
             {/* Uber */}
             <a 
               href="https://www.uber.com" 
@@ -176,12 +161,27 @@ export default async function AboutPage() {
               rel="noopener noreferrer"
               className="flex items-center justify-center h-24 p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
             >
-              <Image 
-                src="/logos/gametime.svg" 
-                alt="Gametime" 
-                width={120} 
+              <Image
+                src="/logos/gametime.svg"
+                alt="Gametime"
+                width={120}
                 height={40}
               />
+            </a>
+
+            {/* FieldGoal */}
+            <a
+              href="https://fieldgoal.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center h-24 p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
+            >
+              <span className="flex items-center gap-2">
+                <svg viewBox="0 0 512 512" className="h-7 w-7 shrink-0" aria-hidden="true">
+                  <path fill="#4fbfa5" d="M469.333 0C492.843 0 512 19.285 512 42.667v426.666C512 492.715 492.843 512 469.333 512h-128c-24.554 0-42.666-18.304-42.666-42.667v-256h-256C18.283 213.333 0 195.2 0 170.667v-128C0 19.285 19.157 0 42.667 0zM0 341.333c0-24.554 18.112-42.666 42.667-42.666h128c24.554 0 42.666 18.112 42.666 42.666v128c0 24.555-18.112 42.667-42.666 42.667h-128C18.112 512 0 493.888 0 469.333z"/>
+                </svg>
+                <span className="text-2xl font-bold tracking-tight text-[#21433b]">FieldGoal</span>
+              </span>
             </a>
           </div>
         </div>
@@ -292,7 +292,7 @@ export default async function AboutPage() {
               />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Master's in Data Science</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Master of Science in Artificial Intelligence</h3>
               <p className="text-gray-600 dark:text-gray-400">University of San Francisco</p>
             </div>
           </div>
