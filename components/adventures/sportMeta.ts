@@ -46,7 +46,6 @@ const META: Record<string, SportMeta> = {
   EBikeRide: { label: 'E-Bike', Icon: Bike, pill: RIDE },
   VirtualRide: { label: 'Virtual Ride', Icon: Bike, pill: RIDE },
   NordicSki: { label: 'Nordic Ski', Icon: Snowflake, pill: SKI },
-  RollerSki: { label: 'Rollerski', Icon: Snowflake, pill: SKI },
   BackcountrySki: { label: 'Skimo', Icon: Snowflake, pill: SKI },
   AlpineSki: { label: 'Alpine Ski', Icon: Snowflake, pill: SKI },
   Snowboard: { label: 'Snowboard', Icon: Snowflake, pill: SKI },
@@ -56,6 +55,7 @@ const META: Record<string, SportMeta> = {
   Canoeing: { label: 'Canoe', Icon: Sailboat, pill: WATER },
   Rowing: { label: 'Row', Icon: Sailboat, pill: WATER },
   Workout: { label: 'Workout', Icon: Activity, pill: GRAY },
+  Other: { label: 'Other', Icon: Activity, pill: GRAY },
 };
 
 export function sportMeta(sport: SportType | string): SportMeta {

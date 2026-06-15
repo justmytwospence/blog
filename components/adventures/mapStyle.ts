@@ -61,7 +61,6 @@ const SPORT_HEX: Record<string, string> = {
   EBikeRide: '#d97706',
   VirtualRide: '#d97706',
   NordicSki: '#0284c7',
-  RollerSki: '#0284c7',
   BackcountrySki: '#0284c7',
   AlpineSki: '#0284c7',
   Snowboard: '#0284c7',
@@ -71,6 +70,7 @@ const SPORT_HEX: Record<string, string> = {
   Kayaking: '#0891b2',
   Canoeing: '#0891b2',
   Rowing: '#0891b2',
+  Other: '#9ca3af',
 };
 
 export function sportColor(sport: string): string {
