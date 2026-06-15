@@ -10,6 +10,9 @@ import { sportMeta } from './sportMeta';
 import { FACET_LABELS, FACET_ORDER } from '@/lib/facets';
 import type { AdventureSummary, SportType } from '@/lib/adventures';
 
+// UI-only pseudo-category for routes done more than once (derived from tripCount, not a content facet).
+const REPEATS = 'repeats';
+
 type SortKey = 'date' | 'distance' | 'elevation' | 'time';
 type View = 'grid' | 'map' | 'table';
 
@@ -86,7 +89,9 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
   const categories = useMemo(() => {
     const present = new Set<string>();
     for (const a of adventures) for (const f of a.facets) present.add(f);
-    return FACET_ORDER.filter((k) => present.has(k));
+    const list = FACET_ORDER.filter((k) => present.has(k)) as string[];
+    if (adventures.some((a) => a.tripCount > 1)) list.push(REPEATS);
+    return list;
   }, [adventures]);
 
   const sorted = useMemo(() => {
@@ -102,7 +107,7 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
     const list = adventures
       .filter((a) => !sport || a.sportType === sport)
       .filter((a) => !place || locationLabel(a) === place)
-      .filter((a) => !cat || a.facets.includes(cat))
+      .filter((a) => !cat || (cat === REPEATS ? a.tripCount > 1 : a.facets.includes(cat)))
       .filter(matches);
     list.sort((a, b) => {
       switch (sortKey) {
@@ -173,7 +178,7 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
               <option value="">All types</option>
               {categories.map((c) => (
                 <option key={c} value={c}>
-                  {FACET_LABELS[c] ?? c}
+                  {c === REPEATS ? 'Repeats' : (FACET_LABELS[c] ?? c)}
                 </option>
               ))}
             </select>
