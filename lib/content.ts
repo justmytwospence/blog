@@ -306,6 +306,7 @@ export function getBlogPostBySlug(slug: string): MarkdownContent | NotebookConte
       metadata: {
         type: 'markdown',
         ...mapCommonMetadata(data, slug),
+        bluesky: data.bluesky || undefined,
       },
     };
   }

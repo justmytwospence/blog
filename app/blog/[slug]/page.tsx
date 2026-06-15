@@ -1,6 +1,7 @@
 import { getAllBlogPosts, getBlogPostBySlug, calculateReadingTime } from '@/lib/content';
 import { ArticleMarkdown } from '@/components/ArticleMarkdown';
 import { PageContainer } from '@/components/PageContainer';
+import { BlueskyComments } from '@/components/BlueskyComments';
 import { NotebookRenderer } from '@/components/notebook/NotebookRenderer';
 import { NotebookErrorBoundary } from '@/components/notebook/errors/NotebookErrorBoundary';
 import { extractMetadata } from '@blog/notebook-parser';
@@ -108,6 +109,7 @@ export default async function BlogPostPage({
           }
         />
       </article>
+      {post.metadata.bluesky && <BlueskyComments postRef={post.metadata.bluesky} />}
     </PageContainer>
   );
 }

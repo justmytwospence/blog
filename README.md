@@ -40,10 +40,57 @@ Next.js `transpilePackages` compiles the raw TypeScript in each. Always import f
 
 Four content types share a parser in `lib/content.ts`:
 
-- **Blog posts** (`/content/blog/*.md`) — markdown with YAML frontmatter (`title`, `date`, `categories`, `description`, `featured`).
+- **Blog posts** (`/content/blog/*.md`) — markdown with YAML frontmatter (`title`, `date`, `categories`, `description`, `featured`, optional `bluesky`).
 - **Projects** (`/content/projects/*`) — markdown, notebook (`.ipynb` with Quarto frontmatter in the first cell), webapp config (`.json`), or external link (markdown with `externalUrl`).
 - **Concepts** (`/content/concepts/*.md`) — interactive explainers backed by a React component registered in `components/concepts/index.ts` (dynamic import with `ssr: false` because they use canvas/window).
 - **Pages** — currently only `/about` and `/`, hardcoded TSX.
+
+### Comments (Bluesky)
+
+Blog posts can render a comment section sourced from a Bluesky post's replies — no
+database, no spam tooling (moderation is inherited from Bluesky). Workflow:
+
+1. Publish a Bluesky post linking to the article.
+2. Add its URL to the post frontmatter: `bluesky: "https://bsky.app/profile/<handle>/post/<rkey>"` (an `at://…` URI also works).
+
+**Reading** (`components/BlueskyComments.tsx`, a client island): resolves the reference
+to an AT-URI and fetches the reply thread live from the public AppView
+(`public.api.bsky.app`, unauthenticated) on each visit, so comments stay current
+without rebuilding. Renders nested threads (depth-capped, collapsible), rich-text
+facets (links/mentions/hashtags via UTF-8 byte offsets), image embeds, a sort toggle,
+and a "Reply on Bluesky" CTA. The AT Protocol read helpers and their unit tests live
+in `lib/bluesky.ts` / `lib/bluesky.test.ts`.
+
+**Writing** (`components/BlueskyComposer.tsx`): an in-page composer lets visitors sign
+in with their own Bluesky account and post a reply without leaving the article — the
+comment lands as a real threaded reply on Bluesky, authored by them. Auth is
+browser-only AT Protocol OAuth (PKCE + DPoP, no backend secrets) via
+`@atproto/oauth-client-browser`; the reply is created with `@atproto/api` (`RichText`
+facet detection + a `reply` strong-ref to the anchor post). Because these packages
+touch `window`/`indexedDB`/`crypto`, the composer (and the OAuth callback) are loaded
+through `dynamic(..., { ssr: false })` so they never enter the server bundle.
+
+OAuth setup:
+
+- **Client metadata** is served at `/client-metadata.json` (`app/client-metadata.json/route.ts`,
+  `force-dynamic`). It **self-describes from the request origin** — `client_id`,
+  `client_uri`, and `redirect_uris` are derived from the incoming host — so the same code
+  works on production, Vercel previews, and any custom domain with no per-environment
+  config. It requests scope `atproto transition:generic` (read + write).
+- **Callback**: `/bluesky/callback` (`app/bluesky/callback/page.tsx`) completes the
+  redirect and returns the visitor to the post they were reading (carried in the OAuth
+  `state`). Shared client logic is in `lib/blueskyClient.ts` (browser-only) and
+  `lib/blueskyConfig.ts` (atproto-free constants, safe for the server route).
+- **Local dev**: on `localhost`/`127.0.0.1` the client uses a synthesized "loopback"
+  `client_id`, so no hosted metadata file is needed. Browse the dev server at
+  **`http://127.0.0.1:<port>`** (not `localhost`) — AT Protocol's loopback OAuth only
+  accepts `127.0.0.1`/`[::1]` redirect URIs. Dev sessions expire quickly (~1 day) with no
+  silent sign-in; both are normal for loopback clients.
+- **Requirement**: the *visitor's* account must be on a PDS that supports OAuth (all
+  `bsky.social` accounts do; a self-hosted PDS needs a recent `@atproto/pds` that serves
+  `/.well-known/oauth-protected-resource`). Vercel preview deployments must be publicly
+  reachable (disable Deployment Protection) so the authorization server can fetch the
+  client metadata.
 
 ### Routes
 

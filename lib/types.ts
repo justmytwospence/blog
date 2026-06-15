@@ -16,6 +16,11 @@ export interface ContentMetadata {
   description?: string;
   featured?: boolean;
   externalUrl?: string;
+  /**
+   * Bluesky post (bsky.app URL or at:// URI) whose replies are rendered as the
+   * comment section for this content. Omit to hide comments.
+   */
+  bluesky?: string;
   /** Additional labelled destinations (e.g. Docs + GitHub) shown as link chips. */
   links?: { label: string; url: string }[];
 }
