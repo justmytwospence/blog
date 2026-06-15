@@ -124,22 +124,6 @@ export interface SportTotals {
   movingTimeSeconds: number;
 }
 
-export interface LifetimeStats {
-  totalDistanceMeters: number;
-  totalElevationGainMeters: number;
-  totalMovingTimeSeconds: number;
-  adventureCount: number;
-  bySport: SportTotals[];
-  states: string[];
-  countries: string[];
-  records: {
-    longestDistance: AdventureSummary | null;
-    mostVert: AdventureSummary | null;
-    longestDuration: AdventureSummary | null;
-    highestPoint: { meters: number; slug: string; title: string } | null;
-  };
-}
-
 export interface Objective {
   slug: string;
   title: string;
@@ -609,52 +593,6 @@ function readLifetimeFile(): LifetimeFile | null {
  * history; the record chips and place lists come from the published reports (the only ones we can
  * link to). Falls back to published-only volume if the committed lifetime file is missing.
  */
-export function getLifetimeStats(): LifetimeStats {
-  const advs = allAdventures();
-  const states = new Set<string>();
-  const countries = new Set<string>();
-  let longestDistance: Adventure | null = null;
-  let mostVert: Adventure | null = null;
-  let longestDuration: Adventure | null = null;
-  let highestPoint: { meters: number; slug: string; title: string } | null = null;
-
-  for (const a of advs) {
-    if (a.location.state) states.add(a.location.state);
-    if (a.location.country) countries.add(a.location.country);
-    if (!longestDistance || a.totals.distanceMeters > longestDistance.totals.distanceMeters) longestDistance = a;
-    if (!mostVert || a.totals.elevationGainMeters > mostVert.totals.elevationGainMeters) mostVert = a;
-    if (!longestDuration || a.totals.movingTimeSeconds > longestDuration.totals.movingTimeSeconds) longestDuration = a;
-    const hi = Math.max(...a.days.map((d) => d.activity.stats.elevHighMeters ?? Number.NEGATIVE_INFINITY));
-    if (Number.isFinite(hi) && (!highestPoint || hi > highestPoint.meters)) {
-      highestPoint = { meters: hi, slug: a.slug, title: a.title };
-    }
-  }
-
-  const lifetime = readLifetimeFile();
-  const totalDistanceMeters = lifetime?.totalDistanceMeters ?? advs.reduce((t, a) => t + a.totals.distanceMeters, 0);
-  const totalElevationGainMeters =
-    lifetime?.totalElevationGainMeters ?? advs.reduce((t, a) => t + a.totals.elevationGainMeters, 0);
-  const totalMovingTimeSeconds =
-    lifetime?.totalMovingTimeSeconds ?? advs.reduce((t, a) => t + a.totals.movingTimeSeconds, 0);
-  const bySport = lifetime?.bySport ?? [];
-
-  return {
-    totalDistanceMeters,
-    totalElevationGainMeters,
-    totalMovingTimeSeconds,
-    adventureCount: advs.length,
-    bySport: [...bySport].sort((x, y) => y.distanceMeters - x.distanceMeters),
-    states: [...states].sort(),
-    countries: [...countries].sort(),
-    records: {
-      longestDistance: longestDistance ? toSummary(longestDistance) : null,
-      mostVert: mostVert ? toSummary(mostVert) : null,
-      longestDuration: longestDuration ? toSummary(longestDuration) : null,
-      highestPoint,
-    },
-  };
-}
-
 export interface YearPoint {
   doy: number; // day of year, 1-366
   distM: number; // cumulative distance (meters) through that day

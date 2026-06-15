@@ -2,13 +2,11 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PageContainer } from '@/components/PageContainer';
-import { StatsBanner } from '@/components/adventures/StatsBanner';
 import { LibraryView } from '@/components/adventures/LibraryView';
 import { YearlyChart } from '@/components/adventures/YearlyChart';
 import { MonthlySportArea } from '@/components/adventures/MonthlySportArea';
 import {
   getAllAdventures,
-  getLifetimeStats,
   getYearlyTotals,
   getActivityGrandTotals,
   getLifetimeByMonthSport,
@@ -23,7 +21,6 @@ export const metadata: Metadata = {
 
 export default function AdventuresPage() {
   const adventures = getAllAdventures();
-  const stats = getLifetimeStats();
   const yearly = getYearlyTotals();
   const grand = getActivityGrandTotals();
   const byMonthSport = getLifetimeByMonthSport();
@@ -80,7 +77,6 @@ export default function AdventuresPage() {
           </div>
           <MonthlySportArea data={byMonthSport} />
           <YearlyChart totals={yearly} />
-          <StatsBanner stats={stats} />
         </div>
       </details>
     </PageContainer>
