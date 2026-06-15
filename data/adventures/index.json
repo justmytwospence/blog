@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-15T01:16:47.056Z",
+  "generatedAt": "2026-06-15T01:48:13.172Z",
   "activities": [
     {
       "stravaId": 18893341377,
@@ -16,6 +16,14 @@
       "name": "Lobo Peak via Yerba Canyon",
       "hasTrack": true,
       "photoCount": 3
+    },
+    {
+      "stravaId": 18364857494,
+      "date": "2026-05-03",
+      "sportType": "Ride",
+      "name": "Natchez Trace",
+      "hasTrack": true,
+      "photoCount": 0
     },
     {
       "stravaId": 17098654976,
@@ -48,6 +56,14 @@
       "name": "Freeway",
       "hasTrack": true,
       "photoCount": 1
+    },
+    {
+      "stravaId": 16255660601,
+      "date": "2025-10-25",
+      "sportType": "GravelRide",
+      "name": "Ya Ya Orchard",
+      "hasTrack": true,
+      "photoCount": 0
     },
     {
       "stravaId": 16109565175,
@@ -370,6 +386,14 @@
       "photoCount": 11
     },
     {
+      "stravaId": 15063233923,
+      "date": "2025-07-09",
+      "sportType": "GravelRide",
+      "name": "Snoqualmie Tunnel",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
       "stravaId": 15049881881,
       "date": "2025-07-08",
       "sportType": "Other",
@@ -506,6 +530,14 @@
       "photoCount": 6
     },
     {
+      "stravaId": 14306871909,
+      "date": "2025-04-27",
+      "sportType": "Ride",
+      "name": "Lee Hill → Lefthand → St. Vrain",
+      "hasTrack": true,
+      "photoCount": 2
+    },
+    {
       "stravaId": 13826697830,
       "date": "2025-03-08",
       "sportType": "NordicSki",
@@ -520,6 +552,14 @@
       "name": "Rise and Grind Rando #3",
       "hasTrack": true,
       "photoCount": 0
+    },
+    {
+      "stravaId": 13709834803,
+      "date": "2025-02-23",
+      "sportType": "GravelRide",
+      "name": "Coot to Carter",
+      "hasTrack": true,
+      "photoCount": 3
     },
     {
       "stravaId": 13663518656,
@@ -566,6 +606,14 @@
       "date": "2024-12-31",
       "sportType": "BackcountrySki",
       "name": "Winter Park",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 13211713594,
+      "date": "2024-12-28",
+      "sportType": "BackcountrySki",
+      "name": "Ski Road",
       "hasTrack": true,
       "photoCount": 0
     },
@@ -642,6 +690,14 @@
       "photoCount": 0
     },
     {
+      "stravaId": 12962069592,
+      "date": "2024-11-22",
+      "sportType": "BackcountrySki",
+      "name": "A Basin",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 12936781993,
       "date": "2024-11-19",
       "sportType": "BackcountrySki",
@@ -658,12 +714,28 @@
       "photoCount": 3
     },
     {
+      "stravaId": 12899586407,
+      "date": "2024-11-14",
+      "sportType": "BackcountrySki",
+      "name": "A Baby",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 12884000250,
       "date": "2024-11-12",
       "sportType": "BackcountrySki",
       "name": "A Basin Rise & Shine #1",
       "hasTrack": true,
       "photoCount": 0
+    },
+    {
+      "stravaId": 12870957575,
+      "date": "2024-11-10",
+      "sportType": "BackcountrySki",
+      "name": "Cooper",
+      "hasTrack": true,
+      "photoCount": 2
     },
     {
       "stravaId": 12761850351,
@@ -678,6 +750,14 @@
       "date": "2024-10-22",
       "sportType": "TrailRun",
       "name": "Home -> Super Rupair via Freeway",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 12687290043,
+      "date": "2024-10-18",
+      "sportType": "Ride",
+      "name": "Super Rupair → Brainard Gateway",
       "hasTrack": true,
       "photoCount": 0
     },
@@ -1026,6 +1106,14 @@
       "photoCount": 1
     },
     {
+      "stravaId": 10795256309,
+      "date": "2024-02-19",
+      "sportType": "BackcountrySki",
+      "name": "Morning Backcountry Ski",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 10760920003,
       "date": "2024-02-14",
       "sportType": "BackcountrySki",
@@ -1080,6 +1168,14 @@
       "name": "12 Hours of Sunlight",
       "hasTrack": true,
       "photoCount": 0
+    },
+    {
+      "stravaId": 10544517898,
+      "date": "2024-01-12",
+      "sportType": "BackcountrySki",
+      "name": "Heavy Metal Demo",
+      "hasTrack": true,
+      "photoCount": 1
     },
     {
       "stravaId": 10525153441,
@@ -1150,6 +1246,14 @@
       "date": "2023-12-13",
       "sportType": "BackcountrySki",
       "name": "Eldora x3",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 10354271015,
+      "date": "2023-12-09",
+      "sportType": "BackcountrySki",
+      "name": "Skimo Early Season Training #5 Subzero",
       "hasTrack": true,
       "photoCount": 0
     },
@@ -1322,6 +1426,14 @@
       "photoCount": 3
     },
     {
+      "stravaId": 9681429567,
+      "date": "2023-08-19",
+      "sportType": "GravelRide",
+      "name": "Gold Hill via Switzerland Trail",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
       "stravaId": 9675871689,
       "date": "2023-08-18",
       "sportType": "TrailRun",
@@ -1352,6 +1464,14 @@
       "name": "Home to Green via Second Flatiron",
       "hasTrack": true,
       "photoCount": 3
+    },
+    {
+      "stravaId": 9589312995,
+      "date": "2023-08-05",
+      "sportType": "Ride",
+      "name": "Evergreen to Echo Lake via Witter Gulch",
+      "hasTrack": true,
+      "photoCount": 2
     },
     {
       "stravaId": 9579079616,
@@ -1472,6 +1592,14 @@
       "name": "Green via Freeway from home",
       "hasTrack": true,
       "photoCount": 1
+    },
+    {
+      "stravaId": 9029924198,
+      "date": "2023-05-07",
+      "sportType": "BackcountrySki",
+      "name": "Morning Backcountry Ski",
+      "hasTrack": true,
+      "photoCount": 0
     },
     {
       "stravaId": 8925264200,
