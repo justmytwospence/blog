@@ -1,7 +1,12 @@
 ---
+title: "Old Man Winter Rally"
+strava_ids: [10696669560, 10697401427]
+date: 2024-02-04
+sport: GravelRide
 race: true
-title: "Old Man Winter Rally part 2"
-cover_photo: photo-4F52D802-2045-48CE-9B50-8F1F84B7DFBA.jpg
-strava_id: 10697401427
+tags: [race, gravel, front-range]
 hidden: false
+days:
+  - title: "Part 1"
+  - title: "Part 2"
 ---
