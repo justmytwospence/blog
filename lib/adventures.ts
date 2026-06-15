@@ -111,6 +111,7 @@ export interface TripRef {
   slug: string;
   title: string;
   date: string;
+  hidden: boolean; // count-only member: totals include it, but the tab bar links only to visible trips
   totals: Pick<AdventureStats, 'distanceMeters' | 'elevationGainMeters' | 'movingTimeSeconds'>;
   laps: number; // lap count for this trip (1 for non-lap routes)
 }
@@ -425,8 +426,12 @@ function toSummary(adv: Adventure, tripCount = 1, lapCount = 1): AdventureSummar
   };
 }
 
-/** Build every visible (non-hidden) adventure. Internal — public APIs derive from this. */
-function allAdventures(): Adventure[] {
+/**
+ * Build every adventure, INCLUDING hidden ones. Hidden reports are "count-only": they contribute to
+ * their route's trip/lap totals (e.g. the many Eldora mornings that aren't individually written up)
+ * but never get their own card or page. Internal.
+ */
+function allAdventuresIncludingHidden(): Adventure[] {
   if (!fs.existsSync(ADVENTURES_DIR)) return [];
   const files = fs
     .readdirSync(ADVENTURES_DIR)
@@ -436,10 +441,15 @@ function allAdventures(): Adventure[] {
     const pc = parseCompanion(f);
     if (!pc) continue;
     const adv = buildAdventure(pc);
-    if (!adv || adv.hidden) continue;
+    if (!adv) continue;
     out.push(adv);
   }
   return out.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+/** Build every visible (non-hidden) adventure. Internal — public APIs derive from this. */
+function allAdventures(): Adventure[] {
+  return allAdventuresIncludingHidden().filter((a) => !a.hidden);
 }
 
 /** Repeat trips of the same route share a `group` key; ungrouped reports are their own group. */
@@ -497,14 +507,22 @@ function adventureLaps(a: Adventure): number {
  */
 export function getAllAdventures(): AdventureSummary[] {
   const byGroup = new Map<string, Adventure[]>();
-  for (const a of allAdventures()) {
+  for (const a of allAdventuresIncludingHidden()) {
     const k = groupKey(a);
     const list = byGroup.get(k);
     if (list) list.push(a);
     else byGroup.set(k, [a]);
   }
   return [...byGroup.values()]
-    .map((members) => toSummary(members[0], members.length, members.reduce((s, m) => s + adventureLaps(m), 0)))
+    .map((members) => {
+      // Hidden members are count-only: they add to the trip/lap totals, but the card's representative
+      // is always a real (visible) report, and a hidden-only group shows no card at all.
+      const visible = members.filter((m) => !m.hidden);
+      if (visible.length === 0) return null;
+      const lapCount = members.reduce((s, m) => s + adventureLaps(m), 0);
+      return toSummary(visible[0], members.length, lapCount);
+    })
+    .filter((s): s is AdventureSummary => s !== null)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
@@ -520,15 +538,18 @@ export function getAllAdventureRefs(): Array<{ slug: string; date: string }> {
 
 /** Sibling trips of a route, most-recent first. Empty when the route was done only once. */
 export function getAdventureTrips(slug: string): TripRef[] {
-  const target = allAdventures().find((a) => a.slug === slug);
+  const all = allAdventuresIncludingHidden();
+  const target = all.find((a) => a.slug === slug);
   if (!target) return [];
   const key = groupKey(target);
-  const sibs = allAdventures().filter((a) => groupKey(a) === key);
+  // Include hidden (count-only) members so the lap/session totals are complete; the tab bar skips them.
+  const sibs = all.filter((a) => groupKey(a) === key);
   if (sibs.length <= 1) return [];
   return sibs.map((a) => ({
     slug: a.slug,
     title: a.title,
     date: a.date,
+    hidden: a.hidden,
     totals: {
       distanceMeters: a.totals.distanceMeters,
       elevationGainMeters: a.totals.elevationGainMeters,

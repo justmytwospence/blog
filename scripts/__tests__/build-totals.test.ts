@@ -13,6 +13,9 @@ const E = (over: Partial<AllActivityEntry>): AllActivityEntry => ({
   trainer: false,
   commute: false,
   poolSwim: false,
+  name: '',
+  startLat: null,
+  startLng: null,
   ...over,
 });
 

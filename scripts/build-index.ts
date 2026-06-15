@@ -39,6 +39,9 @@ function toEntry(a: RawSummaryActivity): AllActivityEntry {
     trainer: Boolean(a.trainer),
     commute: Boolean(a.commute),
     poolSwim: isPoolSwim(a),
+    name: a.name ?? '',
+    startLat: Array.isArray(a.start_latlng) && a.start_latlng.length === 2 ? a.start_latlng[0] : null,
+    startLng: Array.isArray(a.start_latlng) && a.start_latlng.length === 2 ? a.start_latlng[1] : null,
   };
 }
 

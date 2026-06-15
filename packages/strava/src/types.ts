@@ -66,6 +66,8 @@ export interface RawSummaryActivity {
   commute?: boolean;
   /** Pool swims set this; open-water swims don't. */
   pool_length?: number | null;
+  /** [lat, lng] of the start — present on the summary endpoint; used to match activities to a route. */
+  start_latlng?: [number, number] | [];
   map?: RawActivityMap;
 }
 
@@ -140,6 +142,9 @@ export interface AllActivityEntry {
   trainer: boolean;
   commute: boolean;
   poolSwim: boolean;
+  name: string; // Strava activity name (helps identify the route)
+  startLat: number | null; // start point — matches an activity to a route's trailhead
+  startLng: number | null;
 }
 
 export interface GeoBounds {
