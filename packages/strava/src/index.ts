@@ -20,3 +20,4 @@ export { fetchHistoricalWeather } from './weather';
 export { transformDetailToActivity, mapSportType, buildPhotosFromRaw } from './transform';
 export { parseStravaIds, usesIdArray } from './companions';
 export { reverseGeocode, type GeoLocation } from './geocode';
+export { INDOOR_SPORT, isPoolSwim, isHumanPowered, type ClassifiableActivity } from './classify';

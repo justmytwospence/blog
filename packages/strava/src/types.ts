@@ -123,6 +123,25 @@ export type SportType =
   | 'Workout'
   | 'Other';
 
+/**
+ * One lightweight entry in the committed all-activity index (`data/adventures/all-activities.json`).
+ * Built from the Strava summary endpoint (no per-activity detail call) and used to derive lifetime +
+ * yearly totals. `sport` is the RAW Strava sport_type (for human-powered classification); display
+ * grouping maps it via mapSportType.
+ */
+export interface AllActivityEntry {
+  id: number;
+  date: string; // YYYY-MM-DD (local)
+  startEpoch: number; // seconds, for incremental `after` paging
+  sport: string; // raw Strava sport_type
+  distanceMeters: number;
+  movingTimeSeconds: number;
+  elevationGainMeters: number;
+  trainer: boolean;
+  commute: boolean;
+  poolSwim: boolean;
+}
+
 export interface GeoBounds {
   minLat: number;
   minLng: number;
