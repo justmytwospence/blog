@@ -449,45 +449,50 @@ function groupKey(a: Adventure): string {
   return a.group ?? a.slug;
 }
 
+/** Haversine distance in meters between two stored `[lng, lat]` coordinates. */
+function metersBetween(a: [number, number], b: [number, number]): number {
+  const R = 6371000;
+  const toRad = Math.PI / 180;
+  const lat1 = a[1] * toRad;
+  const lat2 = b[1] * toRad;
+  const dLat = lat2 - lat1;
+  const dLng = (b[0] - a[0]) * toRad;
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
+}
+
 /**
- * Count ascents ("laps") from an elevation profile: up-down cycles each gaining at least a real
- * lap's worth of climb (~400 ft), which ignores GPS noise. Robust for uphill repeats (an "Eldora x4"
- * session reads as 4) without relying on the activity name.
+ * Count completions of a single repeatable route from the GPS track: how many times the track
+ * returns to the trailhead after travelling away from it. A lap is going up AND back down the SAME
+ * route, so an out-and-back or a one-way summit reads as 1, an "Eldora x4" uphill session reads as 4,
+ * and an undulating thru-hike or a multi-peak linkup reads as 1 (it never returns to the start).
  */
-function countLaps(altitude: number[]): number {
-  if (altitude.length < 2) return altitude.length ? 1 : 0;
-  const MIN = 120; // meters (~400 ft)
-  let laps = 0;
-  let climbed = 0;
-  let descended = 0;
-  let atTop = false;
-  for (let i = 1; i < altitude.length; i++) {
-    const d = altitude[i] - altitude[i - 1];
-    if (d > 0) {
-      climbed += d;
-      descended = 0;
-      if (climbed >= MIN) atTop = true;
-    } else if (d < 0) {
-      descended -= d;
-      if (atTop && descended >= MIN) {
-        laps++;
-        atTop = false;
-        climbed = 0;
-      }
+function countRouteCompletions(coords: Array<[number, number]>): number {
+  if (coords.length < 2) return 1;
+  const start = coords[0];
+  const AWAY_M = 500; // must get this far from the trailhead to count as "out" (ignores start-line noise)
+  const BACK_M = 120; // ...then back within this of the trailhead = one completed lap
+  let completions = 0;
+  let away = false;
+  for (let i = 1; i < coords.length; i++) {
+    const d = metersBetween(start, coords[i]);
+    if (d > AWAY_M) away = true;
+    else if (away && d < BACK_M) {
+      completions++;
+      away = false;
     }
   }
-  if (atTop) laps++; // finished at the top of a qualifying climb (one-way summit)
-  return Math.max(1, laps);
+  return Math.max(1, completions);
 }
 
 /**
  * Total laps across all of an outing's member activities. Laps only mean something for a same-peak
- * or same-route outing (Bear, Freeway, Eldora uphill) — a multi-peak linkup (e.g. Grays + Torreys)
- * has two ascents but isn't "2 laps", so non-lap outings always count as 1.
+ * or same-route outing (Bear, Freeway, Eldora uphill), so non-lap outings always count as 1; for
+ * those that are flagged, a lap is a full out-and-back of the route (returns to the trailhead).
  */
 function adventureLaps(a: Adventure): number {
   if (!a.laps) return 1;
-  return a.days.reduce((s, d) => s + countLaps(d.activity.track?.altitude ?? []), 0);
+  return a.days.reduce((s, d) => s + countRouteCompletions(d.activity.track?.coordinates ?? []), 0);
 }
 
 /**

@@ -60,16 +60,15 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
               Race
             </span>
           )}
-          {adventure.isMultiDay && !adventure.isMultiSport && (
-            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-700 dark:bg-[#3a3d41] dark:text-[#cccccc]">
-              {adventure.dayCount} days
-            </span>
-          )}
-          {/* Laps only count repeated ascents of the SAME peak/route (Bear, Freeway, Eldora);
-              everything else collapses repeat outings into a trip count. */}
+          {/* One repeat-indicator badge, in priority order: laps for a flagged same-route outing
+              (Bear, Freeway, Eldora), else days for a multi-day trip, else a repeat-route trip count. */}
           {adventure.isLaps && adventure.lapCount > 1 ? (
             <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
               {adventure.lapCount} laps
+            </span>
+          ) : adventure.isMultiDay && !adventure.isMultiSport ? (
+            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-700 dark:bg-[#3a3d41] dark:text-[#cccccc]">
+              {adventure.dayCount} days
             </span>
           ) : adventure.tripCount > 1 ? (
             <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
