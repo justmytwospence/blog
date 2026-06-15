@@ -108,7 +108,22 @@ export default async function AboutPage() {
           <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4">
             Companies I've Worked With
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {/* FieldGoal */}
+            <a
+              href="https://fieldgoal.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center h-24 p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
+            >
+              <Image
+                src="/logos/fieldgoal.svg"
+                alt="FieldGoal"
+                width={44}
+                height={44}
+              />
+            </a>
+
             {/* Uber */}
             <a 
               href="https://www.uber.com" 
