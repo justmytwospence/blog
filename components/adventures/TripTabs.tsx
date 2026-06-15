@@ -8,10 +8,12 @@ import type { TripRef } from '@/lib/adventures';
  */
 export function TripTabs({ trips, activeSlug }: { trips: TripRef[]; activeSlug: string }) {
   if (trips.length <= 1) return null;
+  // Surface the total lap count when a session repeats the route (Eldora, Bear) — more than once each.
+  const totalLaps = trips.reduce((s, t) => s + t.laps, 0);
   return (
     <div className="mb-6">
       <div className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400 dark:text-[#6b6b6b]">
-        This route, {trips.length}×
+        This route, {trips.length}×{totalLaps > trips.length ? ` · ${totalLaps} laps` : ''}
       </div>
       <div className="flex flex-wrap gap-2" role="tablist" aria-label="Trips on this route">
         {trips.map((t) => {

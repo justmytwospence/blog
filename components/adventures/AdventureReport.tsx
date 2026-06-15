@@ -17,7 +17,6 @@ import { TripMap } from './TripMap';
 import { TripElevation } from './TripElevation';
 import { TripDayBreakdown } from './TripDayBreakdown';
 import { TripTabs } from './TripTabs';
-import { RouteRecords } from './RouteRecords';
 import type { Adventure, TripRef } from '@/lib/adventures';
 
 function placeOf(loc: { city: string | null; state: string | null; country: string | null }): string {
@@ -175,9 +174,6 @@ export function AdventureReport({
       </header>
 
       {trips.length > 1 && activeSlug && <TripTabs trips={trips} activeSlug={activeSlug} />}
-      {trips.length > 1 && activeSlug && (
-        <RouteRecords trips={trips} activeSlug={activeSlug} isLaps={adventure.laps} />
-      )}
 
       {track && track.coordinates.length > 1 && (
         <div className="mb-8">
