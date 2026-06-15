@@ -1,5 +1,5 @@
 ---
 strava_id: 12899586407
-tags: [skimo, a-basin]
+tags: [a-basin]
 hidden: false
 ---

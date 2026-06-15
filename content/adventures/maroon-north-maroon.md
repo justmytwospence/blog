@@ -4,7 +4,7 @@ strava_ids: [10024, 10067]
 sport: Hike
 type: traverse
 difficulty: epic
-tags: [14er, elk, traverse]
+tags: [elk]
 source: 14ers
 hidden: false
 days:

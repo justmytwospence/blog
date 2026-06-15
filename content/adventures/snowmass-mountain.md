@@ -3,7 +3,7 @@ strava_id: 10031
 sport: Hike
 type: peak
 difficulty: hard
-tags: [14er, elk]
+tags: [elk]
 source: 14ers
 hidden: false
 ---

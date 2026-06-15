@@ -1,5 +1,5 @@
 ---
 strava_id: 12233104136
-tags: [trail-run, boulder, colorado]
+tags: [boulder, colorado]
 hidden: false
 ---

@@ -2,7 +2,7 @@
 strava_id: 10005
 type: peak
 difficulty: moderate
-tags: [14er, sawatch]
+tags: [sawatch]
 source: 14ers
 hidden: false
 ---

@@ -1,7 +1,8 @@
 ---
+peakClass: 14er
 strava_id: 5581137947
 sport: Scramble
 type: scramble
-tags: [scramble, 14er, tenmile]
+tags: [tenmile]
 hidden: false
 ---

@@ -3,7 +3,7 @@ title: "Mt. Shavano & Tabeguache Peak"
 strava_ids: [10017, 10025]
 type: peak
 difficulty: moderate
-tags: [14er, sawatch]
+tags: [sawatch]
 source: 14ers
 hidden: false
 days:

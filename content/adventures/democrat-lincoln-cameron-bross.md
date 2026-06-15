@@ -3,7 +3,7 @@ title: "Mt. Democrat, Lincoln, Cameron & Bross"
 strava_ids: [10028, 10008, 10063, 10022]
 type: peak
 difficulty: moderate
-tags: [14er, mosquito]
+tags: [mosquito]
 source: 14ers
 hidden: false
 days:

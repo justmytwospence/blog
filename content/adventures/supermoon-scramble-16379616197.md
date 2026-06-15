@@ -4,6 +4,6 @@ title: "Supermoon Scramble"
 strava_id: 16379616197
 sport: Scramble
 type: scramble
-tags: [scramble, flatirons, boulder]
+tags: [flatirons, boulder]
 hidden: false
 ---

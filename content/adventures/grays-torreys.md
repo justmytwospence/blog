@@ -3,7 +3,7 @@ title: "Grays Peak & Torreys Peak"
 strava_ids: [10009, 10011]
 type: peak
 difficulty: moderate
-tags: [14er, front-range]
+tags: [front-range]
 source: 14ers
 hidden: false
 days:

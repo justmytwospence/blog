@@ -3,7 +3,7 @@ group: holy-cross
 strava_id: 10051
 type: peak
 difficulty: moderate
-tags: [14er, sawatch]
+tags: [sawatch]
 source: 14ers
 hidden: false
 ---

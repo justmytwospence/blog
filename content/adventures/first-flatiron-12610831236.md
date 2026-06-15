@@ -4,6 +4,6 @@ title: "First Flatiron"
 strava_id: 12610831236
 sport: Scramble
 type: scramble
-tags: [scramble, flatirons, boulder]
+tags: [flatirons, boulder]
 hidden: false
 ---

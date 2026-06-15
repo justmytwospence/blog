@@ -3,7 +3,7 @@ strava_id: 10070
 sport: Hike
 type: traverse
 difficulty: epic
-tags: [14er, sangre-de-cristo, traverse]
+tags: [sangre-de-cristo]
 source: 14ers
 hidden: false
 ---

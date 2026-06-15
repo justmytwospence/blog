@@ -2,6 +2,6 @@
 strava_id: 14916808519
 sport: Scramble
 type: scramble
-tags: [scramble, washington]
+tags: [washington]
 hidden: false
 ---

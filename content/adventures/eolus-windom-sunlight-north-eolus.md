@@ -5,7 +5,7 @@ strava_ids: [10032, 10033, 10039, 10066]
 sport: Hike
 type: peak
 difficulty: epic
-tags: [14er, san-juan]
+tags: [san-juan]
 source: 14ers
 hidden: false
 days:

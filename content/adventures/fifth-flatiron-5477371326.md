@@ -4,6 +4,6 @@ title: "Fifth Flatiron"
 strava_id: 5477371326
 sport: Scramble
 type: scramble
-tags: [scramble, flatirons, boulder]
+tags: [flatirons, boulder]
 hidden: false
 ---

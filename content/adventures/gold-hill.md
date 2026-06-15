@@ -1,7 +1,6 @@
 ---
 strava_id: 18893341377
-type: trail-run
-tags: [taos, new-mexico, sangre-de-cristo, vert]
+tags: [taos, new-mexico, sangre-de-cristo]
 hidden: false
 ---
 

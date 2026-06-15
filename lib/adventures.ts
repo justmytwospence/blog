@@ -170,20 +170,20 @@ const SUMMIT_SPORTS = new Set<SportType>([
 const PEAKISH_TYPES = new Set(['peak', 'couloir', 'scramble', 'traverse', 'mountaineering']);
 
 /**
- * Classify an outing's high point as a 14er/13er. The `14er` tag (on every imported 14er) is
- * authoritative; otherwise derive from the summit elevation, but only for summit-style outings so
- * a bike ride or road race that happens to climb high isn't mislabeled. An explicit `13er` tag wins.
+ * Classify an outing's high point as a 14er/13er. An explicit `peakClass` override wins (used for the
+ * few imported summits whose GPX high point falls just under the line); otherwise derive from the
+ * summit elevation, but only for summit-style outings so a bike ride or road race that happens to
+ * climb high isn't mislabeled.
  */
 function derivePeakClass(
-  tags: string[],
+  explicit: string | null,
   type: string | null,
   sport: SportType,
   elevHighMeters: number,
 ): PeakClass | null {
-  if (tags.includes('14er')) return '14er';
-  if (tags.includes('13er')) return '13er';
-  // A thru-hike or point-to-point race crosses high passes without bagging a peak — don't badge it.
-  if (type === 'thru-hike' || type === 'race') return null;
+  if (explicit === '14er' || explicit === '13er') return explicit;
+  // A thru-hike crosses high passes without bagging a peak — don't badge it.
+  if (type === 'thru-hike') return null;
   const peakish = (type != null && PEAKISH_TYPES.has(type)) || SUMMIT_SPORTS.has(sport);
   if (!peakish || !Number.isFinite(elevHighMeters)) return null;
   const ft = elevHighMeters * 3.28084;
@@ -192,24 +192,21 @@ function derivePeakClass(
   return null;
 }
 
-/** Filterable kinds an outing belongs to — by explicit type, title, peak class, or race flag. */
+/** `type` values that are themselves filterable facets (peakClass/race/duathlon come in separately). */
+const TERRAIN_FACETS = new Set(['couloir', 'scramble', 'traverse', 'thru-hike']);
+
+/** Filterable kinds an outing belongs to — derived purely from structured fields, no tags/title. */
 function deriveFacets(
   type: string | null,
-  title: string,
   peakClass: PeakClass | null,
   isRace: boolean,
-  tags: string[],
+  isDuathlon: boolean,
 ): string[] {
   const f = new Set<string>();
   if (peakClass) f.add(peakClass);
   if (isRace) f.add('race');
-  const t = (type ?? '').toLowerCase();
-  const lc = title.toLowerCase();
-  if (tags.includes('duathlon') || /duathlon/.test(lc)) f.add('duathlon');
-  if (t === 'couloir' || /couloir/.test(lc)) f.add('couloir');
-  if (t === 'scramble' || /scramble/.test(lc)) f.add('scramble');
-  if (t === 'traverse' || /traverse/.test(lc)) f.add('traverse');
-  if (t === 'thru-hike') f.add('thru-hike');
+  if (isDuathlon) f.add('duathlon');
+  if (type && TERRAIN_FACETS.has(type)) f.add(type);
   return FACET_ORDER.filter((k) => f.has(k));
 }
 
@@ -325,9 +322,9 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
   const tags = Array.isArray(pc.data.tags) ? (pc.data.tags as unknown[]).map(String) : [];
   const elevHigh = Math.max(...acts.map((a) => a.stats.elevHighMeters ?? Number.NEGATIVE_INFINITY));
   const typeStr = str(pc.data.type);
-  const peakClass = derivePeakClass(tags, typeStr, sportType, elevHigh);
-  const isRace = Boolean(pc.data.race) || typeStr === 'race';
-  const facets = deriveFacets(typeStr, common.title, peakClass, isRace, tags);
+  const peakClass = derivePeakClass(str(pc.data.peakClass), typeStr, sportType, elevHigh);
+  const isRace = Boolean(pc.data.race);
+  const facets = deriveFacets(typeStr, peakClass, isRace, Boolean(pc.data.duathlon));
   const date = pc.data.date != null ? normalizeDate(pc.data.date) : primary.date;
   const dayMeta = Array.isArray(pc.data.days)
     ? (pc.data.days as Array<{ title?: unknown; caption?: unknown }>)

@@ -3,7 +3,7 @@ title: "Harvard–Columbia Traverse"
 strava_ids: [10003, 10035]
 type: traverse
 difficulty: moderate
-tags: [14er, sawatch, traverse]
+tags: [sawatch]
 source: 14ers
 hidden: false
 days:

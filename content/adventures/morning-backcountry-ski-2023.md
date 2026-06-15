@@ -1,5 +1,5 @@
 ---
 strava_id: 9029924198
-tags: [skimo, colorado]
+tags: [colorado]
 hidden: false
 ---

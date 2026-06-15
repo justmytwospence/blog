@@ -1,8 +1,9 @@
 ---
+duathlon: true
 title: "Blue Lakes Cirque (from my front door!)"
 strava_ids: [9776590061, 9778078372, 9778078094, 9778199089]
 type: peak
-tags: [duathlon, indian-peaks, front-range]
+tags: [indian-peaks, front-range]
 hidden: false
 days:
   - title: "Ride up to Brainard"

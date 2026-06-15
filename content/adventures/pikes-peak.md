@@ -2,7 +2,7 @@
 strava_id: 10030
 type: peak
 difficulty: moderate
-tags: [14er, front-range]
+tags: [front-range]
 source: 14ers
 hidden: false
 ---

@@ -2,7 +2,7 @@
 strava_id: 10045
 type: peak
 difficulty: moderate
-tags: [14er, mosquito]
+tags: [mosquito]
 source: 14ers
 hidden: false
 ---

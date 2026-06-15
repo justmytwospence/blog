@@ -1,6 +1,6 @@
 ---
 strava_id: 10668108518
 race: true
-tags: [skimo, race, eldora]
+tags: [eldora]
 hidden: false
 ---

@@ -1,6 +1,6 @@
 ---
 strava_id: 12936781993
 race: true
-tags: [skimo, race, a-basin]
+tags: [a-basin]
 hidden: false
 ---

@@ -1,5 +1,5 @@
 ---
 strava_id: 15247234044
-tags: [trail-run, washington]
+tags: [washington]
 hidden: false
 ---

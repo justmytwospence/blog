@@ -4,6 +4,6 @@ title: "Royal Arch & Regency"
 strava_id: 11537324778
 sport: Scramble
 type: scramble
-tags: [scramble, flatirons, boulder]
+tags: [flatirons, boulder]
 hidden: false
 ---

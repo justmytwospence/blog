@@ -1,8 +1,9 @@
 ---
+peakClass: 14er
 strava_id: 10050
 type: peak
 difficulty: moderate
-tags: [14er, san-juan]
+tags: [san-juan]
 source: 14ers
 hidden: false
 ---

@@ -4,6 +4,6 @@ title: "Green Mountain — West Ridge"
 strava_id: 12241194055
 sport: Scramble
 type: scramble
-tags: [scramble, flatirons, boulder]
+tags: [flatirons, boulder]
 hidden: false
 ---
