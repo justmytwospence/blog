@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-15T01:48:13.172Z",
+  "generatedAt": "2026-06-15T02:21:28.065Z",
   "activities": [
     {
       "stravaId": 18893341377,
@@ -34,6 +34,14 @@
       "photoCount": 0
     },
     {
+      "stravaId": 16733402579,
+      "date": "2025-12-13",
+      "sportType": "Hike",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 16479667263,
       "date": "2025-11-16",
       "sportType": "Hike",
@@ -62,6 +70,14 @@
       "date": "2025-10-25",
       "sportType": "GravelRide",
       "name": "Ya Ya Orchard",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 16142797380,
+      "date": "2025-10-14",
+      "sportType": "TrailRun",
+      "name": "Bear Peak",
       "hasTrack": true,
       "photoCount": 0
     },
@@ -690,6 +706,14 @@
       "photoCount": 0
     },
     {
+      "stravaId": 12976761505,
+      "date": "2024-11-24",
+      "sportType": "Hike",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 12962069592,
       "date": "2024-11-22",
       "sportType": "BackcountrySki",
@@ -1282,6 +1306,14 @@
       "photoCount": 1
     },
     {
+      "stravaId": 10231052176,
+      "date": "2023-11-16",
+      "sportType": "TrailRun",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 10207980260,
       "date": "2023-11-12",
       "sportType": "TrailRun",
@@ -1306,6 +1338,14 @@
       "photoCount": 2
     },
     {
+      "stravaId": 10038297906,
+      "date": "2023-10-14",
+      "sportType": "Hike",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 10033754831,
       "date": "2023-10-13",
       "sportType": "GravelRide",
@@ -1328,6 +1368,14 @@
       "name": "Left Hand Gravel Double IPA",
       "hasTrack": true,
       "photoCount": 3
+    },
+    {
+      "stravaId": 9988028757,
+      "date": "2023-10-06",
+      "sportType": "TrailRun",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 0
     },
     {
       "stravaId": 9950954368,
@@ -1368,6 +1416,14 @@
       "name": "Longs Duathlon (part du)",
       "hasTrack": true,
       "photoCount": 0
+    },
+    {
+      "stravaId": 9848132584,
+      "date": "2023-09-14",
+      "sportType": "TrailRun",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 1
     },
     {
       "stravaId": 9815850223,
@@ -1416,6 +1472,14 @@
       "name": "Super Moon Second Scramble",
       "hasTrack": true,
       "photoCount": 6
+    },
+    {
+      "stravaId": 9749800450,
+      "date": "2023-08-30",
+      "sportType": "TrailRun",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 0
     },
     {
       "stravaId": 9688747593,
@@ -1498,12 +1562,36 @@
       "photoCount": 14
     },
     {
+      "stravaId": 9437657850,
+      "date": "2023-07-12",
+      "sportType": "TrailRun",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 9422027524,
       "date": "2023-07-09",
       "sportType": "RockClimbing",
       "name": "Diamond attempt",
       "hasTrack": true,
       "photoCount": 3
+    },
+    {
+      "stravaId": 9350825535,
+      "date": "2023-06-28",
+      "sportType": "TrailRun",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 9337960107,
+      "date": "2023-06-26",
+      "sportType": "TrailRun",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 1
     },
     {
       "stravaId": 9333536530,
@@ -1538,12 +1626,44 @@
       "photoCount": 1
     },
     {
+      "stravaId": 9264439118,
+      "date": "2023-06-14",
+      "sportType": "TrailRun",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 9257970750,
+      "date": "2023-06-13",
+      "sportType": "TrailRun",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
+      "stravaId": 9251589233,
+      "date": "2023-06-12",
+      "sportType": "TrailRun",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 1
+    },
+    {
       "stravaId": 9247767089,
       "date": "2023-06-11",
       "sportType": "Hike",
       "name": "Skywalker Couloir",
       "hasTrack": true,
       "photoCount": 7
+    },
+    {
+      "stravaId": 9235008414,
+      "date": "2023-06-09",
+      "sportType": "TrailRun",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 0
     },
     {
       "stravaId": 9190048809,
@@ -1594,10 +1714,34 @@
       "photoCount": 1
     },
     {
+      "stravaId": 9082097857,
+      "date": "2023-05-16",
+      "sportType": "Hike",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 9034011122,
+      "date": "2023-05-08",
+      "sportType": "Hike",
+      "name": "Bear Peak",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
       "stravaId": 9029924198,
       "date": "2023-05-07",
       "sportType": "BackcountrySki",
       "name": "Morning Backcountry Ski",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 8991066552,
+      "date": "2023-05-01",
+      "sportType": "Hike",
+      "name": "Bear Peak",
       "hasTrack": true,
       "photoCount": 0
     },
@@ -1614,6 +1758,14 @@
       "date": "2023-02-05",
       "sportType": "Hike",
       "name": "Quandary",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 8009654315,
+      "date": "2022-10-23",
+      "sportType": "Hike",
+      "name": "Bear Peak",
       "hasTrack": true,
       "photoCount": 0
     },
@@ -1934,6 +2086,14 @@
       "date": "2020-03-12",
       "sportType": "Hike",
       "name": "First Flatiron",
+      "hasTrack": true,
+      "photoCount": 0
+    },
+    {
+      "stravaId": 3163041085,
+      "date": "2020-03-07",
+      "sportType": "Hike",
+      "name": "Bear Peak",
       "hasTrack": true,
       "photoCount": 0
     },
