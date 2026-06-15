@@ -67,14 +67,17 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
               {adventure.dayCount} days
             </span>
           )}
-          {(adventure.tripCount > 1 || adventure.lapCount > 1) && (
+          {/* Laps only count repeated ascents of the SAME peak/route (Bear, Freeway, Eldora);
+              everything else collapses repeat outings into a trip count. */}
+          {adventure.isLaps && adventure.lapCount > 1 ? (
             <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
-              {/* Show laps only when multi-lap sessions clearly dominate; otherwise count trips. */}
-              {adventure.lapCount >= adventure.tripCount * 1.5
-                ? `${adventure.lapCount} laps`
-                : `${adventure.tripCount} trips`}
+              {adventure.lapCount} laps
             </span>
-          )}
+          ) : adventure.tripCount > 1 ? (
+            <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+              {adventure.tripCount} trips
+            </span>
+          ) : null}
           <span className="ml-auto text-sm text-gray-500 dark:text-[#a6a6a6]">
             {formatDate(adventure.date, 'short')}
           </span>

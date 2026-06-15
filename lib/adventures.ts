@@ -68,6 +68,7 @@ export interface Adventure {
   peakClass: PeakClass | null;
   facets: string[]; // filterable kinds: 14er/13er/race/couloir/scramble/traverse/thru-hike
   showHeartRate: boolean; // HR chart is opt-in (races); hidden by default
+  laps: boolean; // a same-peak/route lap outing (Bear, Freeway, Eldora) — counts ascents, not peaks
   rating: number | null;
   objective: string | null; // slug of fulfilled objective
   group: string | null; // shared key across repeat trips of the same route
@@ -103,7 +104,8 @@ export interface AdventureSummary {
   isMultiSport: boolean;
   dayCount: number;
   tripCount: number; // number of repeat trips of this route the card stands in for (1 if unique)
-  lapCount: number; // total ascents across the trips, inferred from elevation (for lap groups)
+  lapCount: number; // total ascents across the trips, inferred from elevation (only for lap outings)
+  isLaps: boolean; // true when this is a same-peak/route lap outing — gates the "N laps" badge
   totals: Pick<AdventureStats, 'distanceMeters' | 'elevationGainMeters' | 'movingTimeSeconds'>;
 }
 
@@ -392,6 +394,7 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
     peakClass,
     facets,
     showHeartRate: isRace || Boolean(pc.data.show_hr),
+    laps: Boolean(pc.data.laps),
     rating: num(pc.data.rating),
     objective: str(pc.data.objective),
     group: str(pc.data.group),
@@ -439,6 +442,7 @@ function toSummary(adv: Adventure, tripCount = 1, lapCount = 1): AdventureSummar
     dayCount: adv.days.length,
     tripCount,
     lapCount,
+    isLaps: adv.laps,
     totals: {
       distanceMeters: adv.totals.distanceMeters,
       elevationGainMeters: adv.totals.elevationGainMeters,
@@ -500,8 +504,13 @@ function countLaps(altitude: number[]): number {
   return Math.max(1, laps);
 }
 
-/** Total laps across all of an outing's member activities. */
+/**
+ * Total laps across all of an outing's member activities. Laps only mean something for a same-peak
+ * or same-route outing (Bear, Freeway, Eldora uphill) — a multi-peak linkup (e.g. Grays + Torreys)
+ * has two ascents but isn't "2 laps", so non-lap outings always count as 1.
+ */
 function adventureLaps(a: Adventure): number {
+  if (!a.laps) return 1;
   return a.days.reduce((s, d) => s + countLaps(d.activity.track?.altitude ?? []), 0);
 }
 
