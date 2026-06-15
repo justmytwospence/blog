@@ -9,11 +9,7 @@
  */
 
 import { BrowserOAuthClient } from '@atproto/oauth-client-browser';
-import {
-  BLUESKY_SITE_ORIGIN,
-  BLUESKY_SCOPE,
-  BLUESKY_HANDLE_RESOLVER,
-} from '@/lib/blueskyConfig';
+import { BLUESKY_SCOPE, BLUESKY_HANDLE_RESOLVER } from '@/lib/blueskyConfig';
 
 export { BLUESKY_SCOPE } from '@/lib/blueskyConfig';
 
@@ -37,9 +33,11 @@ async function createClient(): Promise<BrowserOAuthClient> {
       handleResolver: BLUESKY_HANDLE_RESOLVER,
     });
   }
-  // Prod: client_id is the hosted metadata document (single source of truth).
+  // Deployed (prod/preview/custom domain): the client_id is this origin's hosted
+  // metadata document, which self-describes from the same origin — so OAuth works
+  // wherever the app is served, not just one hardcoded domain.
   return BrowserOAuthClient.load({
-    clientId: `${BLUESKY_SITE_ORIGIN}/client-metadata.json`,
+    clientId: `${window.location.origin}/client-metadata.json`,
     handleResolver: BLUESKY_HANDLE_RESOLVER,
   });
 }

@@ -1,18 +1,25 @@
 import { NextResponse } from 'next/server';
-import { BLUESKY_SITE_ORIGIN, BLUESKY_SCOPE } from '@/lib/blueskyConfig';
+import { headers } from 'next/headers';
+import { BLUESKY_SCOPE } from '@/lib/blueskyConfig';
 
-// Prerender to a static CDN asset. The AT Protocol authorization server fetches
-// this document during the OAuth flow, so it must be publicly readable and the
-// `client_id` field must byte-for-byte equal the URL it is served from.
-export const dynamic = 'force-static';
+// The AT Protocol authorization server fetches this document during the OAuth
+// flow, and the `client_id` field must byte-for-byte equal the URL it is served
+// from. We therefore self-describe from the request origin so the same code
+// works on production, Vercel previews, and any custom domain.
+export const dynamic = 'force-dynamic';
 
-export function GET() {
+export async function GET() {
+  const h = await headers();
+  const host = h.get('x-forwarded-host') ?? h.get('host') ?? 'spencerboucher.com';
+  const proto = h.get('x-forwarded-proto') ?? 'https';
+  const origin = `${proto}://${host}`;
+
   return NextResponse.json(
     {
-      client_id: `${BLUESKY_SITE_ORIGIN}/client-metadata.json`,
+      client_id: `${origin}/client-metadata.json`,
       client_name: 'Data Spencer',
-      client_uri: BLUESKY_SITE_ORIGIN,
-      redirect_uris: [`${BLUESKY_SITE_ORIGIN}/bluesky/callback`],
+      client_uri: origin,
+      redirect_uris: [`${origin}/bluesky/callback`],
       scope: BLUESKY_SCOPE,
       grant_types: ['authorization_code', 'refresh_token'],
       response_types: ['code'],

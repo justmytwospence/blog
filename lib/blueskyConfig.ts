@@ -7,14 +7,6 @@
  */
 
 /**
- * Canonical production origin. Must match where `/client-metadata.json` is
- * served, because the document's `client_id` has to equal its own URL exactly.
- * Overridable per environment via `NEXT_PUBLIC_SITE_ORIGIN`.
- */
-export const BLUESKY_SITE_ORIGIN =
-  process.env.NEXT_PUBLIC_SITE_ORIGIN ?? 'https://spencerboucher.com';
-
-/**
  * OAuth scope. `atproto` alone is read-only; `transition:generic` is required
  * to create the reply record. The scope here, in the served metadata, and the
  * scope requested at sign-in must all agree.
