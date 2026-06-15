@@ -13,6 +13,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest --run",
+    "sync:projects": "node scripts/sync-project-activity.mjs",
     "polypane": "open -a Polypane --args --remote-debugging-port=5858"
   },
   "workspaces": [

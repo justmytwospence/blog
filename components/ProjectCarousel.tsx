@@ -42,8 +42,8 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-6">
           {projects.map((project) => {
-            const href = project.externalUrl || `/projects/${project.slug}`;
-            const isExternal = !!project.externalUrl;
+            const href = project.links?.[0]?.url || project.externalUrl || `/projects/${project.slug}`;
+            const isExternal = Boolean(project.links?.[0]?.url || project.externalUrl);
             
             return (
             <div
@@ -56,14 +56,6 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
                 rel={isExternal ? 'noopener noreferrer' : undefined}
                 className="block p-6 bg-white dark:bg-[#252526] rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200 dark:border-[#303031] sm:h-full"
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
-                    {project.type}
-                  </span>
-                  <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">
-                    {new Date(project.date).toLocaleDateString()}
-                  </span>
-                </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-[#d4d4d4]">
                   {project.title}
                   {isExternal && (

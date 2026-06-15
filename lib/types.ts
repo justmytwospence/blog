@@ -16,6 +16,8 @@ export interface ContentMetadata {
   description?: string;
   featured?: boolean;
   externalUrl?: string;
+  /** Additional labelled destinations (e.g. Docs + GitHub) shown as link chips. */
+  links?: { label: string; url: string }[];
 }
 
 /**
