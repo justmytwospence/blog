@@ -60,7 +60,7 @@ export default async function AboutPage() {
             </a>
 
             <a
-              href="https://bsky.app/profile/justmytwospence.bsky.social"
+              href="https://bsky.app/profile/bsky.spencerboucher.com"
               target="_blank"
               rel="noopener noreferrer"
               className="grow flex items-center justify-center gap-2 px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white rounded-lg transition-colors"
