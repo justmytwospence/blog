@@ -14,8 +14,7 @@ import {
   Activity,
 } from 'lucide-react';
 import type { IconType } from 'react-icons';
-import { MdDirectionsRun } from 'react-icons/md';
-import { GiRunningShoe } from 'react-icons/gi';
+import { TbRun, TbTrekking } from 'react-icons/tb';
 import type { SportType } from '@/lib/adventures';
 
 export interface SportMeta {
@@ -33,8 +32,8 @@ const WATER = 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-300'
 
 const META: Record<string, SportMeta> = {
   Scramble: { label: 'Scramble', Icon: Mountain, pill: ALPINE },
-  TrailRun: { label: 'Trail Run', Icon: GiRunningShoe, pill: RUN },
-  Run: { label: 'Run', Icon: MdDirectionsRun, pill: RUN },
+  TrailRun: { label: 'Trail Run', Icon: TbTrekking, pill: RUN },
+  Run: { label: 'Run', Icon: TbRun, pill: RUN },
   Walk: { label: 'Walk', Icon: Footprints, pill: GRAY },
   Hike: { label: 'Hike', Icon: Mountain, pill: ALPINE },
   Mountaineering: { label: 'Mountaineering', Icon: MountainSnow, pill: ALPINE },
