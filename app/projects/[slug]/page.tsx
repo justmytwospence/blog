@@ -5,7 +5,6 @@ import { NotebookErrorBoundary } from '@/components/notebook/errors/NotebookErro
 import { PageContainer } from '@/components/PageContainer';
 import { extractMetadata } from '@blog/notebook-parser';
 import { notFound } from 'next/navigation';
-import { formatDate } from '@/lib/format';
 
 export const dynamic = 'force-dynamic';
 
@@ -57,9 +56,6 @@ export default async function ProjectDetailPage({
         <div className="flex items-center gap-2 mb-3">
           <span className="text-xs px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-medium">
             External Project
-          </span>
-          <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">
-            {formatDate(content.metadata.date)}
           </span>
         </div>
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">
@@ -144,9 +140,6 @@ export default async function ProjectDetailPage({
               <div className="flex items-center gap-2 mb-3 not-prose">
                 <span className="text-xs px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-medium">
                   Article
-                </span>
-                <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">
-                  {formatDate(content.metadata.date)}
                 </span>
               </div>
             }

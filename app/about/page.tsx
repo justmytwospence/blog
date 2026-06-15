@@ -10,7 +10,8 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'About',
-  description: 'About Spencer Boucher — data scientist, cyclist, and reader.',
+  description:
+    'About Spencer Boucher — data scientist working across Bayesian modeling, production ML, LLM tooling, and full-stack data products.',
 };
 
 export default async function AboutPage() {
@@ -29,7 +30,7 @@ export default async function AboutPage() {
           {/* Contact Buttons */}
           <div className="flex flex-wrap gap-3">
             <a
-              href="mailto:spencer@spencerboucher.com"
+              href="mailto:hi@spencerboucher.com"
               className="grow flex items-center justify-center gap-2 px-5 py-2.5 bg-gray-100 hover:bg-gray-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-gray-900 dark:text-gray-100 rounded-lg transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -100,9 +101,9 @@ export default async function AboutPage() {
         </div>
         
         <p className="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
-          I'm a data scientist with a passion for figuring out just the right way to model your unique data. 
-          I have <span className="font-semibold text-gray-900 dark:text-white">10 years of experience</span> at fast-moving companies helping unlock insights and drive decisions with data.
-          When I'm not analyzing data, I'm in the mountains running, skiing, cycling, or climbing.
+          I'm a data scientist who builds the full stack of a data product — from the probabilistic model at its core to the app that ships it.
+          Over <span className="font-semibold text-gray-900 dark:text-white">10 years</span> at fast-moving companies I've built production ML and forecasting systems, run large-scale experiments, and turned messy data into decisions.
+          Lately I work where Bayesian modeling, LLM and agent tooling, and full-stack engineering meet: PyMC models that sample in the cloud, MCP servers that give AI agents real capabilities, and interactive apps built with React, Next.js, and Rust/WebAssembly.
         </p>
 
         {/* Companies Section */}
@@ -110,7 +111,7 @@ export default async function AboutPage() {
           <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4">
             Companies I've Worked With
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {/* Uber */}
             <a 
               href="https://www.uber.com" 
@@ -163,73 +164,116 @@ export default async function AboutPage() {
               rel="noopener noreferrer"
               className="flex items-center justify-center h-24 p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
             >
-              <Image 
-                src="/logos/gametime.svg" 
-                alt="Gametime" 
-                width={120} 
+              <Image
+                src="/logos/gametime.svg"
+                alt="Gametime"
+                width={120}
                 height={40}
               />
+            </a>
+
+            {/* FieldGoal */}
+            <a
+              href="https://fieldgoal.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center h-24 p-6 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
+            >
+              <span className="flex items-center gap-2">
+                <svg viewBox="0 0 512 512" className="h-7 w-7 shrink-0" aria-hidden="true">
+                  <path fill="#4fbfa5" d="M469.333 0C492.843 0 512 19.285 512 42.667v426.666C512 492.715 492.843 512 469.333 512h-128c-24.554 0-42.666-18.304-42.666-42.667v-256h-256C18.283 213.333 0 195.2 0 170.667v-128C0 19.285 19.157 0 42.667 0zM0 341.333c0-24.554 18.112-42.666 42.667-42.666h128c24.554 0 42.666 18.112 42.666 42.666v128c0 24.555-18.112 42.667-42.666 42.667h-128C18.112 512 0 493.888 0 469.333z"/>
+                </svg>
+                <span className="text-2xl font-bold tracking-tight text-[#21433b]">FieldGoal</span>
+              </span>
             </a>
           </div>
         </div>
       </div>
 
-      {/* What I Do Section */}
+      {/* What I Work On Section */}
       <div className="mb-12">
         <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
-          What I Do
+          What I Work On
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
-          <div className="flex items-start gap-3 p-4 bg-white dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-700">
-            <svg className="w-6 h-6 text-purple-600 dark:text-purple-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-            </svg>
-            <span className="text-gray-700 dark:text-gray-300">Develop machine learning models for classification and regression tasks</span>
+          {/* Bayesian & probabilistic modeling */}
+          <div className="p-5 bg-white dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-700">
+            <div className="flex items-start gap-3">
+              <svg className="w-6 h-6 text-purple-600 dark:text-purple-500 shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              </svg>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Bayesian &amp; probabilistic modeling</h3>
+                <p className="text-gray-700 dark:text-gray-300 mt-1">Design and fit models for inference, forecasting, and decisions under uncertainty.</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2 mt-4">
+              {['PyMC', 'ArviZ', 'NumPyro', 'MCMC', 'hierarchical models'].map((tag) => (
+                <span key={tag} className="text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
-          <div className="flex items-start gap-3 p-4 bg-white dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-700">
-            <svg className="w-6 h-6 text-blue-600 dark:text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
-            </svg>
-            <span className="text-gray-700 dark:text-gray-300">Build data pipelines and ETL processes</span>
-          </div>
-          <div className="flex items-start gap-3 p-4 bg-white dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-700">
-            <svg className="w-6 h-6 text-green-600 dark:text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-            <span className="text-gray-700 dark:text-gray-300">Create interactive visualizations and dashboards</span>
-          </div>
-          <div className="flex items-start gap-3 p-4 bg-white dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-700">
-            <svg className="w-6 h-6 text-orange-600 dark:text-orange-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-            </svg>
-            <span className="text-gray-700 dark:text-gray-300">Build and operate A/B testing frameworks</span>
-          </div>
-        </div>
-      </div>
 
-      {/* Technical Skills Section */}
-      <div className="mb-12">
-        <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
-          How I Do It
-        </h2>
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="p-6 [background:linear-gradient(to_bottom_right,rgb(239_246_255),rgb(219_234_254))] dark:[background:linear-gradient(to_bottom_right,rgb(30_58_138/0.2),rgb(30_64_175/0.2))] rounded-lg border border-blue-200 dark:border-blue-700/50">
-            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Python</h3>
-            <p className="text-gray-700 dark:text-gray-300">
-              NumPy, Pandas, Scikit-learn, TensorFlow, PyTorch
-            </p>
+          {/* Production ML & forecasting at scale */}
+          <div className="p-5 bg-white dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-700">
+            <div className="flex items-start gap-3">
+              <svg className="w-6 h-6 text-blue-600 dark:text-blue-500 shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+              </svg>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Production ML &amp; forecasting at scale</h3>
+                <p className="text-gray-700 dark:text-gray-300 mt-1">Build forecasting and ML systems that run in production — plus the experimentation frameworks to measure them.</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2 mt-4">
+              {['scikit-learn', 'LightGBM', 'PyTorch', 'forecasting', 'A/B testing', 'Snowflake', 'BigQuery'].map((tag) => (
+                <span key={tag} className="text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
-          <div className="p-6 [background:linear-gradient(to_bottom_right,rgb(250_245_255),rgb(243_232_255))] dark:[background:linear-gradient(to_bottom_right,rgb(88_28_135/0.2),rgb(107_33_168/0.2))] rounded-lg border border-purple-200 dark:border-purple-700/50">
-            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">R</h3>
-            <p className="text-gray-700 dark:text-gray-300">
-              tidyverse, ggplot2, caret
-            </p>
+
+          {/* LLM & AI engineering */}
+          <div className="p-5 bg-white dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-700">
+            <div className="flex items-start gap-3">
+              <svg className="w-6 h-6 text-green-600 dark:text-green-500 shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">LLM &amp; AI engineering</h3>
+                <p className="text-gray-700 dark:text-gray-300 mt-1">Build agentic tooling and MCP servers, integrate the Claude API, and ground outputs with evals and citations.</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2 mt-4">
+              {['Claude API', 'Model Context Protocol', 'Anthropic SDK', 'evals', 'RAG / citations'].map((tag) => (
+                <span key={tag} className="text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
-          <div className="p-6 [background:linear-gradient(to_bottom_right,rgb(240_253_244),rgb(220_252_231))] dark:[background:linear-gradient(to_bottom_right,rgb(20_83_45/0.2),rgb(22_101_52/0.2))] rounded-lg border border-green-200 dark:border-green-700/50">
-            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">SQL</h3>
-            <p className="text-gray-700 dark:text-gray-300">
-              PostgreSQL, MySQL, BigQuery
-            </p>
+
+          {/* Full-stack data products */}
+          <div className="p-5 bg-white dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-700">
+            <div className="flex items-start gap-3">
+              <svg className="w-6 h-6 text-orange-600 dark:text-orange-500 shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Full-stack data products</h3>
+                <p className="text-gray-700 dark:text-gray-300 mt-1">Ship end-to-end: data pipelines, APIs, and interactive front-ends — then deploy and self-host them.</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2 mt-4">
+              {['TypeScript', 'React', 'Next.js', 'Rust / WASM', 'PostgreSQL / PostGIS', 'Docker', 'Modal', 'Vercel'].map((tag) => (
+                <span key={tag} className="text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -251,7 +295,7 @@ export default async function AboutPage() {
               />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Master's in Data Science</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Master of Science in Artificial Intelligence</h3>
               <p className="text-gray-600 dark:text-gray-400">University of San Francisco</p>
             </div>
           </div>

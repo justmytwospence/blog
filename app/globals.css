@@ -9,6 +9,15 @@
     overflow-y: visible !important;
     height: auto !important;
   }
+
+  /* Tailwind v4's Preflight no longer sets a pointer cursor on buttons.
+     Restore it for anything clickable (links already get it natively).
+     Kept in @layer base so `cursor-*` utilities still win. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary {
+    cursor: pointer;
+  }
 }
 
 /* Prevent unnecessary scrollbars and fix sticky positioning */
@@ -19,6 +28,9 @@ html {
   margin: 0;
   padding: 0;
   height: 100vh !important;
+  /* Disable macOS elastic overscroll: its rubber-band bounce briefly desyncs
+     the fixed TOC sidebar from the sticky navbar, clipping them together. */
+  overscroll-behavior-y: none;
 }
 
 body {

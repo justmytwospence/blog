@@ -75,9 +75,15 @@ export async function generateFeed(): Promise<Feed> {
       if (category === 'blog') {
         // Get full blog post content and convert to HTML
         const fullPost = getBlogPostBySlug(item.slug);
-        htmlContent = fullPost
-          ? await markdownToHtml(fullPost.content)
-          : `<p>${item.description || ''}</p>`;
+        if (!fullPost) {
+          htmlContent = `<p>${item.description || ''}</p>`;
+        } else if (fullPost.type === 'notebook') {
+          // Notebooks have no markdown body — link out to the rendered post.
+          htmlContent = `<p>${item.description || 'View the full notebook on the website.'}</p>
+            <p><a href="${url}">View full notebook →</a></p>`;
+        } else {
+          htmlContent = await markdownToHtml(fullPost.content);
+        }
       } else {
         // Get project content
         const fullProject = getProjectBySlug(item.slug);

@@ -6,6 +6,8 @@
  * unknown slugs resolve to null. They double as content validation.
  */
 
+import fs from 'fs';
+import path from 'path';
 import {
   getAllProjects,
   getAllBlogPosts,
@@ -40,7 +42,10 @@ describe('getAllBlogPosts', () => {
       expect(post.slug).toBeTruthy();
       expect(post.title).toBeTruthy();
       expect(Number.isNaN(new Date(post.date).getTime())).toBe(false);
-      expect(post.readingTime).toBeGreaterThanOrEqual(1);
+      // Markdown posts carry a computed reading time; notebook posts have no markdown body.
+      if (post.type === 'markdown') {
+        expect(post.readingTime).toBeGreaterThanOrEqual(1);
+      }
     }
   });
 });
@@ -52,8 +57,12 @@ describe('getAllProjects', () => {
     expect(projects.length).toBeGreaterThan(0);
   });
 
-  it('sorts projects by date, newest first', () => {
-    expect(isSortedDescending(projects.map((p) => p.date))).toBe(true);
+  it('sorts projects by last activity (newest first), falling back to content date', () => {
+    const activity = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), 'data', 'project-activity.json'), 'utf8')
+    ) as { updated?: Record<string, string> };
+    const updated = activity.updated ?? {};
+    expect(isSortedDescending(projects.map((p) => updated[p.slug] || p.date))).toBe(true);
   });
 
   it('gives every project a slug, title, and parseable date', () => {
@@ -117,8 +126,8 @@ describe('content type discrimination', () => {
     expect(content!.metadata.externalUrl).toMatch(/^https:/);
   });
 
-  it('returns a notebook project with notebook data for kcore', () => {
-    const content = getProjectBySlug('kcore');
+  it('returns a notebook blog post with notebook data for kcore', () => {
+    const content = getBlogPostBySlug('kcore');
     expect(content).not.toBeNull();
     expect(content!.type).toBe('notebook');
     if (content!.type === 'notebook') {
