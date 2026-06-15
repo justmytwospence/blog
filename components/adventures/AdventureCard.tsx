@@ -86,7 +86,10 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
         <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm tabular-nums text-gray-600 dark:text-[#cccccc]">
           <span>{formatDistance(adventure.totals.distanceMeters)}</span>
           <span>{formatElevation(adventure.totals.elevationGainMeters)} gain</span>
-          <span>{formatDuration(adventure.totals.movingTimeSeconds)}</span>
+          {/* Manual / no-GPS entries (14ers, PCT) carry no recorded time — omit rather than show 0:00. */}
+          {adventure.totals.movingTimeSeconds > 0 && (
+            <span>{formatDuration(adventure.totals.movingTimeSeconds)}</span>
+          )}
         </div>
         {typeChip && (
           <div className="mt-3 flex items-center gap-2">

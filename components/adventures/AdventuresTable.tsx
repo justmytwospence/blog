@@ -127,7 +127,7 @@ export function AdventuresTable({ items }: { items: AdventureSummary[] }) {
                   {formatElevation(a.totals.elevationGainMeters)}
                 </td>
                 <td className="px-3 py-2 text-right tabular-nums text-gray-600 dark:text-[#cccccc]">
-                  {formatDuration(a.totals.movingTimeSeconds)}
+                  {a.totals.movingTimeSeconds > 0 ? formatDuration(a.totals.movingTimeSeconds) : '—'}
                 </td>
               </tr>
             );
