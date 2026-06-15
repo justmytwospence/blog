@@ -5,7 +5,6 @@ strava_ids: [15700664792, 15718655446, 15723153418, 15734625923, 15751937304, 15
 sport: Hike
 type: thru-hike
 difficulty: epic
-rating: 5
 tags: [colorado, thru-hike, 14ers]
 featured: true
 hidden: false

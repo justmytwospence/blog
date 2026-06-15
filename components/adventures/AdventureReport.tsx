@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowLeft, Star } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { ArticleMarkdown } from '@/components/ArticleMarkdown';
 import { formatDate } from '@/lib/format';
 import { formatDistance, formatElevation, formatDuration } from '@/lib/units';
@@ -28,16 +28,9 @@ function ReportMeta({ adventure }: { adventure: Adventure }) {
   if (adventure.difficulty) chips.push(adventure.difficulty);
   if (adventure.grade) chips.push(adventure.grade);
   if (adventure.type) chips.push(adventure.type);
-  if (chips.length === 0 && adventure.rating == null && adventure.tags.length === 0) return null;
+  if (chips.length === 0 && adventure.tags.length === 0) return null;
   return (
     <div className="mt-3 flex flex-wrap items-center gap-2">
-      {adventure.rating != null && (
-        <span className="inline-flex items-center gap-0.5 text-amber-500" aria-label={`Rated ${adventure.rating} out of 5`}>
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Star key={i} className={`h-4 w-4 ${i < (adventure.rating ?? 0) ? 'fill-current' : 'opacity-30'}`} />
-          ))}
-        </span>
-      )}
       {chips.map((c) => (
         <span
           key={`chip-${c}`}

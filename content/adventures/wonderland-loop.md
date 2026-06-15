@@ -5,7 +5,6 @@ strava_ids: [15415758251, 15415759784, 15415776897, 15426563538, 15426563547]
 sport: Hike
 type: thru-hike
 difficulty: epic
-rating: 5
 hidden: false
 days:
   - title: "Wonderland Loop Day 1/5: Box Canyon → Devil's Dream"

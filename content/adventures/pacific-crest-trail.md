@@ -5,7 +5,6 @@ date: 2017-04-15
 sport: Hike
 type: thru-hike
 difficulty: epic
-rating: 5
 featured: true
 tags: [thru-hike, pct, california, oregon, washington]
 source: pct

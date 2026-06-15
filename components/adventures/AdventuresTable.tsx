@@ -7,7 +7,7 @@ import { formatDistance, formatElevation, formatDuration } from '@/lib/units';
 import { sportMeta } from './sportMeta';
 import type { AdventureSummary } from '@/lib/adventures';
 
-type Col = 'date' | 'name' | 'sport' | 'location' | 'distance' | 'elevation' | 'time' | 'rating';
+type Col = 'date' | 'name' | 'sport' | 'location' | 'distance' | 'elevation' | 'time';
 
 function locLabel(a: AdventureSummary): string {
   return a.location.state ?? a.location.country ?? '';
@@ -27,8 +27,6 @@ function value(a: AdventureSummary, col: Col): number | string {
       return a.totals.elevationGainMeters;
     case 'time':
       return a.totals.movingTimeSeconds;
-    case 'rating':
-      return a.rating ?? -1;
     case 'date':
     default:
       return a.date;
@@ -43,7 +41,6 @@ const COLUMNS: Array<{ key: Col; label: string; numeric?: boolean }> = [
   { key: 'distance', label: 'Distance', numeric: true },
   { key: 'elevation', label: 'Vert', numeric: true },
   { key: 'time', label: 'Time', numeric: true },
-  { key: 'rating', label: 'Rating', numeric: true },
 ];
 
 export function AdventuresTable({ items }: { items: AdventureSummary[] }) {
@@ -131,9 +128,6 @@ export function AdventuresTable({ items }: { items: AdventureSummary[] }) {
                 </td>
                 <td className="px-3 py-2 text-right tabular-nums text-gray-600 dark:text-[#cccccc]">
                   {formatDuration(a.totals.movingTimeSeconds)}
-                </td>
-                <td className="px-3 py-2 text-right tabular-nums text-gray-600 dark:text-[#cccccc]">
-                  {a.rating != null ? `${a.rating}★` : '—'}
                 </td>
               </tr>
             );

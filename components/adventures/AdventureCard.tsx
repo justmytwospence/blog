@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Star } from 'lucide-react';
 import { formatDate } from '@/lib/format';
 import { formatDistance, formatElevation, formatDuration } from '@/lib/units';
 import { SportBadge } from './SportBadge';
@@ -9,7 +8,6 @@ import { sportColor } from './mapStyle';
 import type { AdventureSummary } from '@/lib/adventures';
 
 export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
-  const rating = adventure.rating;
   const place = [adventure.location.city, adventure.location.state ?? adventure.location.country]
     .filter(Boolean)
     .join(', ');
@@ -91,23 +89,11 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
           <span>{formatElevation(adventure.totals.elevationGainMeters)} gain</span>
           <span>{formatDuration(adventure.totals.movingTimeSeconds)}</span>
         </div>
-        {(rating != null || typeChip) && (
+        {typeChip && (
           <div className="mt-3 flex items-center gap-2">
-            {rating != null && (
-              <span
-                className="inline-flex items-center gap-0.5 text-amber-500"
-                aria-label={`Rated ${rating} out of 5`}
-              >
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className={`h-3.5 w-3.5 ${i < rating ? 'fill-current' : 'opacity-30'}`} />
-                ))}
-              </span>
-            )}
-            {typeChip && (
-              <span className="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-600 dark:bg-[#3a3d41] dark:text-[#cccccc]">
-                {typeChip}
-              </span>
-            )}
+            <span className="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-600 dark:bg-[#3a3d41] dark:text-[#cccccc]">
+              {typeChip}
+            </span>
           </div>
         )}
       </div>

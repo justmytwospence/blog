@@ -69,7 +69,6 @@ export interface Adventure {
   facets: string[]; // filterable kinds: 14er/13er/race/couloir/scramble/traverse/thru-hike
   showHeartRate: boolean; // HR chart is opt-in (races); hidden by default
   laps: boolean; // a same-peak/route lap outing (Bear, Freeway, Eldora) — counts ascents, not peaks
-  rating: number | null;
   objective: string | null; // slug of fulfilled objective
   group: string | null; // shared key across repeat trips of the same route
   coverPhoto: ResolvedPhoto | null;
@@ -94,7 +93,6 @@ export interface AdventureSummary {
   difficulty: string | null;
   peakClass: PeakClass | null;
   facets: string[];
-  rating: number | null;
   tags: string[];
   location: { city: string | null; state: string | null; country: string | null };
   coverThumb: string | null;
@@ -157,10 +155,6 @@ export function photoThumb(stravaId: number, file: string): string {
 
 function str(v: unknown): string | null {
   return v != null && v !== '' ? String(v) : null;
-}
-function num(v: unknown): number | null {
-  const n = Number(v);
-  return v != null && v !== '' && !Number.isNaN(n) ? n : null;
 }
 
 // Sports where a summit elevation means a peak was bagged (so a 14er/13er badge is meaningful).
@@ -379,7 +373,6 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
     facets,
     showHeartRate: isRace || Boolean(pc.data.show_hr),
     laps: Boolean(pc.data.laps),
-    rating: num(pc.data.rating),
     objective: str(pc.data.objective),
     group: str(pc.data.group),
     coverPhoto,
@@ -407,7 +400,6 @@ function toSummary(adv: Adventure, tripCount = 1, lapCount = 1): AdventureSummar
     difficulty: adv.difficulty,
     peakClass: adv.peakClass,
     facets: adv.facets,
-    rating: adv.rating,
     tags: adv.tags,
     location: adv.location,
     coverThumb: adv.coverPhoto?.thumb ?? null,
