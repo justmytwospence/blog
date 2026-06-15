@@ -111,6 +111,7 @@ export interface TripRef {
   slug: string;
   title: string;
   date: string;
+  totals: Pick<AdventureStats, 'distanceMeters' | 'elevationGainMeters' | 'movingTimeSeconds'>;
 }
 
 export interface SportTotals {
@@ -526,7 +527,16 @@ export function getAdventureTrips(slug: string): TripRef[] {
   const key = groupKey(target);
   const sibs = allAdventures().filter((a) => groupKey(a) === key);
   if (sibs.length <= 1) return [];
-  return sibs.map((a) => ({ slug: a.slug, title: a.title, date: a.date }));
+  return sibs.map((a) => ({
+    slug: a.slug,
+    title: a.title,
+    date: a.date,
+    totals: {
+      distanceMeters: a.totals.distanceMeters,
+      elevationGainMeters: a.totals.elevationGainMeters,
+      movingTimeSeconds: a.totals.movingTimeSeconds,
+    },
+  }));
 }
 
 export function getAdventureBySlug(slug: string): Adventure | null {
