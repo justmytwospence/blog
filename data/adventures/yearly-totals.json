@@ -1,1 +1,6008 @@
-{"years":{"2019":[{"doy":319,"distM":6116,"gainM":52,"timeS":2220},{"doy":320,"distM":13036,"gainM":281,"timeS":7200},{"doy":328,"distM":15611,"gainM":301,"timeS":8280},{"doy":334,"distM":24140,"gainM":709,"timeS":16860},{"doy":341,"distM":32670,"gainM":996,"timeS":26880},{"doy":342,"distM":43130,"gainM":1285,"timeS":35580},{"doy":363,"distM":50051,"gainM":1586,"timeS":41520}],"2020":[{"doy":54,"distM":4345,"gainM":136,"timeS":4260},{"doy":60,"distM":18668,"gainM":719,"timeS":16980},{"doy":63,"distM":47154,"gainM":2546,"timeS":45720},{"doy":66,"distM":52786,"gainM":2958,"timeS":51000},{"doy":67,"distM":60350,"gainM":3677,"timeS":59880},{"doy":71,"distM":66144,"gainM":4080,"timeS":64800},{"doy":72,"distM":72260,"gainM":4608,"timeS":71400},{"doy":74,"distM":78375,"gainM":4801,"timeS":76260},{"doy":75,"distM":90767,"gainM":5492,"timeS":90300},{"doy":77,"distM":96561,"gainM":5920,"timeS":95220},{"doy":78,"distM":108148,"gainM":6780,"timeS":105000},{"doy":79,"distM":113781,"gainM":7184,"timeS":111420},{"doy":80,"distM":121666,"gainM":7429,"timeS":120420},{"doy":83,"distM":134380,"gainM":7923,"timeS":129600},{"doy":86,"distM":147094,"gainM":9048,"timeS":145500},{"doy":91,"distM":152566,"gainM":9448,"timeS":150300},{"doy":93,"distM":157072,"gainM":9859,"timeS":154740},{"doy":100,"distM":186845,"gainM":11688,"timeS":180540},{"doy":118,"distM":193121,"gainM":12066,"timeS":182220},{"doy":130,"distM":227561,"gainM":12548,"timeS":188280},{"doy":138,"distM":257656,"gainM":13015,"timeS":193380},{"doy":144,"distM":263771,"gainM":13991,"timeS":201180},{"doy":150,"distM":279704,"gainM":15278,"timeS":219660},{"doy":202,"distM":286302,"gainM":15639,"timeS":224220},{"doy":204,"distM":294510,"gainM":16308,"timeS":232920},{"doy":209,"distM":302396,"gainM":16685,"timeS":237780},{"doy":257,"distM":560535,"gainM":16805,"timeS":237840}],"2021":[{"doy":149,"distM":18829,"gainM":1152,"timeS":22440},{"doy":153,"distM":28164,"gainM":1911,"timeS":32280},{"doy":154,"distM":33152,"gainM":2241,"timeS":37440},{"doy":157,"distM":45705,"gainM":3082,"timeS":52260},{"doy":161,"distM":54718,"gainM":3819,"timeS":62760},{"doy":165,"distM":65178,"gainM":4510,"timeS":75420},{"doy":166,"distM":72420,"gainM":4991,"timeS":84180},{"doy":174,"distM":79341,"gainM":5446,"timeS":91620},{"doy":178,"distM":84651,"gainM":5831,"timeS":96240},{"doy":179,"distM":93664,"gainM":6710,"timeS":106740},{"doy":180,"distM":98814,"gainM":7077,"timeS":110880},{"doy":181,"distM":108148,"gainM":7784,"timeS":120000},{"doy":183,"distM":117804,"gainM":8351,"timeS":129900},{"doy":186,"distM":128748,"gainM":9126,"timeS":144000},{"doy":189,"distM":145163,"gainM":10769,"timeS":168240},{"doy":217,"distM":149830,"gainM":11142,"timeS":173160},{"doy":218,"distM":154014,"gainM":11503,"timeS":177120},{"doy":236,"distM":159325,"gainM":11861,"timeS":181620},{"doy":237,"distM":164475,"gainM":12221,"timeS":185340},{"doy":238,"distM":172361,"gainM":12883,"timeS":193140},{"doy":240,"distM":187006,"gainM":13937,"timeS":210420},{"doy":242,"distM":192799,"gainM":14320,"timeS":216300},{"doy":243,"distM":198593,"gainM":14675,"timeS":221640},{"doy":265,"distM":212594,"gainM":15536,"timeS":233280},{"doy":266,"distM":217905,"gainM":15904,"timeS":237960},{"doy":267,"distM":226113,"gainM":16665,"timeS":247260},{"doy":271,"distM":234320,"gainM":17528,"timeS":255720},{"doy":274,"distM":239631,"gainM":17910,"timeS":260100},{"doy":291,"distM":244942,"gainM":18294,"timeS":264720},{"doy":364,"distM":248322,"gainM":18580,"timeS":267600}],"2022":[{"doy":37,"distM":16093,"gainM":623,"timeS":13140},{"doy":43,"distM":36371,"gainM":1126,"timeS":22800},{"doy":296,"distM":44418,"gainM":1932,"timeS":31860},{"doy":302,"distM":56166,"gainM":2551,"timeS":41460},{"doy":303,"distM":59707,"gainM":2777,"timeS":44400},{"doy":315,"distM":72099,"gainM":3517,"timeS":55380},{"doy":316,"distM":78536,"gainM":3799,"timeS":61020}],"2023":[{"doy":9,"distM":4023,"gainM":276,"timeS":3240},{"doy":10,"distM":10622,"gainM":927,"timeS":9060},{"doy":11,"distM":17059,"gainM":1539,"timeS":14340},{"doy":12,"distM":23496,"gainM":2135,"timeS":19440},{"doy":13,"distM":27037,"gainM":2443,"timeS":22260},{"doy":16,"distM":34601,"gainM":2850,"timeS":29220},{"doy":17,"distM":41038,"gainM":3422,"timeS":34140},{"doy":19,"distM":47476,"gainM":4017,"timeS":38880},{"doy":20,"distM":53752,"gainM":4595,"timeS":43800},{"doy":22,"distM":63569,"gainM":5314,"timeS":50640},{"doy":23,"distM":70006,"gainM":5895,"timeS":55440},{"doy":24,"distM":76444,"gainM":6478,"timeS":60300},{"doy":25,"distM":82881,"gainM":7061,"timeS":65400},{"doy":27,"distM":89319,"gainM":7675,"timeS":70320},{"doy":30,"distM":92698,"gainM":7971,"timeS":72960},{"doy":31,"distM":99136,"gainM":8575,"timeS":78120},{"doy":32,"distM":106056,"gainM":8859,"timeS":84120},{"doy":33,"distM":112010,"gainM":9351,"timeS":88500},{"doy":34,"distM":118609,"gainM":9935,"timeS":93780},{"doy":35,"distM":126494,"gainM":10190,"timeS":99960},{"doy":36,"distM":138082,"gainM":11394,"timeS":115020},{"doy":38,"distM":144519,"gainM":11969,"timeS":120000},{"doy":39,"distM":150956,"gainM":12573,"timeS":124980},{"doy":40,"distM":157233,"gainM":13154,"timeS":130080},{"doy":44,"distM":160613,"gainM":13452,"timeS":132660},{"doy":45,"distM":168176,"gainM":13753,"timeS":137940},{"doy":47,"distM":174453,"gainM":14336,"timeS":143160},{"doy":48,"distM":180890,"gainM":14919,"timeS":148620},{"doy":52,"distM":184270,"gainM":15270,"timeS":151380},{"doy":53,"distM":190868,"gainM":15865,"timeS":156660},{"doy":56,"distM":192638,"gainM":16113,"timeS":159240},{"doy":57,"distM":201812,"gainM":16788,"timeS":169560},{"doy":59,"distM":201812,"gainM":16788,"timeS":172560},{"doy":60,"distM":201812,"gainM":16788,"timeS":175320},{"doy":61,"distM":201812,"gainM":16788,"timeS":177120},{"doy":63,"distM":213399,"gainM":17275,"timeS":190800},{"doy":64,"distM":223538,"gainM":17740,"timeS":201900},{"doy":65,"distM":229814,"gainM":18315,"timeS":206340},{"doy":66,"distM":236252,"gainM":18624,"timeS":211860},{"doy":67,"distM":242689,"gainM":19201,"timeS":216720},{"doy":68,"distM":259587,"gainM":19800,"timeS":224220},{"doy":69,"distM":262967,"gainM":20111,"timeS":227160},{"doy":70,"distM":270209,"gainM":20628,"timeS":232920},{"doy":71,"distM":289038,"gainM":20628,"timeS":236520},{"doy":72,"distM":310603,"gainM":20923,"timeS":242520},{"doy":73,"distM":316880,"gainM":21533,"timeS":247740},{"doy":74,"distM":337801,"gainM":21533,"timeS":251400},{"doy":75,"distM":371276,"gainM":21829,"timeS":259320},{"doy":76,"distM":377713,"gainM":22411,"timeS":264540},{"doy":77,"distM":409900,"gainM":22411,"timeS":270420},{"doy":80,"distM":442087,"gainM":22411,"timeS":276120},{"doy":81,"distM":474274,"gainM":22411,"timeS":282240},{"doy":82,"distM":512898,"gainM":23005,"timeS":293940},{"doy":83,"distM":519174,"gainM":23585,"timeS":298680},{"doy":84,"distM":551361,"gainM":23585,"timeS":304980},{"doy":86,"distM":557638,"gainM":24172,"timeS":309720},{"doy":87,"distM":589825,"gainM":24172,"timeS":315060},{"doy":88,"distM":596584,"gainM":24749,"timeS":319680},{"doy":89,"distM":619115,"gainM":25327,"timeS":327180},{"doy":90,"distM":651302,"gainM":25327,"timeS":332280},{"doy":91,"distM":683488,"gainM":25327,"timeS":337320},{"doy":93,"distM":689765,"gainM":25915,"timeS":341700},{"doy":94,"distM":721952,"gainM":25915,"timeS":347100},{"doy":95,"distM":728228,"gainM":26494,"timeS":352080},{"doy":96,"distM":734505,"gainM":27071,"timeS":356100},{"doy":97,"distM":744322,"gainM":27924,"timeS":362520},{"doy":98,"distM":776508,"gainM":27924,"timeS":367620},{"doy":100,"distM":786165,"gainM":28789,"timeS":374160},{"doy":101,"distM":796142,"gainM":29706,"timeS":380820},{"doy":102,"distM":805799,"gainM":30572,"timeS":387840},{"doy":103,"distM":815455,"gainM":31450,"timeS":394320},{"doy":108,"distM":847641,"gainM":31450,"timeS":399600},{"doy":109,"distM":871460,"gainM":31891,"timeS":408780},{"doy":110,"distM":891094,"gainM":32297,"timeS":415680},{"doy":112,"distM":900911,"gainM":32933,"timeS":424440},{"doy":113,"distM":933098,"gainM":32933,"timeS":429660},{"doy":114,"distM":965285,"gainM":32933,"timeS":434700},{"doy":115,"distM":997471,"gainM":32933,"timeS":440100},{"doy":116,"distM":1029658,"gainM":32933,"timeS":445380},{"doy":118,"distM":1061845,"gainM":32933,"timeS":450600},{"doy":121,"distM":1072467,"gainM":33792,"timeS":459120},{"doy":125,"distM":1083732,"gainM":34091,"timeS":461100},{"doy":126,"distM":1085181,"gainM":34257,"timeS":462480},{"doy":127,"distM":1100952,"gainM":35471,"timeS":474060},{"doy":128,"distM":1111413,"gainM":36326,"timeS":482400},{"doy":130,"distM":1126541,"gainM":36825,"timeS":485340},{"doy":131,"distM":1145853,"gainM":37366,"timeS":489660},{"doy":133,"distM":1155509,"gainM":38125,"timeS":505320},{"doy":136,"distM":1165809,"gainM":38980,"timeS":513960},{"doy":137,"distM":1165809,"gainM":38980,"timeS":521160},{"doy":138,"distM":1189466,"gainM":39645,"timeS":526140},{"doy":139,"distM":1197352,"gainM":39645,"timeS":527400},{"doy":140,"distM":1219722,"gainM":40817,"timeS":543060},{"doy":141,"distM":1235815,"gainM":40817,"timeS":545340},{"doy":145,"distM":1246759,"gainM":42075,"timeS":560400},{"doy":148,"distM":1252713,"gainM":43546,"timeS":574080},{"doy":150,"distM":1260921,"gainM":44862,"timeS":591420},{"doy":151,"distM":1262530,"gainM":45381,"timeS":596520},{"doy":152,"distM":1271221,"gainM":46440,"timeS":615420},{"doy":153,"distM":1279750,"gainM":46477,"timeS":626220},{"doy":154,"distM":1287797,"gainM":46490,"timeS":629040},{"doy":156,"distM":1288763,"gainM":46495,"timeS":629340},{"doy":157,"distM":1298741,"gainM":46495,"timeS":632880},{"doy":159,"distM":1309040,"gainM":46495,"timeS":636540},{"doy":160,"distM":1319179,"gainM":47354,"timeS":643140},{"doy":161,"distM":1342676,"gainM":47996,"timeS":648600},{"doy":162,"distM":1352332,"gainM":48970,"timeS":661320},{"doy":163,"distM":1362471,"gainM":49826,"timeS":668220},{"doy":164,"distM":1372770,"gainM":50683,"timeS":675420},{"doy":165,"distM":1383070,"gainM":51539,"timeS":682320},{"doy":166,"distM":1397715,"gainM":52160,"timeS":688500},{"doy":167,"distM":1412682,"gainM":53160,"timeS":697620},{"doy":169,"distM":1426201,"gainM":54172,"timeS":706320},{"doy":170,"distM":1444064,"gainM":55652,"timeS":726540},{"doy":173,"distM":1458227,"gainM":56712,"timeS":735600},{"doy":176,"distM":1482206,"gainM":58449,"timeS":760140},{"doy":177,"distM":1492506,"gainM":59300,"timeS":767580},{"doy":178,"distM":1502162,"gainM":59518,"timeS":769620},{"doy":179,"distM":1512301,"gainM":60371,"timeS":776580},{"doy":181,"distM":1520508,"gainM":60413,"timeS":779460},{"doy":187,"distM":1530808,"gainM":60469,"timeS":783060},{"doy":188,"distM":1536602,"gainM":60535,"timeS":785040},{"doy":189,"distM":1577801,"gainM":60623,"timeS":792300},{"doy":190,"distM":1599849,"gainM":61966,"timeS":818580},{"doy":191,"distM":1605964,"gainM":62027,"timeS":819780},{"doy":192,"distM":1647968,"gainM":62153,"timeS":827040},{"doy":193,"distM":1664384,"gainM":63075,"timeS":834540},{"doy":194,"distM":1686914,"gainM":63139,"timeS":838620},{"doy":195,"distM":1703812,"gainM":63242,"timeS":841260},{"doy":196,"distM":1722481,"gainM":65062,"timeS":865560},{"doy":197,"distM":1746943,"gainM":65126,"timeS":870540},{"doy":198,"distM":1756921,"gainM":65245,"timeS":874380},{"doy":199,"distM":1785245,"gainM":66063,"timeS":883380},{"doy":200,"distM":1797315,"gainM":66431,"timeS":888840},{"doy":201,"distM":1803270,"gainM":66497,"timeS":889920},{"doy":202,"distM":1813731,"gainM":66576,"timeS":893400},{"doy":203,"distM":1848653,"gainM":68241,"timeS":915060},{"doy":205,"distM":1891462,"gainM":68704,"timeS":922440},{"doy":206,"distM":1910935,"gainM":68875,"timeS":925800},{"doy":207,"distM":1939099,"gainM":69506,"timeS":930900},{"doy":208,"distM":1939099,"gainM":69506,"timeS":934500},{"doy":209,"distM":1975309,"gainM":70487,"timeS":942540},{"doy":210,"distM":1991402,"gainM":70575,"timeS":945240},{"doy":211,"distM":2027773,"gainM":70575,"timeS":950700},{"doy":215,"distM":2059799,"gainM":72232,"timeS":981300},{"doy":217,"distM":2135599,"gainM":73890,"timeS":994200},{"doy":218,"distM":2163280,"gainM":74903,"timeS":1007280},{"doy":219,"distM":2203675,"gainM":75339,"timeS":1022760},{"doy":220,"distM":2219929,"gainM":76075,"timeS":1031820},{"doy":221,"distM":2252116,"gainM":76075,"timeS":1038000},{"doy":222,"distM":2268853,"gainM":76095,"timeS":1052160},{"doy":224,"distM":2300557,"gainM":78538,"timeS":1078260},{"doy":226,"distM":2313593,"gainM":78656,"timeS":1082880},{"doy":228,"distM":2318904,"gainM":78719,"timeS":1084680},{"doy":229,"distM":2329043,"gainM":79807,"timeS":1093800},{"doy":230,"distM":2343688,"gainM":80309,"timeS":1102020},{"doy":231,"distM":2433489,"gainM":81711,"timeS":1120380},{"doy":232,"distM":2451192,"gainM":82721,"timeS":1138500},{"doy":233,"distM":2461974,"gainM":82848,"timeS":1142400},{"doy":234,"distM":2494644,"gainM":83679,"timeS":1148520},{"doy":235,"distM":2507519,"gainM":83787,"timeS":1153020},{"doy":236,"distM":2526509,"gainM":84389,"timeS":1163340},{"doy":238,"distM":2560305,"gainM":84822,"timeS":1169400},{"doy":239,"distM":2596516,"gainM":85137,"timeS":1185360},{"doy":241,"distM":2636266,"gainM":85995,"timeS":1192020},{"doy":242,"distM":2653486,"gainM":87268,"timeS":1204980},{"doy":243,"distM":2663625,"gainM":87368,"timeS":1208760},{"doy":244,"distM":2705790,"gainM":87816,"timeS":1215720},{"doy":245,"distM":2735080,"gainM":87816,"timeS":1219320},{"doy":246,"distM":2822628,"gainM":91040,"timeS":1251960},{"doy":247,"distM":2851597,"gainM":91040,"timeS":1255560},{"doy":248,"distM":2879921,"gainM":91732,"timeS":1260300},{"doy":249,"distM":2912752,"gainM":92586,"timeS":1266600},{"doy":251,"distM":2928845,"gainM":92586,"timeS":1268640},{"doy":252,"distM":2950732,"gainM":93037,"timeS":1276320},{"doy":253,"distM":2997886,"gainM":93493,"timeS":1283940},{"doy":254,"distM":3004806,"gainM":93588,"timeS":1285080},{"doy":255,"distM":3014945,"gainM":93695,"timeS":1288200},{"doy":257,"distM":3025406,"gainM":94543,"timeS":1294500},{"doy":260,"distM":3170569,"gainM":98012,"timeS":1334100},{"doy":261,"distM":3176845,"gainM":98100,"timeS":1336260},{"doy":262,"distM":3193099,"gainM":98100,"timeS":1338300},{"doy":263,"distM":3239609,"gainM":98527,"timeS":1346400},{"doy":264,"distM":3249105,"gainM":98689,"timeS":1349820},{"doy":266,"distM":3313478,"gainM":100286,"timeS":1369680},{"doy":267,"distM":3332308,"gainM":101342,"timeS":1395480},{"doy":268,"distM":3367874,"gainM":101402,"timeS":1400040},{"doy":270,"distM":3392175,"gainM":101464,"timeS":1403820},{"doy":271,"distM":3402153,"gainM":101567,"timeS":1406940},{"doy":272,"distM":3431765,"gainM":101567,"timeS":1410540},{"doy":273,"distM":3441421,"gainM":101792,"timeS":1413780},{"doy":274,"distM":3452848,"gainM":101946,"timeS":1417500},{"doy":275,"distM":3452848,"gainM":101946,"timeS":1424700},{"doy":276,"distM":3485034,"gainM":101946,"timeS":1428600},{"doy":277,"distM":3495012,"gainM":102038,"timeS":1431780},{"doy":278,"distM":3511267,"gainM":102468,"timeS":1434420},{"doy":279,"distM":3521567,"gainM":103333,"timeS":1440240},{"doy":280,"distM":3570652,"gainM":103656,"timeS":1453560},{"doy":281,"distM":3685398,"gainM":104624,"timeS":1467420},{"doy":283,"distM":3701491,"gainM":105365,"timeS":1476240},{"doy":284,"distM":3718228,"gainM":105588,"timeS":1483260},{"doy":285,"distM":3724022,"gainM":105907,"timeS":1486320},{"doy":286,"distM":3773751,"gainM":107480,"timeS":1498320},{"doy":287,"distM":3782119,"gainM":108308,"timeS":1507740},{"doy":288,"distM":3785660,"gainM":108359,"timeS":1509060},{"doy":290,"distM":3796603,"gainM":108451,"timeS":1515420},{"doy":291,"distM":3804006,"gainM":108549,"timeS":1516800},{"doy":292,"distM":3810122,"gainM":108965,"timeS":1520100},{"doy":293,"distM":3849873,"gainM":109619,"timeS":1528080},{"doy":294,"distM":3874657,"gainM":109925,"timeS":1538340},{"doy":296,"distM":3906200,"gainM":109925,"timeS":1542120},{"doy":297,"distM":3916821,"gainM":109965,"timeS":1545360},{"doy":298,"distM":3924868,"gainM":110163,"timeS":1548720},{"doy":299,"distM":3934041,"gainM":110978,"timeS":1554960},{"doy":301,"distM":3956733,"gainM":111138,"timeS":1562580},{"doy":302,"distM":3973309,"gainM":111216,"timeS":1568880},{"doy":303,"distM":3986345,"gainM":111672,"timeS":1573980},{"doy":304,"distM":4029315,"gainM":111672,"timeS":1579680},{"doy":305,"distM":4042028,"gainM":111909,"timeS":1584480},{"doy":306,"distM":4049914,"gainM":112737,"timeS":1590180},{"doy":308,"distM":4051684,"gainM":112737,"timeS":1594980},{"doy":309,"distM":4233218,"gainM":114303,"timeS":1619940},{"doy":311,"distM":4239173,"gainM":114949,"timeS":1623540},{"doy":312,"distM":4248024,"gainM":115105,"timeS":1626540},{"doy":314,"distM":4248990,"gainM":115316,"timeS":1627440},{"doy":315,"distM":4260577,"gainM":115741,"timeS":1635600},{"doy":316,"distM":4285522,"gainM":117217,"timeS":1649700},{"doy":318,"distM":4295500,"gainM":117319,"timeS":1652760},{"doy":319,"distM":4300650,"gainM":117348,"timeS":1654440},{"doy":320,"distM":4325273,"gainM":118365,"timeS":1662240},{"doy":321,"distM":4329296,"gainM":118461,"timeS":1663140},{"doy":322,"distM":4337665,"gainM":119319,"timeS":1668780},{"doy":323,"distM":4356977,"gainM":119888,"timeS":1674660},{"doy":325,"distM":4364219,"gainM":120599,"timeS":1678500},{"doy":326,"distM":4375645,"gainM":120816,"timeS":1682400},{"doy":327,"distM":4391900,"gainM":121248,"timeS":1692780},{"doy":328,"distM":4429558,"gainM":121504,"timeS":1701300},{"doy":329,"distM":4432616,"gainM":121571,"timeS":1704480},{"doy":330,"distM":4464803,"gainM":121755,"timeS":1715160},{"doy":331,"distM":4485564,"gainM":121881,"timeS":1723500},{"doy":332,"distM":4530625,"gainM":121881,"timeS":1728960},{"doy":333,"distM":4575848,"gainM":121881,"timeS":1734360},{"doy":334,"distM":4608035,"gainM":121881,"timeS":1738200},{"doy":336,"distM":4627669,"gainM":123266,"timeS":1749000},{"doy":337,"distM":4644406,"gainM":124419,"timeS":1761060},{"doy":339,"distM":4649556,"gainM":125112,"timeS":1764420},{"doy":340,"distM":4662431,"gainM":125555,"timeS":1769220},{"doy":341,"distM":4676110,"gainM":125723,"timeS":1774080},{"doy":342,"distM":4693008,"gainM":125723,"timeS":1776240},{"doy":343,"distM":4721654,"gainM":127194,"timeS":1790640},{"doy":344,"distM":4737748,"gainM":128445,"timeS":1799940},{"doy":345,"distM":4747243,"gainM":128603,"timeS":1803360},{"doy":346,"distM":4757382,"gainM":128932,"timeS":1807260},{"doy":347,"distM":4766716,"gainM":129869,"timeS":1812660},{"doy":348,"distM":4777177,"gainM":130186,"timeS":1816380},{"doy":349,"distM":4788925,"gainM":131352,"timeS":1822860},{"doy":350,"distM":4829480,"gainM":132680,"timeS":1833240},{"doy":351,"distM":4839941,"gainM":133221,"timeS":1841820},{"doy":353,"distM":4851367,"gainM":133532,"timeS":1845840},{"doy":355,"distM":4872772,"gainM":133704,"timeS":1852860},{"doy":357,"distM":4882750,"gainM":133763,"timeS":1855740},{"doy":358,"distM":4892728,"gainM":133830,"timeS":1858560},{"doy":359,"distM":4899326,"gainM":133872,"timeS":1860480},{"doy":361,"distM":4943744,"gainM":134580,"timeS":1869420},{"doy":362,"distM":4964987,"gainM":134691,"timeS":1875960},{"doy":363,"distM":4974643,"gainM":135101,"timeS":1879860},{"doy":364,"distM":5005221,"gainM":136048,"timeS":1900560},{"doy":365,"distM":5013267,"gainM":136553,"timeS":1905060}],"2024":[{"doy":1,"distM":26876,"gainM":953,"timeS":19500},{"doy":3,"distM":38785,"gainM":1333,"timeS":23760},{"doy":5,"distM":70972,"gainM":1333,"timeS":27720},{"doy":6,"distM":99457,"gainM":1649,"timeS":37740},{"doy":8,"distM":111528,"gainM":1782,"timeS":41880},{"doy":9,"distM":123598,"gainM":3074,"timeS":49080},{"doy":10,"distM":135024,"gainM":3480,"timeS":52980},{"doy":11,"distM":136955,"gainM":3480,"timeS":55380},{"doy":12,"distM":149186,"gainM":4678,"timeS":62760},{"doy":13,"distM":170430,"gainM":4858,"timeS":70560},{"doy":14,"distM":173809,"gainM":4949,"timeS":72840},{"doy":15,"distM":176062,"gainM":4949,"timeS":79800},{"doy":16,"distM":193121,"gainM":5882,"timeS":87840},{"doy":17,"distM":214686,"gainM":5999,"timeS":94080},{"doy":18,"distM":224664,"gainM":6099,"timeS":97380},{"doy":19,"distM":226435,"gainM":6099,"timeS":99420},{"doy":20,"distM":284532,"gainM":12543,"timeS":137100},{"doy":23,"distM":294510,"gainM":12586,"timeS":139920},{"doy":24,"distM":305936,"gainM":12791,"timeS":143520},{"doy":25,"distM":308028,"gainM":12791,"timeS":145860},{"doy":26,"distM":361137,"gainM":12791,"timeS":152280},{"doy":27,"distM":383507,"gainM":13315,"timeS":159840},{"doy":28,"distM":425189,"gainM":14175,"timeS":167520},{"doy":29,"distM":435167,"gainM":14271,"timeS":170400},{"doy":30,"distM":441926,"gainM":14886,"timeS":173880},{"doy":31,"distM":452065,"gainM":15931,"timeS":179280},{"doy":32,"distM":462043,"gainM":16029,"timeS":182400},{"doy":33,"distM":478297,"gainM":16524,"timeS":188220},{"doy":34,"distM":481516,"gainM":16524,"timeS":191940},{"doy":35,"distM":557155,"gainM":17086,"timeS":203040},{"doy":36,"distM":570191,"gainM":17179,"timeS":206760},{"doy":37,"distM":580973,"gainM":17254,"timeS":210060},{"doy":38,"distM":593687,"gainM":18478,"timeS":217020},{"doy":39,"distM":603987,"gainM":18584,"timeS":220320},{"doy":40,"distM":608976,"gainM":18632,"timeS":224400},{"doy":41,"distM":614930,"gainM":18689,"timeS":226440},{"doy":42,"distM":635691,"gainM":18834,"timeS":233280},{"doy":43,"distM":667878,"gainM":18834,"timeS":237300},{"doy":44,"distM":675764,"gainM":18856,"timeS":241680},{"doy":45,"distM":686868,"gainM":19846,"timeS":247500},{"doy":46,"distM":694432,"gainM":20593,"timeS":251640},{"doy":48,"distM":707146,"gainM":20981,"timeS":259800},{"doy":49,"distM":729355,"gainM":21136,"timeS":267000},{"doy":50,"distM":744000,"gainM":22388,"timeS":277200},{"doy":51,"distM":751725,"gainM":22658,"timeS":279840},{"doy":52,"distM":767174,"gainM":23346,"timeS":287040},{"doy":53,"distM":769427,"gainM":23346,"timeS":289560},{"doy":55,"distM":806925,"gainM":23812,"timeS":300120},{"doy":56,"distM":842974,"gainM":24040,"timeS":312840},{"doy":57,"distM":848124,"gainM":24093,"timeS":314640},{"doy":58,"distM":864540,"gainM":25134,"timeS":322260},{"doy":59,"distM":872586,"gainM":25194,"timeS":324960},{"doy":60,"distM":884335,"gainM":26446,"timeS":333180},{"doy":62,"distM":906543,"gainM":28056,"timeS":343920},{"doy":63,"distM":938730,"gainM":28158,"timeS":353340},{"doy":64,"distM":940983,"gainM":28158,"timeS":355860},{"doy":65,"distM":961100,"gainM":29075,"timeS":366660},{"doy":66,"distM":968664,"gainM":29128,"timeS":370260},{"doy":67,"distM":979930,"gainM":29345,"timeS":373800},{"doy":68,"distM":986367,"gainM":30007,"timeS":377340},{"doy":69,"distM":995218,"gainM":30232,"timeS":380580},{"doy":70,"distM":1025313,"gainM":30353,"timeS":389460},{"doy":72,"distM":1035452,"gainM":30658,"timeS":392700},{"doy":73,"distM":1045591,"gainM":30755,"timeS":395820},{"doy":74,"distM":1057983,"gainM":31229,"timeS":404940},{"doy":75,"distM":1068443,"gainM":31229,"timeS":409020},{"doy":76,"distM":1082928,"gainM":31958,"timeS":418080},{"doy":77,"distM":1092906,"gainM":32052,"timeS":421140},{"doy":78,"distM":1111252,"gainM":32451,"timeS":427200},{"doy":79,"distM":1122035,"gainM":32451,"timeS":430560},{"doy":81,"distM":1146979,"gainM":33272,"timeS":439740},{"doy":82,"distM":1148911,"gainM":33411,"timeS":441900},{"doy":83,"distM":1159532,"gainM":34023,"timeS":452520},{"doy":84,"distM":1183512,"gainM":34219,"timeS":459360},{"doy":85,"distM":1193168,"gainM":35107,"timeS":466260},{"doy":86,"distM":1203307,"gainM":35207,"timeS":469320},{"doy":87,"distM":1220044,"gainM":35442,"timeS":474120},{"doy":88,"distM":1236620,"gainM":35613,"timeS":479220},{"doy":89,"distM":1246759,"gainM":35716,"timeS":482040},{"doy":90,"distM":1301155,"gainM":37593,"timeS":512640},{"doy":93,"distM":1320467,"gainM":37714,"timeS":518220},{"doy":94,"distM":1332054,"gainM":38123,"timeS":522240},{"doy":95,"distM":1344929,"gainM":38205,"timeS":525960},{"doy":97,"distM":1360539,"gainM":38675,"timeS":536880},{"doy":98,"distM":1386772,"gainM":38995,"timeS":545160},{"doy":99,"distM":1393531,"gainM":39049,"timeS":548580},{"doy":100,"distM":1403831,"gainM":39409,"timeS":551520},{"doy":101,"distM":1418315,"gainM":39537,"timeS":555600},{"doy":103,"distM":1428454,"gainM":39871,"timeS":558660},{"doy":104,"distM":1436983,"gainM":40529,"timeS":564000},{"doy":105,"distM":1473354,"gainM":40843,"timeS":574740},{"doy":106,"distM":1478987,"gainM":40955,"timeS":577140},{"doy":107,"distM":1511174,"gainM":40955,"timeS":580920},{"doy":108,"distM":1521313,"gainM":41163,"timeS":583920},{"doy":110,"distM":1534027,"gainM":41527,"timeS":588060},{"doy":111,"distM":1543522,"gainM":41663,"timeS":590820},{"doy":112,"distM":1549959,"gainM":41723,"timeS":593340},{"doy":113,"distM":1552051,"gainM":41723,"timeS":595680},{"doy":114,"distM":1560259,"gainM":41780,"timeS":597900},{"doy":115,"distM":1568467,"gainM":41867,"timeS":600660},{"doy":117,"distM":1573617,"gainM":41923,"timeS":602100},{"doy":118,"distM":1615942,"gainM":42244,"timeS":615660},{"doy":119,"distM":1619322,"gainM":42263,"timeS":618180},{"doy":120,"distM":1624794,"gainM":42324,"timeS":619980},{"doy":121,"distM":1633967,"gainM":42381,"timeS":624540},{"doy":122,"distM":1641370,"gainM":42424,"timeS":630000},{"doy":123,"distM":1647003,"gainM":42459,"timeS":631500},{"doy":124,"distM":1655532,"gainM":42511,"timeS":634020},{"doy":125,"distM":1666476,"gainM":42526,"timeS":636900},{"doy":127,"distM":1683213,"gainM":42683,"timeS":639600},{"doy":128,"distM":1696410,"gainM":43109,"timeS":643800},{"doy":129,"distM":1723607,"gainM":43705,"timeS":650220},{"doy":130,"distM":1724251,"gainM":43705,"timeS":650940},{"doy":131,"distM":1736482,"gainM":43993,"timeS":654900},{"doy":132,"distM":1741793,"gainM":44049,"timeS":657960},{"doy":133,"distM":1757886,"gainM":44577,"timeS":663660},{"doy":134,"distM":1763358,"gainM":44723,"timeS":665280},{"doy":135,"distM":1774624,"gainM":44836,"timeS":668760},{"doy":136,"distM":1789108,"gainM":45002,"timeS":672960},{"doy":138,"distM":1797154,"gainM":45090,"timeS":675720},{"doy":139,"distM":1846239,"gainM":46327,"timeS":691680},{"doy":140,"distM":1852033,"gainM":46750,"timeS":698760},{"doy":141,"distM":1858631,"gainM":46808,"timeS":702720},{"doy":142,"distM":1865230,"gainM":46961,"timeS":704880},{"doy":143,"distM":1875529,"gainM":47049,"timeS":707940},{"doy":145,"distM":1883737,"gainM":47322,"timeS":710760},{"doy":146,"distM":1920752,"gainM":48158,"timeS":724380},{"doy":147,"distM":1937167,"gainM":48785,"timeS":730980},{"doy":148,"distM":1965975,"gainM":49011,"timeS":737460},{"doy":149,"distM":1972734,"gainM":49077,"timeS":739740},{"doy":150,"distM":1977401,"gainM":49085,"timeS":743580},{"doy":151,"distM":1984804,"gainM":49467,"timeS":752100},{"doy":152,"distM":1994460,"gainM":49639,"timeS":755520},{"doy":153,"distM":2027773,"gainM":49929,"timeS":760680},{"doy":154,"distM":2053523,"gainM":50464,"timeS":769200},{"doy":155,"distM":2076537,"gainM":50700,"timeS":775380},{"doy":156,"distM":2077985,"gainM":50700,"timeS":777420},{"doy":157,"distM":2085066,"gainM":50781,"timeS":779520},{"doy":158,"distM":2099228,"gainM":51222,"timeS":784800},{"doy":159,"distM":2147991,"gainM":52187,"timeS":813360},{"doy":161,"distM":2149923,"gainM":52187,"timeS":815700},{"doy":162,"distM":2165372,"gainM":52862,"timeS":822660},{"doy":163,"distM":2179213,"gainM":53108,"timeS":826920},{"doy":164,"distM":2181144,"gainM":53108,"timeS":828960},{"doy":165,"distM":2187259,"gainM":53137,"timeS":831960},{"doy":166,"distM":2204158,"gainM":53881,"timeS":840420},{"doy":167,"distM":2259519,"gainM":55266,"timeS":852900},{"doy":168,"distM":2287039,"gainM":55776,"timeS":862500},{"doy":170,"distM":2301201,"gainM":55860,"timeS":868920},{"doy":171,"distM":2315685,"gainM":56411,"timeS":874260},{"doy":172,"distM":2326950,"gainM":56964,"timeS":880200},{"doy":174,"distM":2381829,"gainM":59087,"timeS":905760},{"doy":175,"distM":2392934,"gainM":59415,"timeS":909360},{"doy":176,"distM":2403233,"gainM":59522,"timeS":912780},{"doy":177,"distM":2424960,"gainM":60886,"timeS":928620},{"doy":178,"distM":2430270,"gainM":60947,"timeS":930480},{"doy":179,"distM":2441214,"gainM":61373,"timeS":933780},{"doy":180,"distM":2446525,"gainM":61916,"timeS":942360},{"doy":181,"distM":2470665,"gainM":63087,"timeS":952680},{"doy":182,"distM":2479677,"gainM":63244,"timeS":955500},{"doy":184,"distM":2491908,"gainM":63311,"timeS":962040},{"doy":185,"distM":2499955,"gainM":63372,"timeS":964620},{"doy":186,"distM":2507680,"gainM":63441,"timeS":970800},{"doy":187,"distM":2516209,"gainM":63698,"timeS":974580},{"doy":188,"distM":2594423,"gainM":66013,"timeS":1006380},{"doy":191,"distM":2601183,"gainM":66124,"timeS":1008660},{"doy":192,"distM":2637554,"gainM":66586,"timeS":1013520},{"doy":193,"distM":2660889,"gainM":66729,"timeS":1019160},{"doy":194,"distM":2672959,"gainM":67170,"timeS":1023480},{"doy":195,"distM":2702250,"gainM":67170,"timeS":1027080},{"doy":196,"distM":2727677,"gainM":67464,"timeS":1034760},{"doy":197,"distM":2738943,"gainM":67724,"timeS":1038360},{"doy":198,"distM":2806696,"gainM":69304,"timeS":1050060},{"doy":199,"distM":2821985,"gainM":69485,"timeS":1054800},{"doy":200,"distM":2830514,"gainM":69608,"timeS":1058100},{"doy":201,"distM":2844194,"gainM":70096,"timeS":1062540},{"doy":202,"distM":2856264,"gainM":70657,"timeS":1068540},{"doy":204,"distM":2867207,"gainM":70694,"timeS":1072200},{"doy":205,"distM":2872840,"gainM":70751,"timeS":1076220},{"doy":206,"distM":2909533,"gainM":71798,"timeS":1084800},{"doy":207,"distM":2919189,"gainM":72083,"timeS":1088100},{"doy":209,"distM":2932869,"gainM":72198,"timeS":1091400},{"doy":210,"distM":2962963,"gainM":72402,"timeS":1107900},{"doy":212,"distM":2987747,"gainM":74306,"timeS":1128240},{"doy":213,"distM":2995794,"gainM":74375,"timeS":1134420},{"doy":214,"distM":3010439,"gainM":74446,"timeS":1138740},{"doy":215,"distM":3025728,"gainM":74482,"timeS":1148880},{"doy":216,"distM":3035545,"gainM":74504,"timeS":1151520},{"doy":217,"distM":3046488,"gainM":74532,"timeS":1154760},{"doy":218,"distM":3058880,"gainM":74938,"timeS":1159080},{"doy":219,"distM":3071755,"gainM":75137,"timeS":1163460},{"doy":220,"distM":3159786,"gainM":77248,"timeS":1181220},{"doy":222,"distM":3168637,"gainM":77265,"timeS":1183980},{"doy":223,"distM":3191490,"gainM":78396,"timeS":1196760},{"doy":224,"distM":3205974,"gainM":78476,"timeS":1201380},{"doy":225,"distM":3225286,"gainM":78476,"timeS":1205280},{"doy":226,"distM":3238161,"gainM":78818,"timeS":1209360},{"doy":227,"distM":3254255,"gainM":79780,"timeS":1216800},{"doy":228,"distM":3261979,"gainM":79821,"timeS":1218720},{"doy":229,"distM":3266164,"gainM":80217,"timeS":1222980},{"doy":230,"distM":3283062,"gainM":80350,"timeS":1226100},{"doy":231,"distM":3442065,"gainM":82660,"timeS":1249920},{"doy":232,"distM":3443835,"gainM":82660,"timeS":1252200},{"doy":233,"distM":3456388,"gainM":82952,"timeS":1256580},{"doy":234,"distM":3462504,"gainM":83590,"timeS":1265100},{"doy":235,"distM":3467493,"gainM":83722,"timeS":1266780},{"doy":236,"distM":3477471,"gainM":84049,"timeS":1270080},{"doy":237,"distM":3518187,"gainM":85481,"timeS":1287060},{"doy":238,"distM":3539269,"gainM":85940,"timeS":1300380},{"doy":239,"distM":3549247,"gainM":86193,"timeS":1303680},{"doy":240,"distM":3564536,"gainM":87140,"timeS":1310400},{"doy":241,"distM":3574514,"gainM":87348,"timeS":1313940},{"doy":243,"distM":3583687,"gainM":87895,"timeS":1318800},{"doy":244,"distM":3634864,"gainM":89743,"timeS":1339800},{"doy":245,"distM":3645647,"gainM":89790,"timeS":1343580},{"doy":246,"distM":3672684,"gainM":90621,"timeS":1353480},{"doy":248,"distM":3684432,"gainM":91005,"timeS":1357560},{"doy":249,"distM":3694571,"gainM":91152,"timeS":1361400},{"doy":250,"distM":3706480,"gainM":91631,"timeS":1365060},{"doy":251,"distM":3707607,"gainM":91731,"timeS":1366620},{"doy":252,"distM":3720642,"gainM":92122,"timeS":1370820},{"doy":254,"distM":3730781,"gainM":92233,"timeS":1374000},{"doy":255,"distM":3739794,"gainM":92450,"timeS":1377060},{"doy":256,"distM":3742047,"gainM":92599,"timeS":1379400},{"doy":257,"distM":3747036,"gainM":92766,"timeS":1381140},{"doy":258,"distM":3827986,"gainM":95347,"timeS":1413300},{"doy":260,"distM":3834745,"gainM":95426,"timeS":1419180},{"doy":261,"distM":3838768,"gainM":95777,"timeS":1424220},{"doy":262,"distM":3846815,"gainM":95935,"timeS":1427160},{"doy":263,"distM":3856793,"gainM":96045,"timeS":1430880},{"doy":264,"distM":3859046,"gainM":96062,"timeS":1432860},{"doy":267,"distM":3871599,"gainM":96333,"timeS":1437180},{"doy":268,"distM":3892038,"gainM":97010,"timeS":1445040},{"doy":269,"distM":3898797,"gainM":97211,"timeS":1447680},{"doy":270,"distM":3914890,"gainM":97508,"timeS":1453980},{"doy":271,"distM":3964941,"gainM":98570,"timeS":1470180},{"doy":272,"distM":3974597,"gainM":98957,"timeS":1477440},{"doy":273,"distM":3988759,"gainM":99881,"timeS":1490580},{"doy":275,"distM":4000185,"gainM":100145,"timeS":1494300},{"doy":276,"distM":4010485,"gainM":100532,"timeS":1498560},{"doy":277,"distM":4022716,"gainM":100903,"timeS":1503300},{"doy":278,"distM":4038488,"gainM":101032,"timeS":1507860},{"doy":279,"distM":4060697,"gainM":101995,"timeS":1519140},{"doy":281,"distM":4062628,"gainM":101995,"timeS":1521480},{"doy":282,"distM":4066973,"gainM":102644,"timeS":1527240},{"doy":283,"distM":4080975,"gainM":103114,"timeS":1532460},{"doy":284,"distM":4085963,"gainM":103776,"timeS":1539960},{"doy":285,"distM":4098838,"gainM":104195,"timeS":1544100},{"doy":287,"distM":4176248,"gainM":107623,"timeS":1583400},{"doy":288,"distM":4182846,"gainM":107784,"timeS":1589220},{"doy":290,"distM":4188318,"gainM":107850,"timeS":1592820},{"doy":291,"distM":4198778,"gainM":108185,"timeS":1596120},{"doy":292,"distM":4264440,"gainM":109866,"timeS":1608480},{"doy":293,"distM":4291960,"gainM":110098,"timeS":1616820},{"doy":294,"distM":4308697,"gainM":110408,"timeS":1621860},{"doy":295,"distM":4347804,"gainM":110888,"timeS":1629360},{"doy":296,"distM":4370174,"gainM":111899,"timeS":1638780},{"doy":297,"distM":4391256,"gainM":112740,"timeS":1647660},{"doy":298,"distM":4398981,"gainM":112740,"timeS":1651680},{"doy":299,"distM":4411212,"gainM":112825,"timeS":1655520},{"doy":300,"distM":4430202,"gainM":113748,"timeS":1664700},{"doy":301,"distM":4591458,"gainM":116249,"timeS":1689480},{"doy":303,"distM":4606425,"gainM":116925,"timeS":1695060},{"doy":304,"distM":4614633,"gainM":116925,"timeS":1699260},{"doy":305,"distM":4635233,"gainM":117556,"timeS":1707120},{"doy":307,"distM":4651809,"gainM":118169,"timeS":1714260},{"doy":309,"distM":4663235,"gainM":118536,"timeS":1718400},{"doy":310,"distM":4676432,"gainM":118931,"timeS":1723020},{"doy":311,"distM":4690916,"gainM":119853,"timeS":1731720},{"doy":312,"distM":4701698,"gainM":119953,"timeS":1734900},{"doy":313,"distM":4730828,"gainM":119953,"timeS":1738500},{"doy":314,"distM":4734851,"gainM":119953,"timeS":1739640},{"doy":315,"distM":4749174,"gainM":121176,"timeS":1749600},{"doy":316,"distM":4759957,"gainM":121504,"timeS":1752900},{"doy":317,"distM":4769613,"gainM":122533,"timeS":1757820},{"doy":318,"distM":4780395,"gainM":122825,"timeS":1761600},{"doy":319,"distM":4791822,"gainM":124070,"timeS":1769400},{"doy":321,"distM":4800673,"gainM":124226,"timeS":1772520},{"doy":323,"distM":4809525,"gainM":124892,"timeS":1781520},{"doy":324,"distM":4817410,"gainM":125737,"timeS":1786020},{"doy":325,"distM":4844769,"gainM":125737,"timeS":1789320},{"doy":326,"distM":4874703,"gainM":125737,"timeS":1793100},{"doy":327,"distM":4886612,"gainM":126981,"timeS":1801140},{"doy":328,"distM":4926202,"gainM":128063,"timeS":1808040},{"doy":329,"distM":4936985,"gainM":128910,"timeS":1816800},{"doy":330,"distM":4973034,"gainM":128910,"timeS":1821300},{"doy":332,"distM":4983656,"gainM":129025,"timeS":1825020},{"doy":333,"distM":4997013,"gainM":129191,"timeS":1829880},{"doy":335,"distM":5005060,"gainM":129281,"timeS":1835880},{"doy":337,"distM":5006991,"gainM":129281,"timeS":1838400},{"doy":338,"distM":5020027,"gainM":130514,"timeS":1845480},{"doy":339,"distM":5021958,"gainM":130514,"timeS":1847940},{"doy":340,"distM":5030005,"gainM":130514,"timeS":1852500},{"doy":341,"distM":5045293,"gainM":131984,"timeS":1860300},{"doy":342,"distM":5083274,"gainM":132775,"timeS":1871940},{"doy":343,"distM":5095183,"gainM":133699,"timeS":1883460},{"doy":344,"distM":5110633,"gainM":135205,"timeS":1891440},{"doy":345,"distM":5147004,"gainM":135205,"timeS":1897200},{"doy":346,"distM":5158591,"gainM":135205,"timeS":1900800},{"doy":347,"distM":5171144,"gainM":136442,"timeS":1907700},{"doy":348,"distM":5173397,"gainM":136442,"timeS":1910700},{"doy":349,"distM":5217332,"gainM":137074,"timeS":1922100},{"doy":350,"distM":5254669,"gainM":137074,"timeS":1926600},{"doy":351,"distM":5269153,"gainM":138557,"timeS":1934340},{"doy":352,"distM":5270923,"gainM":138557,"timeS":1936560},{"doy":353,"distM":5305363,"gainM":139053,"timeS":1946760},{"doy":354,"distM":5320330,"gainM":140549,"timeS":1954500},{"doy":355,"distM":5332561,"gainM":141715,"timeS":1961280},{"doy":356,"distM":5338355,"gainM":142165,"timeS":1967520},{"doy":357,"distM":5358150,"gainM":144696,"timeS":1989000},{"doy":358,"distM":5359920,"gainM":144696,"timeS":1993620},{"doy":359,"distM":5400798,"gainM":146420,"timeS":2007720},{"doy":360,"distM":5410615,"gainM":147258,"timeS":2014800},{"doy":361,"distM":5439261,"gainM":147883,"timeS":2022240},{"doy":362,"distM":5441192,"gainM":147883,"timeS":2024520},{"doy":363,"distM":5463562,"gainM":149365,"timeS":2036400},{"doy":365,"distM":5468873,"gainM":149433,"timeS":2040780},{"doy":366,"distM":5500738,"gainM":152487,"timeS":2060160}],"2025":[{"doy":1,"distM":20761,"gainM":163,"timeS":5400},{"doy":2,"distM":32992,"gainM":1340,"timeS":12540},{"doy":4,"distM":36693,"gainM":1369,"timeS":14040},{"doy":5,"distM":43452,"gainM":1413,"timeS":16620},{"doy":6,"distM":49085,"gainM":1417,"timeS":18720},{"doy":9,"distM":53752,"gainM":1417,"timeS":19320},{"doy":10,"distM":58580,"gainM":1560,"timeS":22500},{"doy":16,"distM":63569,"gainM":1582,"timeS":24360},{"doy":17,"distM":78214,"gainM":1944,"timeS":28860},{"doy":18,"distM":88997,"gainM":2021,"timeS":32700},{"doy":19,"distM":105412,"gainM":2591,"timeS":39480},{"doy":20,"distM":107343,"gainM":2591,"timeS":41520},{"doy":21,"distM":109274,"gainM":2591,"timeS":43800},{"doy":22,"distM":130840,"gainM":3112,"timeS":51540},{"doy":23,"distM":149025,"gainM":4051,"timeS":59280},{"doy":24,"distM":180247,"gainM":4764,"timeS":68100},{"doy":25,"distM":192478,"gainM":5037,"timeS":75540},{"doy":26,"distM":203260,"gainM":5882,"timeS":87360},{"doy":27,"distM":208893,"gainM":5931,"timeS":92220},{"doy":28,"distM":238505,"gainM":6580,"timeS":100080},{"doy":29,"distM":254920,"gainM":7528,"timeS":110280},{"doy":31,"distM":256690,"gainM":7528,"timeS":112800},{"doy":32,"distM":303361,"gainM":8193,"timeS":125580},{"doy":33,"distM":319294,"gainM":9202,"timeS":135600},{"doy":34,"distM":325409,"gainM":9261,"timeS":140940},{"doy":35,"distM":343112,"gainM":9689,"timeS":145980},{"doy":36,"distM":347457,"gainM":10008,"timeS":149700},{"doy":37,"distM":352929,"gainM":10060,"timeS":154800},{"doy":38,"distM":365482,"gainM":11282,"timeS":161520},{"doy":39,"distM":376426,"gainM":11960,"timeS":169500},{"doy":40,"distM":411509,"gainM":12647,"timeS":178620},{"doy":41,"distM":413923,"gainM":12647,"timeS":181620},{"doy":42,"distM":415854,"gainM":12647,"timeS":183840},{"doy":43,"distM":420843,"gainM":12701,"timeS":188460},{"doy":46,"distM":428729,"gainM":12920,"timeS":190560},{"doy":47,"distM":466549,"gainM":13336,"timeS":200340},{"doy":48,"distM":468963,"gainM":13336,"timeS":202920},{"doy":49,"distM":487631,"gainM":14275,"timeS":210360},{"doy":50,"distM":490206,"gainM":14275,"timeS":213060},{"doy":51,"distM":516760,"gainM":14861,"timeS":219660},{"doy":52,"distM":522232,"gainM":14911,"timeS":224400},{"doy":53,"distM":536716,"gainM":15873,"timeS":236820},{"doy":54,"distM":617666,"gainM":16616,"timeS":249360},{"doy":55,"distM":625391,"gainM":16673,"timeS":255300},{"doy":56,"distM":657739,"gainM":17104,"timeS":262200},{"doy":57,"distM":677695,"gainM":18210,"timeS":269760},{"doy":58,"distM":687029,"gainM":18241,"timeS":272640},{"doy":59,"distM":699421,"gainM":19397,"timeS":279600},{"doy":60,"distM":705375,"gainM":19447,"timeS":283380},{"doy":61,"distM":721147,"gainM":20761,"timeS":295980},{"doy":62,"distM":748345,"gainM":21391,"timeS":302880},{"doy":63,"distM":755426,"gainM":21405,"timeS":306120},{"doy":64,"distM":782141,"gainM":21890,"timeS":313980},{"doy":66,"distM":788096,"gainM":22563,"timeS":318540},{"doy":67,"distM":838468,"gainM":23506,"timeS":330060},{"doy":68,"distM":878863,"gainM":24095,"timeS":338820},{"doy":69,"distM":888197,"gainM":24468,"timeS":342600},{"doy":70,"distM":890611,"gainM":24468,"timeS":345540},{"doy":71,"distM":914751,"gainM":24783,"timeS":350340},{"doy":72,"distM":916843,"gainM":24894,"timeS":351240},{"doy":73,"distM":918935,"gainM":24894,"timeS":358920},{"doy":74,"distM":930201,"gainM":25324,"timeS":363060},{"doy":75,"distM":954663,"gainM":26029,"timeS":370920},{"doy":76,"distM":969952,"gainM":26404,"timeS":377220},{"doy":77,"distM":992161,"gainM":27263,"timeS":384900},{"doy":78,"distM":1005518,"gainM":27609,"timeS":389460},{"doy":79,"distM":1036096,"gainM":28296,"timeS":396600},{"doy":80,"distM":1053477,"gainM":28544,"timeS":403260},{"doy":81,"distM":1060075,"gainM":28627,"timeS":406920},{"doy":82,"distM":1108516,"gainM":29939,"timeS":416700},{"doy":83,"distM":1124610,"gainM":30333,"timeS":422040},{"doy":84,"distM":1152773,"gainM":30715,"timeS":430080},{"doy":85,"distM":1172568,"gainM":31785,"timeS":441000},{"doy":86,"distM":1228573,"gainM":32253,"timeS":449580},{"doy":87,"distM":1229056,"gainM":32298,"timeS":450360},{"doy":88,"distM":1249334,"gainM":32446,"timeS":456420},{"doy":89,"distM":1254323,"gainM":32499,"timeS":460080},{"doy":90,"distM":1284257,"gainM":33135,"timeS":469080},{"doy":91,"distM":1297614,"gainM":33364,"timeS":473220},{"doy":92,"distM":1314512,"gainM":33742,"timeS":480720},{"doy":93,"distM":1332698,"gainM":33919,"timeS":486180},{"doy":94,"distM":1345733,"gainM":33921,"timeS":491280},{"doy":96,"distM":1363436,"gainM":34029,"timeS":496560},{"doy":97,"distM":1397393,"gainM":34864,"timeS":508560},{"doy":98,"distM":1412521,"gainM":34913,"timeS":514020},{"doy":99,"distM":1425074,"gainM":35356,"timeS":519540},{"doy":100,"distM":1440041,"gainM":35721,"timeS":524220},{"doy":101,"distM":1509565,"gainM":36102,"timeS":535860},{"doy":103,"distM":1514393,"gainM":36169,"timeS":537360},{"doy":104,"distM":1524693,"gainM":36467,"timeS":540840},{"doy":105,"distM":1531613,"gainM":36512,"timeS":543000},{"doy":106,"distM":1549798,"gainM":36676,"timeS":546240},{"doy":107,"distM":1562995,"gainM":36852,"timeS":550080},{"doy":109,"distM":1584077,"gainM":37050,"timeS":554640},{"doy":110,"distM":1586009,"gainM":37062,"timeS":555360},{"doy":111,"distM":1597274,"gainM":37435,"timeS":559140},{"doy":112,"distM":1604677,"gainM":37485,"timeS":562260},{"doy":114,"distM":1621092,"gainM":37706,"timeS":567840},{"doy":115,"distM":1627851,"gainM":37706,"timeS":570120},{"doy":116,"distM":1650865,"gainM":38632,"timeS":580320},{"doy":117,"distM":1734229,"gainM":40438,"timeS":594120},{"doy":118,"distM":1750805,"gainM":40712,"timeS":599400},{"doy":119,"distM":1762554,"gainM":41098,"timeS":603540},{"doy":120,"distM":1777038,"gainM":41557,"timeS":608820},{"doy":121,"distM":1815179,"gainM":42531,"timeS":617400},{"doy":122,"distM":1833687,"gainM":42954,"timeS":623520},{"doy":123,"distM":1837871,"gainM":43308,"timeS":628440},{"doy":124,"distM":1851389,"gainM":44110,"timeS":640680},{"doy":125,"distM":1856539,"gainM":44110,"timeS":642480},{"doy":126,"distM":1863620,"gainM":44219,"timeS":644940},{"doy":127,"distM":1868609,"gainM":44219,"timeS":646740},{"doy":128,"distM":1879875,"gainM":44295,"timeS":650340},{"doy":129,"distM":1889853,"gainM":44356,"timeS":653520},{"doy":130,"distM":1899831,"gainM":44451,"timeS":656580},{"doy":131,"distM":1924132,"gainM":44807,"timeS":666060},{"doy":133,"distM":1937006,"gainM":45330,"timeS":671100},{"doy":134,"distM":1948594,"gainM":45426,"timeS":674760},{"doy":135,"distM":1962434,"gainM":45817,"timeS":679260},{"doy":137,"distM":1967262,"gainM":45927,"timeS":680880},{"doy":138,"distM":1994782,"gainM":46605,"timeS":690060},{"doy":139,"distM":2005243,"gainM":46723,"timeS":693180},{"doy":140,"distM":2015381,"gainM":47183,"timeS":696840},{"doy":141,"distM":2030831,"gainM":47183,"timeS":701640},{"doy":142,"distM":2044511,"gainM":47359,"timeS":706020},{"doy":143,"distM":2057385,"gainM":47709,"timeS":710460},{"doy":144,"distM":2078951,"gainM":48193,"timeS":717660},{"doy":146,"distM":2092630,"gainM":48298,"timeS":722340},{"doy":147,"distM":2102608,"gainM":48551,"timeS":725940},{"doy":148,"distM":2112103,"gainM":49339,"timeS":731580},{"doy":149,"distM":2113391,"gainM":49359,"timeS":732660},{"doy":150,"distM":2169718,"gainM":50181,"timeS":741720},{"doy":151,"distM":2226527,"gainM":50989,"timeS":756720},{"doy":152,"distM":2256622,"gainM":51547,"timeS":766380},{"doy":153,"distM":2269980,"gainM":51853,"timeS":771060},{"doy":154,"distM":2280440,"gainM":52151,"timeS":774900},{"doy":155,"distM":2315846,"gainM":52563,"timeS":780240},{"doy":156,"distM":2334997,"gainM":52648,"timeS":785400},{"doy":158,"distM":2437512,"gainM":54517,"timeS":803880},{"doy":159,"distM":2529245,"gainM":55638,"timeS":820500},{"doy":160,"distM":2541798,"gainM":56693,"timeS":829680},{"doy":161,"distM":2635140,"gainM":57502,"timeS":842640},{"doy":162,"distM":2684547,"gainM":57856,"timeS":849840},{"doy":163,"distM":2697421,"gainM":59077,"timeS":859020},{"doy":164,"distM":2717377,"gainM":59791,"timeS":866760},{"doy":165,"distM":2780464,"gainM":60621,"timeS":876540},{"doy":166,"distM":2852240,"gainM":61711,"timeS":889860},{"doy":167,"distM":2866564,"gainM":62733,"timeS":897720},{"doy":168,"distM":2883301,"gainM":64002,"timeS":907740},{"doy":169,"distM":2926914,"gainM":64197,"timeS":916860},{"doy":170,"distM":2970366,"gainM":65071,"timeS":929280},{"doy":171,"distM":2984528,"gainM":66081,"timeS":936420},{"doy":172,"distM":2997564,"gainM":66125,"timeS":941460},{"doy":173,"distM":3036188,"gainM":66549,"timeS":949860},{"doy":174,"distM":3049063,"gainM":67608,"timeS":957300},{"doy":175,"distM":3081894,"gainM":68671,"timeS":965220},{"doy":176,"distM":3121323,"gainM":69346,"timeS":976020},{"doy":177,"distM":3132588,"gainM":69346,"timeS":979500},{"doy":178,"distM":3139025,"gainM":69499,"timeS":984900},{"doy":179,"distM":3167833,"gainM":70250,"timeS":997260},{"doy":180,"distM":3180868,"gainM":70440,"timeS":1004100},{"doy":181,"distM":3181834,"gainM":70484,"timeS":1004940},{"doy":182,"distM":3197767,"gainM":70607,"timeS":1009440},{"doy":183,"distM":3214665,"gainM":71774,"timeS":1018920},{"doy":184,"distM":3228183,"gainM":71830,"timeS":1024380},{"doy":185,"distM":3239127,"gainM":71874,"timeS":1028040},{"doy":186,"distM":3313317,"gainM":72647,"timeS":1040700},{"doy":187,"distM":3334883,"gainM":73967,"timeS":1052100},{"doy":189,"distM":3372380,"gainM":74065,"timeS":1059720},{"doy":190,"distM":3462021,"gainM":74938,"timeS":1073160},{"doy":191,"distM":3480689,"gainM":76669,"timeS":1086420},{"doy":192,"distM":3495817,"gainM":76855,"timeS":1092840},{"doy":193,"distM":3508692,"gainM":77174,"timeS":1097580},{"doy":194,"distM":3516095,"gainM":77806,"timeS":1107480},{"doy":195,"distM":3532993,"gainM":78099,"timeS":1113000},{"doy":196,"distM":3541683,"gainM":78438,"timeS":1116480},{"doy":197,"distM":3589642,"gainM":78969,"timeS":1125840},{"doy":198,"distM":3598010,"gainM":79113,"timeS":1128840},{"doy":199,"distM":3649831,"gainM":79456,"timeS":1136460},{"doy":200,"distM":3664476,"gainM":80661,"timeS":1143720},{"doy":201,"distM":3688295,"gainM":81701,"timeS":1155240},{"doy":202,"distM":3734000,"gainM":82715,"timeS":1164960},{"doy":203,"distM":3741564,"gainM":83081,"timeS":1167780},{"doy":204,"distM":3801592,"gainM":83569,"timeS":1180380},{"doy":205,"distM":3812858,"gainM":84169,"timeS":1185240},{"doy":206,"distM":3835389,"gainM":84769,"timeS":1193820},{"doy":207,"distM":3848102,"gainM":85882,"timeS":1202280},{"doy":208,"distM":3861943,"gainM":87037,"timeS":1212480},{"doy":209,"distM":3893486,"gainM":87206,"timeS":1218360},{"doy":210,"distM":3902015,"gainM":87558,"timeS":1221300},{"doy":211,"distM":3921328,"gainM":88896,"timeS":1236000},{"doy":212,"distM":3975402,"gainM":89301,"timeS":1242720},{"doy":213,"distM":3987954,"gainM":89936,"timeS":1248600},{"doy":214,"distM":4046535,"gainM":90537,"timeS":1258260},{"doy":215,"distM":4061019,"gainM":90865,"timeS":1263360},{"doy":216,"distM":4080009,"gainM":91659,"timeS":1272660},{"doy":218,"distM":4086285,"gainM":92033,"timeS":1277580},{"doy":219,"distM":4116058,"gainM":93653,"timeS":1301100},{"doy":220,"distM":4148245,"gainM":95549,"timeS":1327320},{"doy":221,"distM":4175926,"gainM":96897,"timeS":1349520},{"doy":222,"distM":4206342,"gainM":98866,"timeS":1375020},{"doy":223,"distM":4242392,"gainM":100303,"timeS":1401840},{"doy":224,"distM":4276993,"gainM":100563,"timeS":1407840},{"doy":225,"distM":4294213,"gainM":100835,"timeS":1413660},{"doy":226,"distM":4305800,"gainM":101507,"timeS":1418700},{"doy":227,"distM":4310628,"gainM":101542,"timeS":1424580},{"doy":228,"distM":4330423,"gainM":101703,"timeS":1430340},{"doy":229,"distM":4343941,"gainM":102957,"timeS":1442760},{"doy":230,"distM":4360035,"gainM":104365,"timeS":1451700},{"doy":231,"distM":4367599,"gainM":104567,"timeS":1454040},{"doy":232,"distM":4389647,"gainM":106978,"timeS":1474320},{"doy":233,"distM":4447744,"gainM":107276,"timeS":1484100},{"doy":234,"distM":4454825,"gainM":107324,"timeS":1486140},{"doy":235,"distM":4464642,"gainM":107568,"timeS":1489380},{"doy":237,"distM":4476390,"gainM":107611,"timeS":1493100},{"doy":238,"distM":4486368,"gainM":107674,"timeS":1494780},{"doy":239,"distM":4500530,"gainM":108505,"timeS":1501380},{"doy":240,"distM":4523222,"gainM":109404,"timeS":1510800},{"doy":241,"distM":4540442,"gainM":110430,"timeS":1519260},{"doy":242,"distM":4551708,"gainM":111011,"timeS":1525560},{"doy":244,"distM":4561042,"gainM":111578,"timeS":1530000},{"doy":245,"distM":4572146,"gainM":112073,"timeS":1534080},{"doy":246,"distM":4583573,"gainM":112444,"timeS":1537920},{"doy":247,"distM":4627830,"gainM":114013,"timeS":1569780},{"doy":248,"distM":4674018,"gainM":115670,"timeS":1604340},{"doy":249,"distM":4720689,"gainM":117035,"timeS":1636740},{"doy":250,"distM":4754968,"gainM":117824,"timeS":1659840},{"doy":251,"distM":4791500,"gainM":119594,"timeS":1685040},{"doy":252,"distM":4839941,"gainM":121185,"timeS":1719180},{"doy":253,"distM":4882750,"gainM":122417,"timeS":1752240},{"doy":255,"distM":4932157,"gainM":124643,"timeS":1789680},{"doy":256,"distM":4973034,"gainM":126620,"timeS":1820460},{"doy":257,"distM":5016325,"gainM":128294,"timeS":1852200},{"doy":258,"distM":5060582,"gainM":129623,"timeS":1882740},{"doy":259,"distM":5109667,"gainM":130916,"timeS":1918500},{"doy":260,"distM":5150705,"gainM":132255,"timeS":1948200},{"doy":261,"distM":5182892,"gainM":133713,"timeS":1974300},{"doy":263,"distM":5225218,"gainM":135599,"timeS":2004720},{"doy":264,"distM":5271245,"gainM":137354,"timeS":2040420},{"doy":266,"distM":5314859,"gainM":138958,"timeS":2071260},{"doy":267,"distM":5356058,"gainM":140341,"timeS":2101320},{"doy":268,"distM":5393234,"gainM":140953,"timeS":2127720},{"doy":269,"distM":5404177,"gainM":141416,"timeS":2131920},{"doy":271,"distM":5412224,"gainM":141459,"timeS":2134860},{"doy":273,"distM":5423972,"gainM":141843,"timeS":2139240},{"doy":275,"distM":5436525,"gainM":142480,"timeS":2144280},{"doy":276,"distM":5475632,"gainM":142994,"timeS":2151120},{"doy":277,"distM":5487380,"gainM":143282,"timeS":2155200},{"doy":278,"distM":5491243,"gainM":143421,"timeS":2157060},{"doy":279,"distM":5500094,"gainM":143743,"timeS":2160180},{"doy":280,"distM":5512003,"gainM":144067,"timeS":2164380},{"doy":281,"distM":5522786,"gainM":144113,"timeS":2167500},{"doy":282,"distM":5555455,"gainM":144809,"timeS":2179080},{"doy":283,"distM":5563180,"gainM":145215,"timeS":2182380},{"doy":284,"distM":5574446,"gainM":146184,"timeS":2191260},{"doy":285,"distM":5590539,"gainM":146950,"timeS":2198760},{"doy":286,"distM":5592309,"gainM":146950,"timeS":2200800},{"doy":287,"distM":5602609,"gainM":147793,"timeS":2206800},{"doy":288,"distM":5612748,"gainM":147881,"timeS":2209920},{"doy":289,"distM":5619990,"gainM":147918,"timeS":2215200},{"doy":290,"distM":5628681,"gainM":148201,"timeS":2218260},{"doy":291,"distM":5640107,"gainM":148355,"timeS":2222580},{"doy":292,"distM":5650246,"gainM":148406,"timeS":2225520},{"doy":293,"distM":5662477,"gainM":148766,"timeS":2229660},{"doy":294,"distM":5674547,"gainM":149617,"timeS":2236560},{"doy":295,"distM":5684847,"gainM":149963,"timeS":2240160},{"doy":296,"distM":5686617,"gainM":149963,"timeS":2242380},{"doy":297,"distM":5705929,"gainM":150665,"timeS":2249640},{"doy":298,"distM":5793960,"gainM":151293,"timeS":2263800},{"doy":300,"distM":5807640,"gainM":151515,"timeS":2267940},{"doy":301,"distM":5820997,"gainM":151986,"timeS":2272680},{"doy":302,"distM":5832585,"gainM":152410,"timeS":2276940},{"doy":303,"distM":5839022,"gainM":152895,"timeS":2280780},{"doy":304,"distM":5840792,"gainM":152895,"timeS":2283000},{"doy":305,"distM":5846103,"gainM":152979,"timeS":2285340},{"doy":306,"distM":5855598,"gainM":153386,"timeS":2288880},{"doy":307,"distM":5868956,"gainM":154390,"timeS":2296440},{"doy":308,"distM":5870726,"gainM":154390,"timeS":2298480},{"doy":309,"distM":5877646,"gainM":154494,"timeS":2300700},{"doy":310,"distM":5893740,"gainM":154982,"timeS":2306520},{"doy":311,"distM":5907258,"gainM":155175,"timeS":2310540},{"doy":312,"distM":5920455,"gainM":155443,"timeS":2315040},{"doy":314,"distM":5932525,"gainM":156254,"timeS":2320740},{"doy":315,"distM":5940732,"gainM":156532,"timeS":2323620},{"doy":316,"distM":5952803,"gainM":156609,"timeS":2327520},{"doy":317,"distM":5967448,"gainM":157016,"timeS":2332800},{"doy":318,"distM":5970344,"gainM":157077,"timeS":2334960},{"doy":319,"distM":5983541,"gainM":157505,"timeS":2339760},{"doy":320,"distM":5998025,"gainM":158571,"timeS":2353200},{"doy":321,"distM":6004945,"gainM":158571,"timeS":2355360},{"doy":322,"distM":6016693,"gainM":159021,"timeS":2359740},{"doy":323,"distM":6018786,"gainM":159021,"timeS":2361900},{"doy":325,"distM":6033913,"gainM":159328,"timeS":2366940},{"doy":326,"distM":6044052,"gainM":159674,"timeS":2370900},{"doy":327,"distM":6060629,"gainM":159973,"timeS":2376420},{"doy":328,"distM":6062560,"gainM":159973,"timeS":2378520},{"doy":329,"distM":6076722,"gainM":160440,"timeS":2382960},{"doy":331,"distM":6088631,"gainM":160839,"timeS":2387100},{"doy":332,"distM":6096356,"gainM":161201,"timeS":2394960},{"doy":333,"distM":6112610,"gainM":161721,"timeS":2401620},{"doy":334,"distM":6124680,"gainM":161997,"timeS":2405760},{"doy":335,"distM":6139969,"gainM":162441,"timeS":2411100},{"doy":336,"distM":6141740,"gainM":162441,"timeS":2413800},{"doy":337,"distM":6148982,"gainM":162441,"timeS":2416380},{"doy":339,"distM":6161856,"gainM":162780,"timeS":2420880},{"doy":340,"distM":6176662,"gainM":162942,"timeS":2425380},{"doy":341,"distM":6189537,"gainM":163227,"timeS":2429580},{"doy":343,"distM":6195009,"gainM":163619,"timeS":2434260},{"doy":346,"distM":6203377,"gainM":163924,"timeS":2437500},{"doy":347,"distM":6211746,"gainM":164748,"timeS":2446440},{"doy":348,"distM":6223172,"gainM":164993,"timeS":2450520},{"doy":349,"distM":6231219,"gainM":164993,"timeS":2453220},{"doy":350,"distM":6237978,"gainM":165248,"timeS":2456160},{"doy":354,"distM":6251980,"gainM":165475,"timeS":2460960},{"doy":355,"distM":6262601,"gainM":165821,"timeS":2464980},{"doy":356,"distM":6267429,"gainM":165965,"timeS":2466900},{"doy":359,"distM":6279660,"gainM":166101,"timeS":2471640},{"doy":361,"distM":6287868,"gainM":166370,"timeS":2474940},{"doy":363,"distM":6298490,"gainM":166595,"timeS":2478660},{"doy":364,"distM":6303961,"gainM":166755,"timeS":2480520}],"2026":[{"doy":1,"distM":7242,"gainM":273,"timeS":4980},{"doy":3,"distM":20117,"gainM":538,"timeS":9240},{"doy":4,"distM":30095,"gainM":630,"timeS":12480},{"doy":6,"distM":39268,"gainM":777,"timeS":15600},{"doy":9,"distM":45866,"gainM":870,"timeS":18000},{"doy":10,"distM":50533,"gainM":1174,"timeS":20640},{"doy":11,"distM":60511,"gainM":1418,"timeS":24180},{"doy":14,"distM":66949,"gainM":1697,"timeS":27360},{"doy":16,"distM":76444,"gainM":2113,"timeS":31320},{"doy":18,"distM":80950,"gainM":2477,"timeS":35700},{"doy":19,"distM":89962,"gainM":2772,"timeS":39000},{"doy":22,"distM":104446,"gainM":3242,"timeS":44400},{"doy":24,"distM":110401,"gainM":3484,"timeS":46800},{"doy":26,"distM":120379,"gainM":3794,"timeS":50400},{"doy":28,"distM":130035,"gainM":3898,"timeS":53640},{"doy":31,"distM":140979,"gainM":4254,"timeS":57780},{"doy":32,"distM":151278,"gainM":4328,"timeS":61140},{"doy":34,"distM":173487,"gainM":4328,"timeS":64080},{"doy":35,"distM":200041,"gainM":4328,"timeS":67680},{"doy":36,"distM":232228,"gainM":4328,"timeS":72060},{"doy":37,"distM":243011,"gainM":4444,"timeS":75420},{"doy":38,"distM":251058,"gainM":4561,"timeS":78060},{"doy":39,"distM":269243,"gainM":4834,"timeS":84060},{"doy":40,"distM":303361,"gainM":4834,"timeS":88860},{"doy":42,"distM":343112,"gainM":4834,"timeS":94260},{"doy":43,"distM":371598,"gainM":4834,"timeS":97860},{"doy":44,"distM":382380,"gainM":4907,"timeS":100800},{"doy":45,"distM":425028,"gainM":4907,"timeS":106200},{"doy":46,"distM":453513,"gainM":4907,"timeS":109800},{"doy":47,"distM":466871,"gainM":5015,"timeS":113580},{"doy":48,"distM":509518,"gainM":5015,"timeS":118980},{"doy":49,"distM":553614,"gainM":5015,"timeS":124980},{"doy":51,"distM":565684,"gainM":5155,"timeS":128820},{"doy":52,"distM":575340,"gainM":5248,"timeS":131820},{"doy":53,"distM":620724,"gainM":5282,"timeS":139860},{"doy":55,"distM":647761,"gainM":5282,"timeS":143460},{"doy":56,"distM":697812,"gainM":5282,"timeS":150240},{"doy":57,"distM":709882,"gainM":5369,"timeS":153960},{"doy":58,"distM":714710,"gainM":5408,"timeS":157260},{"doy":59,"distM":725331,"gainM":5716,"timeS":161160},{"doy":60,"distM":735470,"gainM":5787,"timeS":164160},{"doy":61,"distM":761703,"gainM":5787,"timeS":167580},{"doy":62,"distM":774577,"gainM":5902,"timeS":171240},{"doy":63,"distM":777152,"gainM":5927,"timeS":173220},{"doy":64,"distM":804350,"gainM":5927,"timeS":176700},{"doy":65,"distM":817386,"gainM":6088,"timeS":180540},{"doy":66,"distM":843135,"gainM":6088,"timeS":184140},{"doy":67,"distM":852791,"gainM":6206,"timeS":186900},{"doy":68,"distM":883691,"gainM":6233,"timeS":192660},{"doy":69,"distM":891898,"gainM":6326,"timeS":195060},{"doy":70,"distM":934546,"gainM":6359,"timeS":202800},{"doy":72,"distM":949352,"gainM":6838,"timeS":209160},{"doy":73,"distM":965606,"gainM":6970,"timeS":214080},{"doy":74,"distM":969469,"gainM":7032,"timeS":216780},{"doy":75,"distM":1000046,"gainM":7098,"timeS":223020},{"doy":76,"distM":1007288,"gainM":7150,"timeS":226560},{"doy":77,"distM":1043499,"gainM":7164,"timeS":232200},{"doy":78,"distM":1053638,"gainM":7251,"timeS":236520},{"doy":79,"distM":1065225,"gainM":7405,"timeS":239940},{"doy":80,"distM":1083571,"gainM":7829,"timeS":246600},{"doy":81,"distM":1088399,"gainM":7884,"timeS":250260},{"doy":82,"distM":1098377,"gainM":8008,"timeS":253380},{"doy":83,"distM":1109482,"gainM":8153,"timeS":256680},{"doy":84,"distM":1146175,"gainM":8185,"timeS":263460},{"doy":85,"distM":1156636,"gainM":8312,"timeS":267960},{"doy":86,"distM":1201536,"gainM":8345,"timeS":275580},{"doy":87,"distM":1219561,"gainM":8786,"timeS":281940},{"doy":88,"distM":1279107,"gainM":8825,"timeS":291600},{"doy":89,"distM":1292947,"gainM":8961,"timeS":297120},{"doy":90,"distM":1302442,"gainM":9329,"timeS":300300},{"doy":91,"distM":1315639,"gainM":9510,"timeS":304200},{"doy":93,"distM":1333181,"gainM":9730,"timeS":311280},{"doy":94,"distM":1389508,"gainM":9730,"timeS":318480},{"doy":95,"distM":1402382,"gainM":9849,"timeS":322200},{"doy":96,"distM":1441168,"gainM":9878,"timeS":329400},{"doy":97,"distM":1451950,"gainM":10151,"timeS":334860},{"doy":98,"distM":1463216,"gainM":10257,"timeS":338280},{"doy":99,"distM":1473515,"gainM":10298,"timeS":341400},{"doy":100,"distM":1483171,"gainM":10353,"timeS":344220},{"doy":102,"distM":1493632,"gainM":10414,"timeS":347340},{"doy":103,"distM":1506668,"gainM":10786,"timeS":351420},{"doy":105,"distM":1526141,"gainM":11056,"timeS":357480},{"doy":106,"distM":1534992,"gainM":11481,"timeS":360780},{"doy":107,"distM":1544970,"gainM":11706,"timeS":364020},{"doy":108,"distM":1552212,"gainM":11804,"timeS":366240},{"doy":110,"distM":1568306,"gainM":11889,"timeS":370680},{"doy":111,"distM":1575709,"gainM":11979,"timeS":372900},{"doy":112,"distM":1635415,"gainM":12007,"timeS":382620},{"doy":113,"distM":1648612,"gainM":12414,"timeS":387000},{"doy":114,"distM":1658590,"gainM":12536,"timeS":390120},{"doy":115,"distM":1668246,"gainM":12635,"timeS":393300},{"doy":116,"distM":1677902,"gainM":12712,"timeS":396300},{"doy":117,"distM":1690294,"gainM":12875,"timeS":401460},{"doy":118,"distM":1700755,"gainM":13207,"timeS":406080},{"doy":119,"distM":1750323,"gainM":13236,"timeS":414660},{"doy":120,"distM":1764807,"gainM":13382,"timeS":418920},{"doy":121,"distM":1773014,"gainM":13463,"timeS":421380},{"doy":122,"distM":1792326,"gainM":13921,"timeS":427680},{"doy":123,"distM":1857666,"gainM":14761,"timeS":436740},{"doy":124,"distM":1861206,"gainM":14798,"timeS":439080},{"doy":125,"distM":1877300,"gainM":14971,"timeS":444120},{"doy":126,"distM":1896773,"gainM":15041,"timeS":450000},{"doy":127,"distM":1906429,"gainM":15141,"timeS":452880},{"doy":128,"distM":1914958,"gainM":15234,"timeS":455700},{"doy":129,"distM":1928477,"gainM":15335,"timeS":459900},{"doy":130,"distM":1978528,"gainM":15335,"timeS":467100},{"doy":131,"distM":1999127,"gainM":15886,"timeS":475620},{"doy":132,"distM":2010714,"gainM":16186,"timeS":479460},{"doy":133,"distM":2023267,"gainM":16323,"timeS":485220},{"doy":135,"distM":2034050,"gainM":16417,"timeS":488460},{"doy":136,"distM":2049017,"gainM":16548,"timeS":493020},{"doy":137,"distM":2057064,"gainM":16644,"timeS":496980},{"doy":138,"distM":2060604,"gainM":16671,"timeS":499440},{"doy":139,"distM":2073479,"gainM":17005,"timeS":503880},{"doy":140,"distM":2089572,"gainM":17005,"timeS":506040},{"doy":141,"distM":2099711,"gainM":17094,"timeS":509160},{"doy":142,"distM":2110655,"gainM":17226,"timeS":512700},{"doy":143,"distM":2124495,"gainM":17414,"timeS":517200},{"doy":144,"distM":2137048,"gainM":17521,"timeS":520980},{"doy":146,"distM":2147670,"gainM":17682,"timeS":524640},{"doy":147,"distM":2161188,"gainM":18128,"timeS":529320},{"doy":148,"distM":2169396,"gainM":18231,"timeS":532320},{"doy":150,"distM":2184524,"gainM":18498,"timeS":536880},{"doy":151,"distM":2200617,"gainM":18742,"timeS":541800},{"doy":152,"distM":2203836,"gainM":18764,"timeS":544440},{"doy":153,"distM":2217193,"gainM":18875,"timeS":548220},{"doy":154,"distM":2227332,"gainM":18954,"timeS":552480},{"doy":155,"distM":2231034,"gainM":18983,"timeS":555060},{"doy":156,"distM":2245035,"gainM":19148,"timeS":561240},{"doy":158,"distM":2262577,"gainM":19864,"timeS":567660},{"doy":159,"distM":2275612,"gainM":21053,"timeS":577680},{"doy":160,"distM":2282050,"gainM":21174,"timeS":582540},{"doy":161,"distM":2289775,"gainM":21449,"timeS":585420},{"doy":162,"distM":2298143,"gainM":21910,"timeS":590760},{"doy":163,"distM":2314398,"gainM":22937,"timeS":599160}]}}
+{
+  "years": {
+    "2019": [
+      {
+        "doy": 319,
+        "distM": 6189,
+        "gainM": 52,
+        "timeS": 2191
+      },
+      {
+        "doy": 320,
+        "distM": 13137,
+        "gainM": 281,
+        "timeS": 7169
+      },
+      {
+        "doy": 328,
+        "distM": 15709,
+        "gainM": 301,
+        "timeS": 8248
+      },
+      {
+        "doy": 334,
+        "distM": 24294,
+        "gainM": 709,
+        "timeS": 16801
+      },
+      {
+        "doy": 341,
+        "distM": 32775,
+        "gainM": 996,
+        "timeS": 26806
+      },
+      {
+        "doy": 342,
+        "distM": 43214,
+        "gainM": 1285,
+        "timeS": 35476
+      },
+      {
+        "doy": 363,
+        "distM": 50100,
+        "gainM": 1586,
+        "timeS": 41410
+      }
+    ],
+    "2020": [
+      {
+        "doy": 54,
+        "distM": 4336,
+        "gainM": 136,
+        "timeS": 4240
+      },
+      {
+        "doy": 60,
+        "distM": 18589,
+        "gainM": 719,
+        "timeS": 16954
+      },
+      {
+        "doy": 63,
+        "distM": 47086,
+        "gainM": 2546,
+        "timeS": 45680
+      },
+      {
+        "doy": 66,
+        "distM": 52780,
+        "gainM": 2958,
+        "timeS": 50962
+      },
+      {
+        "doy": 67,
+        "distM": 60352,
+        "gainM": 3677,
+        "timeS": 59854
+      },
+      {
+        "doy": 71,
+        "distM": 66076,
+        "gainM": 4080,
+        "timeS": 64756
+      },
+      {
+        "doy": 72,
+        "distM": 72146,
+        "gainM": 4608,
+        "timeS": 71374
+      },
+      {
+        "doy": 74,
+        "distM": 78196,
+        "gainM": 4801,
+        "timeS": 76257
+      },
+      {
+        "doy": 75,
+        "distM": 90658,
+        "gainM": 5492,
+        "timeS": 90277
+      },
+      {
+        "doy": 77,
+        "distM": 96379,
+        "gainM": 5920,
+        "timeS": 95208
+      },
+      {
+        "doy": 78,
+        "distM": 107927,
+        "gainM": 6780,
+        "timeS": 104996
+      },
+      {
+        "doy": 79,
+        "distM": 113492,
+        "gainM": 7184,
+        "timeS": 111406
+      },
+      {
+        "doy": 80,
+        "distM": 121348,
+        "gainM": 7429,
+        "timeS": 120404
+      },
+      {
+        "doy": 83,
+        "distM": 134120,
+        "gainM": 7923,
+        "timeS": 129608
+      },
+      {
+        "doy": 86,
+        "distM": 146779,
+        "gainM": 9048,
+        "timeS": 145505
+      },
+      {
+        "doy": 91,
+        "distM": 152230,
+        "gainM": 9448,
+        "timeS": 150306
+      },
+      {
+        "doy": 93,
+        "distM": 156744,
+        "gainM": 9859,
+        "timeS": 154746
+      },
+      {
+        "doy": 100,
+        "distM": 186581,
+        "gainM": 11688,
+        "timeS": 180536
+      },
+      {
+        "doy": 118,
+        "distM": 192828,
+        "gainM": 12066,
+        "timeS": 182210
+      },
+      {
+        "doy": 130,
+        "distM": 227332,
+        "gainM": 12548,
+        "timeS": 188251
+      },
+      {
+        "doy": 138,
+        "distM": 257352,
+        "gainM": 13016,
+        "timeS": 193372
+      },
+      {
+        "doy": 144,
+        "distM": 263542,
+        "gainM": 13992,
+        "timeS": 201183
+      },
+      {
+        "doy": 150,
+        "distM": 279409,
+        "gainM": 15279,
+        "timeS": 219660
+      },
+      {
+        "doy": 202,
+        "distM": 285989,
+        "gainM": 15640,
+        "timeS": 224206
+      },
+      {
+        "doy": 204,
+        "distM": 294182,
+        "gainM": 16309,
+        "timeS": 232897
+      },
+      {
+        "doy": 209,
+        "distM": 302025,
+        "gainM": 16686,
+        "timeS": 237731
+      }
+    ],
+    "2021": [
+      {
+        "doy": 149,
+        "distM": 18825,
+        "gainM": 1152,
+        "timeS": 22416
+      },
+      {
+        "doy": 153,
+        "distM": 28091,
+        "gainM": 1911,
+        "timeS": 32234
+      },
+      {
+        "doy": 154,
+        "distM": 33029,
+        "gainM": 2241,
+        "timeS": 37412
+      },
+      {
+        "doy": 157,
+        "distM": 45598,
+        "gainM": 3082,
+        "timeS": 52217
+      },
+      {
+        "doy": 161,
+        "distM": 54678,
+        "gainM": 3819,
+        "timeS": 62727
+      },
+      {
+        "doy": 165,
+        "distM": 65134,
+        "gainM": 4509,
+        "timeS": 75400
+      },
+      {
+        "doy": 166,
+        "distM": 72365,
+        "gainM": 4991,
+        "timeS": 84181
+      },
+      {
+        "doy": 174,
+        "distM": 79336,
+        "gainM": 5446,
+        "timeS": 91601
+      },
+      {
+        "doy": 178,
+        "distM": 84678,
+        "gainM": 5831,
+        "timeS": 96229
+      },
+      {
+        "doy": 179,
+        "distM": 93718,
+        "gainM": 6710,
+        "timeS": 106726
+      },
+      {
+        "doy": 180,
+        "distM": 98909,
+        "gainM": 7076,
+        "timeS": 110895
+      },
+      {
+        "doy": 181,
+        "distM": 108225,
+        "gainM": 7783,
+        "timeS": 120000
+      },
+      {
+        "doy": 183,
+        "distM": 117881,
+        "gainM": 8350,
+        "timeS": 129886
+      },
+      {
+        "doy": 186,
+        "distM": 128821,
+        "gainM": 9125,
+        "timeS": 144003
+      },
+      {
+        "doy": 189,
+        "distM": 145174,
+        "gainM": 10768,
+        "timeS": 168259
+      },
+      {
+        "doy": 217,
+        "distM": 149901,
+        "gainM": 11141,
+        "timeS": 173160
+      },
+      {
+        "doy": 218,
+        "distM": 154130,
+        "gainM": 11502,
+        "timeS": 177097
+      },
+      {
+        "doy": 236,
+        "distM": 159429,
+        "gainM": 11860,
+        "timeS": 181581
+      },
+      {
+        "doy": 237,
+        "distM": 164579,
+        "gainM": 12220,
+        "timeS": 185279
+      },
+      {
+        "doy": 238,
+        "distM": 172516,
+        "gainM": 12882,
+        "timeS": 193076
+      },
+      {
+        "doy": 240,
+        "distM": 187213,
+        "gainM": 13936,
+        "timeS": 210357
+      },
+      {
+        "doy": 242,
+        "distM": 193033,
+        "gainM": 14319,
+        "timeS": 216258
+      },
+      {
+        "doy": 243,
+        "distM": 198755,
+        "gainM": 14674,
+        "timeS": 221568
+      },
+      {
+        "doy": 265,
+        "distM": 212825,
+        "gainM": 15535,
+        "timeS": 233233
+      },
+      {
+        "doy": 266,
+        "distM": 218170,
+        "gainM": 15903,
+        "timeS": 237907
+      },
+      {
+        "doy": 267,
+        "distM": 226427,
+        "gainM": 16664,
+        "timeS": 247235
+      },
+      {
+        "doy": 271,
+        "distM": 234711,
+        "gainM": 17527,
+        "timeS": 255676
+      },
+      {
+        "doy": 274,
+        "distM": 239954,
+        "gainM": 17909,
+        "timeS": 260063
+      },
+      {
+        "doy": 291,
+        "distM": 245273,
+        "gainM": 18293,
+        "timeS": 264711
+      },
+      {
+        "doy": 364,
+        "distM": 248670,
+        "gainM": 18579,
+        "timeS": 267592
+      }
+    ],
+    "2022": [
+      {
+        "doy": 37,
+        "distM": 16075,
+        "gainM": 623,
+        "timeS": 13129
+      },
+      {
+        "doy": 43,
+        "distM": 36392,
+        "gainM": 1126,
+        "timeS": 22818
+      },
+      {
+        "doy": 296,
+        "distM": 44478,
+        "gainM": 1932,
+        "timeS": 31885
+      },
+      {
+        "doy": 302,
+        "distM": 56275,
+        "gainM": 2551,
+        "timeS": 41475
+      },
+      {
+        "doy": 303,
+        "distM": 59870,
+        "gainM": 2777,
+        "timeS": 44397
+      },
+      {
+        "doy": 315,
+        "distM": 72233,
+        "gainM": 3517,
+        "timeS": 55386
+      },
+      {
+        "doy": 316,
+        "distM": 78693,
+        "gainM": 3799,
+        "timeS": 61020
+      }
+    ],
+    "2023": [
+      {
+        "doy": 9,
+        "distM": 3985,
+        "gainM": 276,
+        "timeS": 3258
+      },
+      {
+        "doy": 10,
+        "distM": 10643,
+        "gainM": 927,
+        "timeS": 9048
+      },
+      {
+        "doy": 11,
+        "distM": 17122,
+        "gainM": 1539,
+        "timeS": 14324
+      },
+      {
+        "doy": 12,
+        "distM": 23595,
+        "gainM": 2135,
+        "timeS": 19448
+      },
+      {
+        "doy": 13,
+        "distM": 27196,
+        "gainM": 2443,
+        "timeS": 22281
+      },
+      {
+        "doy": 16,
+        "distM": 34752,
+        "gainM": 2850,
+        "timeS": 29256
+      },
+      {
+        "doy": 17,
+        "distM": 41248,
+        "gainM": 3422,
+        "timeS": 34159
+      },
+      {
+        "doy": 19,
+        "distM": 47763,
+        "gainM": 4017,
+        "timeS": 38885
+      },
+      {
+        "doy": 20,
+        "distM": 54064,
+        "gainM": 4595,
+        "timeS": 43796
+      },
+      {
+        "doy": 22,
+        "distM": 63894,
+        "gainM": 5314,
+        "timeS": 50658
+      },
+      {
+        "doy": 23,
+        "distM": 70280,
+        "gainM": 5895,
+        "timeS": 55438
+      },
+      {
+        "doy": 24,
+        "distM": 76649,
+        "gainM": 6478,
+        "timeS": 60309
+      },
+      {
+        "doy": 25,
+        "distM": 83033,
+        "gainM": 7061,
+        "timeS": 65396
+      },
+      {
+        "doy": 27,
+        "distM": 89431,
+        "gainM": 7675,
+        "timeS": 70324
+      },
+      {
+        "doy": 30,
+        "distM": 92752,
+        "gainM": 7971,
+        "timeS": 72945
+      },
+      {
+        "doy": 31,
+        "distM": 99213,
+        "gainM": 8575,
+        "timeS": 78097
+      },
+      {
+        "doy": 32,
+        "distM": 106098,
+        "gainM": 8859,
+        "timeS": 84100
+      },
+      {
+        "doy": 33,
+        "distM": 112007,
+        "gainM": 9351,
+        "timeS": 88456
+      },
+      {
+        "doy": 34,
+        "distM": 118535,
+        "gainM": 9935,
+        "timeS": 93765
+      },
+      {
+        "doy": 35,
+        "distM": 126429,
+        "gainM": 10190,
+        "timeS": 99971
+      },
+      {
+        "doy": 36,
+        "distM": 137955,
+        "gainM": 11394,
+        "timeS": 115012
+      },
+      {
+        "doy": 38,
+        "distM": 144314,
+        "gainM": 11969,
+        "timeS": 119983
+      },
+      {
+        "doy": 39,
+        "distM": 150748,
+        "gainM": 12573,
+        "timeS": 124991
+      },
+      {
+        "doy": 40,
+        "distM": 157102,
+        "gainM": 13154,
+        "timeS": 130109
+      },
+      {
+        "doy": 44,
+        "distM": 160427,
+        "gainM": 13452,
+        "timeS": 132673
+      },
+      {
+        "doy": 45,
+        "distM": 167973,
+        "gainM": 13753,
+        "timeS": 137950
+      },
+      {
+        "doy": 47,
+        "distM": 174323,
+        "gainM": 14336,
+        "timeS": 143150
+      },
+      {
+        "doy": 48,
+        "distM": 180727,
+        "gainM": 14919,
+        "timeS": 148619
+      },
+      {
+        "doy": 52,
+        "distM": 184083,
+        "gainM": 15270,
+        "timeS": 151351
+      },
+      {
+        "doy": 53,
+        "distM": 190722,
+        "gainM": 15864,
+        "timeS": 156610
+      },
+      {
+        "doy": 56,
+        "distM": 192522,
+        "gainM": 16112,
+        "timeS": 159180
+      },
+      {
+        "doy": 57,
+        "distM": 201619,
+        "gainM": 16787,
+        "timeS": 169477
+      },
+      {
+        "doy": 63,
+        "distM": 213207,
+        "gainM": 17274,
+        "timeS": 183138
+      },
+      {
+        "doy": 64,
+        "distM": 223401,
+        "gainM": 17739,
+        "timeS": 194260
+      },
+      {
+        "doy": 65,
+        "distM": 229666,
+        "gainM": 18314,
+        "timeS": 198677
+      },
+      {
+        "doy": 66,
+        "distM": 236026,
+        "gainM": 18623,
+        "timeS": 204179
+      },
+      {
+        "doy": 67,
+        "distM": 242418,
+        "gainM": 19200,
+        "timeS": 209055
+      },
+      {
+        "doy": 68,
+        "distM": 249136,
+        "gainM": 19799,
+        "timeS": 214178
+      },
+      {
+        "doy": 69,
+        "distM": 252568,
+        "gainM": 20110,
+        "timeS": 217112
+      },
+      {
+        "doy": 70,
+        "distM": 259743,
+        "gainM": 20627,
+        "timeS": 222848
+      },
+      {
+        "doy": 72,
+        "distM": 263085,
+        "gainM": 20922,
+        "timeS": 225233
+      },
+      {
+        "doy": 73,
+        "distM": 269435,
+        "gainM": 21532,
+        "timeS": 230452
+      },
+      {
+        "doy": 75,
+        "distM": 272584,
+        "gainM": 21829,
+        "timeS": 232832
+      },
+      {
+        "doy": 76,
+        "distM": 278979,
+        "gainM": 22411,
+        "timeS": 238040
+      },
+      {
+        "doy": 82,
+        "distM": 285443,
+        "gainM": 23005,
+        "timeS": 243600
+      },
+      {
+        "doy": 83,
+        "distM": 291736,
+        "gainM": 23585,
+        "timeS": 248353
+      },
+      {
+        "doy": 86,
+        "distM": 298020,
+        "gainM": 24172,
+        "timeS": 253092
+      },
+      {
+        "doy": 88,
+        "distM": 304740,
+        "gainM": 24749,
+        "timeS": 257706
+      },
+      {
+        "doy": 89,
+        "distM": 311100,
+        "gainM": 25327,
+        "timeS": 262431
+      },
+      {
+        "doy": 93,
+        "distM": 317428,
+        "gainM": 25915,
+        "timeS": 266822
+      },
+      {
+        "doy": 95,
+        "distM": 323742,
+        "gainM": 26494,
+        "timeS": 271828
+      },
+      {
+        "doy": 96,
+        "distM": 329952,
+        "gainM": 27070,
+        "timeS": 275845
+      },
+      {
+        "doy": 97,
+        "distM": 339696,
+        "gainM": 27923,
+        "timeS": 282243
+      },
+      {
+        "doy": 100,
+        "distM": 349319,
+        "gainM": 28788,
+        "timeS": 288787
+      },
+      {
+        "doy": 101,
+        "distM": 359312,
+        "gainM": 29705,
+        "timeS": 295456
+      },
+      {
+        "doy": 102,
+        "distM": 368960,
+        "gainM": 30571,
+        "timeS": 302481
+      },
+      {
+        "doy": 103,
+        "distM": 378613,
+        "gainM": 31449,
+        "timeS": 308934
+      },
+      {
+        "doy": 109,
+        "distM": 386328,
+        "gainM": 31890,
+        "timeS": 315582
+      },
+      {
+        "doy": 110,
+        "distM": 389923,
+        "gainM": 32296,
+        "timeS": 319825
+      },
+      {
+        "doy": 112,
+        "distM": 399685,
+        "gainM": 32932,
+        "timeS": 328614
+      },
+      {
+        "doy": 121,
+        "distM": 410380,
+        "gainM": 33791,
+        "timeS": 337130
+      },
+      {
+        "doy": 125,
+        "distM": 421680,
+        "gainM": 34090,
+        "timeS": 339134
+      },
+      {
+        "doy": 126,
+        "distM": 423150,
+        "gainM": 34256,
+        "timeS": 340494
+      },
+      {
+        "doy": 127,
+        "distM": 438935,
+        "gainM": 35470,
+        "timeS": 352085
+      },
+      {
+        "doy": 128,
+        "distM": 449425,
+        "gainM": 36325,
+        "timeS": 360447
+      },
+      {
+        "doy": 130,
+        "distM": 464557,
+        "gainM": 36824,
+        "timeS": 363375
+      },
+      {
+        "doy": 131,
+        "distM": 483931,
+        "gainM": 37365,
+        "timeS": 367665
+      },
+      {
+        "doy": 133,
+        "distM": 493634,
+        "gainM": 38124,
+        "timeS": 383346
+      },
+      {
+        "doy": 136,
+        "distM": 503954,
+        "gainM": 38979,
+        "timeS": 392007
+      },
+      {
+        "doy": 137,
+        "distM": 503954,
+        "gainM": 38979,
+        "timeS": 399207
+      },
+      {
+        "doy": 138,
+        "distM": 527601,
+        "gainM": 39644,
+        "timeS": 404182
+      },
+      {
+        "doy": 140,
+        "distM": 549966,
+        "gainM": 40816,
+        "timeS": 419858
+      },
+      {
+        "doy": 145,
+        "distM": 560967,
+        "gainM": 42074,
+        "timeS": 434893
+      },
+      {
+        "doy": 148,
+        "distM": 566980,
+        "gainM": 43545,
+        "timeS": 448602
+      },
+      {
+        "doy": 150,
+        "distM": 575195,
+        "gainM": 44861,
+        "timeS": 465927
+      },
+      {
+        "doy": 151,
+        "distM": 576868,
+        "gainM": 45380,
+        "timeS": 471014
+      },
+      {
+        "doy": 152,
+        "distM": 585546,
+        "gainM": 46439,
+        "timeS": 489931
+      },
+      {
+        "doy": 153,
+        "distM": 594028,
+        "gainM": 46476,
+        "timeS": 500740
+      },
+      {
+        "doy": 154,
+        "distM": 602084,
+        "gainM": 46489,
+        "timeS": 503588
+      },
+      {
+        "doy": 156,
+        "distM": 603057,
+        "gainM": 46494,
+        "timeS": 503897
+      },
+      {
+        "doy": 160,
+        "distM": 613205,
+        "gainM": 47353,
+        "timeS": 510525
+      },
+      {
+        "doy": 161,
+        "distM": 636691,
+        "gainM": 47995,
+        "timeS": 515999
+      },
+      {
+        "doy": 162,
+        "distM": 646333,
+        "gainM": 48969,
+        "timeS": 528715
+      },
+      {
+        "doy": 163,
+        "distM": 656548,
+        "gainM": 49825,
+        "timeS": 535599
+      },
+      {
+        "doy": 164,
+        "distM": 666847,
+        "gainM": 50682,
+        "timeS": 542817
+      },
+      {
+        "doy": 165,
+        "distM": 677108,
+        "gainM": 51538,
+        "timeS": 549688
+      },
+      {
+        "doy": 166,
+        "distM": 691720,
+        "gainM": 52159,
+        "timeS": 555877
+      },
+      {
+        "doy": 167,
+        "distM": 706714,
+        "gainM": 53159,
+        "timeS": 564971
+      },
+      {
+        "doy": 169,
+        "distM": 720247,
+        "gainM": 54171,
+        "timeS": 573644
+      },
+      {
+        "doy": 170,
+        "distM": 738238,
+        "gainM": 55651,
+        "timeS": 593837
+      },
+      {
+        "doy": 173,
+        "distM": 752333,
+        "gainM": 56711,
+        "timeS": 602899
+      },
+      {
+        "doy": 176,
+        "distM": 776262,
+        "gainM": 58448,
+        "timeS": 627454
+      },
+      {
+        "doy": 177,
+        "distM": 786540,
+        "gainM": 59299,
+        "timeS": 634919
+      },
+      {
+        "doy": 178,
+        "distM": 796250,
+        "gainM": 59517,
+        "timeS": 636964
+      },
+      {
+        "doy": 179,
+        "distM": 806387,
+        "gainM": 60370,
+        "timeS": 643897
+      },
+      {
+        "doy": 181,
+        "distM": 814557,
+        "gainM": 60412,
+        "timeS": 646787
+      },
+      {
+        "doy": 187,
+        "distM": 824869,
+        "gainM": 60468,
+        "timeS": 650391
+      },
+      {
+        "doy": 188,
+        "distM": 830630,
+        "gainM": 60534,
+        "timeS": 652357
+      },
+      {
+        "doy": 189,
+        "distM": 839551,
+        "gainM": 60622,
+        "timeS": 654374
+      },
+      {
+        "doy": 190,
+        "distM": 861496,
+        "gainM": 61965,
+        "timeS": 680677
+      },
+      {
+        "doy": 191,
+        "distM": 867618,
+        "gainM": 62026,
+        "timeS": 681875
+      },
+      {
+        "doy": 192,
+        "distM": 877500,
+        "gainM": 62152,
+        "timeS": 683934
+      },
+      {
+        "doy": 193,
+        "distM": 893847,
+        "gainM": 63074,
+        "timeS": 691466
+      },
+      {
+        "doy": 194,
+        "distM": 900234,
+        "gainM": 63138,
+        "timeS": 692572
+      },
+      {
+        "doy": 195,
+        "distM": 917116,
+        "gainM": 63241,
+        "timeS": 695220
+      },
+      {
+        "doy": 196,
+        "distM": 935788,
+        "gainM": 65061,
+        "timeS": 719537
+      },
+      {
+        "doy": 197,
+        "distM": 942359,
+        "gainM": 65125,
+        "timeS": 720877
+      },
+      {
+        "doy": 198,
+        "distM": 952354,
+        "gainM": 65244,
+        "timeS": 724698
+      },
+      {
+        "doy": 199,
+        "distM": 980730,
+        "gainM": 66062,
+        "timeS": 733722
+      },
+      {
+        "doy": 200,
+        "distM": 992810,
+        "gainM": 66430,
+        "timeS": 739153
+      },
+      {
+        "doy": 201,
+        "distM": 998798,
+        "gainM": 66496,
+        "timeS": 740227
+      },
+      {
+        "doy": 202,
+        "distM": 1009295,
+        "gainM": 66575,
+        "timeS": 743722
+      },
+      {
+        "doy": 203,
+        "distM": 1044157,
+        "gainM": 68240,
+        "timeS": 765401
+      },
+      {
+        "doy": 205,
+        "distM": 1086935,
+        "gainM": 68703,
+        "timeS": 772795
+      },
+      {
+        "doy": 206,
+        "distM": 1106244,
+        "gainM": 68874,
+        "timeS": 776132
+      },
+      {
+        "doy": 207,
+        "distM": 1134426,
+        "gainM": 69505,
+        "timeS": 781202
+      },
+      {
+        "doy": 208,
+        "distM": 1134426,
+        "gainM": 69505,
+        "timeS": 784802
+      },
+      {
+        "doy": 209,
+        "distM": 1170615,
+        "gainM": 70486,
+        "timeS": 792867
+      },
+      {
+        "doy": 210,
+        "distM": 1186705,
+        "gainM": 70574,
+        "timeS": 795571
+      },
+      {
+        "doy": 215,
+        "distM": 1218772,
+        "gainM": 72231,
+        "timeS": 826172
+      },
+      {
+        "doy": 217,
+        "distM": 1294534,
+        "gainM": 73889,
+        "timeS": 839064
+      },
+      {
+        "doy": 218,
+        "distM": 1322020,
+        "gainM": 74902,
+        "timeS": 852165
+      },
+      {
+        "doy": 219,
+        "distM": 1362470,
+        "gainM": 75339,
+        "timeS": 867641
+      },
+      {
+        "doy": 220,
+        "distM": 1378742,
+        "gainM": 76075,
+        "timeS": 876674
+      },
+      {
+        "doy": 222,
+        "distM": 1379223,
+        "gainM": 76095,
+        "timeS": 888158
+      },
+      {
+        "doy": 224,
+        "distM": 1410989,
+        "gainM": 78538,
+        "timeS": 914253
+      },
+      {
+        "doy": 226,
+        "distM": 1424092,
+        "gainM": 78656,
+        "timeS": 918855
+      },
+      {
+        "doy": 228,
+        "distM": 1429374,
+        "gainM": 78718,
+        "timeS": 920626
+      },
+      {
+        "doy": 229,
+        "distM": 1439456,
+        "gainM": 79806,
+        "timeS": 929716
+      },
+      {
+        "doy": 230,
+        "distM": 1454296,
+        "gainM": 80308,
+        "timeS": 937912
+      },
+      {
+        "doy": 231,
+        "distM": 1544085,
+        "gainM": 81710,
+        "timeS": 956279
+      },
+      {
+        "doy": 232,
+        "distM": 1561807,
+        "gainM": 82720,
+        "timeS": 974375
+      },
+      {
+        "doy": 233,
+        "distM": 1572629,
+        "gainM": 82847,
+        "timeS": 978264
+      },
+      {
+        "doy": 234,
+        "distM": 1605374,
+        "gainM": 83678,
+        "timeS": 984397
+      },
+      {
+        "doy": 235,
+        "distM": 1618267,
+        "gainM": 83786,
+        "timeS": 988924
+      },
+      {
+        "doy": 236,
+        "distM": 1637314,
+        "gainM": 84388,
+        "timeS": 999202
+      },
+      {
+        "doy": 238,
+        "distM": 1671173,
+        "gainM": 84821,
+        "timeS": 1005265
+      },
+      {
+        "doy": 239,
+        "distM": 1707390,
+        "gainM": 85136,
+        "timeS": 1021246
+      },
+      {
+        "doy": 241,
+        "distM": 1747163,
+        "gainM": 85994,
+        "timeS": 1027909
+      },
+      {
+        "doy": 242,
+        "distM": 1764516,
+        "gainM": 87267,
+        "timeS": 1040831
+      },
+      {
+        "doy": 243,
+        "distM": 1774622,
+        "gainM": 87367,
+        "timeS": 1044624
+      },
+      {
+        "doy": 244,
+        "distM": 1792674,
+        "gainM": 87815,
+        "timeS": 1047884
+      },
+      {
+        "doy": 246,
+        "distM": 1880399,
+        "gainM": 91039,
+        "timeS": 1080496
+      },
+      {
+        "doy": 248,
+        "distM": 1908705,
+        "gainM": 91731,
+        "timeS": 1085251
+      },
+      {
+        "doy": 249,
+        "distM": 1941480,
+        "gainM": 92585,
+        "timeS": 1091529
+      },
+      {
+        "doy": 252,
+        "distM": 1963328,
+        "gainM": 93036,
+        "timeS": 1099215
+      },
+      {
+        "doy": 253,
+        "distM": 1994398,
+        "gainM": 93492,
+        "timeS": 1105003
+      },
+      {
+        "doy": 254,
+        "distM": 2001320,
+        "gainM": 93587,
+        "timeS": 1106157
+      },
+      {
+        "doy": 255,
+        "distM": 2011386,
+        "gainM": 93694,
+        "timeS": 1109259
+      },
+      {
+        "doy": 257,
+        "distM": 2021768,
+        "gainM": 94542,
+        "timeS": 1115550
+      },
+      {
+        "doy": 260,
+        "distM": 2167012,
+        "gainM": 98011,
+        "timeS": 1155169
+      },
+      {
+        "doy": 261,
+        "distM": 2173259,
+        "gainM": 98099,
+        "timeS": 1157357
+      },
+      {
+        "doy": 263,
+        "distM": 2219714,
+        "gainM": 98525,
+        "timeS": 1165444
+      },
+      {
+        "doy": 264,
+        "distM": 2229244,
+        "gainM": 98687,
+        "timeS": 1168888
+      },
+      {
+        "doy": 266,
+        "distM": 2293611,
+        "gainM": 100284,
+        "timeS": 1188759
+      },
+      {
+        "doy": 267,
+        "distM": 2312520,
+        "gainM": 101340,
+        "timeS": 1214584
+      },
+      {
+        "doy": 268,
+        "distM": 2318444,
+        "gainM": 101400,
+        "timeS": 1215539
+      },
+      {
+        "doy": 270,
+        "distM": 2324483,
+        "gainM": 101462,
+        "timeS": 1216578
+      },
+      {
+        "doy": 271,
+        "distM": 2334516,
+        "gainM": 101565,
+        "timeS": 1219694
+      },
+      {
+        "doy": 273,
+        "distM": 2344182,
+        "gainM": 101790,
+        "timeS": 1222953
+      },
+      {
+        "doy": 274,
+        "distM": 2355535,
+        "gainM": 101944,
+        "timeS": 1226661
+      },
+      {
+        "doy": 275,
+        "distM": 2355535,
+        "gainM": 101944,
+        "timeS": 1233861
+      },
+      {
+        "doy": 277,
+        "distM": 2365558,
+        "gainM": 102036,
+        "timeS": 1237034
+      },
+      {
+        "doy": 278,
+        "distM": 2381777,
+        "gainM": 102466,
+        "timeS": 1239646
+      },
+      {
+        "doy": 279,
+        "distM": 2392152,
+        "gainM": 103331,
+        "timeS": 1245463
+      },
+      {
+        "doy": 280,
+        "distM": 2441167,
+        "gainM": 103654,
+        "timeS": 1258770
+      },
+      {
+        "doy": 281,
+        "distM": 2555934,
+        "gainM": 104622,
+        "timeS": 1272615
+      },
+      {
+        "doy": 283,
+        "distM": 2572067,
+        "gainM": 105363,
+        "timeS": 1281407
+      },
+      {
+        "doy": 284,
+        "distM": 2588855,
+        "gainM": 105586,
+        "timeS": 1288405
+      },
+      {
+        "doy": 285,
+        "distM": 2594686,
+        "gainM": 105905,
+        "timeS": 1291481
+      },
+      {
+        "doy": 286,
+        "distM": 2644449,
+        "gainM": 107478,
+        "timeS": 1303449
+      },
+      {
+        "doy": 287,
+        "distM": 2652878,
+        "gainM": 108306,
+        "timeS": 1312892
+      },
+      {
+        "doy": 288,
+        "distM": 2656403,
+        "gainM": 108357,
+        "timeS": 1314170
+      },
+      {
+        "doy": 290,
+        "distM": 2666445,
+        "gainM": 108449,
+        "timeS": 1317334
+      },
+      {
+        "doy": 291,
+        "distM": 2673781,
+        "gainM": 108546,
+        "timeS": 1318684
+      },
+      {
+        "doy": 292,
+        "distM": 2679975,
+        "gainM": 108962,
+        "timeS": 1322001
+      },
+      {
+        "doy": 293,
+        "distM": 2719671,
+        "gainM": 109616,
+        "timeS": 1329952
+      },
+      {
+        "doy": 294,
+        "distM": 2744462,
+        "gainM": 109922,
+        "timeS": 1340214
+      },
+      {
+        "doy": 297,
+        "distM": 2755066,
+        "gainM": 109962,
+        "timeS": 1343479
+      },
+      {
+        "doy": 298,
+        "distM": 2763118,
+        "gainM": 110160,
+        "timeS": 1346813
+      },
+      {
+        "doy": 299,
+        "distM": 2772356,
+        "gainM": 110975,
+        "timeS": 1353065
+      },
+      {
+        "doy": 301,
+        "distM": 2794971,
+        "gainM": 111135,
+        "timeS": 1360694
+      },
+      {
+        "doy": 302,
+        "distM": 2811494,
+        "gainM": 111213,
+        "timeS": 1366998
+      },
+      {
+        "doy": 303,
+        "distM": 2824495,
+        "gainM": 111669,
+        "timeS": 1372104
+      },
+      {
+        "doy": 305,
+        "distM": 2837213,
+        "gainM": 111906,
+        "timeS": 1376876
+      },
+      {
+        "doy": 306,
+        "distM": 2845092,
+        "gainM": 112734,
+        "timeS": 1382600
+      },
+      {
+        "doy": 309,
+        "distM": 3026662,
+        "gainM": 114300,
+        "timeS": 1407581
+      },
+      {
+        "doy": 311,
+        "distM": 3032565,
+        "gainM": 114946,
+        "timeS": 1411192
+      },
+      {
+        "doy": 312,
+        "distM": 3041387,
+        "gainM": 115102,
+        "timeS": 1414173
+      },
+      {
+        "doy": 314,
+        "distM": 3042338,
+        "gainM": 115313,
+        "timeS": 1415057
+      },
+      {
+        "doy": 315,
+        "distM": 3053849,
+        "gainM": 115738,
+        "timeS": 1423239
+      },
+      {
+        "doy": 316,
+        "distM": 3078752,
+        "gainM": 117214,
+        "timeS": 1437361
+      },
+      {
+        "doy": 318,
+        "distM": 3088779,
+        "gainM": 117316,
+        "timeS": 1440420
+      },
+      {
+        "doy": 319,
+        "distM": 3093911,
+        "gainM": 117345,
+        "timeS": 1442111
+      },
+      {
+        "doy": 320,
+        "distM": 3118586,
+        "gainM": 118362,
+        "timeS": 1449959
+      },
+      {
+        "doy": 321,
+        "distM": 3122629,
+        "gainM": 118458,
+        "timeS": 1450831
+      },
+      {
+        "doy": 322,
+        "distM": 3130961,
+        "gainM": 119316,
+        "timeS": 1456489
+      },
+      {
+        "doy": 323,
+        "distM": 3150268,
+        "gainM": 119885,
+        "timeS": 1462405
+      },
+      {
+        "doy": 325,
+        "distM": 3157590,
+        "gainM": 120596,
+        "timeS": 1466268
+      },
+      {
+        "doy": 326,
+        "distM": 3168976,
+        "gainM": 120813,
+        "timeS": 1470138
+      },
+      {
+        "doy": 327,
+        "distM": 3185256,
+        "gainM": 121245,
+        "timeS": 1480559
+      },
+      {
+        "doy": 328,
+        "distM": 3190745,
+        "gainM": 121501,
+        "timeS": 1485187
+      },
+      {
+        "doy": 329,
+        "distM": 3193869,
+        "gainM": 121568,
+        "timeS": 1488368
+      },
+      {
+        "doy": 330,
+        "distM": 3226125,
+        "gainM": 121752,
+        "timeS": 1499041
+      },
+      {
+        "doy": 331,
+        "distM": 3246075,
+        "gainM": 121878,
+        "timeS": 1506455
+      },
+      {
+        "doy": 336,
+        "distM": 3265779,
+        "gainM": 123263,
+        "timeS": 1517251
+      },
+      {
+        "doy": 337,
+        "distM": 3282531,
+        "gainM": 124416,
+        "timeS": 1529317
+      },
+      {
+        "doy": 339,
+        "distM": 3287759,
+        "gainM": 125109,
+        "timeS": 1532652
+      },
+      {
+        "doy": 340,
+        "distM": 3300690,
+        "gainM": 125552,
+        "timeS": 1537449
+      },
+      {
+        "doy": 341,
+        "distM": 3314312,
+        "gainM": 125720,
+        "timeS": 1542338
+      },
+      {
+        "doy": 343,
+        "distM": 3342996,
+        "gainM": 127191,
+        "timeS": 1556715
+      },
+      {
+        "doy": 344,
+        "distM": 3359028,
+        "gainM": 128442,
+        "timeS": 1565994
+      },
+      {
+        "doy": 345,
+        "distM": 3368486,
+        "gainM": 128600,
+        "timeS": 1569402
+      },
+      {
+        "doy": 346,
+        "distM": 3378671,
+        "gainM": 128929,
+        "timeS": 1573272
+      },
+      {
+        "doy": 347,
+        "distM": 3388019,
+        "gainM": 129866,
+        "timeS": 1578667
+      },
+      {
+        "doy": 348,
+        "distM": 3398432,
+        "gainM": 130183,
+        "timeS": 1582404
+      },
+      {
+        "doy": 349,
+        "distM": 3410134,
+        "gainM": 131349,
+        "timeS": 1588884
+      },
+      {
+        "doy": 350,
+        "distM": 3450786,
+        "gainM": 132677,
+        "timeS": 1599266
+      },
+      {
+        "doy": 351,
+        "distM": 3461256,
+        "gainM": 133218,
+        "timeS": 1607867
+      },
+      {
+        "doy": 353,
+        "distM": 3472735,
+        "gainM": 133529,
+        "timeS": 1611910
+      },
+      {
+        "doy": 355,
+        "distM": 3494112,
+        "gainM": 133701,
+        "timeS": 1618923
+      },
+      {
+        "doy": 357,
+        "distM": 3504155,
+        "gainM": 133760,
+        "timeS": 1621801
+      },
+      {
+        "doy": 358,
+        "distM": 3514172,
+        "gainM": 133827,
+        "timeS": 1624634
+      },
+      {
+        "doy": 359,
+        "distM": 3520741,
+        "gainM": 133869,
+        "timeS": 1626528
+      },
+      {
+        "doy": 361,
+        "distM": 3565272,
+        "gainM": 134577,
+        "timeS": 1635497
+      },
+      {
+        "doy": 362,
+        "distM": 3586499,
+        "gainM": 134688,
+        "timeS": 1642036
+      },
+      {
+        "doy": 363,
+        "distM": 3596189,
+        "gainM": 135099,
+        "timeS": 1645965
+      },
+      {
+        "doy": 364,
+        "distM": 3626833,
+        "gainM": 136046,
+        "timeS": 1666657
+      },
+      {
+        "doy": 365,
+        "distM": 3634948,
+        "gainM": 136550,
+        "timeS": 1671130
+      }
+    ],
+    "2024": [
+      {
+        "doy": 1,
+        "distM": 26881,
+        "gainM": 953,
+        "timeS": 19477
+      },
+      {
+        "doy": 3,
+        "distM": 38857,
+        "gainM": 1333,
+        "timeS": 23744
+      },
+      {
+        "doy": 6,
+        "distM": 67408,
+        "gainM": 1649,
+        "timeS": 33757
+      },
+      {
+        "doy": 8,
+        "distM": 79478,
+        "gainM": 1782,
+        "timeS": 37914
+      },
+      {
+        "doy": 9,
+        "distM": 91566,
+        "gainM": 3074,
+        "timeS": 45118
+      },
+      {
+        "doy": 10,
+        "distM": 102951,
+        "gainM": 3480,
+        "timeS": 48988
+      },
+      {
+        "doy": 12,
+        "distM": 115204,
+        "gainM": 4678,
+        "timeS": 56357
+      },
+      {
+        "doy": 13,
+        "distM": 136493,
+        "gainM": 4858,
+        "timeS": 64182
+      },
+      {
+        "doy": 14,
+        "distM": 139924,
+        "gainM": 4949,
+        "timeS": 66456
+      },
+      {
+        "doy": 16,
+        "distM": 157010,
+        "gainM": 5882,
+        "timeS": 74478
+      },
+      {
+        "doy": 17,
+        "distM": 178563,
+        "gainM": 5999,
+        "timeS": 80725
+      },
+      {
+        "doy": 18,
+        "distM": 188591,
+        "gainM": 6098,
+        "timeS": 84006
+      },
+      {
+        "doy": 20,
+        "distM": 246667,
+        "gainM": 12542,
+        "timeS": 121686
+      },
+      {
+        "doy": 23,
+        "distM": 256698,
+        "gainM": 12585,
+        "timeS": 124508
+      },
+      {
+        "doy": 24,
+        "distM": 268130,
+        "gainM": 12790,
+        "timeS": 128120
+      },
+      {
+        "doy": 27,
+        "distM": 290478,
+        "gainM": 13314,
+        "timeS": 135680
+      },
+      {
+        "doy": 28,
+        "distM": 332157,
+        "gainM": 14174,
+        "timeS": 143338
+      },
+      {
+        "doy": 29,
+        "distM": 342192,
+        "gainM": 14270,
+        "timeS": 146239
+      },
+      {
+        "doy": 30,
+        "distM": 348976,
+        "gainM": 14885,
+        "timeS": 149694
+      },
+      {
+        "doy": 31,
+        "distM": 359099,
+        "gainM": 15931,
+        "timeS": 155095
+      },
+      {
+        "doy": 32,
+        "distM": 369138,
+        "gainM": 16029,
+        "timeS": 158221
+      },
+      {
+        "doy": 33,
+        "distM": 385390,
+        "gainM": 16524,
+        "timeS": 164038
+      },
+      {
+        "doy": 35,
+        "distM": 461087,
+        "gainM": 17086,
+        "timeS": 175127
+      },
+      {
+        "doy": 36,
+        "distM": 474167,
+        "gainM": 17179,
+        "timeS": 178857
+      },
+      {
+        "doy": 37,
+        "distM": 484950,
+        "gainM": 17253,
+        "timeS": 182147
+      },
+      {
+        "doy": 38,
+        "distM": 497620,
+        "gainM": 18477,
+        "timeS": 189130
+      },
+      {
+        "doy": 39,
+        "distM": 507859,
+        "gainM": 18583,
+        "timeS": 192435
+      },
+      {
+        "doy": 40,
+        "distM": 510852,
+        "gainM": 18631,
+        "timeS": 194308
+      },
+      {
+        "doy": 41,
+        "distM": 516862,
+        "gainM": 18688,
+        "timeS": 196350
+      },
+      {
+        "doy": 42,
+        "distM": 537549,
+        "gainM": 18833,
+        "timeS": 203188
+      },
+      {
+        "doy": 44,
+        "distM": 543560,
+        "gainM": 18855,
+        "timeS": 205317
+      },
+      {
+        "doy": 45,
+        "distM": 554766,
+        "gainM": 19846,
+        "timeS": 211126
+      },
+      {
+        "doy": 46,
+        "distM": 562268,
+        "gainM": 20592,
+        "timeS": 215258
+      },
+      {
+        "doy": 48,
+        "distM": 575007,
+        "gainM": 20980,
+        "timeS": 223414
+      },
+      {
+        "doy": 49,
+        "distM": 597239,
+        "gainM": 21135,
+        "timeS": 230622
+      },
+      {
+        "doy": 50,
+        "distM": 611957,
+        "gainM": 22387,
+        "timeS": 240834
+      },
+      {
+        "doy": 51,
+        "distM": 619758,
+        "gainM": 22657,
+        "timeS": 243447
+      },
+      {
+        "doy": 52,
+        "distM": 635150,
+        "gainM": 23345,
+        "timeS": 250628
+      },
+      {
+        "doy": 55,
+        "distM": 672722,
+        "gainM": 23811,
+        "timeS": 261158
+      },
+      {
+        "doy": 56,
+        "distM": 708799,
+        "gainM": 24039,
+        "timeS": 273887
+      },
+      {
+        "doy": 57,
+        "distM": 713917,
+        "gainM": 24092,
+        "timeS": 275689
+      },
+      {
+        "doy": 58,
+        "distM": 730283,
+        "gainM": 25133,
+        "timeS": 283295
+      },
+      {
+        "doy": 59,
+        "distM": 738273,
+        "gainM": 25193,
+        "timeS": 285996
+      },
+      {
+        "doy": 60,
+        "distM": 750077,
+        "gainM": 26445,
+        "timeS": 294227
+      },
+      {
+        "doy": 62,
+        "distM": 772306,
+        "gainM": 28055,
+        "timeS": 304952
+      },
+      {
+        "doy": 63,
+        "distM": 804571,
+        "gainM": 28157,
+        "timeS": 314393
+      },
+      {
+        "doy": 65,
+        "distM": 824686,
+        "gainM": 29073,
+        "timeS": 325190
+      },
+      {
+        "doy": 66,
+        "distM": 830661,
+        "gainM": 29126,
+        "timeS": 326990
+      },
+      {
+        "doy": 67,
+        "distM": 841940,
+        "gainM": 29343,
+        "timeS": 330530
+      },
+      {
+        "doy": 68,
+        "distM": 848461,
+        "gainM": 30005,
+        "timeS": 334059
+      },
+      {
+        "doy": 69,
+        "distM": 857303,
+        "gainM": 30230,
+        "timeS": 337322
+      },
+      {
+        "doy": 70,
+        "distM": 887394,
+        "gainM": 30351,
+        "timeS": 346182
+      },
+      {
+        "doy": 72,
+        "distM": 897474,
+        "gainM": 30656,
+        "timeS": 349424
+      },
+      {
+        "doy": 73,
+        "distM": 907591,
+        "gainM": 30753,
+        "timeS": 352520
+      },
+      {
+        "doy": 74,
+        "distM": 920031,
+        "gainM": 31227,
+        "timeS": 361629
+      },
+      {
+        "doy": 75,
+        "distM": 930511,
+        "gainM": 31227,
+        "timeS": 365707
+      },
+      {
+        "doy": 76,
+        "distM": 944952,
+        "gainM": 31956,
+        "timeS": 374753
+      },
+      {
+        "doy": 77,
+        "distM": 954962,
+        "gainM": 32050,
+        "timeS": 377813
+      },
+      {
+        "doy": 78,
+        "distM": 973315,
+        "gainM": 32449,
+        "timeS": 383881
+      },
+      {
+        "doy": 81,
+        "distM": 998262,
+        "gainM": 33270,
+        "timeS": 393065
+      },
+      {
+        "doy": 82,
+        "distM": 1000266,
+        "gainM": 33409,
+        "timeS": 395226
+      },
+      {
+        "doy": 83,
+        "distM": 1010897,
+        "gainM": 34021,
+        "timeS": 405861
+      },
+      {
+        "doy": 84,
+        "distM": 1034991,
+        "gainM": 34217,
+        "timeS": 412668
+      },
+      {
+        "doy": 85,
+        "distM": 1044677,
+        "gainM": 35105,
+        "timeS": 419560
+      },
+      {
+        "doy": 86,
+        "distM": 1054834,
+        "gainM": 35206,
+        "timeS": 422622
+      },
+      {
+        "doy": 87,
+        "distM": 1071545,
+        "gainM": 35441,
+        "timeS": 427415
+      },
+      {
+        "doy": 88,
+        "distM": 1088109,
+        "gainM": 35612,
+        "timeS": 432515
+      },
+      {
+        "doy": 89,
+        "distM": 1098203,
+        "gainM": 35715,
+        "timeS": 435347
+      },
+      {
+        "doy": 90,
+        "distM": 1152564,
+        "gainM": 37591,
+        "timeS": 465964
+      },
+      {
+        "doy": 93,
+        "distM": 1171922,
+        "gainM": 37713,
+        "timeS": 471538
+      },
+      {
+        "doy": 94,
+        "distM": 1183465,
+        "gainM": 38121,
+        "timeS": 475540
+      },
+      {
+        "doy": 95,
+        "distM": 1196375,
+        "gainM": 38204,
+        "timeS": 479258
+      },
+      {
+        "doy": 97,
+        "distM": 1211989,
+        "gainM": 38674,
+        "timeS": 490165
+      },
+      {
+        "doy": 98,
+        "distM": 1238302,
+        "gainM": 38993,
+        "timeS": 498452
+      },
+      {
+        "doy": 99,
+        "distM": 1243340,
+        "gainM": 39047,
+        "timeS": 499781
+      },
+      {
+        "doy": 100,
+        "distM": 1253620,
+        "gainM": 39407,
+        "timeS": 502720
+      },
+      {
+        "doy": 101,
+        "distM": 1268127,
+        "gainM": 39535,
+        "timeS": 506809
+      },
+      {
+        "doy": 103,
+        "distM": 1278330,
+        "gainM": 39870,
+        "timeS": 509869
+      },
+      {
+        "doy": 104,
+        "distM": 1286908,
+        "gainM": 40527,
+        "timeS": 515216
+      },
+      {
+        "doy": 105,
+        "distM": 1323286,
+        "gainM": 40841,
+        "timeS": 525956
+      },
+      {
+        "doy": 106,
+        "distM": 1328842,
+        "gainM": 40953,
+        "timeS": 528364
+      },
+      {
+        "doy": 108,
+        "distM": 1338993,
+        "gainM": 41161,
+        "timeS": 531364
+      },
+      {
+        "doy": 110,
+        "distM": 1351707,
+        "gainM": 41525,
+        "timeS": 535512
+      },
+      {
+        "doy": 111,
+        "distM": 1361219,
+        "gainM": 41661,
+        "timeS": 538253
+      },
+      {
+        "doy": 112,
+        "distM": 1366599,
+        "gainM": 41721,
+        "timeS": 539749
+      },
+      {
+        "doy": 114,
+        "distM": 1374815,
+        "gainM": 41779,
+        "timeS": 541952
+      },
+      {
+        "doy": 115,
+        "distM": 1383025,
+        "gainM": 41866,
+        "timeS": 544719
+      },
+      {
+        "doy": 117,
+        "distM": 1388144,
+        "gainM": 41922,
+        "timeS": 546177
+      },
+      {
+        "doy": 118,
+        "distM": 1430489,
+        "gainM": 42243,
+        "timeS": 559738
+      },
+      {
+        "doy": 119,
+        "distM": 1433828,
+        "gainM": 42262,
+        "timeS": 562240
+      },
+      {
+        "doy": 120,
+        "distM": 1439302,
+        "gainM": 42323,
+        "timeS": 564041
+      },
+      {
+        "doy": 121,
+        "distM": 1448561,
+        "gainM": 42380,
+        "timeS": 568582
+      },
+      {
+        "doy": 122,
+        "distM": 1455969,
+        "gainM": 42423,
+        "timeS": 574046
+      },
+      {
+        "doy": 123,
+        "distM": 1461655,
+        "gainM": 42458,
+        "timeS": 575560
+      },
+      {
+        "doy": 124,
+        "distM": 1470236,
+        "gainM": 42510,
+        "timeS": 578081
+      },
+      {
+        "doy": 125,
+        "distM": 1481255,
+        "gainM": 42525,
+        "timeS": 580946
+      },
+      {
+        "doy": 127,
+        "distM": 1485411,
+        "gainM": 42682,
+        "timeS": 582161
+      },
+      {
+        "doy": 128,
+        "distM": 1498637,
+        "gainM": 43108,
+        "timeS": 586344
+      },
+      {
+        "doy": 129,
+        "distM": 1525917,
+        "gainM": 43704,
+        "timeS": 592781
+      },
+      {
+        "doy": 131,
+        "distM": 1538145,
+        "gainM": 43992,
+        "timeS": 596733
+      },
+      {
+        "doy": 132,
+        "distM": 1541673,
+        "gainM": 44048,
+        "timeS": 597702
+      },
+      {
+        "doy": 133,
+        "distM": 1557785,
+        "gainM": 44576,
+        "timeS": 603418
+      },
+      {
+        "doy": 134,
+        "distM": 1563252,
+        "gainM": 44722,
+        "timeS": 605039
+      },
+      {
+        "doy": 135,
+        "distM": 1574563,
+        "gainM": 44835,
+        "timeS": 608539
+      },
+      {
+        "doy": 136,
+        "distM": 1589059,
+        "gainM": 45001,
+        "timeS": 612737
+      },
+      {
+        "doy": 138,
+        "distM": 1597149,
+        "gainM": 45089,
+        "timeS": 615475
+      },
+      {
+        "doy": 139,
+        "distM": 1646188,
+        "gainM": 46326,
+        "timeS": 631438
+      },
+      {
+        "doy": 140,
+        "distM": 1651941,
+        "gainM": 46749,
+        "timeS": 638537
+      },
+      {
+        "doy": 141,
+        "distM": 1656633,
+        "gainM": 46807,
+        "timeS": 640132
+      },
+      {
+        "doy": 142,
+        "distM": 1663240,
+        "gainM": 46960,
+        "timeS": 642270
+      },
+      {
+        "doy": 143,
+        "distM": 1673538,
+        "gainM": 47048,
+        "timeS": 645330
+      },
+      {
+        "doy": 145,
+        "distM": 1681693,
+        "gainM": 47321,
+        "timeS": 648147
+      },
+      {
+        "doy": 146,
+        "distM": 1718733,
+        "gainM": 48157,
+        "timeS": 661791
+      },
+      {
+        "doy": 147,
+        "distM": 1735128,
+        "gainM": 48784,
+        "timeS": 668425
+      },
+      {
+        "doy": 148,
+        "distM": 1763845,
+        "gainM": 49010,
+        "timeS": 674830
+      },
+      {
+        "doy": 149,
+        "distM": 1770583,
+        "gainM": 49076,
+        "timeS": 677102
+      },
+      {
+        "doy": 150,
+        "distM": 1772527,
+        "gainM": 49084,
+        "timeS": 677731
+      },
+      {
+        "doy": 151,
+        "distM": 1779933,
+        "gainM": 49466,
+        "timeS": 686237
+      },
+      {
+        "doy": 152,
+        "distM": 1789605,
+        "gainM": 49638,
+        "timeS": 689647
+      },
+      {
+        "doy": 153,
+        "distM": 1822942,
+        "gainM": 49928,
+        "timeS": 694800
+      },
+      {
+        "doy": 154,
+        "distM": 1848706,
+        "gainM": 50463,
+        "timeS": 703345
+      },
+      {
+        "doy": 155,
+        "distM": 1871730,
+        "gainM": 50699,
+        "timeS": 709520
+      },
+      {
+        "doy": 156,
+        "distM": 1873123,
+        "gainM": 50699,
+        "timeS": 711541
+      },
+      {
+        "doy": 157,
+        "distM": 1880144,
+        "gainM": 50780,
+        "timeS": 713638
+      },
+      {
+        "doy": 158,
+        "distM": 1894312,
+        "gainM": 51221,
+        "timeS": 718899
+      },
+      {
+        "doy": 159,
+        "distM": 1943107,
+        "gainM": 52186,
+        "timeS": 747473
+      },
+      {
+        "doy": 161,
+        "distM": 1944976,
+        "gainM": 52186,
+        "timeS": 749824
+      },
+      {
+        "doy": 162,
+        "distM": 1960458,
+        "gainM": 52861,
+        "timeS": 756811
+      },
+      {
+        "doy": 163,
+        "distM": 1974232,
+        "gainM": 53107,
+        "timeS": 761088
+      },
+      {
+        "doy": 165,
+        "distM": 1980335,
+        "gainM": 53136,
+        "timeS": 764088
+      },
+      {
+        "doy": 166,
+        "distM": 1997242,
+        "gainM": 53880,
+        "timeS": 772577
+      },
+      {
+        "doy": 167,
+        "distM": 2052601,
+        "gainM": 55265,
+        "timeS": 785053
+      },
+      {
+        "doy": 168,
+        "distM": 2080143,
+        "gainM": 55775,
+        "timeS": 794656
+      },
+      {
+        "doy": 170,
+        "distM": 2094312,
+        "gainM": 55859,
+        "timeS": 801067
+      },
+      {
+        "doy": 171,
+        "distM": 2108841,
+        "gainM": 56410,
+        "timeS": 806391
+      },
+      {
+        "doy": 172,
+        "distM": 2120073,
+        "gainM": 56963,
+        "timeS": 812319
+      },
+      {
+        "doy": 174,
+        "distM": 2174887,
+        "gainM": 59086,
+        "timeS": 837875
+      },
+      {
+        "doy": 175,
+        "distM": 2185936,
+        "gainM": 59414,
+        "timeS": 841481
+      },
+      {
+        "doy": 176,
+        "distM": 2196215,
+        "gainM": 59521,
+        "timeS": 844929
+      },
+      {
+        "doy": 177,
+        "distM": 2217963,
+        "gainM": 60885,
+        "timeS": 860767
+      },
+      {
+        "doy": 178,
+        "distM": 2223292,
+        "gainM": 60946,
+        "timeS": 862587
+      },
+      {
+        "doy": 179,
+        "distM": 2234192,
+        "gainM": 61372,
+        "timeS": 865867
+      },
+      {
+        "doy": 180,
+        "distM": 2239492,
+        "gainM": 61915,
+        "timeS": 874473
+      },
+      {
+        "doy": 181,
+        "distM": 2263680,
+        "gainM": 63086,
+        "timeS": 884812
+      },
+      {
+        "doy": 182,
+        "distM": 2272645,
+        "gainM": 63244,
+        "timeS": 887645
+      },
+      {
+        "doy": 184,
+        "distM": 2284775,
+        "gainM": 63310,
+        "timeS": 894171
+      },
+      {
+        "doy": 185,
+        "distM": 2292856,
+        "gainM": 63371,
+        "timeS": 896730
+      },
+      {
+        "doy": 186,
+        "distM": 2300595,
+        "gainM": 63440,
+        "timeS": 902921
+      },
+      {
+        "doy": 187,
+        "distM": 2309143,
+        "gainM": 63697,
+        "timeS": 906667
+      },
+      {
+        "doy": 188,
+        "distM": 2387278,
+        "gainM": 66012,
+        "timeS": 938487
+      },
+      {
+        "doy": 191,
+        "distM": 2393999,
+        "gainM": 66123,
+        "timeS": 940766
+      },
+      {
+        "doy": 192,
+        "distM": 2430363,
+        "gainM": 66585,
+        "timeS": 945602
+      },
+      {
+        "doy": 193,
+        "distM": 2453651,
+        "gainM": 66728,
+        "timeS": 951272
+      },
+      {
+        "doy": 194,
+        "distM": 2465695,
+        "gainM": 67169,
+        "timeS": 955617
+      },
+      {
+        "doy": 196,
+        "distM": 2491169,
+        "gainM": 67463,
+        "timeS": 963281
+      },
+      {
+        "doy": 197,
+        "distM": 2502423,
+        "gainM": 67723,
+        "timeS": 966857
+      },
+      {
+        "doy": 198,
+        "distM": 2570148,
+        "gainM": 69303,
+        "timeS": 978565
+      },
+      {
+        "doy": 199,
+        "distM": 2585496,
+        "gainM": 69484,
+        "timeS": 983324
+      },
+      {
+        "doy": 200,
+        "distM": 2594025,
+        "gainM": 69607,
+        "timeS": 986629
+      },
+      {
+        "doy": 201,
+        "distM": 2607634,
+        "gainM": 70095,
+        "timeS": 991076
+      },
+      {
+        "doy": 202,
+        "distM": 2619751,
+        "gainM": 70656,
+        "timeS": 997084
+      },
+      {
+        "doy": 204,
+        "distM": 2630659,
+        "gainM": 70693,
+        "timeS": 1000742
+      },
+      {
+        "doy": 205,
+        "distM": 2634516,
+        "gainM": 70750,
+        "timeS": 1002613
+      },
+      {
+        "doy": 206,
+        "distM": 2671180,
+        "gainM": 71798,
+        "timeS": 1011172
+      },
+      {
+        "doy": 207,
+        "distM": 2680869,
+        "gainM": 72083,
+        "timeS": 1014480
+      },
+      {
+        "doy": 209,
+        "distM": 2694644,
+        "gainM": 72198,
+        "timeS": 1017819
+      },
+      {
+        "doy": 210,
+        "distM": 2724809,
+        "gainM": 72402,
+        "timeS": 1034279
+      },
+      {
+        "doy": 212,
+        "distM": 2749572,
+        "gainM": 74306,
+        "timeS": 1054604
+      },
+      {
+        "doy": 213,
+        "distM": 2757630,
+        "gainM": 74375,
+        "timeS": 1060810
+      },
+      {
+        "doy": 214,
+        "distM": 2772275,
+        "gainM": 74446,
+        "timeS": 1065104
+      },
+      {
+        "doy": 215,
+        "distM": 2787601,
+        "gainM": 74482,
+        "timeS": 1075290
+      },
+      {
+        "doy": 216,
+        "distM": 2797342,
+        "gainM": 74504,
+        "timeS": 1077924
+      },
+      {
+        "doy": 217,
+        "distM": 2808352,
+        "gainM": 74532,
+        "timeS": 1081180
+      },
+      {
+        "doy": 218,
+        "distM": 2820719,
+        "gainM": 74938,
+        "timeS": 1085482
+      },
+      {
+        "doy": 219,
+        "distM": 2833661,
+        "gainM": 75137,
+        "timeS": 1089868
+      },
+      {
+        "doy": 220,
+        "distM": 2921711,
+        "gainM": 77248,
+        "timeS": 1107599
+      },
+      {
+        "doy": 222,
+        "distM": 2930563,
+        "gainM": 77265,
+        "timeS": 1110369
+      },
+      {
+        "doy": 223,
+        "distM": 2953445,
+        "gainM": 78396,
+        "timeS": 1123156
+      },
+      {
+        "doy": 224,
+        "distM": 2967971,
+        "gainM": 78476,
+        "timeS": 1127766
+      },
+      {
+        "doy": 226,
+        "distM": 2980859,
+        "gainM": 78818,
+        "timeS": 1131833
+      },
+      {
+        "doy": 227,
+        "distM": 2997011,
+        "gainM": 79780,
+        "timeS": 1139255
+      },
+      {
+        "doy": 228,
+        "distM": 3004677,
+        "gainM": 79821,
+        "timeS": 1141162
+      },
+      {
+        "doy": 229,
+        "distM": 3008837,
+        "gainM": 80217,
+        "timeS": 1145404
+      },
+      {
+        "doy": 230,
+        "distM": 3025687,
+        "gainM": 80350,
+        "timeS": 1148548
+      },
+      {
+        "doy": 231,
+        "distM": 3184740,
+        "gainM": 82660,
+        "timeS": 1172348
+      },
+      {
+        "doy": 233,
+        "distM": 3197219,
+        "gainM": 82952,
+        "timeS": 1176708
+      },
+      {
+        "doy": 234,
+        "distM": 3203373,
+        "gainM": 83590,
+        "timeS": 1185233
+      },
+      {
+        "doy": 235,
+        "distM": 3208419,
+        "gainM": 83722,
+        "timeS": 1186901
+      },
+      {
+        "doy": 236,
+        "distM": 3218451,
+        "gainM": 84049,
+        "timeS": 1190202
+      },
+      {
+        "doy": 237,
+        "distM": 3259247,
+        "gainM": 85482,
+        "timeS": 1207183
+      },
+      {
+        "doy": 238,
+        "distM": 3280479,
+        "gainM": 85940,
+        "timeS": 1220476
+      },
+      {
+        "doy": 239,
+        "distM": 3290504,
+        "gainM": 86193,
+        "timeS": 1223782
+      },
+      {
+        "doy": 240,
+        "distM": 3305774,
+        "gainM": 87141,
+        "timeS": 1230481
+      },
+      {
+        "doy": 241,
+        "distM": 3315795,
+        "gainM": 87349,
+        "timeS": 1233997
+      },
+      {
+        "doy": 243,
+        "distM": 3324964,
+        "gainM": 87896,
+        "timeS": 1238843
+      },
+      {
+        "doy": 244,
+        "distM": 3376100,
+        "gainM": 89744,
+        "timeS": 1259863
+      },
+      {
+        "doy": 245,
+        "distM": 3386847,
+        "gainM": 89791,
+        "timeS": 1263617
+      },
+      {
+        "doy": 246,
+        "distM": 3413807,
+        "gainM": 90622,
+        "timeS": 1273507
+      },
+      {
+        "doy": 248,
+        "distM": 3425580,
+        "gainM": 91006,
+        "timeS": 1277592
+      },
+      {
+        "doy": 249,
+        "distM": 3435708,
+        "gainM": 91153,
+        "timeS": 1281438
+      },
+      {
+        "doy": 250,
+        "distM": 3447560,
+        "gainM": 91632,
+        "timeS": 1285118
+      },
+      {
+        "doy": 251,
+        "distM": 3448716,
+        "gainM": 91732,
+        "timeS": 1286658
+      },
+      {
+        "doy": 252,
+        "distM": 3461711,
+        "gainM": 92122,
+        "timeS": 1290852
+      },
+      {
+        "doy": 254,
+        "distM": 3471851,
+        "gainM": 92234,
+        "timeS": 1294004
+      },
+      {
+        "doy": 255,
+        "distM": 3480786,
+        "gainM": 92451,
+        "timeS": 1297058
+      },
+      {
+        "doy": 256,
+        "distM": 3483015,
+        "gainM": 92599,
+        "timeS": 1299371
+      },
+      {
+        "doy": 257,
+        "distM": 3488019,
+        "gainM": 92766,
+        "timeS": 1301126
+      },
+      {
+        "doy": 258,
+        "distM": 3569045,
+        "gainM": 95347,
+        "timeS": 1333262
+      },
+      {
+        "doy": 260,
+        "distM": 3573939,
+        "gainM": 95426,
+        "timeS": 1336833
+      },
+      {
+        "doy": 261,
+        "distM": 3577928,
+        "gainM": 95777,
+        "timeS": 1341850
+      },
+      {
+        "doy": 262,
+        "distM": 3585994,
+        "gainM": 95935,
+        "timeS": 1344808
+      },
+      {
+        "doy": 263,
+        "distM": 3596047,
+        "gainM": 96045,
+        "timeS": 1348518
+      },
+      {
+        "doy": 264,
+        "distM": 3598260,
+        "gainM": 96062,
+        "timeS": 1350504
+      },
+      {
+        "doy": 267,
+        "distM": 3610738,
+        "gainM": 96333,
+        "timeS": 1354796
+      },
+      {
+        "doy": 268,
+        "distM": 3631167,
+        "gainM": 97010,
+        "timeS": 1362679
+      },
+      {
+        "doy": 269,
+        "distM": 3637891,
+        "gainM": 97211,
+        "timeS": 1365316
+      },
+      {
+        "doy": 270,
+        "distM": 3654014,
+        "gainM": 97508,
+        "timeS": 1371607
+      },
+      {
+        "doy": 271,
+        "distM": 3704068,
+        "gainM": 98570,
+        "timeS": 1387808
+      },
+      {
+        "doy": 272,
+        "distM": 3713757,
+        "gainM": 98957,
+        "timeS": 1395060
+      },
+      {
+        "doy": 273,
+        "distM": 3727935,
+        "gainM": 99881,
+        "timeS": 1408197
+      },
+      {
+        "doy": 275,
+        "distM": 3739295,
+        "gainM": 100145,
+        "timeS": 1411899
+      },
+      {
+        "doy": 276,
+        "distM": 3749528,
+        "gainM": 100532,
+        "timeS": 1416147
+      },
+      {
+        "doy": 277,
+        "distM": 3761787,
+        "gainM": 100903,
+        "timeS": 1420904
+      },
+      {
+        "doy": 278,
+        "distM": 3777532,
+        "gainM": 101032,
+        "timeS": 1425440
+      },
+      {
+        "doy": 279,
+        "distM": 3799762,
+        "gainM": 101995,
+        "timeS": 1436746
+      },
+      {
+        "doy": 282,
+        "distM": 3804041,
+        "gainM": 102644,
+        "timeS": 1442477
+      },
+      {
+        "doy": 283,
+        "distM": 3818120,
+        "gainM": 103114,
+        "timeS": 1447714
+      },
+      {
+        "doy": 284,
+        "distM": 3823134,
+        "gainM": 103776,
+        "timeS": 1455188
+      },
+      {
+        "doy": 285,
+        "distM": 3836040,
+        "gainM": 104195,
+        "timeS": 1459349
+      },
+      {
+        "doy": 287,
+        "distM": 3913512,
+        "gainM": 107623,
+        "timeS": 1498627
+      },
+      {
+        "doy": 288,
+        "distM": 3920101,
+        "gainM": 107784,
+        "timeS": 1504418
+      },
+      {
+        "doy": 290,
+        "distM": 3923770,
+        "gainM": 107850,
+        "timeS": 1505704
+      },
+      {
+        "doy": 291,
+        "distM": 3934247,
+        "gainM": 108185,
+        "timeS": 1509002
+      },
+      {
+        "doy": 292,
+        "distM": 3999978,
+        "gainM": 109866,
+        "timeS": 1521377
+      },
+      {
+        "doy": 293,
+        "distM": 4027494,
+        "gainM": 110098,
+        "timeS": 1529757
+      },
+      {
+        "doy": 294,
+        "distM": 4044161,
+        "gainM": 110408,
+        "timeS": 1534789
+      },
+      {
+        "doy": 295,
+        "distM": 4083421,
+        "gainM": 110888,
+        "timeS": 1542293
+      },
+      {
+        "doy": 296,
+        "distM": 4105804,
+        "gainM": 111899,
+        "timeS": 1551709
+      },
+      {
+        "doy": 297,
+        "distM": 4126950,
+        "gainM": 112740,
+        "timeS": 1560579
+      },
+      {
+        "doy": 299,
+        "distM": 4139104,
+        "gainM": 112825,
+        "timeS": 1564416
+      },
+      {
+        "doy": 300,
+        "distM": 4158065,
+        "gainM": 113748,
+        "timeS": 1573595
+      },
+      {
+        "doy": 301,
+        "distM": 4319277,
+        "gainM": 116249,
+        "timeS": 1598377
+      },
+      {
+        "doy": 303,
+        "distM": 4334323,
+        "gainM": 116925,
+        "timeS": 1603956
+      },
+      {
+        "doy": 305,
+        "distM": 4354854,
+        "gainM": 117557,
+        "timeS": 1611810
+      },
+      {
+        "doy": 307,
+        "distM": 4371494,
+        "gainM": 118170,
+        "timeS": 1618937
+      },
+      {
+        "doy": 309,
+        "distM": 4382878,
+        "gainM": 118536,
+        "timeS": 1623073
+      },
+      {
+        "doy": 310,
+        "distM": 4396151,
+        "gainM": 118931,
+        "timeS": 1627703
+      },
+      {
+        "doy": 311,
+        "distM": 4410592,
+        "gainM": 119854,
+        "timeS": 1636410
+      },
+      {
+        "doy": 312,
+        "distM": 4421360,
+        "gainM": 119954,
+        "timeS": 1639565
+      },
+      {
+        "doy": 314,
+        "distM": 4425360,
+        "gainM": 119954,
+        "timeS": 1640721
+      },
+      {
+        "doy": 315,
+        "distM": 4439726,
+        "gainM": 121177,
+        "timeS": 1650658
+      },
+      {
+        "doy": 316,
+        "distM": 4450449,
+        "gainM": 121505,
+        "timeS": 1653964
+      },
+      {
+        "doy": 317,
+        "distM": 4460156,
+        "gainM": 122534,
+        "timeS": 1658863
+      },
+      {
+        "doy": 318,
+        "distM": 4470935,
+        "gainM": 122826,
+        "timeS": 1662637
+      },
+      {
+        "doy": 319,
+        "distM": 4482359,
+        "gainM": 124071,
+        "timeS": 1670461
+      },
+      {
+        "doy": 321,
+        "distM": 4491185,
+        "gainM": 124227,
+        "timeS": 1673587
+      },
+      {
+        "doy": 323,
+        "distM": 4500031,
+        "gainM": 124893,
+        "timeS": 1682559
+      },
+      {
+        "doy": 324,
+        "distM": 4507880,
+        "gainM": 125738,
+        "timeS": 1687068
+      },
+      {
+        "doy": 327,
+        "distM": 4519758,
+        "gainM": 126982,
+        "timeS": 1695090
+      },
+      {
+        "doy": 328,
+        "distM": 4559298,
+        "gainM": 128064,
+        "timeS": 1702001
+      },
+      {
+        "doy": 329,
+        "distM": 4570063,
+        "gainM": 128911,
+        "timeS": 1710749
+      },
+      {
+        "doy": 332,
+        "distM": 4580660,
+        "gainM": 129026,
+        "timeS": 1714472
+      },
+      {
+        "doy": 333,
+        "distM": 4593999,
+        "gainM": 129192,
+        "timeS": 1719332
+      },
+      {
+        "doy": 335,
+        "distM": 4602060,
+        "gainM": 129282,
+        "timeS": 1725352
+      },
+      {
+        "doy": 338,
+        "distM": 4615158,
+        "gainM": 130515,
+        "timeS": 1732440
+      },
+      {
+        "doy": 341,
+        "distM": 4630372,
+        "gainM": 131985,
+        "timeS": 1740247
+      },
+      {
+        "doy": 342,
+        "distM": 4668294,
+        "gainM": 132777,
+        "timeS": 1751871
+      },
+      {
+        "doy": 343,
+        "distM": 4680255,
+        "gainM": 133701,
+        "timeS": 1763364
+      },
+      {
+        "doy": 344,
+        "distM": 4695655,
+        "gainM": 135207,
+        "timeS": 1771326
+      },
+      {
+        "doy": 347,
+        "distM": 4708247,
+        "gainM": 136444,
+        "timeS": 1778228
+      },
+      {
+        "doy": 349,
+        "distM": 4752182,
+        "gainM": 137076,
+        "timeS": 1789616
+      },
+      {
+        "doy": 351,
+        "distM": 4766594,
+        "gainM": 138559,
+        "timeS": 1797378
+      },
+      {
+        "doy": 353,
+        "distM": 4800962,
+        "gainM": 139055,
+        "timeS": 1807567
+      },
+      {
+        "doy": 354,
+        "distM": 4815898,
+        "gainM": 140551,
+        "timeS": 1815324
+      },
+      {
+        "doy": 355,
+        "distM": 4828117,
+        "gainM": 141717,
+        "timeS": 1822103
+      },
+      {
+        "doy": 356,
+        "distM": 4833864,
+        "gainM": 142167,
+        "timeS": 1828334
+      },
+      {
+        "doy": 357,
+        "distM": 4853668,
+        "gainM": 144699,
+        "timeS": 1849843
+      },
+      {
+        "doy": 359,
+        "distM": 4894558,
+        "gainM": 146423,
+        "timeS": 1863970
+      },
+      {
+        "doy": 360,
+        "distM": 4904353,
+        "gainM": 147261,
+        "timeS": 1871051
+      },
+      {
+        "doy": 361,
+        "distM": 4932978,
+        "gainM": 147886,
+        "timeS": 1878491
+      },
+      {
+        "doy": 363,
+        "distM": 4955283,
+        "gainM": 149368,
+        "timeS": 1890373
+      },
+      {
+        "doy": 365,
+        "distM": 4958568,
+        "gainM": 149436,
+        "timeS": 1892614
+      },
+      {
+        "doy": 366,
+        "distM": 4990470,
+        "gainM": 152490,
+        "timeS": 1912000
+      }
+    ],
+    "2025": [
+      {
+        "doy": 1,
+        "distM": 18841,
+        "gainM": 163,
+        "timeS": 3478
+      },
+      {
+        "doy": 2,
+        "distM": 30998,
+        "gainM": 1340,
+        "timeS": 10599
+      },
+      {
+        "doy": 4,
+        "distM": 34745,
+        "gainM": 1369,
+        "timeS": 12109
+      },
+      {
+        "doy": 5,
+        "distM": 41436,
+        "gainM": 1413,
+        "timeS": 14679
+      },
+      {
+        "doy": 6,
+        "distM": 47091,
+        "gainM": 1417,
+        "timeS": 16775
+      },
+      {
+        "doy": 10,
+        "distM": 51938,
+        "gainM": 1560,
+        "timeS": 19955
+      },
+      {
+        "doy": 16,
+        "distM": 56930,
+        "gainM": 1582,
+        "timeS": 21818
+      },
+      {
+        "doy": 17,
+        "distM": 71611,
+        "gainM": 1944,
+        "timeS": 26302
+      },
+      {
+        "doy": 18,
+        "distM": 82335,
+        "gainM": 2020,
+        "timeS": 30171
+      },
+      {
+        "doy": 19,
+        "distM": 98707,
+        "gainM": 2590,
+        "timeS": 36929
+      },
+      {
+        "doy": 22,
+        "distM": 120215,
+        "gainM": 3111,
+        "timeS": 44645
+      },
+      {
+        "doy": 23,
+        "distM": 138414,
+        "gainM": 4050,
+        "timeS": 52369
+      },
+      {
+        "doy": 24,
+        "distM": 169617,
+        "gainM": 4763,
+        "timeS": 61162
+      },
+      {
+        "doy": 25,
+        "distM": 179734,
+        "gainM": 5036,
+        "timeS": 66501
+      },
+      {
+        "doy": 26,
+        "distM": 190488,
+        "gainM": 5881,
+        "timeS": 78306
+      },
+      {
+        "doy": 27,
+        "distM": 194049,
+        "gainM": 5930,
+        "timeS": 80681
+      },
+      {
+        "doy": 28,
+        "distM": 223671,
+        "gainM": 6579,
+        "timeS": 88519
+      },
+      {
+        "doy": 29,
+        "distM": 240101,
+        "gainM": 7527,
+        "timeS": 98758
+      },
+      {
+        "doy": 32,
+        "distM": 286851,
+        "gainM": 8192,
+        "timeS": 111574
+      },
+      {
+        "doy": 33,
+        "distM": 302753,
+        "gainM": 9201,
+        "timeS": 121609
+      },
+      {
+        "doy": 34,
+        "distM": 306413,
+        "gainM": 9260,
+        "timeS": 124085
+      },
+      {
+        "doy": 35,
+        "distM": 324181,
+        "gainM": 9688,
+        "timeS": 129114
+      },
+      {
+        "doy": 36,
+        "distM": 328598,
+        "gainM": 10007,
+        "timeS": 132844
+      },
+      {
+        "doy": 37,
+        "distM": 331834,
+        "gainM": 10059,
+        "timeS": 135086
+      },
+      {
+        "doy": 38,
+        "distM": 344380,
+        "gainM": 11281,
+        "timeS": 141777
+      },
+      {
+        "doy": 39,
+        "distM": 353277,
+        "gainM": 11959,
+        "timeS": 147277
+      },
+      {
+        "doy": 40,
+        "distM": 388327,
+        "gainM": 12646,
+        "timeS": 156417
+      },
+      {
+        "doy": 43,
+        "distM": 391250,
+        "gainM": 12700,
+        "timeS": 158478
+      },
+      {
+        "doy": 46,
+        "distM": 399127,
+        "gainM": 12919,
+        "timeS": 160600
+      },
+      {
+        "doy": 47,
+        "distM": 436969,
+        "gainM": 13336,
+        "timeS": 170380
+      },
+      {
+        "doy": 49,
+        "distM": 455646,
+        "gainM": 14275,
+        "timeS": 177849
+      },
+      {
+        "doy": 51,
+        "distM": 482121,
+        "gainM": 14861,
+        "timeS": 184421
+      },
+      {
+        "doy": 52,
+        "distM": 485358,
+        "gainM": 14911,
+        "timeS": 186628
+      },
+      {
+        "doy": 53,
+        "distM": 499912,
+        "gainM": 15873,
+        "timeS": 199074
+      },
+      {
+        "doy": 54,
+        "distM": 580795,
+        "gainM": 16616,
+        "timeS": 211609
+      },
+      {
+        "doy": 55,
+        "distM": 585915,
+        "gainM": 16673,
+        "timeS": 214338
+      },
+      {
+        "doy": 56,
+        "distM": 618322,
+        "gainM": 17104,
+        "timeS": 221256
+      },
+      {
+        "doy": 57,
+        "distM": 638280,
+        "gainM": 18210,
+        "timeS": 228819
+      },
+      {
+        "doy": 58,
+        "distM": 647611,
+        "gainM": 18241,
+        "timeS": 231692
+      },
+      {
+        "doy": 59,
+        "distM": 659994,
+        "gainM": 19396,
+        "timeS": 238639
+      },
+      {
+        "doy": 60,
+        "distM": 663648,
+        "gainM": 19446,
+        "timeS": 239760
+      },
+      {
+        "doy": 61,
+        "distM": 679422,
+        "gainM": 20760,
+        "timeS": 252353
+      },
+      {
+        "doy": 62,
+        "distM": 706548,
+        "gainM": 21390,
+        "timeS": 259225
+      },
+      {
+        "doy": 63,
+        "distM": 712619,
+        "gainM": 21405,
+        "timeS": 261056
+      },
+      {
+        "doy": 64,
+        "distM": 739334,
+        "gainM": 21890,
+        "timeS": 268895
+      },
+      {
+        "doy": 66,
+        "distM": 745144,
+        "gainM": 22563,
+        "timeS": 273466
+      },
+      {
+        "doy": 67,
+        "distM": 795558,
+        "gainM": 23505,
+        "timeS": 284971
+      },
+      {
+        "doy": 68,
+        "distM": 835873,
+        "gainM": 24094,
+        "timeS": 293714
+      },
+      {
+        "doy": 69,
+        "distM": 845281,
+        "gainM": 24467,
+        "timeS": 297502
+      },
+      {
+        "doy": 71,
+        "distM": 869438,
+        "gainM": 24782,
+        "timeS": 302303
+      },
+      {
+        "doy": 72,
+        "distM": 871495,
+        "gainM": 24893,
+        "timeS": 303217
+      },
+      {
+        "doy": 74,
+        "distM": 882777,
+        "gainM": 25323,
+        "timeS": 307341
+      },
+      {
+        "doy": 75,
+        "distM": 907258,
+        "gainM": 26028,
+        "timeS": 315144
+      },
+      {
+        "doy": 76,
+        "distM": 922519,
+        "gainM": 26403,
+        "timeS": 321477
+      },
+      {
+        "doy": 77,
+        "distM": 944748,
+        "gainM": 27263,
+        "timeS": 329138
+      },
+      {
+        "doy": 78,
+        "distM": 958148,
+        "gainM": 27609,
+        "timeS": 333692
+      },
+      {
+        "doy": 79,
+        "distM": 988677,
+        "gainM": 28296,
+        "timeS": 340845
+      },
+      {
+        "doy": 80,
+        "distM": 1006036,
+        "gainM": 28544,
+        "timeS": 347547
+      },
+      {
+        "doy": 81,
+        "distM": 1010797,
+        "gainM": 28627,
+        "timeS": 349185
+      },
+      {
+        "doy": 82,
+        "distM": 1059236,
+        "gainM": 29939,
+        "timeS": 358935
+      },
+      {
+        "doy": 83,
+        "distM": 1075372,
+        "gainM": 30333,
+        "timeS": 364260
+      },
+      {
+        "doy": 84,
+        "distM": 1103605,
+        "gainM": 30715,
+        "timeS": 372308
+      },
+      {
+        "doy": 85,
+        "distM": 1123367,
+        "gainM": 31785,
+        "timeS": 383253
+      },
+      {
+        "doy": 86,
+        "distM": 1179350,
+        "gainM": 32253,
+        "timeS": 391820
+      },
+      {
+        "doy": 87,
+        "distM": 1179891,
+        "gainM": 32298,
+        "timeS": 392575
+      },
+      {
+        "doy": 88,
+        "distM": 1200201,
+        "gainM": 32446,
+        "timeS": 398618
+      },
+      {
+        "doy": 89,
+        "distM": 1203768,
+        "gainM": 32499,
+        "timeS": 400589
+      },
+      {
+        "doy": 90,
+        "distM": 1233654,
+        "gainM": 33135,
+        "timeS": 409585
+      },
+      {
+        "doy": 91,
+        "distM": 1247041,
+        "gainM": 33364,
+        "timeS": 413713
+      },
+      {
+        "doy": 92,
+        "distM": 1264016,
+        "gainM": 33742,
+        "timeS": 421175
+      },
+      {
+        "doy": 93,
+        "distM": 1282216,
+        "gainM": 33919,
+        "timeS": 426652
+      },
+      {
+        "doy": 94,
+        "distM": 1287495,
+        "gainM": 33921,
+        "timeS": 429158
+      },
+      {
+        "doy": 96,
+        "distM": 1305208,
+        "gainM": 34029,
+        "timeS": 434440
+      },
+      {
+        "doy": 97,
+        "distM": 1339302,
+        "gainM": 34864,
+        "timeS": 446470
+      },
+      {
+        "doy": 98,
+        "distM": 1354473,
+        "gainM": 34913,
+        "timeS": 451903
+      },
+      {
+        "doy": 99,
+        "distM": 1366988,
+        "gainM": 35356,
+        "timeS": 457428
+      },
+      {
+        "doy": 100,
+        "distM": 1382032,
+        "gainM": 35721,
+        "timeS": 462134
+      },
+      {
+        "doy": 101,
+        "distM": 1451625,
+        "gainM": 36102,
+        "timeS": 473754
+      },
+      {
+        "doy": 103,
+        "distM": 1456520,
+        "gainM": 36169,
+        "timeS": 475280
+      },
+      {
+        "doy": 104,
+        "distM": 1466743,
+        "gainM": 36467,
+        "timeS": 478764
+      },
+      {
+        "doy": 105,
+        "distM": 1473665,
+        "gainM": 36512,
+        "timeS": 480906
+      },
+      {
+        "doy": 106,
+        "distM": 1491824,
+        "gainM": 36676,
+        "timeS": 484156
+      },
+      {
+        "doy": 107,
+        "distM": 1505033,
+        "gainM": 36852,
+        "timeS": 487970
+      },
+      {
+        "doy": 109,
+        "distM": 1526094,
+        "gainM": 37050,
+        "timeS": 492535
+      },
+      {
+        "doy": 110,
+        "distM": 1528105,
+        "gainM": 37062,
+        "timeS": 493227
+      },
+      {
+        "doy": 111,
+        "distM": 1539397,
+        "gainM": 37435,
+        "timeS": 496997
+      },
+      {
+        "doy": 112,
+        "distM": 1542300,
+        "gainM": 37485,
+        "timeS": 498446
+      },
+      {
+        "doy": 114,
+        "distM": 1558712,
+        "gainM": 37706,
+        "timeS": 504012
+      },
+      {
+        "doy": 116,
+        "distM": 1581874,
+        "gainM": 38632,
+        "timeS": 514182
+      },
+      {
+        "doy": 117,
+        "distM": 1665264,
+        "gainM": 40438,
+        "timeS": 528006
+      },
+      {
+        "doy": 118,
+        "distM": 1681901,
+        "gainM": 40712,
+        "timeS": 533259
+      },
+      {
+        "doy": 119,
+        "distM": 1693699,
+        "gainM": 41098,
+        "timeS": 537390
+      },
+      {
+        "doy": 120,
+        "distM": 1708236,
+        "gainM": 41557,
+        "timeS": 542675
+      },
+      {
+        "doy": 121,
+        "distM": 1746375,
+        "gainM": 42531,
+        "timeS": 551244
+      },
+      {
+        "doy": 122,
+        "distM": 1764854,
+        "gainM": 42954,
+        "timeS": 557367
+      },
+      {
+        "doy": 123,
+        "distM": 1769046,
+        "gainM": 43308,
+        "timeS": 562294
+      },
+      {
+        "doy": 124,
+        "distM": 1782563,
+        "gainM": 44110,
+        "timeS": 574553
+      },
+      {
+        "doy": 126,
+        "distM": 1789704,
+        "gainM": 44219,
+        "timeS": 577029
+      },
+      {
+        "doy": 127,
+        "distM": 1794770,
+        "gainM": 44219,
+        "timeS": 578836
+      },
+      {
+        "doy": 128,
+        "distM": 1806067,
+        "gainM": 44295,
+        "timeS": 582425
+      },
+      {
+        "doy": 129,
+        "distM": 1816104,
+        "gainM": 44356,
+        "timeS": 585599
+      },
+      {
+        "doy": 130,
+        "distM": 1826117,
+        "gainM": 44451,
+        "timeS": 588634
+      },
+      {
+        "doy": 131,
+        "distM": 1850477,
+        "gainM": 44807,
+        "timeS": 598142
+      },
+      {
+        "doy": 133,
+        "distM": 1863429,
+        "gainM": 45330,
+        "timeS": 603195
+      },
+      {
+        "doy": 134,
+        "distM": 1868513,
+        "gainM": 45426,
+        "timeS": 604758
+      },
+      {
+        "doy": 135,
+        "distM": 1882337,
+        "gainM": 45817,
+        "timeS": 609260
+      },
+      {
+        "doy": 137,
+        "distM": 1887183,
+        "gainM": 45927,
+        "timeS": 610852
+      },
+      {
+        "doy": 138,
+        "distM": 1914769,
+        "gainM": 46605,
+        "timeS": 620020
+      },
+      {
+        "doy": 139,
+        "distM": 1925281,
+        "gainM": 46723,
+        "timeS": 623142
+      },
+      {
+        "doy": 140,
+        "distM": 1935482,
+        "gainM": 47183,
+        "timeS": 626807
+      },
+      {
+        "doy": 142,
+        "distM": 1949221,
+        "gainM": 47359,
+        "timeS": 631198
+      },
+      {
+        "doy": 143,
+        "distM": 1962123,
+        "gainM": 47709,
+        "timeS": 635618
+      },
+      {
+        "doy": 144,
+        "distM": 1983611,
+        "gainM": 48193,
+        "timeS": 642818
+      },
+      {
+        "doy": 146,
+        "distM": 1997245,
+        "gainM": 48298,
+        "timeS": 647545
+      },
+      {
+        "doy": 147,
+        "distM": 2007280,
+        "gainM": 48551,
+        "timeS": 651145
+      },
+      {
+        "doy": 148,
+        "distM": 2016727,
+        "gainM": 49339,
+        "timeS": 656807
+      },
+      {
+        "doy": 149,
+        "distM": 2018091,
+        "gainM": 49359,
+        "timeS": 657911
+      },
+      {
+        "doy": 150,
+        "distM": 2074376,
+        "gainM": 50181,
+        "timeS": 667019
+      },
+      {
+        "doy": 151,
+        "distM": 2131184,
+        "gainM": 50990,
+        "timeS": 682026
+      },
+      {
+        "doy": 152,
+        "distM": 2161288,
+        "gainM": 51548,
+        "timeS": 691635
+      },
+      {
+        "doy": 153,
+        "distM": 2174585,
+        "gainM": 51853,
+        "timeS": 696333
+      },
+      {
+        "doy": 154,
+        "distM": 2185062,
+        "gainM": 52151,
+        "timeS": 700145
+      },
+      {
+        "doy": 155,
+        "distM": 2220529,
+        "gainM": 52563,
+        "timeS": 705468
+      },
+      {
+        "doy": 156,
+        "distM": 2239733,
+        "gainM": 52648,
+        "timeS": 710568
+      },
+      {
+        "doy": 158,
+        "distM": 2342313,
+        "gainM": 54517,
+        "timeS": 729044
+      },
+      {
+        "doy": 159,
+        "distM": 2434115,
+        "gainM": 55638,
+        "timeS": 745656
+      },
+      {
+        "doy": 160,
+        "distM": 2446726,
+        "gainM": 56693,
+        "timeS": 754834
+      },
+      {
+        "doy": 161,
+        "distM": 2540068,
+        "gainM": 57502,
+        "timeS": 767786
+      },
+      {
+        "doy": 162,
+        "distM": 2589493,
+        "gainM": 57856,
+        "timeS": 774992
+      },
+      {
+        "doy": 163,
+        "distM": 2602388,
+        "gainM": 59077,
+        "timeS": 784194
+      },
+      {
+        "doy": 164,
+        "distM": 2622423,
+        "gainM": 59791,
+        "timeS": 791962
+      },
+      {
+        "doy": 165,
+        "distM": 2685556,
+        "gainM": 60621,
+        "timeS": 801766
+      },
+      {
+        "doy": 166,
+        "distM": 2757399,
+        "gainM": 61711,
+        "timeS": 815095
+      },
+      {
+        "doy": 167,
+        "distM": 2771635,
+        "gainM": 62733,
+        "timeS": 822978
+      },
+      {
+        "doy": 168,
+        "distM": 2788427,
+        "gainM": 64002,
+        "timeS": 833011
+      },
+      {
+        "doy": 169,
+        "distM": 2832101,
+        "gainM": 64197,
+        "timeS": 842140
+      },
+      {
+        "doy": 170,
+        "distM": 2875580,
+        "gainM": 65072,
+        "timeS": 854593
+      },
+      {
+        "doy": 171,
+        "distM": 2889728,
+        "gainM": 66082,
+        "timeS": 861707
+      },
+      {
+        "doy": 172,
+        "distM": 2891408,
+        "gainM": 66126,
+        "timeS": 863150
+      },
+      {
+        "doy": 173,
+        "distM": 2930134,
+        "gainM": 66550,
+        "timeS": 871547
+      },
+      {
+        "doy": 174,
+        "distM": 2943063,
+        "gainM": 67609,
+        "timeS": 879015
+      },
+      {
+        "doy": 175,
+        "distM": 2975867,
+        "gainM": 68672,
+        "timeS": 886932
+      },
+      {
+        "doy": 176,
+        "distM": 3015210,
+        "gainM": 69347,
+        "timeS": 897732
+      },
+      {
+        "doy": 178,
+        "distM": 3021659,
+        "gainM": 69500,
+        "timeS": 903109
+      },
+      {
+        "doy": 179,
+        "distM": 3050472,
+        "gainM": 70251,
+        "timeS": 915438
+      },
+      {
+        "doy": 180,
+        "distM": 3063537,
+        "gainM": 70441,
+        "timeS": 922299
+      },
+      {
+        "doy": 181,
+        "distM": 3064568,
+        "gainM": 70485,
+        "timeS": 923107
+      },
+      {
+        "doy": 182,
+        "distM": 3080428,
+        "gainM": 70609,
+        "timeS": 927629
+      },
+      {
+        "doy": 183,
+        "distM": 3097340,
+        "gainM": 71776,
+        "timeS": 937090
+      },
+      {
+        "doy": 184,
+        "distM": 3110862,
+        "gainM": 71832,
+        "timeS": 942539
+      },
+      {
+        "doy": 185,
+        "distM": 3111374,
+        "gainM": 71876,
+        "timeS": 943062
+      },
+      {
+        "doy": 186,
+        "distM": 3185561,
+        "gainM": 72649,
+        "timeS": 955750
+      },
+      {
+        "doy": 187,
+        "distM": 3207071,
+        "gainM": 73968,
+        "timeS": 967138
+      },
+      {
+        "doy": 189,
+        "distM": 3244630,
+        "gainM": 74066,
+        "timeS": 974781
+      },
+      {
+        "doy": 190,
+        "distM": 3334203,
+        "gainM": 74939,
+        "timeS": 988206
+      },
+      {
+        "doy": 191,
+        "distM": 3352867,
+        "gainM": 76671,
+        "timeS": 1001461
+      },
+      {
+        "doy": 192,
+        "distM": 3368103,
+        "gainM": 76857,
+        "timeS": 1007845
+      },
+      {
+        "doy": 193,
+        "distM": 3380942,
+        "gainM": 77176,
+        "timeS": 1012573
+      },
+      {
+        "doy": 194,
+        "distM": 3388416,
+        "gainM": 77808,
+        "timeS": 1022484
+      },
+      {
+        "doy": 195,
+        "distM": 3405322,
+        "gainM": 78101,
+        "timeS": 1028016
+      },
+      {
+        "doy": 196,
+        "distM": 3413948,
+        "gainM": 78440,
+        "timeS": 1031472
+      },
+      {
+        "doy": 197,
+        "distM": 3461883,
+        "gainM": 78971,
+        "timeS": 1040854
+      },
+      {
+        "doy": 198,
+        "distM": 3470246,
+        "gainM": 79115,
+        "timeS": 1043827
+      },
+      {
+        "doy": 199,
+        "distM": 3522097,
+        "gainM": 79458,
+        "timeS": 1051436
+      },
+      {
+        "doy": 200,
+        "distM": 3536807,
+        "gainM": 80663,
+        "timeS": 1058683
+      },
+      {
+        "doy": 201,
+        "distM": 3560626,
+        "gainM": 81703,
+        "timeS": 1070176
+      },
+      {
+        "doy": 202,
+        "distM": 3606373,
+        "gainM": 82717,
+        "timeS": 1079885
+      },
+      {
+        "doy": 203,
+        "distM": 3613991,
+        "gainM": 83083,
+        "timeS": 1082703
+      },
+      {
+        "doy": 204,
+        "distM": 3674020,
+        "gainM": 83571,
+        "timeS": 1095303
+      },
+      {
+        "doy": 205,
+        "distM": 3685306,
+        "gainM": 84171,
+        "timeS": 1100137
+      },
+      {
+        "doy": 206,
+        "distM": 3707849,
+        "gainM": 84771,
+        "timeS": 1108699
+      },
+      {
+        "doy": 207,
+        "distM": 3720485,
+        "gainM": 85884,
+        "timeS": 1117180
+      },
+      {
+        "doy": 208,
+        "distM": 3734282,
+        "gainM": 87039,
+        "timeS": 1127372
+      },
+      {
+        "doy": 209,
+        "distM": 3765797,
+        "gainM": 87208,
+        "timeS": 1133272
+      },
+      {
+        "doy": 210,
+        "distM": 3774283,
+        "gainM": 87560,
+        "timeS": 1136210
+      },
+      {
+        "doy": 211,
+        "distM": 3793621,
+        "gainM": 88898,
+        "timeS": 1150902
+      },
+      {
+        "doy": 212,
+        "distM": 3847760,
+        "gainM": 89303,
+        "timeS": 1157646
+      },
+      {
+        "doy": 213,
+        "distM": 3860260,
+        "gainM": 89938,
+        "timeS": 1163531
+      },
+      {
+        "doy": 214,
+        "distM": 3918865,
+        "gainM": 90539,
+        "timeS": 1173166
+      },
+      {
+        "doy": 215,
+        "distM": 3933410,
+        "gainM": 90867,
+        "timeS": 1178295
+      },
+      {
+        "doy": 216,
+        "distM": 3952445,
+        "gainM": 91662,
+        "timeS": 1187567
+      },
+      {
+        "doy": 218,
+        "distM": 3958735,
+        "gainM": 92036,
+        "timeS": 1192489
+      },
+      {
+        "doy": 219,
+        "distM": 3988522,
+        "gainM": 93656,
+        "timeS": 1216007
+      },
+      {
+        "doy": 220,
+        "distM": 4020770,
+        "gainM": 95552,
+        "timeS": 1242237
+      },
+      {
+        "doy": 221,
+        "distM": 4048495,
+        "gainM": 96900,
+        "timeS": 1264413
+      },
+      {
+        "doy": 222,
+        "distM": 4078924,
+        "gainM": 98868,
+        "timeS": 1289898
+      },
+      {
+        "doy": 223,
+        "distM": 4115033,
+        "gainM": 100306,
+        "timeS": 1316717
+      },
+      {
+        "doy": 224,
+        "distM": 4149648,
+        "gainM": 100566,
+        "timeS": 1322746
+      },
+      {
+        "doy": 225,
+        "distM": 4166801,
+        "gainM": 100838,
+        "timeS": 1328576
+      },
+      {
+        "doy": 226,
+        "distM": 4178429,
+        "gainM": 101510,
+        "timeS": 1333625
+      },
+      {
+        "doy": 227,
+        "distM": 4183282,
+        "gainM": 101545,
+        "timeS": 1339493
+      },
+      {
+        "doy": 228,
+        "distM": 4203152,
+        "gainM": 101706,
+        "timeS": 1345270
+      },
+      {
+        "doy": 229,
+        "distM": 4216652,
+        "gainM": 102960,
+        "timeS": 1357683
+      },
+      {
+        "doy": 230,
+        "distM": 4232681,
+        "gainM": 104368,
+        "timeS": 1366617
+      },
+      {
+        "doy": 231,
+        "distM": 4240186,
+        "gainM": 104570,
+        "timeS": 1368951
+      },
+      {
+        "doy": 232,
+        "distM": 4262238,
+        "gainM": 106981,
+        "timeS": 1389203
+      },
+      {
+        "doy": 233,
+        "distM": 4320399,
+        "gainM": 107279,
+        "timeS": 1398960
+      },
+      {
+        "doy": 234,
+        "distM": 4327452,
+        "gainM": 107327,
+        "timeS": 1401007
+      },
+      {
+        "doy": 235,
+        "distM": 4337250,
+        "gainM": 107571,
+        "timeS": 1404239
+      },
+      {
+        "doy": 237,
+        "distM": 4337777,
+        "gainM": 107614,
+        "timeS": 1404713
+      },
+      {
+        "doy": 238,
+        "distM": 4347732,
+        "gainM": 107677,
+        "timeS": 1406368
+      },
+      {
+        "doy": 239,
+        "distM": 4361848,
+        "gainM": 108508,
+        "timeS": 1412968
+      },
+      {
+        "doy": 240,
+        "distM": 4384446,
+        "gainM": 109407,
+        "timeS": 1422355
+      },
+      {
+        "doy": 241,
+        "distM": 4401672,
+        "gainM": 110433,
+        "timeS": 1430836
+      },
+      {
+        "doy": 242,
+        "distM": 4412960,
+        "gainM": 111014,
+        "timeS": 1437161
+      },
+      {
+        "doy": 244,
+        "distM": 4422264,
+        "gainM": 111581,
+        "timeS": 1441587
+      },
+      {
+        "doy": 245,
+        "distM": 4433331,
+        "gainM": 112077,
+        "timeS": 1445668
+      },
+      {
+        "doy": 246,
+        "distM": 4444800,
+        "gainM": 112448,
+        "timeS": 1449507
+      },
+      {
+        "doy": 247,
+        "distM": 4489080,
+        "gainM": 114017,
+        "timeS": 1481345
+      },
+      {
+        "doy": 248,
+        "distM": 4535234,
+        "gainM": 115674,
+        "timeS": 1515886
+      },
+      {
+        "doy": 249,
+        "distM": 4581942,
+        "gainM": 117039,
+        "timeS": 1548306
+      },
+      {
+        "doy": 250,
+        "distM": 4616212,
+        "gainM": 117828,
+        "timeS": 1571398
+      },
+      {
+        "doy": 251,
+        "distM": 4652668,
+        "gainM": 119598,
+        "timeS": 1596625
+      },
+      {
+        "doy": 252,
+        "distM": 4701160,
+        "gainM": 121189,
+        "timeS": 1630743
+      },
+      {
+        "doy": 253,
+        "distM": 4744044,
+        "gainM": 122420,
+        "timeS": 1663821
+      },
+      {
+        "doy": 255,
+        "distM": 4793401,
+        "gainM": 124647,
+        "timeS": 1701260
+      },
+      {
+        "doy": 256,
+        "distM": 4834205,
+        "gainM": 126624,
+        "timeS": 1732051
+      },
+      {
+        "doy": 257,
+        "distM": 4877422,
+        "gainM": 128298,
+        "timeS": 1763768
+      },
+      {
+        "doy": 258,
+        "distM": 4921704,
+        "gainM": 129627,
+        "timeS": 1794309
+      },
+      {
+        "doy": 259,
+        "distM": 4970756,
+        "gainM": 130920,
+        "timeS": 1830086
+      },
+      {
+        "doy": 260,
+        "distM": 5011772,
+        "gainM": 132259,
+        "timeS": 1859771
+      },
+      {
+        "doy": 261,
+        "distM": 5043967,
+        "gainM": 133717,
+        "timeS": 1885869
+      },
+      {
+        "doy": 263,
+        "distM": 5086261,
+        "gainM": 135603,
+        "timeS": 1916290
+      },
+      {
+        "doy": 264,
+        "distM": 5132266,
+        "gainM": 137358,
+        "timeS": 1951977
+      },
+      {
+        "doy": 266,
+        "distM": 5175842,
+        "gainM": 138962,
+        "timeS": 1982843
+      },
+      {
+        "doy": 267,
+        "distM": 5217068,
+        "gainM": 140345,
+        "timeS": 2012926
+      },
+      {
+        "doy": 268,
+        "distM": 5254273,
+        "gainM": 140957,
+        "timeS": 2039337
+      },
+      {
+        "doy": 269,
+        "distM": 5265235,
+        "gainM": 141420,
+        "timeS": 2043534
+      },
+      {
+        "doy": 271,
+        "distM": 5273296,
+        "gainM": 141463,
+        "timeS": 2046452
+      },
+      {
+        "doy": 273,
+        "distM": 5285011,
+        "gainM": 141847,
+        "timeS": 2050810
+      },
+      {
+        "doy": 275,
+        "distM": 5297601,
+        "gainM": 142484,
+        "timeS": 2055859
+      },
+      {
+        "doy": 276,
+        "distM": 5336630,
+        "gainM": 142998,
+        "timeS": 2062670
+      },
+      {
+        "doy": 277,
+        "distM": 5348327,
+        "gainM": 143286,
+        "timeS": 2066732
+      },
+      {
+        "doy": 278,
+        "distM": 5352266,
+        "gainM": 143425,
+        "timeS": 2068563
+      },
+      {
+        "doy": 279,
+        "distM": 5361053,
+        "gainM": 143747,
+        "timeS": 2071665
+      },
+      {
+        "doy": 280,
+        "distM": 5373020,
+        "gainM": 144071,
+        "timeS": 2075846
+      },
+      {
+        "doy": 281,
+        "distM": 5383733,
+        "gainM": 144117,
+        "timeS": 2078951
+      },
+      {
+        "doy": 282,
+        "distM": 5416377,
+        "gainM": 144813,
+        "timeS": 2090519
+      },
+      {
+        "doy": 283,
+        "distM": 5424061,
+        "gainM": 145219,
+        "timeS": 2093790
+      },
+      {
+        "doy": 284,
+        "distM": 5435339,
+        "gainM": 146188,
+        "timeS": 2102652
+      },
+      {
+        "doy": 285,
+        "distM": 5451466,
+        "gainM": 146954,
+        "timeS": 2110131
+      },
+      {
+        "doy": 287,
+        "distM": 5461744,
+        "gainM": 147797,
+        "timeS": 2116105
+      },
+      {
+        "doy": 288,
+        "distM": 5471881,
+        "gainM": 147885,
+        "timeS": 2119228
+      },
+      {
+        "doy": 289,
+        "distM": 5477390,
+        "gainM": 147922,
+        "timeS": 2122204
+      },
+      {
+        "doy": 290,
+        "distM": 5486000,
+        "gainM": 148205,
+        "timeS": 2125257
+      },
+      {
+        "doy": 291,
+        "distM": 5497366,
+        "gainM": 148359,
+        "timeS": 2129588
+      },
+      {
+        "doy": 292,
+        "distM": 5507564,
+        "gainM": 148410,
+        "timeS": 2132522
+      },
+      {
+        "doy": 293,
+        "distM": 5519814,
+        "gainM": 148771,
+        "timeS": 2136665
+      },
+      {
+        "doy": 294,
+        "distM": 5531839,
+        "gainM": 149621,
+        "timeS": 2143539
+      },
+      {
+        "doy": 295,
+        "distM": 5542105,
+        "gainM": 149967,
+        "timeS": 2147159
+      },
+      {
+        "doy": 297,
+        "distM": 5561344,
+        "gainM": 150670,
+        "timeS": 2154426
+      },
+      {
+        "doy": 298,
+        "distM": 5649382,
+        "gainM": 151298,
+        "timeS": 2168573
+      },
+      {
+        "doy": 300,
+        "distM": 5663075,
+        "gainM": 151520,
+        "timeS": 2172726
+      },
+      {
+        "doy": 301,
+        "distM": 5676474,
+        "gainM": 151991,
+        "timeS": 2177442
+      },
+      {
+        "doy": 302,
+        "distM": 5687996,
+        "gainM": 152415,
+        "timeS": 2181699
+      },
+      {
+        "doy": 303,
+        "distM": 5694465,
+        "gainM": 152900,
+        "timeS": 2185564
+      },
+      {
+        "doy": 305,
+        "distM": 5699772,
+        "gainM": 152984,
+        "timeS": 2187881
+      },
+      {
+        "doy": 306,
+        "distM": 5709315,
+        "gainM": 153391,
+        "timeS": 2191435
+      },
+      {
+        "doy": 307,
+        "distM": 5722622,
+        "gainM": 154395,
+        "timeS": 2198967
+      },
+      {
+        "doy": 309,
+        "distM": 5729530,
+        "gainM": 154499,
+        "timeS": 2201186
+      },
+      {
+        "doy": 310,
+        "distM": 5745697,
+        "gainM": 154987,
+        "timeS": 2206992
+      },
+      {
+        "doy": 311,
+        "distM": 5759238,
+        "gainM": 155180,
+        "timeS": 2211000
+      },
+      {
+        "doy": 312,
+        "distM": 5772425,
+        "gainM": 155448,
+        "timeS": 2215480
+      },
+      {
+        "doy": 314,
+        "distM": 5784524,
+        "gainM": 156259,
+        "timeS": 2221195
+      },
+      {
+        "doy": 315,
+        "distM": 5792810,
+        "gainM": 156537,
+        "timeS": 2224092
+      },
+      {
+        "doy": 316,
+        "distM": 5798521,
+        "gainM": 156614,
+        "timeS": 2226153
+      },
+      {
+        "doy": 317,
+        "distM": 5813112,
+        "gainM": 157021,
+        "timeS": 2231404
+      },
+      {
+        "doy": 318,
+        "distM": 5816073,
+        "gainM": 157083,
+        "timeS": 2233557
+      },
+      {
+        "doy": 319,
+        "distM": 5829246,
+        "gainM": 157510,
+        "timeS": 2238360
+      },
+      {
+        "doy": 320,
+        "distM": 5843765,
+        "gainM": 158576,
+        "timeS": 2251819
+      },
+      {
+        "doy": 322,
+        "distM": 5855464,
+        "gainM": 159026,
+        "timeS": 2256226
+      },
+      {
+        "doy": 325,
+        "distM": 5870603,
+        "gainM": 159334,
+        "timeS": 2261271
+      },
+      {
+        "doy": 326,
+        "distM": 5880801,
+        "gainM": 159680,
+        "timeS": 2265218
+      },
+      {
+        "doy": 327,
+        "distM": 5897298,
+        "gainM": 159979,
+        "timeS": 2270761
+      },
+      {
+        "doy": 329,
+        "distM": 5911445,
+        "gainM": 160446,
+        "timeS": 2275174
+      },
+      {
+        "doy": 331,
+        "distM": 5923407,
+        "gainM": 160845,
+        "timeS": 2279298
+      },
+      {
+        "doy": 332,
+        "distM": 5931142,
+        "gainM": 161207,
+        "timeS": 2287138
+      },
+      {
+        "doy": 333,
+        "distM": 5947490,
+        "gainM": 161727,
+        "timeS": 2293797
+      },
+      {
+        "doy": 334,
+        "distM": 5959500,
+        "gainM": 162003,
+        "timeS": 2297948
+      },
+      {
+        "doy": 335,
+        "distM": 5974738,
+        "gainM": 162447,
+        "timeS": 2303292
+      },
+      {
+        "doy": 339,
+        "distM": 5987647,
+        "gainM": 162786,
+        "timeS": 2307799
+      },
+      {
+        "doy": 340,
+        "distM": 6002524,
+        "gainM": 162948,
+        "timeS": 2312307
+      },
+      {
+        "doy": 341,
+        "distM": 6015419,
+        "gainM": 163233,
+        "timeS": 2316464
+      },
+      {
+        "doy": 343,
+        "distM": 6020851,
+        "gainM": 163625,
+        "timeS": 2321167
+      },
+      {
+        "doy": 346,
+        "distM": 6029176,
+        "gainM": 163930,
+        "timeS": 2324401
+      },
+      {
+        "doy": 347,
+        "distM": 6037550,
+        "gainM": 164754,
+        "timeS": 2333365
+      },
+      {
+        "doy": 348,
+        "distM": 6049019,
+        "gainM": 164999,
+        "timeS": 2337426
+      },
+      {
+        "doy": 350,
+        "distM": 6055702,
+        "gainM": 165254,
+        "timeS": 2340362
+      },
+      {
+        "doy": 354,
+        "distM": 6069693,
+        "gainM": 165481,
+        "timeS": 2345187
+      },
+      {
+        "doy": 355,
+        "distM": 6080301,
+        "gainM": 165827,
+        "timeS": 2349220
+      },
+      {
+        "doy": 356,
+        "distM": 6085117,
+        "gainM": 165971,
+        "timeS": 2351141
+      },
+      {
+        "doy": 359,
+        "distM": 6097299,
+        "gainM": 166107,
+        "timeS": 2355905
+      },
+      {
+        "doy": 361,
+        "distM": 6105474,
+        "gainM": 166376,
+        "timeS": 2359206
+      },
+      {
+        "doy": 363,
+        "distM": 6116069,
+        "gainM": 166601,
+        "timeS": 2362896
+      },
+      {
+        "doy": 364,
+        "distM": 6121618,
+        "gainM": 166761,
+        "timeS": 2364759
+      }
+    ],
+    "2026": [
+      {
+        "doy": 1,
+        "distM": 7255,
+        "gainM": 273,
+        "timeS": 4959
+      },
+      {
+        "doy": 3,
+        "distM": 20204,
+        "gainM": 538,
+        "timeS": 9240
+      },
+      {
+        "doy": 4,
+        "distM": 30146,
+        "gainM": 630,
+        "timeS": 12494
+      },
+      {
+        "doy": 6,
+        "distM": 39294,
+        "gainM": 777,
+        "timeS": 15625
+      },
+      {
+        "doy": 9,
+        "distM": 45889,
+        "gainM": 870,
+        "timeS": 18014
+      },
+      {
+        "doy": 10,
+        "distM": 50546,
+        "gainM": 1174,
+        "timeS": 20669
+      },
+      {
+        "doy": 11,
+        "distM": 60584,
+        "gainM": 1418,
+        "timeS": 24224
+      },
+      {
+        "doy": 14,
+        "distM": 67064,
+        "gainM": 1697,
+        "timeS": 27424
+      },
+      {
+        "doy": 16,
+        "distM": 76584,
+        "gainM": 2113,
+        "timeS": 31393
+      },
+      {
+        "doy": 18,
+        "distM": 81147,
+        "gainM": 2477,
+        "timeS": 35779
+      },
+      {
+        "doy": 19,
+        "distM": 90190,
+        "gainM": 2772,
+        "timeS": 39083
+      },
+      {
+        "doy": 22,
+        "distM": 104710,
+        "gainM": 3242,
+        "timeS": 44479
+      },
+      {
+        "doy": 24,
+        "distM": 110707,
+        "gainM": 3484,
+        "timeS": 46887
+      },
+      {
+        "doy": 26,
+        "distM": 120750,
+        "gainM": 3794,
+        "timeS": 50479
+      },
+      {
+        "doy": 28,
+        "distM": 130449,
+        "gainM": 3898,
+        "timeS": 53726
+      },
+      {
+        "doy": 31,
+        "distM": 141371,
+        "gainM": 4254,
+        "timeS": 57887
+      },
+      {
+        "doy": 32,
+        "distM": 151633,
+        "gainM": 4328,
+        "timeS": 61250
+      },
+      {
+        "doy": 37,
+        "distM": 162424,
+        "gainM": 4444,
+        "timeS": 64623
+      },
+      {
+        "doy": 38,
+        "distM": 170546,
+        "gainM": 4561,
+        "timeS": 67238
+      },
+      {
+        "doy": 39,
+        "distM": 188768,
+        "gainM": 4834,
+        "timeS": 73211
+      },
+      {
+        "doy": 44,
+        "distM": 199480,
+        "gainM": 4907,
+        "timeS": 76135
+      },
+      {
+        "doy": 47,
+        "distM": 212911,
+        "gainM": 5015,
+        "timeS": 79930
+      },
+      {
+        "doy": 51,
+        "distM": 224995,
+        "gainM": 5155,
+        "timeS": 83797
+      },
+      {
+        "doy": 52,
+        "distM": 234667,
+        "gainM": 5248,
+        "timeS": 86819
+      },
+      {
+        "doy": 53,
+        "distM": 238686,
+        "gainM": 5282,
+        "timeS": 89646
+      },
+      {
+        "doy": 57,
+        "distM": 250753,
+        "gainM": 5369,
+        "timeS": 93353
+      },
+      {
+        "doy": 58,
+        "distM": 255429,
+        "gainM": 5408,
+        "timeS": 96682
+      },
+      {
+        "doy": 59,
+        "distM": 266055,
+        "gainM": 5716,
+        "timeS": 100587
+      },
+      {
+        "doy": 60,
+        "distM": 276208,
+        "gainM": 5787,
+        "timeS": 103596
+      },
+      {
+        "doy": 62,
+        "distM": 289114,
+        "gainM": 5902,
+        "timeS": 107243
+      },
+      {
+        "doy": 63,
+        "distM": 291738,
+        "gainM": 5927,
+        "timeS": 109239
+      },
+      {
+        "doy": 65,
+        "distM": 304773,
+        "gainM": 6089,
+        "timeS": 113102
+      },
+      {
+        "doy": 66,
+        "distM": 330523,
+        "gainM": 6089,
+        "timeS": 116702
+      },
+      {
+        "doy": 67,
+        "distM": 340213,
+        "gainM": 6207,
+        "timeS": 119458
+      },
+      {
+        "doy": 68,
+        "distM": 343112,
+        "gainM": 6234,
+        "timeS": 121712
+      },
+      {
+        "doy": 69,
+        "distM": 351311,
+        "gainM": 6327,
+        "timeS": 124116
+      },
+      {
+        "doy": 70,
+        "distM": 354948,
+        "gainM": 6360,
+        "timeS": 126593
+      },
+      {
+        "doy": 72,
+        "distM": 369802,
+        "gainM": 6838,
+        "timeS": 132927
+      },
+      {
+        "doy": 73,
+        "distM": 386052,
+        "gainM": 6971,
+        "timeS": 137843
+      },
+      {
+        "doy": 74,
+        "distM": 389920,
+        "gainM": 7032,
+        "timeS": 140491
+      },
+      {
+        "doy": 75,
+        "distM": 393921,
+        "gainM": 7098,
+        "timeS": 143180
+      },
+      {
+        "doy": 76,
+        "distM": 399643,
+        "gainM": 7150,
+        "timeS": 144979
+      },
+      {
+        "doy": 77,
+        "distM": 401196,
+        "gainM": 7164,
+        "timeS": 146125
+      },
+      {
+        "doy": 78,
+        "distM": 411354,
+        "gainM": 7251,
+        "timeS": 150384
+      },
+      {
+        "doy": 79,
+        "distM": 422924,
+        "gainM": 7405,
+        "timeS": 153811
+      },
+      {
+        "doy": 80,
+        "distM": 441237,
+        "gainM": 7830,
+        "timeS": 160472
+      },
+      {
+        "doy": 81,
+        "distM": 446067,
+        "gainM": 7885,
+        "timeS": 164106
+      },
+      {
+        "doy": 82,
+        "distM": 456064,
+        "gainM": 8009,
+        "timeS": 167232
+      },
+      {
+        "doy": 83,
+        "distM": 467207,
+        "gainM": 8154,
+        "timeS": 170539
+      },
+      {
+        "doy": 84,
+        "distM": 470699,
+        "gainM": 8186,
+        "timeS": 172894
+      },
+      {
+        "doy": 85,
+        "distM": 481108,
+        "gainM": 8313,
+        "timeS": 177366
+      },
+      {
+        "doy": 86,
+        "distM": 484666,
+        "gainM": 8346,
+        "timeS": 179650
+      },
+      {
+        "doy": 87,
+        "distM": 502656,
+        "gainM": 8787,
+        "timeS": 185980
+      },
+      {
+        "doy": 88,
+        "distM": 506449,
+        "gainM": 8826,
+        "timeS": 188429
+      },
+      {
+        "doy": 89,
+        "distM": 520355,
+        "gainM": 8962,
+        "timeS": 193945
+      },
+      {
+        "doy": 90,
+        "distM": 529898,
+        "gainM": 9330,
+        "timeS": 197095
+      },
+      {
+        "doy": 91,
+        "distM": 543093,
+        "gainM": 9511,
+        "timeS": 200976
+      },
+      {
+        "doy": 93,
+        "distM": 560636,
+        "gainM": 9731,
+        "timeS": 208033
+      },
+      {
+        "doy": 95,
+        "distM": 573528,
+        "gainM": 9850,
+        "timeS": 211751
+      },
+      {
+        "doy": 96,
+        "distM": 577627,
+        "gainM": 9879,
+        "timeS": 214455
+      },
+      {
+        "doy": 97,
+        "distM": 588433,
+        "gainM": 10152,
+        "timeS": 219869
+      },
+      {
+        "doy": 98,
+        "distM": 599768,
+        "gainM": 10258,
+        "timeS": 223265
+      },
+      {
+        "doy": 99,
+        "distM": 610097,
+        "gainM": 10299,
+        "timeS": 226383
+      },
+      {
+        "doy": 100,
+        "distM": 619777,
+        "gainM": 10354,
+        "timeS": 229226
+      },
+      {
+        "doy": 102,
+        "distM": 630307,
+        "gainM": 10415,
+        "timeS": 232349
+      },
+      {
+        "doy": 103,
+        "distM": 643386,
+        "gainM": 10787,
+        "timeS": 236451
+      },
+      {
+        "doy": 105,
+        "distM": 662923,
+        "gainM": 11057,
+        "timeS": 242503
+      },
+      {
+        "doy": 106,
+        "distM": 671762,
+        "gainM": 11482,
+        "timeS": 245776
+      },
+      {
+        "doy": 107,
+        "distM": 681707,
+        "gainM": 11707,
+        "timeS": 248995
+      },
+      {
+        "doy": 108,
+        "distM": 689015,
+        "gainM": 11805,
+        "timeS": 251236
+      },
+      {
+        "doy": 110,
+        "distM": 705143,
+        "gainM": 11890,
+        "timeS": 255684
+      },
+      {
+        "doy": 111,
+        "distM": 712496,
+        "gainM": 11980,
+        "timeS": 257930
+      },
+      {
+        "doy": 112,
+        "distM": 716393,
+        "gainM": 12008,
+        "timeS": 260434
+      },
+      {
+        "doy": 113,
+        "distM": 729649,
+        "gainM": 12415,
+        "timeS": 264798
+      },
+      {
+        "doy": 114,
+        "distM": 739651,
+        "gainM": 12537,
+        "timeS": 267897
+      },
+      {
+        "doy": 115,
+        "distM": 749318,
+        "gainM": 12636,
+        "timeS": 271077
+      },
+      {
+        "doy": 116,
+        "distM": 758981,
+        "gainM": 12713,
+        "timeS": 274050
+      },
+      {
+        "doy": 117,
+        "distM": 771407,
+        "gainM": 12877,
+        "timeS": 279182
+      },
+      {
+        "doy": 118,
+        "distM": 781830,
+        "gainM": 13209,
+        "timeS": 283852
+      },
+      {
+        "doy": 119,
+        "distM": 785667,
+        "gainM": 13238,
+        "timeS": 286276
+      },
+      {
+        "doy": 120,
+        "distM": 800167,
+        "gainM": 13384,
+        "timeS": 290525
+      },
+      {
+        "doy": 121,
+        "distM": 808360,
+        "gainM": 13465,
+        "timeS": 293012
+      },
+      {
+        "doy": 122,
+        "distM": 827684,
+        "gainM": 13923,
+        "timeS": 299337
+      },
+      {
+        "doy": 123,
+        "distM": 893059,
+        "gainM": 14762,
+        "timeS": 308386
+      },
+      {
+        "doy": 124,
+        "distM": 896684,
+        "gainM": 14799,
+        "timeS": 310675
+      },
+      {
+        "doy": 125,
+        "distM": 912804,
+        "gainM": 14972,
+        "timeS": 315692
+      },
+      {
+        "doy": 126,
+        "distM": 932242,
+        "gainM": 15042,
+        "timeS": 321549
+      },
+      {
+        "doy": 127,
+        "distM": 941909,
+        "gainM": 15142,
+        "timeS": 324402
+      },
+      {
+        "doy": 128,
+        "distM": 950516,
+        "gainM": 15235,
+        "timeS": 327224
+      },
+      {
+        "doy": 129,
+        "distM": 964113,
+        "gainM": 15336,
+        "timeS": 331399
+      },
+      {
+        "doy": 131,
+        "distM": 984678,
+        "gainM": 15888,
+        "timeS": 339902
+      },
+      {
+        "doy": 132,
+        "distM": 996288,
+        "gainM": 16188,
+        "timeS": 343774
+      },
+      {
+        "doy": 133,
+        "distM": 1008805,
+        "gainM": 16325,
+        "timeS": 349495
+      },
+      {
+        "doy": 135,
+        "distM": 1019628,
+        "gainM": 16419,
+        "timeS": 352728
+      },
+      {
+        "doy": 136,
+        "distM": 1034539,
+        "gainM": 16550,
+        "timeS": 357268
+      },
+      {
+        "doy": 137,
+        "distM": 1042636,
+        "gainM": 16646,
+        "timeS": 361243
+      },
+      {
+        "doy": 138,
+        "distM": 1046229,
+        "gainM": 16673,
+        "timeS": 363739
+      },
+      {
+        "doy": 139,
+        "distM": 1059117,
+        "gainM": 17007,
+        "timeS": 368162
+      },
+      {
+        "doy": 141,
+        "distM": 1069232,
+        "gainM": 17096,
+        "timeS": 371259
+      },
+      {
+        "doy": 142,
+        "distM": 1080142,
+        "gainM": 17228,
+        "timeS": 374775
+      },
+      {
+        "doy": 143,
+        "distM": 1094045,
+        "gainM": 17417,
+        "timeS": 379250
+      },
+      {
+        "doy": 144,
+        "distM": 1106681,
+        "gainM": 17524,
+        "timeS": 383034
+      },
+      {
+        "doy": 146,
+        "distM": 1117300,
+        "gainM": 17684,
+        "timeS": 386682
+      },
+      {
+        "doy": 147,
+        "distM": 1130766,
+        "gainM": 18130,
+        "timeS": 391372
+      },
+      {
+        "doy": 148,
+        "distM": 1138919,
+        "gainM": 18233,
+        "timeS": 394385
+      },
+      {
+        "doy": 150,
+        "distM": 1153983,
+        "gainM": 18500,
+        "timeS": 398932
+      },
+      {
+        "doy": 151,
+        "distM": 1170102,
+        "gainM": 18744,
+        "timeS": 403854
+      },
+      {
+        "doy": 152,
+        "distM": 1173324,
+        "gainM": 18766,
+        "timeS": 406517
+      },
+      {
+        "doy": 153,
+        "distM": 1186604,
+        "gainM": 18877,
+        "timeS": 410286
+      },
+      {
+        "doy": 154,
+        "distM": 1196611,
+        "gainM": 18956,
+        "timeS": 414495
+      },
+      {
+        "doy": 155,
+        "distM": 1200284,
+        "gainM": 18985,
+        "timeS": 417084
+      },
+      {
+        "doy": 156,
+        "distM": 1214217,
+        "gainM": 19151,
+        "timeS": 423252
+      },
+      {
+        "doy": 158,
+        "distM": 1231685,
+        "gainM": 19866,
+        "timeS": 429668
+      },
+      {
+        "doy": 159,
+        "distM": 1244762,
+        "gainM": 21056,
+        "timeS": 439659
+      },
+      {
+        "doy": 160,
+        "distM": 1251196,
+        "gainM": 21177,
+        "timeS": 444490
+      },
+      {
+        "doy": 161,
+        "distM": 1258892,
+        "gainM": 21452,
+        "timeS": 447391
+      },
+      {
+        "doy": 162,
+        "distM": 1267317,
+        "gainM": 21912,
+        "timeS": 452695
+      },
+      {
+        "doy": 163,
+        "distM": 1283538,
+        "gainM": 22939,
+        "timeS": 461097
+      },
+      {
+        "doy": 164,
+        "distM": 1300657,
+        "gainM": 23277,
+        "timeS": 466810
+      },
+      {
+        "doy": 165,
+        "distM": 1308731,
+        "gainM": 23513,
+        "timeS": 469729
+      },
+      {
+        "doy": 166,
+        "distM": 1322697,
+        "gainM": 24473,
+        "timeS": 477397
+      }
+    ]
+  }
+}
