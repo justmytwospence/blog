@@ -1,8 +1,9 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PageContainer } from '@/components/PageContainer';
 import { ObjectivesView } from '@/components/adventures/ObjectivesView';
-import { getObjectives } from '@/lib/adventures';
+import { getObjectives, getObjectiveLists } from '@/lib/adventures';
 
 export const metadata: Metadata = {
   title: 'Future Objectives',
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 
 export default function ObjectivesPage() {
   const { objectives } = getObjectives();
+  const lists = getObjectiveLists();
 
   return (
     <PageContainer width="wide">
@@ -26,8 +28,12 @@ export default function ObjectivesPage() {
           Routes, peaks, and trips still on the list — the forward-looking half of the logbook.
         </p>
       </div>
-      {objectives.length > 0 ? (
-        <ObjectivesView objectives={objectives} />
+      {objectives.length > 0 || lists.length > 0 ? (
+        <Suspense
+          fallback={<div className="py-12 text-center text-gray-500 dark:text-[#a6a6a6]">Loading…</div>}
+        >
+          <ObjectivesView objectives={objectives} lists={lists} />
+        </Suspense>
       ) : (
         <div className="py-12 text-center text-gray-500 dark:text-[#a6a6a6]">Nothing on the list yet.</div>
       )}

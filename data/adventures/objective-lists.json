@@ -1,0 +1,1033 @@
+{
+  "lists": [
+    {
+      "id": "14ers",
+      "label": "14ers",
+      "note": "US peaks ≥14,000 ft",
+      "items": [
+        {
+          "name": "Mt. Elbert",
+          "detail": "14,438 ft · Sawatch",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "mount-elbert"
+        },
+        {
+          "name": "Mt. Massive",
+          "detail": "14,427 ft · Sawatch",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "mount-massive"
+        },
+        {
+          "name": "Mt. Harvard",
+          "detail": "14,424 ft · Sawatch",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "harvard-columbia"
+        },
+        {
+          "name": "Blanca Peak",
+          "detail": "14,350 ft · Sangre de Cristo",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "blanca-ellingwood"
+        },
+        {
+          "name": "La Plata Peak",
+          "detail": "14,343 ft · Sawatch",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "la-plata-peak"
+        },
+        {
+          "name": "Uncompahgre Peak",
+          "detail": "14,321 ft · San Juan",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "uncompahgre-wetterhorn"
+        },
+        {
+          "name": "Crestone Peak",
+          "detail": "14,300 ft · Sangre de Cristo",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "crestone-peak"
+        },
+        {
+          "name": "Mt. Lincoln",
+          "detail": "14,293 ft · Mosquito",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "democrat-lincoln-cameron-bross"
+        },
+        {
+          "name": "Castle Peak",
+          "detail": "14,279 ft · Elk",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "castle-conundrum"
+        },
+        {
+          "name": "Grays Peak",
+          "detail": "14,278 ft · Front Range",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "grays-torreys"
+        },
+        {
+          "name": "Mt. Antero",
+          "detail": "14,276 ft · Sawatch",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "mount-antero"
+        },
+        {
+          "name": "Torreys Peak",
+          "detail": "14,275 ft · Front Range",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "grays-torreys"
+        },
+        {
+          "name": "Quandary Peak",
+          "detail": "14,271 ft · Tenmile",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "quandary-peak"
+        },
+        {
+          "name": "Mt. Evans (Mt. Blue Sky)",
+          "detail": "14,271 ft · Front Range",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "evans-bierstadt"
+        },
+        {
+          "name": "Longs Peak",
+          "detail": "14,259 ft · Front Range",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "longs-peak"
+        },
+        {
+          "name": "Mt. Wilson",
+          "detail": "14,252 ft · San Juan",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "wilson-el-diente-wilson"
+        },
+        {
+          "name": "Mt. Cameron",
+          "detail": "14,238 ft · Mosquito",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "democrat-lincoln-cameron-bross"
+        },
+        {
+          "name": "Mt. Shavano",
+          "detail": "14,231 ft · Sawatch",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "shavano-tabeguache"
+        },
+        {
+          "name": "Mt. Princeton",
+          "detail": "14,204 ft · Sawatch",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "mount-princeton"
+        },
+        {
+          "name": "Mt. Belford",
+          "detail": "14,203 ft · Sawatch",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "belford-oxford-missouri"
+        },
+        {
+          "name": "Crestone Needle",
+          "detail": "14,203 ft · Sangre de Cristo",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "crestone-needle"
+        },
+        {
+          "name": "Mt. Yale",
+          "detail": "14,200 ft · Sawatch",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "mount-yale"
+        },
+        {
+          "name": "Mt. Bross",
+          "detail": "14,178 ft · Mosquito",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "democrat-lincoln-cameron-bross"
+        },
+        {
+          "name": "Kit Carson Peak",
+          "detail": "14,171 ft · Sangre de Cristo",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "challenger-kit-carson"
+        },
+        {
+          "name": "Maroon Peak",
+          "detail": "14,163 ft · Elk",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "maroon-north-maroon"
+        },
+        {
+          "name": "Tabeguache Peak",
+          "detail": "14,162 ft · Sawatch",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "shavano-tabeguache"
+        },
+        {
+          "name": "Mt. Oxford",
+          "detail": "14,160 ft · Sawatch",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "belford-oxford-missouri"
+        },
+        {
+          "name": "Mt. Sneffels",
+          "detail": "14,158 ft · San Juan",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "mount-sneffels"
+        },
+        {
+          "name": "Mt. Democrat",
+          "detail": "14,155 ft · Mosquito",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "democrat-lincoln-cameron-bross"
+        },
+        {
+          "name": "Capitol Peak",
+          "detail": "14,137 ft · Elk",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "capitol-peak"
+        },
+        {
+          "name": "Pikes Peak",
+          "detail": "14,115 ft · Front Range",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "pikes-peak"
+        },
+        {
+          "name": "Snowmass Mountain",
+          "detail": "14,099 ft · Elk",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "snowmass-mountain"
+        },
+        {
+          "name": "Mt. Eolus",
+          "detail": "14,090 ft · San Juan",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "eolus-windom-sunlight-north-eolus"
+        },
+        {
+          "name": "Windom Peak",
+          "detail": "14,087 ft · San Juan",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "eolus-windom-sunlight-north-eolus"
+        },
+        {
+          "name": "Mt. Columbia",
+          "detail": "14,077 ft · Sawatch",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "harvard-columbia"
+        },
+        {
+          "name": "Missouri Mountain",
+          "detail": "14,074 ft · Sawatch",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "belford-oxford-missouri"
+        },
+        {
+          "name": "Humboldt Peak",
+          "detail": "14,070 ft · Sangre de Cristo",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "humboldt-peak"
+        },
+        {
+          "name": "Mt. Bierstadt",
+          "detail": "14,065 ft · Front Range",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "evans-bierstadt"
+        },
+        {
+          "name": "Sunlight Peak",
+          "detail": "14,064 ft · San Juan",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "eolus-windom-sunlight-north-eolus"
+        },
+        {
+          "name": "Handies Peak",
+          "detail": "14,058 ft · San Juan",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "handies-peak"
+        },
+        {
+          "name": "Culebra Peak",
+          "detail": "14,053 ft · Sangre de Cristo",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "culebra-peak"
+        },
+        {
+          "name": "Ellingwood Point",
+          "detail": "14,048 ft · Sangre de Cristo",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "blanca-ellingwood"
+        },
+        {
+          "name": "Mt. Lindsey",
+          "detail": "14,048 ft · Sangre de Cristo",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "mount-lindsey"
+        },
+        {
+          "name": "North Eolus",
+          "detail": "14,043 ft · San Juan",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "eolus-windom-sunlight-north-eolus"
+        },
+        {
+          "name": "Little Bear Peak",
+          "detail": "14,037 ft · Sangre de Cristo",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "little-bear-peak"
+        },
+        {
+          "name": "Mt. Sherman",
+          "detail": "14,036 ft · Mosquito",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "mount-sherman"
+        },
+        {
+          "name": "Redcloud Peak",
+          "detail": "14,034 ft · San Juan",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "redcloud-sunshine"
+        },
+        {
+          "name": "Pyramid Peak",
+          "detail": "14,018 ft · Elk",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "pyramid-peak"
+        },
+        {
+          "name": "Wilson Peak",
+          "detail": "14,017 ft · San Juan",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "wilson-el-diente-wilson"
+        },
+        {
+          "name": "Wetterhorn Peak",
+          "detail": "14,015 ft · San Juan",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "uncompahgre-wetterhorn"
+        },
+        {
+          "name": "San Luis Peak",
+          "detail": "14,014 ft · San Juan",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "san-luis-peak"
+        },
+        {
+          "name": "Mt. of the Holy Cross",
+          "detail": "14,005 ft · Sawatch",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "mount-of-the-holy-cross"
+        },
+        {
+          "name": "Huron Peak",
+          "detail": "14,003 ft · Sawatch",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "huron-peak"
+        },
+        {
+          "name": "Sunshine Peak",
+          "detail": "14,001 ft · San Juan",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "redcloud-sunshine"
+        },
+        {
+          "name": "Challenger Point",
+          "detail": "14,081 ft · Sangre de Cristo",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "challenger-kit-carson"
+        },
+        {
+          "name": "Conundrum Peak",
+          "detail": "14,060 ft · Elk",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "castle-conundrum"
+        },
+        {
+          "name": "North Maroon Peak",
+          "detail": "14,014 ft · Elk",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "maroon-north-maroon"
+        },
+        {
+          "name": "El Diente Peak",
+          "detail": "14,159 ft · San Juan",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "wilson-el-diente-wilson"
+        },
+        {
+          "name": "Mount Whitney",
+          "detail": "14,505 ft · Sierra Nevada",
+          "region": "CA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Williamson",
+          "detail": "14,379 ft · Sierra Nevada",
+          "region": "CA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "White Mountain Peak",
+          "detail": "14,252 ft · White Mountains",
+          "region": "CA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "North Palisade",
+          "detail": "14,248 ft · Sierra Nevada",
+          "region": "CA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Shasta",
+          "detail": "14,179 ft · Cascades",
+          "region": "CA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Sill",
+          "detail": "14,159 ft · Sierra Nevada",
+          "region": "CA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Russell",
+          "detail": "14,094 ft · Sierra Nevada",
+          "region": "CA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Split Mountain",
+          "detail": "14,064 ft · Sierra Nevada",
+          "region": "CA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Langley",
+          "detail": "14,032 ft · Sierra Nevada",
+          "region": "CA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Tyndall",
+          "detail": "14,025 ft · Sierra Nevada",
+          "region": "CA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Muir",
+          "detail": "14,018 ft · Sierra Nevada",
+          "region": "CA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Middle Palisade",
+          "detail": "14,018 ft · Sierra Nevada",
+          "region": "CA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Rainier",
+          "detail": "14,410 ft · Cascades",
+          "region": "WA",
+          "done": true,
+          "completedSlug": "rainier-kautz"
+        }
+      ]
+    },
+    {
+      "id": "seven-summits",
+      "label": "Seven Summits",
+      "note": "Highest peak on each continent",
+      "items": [
+        {
+          "name": "Everest",
+          "detail": "Asia · 29,032 ft / 8,849 m",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Aconcagua",
+          "detail": "South America · 22,838 ft / 6,961 m",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Denali",
+          "detail": "North America · 20,310 ft / 6,190 m",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Kilimanjaro",
+          "detail": "Africa · 19,341 ft / 5,895 m",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mt. Elbrus",
+          "detail": "Europe · 18,510 ft / 5,642 m",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mt. Vinson",
+          "detail": "Antarctica · 16,050 ft / 4,892 m",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mt. Kosciuszko",
+          "detail": "Australia · 7,310 ft / 2,228 m · Bass",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Carstensz Pyramid (Puncak Jaya)",
+          "detail": "Oceania · 16,024 ft / 4,884 m · Messner",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        }
+      ]
+    },
+    {
+      "id": "state-high-points",
+      "label": "State High Points",
+      "note": "Highest point in each US state",
+      "items": [
+        {
+          "name": "Cheaha Mountain",
+          "detail": "2,413 ft",
+          "region": "AL",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Denali",
+          "detail": "20,310 ft",
+          "region": "AK",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Humphreys Peak",
+          "detail": "12,633 ft",
+          "region": "AZ",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Magazine Mountain (Signal Hill)",
+          "detail": "2,753 ft",
+          "region": "AR",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Whitney",
+          "detail": "14,505 ft",
+          "region": "CA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Elbert",
+          "detail": "14,440 ft",
+          "region": "CO",
+          "done": true,
+          "completedSlug": "mount-elbert"
+        },
+        {
+          "name": "Mount Frissell (south slope)",
+          "detail": "2,380 ft",
+          "region": "CT",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Ebright Azimuth",
+          "detail": "448 ft",
+          "region": "DE",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Britton Hill",
+          "detail": "345 ft",
+          "region": "FL",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Brasstown Bald",
+          "detail": "4,784 ft",
+          "region": "GA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mauna Kea",
+          "detail": "13,803 ft",
+          "region": "HI",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Borah Peak",
+          "detail": "12,662 ft",
+          "region": "ID",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Charles Mound",
+          "detail": "1,235 ft",
+          "region": "IL",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Hoosier Hill",
+          "detail": "1,257 ft",
+          "region": "IN",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Hawkeye Point",
+          "detail": "1,671 ft",
+          "region": "IA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Sunflower",
+          "detail": "4,039 ft",
+          "region": "KS",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Black Mountain",
+          "detail": "4,145 ft",
+          "region": "KY",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Driskill Mountain",
+          "detail": "535 ft",
+          "region": "LA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Katahdin (Baxter Peak)",
+          "detail": "5,269 ft",
+          "region": "ME",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Hoye-Crest (Backbone Mountain)",
+          "detail": "3,360 ft",
+          "region": "MD",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Greylock",
+          "detail": "3,489 ft",
+          "region": "MA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Arvon",
+          "detail": "1,979 ft",
+          "region": "MI",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Eagle Mountain",
+          "detail": "2,301 ft",
+          "region": "MN",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Woodall Mountain",
+          "detail": "807 ft",
+          "region": "MS",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Taum Sauk Mountain",
+          "detail": "1,772 ft",
+          "region": "MO",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Granite Peak",
+          "detail": "12,799 ft",
+          "region": "MT",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Panorama Point",
+          "detail": "5,424 ft",
+          "region": "NE",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Boundary Peak",
+          "detail": "13,147 ft",
+          "region": "NV",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Washington",
+          "detail": "6,288 ft",
+          "region": "NH",
+          "done": true,
+          "completedSlug": "washington-via-huntington-jackson"
+        },
+        {
+          "name": "High Point",
+          "detail": "1,803 ft",
+          "region": "NJ",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Wheeler Peak",
+          "detail": "13,167 ft",
+          "region": "NM",
+          "done": true,
+          "completedSlug": "wheeler-peak-via-williams-lake"
+        },
+        {
+          "name": "Mount Marcy",
+          "detail": "5,344 ft",
+          "region": "NY",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Mitchell",
+          "detail": "6,684 ft",
+          "region": "NC",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "White Butte",
+          "detail": "3,506 ft",
+          "region": "ND",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Campbell Hill",
+          "detail": "1,550 ft",
+          "region": "OH",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Black Mesa",
+          "detail": "4,973 ft",
+          "region": "OK",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Hood",
+          "detail": "11,239 ft",
+          "region": "OR",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Davis",
+          "detail": "3,213 ft",
+          "region": "PA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Jerimoth Hill",
+          "detail": "812 ft",
+          "region": "RI",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Sassafras Mountain",
+          "detail": "3,553 ft",
+          "region": "SC",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Black Elk Peak (Harney Peak)",
+          "detail": "7,242 ft",
+          "region": "SD",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Clingmans Dome",
+          "detail": "6,643 ft",
+          "region": "TN",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Guadalupe Peak",
+          "detail": "8,751 ft",
+          "region": "TX",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Kings Peak",
+          "detail": "13,528 ft",
+          "region": "UT",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Mansfield",
+          "detail": "4,393 ft",
+          "region": "VT",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Rogers",
+          "detail": "5,729 ft",
+          "region": "VA",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Mount Rainier",
+          "detail": "14,411 ft",
+          "region": "WA",
+          "done": true,
+          "completedSlug": "rainier-kautz"
+        },
+        {
+          "name": "Spruce Knob",
+          "detail": "4,863 ft",
+          "region": "WV",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Timms Hill",
+          "detail": "1,951 ft",
+          "region": "WI",
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Gannett Peak",
+          "detail": "13,809 ft",
+          "region": "WY",
+          "done": false,
+          "completedSlug": null
+        }
+      ]
+    },
+    {
+      "id": "thru-hikes",
+      "label": "Thru-Hikes",
+      "note": "Long-distance hiking trails",
+      "items": [
+        {
+          "name": "Appalachian Trail (AT)",
+          "detail": "2,197 mi",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Pacific Crest Trail (PCT)",
+          "detail": "2,650 mi",
+          "region": null,
+          "done": true,
+          "completedSlug": "pacific-crest-trail"
+        },
+        {
+          "name": "Continental Divide Trail (CDT)",
+          "detail": "3,100 mi",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "John Muir Trail (JMT)",
+          "detail": "211 mi",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Colorado Trail",
+          "detail": "485 mi",
+          "region": null,
+          "done": true,
+          "completedSlug": "colorado-trail"
+        },
+        {
+          "name": "Wonderland Trail",
+          "detail": "93 mi",
+          "region": null,
+          "done": true,
+          "completedSlug": "wonderland-loop"
+        },
+        {
+          "name": "Long Trail",
+          "detail": "273 mi",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Tahoe Rim Trail",
+          "detail": "165 mi",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        }
+      ]
+    },
+    {
+      "id": "bikepacks",
+      "label": "Bikepacks",
+      "note": "Long-distance bikepacking routes",
+      "items": [
+        {
+          "name": "Great Divide Mountain Bike Route / Tour Divide",
+          "detail": "2,745 mi",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Colorado Trail (bikepack)",
+          "detail": "535 mi",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Arizona Trail 300 / 800",
+          "detail": "800 mi",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Baja Divide",
+          "detail": "1,700 mi",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        },
+        {
+          "name": "Oregon Timber Trail",
+          "detail": "670 mi",
+          "region": null,
+          "done": false,
+          "completedSlug": null
+        }
+      ]
+    }
+  ]
+}
