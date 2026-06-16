@@ -4,6 +4,7 @@ strava_ids: [9172587486, 9185458286, 9190048809]
 sport: Mountaineering
 type: mountaineering
 difficulty: epic
+tags: [washington, cascades, state-highpoint]
 hidden: false
 days:
   - title: "Rainier approach to High Castle camp"
