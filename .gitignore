@@ -34,6 +34,12 @@ pnpm-debug.log*
 # strava sync local token (rotated refresh token)
 /.strava-token.json
 
+# rolling stats — now live in the runtime store (Redis), not git. Local copies are a dev-only
+# seed (run `npm run totals:refresh`); never committed.
+/data/adventures/all-activities.json
+/data/adventures/lifetime-totals.json
+/data/adventures/yearly-totals.json
+
 # vercel
 .vercel
 

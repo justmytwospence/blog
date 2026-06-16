@@ -19,11 +19,13 @@ export const metadata: Metadata = {
     'A curated library of trail runs, mountaineering, skiing, and cycling — automated trip reports with maps, stats, and photos.',
 };
 
-export default function AdventuresPage() {
+export const revalidate = 3600;
+
+export default async function AdventuresPage() {
   const adventures = getAllAdventures();
-  const yearly = getYearlyTotals();
-  const grand = getActivityGrandTotals();
-  const byMonthSport = getLifetimeByMonthSport();
+  const yearly = await getYearlyTotals();
+  const grand = await getActivityGrandTotals();
+  const byMonthSport = await getLifetimeByMonthSport();
 
   return (
     <PageContainer width="wide">
