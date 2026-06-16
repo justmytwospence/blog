@@ -11,6 +11,7 @@ import { FACET_ORDER } from './facets';
 import type { ObjectiveList } from './objective-lists';
 import { preprocessObsidian } from '@blog/obsidian-md';
 import type { AdventureActivity, AdventureStats, SportType } from '@blog/strava/types';
+import { readTotals, hasStore } from './strava-store';
 import { parseStravaIds, usesIdArray } from '@blog/strava';
 
 export type {
@@ -593,17 +594,22 @@ interface LifetimeFile {
 }
 
 /** Per-year, per-sport totals across the full human-powered history — for the composition chart. */
-export function getLifetimeByYearSport(): YearSportTotals {
-  return readLifetimeFile()?.byYearSport ?? {};
+export async function getLifetimeByYearSport(): Promise<YearSportTotals> {
+  return (await readLifetimeFile())?.byYearSport ?? {};
 }
 
 /** Per-month (YYYY-MM), per-sport volume — for the seasonal stacked-area chart. */
-export function getLifetimeByMonthSport(): YearSportTotals {
-  return readLifetimeFile()?.byMonthSport ?? {};
+export async function getLifetimeByMonthSport(): Promise<YearSportTotals> {
+  return (await readLifetimeFile())?.byMonthSport ?? {};
 }
 
 /** Committed full-history totals (every human-powered activity), or null if not generated yet. */
-function readLifetimeFile(): LifetimeFile | null {
+async function readLifetimeFile(): Promise<LifetimeFile | null> {
+  if (hasStore()) {
+    const t = await readTotals();
+    return (t?.lifetime as unknown as LifetimeFile) ?? null;
+  }
+  // dev / fallback: the gitignored local file (populate with `npm run totals:refresh`)
   if (!fs.existsSync(LIFETIME_FILE)) return null;
   try {
     return JSON.parse(fs.readFileSync(LIFETIME_FILE, 'utf8')) as LifetimeFile;
@@ -629,7 +635,11 @@ export interface YearlyTotals {
 }
 
 /** Cumulative distance + elevation by day-of-year per year, across the full activity history. */
-export function getYearlyTotals(): YearlyTotals {
+export async function getYearlyTotals(): Promise<YearlyTotals> {
+  if (hasStore()) {
+    const t = await readTotals();
+    return (t?.yearly as YearlyTotals) ?? { years: {} };
+  }
   if (!fs.existsSync(YEARLY_FILE)) return { years: {} };
   try {
     return JSON.parse(fs.readFileSync(YEARLY_FILE, 'utf8')) as YearlyTotals;
@@ -640,12 +650,12 @@ export function getYearlyTotals(): YearlyTotals {
 }
 
 /** All-time distance + elevation + time across the FULL activity history (not just published adventures). */
-export function getActivityGrandTotals(): {
+export async function getActivityGrandTotals(): Promise<{
   distanceMeters: number;
   elevationGainMeters: number;
   movingTimeSeconds: number;
-} {
-  const { years } = getYearlyTotals();
+}> {
+  const { years } = await getYearlyTotals();
   let distanceMeters = 0;
   let elevationGainMeters = 0;
   let movingTimeSeconds = 0;

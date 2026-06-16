@@ -21,3 +21,13 @@ export { transformDetailToActivity, mapSportType, buildPhotosFromRaw } from './t
 export { parseStravaIds, usesIdArray } from './companions';
 export { reverseGeocode, type GeoLocation } from './geocode';
 export { INDOOR_SPORT, isPoolSwim, isHumanPowered, type ClassifiableActivity } from './classify';
+export {
+  buildTotals,
+  type StravaTotals,
+  type LifetimeTotals,
+  type YearlyTotals,
+  type YearPoint,
+  type SportTotal,
+  type YearSportTree,
+} from './totals';
+export { toEntry, crawlActivities } from './crawl';
