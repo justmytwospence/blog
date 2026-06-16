@@ -8,6 +8,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { mapCommonMetadata, normalizeDate } from './content';
 import { FACET_ORDER } from './facets';
+import type { ObjectiveList } from './objective-lists';
 import { preprocessObsidian } from '@blog/obsidian-md';
 import type { AdventureActivity, AdventureStats, SportType } from '@blog/strava/types';
 import { parseStravaIds, usesIdArray } from '@blog/strava';
@@ -24,6 +25,7 @@ const ADVENTURES_DIR = path.join(process.cwd(), 'content', 'adventures');
 const SNAPSHOT_DIR = path.join(process.cwd(), 'data', 'adventures');
 const ACTIVITIES_DIR = path.join(SNAPSHOT_DIR, 'activities');
 const OBJECTIVES_FILE = path.join(SNAPSHOT_DIR, 'objectives.json');
+const OBJECTIVE_LISTS_FILE = path.join(SNAPSHOT_DIR, 'objective-lists.json');
 const YEARLY_FILE = path.join(SNAPSHOT_DIR, 'yearly-totals.json');
 const LIFETIME_FILE = path.join(SNAPSHOT_DIR, 'lifetime-totals.json');
 
@@ -685,5 +687,21 @@ export function getObjectives(): ObjectivesData {
   } catch (err) {
     console.error('[adventures] bad objectives.json:', err);
     return { objectives: [] };
+  }
+}
+
+/**
+ * Named objective checklists (14ers, Seven Summits, State High Points, Thru-Hikes, Bikepacks). Unlike
+ * the wishlist, these are canonical fixed lists with per-item done/todo status — done items carry the
+ * slug of the report that completed them. Read straight from the committed snapshot, order preserved.
+ */
+export function getObjectiveLists(): ObjectiveList[] {
+  if (!fs.existsSync(OBJECTIVE_LISTS_FILE)) return [];
+  try {
+    const data = JSON.parse(fs.readFileSync(OBJECTIVE_LISTS_FILE, 'utf8')) as { lists?: ObjectiveList[] };
+    return data.lists ?? [];
+  } catch (err) {
+    console.error('[adventures] bad objective-lists.json:', err);
+    return [];
   }
 }
