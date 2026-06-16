@@ -36,5 +36,8 @@ jobs:
       - name: Validate adventures
         run: npm run adventure:validate
 
+      - name: Totals in sync with index
+        run: npm run totals:build && git diff --exit-code data/adventures/lifetime-totals.json data/adventures/yearly-totals.json
+
       - name: Build
         run: npm run build

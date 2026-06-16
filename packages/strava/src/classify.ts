@@ -37,10 +37,10 @@ export interface ClassifiableActivity {
 
 /**
  * Whether an activity counts toward lifetime human-powered totals: excludes indoor/virtual/gym sports,
- * trainer efforts, commutes, and pool swims.
+ * trainer efforts, and pool swims. Commutes ARE counted — a commute ride is still human-powered.
  */
 export function isHumanPowered(a: ClassifiableActivity): boolean {
-  if (a.trainer || a.commute || a.poolSwim) return false;
+  if (a.trainer || a.poolSwim) return false;
   if (INDOOR_SPORT.has(a.sport)) return false;
   return true;
 }

@@ -24,9 +24,9 @@ describe('isHumanPowered', () => {
       expect(isHumanPowered({ sport: s })).toBe(false);
     }
   });
-  it('excludes trainer and commute efforts', () => {
+  it('excludes trainer efforts but counts commutes (commutes are human-powered)', () => {
     expect(isHumanPowered({ sport: 'Ride', trainer: true })).toBe(false);
-    expect(isHumanPowered({ sport: 'Ride', commute: true })).toBe(false);
+    expect(isHumanPowered({ sport: 'Ride', commute: true })).toBe(true);
   });
   it('excludes pool swims but keeps open water', () => {
     expect(isHumanPowered({ sport: 'Swim', poolSwim: true })).toBe(false);
