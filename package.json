@@ -17,6 +17,8 @@
     "sync:strava": "tsx scripts/sync-strava.ts",
     "sync:index": "tsx scripts/build-index.ts",
     "sync:totals": "tsx scripts/build-totals.ts",
+    "adventure:new": "tsx scripts/adventure-new.ts",
+    "adventure:validate": "tsx scripts/adventure-validate.ts",
     "strava:thumbs": "tsx scripts/regen-thumbs.ts",
     "add:14ers": "tsx scripts/add-14ers.ts",
     "add:pct": "tsx scripts/add-pct.ts",
