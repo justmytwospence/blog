@@ -1,0 +1,300 @@
+'use client';
+
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useTheme } from 'next-themes';
+
+interface Peak {
+  name: string;
+  elevationFt: number;
+  prominenceFt: number;
+  county?: string;
+  ydsClass?: string;
+  official: boolean;
+}
+
+const ELEV_MIN = 12000;
+const ELEV_MAX = 14440;
+const PROM_MAX = 1000;
+
+/** Index of the first element >= x in an ascending array (lower bound). */
+function lowerBound(arr: number[], x: number): number {
+  let lo = 0;
+  let hi = arr.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (arr[mid] < x) lo = mid + 1;
+    else hi = mid;
+  }
+  return lo;
+}
+
+const nf = new Intl.NumberFormat('en-US');
+
+export default function ColoradoPeaks() {
+  const [peaks, setPeaks] = useState<Peak[] | null>(null);
+  const [failed, setFailed] = useState(false);
+  const [elevationThreshold, setElevationThreshold] = useState(14000);
+  const [prominenceCutoff, setProminenceCutoff] = useState(300);
+
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
+
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(680);
+
+  useEffect(() => {
+    let alive = true;
+    fetch('/colorado-peaks.json')
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+      .then((data: Peak[]) => {
+        if (alive) setPeaks(data);
+      })
+      .catch(() => {
+        if (alive) setFailed(true);
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver((entries) => {
+      const w = entries[0]?.contentRect.width;
+      if (w) setWidth(w);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // Ascending elevation arrays, for survival counts via binary search.
+  const elevAll = useMemo(
+    () => (peaks ? peaks.map((p) => p.elevationFt).sort((a, b) => a - b) : []),
+    [peaks],
+  );
+  const elevQualifying = useMemo(
+    () =>
+      peaks
+        ? peaks
+            .filter((p) => p.prominenceFt >= prominenceCutoff)
+            .map((p) => p.elevationFt)
+            .sort((a, b) => a - b)
+        : [],
+    [peaks, prominenceCutoff],
+  );
+
+  const survAll = (x: number) => elevAll.length - lowerBound(elevAll, x);
+  const survQual = (x: number) => elevQualifying.length - lowerBound(elevQualifying, x);
+
+  const qualifyingCount = survQual(elevationThreshold);
+  const aboveCount = survAll(elevationThreshold);
+  const cutByProminence = aboveCount - qualifyingCount;
+
+  // Peaks at or above the threshold, marginal (lowest) first — where the in/out action happens.
+  const boundaryPeaks = useMemo(() => {
+    if (!peaks) return [];
+    return peaks
+      .filter((p) => p.elevationFt >= elevationThreshold)
+      .sort((a, b) => a.elevationFt - b.elevationFt);
+  }, [peaks, elevationThreshold]);
+  const LIST_CAP = 60;
+  const shownPeaks = boundaryPeaks.slice(0, LIST_CAP);
+
+  // ---- chart geometry ----
+  const height = 340;
+  const pad = { top: 18, right: 16, bottom: 42, left: 52 };
+  const pw = Math.max(10, width - pad.left - pad.right);
+  const ph = height - pad.top - pad.bottom;
+  const total = elevAll.length || 1;
+
+  const sx = (e: number) => pad.left + ((e - ELEV_MIN) / (ELEV_MAX - ELEV_MIN)) * pw;
+  // log-scale y so 53 ... ~1,800 are all legible (the count spans elevation bands).
+  const logMax = Math.log10(total);
+  const sy = (c: number) => pad.top + ph - (Math.log10(Math.max(1, c)) / logMax) * ph;
+
+  const SAMPLES = Math.max(60, Math.round(pw / 3));
+  const buildPath = (surv: (x: number) => number) => {
+    let d = '';
+    for (let i = 0; i <= SAMPLES; i++) {
+      const e = ELEV_MIN + (i / SAMPLES) * (ELEV_MAX - ELEV_MIN);
+      const x = sx(e);
+      const y = sy(surv(e));
+      d += i === 0 ? `M ${x.toFixed(1)} ${y.toFixed(1)}` : ` L ${x.toFixed(1)} ${y.toFixed(1)}`;
+    }
+    return d;
+  };
+  const pathAll = peaks ? buildPath(survAll) : '';
+  const pathQual = peaks ? buildPath(survQual) : '';
+
+  const c = {
+    grid: isDark ? '#26262f' : '#e8e8ee',
+    axis: isDark ? '#6b7280' : '#9ca3af',
+    text: isDark ? '#a6a6a6' : '#6b7280',
+    all: isDark ? '#3f3f5a' : '#cbd5e1',
+    qual: isDark ? '#2dd4bf' : '#0d9488',
+    marker: isDark ? '#f59e0b' : '#d97706',
+    panel: isDark ? '#141418' : '#ffffff',
+  };
+
+  const yTicks = [1, 10, 100, 1000].filter((t) => t <= total);
+  const xTicks = [12000, 12500, 13000, 13500, 14000];
+
+  if (failed) {
+    return (
+      <div className="rounded-xl border border-gray-200 dark:border-[#303031] p-6 text-sm text-gray-500 dark:text-[#a6a6a6]">
+        Couldn’t load the peak data. Try refreshing.
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-xl border border-gray-200 dark:border-[#303031] bg-gray-50 dark:bg-[#1e1e1e] p-4 sm:p-5 not-prose">
+      {/* Sliders */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+        <div>
+          <div className="flex justify-between items-baseline mb-1.5">
+            <label className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-[#8a8a8a]">
+              Elevation threshold
+            </label>
+            <span className="font-mono text-base font-semibold text-teal-600 dark:text-teal-400">
+              {nf.format(elevationThreshold)}′
+            </span>
+          </div>
+          <input
+            type="range"
+            min={ELEV_MIN}
+            max={ELEV_MAX}
+            step={10}
+            value={elevationThreshold}
+            onChange={(e) => setElevationThreshold(Number(e.target.value))}
+            className="w-full accent-teal-500"
+            aria-label="Elevation threshold in feet"
+          />
+        </div>
+        <div>
+          <div className="flex justify-between items-baseline mb-1.5">
+            <label className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-[#8a8a8a]">
+              Prominence cutoff (separation rule)
+            </label>
+            <span className="font-mono text-base font-semibold text-amber-600 dark:text-amber-400">
+              {nf.format(prominenceCutoff)}′
+            </span>
+          </div>
+          <input
+            type="range"
+            min={0}
+            max={PROM_MAX}
+            step={10}
+            value={prominenceCutoff}
+            onChange={(e) => setProminenceCutoff(Number(e.target.value))}
+            className="w-full accent-amber-500"
+            aria-label="Prominence cutoff in feet"
+          />
+        </div>
+      </div>
+
+      {/* Headline count */}
+      <div className="mb-4 text-sm text-gray-700 dark:text-[#cccccc]">
+        <span className="font-mono text-2xl font-bold text-gray-900 dark:text-white">
+          {peaks ? nf.format(qualifyingCount) : '—'}
+        </span>{' '}
+        peaks clear <span className="font-mono">{nf.format(elevationThreshold)}′</span> with at least{' '}
+        <span className="font-mono">{nf.format(prominenceCutoff)}′</span> of prominence
+        {peaks && cutByProminence > 0 && (
+          <>
+            {' '}
+            <span className="text-amber-600 dark:text-amber-400">
+              ({nf.format(cutByProminence)} more clear the height but are cut by the separation rule)
+            </span>
+          </>
+        )}
+        .
+      </div>
+
+      {/* Chart */}
+      <div ref={wrapRef} className="w-full">
+        <svg
+          width={width}
+          height={height}
+          role="img"
+          aria-label="Cumulative count of Colorado peaks at or above an elevation threshold"
+          className="block"
+          style={{ background: c.panel, borderRadius: 8 }}
+        >
+          {/* y grid + ticks (log) */}
+          {yTicks.map((t) => (
+            <g key={`y${t}`}>
+              <line x1={pad.left} y1={sy(t)} x2={pad.left + pw} y2={sy(t)} stroke={c.grid} strokeWidth={1} />
+              <text x={pad.left - 8} y={sy(t) + 3} textAnchor="end" fontSize={10} fill={c.text} fontFamily="monospace">
+                {nf.format(t)}
+              </text>
+            </g>
+          ))}
+          {/* x ticks */}
+          {xTicks.map((t) => (
+            <text key={`x${t}`} x={sx(t)} y={height - 24} textAnchor="middle" fontSize={10} fill={c.text} fontFamily="monospace">
+              {(t / 1000).toFixed(1)}k′
+            </text>
+          ))}
+          {/* faint "ignoring prominence" curve + qualifying curve */}
+          {peaks && <path d={pathAll} fill="none" stroke={c.all} strokeWidth={1.5} strokeDasharray="3,3" />}
+          {peaks && <path d={pathQual} fill="none" stroke={c.qual} strokeWidth={2.5} />}
+          {/* threshold marker */}
+          {peaks && (
+            <>
+              <line x1={sx(elevationThreshold)} y1={pad.top} x2={sx(elevationThreshold)} y2={pad.top + ph} stroke={c.marker} strokeWidth={1.5} strokeDasharray="4,3" />
+              <circle cx={sx(elevationThreshold)} cy={sy(qualifyingCount)} r={4} fill={c.marker} />
+            </>
+          )}
+          {/* axes */}
+          <line x1={pad.left} y1={pad.top + ph} x2={pad.left + pw} y2={pad.top + ph} stroke={c.axis} strokeWidth={1} />
+          <text x={pad.left + pw} y={height - 6} textAnchor="end" fontSize={10} fill={c.text}>
+            elevation →
+          </text>
+        </svg>
+        <div className="flex gap-4 mt-2 text-[11px] text-gray-500 dark:text-[#8a8a8a]">
+          <span className="flex items-center gap-1.5">
+            <span className="inline-block w-4 h-0.5" style={{ background: c.qual }} /> qualifying peaks
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="inline-block w-4 border-t border-dashed" style={{ borderColor: c.all }} /> ignoring prominence
+          </span>
+          <span className="ml-auto">log scale</span>
+        </div>
+      </div>
+
+      {/* Boundary list */}
+      <div className="mt-5">
+        <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-[#8a8a8a] mb-2">
+          At or above {nf.format(elevationThreshold)}′ — closest to the line first
+        </h3>
+        <div className="rounded-lg border border-gray-200 dark:border-[#303031] divide-y divide-gray-100 dark:divide-[#252528] max-h-80 overflow-y-auto bg-white dark:bg-[#141418]">
+          {!peaks && <div className="p-4 text-sm text-gray-400">Loading {nf.format(0)} peaks…</div>}
+          {peaks &&
+            shownPeaks.map((p, i) => {
+              const qualifies = p.prominenceFt >= prominenceCutoff;
+              return (
+                <div key={`${p.name}-${p.elevationFt}-${i}`} className="flex items-center gap-3 px-3 py-2 text-sm">
+                  <span className={`shrink-0 w-1.5 h-6 rounded ${qualifies ? 'bg-teal-500' : 'bg-amber-500'}`} />
+                  <span className={`flex-1 ${p.official ? '' : 'italic'} text-gray-900 dark:text-[#e4e4e4]`}>
+                    {p.name}
+                    {p.county && <span className="text-gray-400 dark:text-[#6b6b6b]"> · {p.county}</span>}
+                  </span>
+                  <span className="font-mono text-gray-700 dark:text-[#bbb] tabular-nums">{nf.format(p.elevationFt)}′</span>
+                  <span className={`font-mono tabular-nums w-20 text-right ${qualifies ? 'text-gray-400 dark:text-[#6b6b6b]' : 'text-amber-600 dark:text-amber-400 font-semibold'}`}>
+                    {nf.format(p.prominenceFt)}′ prom
+                  </span>
+                </div>
+              );
+            })}
+          {peaks && boundaryPeaks.length > LIST_CAP && (
+            <div className="px-3 py-2 text-xs text-gray-400 dark:text-[#6b6b6b]">
+              + {nf.format(boundaryPeaks.length - LIST_CAP)} more higher up
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
