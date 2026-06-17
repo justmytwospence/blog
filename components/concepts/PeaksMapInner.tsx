@@ -11,17 +11,30 @@ interface MapPeak {
   prominenceFt: number;
   lat?: number;
   lon?: number;
-  lojId?: number;
+  coUrl?: string;
   official: boolean;
 }
 
 const nf = new Intl.NumberFormat('en-US');
 
-/** Keep Leaflet sized when its container resizes (mirrors the adventures maps). */
-function ResizeHandler() {
+// Colorado's bounding box (it's a near-rectangle): SW and NE corners.
+const CO_BOUNDS: [[number, number], [number, number]] = [
+  [36.992, -109.06],
+  [41.003, -102.041],
+];
+
+/** Frame exactly Colorado on mount and keep it framed on resize. */
+function FitColorado() {
   const map = useMap();
   useEffect(() => {
-    const ro = new ResizeObserver(() => map.invalidateSize());
+    const fit = () => {
+      const { x, y } = map.getSize();
+      if (x < 50 || y < 50) return; // container not laid out yet
+      map.invalidateSize();
+      map.fitBounds(CO_BOUNDS, { padding: [2, 2], animate: false });
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
     ro.observe(map.getContainer());
     return () => ro.disconnect();
   }, [map]);
@@ -51,13 +64,13 @@ export function PeaksMapInner({
     <MapContainer
       preferCanvas
       scrollWheelZoom={false}
-      center={[39.0, -105.6]}
-      zoom={6}
+      bounds={CO_BOUNDS}
+      boundsOptions={{ padding: [2, 2] }}
       style={{ height: '100%', width: '100%' }}
       className="h-full w-full"
     >
       <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} maxZoom={TILE_MAX_ZOOM} />
-      <ResizeHandler />
+      <FitColorado />
       {shown.map((p) => {
         const qualifies = p.prominenceFt >= prominenceCutoff;
         const color = qualifies ? '#0d9488' : '#d97706';
@@ -71,14 +84,18 @@ export function PeaksMapInner({
             pathOptions={{ color, fillColor: color, fillOpacity: 0.4, weight: 0.75, opacity: 0.7 }}
           >
             <Popup>
-              <a
-                href={p.lojId ? `https://listsofjohn.com/peak/${p.lojId}` : undefined}
-                target="_blank"
-                rel="noreferrer"
-                style={{ fontWeight: 600, fontStyle: p.official ? 'normal' : 'italic' }}
-              >
-                {p.name}
-              </a>
+              {p.coUrl ? (
+                <a
+                  href={p.coUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ fontWeight: 600, fontStyle: p.official ? 'normal' : 'italic' }}
+                >
+                  {p.name}
+                </a>
+              ) : (
+                <span style={{ fontWeight: 600, fontStyle: p.official ? 'normal' : 'italic' }}>{p.name}</span>
+              )}
               <div style={{ marginTop: 2, fontSize: 12, color: '#666' }}>
                 {nf.format(p.elevationFt)}′ · {nf.format(p.prominenceFt)}′ prom ·{' '}
                 {qualifies ? 'counts' : 'cut by the rule'}

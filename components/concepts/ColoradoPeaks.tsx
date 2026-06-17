@@ -15,15 +15,15 @@ interface Peak {
   prominenceFt: number;
   county?: string;
   ydsClass?: string;
-  lojId?: number;
+  coUrl?: string;
   lat?: number;
   lon?: number;
   official: boolean;
 }
 
-/** The authoritative per-peak reference. Lists of John has a page for every ranked CO summit. */
+/** The peak's 14ers.com page (14ers + most 13ers); undefined for peaks not on the site (e.g. 12ers). */
 function peakUrl(p: Peak): string | undefined {
-  return p.lojId ? `https://listsofjohn.com/peak/${p.lojId}` : undefined;
+  return p.coUrl;
 }
 
 const ELEV_MIN = 12000;
@@ -204,7 +204,7 @@ export default function ColoradoPeaks() {
             <PeaksMap peaks={peaks} elevationThreshold={elevationThreshold} prominenceCutoff={prominenceCutoff} />
           </div>
           <div className="mt-1.5 text-[11px] text-gray-400 dark:text-[#6b6b6b]">
-            {nf.format(mappedCount)} of {nf.format(peaks.length)} peaks have mapped coordinates · click any for its Lists of John page · basemap &amp; coordinates © OpenStreetMap
+            {nf.format(mappedCount)} of {nf.format(peaks.length)} peaks mapped · 14ers and 13ers link to 14ers.com · basemap &amp; coordinates © OpenStreetMap
           </div>
         </div>
       )}
@@ -354,14 +354,18 @@ export default function ColoradoPeaks() {
                 <div key={`${p.name}-${p.elevationFt}-${i}`} className="flex items-center gap-3 px-3 py-2 text-sm">
                   <span className={`shrink-0 w-1.5 h-6 rounded ${qualifies ? 'bg-teal-500' : 'bg-amber-500'}`} />
                   <span className="flex-1">
-                    <a
-                      href={peakUrl(p)}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`${p.official ? '' : 'italic'} text-gray-900 dark:text-[#e4e4e4] hover:text-teal-600 dark:hover:text-teal-400 hover:underline`}
-                    >
-                      {p.name}
-                    </a>
+                    {peakUrl(p) ? (
+                      <a
+                        href={peakUrl(p)}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={`${p.official ? '' : 'italic'} text-gray-900 dark:text-[#e4e4e4] hover:text-teal-600 dark:hover:text-teal-400 hover:underline`}
+                      >
+                        {p.name}
+                      </a>
+                    ) : (
+                      <span className={`${p.official ? '' : 'italic'} text-gray-900 dark:text-[#e4e4e4]`}>{p.name}</span>
+                    )}
                     {p.county && <span className="text-gray-400 dark:text-[#6b6b6b]"> · {p.county}</span>}
                   </span>
                   <span className="font-mono text-gray-700 dark:text-[#bbb] tabular-nums">{nf.format(p.elevationFt)}′</span>

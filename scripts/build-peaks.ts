@@ -27,8 +27,8 @@ export interface Peak {
   prominenceFt: number;
   county?: string;
   ydsClass?: string;
-  /** Lists of John peak id — links to listsofjohn.com/peak/<id>, the authoritative per-peak page. */
-  lojId?: number;
+  /** Link to the peak's 14ers.com page (covers 14ers + most 13ers), matched by name. */
+  coUrl?: string;
   /** Coordinates (from OpenStreetMap, matched by name + elevation) — present for ~half the peaks. */
   lat?: number;
   lon?: number;
@@ -80,6 +80,38 @@ function attachCoords(peaks: Peak[]): void {
   console.log(`coords: matched ${matched}/${peaks.length} peaks to OSM coordinates`);
 }
 
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+/**
+ * Link each peak to its 14ers.com page (covers 14ers + most 13ers, not 12ers), matched by slugified
+ * name. 14ers.com prefixes 13er slugs with `13er-` and adds `-a`/`-b` for duplicate names; a name
+ * with more than one disambiguated candidate is left unlinked rather than risk a wrong link.
+ */
+function attachCoUrls(peaks: Peak[]): void {
+  const p = path.join(RAW_DIR, '14ers-com.json');
+  if (!fs.existsSync(p)) return;
+  const bySlug: Record<string, string> = JSON.parse(fs.readFileSync(p, 'utf8'));
+  const norm = new Map<string, string[]>();
+  for (const [slug, url] of Object.entries(bySlug)) {
+    const base = slug.replace(/^13er-/, '').replace(/-([a-z])$/, '');
+    (norm.get(base) ?? norm.set(base, []).get(base)!).push(url);
+  }
+  let matched = 0;
+  for (const pk of peaks) {
+    const s = slugify(pk.name);
+    let rel = bySlug[s] ?? bySlug[`13er-${s}`];
+    if (!rel) {
+      const cands = norm.get(s);
+      if (cands && cands.length === 1) rel = cands[0];
+    }
+    if (rel) {
+      pk.coUrl = `https://www.14ers.com${rel}`;
+      matched++;
+    }
+  }
+  console.log(`14ers.com: linked ${matched}/${peaks.length} peaks`);
+}
+
 function stripTags(s: string): string {
   return s
     .replace(/<[^>]*>/g, '')
@@ -116,11 +148,9 @@ function parseFile(html: string): Peak[] {
     if (!Number.isFinite(elevationFt) || !Number.isFinite(prominenceFt)) continue;
     const { name, official } = normalizeName(cells[1]);
     if (!name) continue;
-    const idMatch = cells[1].match(/\/peak\/(\d+)/);
-    const lojId = idMatch ? Number(idMatch[1]) : undefined;
     const county = stripTags(cells[6]) || undefined;
     const yds = cells[10] ? stripTags(cells[10]) : undefined;
-    peaks.push({ name, elevationFt, prominenceFt, county, ydsClass: yds || undefined, lojId, official });
+    peaks.push({ name, elevationFt, prominenceFt, county, ydsClass: yds || undefined, official });
   }
   return peaks;
 }
@@ -146,6 +176,7 @@ function main(): void {
     .sort((a, b) => b.elevationFt - a.elevationFt || b.prominenceFt - a.prominenceFt);
 
   attachCoords(peaks);
+  attachCoUrls(peaks);
 
   fs.writeFileSync(OUT, JSON.stringify(peaks) + '\n');
 
