@@ -1,25 +1,39 @@
 /**
  * Inoreader RSS client
  *
- * Fetches blogroll data from a public Inoreader RSS feed at build time.
- * Returns an empty array on failure so the build never breaks.
+ * Fetches blogroll data from a public Inoreader RSS feed (zero API quota — it's a public stream).
+ *
+ * Two flavours: `getBlogrollItems` returns [] on failure (build-safe default); `getBlogrollItemsOrThrow`
+ * throws on HTTP/network failure so the app layer can wrap it in the last-good cache (a returned []
+ * looks like success to a read-through cache). An empty-but-valid feed returns [], not a throw.
+ *
+ * The feed identity is config, not hardcoded — see `inoreaderConfig()` and the env vars it reads.
  */
 
 import { XMLParser } from 'fast-xml-parser';
 
-// ─── Constants ─────────────────────────────────────────────────────
+// ─── Config ────────────────────────────────────────────────────────
 
 /**
- * The Inoreader user tag whose items become the blogroll. Marked public
- * in Inoreader, which makes the stream readable without auth. Stripped
- * from per-item categories so it doesn't show up as a UI filter chip.
+ * The blogroll feed identity. Defaults reproduce the current public "Archive" stream so absent env
+ * = unchanged behavior. Read at request time (not module load) so ISR revalidations see current env.
+ *
+ *  - INOREADER_USER_ID         the Inoreader numeric user id whose tag stream is public
+ *  - INOREADER_PUBLIC_TAG      the tag marked public in Inoreader (also stripped from filter chips)
+ *  - INOREADER_FEED_ITEM_COUNT how many items the stream returns (`n`); deeper history = more scroll
  */
-const PUBLIC_TAG = 'Archive';
-const INOREADER_USER_ID = '1003561864';
-// `n` controls how many items the stream returns (default 20); fetch a deeper
-// history so the blogroll has enough to scroll through.
-const FEED_ITEM_COUNT = 100;
-const FEED_URL = `https://www.inoreader.com/stream/user/${INOREADER_USER_ID}/tag/${PUBLIC_TAG}?n=${FEED_ITEM_COUNT}`;
+function inoreaderConfig(): { userId: string; publicTag: string; itemCount: number } {
+  return {
+    userId: process.env.INOREADER_USER_ID ?? '1003561864',
+    publicTag: process.env.INOREADER_PUBLIC_TAG ?? 'Archive',
+    itemCount: Number(process.env.INOREADER_FEED_ITEM_COUNT) || 100,
+  };
+}
+
+function buildFeedUrl(): string {
+  const { userId, publicTag, itemCount } = inoreaderConfig();
+  return `https://www.inoreader.com/stream/user/${userId}/tag/${encodeURIComponent(publicTag)}?n=${itemCount}`;
+}
 
 // ─── Types ─────────────────────────────────────────────────────────
 
@@ -88,11 +102,11 @@ function decodeEntities(text: string): string {
   });
 }
 
-function normalizeCategories(raw: string | string[] | undefined): string[] {
+function normalizeCategories(raw: string | string[] | undefined, publicTag: string): string[] {
   if (!raw) return [];
   const cats = Array.isArray(raw) ? raw : [raw];
   // Hide the marker tag itself — it's the filter, not a topic
-  return cats.filter((c) => c !== PUBLIC_TAG);
+  return cats.filter((c) => c !== publicTag);
 }
 
 /**
@@ -106,7 +120,11 @@ function estimateReadingTime(wordCount: number): number | null {
   return Math.max(1, Math.round(wordCount / 200));
 }
 
-function transformItem(raw: RawRssItem, sourceAttr: Record<string, string> | undefined): BlogrollItem {
+function transformItem(
+  raw: RawRssItem,
+  sourceAttr: Record<string, string> | undefined,
+  publicTag: string,
+): BlogrollItem {
   const description = raw.description ?? '';
   const plainText = decodeEntities(stripHtml(description));
   const wordCount = plainText.split(/\s+/).filter(Boolean).length;
@@ -124,7 +142,7 @@ function transformItem(raw: RawRssItem, sourceAttr: Record<string, string> | und
     sourceUrl: sourceAttr?.['@_url'] ?? null,
     publishedDate: raw.pubDate ?? '',
     summary: truncate(plainText, 200),
-    categories: normalizeCategories(raw.category),
+    categories: normalizeCategories(raw.category, publicTag),
     readingTime: estimateReadingTime(wordCount),
   };
 }
@@ -132,19 +150,19 @@ function transformItem(raw: RawRssItem, sourceAttr: Record<string, string> | und
 // ─── Public API ────────────────────────────────────────────────────
 
 /**
- * Fetch all blogroll items from the Inoreader RSS feed.
- * Returns an empty array on any failure.
+ * Core fetch. THROWS on HTTP/network failure (an empty-but-valid feed returns []).
+ * Exposed as `getBlogrollItemsOrThrow` so the app layer can wrap it in the last-good cache.
  */
-export async function getBlogrollItems(): Promise<BlogrollItem[]> {
+export async function getBlogrollItemsOrThrow(): Promise<BlogrollItem[]> {
+  const { publicTag } = inoreaderConfig();
   // Abort a hung feed so it can't stall page generation / ISR revalidation.
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 10_000);
   try {
-    const res = await fetch(FEED_URL, { signal: controller.signal });
+    const res = await fetch(buildFeedUrl(), { signal: controller.signal });
 
     if (!res.ok) {
-      console.error(`[inoreader] Feed returned ${res.status} ${res.statusText}`);
-      return [];
+      throw new Error(`[inoreader] Feed returned ${res.status} ${res.statusText}`);
     }
 
     const xml = await res.text();
@@ -161,12 +179,22 @@ export async function getBlogrollItems(): Promise<BlogrollItem[]> {
     return items.map((item) => {
       // The source element may have attributes parsed separately
       const sourceAttr = typeof item.source === 'object' ? (item.source as unknown as Record<string, string>) : undefined;
-      return transformItem(item, sourceAttr);
+      return transformItem(item, sourceAttr, publicTag);
     });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+/**
+ * Fetch all blogroll items from the Inoreader RSS feed.
+ * Returns an empty array on any failure (the build-safe default).
+ */
+export async function getBlogrollItems(): Promise<BlogrollItem[]> {
+  try {
+    return await getBlogrollItemsOrThrow();
   } catch (err) {
     console.error('[inoreader] Fetch failed:', err);
     return [];
-  } finally {
-    clearTimeout(timeout);
   }
 }

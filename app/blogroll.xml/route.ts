@@ -1,12 +1,17 @@
 import { Feed } from 'feed';
-import { getBlogrollItems } from '@blog/inoreader';
+import { getBlogrollItemsOrThrow, type BlogrollItem } from '@blog/inoreader';
 import { SITE_URL, AUTHOR } from '@/lib/site';
+import { readThrough } from '@/lib/last-good';
 
 export const dynamic = 'force-static';
 export const revalidate = 3600;
 
 export async function GET() {
-  const items = await getBlogrollItems();
+  // Same cache key as /blogroll — identical data, so the page and the feed share one last-good entry.
+  const items =
+    (await readThrough<BlogrollItem[]>('inoreader:blogroll', getBlogrollItemsOrThrow).catch(
+      () => null,
+    )) ?? [];
 
   const feed = new Feed({
     title: "Spencer Boucher's Blogroll",

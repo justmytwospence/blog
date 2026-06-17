@@ -1,8 +1,10 @@
-import { getBlogrollItems } from '@blog/inoreader';
+import { getBlogrollItemsOrThrow, type BlogrollItem } from '@blog/inoreader';
 import { BlogrollList } from '@/components/BlogrollList';
 import { PageContainer } from '@/components/PageContainer';
+import { readThrough } from '@/lib/last-good';
 import type { Metadata } from 'next';
 
+// Renders via ISR (hourly) — keep it static; readThrough serves last-good if the feed is down.
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
@@ -11,7 +13,10 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogrollPage() {
-  const items = await getBlogrollItems();
+  const items =
+    (await readThrough<BlogrollItem[]>('inoreader:blogroll', getBlogrollItemsOrThrow).catch(
+      () => null,
+    )) ?? [];
 
   return (
     <PageContainer width="wide">
