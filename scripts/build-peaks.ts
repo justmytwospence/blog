@@ -27,6 +27,8 @@ export interface Peak {
   prominenceFt: number;
   county?: string;
   ydsClass?: string;
+  /** Lists of John peak id — links to listsofjohn.com/peak/<id>, the authoritative per-peak page. */
+  lojId?: number;
   /** false when Lists of John brackets the name in quotes (an unofficial/informal name). */
   official: boolean;
 }
@@ -67,9 +69,11 @@ function parseFile(html: string): Peak[] {
     if (!Number.isFinite(elevationFt) || !Number.isFinite(prominenceFt)) continue;
     const { name, official } = normalizeName(cells[1]);
     if (!name) continue;
+    const idMatch = cells[1].match(/\/peak\/(\d+)/);
+    const lojId = idMatch ? Number(idMatch[1]) : undefined;
     const county = stripTags(cells[6]) || undefined;
     const yds = cells[10] ? stripTags(cells[10]) : undefined;
-    peaks.push({ name, elevationFt, prominenceFt, county, ydsClass: yds || undefined, official });
+    peaks.push({ name, elevationFt, prominenceFt, county, ydsClass: yds || undefined, lojId, official });
   }
   return peaks;
 }
