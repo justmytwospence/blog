@@ -149,19 +149,23 @@ export default function ColoradoPeaks() {
   const sx = (e: number) => pad.left + ((e - ELEV_MIN) / (ELEV_MAX - ELEV_MIN)) * pw;
   const sy = (count: number) => pad.top + ph - (count / total) * ph;
 
+  // Proper (non-decreasing) CDF: the number of peaks at or below an elevation.
+  const cdfAll = (x: number) => lowerBound(elevAll, x);
+  const cdfQual = (x: number) => lowerBound(elevQualifying, x);
+
   const SAMPLES = Math.max(60, Math.round(pw / 3));
-  const buildPath = (surv: (x: number) => number) => {
+  const buildPath = (fn: (x: number) => number) => {
     let d = '';
     for (let i = 0; i <= SAMPLES; i++) {
       const e = ELEV_MIN + (i / SAMPLES) * (ELEV_MAX - ELEV_MIN);
       const x = sx(e);
-      const y = sy(surv(e));
+      const y = sy(fn(e));
       d += i === 0 ? `M ${x.toFixed(1)} ${y.toFixed(1)}` : ` L ${x.toFixed(1)} ${y.toFixed(1)}`;
     }
     return d;
   };
-  const pathAll = peaks ? buildPath(survAll) : '';
-  const pathQual = peaks ? buildPath(survQual) : '';
+  const pathAll = peaks ? buildPath(cdfAll) : '';
+  const pathQual = peaks ? buildPath(cdfQual) : '';
 
   const c = {
     grid: isDark ? '#26262f' : '#e8e8ee',
@@ -186,8 +190,20 @@ export default function ColoradoPeaks() {
 
   return (
     <div className="not-prose">
-      {/* Sliders */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+      {/* Map — spatial view on top; same in/out coloring + links as the list */}
+      {peaks && (
+        <div className="mb-6">
+          <div className="h-[380px] w-full overflow-hidden rounded-lg border border-gray-200 dark:border-[#303031]">
+            <PeaksMap peaks={peaks} elevationThreshold={elevationThreshold} prominenceCutoff={prominenceCutoff} />
+          </div>
+          <div className="mt-1.5 text-[11px] text-gray-400 dark:text-[#6b6b6b]">
+            {nf.format(mappedCount)} of {nf.format(peaks.length)} peaks have mapped coordinates · click any for its Lists of John page · basemap &amp; coordinates © OpenStreetMap
+          </div>
+        </div>
+      )}
+
+      {/* Sliders — directly above the CDF */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-4">
         <div>
           <div className="flex justify-between items-baseline mb-1.5">
             <label className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-[#8a8a8a]">
@@ -232,8 +248,70 @@ export default function ColoradoPeaks() {
         </div>
       </div>
 
-      {/* Headline count */}
-      <div className="mb-4 text-sm text-gray-700 dark:text-[#cccccc]">
+      {/* CDF — cumulative number of peaks at or below an elevation */}
+      <div ref={wrapRef} className="w-full">
+        <svg
+          width={width}
+          height={height}
+          role="img"
+          aria-label="Cumulative distribution of Colorado peak elevations"
+          className="block"
+        >
+          {/* y grid + ticks */}
+          {yTicks.map((t) => (
+            <g key={`y${t}`}>
+              <line x1={pad.left} y1={sy(t)} x2={pad.left + pw} y2={sy(t)} stroke={c.grid} strokeWidth={1} />
+              <text x={pad.left - 8} y={sy(t) + 3} textAnchor="end" fontSize={10} fill={c.text} fontFamily="monospace">
+                {nf.format(t)}
+              </text>
+            </g>
+          ))}
+          {/* x ticks */}
+          {xTicks.map((t) => (
+            <text key={`x${t}`} x={sx(t)} y={height - 24} textAnchor="middle" fontSize={10} fill={c.text} fontFamily="monospace">
+              {(t / 1000).toFixed(1)}k′
+            </text>
+          ))}
+          {/* CDF: all peaks (faint) and those clearing the prominence rule (bold) */}
+          {peaks && <path d={pathAll} fill="none" stroke={c.all} strokeWidth={1.5} strokeDasharray="3,3" />}
+          {peaks && <path d={pathQual} fill="none" stroke={c.qual} strokeWidth={2.5} />}
+          {/* official 14,000′ reference line (fixed, for comparison) */}
+          {peaks && (
+            <>
+              <line x1={sx(CANON_ELEV)} y1={pad.top} x2={sx(CANON_ELEV)} y2={pad.top + ph} stroke={c.ref} strokeWidth={1} opacity={0.85} />
+              <text x={sx(CANON_ELEV) - 6} y={pad.top + 10} textAnchor="end" fontSize={9} fill={c.ref} fontFamily="monospace">
+                official 14,000′
+              </text>
+            </>
+          )}
+          {/* your current elevation cutoff — line + where it meets the curve */}
+          {peaks && (
+            <>
+              <line x1={sx(elevationThreshold)} y1={pad.top} x2={sx(elevationThreshold)} y2={pad.top + ph} stroke={c.marker} strokeWidth={1.5} strokeDasharray="4,3" />
+              <circle cx={sx(elevationThreshold)} cy={sy(cdfQual(elevationThreshold))} r={4} fill={c.marker} />
+            </>
+          )}
+          {/* axes */}
+          <line x1={pad.left} y1={pad.top + ph} x2={pad.left + pw} y2={pad.top + ph} stroke={c.axis} strokeWidth={1} />
+          <text x={pad.left + pw} y={height - 6} textAnchor="end" fontSize={10} fill={c.text}>
+            elevation →
+          </text>
+        </svg>
+        <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-[11px] text-gray-500 dark:text-[#8a8a8a]">
+          <span className="flex items-center gap-1.5">
+            <span className="inline-block w-4 h-0.5" style={{ background: c.qual }} /> cumulative peaks (clearing the rule)
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="inline-block w-4 border-t border-dashed" style={{ borderColor: c.all }} /> ignoring prominence
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="inline-block w-2.5 h-2.5 rounded-full border-2" style={{ borderColor: c.ref }} /> official 14,000′ / 300′
+          </span>
+        </div>
+      </div>
+
+      {/* Headline count — below the chart */}
+      <div className="mt-4 text-sm text-gray-700 dark:text-[#cccccc]">
         <span className="font-mono text-2xl font-bold text-gray-900 dark:text-white">
           {peaks ? nf.format(qualifyingCount) : '—'}
         </span>{' '}
@@ -253,81 +331,6 @@ export default function ColoradoPeaks() {
             The official line (14,000′ / 300′) gives {nf.format(canonCount)}.
           </span>
         )}
-      </div>
-
-      {/* Map — spatial view, above the CDF; same in/out coloring + links as the list */}
-      {peaks && (
-        <div className="mb-6">
-          <div className="h-[380px] w-full overflow-hidden rounded-lg border border-gray-200 dark:border-[#303031]">
-            <PeaksMap peaks={peaks} elevationThreshold={elevationThreshold} prominenceCutoff={prominenceCutoff} />
-          </div>
-          <div className="mt-1.5 text-[11px] text-gray-400 dark:text-[#6b6b6b]">
-            {nf.format(mappedCount)} of {nf.format(peaks.length)} peaks have mapped coordinates · click any for its Lists of John page · basemap &amp; coordinates © OpenStreetMap
-          </div>
-        </div>
-      )}
-
-      {/* Chart */}
-      <div ref={wrapRef} className="w-full">
-        <svg
-          width={width}
-          height={height}
-          role="img"
-          aria-label="Cumulative count of Colorado peaks at or above an elevation threshold"
-          className="block"
-        >
-          {/* y grid + ticks */}
-          {yTicks.map((t) => (
-            <g key={`y${t}`}>
-              <line x1={pad.left} y1={sy(t)} x2={pad.left + pw} y2={sy(t)} stroke={c.grid} strokeWidth={1} />
-              <text x={pad.left - 8} y={sy(t) + 3} textAnchor="end" fontSize={10} fill={c.text} fontFamily="monospace">
-                {nf.format(t)}
-              </text>
-            </g>
-          ))}
-          {/* x ticks */}
-          {xTicks.map((t) => (
-            <text key={`x${t}`} x={sx(t)} y={height - 24} textAnchor="middle" fontSize={10} fill={c.text} fontFamily="monospace">
-              {(t / 1000).toFixed(1)}k′
-            </text>
-          ))}
-          {/* faint "ignoring prominence" curve + qualifying curve */}
-          {peaks && <path d={pathAll} fill="none" stroke={c.all} strokeWidth={1.5} strokeDasharray="3,3" />}
-          {peaks && <path d={pathQual} fill="none" stroke={c.qual} strokeWidth={2.5} />}
-          {/* official reference (fixed): the real 14,000′ line + the canonical count */}
-          {peaks && (
-            <>
-              <line x1={sx(CANON_ELEV)} y1={pad.top} x2={sx(CANON_ELEV)} y2={pad.top + ph} stroke={c.ref} strokeWidth={1} opacity={0.85} />
-              <circle cx={sx(CANON_ELEV)} cy={sy(canonCount)} r={4.5} fill="none" stroke={c.ref} strokeWidth={2} />
-              <text x={sx(CANON_ELEV) - 6} y={pad.top + 10} textAnchor="end" fontSize={9} fill={c.ref} fontFamily="monospace">
-                official · {nf.format(canonCount)}
-              </text>
-            </>
-          )}
-          {/* your current elevation cutoff */}
-          {peaks && (
-            <>
-              <line x1={sx(elevationThreshold)} y1={pad.top} x2={sx(elevationThreshold)} y2={pad.top + ph} stroke={c.marker} strokeWidth={1.5} strokeDasharray="4,3" />
-              <circle cx={sx(elevationThreshold)} cy={sy(qualifyingCount)} r={4} fill={c.marker} />
-            </>
-          )}
-          {/* axes */}
-          <line x1={pad.left} y1={pad.top + ph} x2={pad.left + pw} y2={pad.top + ph} stroke={c.axis} strokeWidth={1} />
-          <text x={pad.left + pw} y={height - 6} textAnchor="end" fontSize={10} fill={c.text}>
-            elevation →
-          </text>
-        </svg>
-        <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-[11px] text-gray-500 dark:text-[#8a8a8a]">
-          <span className="flex items-center gap-1.5">
-            <span className="inline-block w-4 h-0.5" style={{ background: c.qual }} /> qualifying peaks
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="inline-block w-4 border-t border-dashed" style={{ borderColor: c.all }} /> ignoring prominence
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="inline-block w-2.5 h-2.5 rounded-full border-2" style={{ borderColor: c.ref }} /> official (14,000′ / 300′)
-          </span>
-        </div>
       </div>
 
       {/* Boundary list */}

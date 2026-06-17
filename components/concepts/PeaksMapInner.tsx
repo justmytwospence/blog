@@ -66,7 +66,7 @@ export function PeaksMapInner({
             key={`${p.name}-${p.elevationFt}`}
             center={[p.lat as number, p.lon as number]}
             radius={qualifies ? 4 : 3.5}
-            pathOptions={{ color, fillColor: color, fillOpacity: 0.85, weight: 1 }}
+            pathOptions={{ color, fillColor: color, fillOpacity: 0.4, weight: 0.75, opacity: 0.7 }}
           >
             <Popup>
               <a
