@@ -73,7 +73,7 @@ export function PeaksMapInner({
       <FitColorado />
       {shown.map((p) => {
         const qualifies = p.prominenceFt >= prominenceCutoff;
-        const color = qualifies ? '#0d9488' : '#d97706';
+        const color = qualifies ? '#16a34a' : '#ea580c'; // green = clears the rule, orange = cut by it
         return (
           // Include qualification in the key so a peak that flips in/out on a prominence change
           // remounts with the new color (react-leaflet won't restyle a reused marker on its own).

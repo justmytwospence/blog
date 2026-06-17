@@ -47,14 +47,14 @@ function lowerBound(arr: number[], x: number): number {
 const nf = new Intl.NumberFormat('en-US');
 
 /** A fixed tick under a slider marking the official value, so it's visible as you drag away. */
-function CanonTick({ pct, label }: { pct: number; label: string }) {
+function CanonTick({ pct, label, tone }: { pct: number; label: string; tone: 'elev' | 'prom' }) {
+  const tick = tone === 'elev' ? 'bg-green-400 dark:bg-green-300' : 'bg-orange-400 dark:bg-orange-300';
+  const txt = tone === 'elev' ? 'text-green-600 dark:text-green-300' : 'text-orange-600 dark:text-orange-300';
   return (
     <div className="relative h-4 mt-1 select-none" aria-hidden>
       <div className="absolute top-0 flex flex-col items-center -translate-x-1/2" style={{ left: `${pct}%` }}>
-        <span className="w-px h-1.5 bg-indigo-400 dark:bg-indigo-300" />
-        <span className="mt-0.5 text-[9px] leading-none whitespace-nowrap text-indigo-500 dark:text-indigo-300">
-          {label}
-        </span>
+        <span className={`w-px h-1.5 ${tick}`} />
+        <span className={`mt-0.5 text-[9px] leading-none whitespace-nowrap ${txt}`}>{label}</span>
       </div>
     </div>
   );
@@ -179,9 +179,8 @@ export default function ColoradoPeaks() {
     grid: isDark ? '#26262f' : '#e8e8ee',
     axis: isDark ? '#6b7280' : '#9ca3af',
     text: isDark ? '#a6a6a6' : '#6b7280',
-    qual: isDark ? '#2dd4bf' : '#0d9488',
-    marker: isDark ? '#f59e0b' : '#d97706',
-    ref: isDark ? '#a5b4fc' : '#6366f1',
+    elev: isDark ? '#4ade80' : '#16a34a', // green — the elevation dimension
+    prom: isDark ? '#fb923c' : '#ea580c', // orange — the prominence dimension
   };
 
   const yTicks = [0, 500, 1000, 1500].filter((t) => t <= total);
@@ -216,7 +215,7 @@ export default function ColoradoPeaks() {
             <label className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-[#8a8a8a]">
               Elevation threshold
             </label>
-            <span className="font-mono text-base font-semibold text-teal-600 dark:text-teal-400">
+            <span className="font-mono text-base font-semibold text-green-600 dark:text-green-400">
               {nf.format(elevationThreshold)}′
             </span>
           </div>
@@ -227,17 +226,17 @@ export default function ColoradoPeaks() {
             step={10}
             value={elevationThreshold}
             onChange={(e) => setElevationThreshold(Number(e.target.value))}
-            className="w-full accent-teal-500"
+            className="w-full accent-green-500"
             aria-label="Elevation threshold in feet"
           />
-          <CanonTick pct={((CANON_ELEV - ELEV_MIN) / (ELEV_MAX - ELEV_MIN)) * 100} label="official 14,000′" />
+          <CanonTick pct={((CANON_ELEV - ELEV_MIN) / (ELEV_MAX - ELEV_MIN)) * 100} label="official 14,000′" tone="elev" />
         </div>
         <div>
           <div className="flex justify-between items-baseline mb-1.5">
             <label className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-[#8a8a8a]">
               Prominence cutoff (separation rule)
             </label>
-            <span className="font-mono text-base font-semibold text-amber-600 dark:text-amber-400">
+            <span className="font-mono text-base font-semibold text-orange-600 dark:text-orange-400">
               {nf.format(prominenceCutoff)}′
             </span>
           </div>
@@ -248,10 +247,10 @@ export default function ColoradoPeaks() {
             step={10}
             value={prominenceCutoff}
             onChange={(e) => setProminenceCutoff(Number(e.target.value))}
-            className="w-full accent-amber-500"
+            className="w-full accent-orange-500"
             aria-label="Prominence cutoff in feet"
           />
-          <CanonTick pct={(CANON_PROM / PROM_MAX) * 100} label="official 300′" />
+          <CanonTick pct={(CANON_PROM / PROM_MAX) * 100} label="official 300′" tone="prom" />
         </div>
       </div>
 
@@ -279,23 +278,23 @@ export default function ColoradoPeaks() {
               {(t / 1000).toFixed(1)}k′
             </text>
           ))}
-          {/* CDF: the official 300' rule (faint dashed reference) and your current cutoff (bold) */}
-          {peaks && <path d={pathCanon} fill="none" stroke={c.ref} strokeWidth={1.5} strokeDasharray="3,3" opacity={0.85} />}
-          {peaks && <path d={pathQual} fill="none" stroke={c.qual} strokeWidth={2.5} />}
-          {/* official 14,000′ reference line (fixed, for comparison) */}
+          {/* prominence CDF curves (orange): official 300' rule (dashed) + your current cutoff (solid) */}
+          {peaks && <path d={pathCanon} fill="none" stroke={c.prom} strokeWidth={1.5} strokeDasharray="3,3" opacity={0.9} />}
+          {peaks && <path d={pathQual} fill="none" stroke={c.prom} strokeWidth={2.5} />}
+          {/* official 14,000′ elevation line (green, dashed reference) */}
           {peaks && (
             <>
-              <line x1={sx(CANON_ELEV)} y1={pad.top} x2={sx(CANON_ELEV)} y2={pad.top + ph} stroke={c.ref} strokeWidth={1} opacity={0.85} />
-              <text x={sx(CANON_ELEV) - 6} y={pad.top + 10} textAnchor="end" fontSize={9} fill={c.ref} fontFamily="monospace">
+              <line x1={sx(CANON_ELEV)} y1={pad.top} x2={sx(CANON_ELEV)} y2={pad.top + ph} stroke={c.elev} strokeWidth={1} strokeDasharray="3,2" opacity={0.8} />
+              <text x={sx(CANON_ELEV) - 6} y={pad.top + 10} textAnchor="end" fontSize={9} fill={c.elev} fontFamily="monospace">
                 official 14,000′
               </text>
             </>
           )}
-          {/* your current elevation cutoff — line + where it meets the curve */}
+          {/* your current elevation cutoff — green solid line + where it meets the curve */}
           {peaks && (
             <>
-              <line x1={sx(elevationThreshold)} y1={pad.top} x2={sx(elevationThreshold)} y2={pad.top + ph} stroke={c.marker} strokeWidth={1.5} strokeDasharray="4,3" />
-              <circle cx={sx(elevationThreshold)} cy={sy(cdfQual(elevationThreshold))} r={4} fill={c.marker} />
+              <line x1={sx(elevationThreshold)} y1={pad.top} x2={sx(elevationThreshold)} y2={pad.top + ph} stroke={c.elev} strokeWidth={1.5} />
+              <circle cx={sx(elevationThreshold)} cy={sy(cdfQual(elevationThreshold))} r={4} fill={c.elev} />
             </>
           )}
           {/* axes */}
@@ -306,13 +305,13 @@ export default function ColoradoPeaks() {
         </svg>
         <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-[11px] text-gray-500 dark:text-[#8a8a8a]">
           <span className="flex items-center gap-1.5">
-            <span className="inline-block w-4 h-0.5" style={{ background: c.qual }} /> your prominence cutoff
+            <span className="inline-block w-4 h-0.5" style={{ background: c.prom }} /> your prominence cutoff
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="inline-block w-4 border-t border-dashed" style={{ borderColor: c.ref }} /> official 300′ rule
+            <span className="inline-block w-4 border-t border-dashed" style={{ borderColor: c.prom }} /> official 300′ rule
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="inline-block w-4 h-0.5" style={{ background: c.marker }} /> elevation threshold
+            <span className="inline-block w-4 h-0.5" style={{ background: c.elev }} /> elevation threshold
           </span>
         </div>
       </div>
@@ -327,14 +326,14 @@ export default function ColoradoPeaks() {
         {peaks && cutByProminence > 0 && (
           <>
             {' '}
-            <span className="text-amber-600 dark:text-amber-400">
+            <span className="text-orange-600 dark:text-orange-400">
               ({nf.format(cutByProminence)} more clear the height but are cut by the separation rule)
             </span>
           </>
         )}
         .{' '}
         {peaks && (
-          <span className="text-indigo-500 dark:text-indigo-300">
+          <span className="text-gray-500 dark:text-gray-400">
             The official line (14,000′ / 300′) gives {nf.format(canonCount)}.
           </span>
         )}
@@ -352,14 +351,14 @@ export default function ColoradoPeaks() {
               const qualifies = p.prominenceFt >= prominenceCutoff;
               return (
                 <div key={`${p.name}-${p.elevationFt}-${i}`} className="flex items-center gap-3 px-3 py-2 text-sm">
-                  <span className={`shrink-0 w-1.5 h-6 rounded ${qualifies ? 'bg-teal-500' : 'bg-amber-500'}`} />
+                  <span className={`shrink-0 w-1.5 h-6 rounded ${qualifies ? 'bg-green-500' : 'bg-orange-500'}`} />
                   <span className="flex-1">
                     {peakUrl(p) ? (
                       <a
                         href={peakUrl(p)}
                         target="_blank"
                         rel="noreferrer"
-                        className={`${p.official ? '' : 'italic'} text-gray-900 dark:text-[#e4e4e4] hover:text-teal-600 dark:hover:text-teal-400 hover:underline`}
+                        className={`${p.official ? '' : 'italic'} text-gray-900 dark:text-[#e4e4e4] hover:text-green-600 dark:hover:text-green-400 hover:underline`}
                       >
                         {p.name}
                       </a>
@@ -369,7 +368,7 @@ export default function ColoradoPeaks() {
                     {p.county && <span className="text-gray-400 dark:text-[#6b6b6b]"> · {p.county}</span>}
                   </span>
                   <span className="font-mono text-gray-700 dark:text-[#bbb] tabular-nums">{nf.format(p.elevationFt)}′</span>
-                  <span className={`font-mono tabular-nums w-20 text-right ${qualifies ? 'text-gray-400 dark:text-[#6b6b6b]' : 'text-amber-600 dark:text-amber-400 font-semibold'}`}>
+                  <span className={`font-mono tabular-nums w-20 text-right ${qualifies ? 'text-gray-400 dark:text-[#6b6b6b]' : 'text-orange-600 dark:text-orange-400 font-semibold'}`}>
                     {nf.format(p.prominenceFt)}′ prom
                   </span>
                 </div>
