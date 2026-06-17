@@ -13,8 +13,8 @@ export const metadata: Metadata = {
 };
 
 export default async function ProjectsPage() {
-  const projects = getAllProjects();
   const activity = await getActivity();
+  const projects = getAllProjects(activity.updated);
 
   return (
     <PageContainer width="wide">

@@ -6,8 +6,6 @@
  * unknown slugs resolve to null. They double as content validation.
  */
 
-import fs from 'fs';
-import path from 'path';
 import {
   getAllProjects,
   getAllBlogPosts,
@@ -57,12 +55,16 @@ describe('getAllProjects', () => {
     expect(projects.length).toBeGreaterThan(0);
   });
 
-  it('sorts projects by last activity (newest first), falling back to content date', () => {
-    const activity = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), 'data', 'project-activity.json'), 'utf8')
-    ) as { updated?: Record<string, string> };
-    const updated = activity.updated ?? {};
-    expect(isSortedDescending(projects.map((p) => updated[p.slug] || p.date))).toBe(true);
+  it('sorts projects by content date (newest first) with no activity map', () => {
+    // With no `updated` map injected, ordering falls back to the content date.
+    expect(isSortedDescending(projects.map((p) => p.date))).toBe(true);
+  });
+
+  it('orders projects by the injected push-date map ahead of content date', () => {
+    // A repo pushed "today" sorts to the front regardless of its content date.
+    const target = projects[projects.length - 1];
+    const sorted = getAllProjects({ [target.slug]: '2999-12-31' });
+    expect(sorted[0].slug).toBe(target.slug);
   });
 
   it('gives every project a slug, title, and parseable date', () => {
