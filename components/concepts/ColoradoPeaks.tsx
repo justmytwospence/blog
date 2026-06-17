@@ -113,6 +113,14 @@ export default function ColoradoPeaks() {
         : [],
     [peaks, prominenceCutoff],
   );
+  // Peaks clearing the OFFICIAL 300-ft rule — the fixed reference curve to compare your cutoff against.
+  const elevCanon = useMemo(
+    () =>
+      peaks
+        ? peaks.filter((p) => p.prominenceFt >= CANON_PROM).map((p) => p.elevationFt).sort((a, b) => a - b)
+        : [],
+    [peaks],
+  );
 
   const survAll = (x: number) => elevAll.length - lowerBound(elevAll, x);
   const survQual = (x: number) => elevQualifying.length - lowerBound(elevQualifying, x);
@@ -150,8 +158,8 @@ export default function ColoradoPeaks() {
   const sy = (count: number) => pad.top + ph - (count / total) * ph;
 
   // Proper (non-decreasing) CDF: the number of peaks at or below an elevation.
-  const cdfAll = (x: number) => lowerBound(elevAll, x);
-  const cdfQual = (x: number) => lowerBound(elevQualifying, x);
+  const cdfCanon = (x: number) => lowerBound(elevCanon, x); // official 300' rule (fixed reference)
+  const cdfQual = (x: number) => lowerBound(elevQualifying, x); // your current prominence cutoff
 
   const SAMPLES = Math.max(60, Math.round(pw / 3));
   const buildPath = (fn: (x: number) => number) => {
@@ -164,14 +172,13 @@ export default function ColoradoPeaks() {
     }
     return d;
   };
-  const pathAll = peaks ? buildPath(cdfAll) : '';
+  const pathCanon = peaks ? buildPath(cdfCanon) : '';
   const pathQual = peaks ? buildPath(cdfQual) : '';
 
   const c = {
     grid: isDark ? '#26262f' : '#e8e8ee',
     axis: isDark ? '#6b7280' : '#9ca3af',
     text: isDark ? '#a6a6a6' : '#6b7280',
-    all: isDark ? '#3f3f5a' : '#cbd5e1',
     qual: isDark ? '#2dd4bf' : '#0d9488',
     marker: isDark ? '#f59e0b' : '#d97706',
     ref: isDark ? '#a5b4fc' : '#6366f1',
@@ -272,8 +279,8 @@ export default function ColoradoPeaks() {
               {(t / 1000).toFixed(1)}k′
             </text>
           ))}
-          {/* CDF: all peaks (faint) and those clearing the prominence rule (bold) */}
-          {peaks && <path d={pathAll} fill="none" stroke={c.all} strokeWidth={1.5} strokeDasharray="3,3" />}
+          {/* CDF: the official 300' rule (faint dashed reference) and your current cutoff (bold) */}
+          {peaks && <path d={pathCanon} fill="none" stroke={c.ref} strokeWidth={1.5} strokeDasharray="3,3" opacity={0.85} />}
           {peaks && <path d={pathQual} fill="none" stroke={c.qual} strokeWidth={2.5} />}
           {/* official 14,000′ reference line (fixed, for comparison) */}
           {peaks && (
@@ -299,13 +306,13 @@ export default function ColoradoPeaks() {
         </svg>
         <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-[11px] text-gray-500 dark:text-[#8a8a8a]">
           <span className="flex items-center gap-1.5">
-            <span className="inline-block w-4 h-0.5" style={{ background: c.qual }} /> cumulative peaks (clearing the rule)
+            <span className="inline-block w-4 h-0.5" style={{ background: c.qual }} /> your prominence cutoff
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="inline-block w-4 border-t border-dashed" style={{ borderColor: c.all }} /> ignoring prominence
+            <span className="inline-block w-4 border-t border-dashed" style={{ borderColor: c.ref }} /> official 300′ rule
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="inline-block w-2.5 h-2.5 rounded-full border-2" style={{ borderColor: c.ref }} /> official 14,000′ / 300′
+            <span className="inline-block w-4 h-0.5" style={{ background: c.marker }} /> elevation threshold
           </span>
         </div>
       </div>

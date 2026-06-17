@@ -62,8 +62,10 @@ export function PeaksMapInner({
         const qualifies = p.prominenceFt >= prominenceCutoff;
         const color = qualifies ? '#0d9488' : '#d97706';
         return (
+          // Include qualification in the key so a peak that flips in/out on a prominence change
+          // remounts with the new color (react-leaflet won't restyle a reused marker on its own).
           <CircleMarker
-            key={`${p.name}-${p.elevationFt}`}
+            key={`${p.name}-${p.elevationFt}-${qualifies ? 'in' : 'out'}`}
             center={[p.lat as number, p.lon as number]}
             radius={qualifies ? 4 : 3.5}
             pathOptions={{ color, fillColor: color, fillOpacity: 0.4, weight: 0.75, opacity: 0.7 }}
