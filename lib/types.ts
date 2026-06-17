@@ -23,6 +23,11 @@ export interface ContentMetadata {
   bluesky?: string;
   /** Additional labelled destinations (e.g. Docs + GitHub) shown as link chips. */
   links?: { label: string; url: string }[];
+  /**
+   * Name of a registered interactive component (components/concepts/index.ts) to mount inside a
+   * blog post. Prose is split on a `<!--viz-->` sentinel so it can bracket the component.
+   */
+  component?: string;
 }
 
 /**

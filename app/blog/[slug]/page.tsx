@@ -1,5 +1,6 @@
 import { getAllBlogPosts, getBlogPostBySlug, calculateReadingTime } from '@/lib/content';
 import { ArticleMarkdown } from '@/components/ArticleMarkdown';
+import { ConceptLoader } from '@/components/concepts/ConceptLoader';
 import { PageContainer } from '@/components/PageContainer';
 import { BlueskyComments } from '@/components/BlueskyComments';
 import { NotebookRenderer } from '@/components/notebook/NotebookRenderer';
@@ -80,11 +81,17 @@ export default async function BlogPostPage({
 
   const readingTime = calculateReadingTime(post.content);
 
+  // A post may embed a registered interactive component (frontmatter `component`). Prose is split on
+  // a `<!--viz-->` sentinel so it can bracket the component; posts without one render unchanged.
+  const [proseBefore, proseAfter] = post.metadata.component
+    ? post.content.split(/<!--\s*viz\s*-->/i)
+    : [post.content, undefined];
+
   return (
     <PageContainer width="prose">
       <article className="prose dark:prose-invert max-w-none">
         <ArticleMarkdown
-          content={post.content}
+          content={proseBefore}
           beforeTitle={
             <div className="flex items-center gap-2 mb-3 not-prose text-sm text-gray-500 dark:text-gray-400">
               <span>{formatDate(post.metadata.date)}</span>
@@ -109,6 +116,19 @@ export default async function BlogPostPage({
           }
         />
       </article>
+
+      {post.metadata.component && (
+        <div className="my-8">
+          <ConceptLoader componentName={post.metadata.component} />
+        </div>
+      )}
+
+      {proseAfter && proseAfter.trim() && (
+        <article className="prose dark:prose-invert max-w-none">
+          <ArticleMarkdown content={proseAfter} />
+        </article>
+      )}
+
       {post.metadata.bluesky && <BlueskyComments postRef={post.metadata.bluesky} />}
     </PageContainer>
   );
