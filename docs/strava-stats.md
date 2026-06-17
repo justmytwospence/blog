@@ -21,6 +21,9 @@ No GitHub Action, no `repository_dispatch`, no PATs, no commits.
    - `STRAVA_CLIENT_ID`, `STRAVA_CLIENT_SECRET`, `STRAVA_REFRESH_TOKEN`
    - `STRAVA_VERIFY_TOKEN` (already set — webhook handshake)
    - `STRAVA_SUBSCRIPTION_ID` (optional — restricts events to your subscription)
+   - `CRON_SECRET` (recommended — guards the daily reconcile route; Vercel Cron sends it as a
+     `Authorization: Bearer` header. Without it the route falls back to the internal `x-vercel-cron`
+     header check.)
    - **Remove** `GH_DISPATCH_TOKEN` — no longer used.
 3. **Seed the store** so the page shows real numbers immediately (not "0 all-time"):
    ```bash
@@ -28,6 +31,16 @@ No GitHub Action, no `repository_dispatch`, no PATs, no commits.
    npm run seed:redis              # crawl + buildTotals → strava:totals (+ strava:auth)
    ```
 4. **Subscribe** (if not already): `npm run webhook:subscribe`.
+
+## Reconcile safety-net (daily cron)
+
+Strava retries a webhook event ~3× then gives up. If the *last* event of a streak is the one that's
+dropped, the totals would stay stale until the next activity (possibly weeks). A daily Vercel cron
+(`vercel.json` → `/api/strava/reconcile`, `0 5 * * *`) recomputes the totals from a full crawl —
+the same `recomputeTotals()` the webhook runs. Once-daily works on the free Hobby tier (1 cron/day);
+no Pro upgrade needed. The route is guarded by `CRON_SECRET` (Vercel sends it automatically) so it
+isn't publicly triggerable, and no-ops cleanly with no Redis store. `npm run sync:strava` remains the
+manual backstop.
 
 ## Token rotation (handled)
 

@@ -1,4 +1,7 @@
 {
+  "crons": [
+    { "path": "/api/strava/reconcile", "schedule": "0 5 * * *" }
+  ],
   "headers": [
     {
       "source": "/human.json",
