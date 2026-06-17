@@ -1,11 +1,13 @@
 import Image from 'next/image';
-import { getCurrentlyReading } from '@blog/hardcover';
+import { getCurrentlyReadingOrThrow, type UserBook } from '@blog/hardcover';
 import { CurrentlyReadingWidget } from '@/components/CurrentlyReadingWidget';
 import { RecentAdventuresWidget } from '@/components/adventures/RecentAdventuresWidget';
 import { getAllAdventures } from '@/lib/adventures';
 import { PageContainer } from '@/components/PageContainer';
+import { readThrough } from '@/lib/last-good';
 import type { Metadata } from 'next';
 
+// Renders via ISR (hourly) — keep it static; readThrough serves last-good if Hardcover is down.
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
@@ -15,7 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const currentlyReading = await getCurrentlyReading(3);
+  const currentlyReading =
+    (await readThrough<UserBook[]>('hardcover:currently-reading', () =>
+      getCurrentlyReadingOrThrow(3),
+    ).catch(() => null)) ?? [];
   const recentAdventures = getAllAdventures().slice(0, 3);
 
   return (

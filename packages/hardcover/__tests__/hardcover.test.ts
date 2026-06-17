@@ -179,3 +179,63 @@ describe('hardcover API client', () => {
     expect(data.fetchedAt).toBeTruthy();
   });
 });
+
+describe('hardcover throwing variants (for last-good wrapping)', () => {
+  const originalFetch = globalThis.fetch;
+
+  beforeEach(() => {
+    vi.resetModules();
+  });
+
+  afterEach(() => {
+    globalThis.fetch = originalFetch;
+    vi.unstubAllEnvs();
+  });
+
+  it('rejects with HardcoverAuthError when the token is not set', async () => {
+    vi.stubEnv('HARDCOVER_API_TOKEN', '');
+    const { getCurrentlyReadingOrThrow, HardcoverAuthError } = await import('../src');
+    await expect(getCurrentlyReadingOrThrow()).rejects.toBeInstanceOf(HardcoverAuthError);
+  });
+
+  it('rejects with HardcoverAuthError on a 401', async () => {
+    vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: false, status: 401, statusText: 'Unauthorized' });
+    const { getCurrentlyReadingOrThrow, HardcoverAuthError } = await import('../src');
+    await expect(getCurrentlyReadingOrThrow()).rejects.toBeInstanceOf(HardcoverAuthError);
+  });
+
+  it('rejects with HardcoverAuthError on a GraphQL auth error (200 body)', async () => {
+    vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ errors: [{ message: 'Unauthorized' }] }),
+    });
+    const { getCurrentlyReadingOrThrow, HardcoverAuthError } = await import('../src');
+    await expect(getCurrentlyReadingOrThrow()).rejects.toBeInstanceOf(HardcoverAuthError);
+  });
+
+  it('rejects (transient Error, not auth) on a 500', async () => {
+    vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: false, status: 500, statusText: 'Server Error' });
+    const { getCurrentlyReadingOrThrow, HardcoverAuthError } = await import('../src');
+    await expect(getCurrentlyReadingOrThrow()).rejects.toThrow();
+    await expect(getCurrentlyReadingOrThrow()).rejects.not.toBeInstanceOf(HardcoverAuthError);
+  });
+
+  it('rejects when fetch throws a network error', async () => {
+    vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
+    globalThis.fetch = vi.fn().mockRejectedValue(new Error('Network error'));
+    const { getCurrentlyReadingOrThrow } = await import('../src');
+    await expect(getCurrentlyReadingOrThrow()).rejects.toThrow('Network error');
+  });
+
+  it('resolves with books on the happy path', async () => {
+    vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => makeMockResponse() });
+    const { getReadingListDataOrThrow } = await import('../src');
+    const data = await getReadingListDataOrThrow();
+    expect(data.currentlyReading).toHaveLength(1);
+    expect(data.fetchedAt).toBeTruthy();
+  });
+});
