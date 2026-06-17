@@ -1,7 +1,13 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useTheme } from 'next-themes';
+
+const PeaksMap = dynamic(() => import('./PeaksMapInner').then((m) => m.PeaksMapInner), {
+  ssr: false,
+  loading: () => <div className="h-full w-full animate-pulse bg-gray-100 dark:bg-[#252526]" />,
+});
 
 interface Peak {
   name: string;
@@ -10,6 +16,8 @@ interface Peak {
   county?: string;
   ydsClass?: string;
   lojId?: number;
+  lat?: number;
+  lon?: number;
   official: boolean;
 }
 
@@ -119,6 +127,7 @@ export default function ColoradoPeaks() {
       peaks ? peaks.filter((p) => p.elevationFt >= CANON_ELEV && p.prominenceFt >= CANON_PROM).length : 0,
     [peaks],
   );
+  const mappedCount = useMemo(() => (peaks ? peaks.filter((p) => p.lat != null).length : 0), [peaks]);
 
   // Peaks at or above the threshold, marginal (lowest) first — where the in/out action happens.
   const boundaryPeaks = useMemo(() => {
@@ -245,6 +254,18 @@ export default function ColoradoPeaks() {
           </span>
         )}
       </div>
+
+      {/* Map — spatial view, above the CDF; same in/out coloring + links as the list */}
+      {peaks && (
+        <div className="mb-6">
+          <div className="h-[380px] w-full overflow-hidden rounded-lg border border-gray-200 dark:border-[#303031]">
+            <PeaksMap peaks={peaks} elevationThreshold={elevationThreshold} prominenceCutoff={prominenceCutoff} />
+          </div>
+          <div className="mt-1.5 text-[11px] text-gray-400 dark:text-[#6b6b6b]">
+            {nf.format(mappedCount)} of {nf.format(peaks.length)} peaks have mapped coordinates · click any for its Lists of John page · basemap &amp; coordinates © OpenStreetMap
+          </div>
+        </div>
+      )}
 
       {/* Chart */}
       <div ref={wrapRef} className="w-full">

@@ -29,8 +29,55 @@ export interface Peak {
   ydsClass?: string;
   /** Lists of John peak id — links to listsofjohn.com/peak/<id>, the authoritative per-peak page. */
   lojId?: number;
+  /** Coordinates (from OpenStreetMap, matched by name + elevation) — present for ~half the peaks. */
+  lat?: number;
+  lon?: number;
   /** false when Lists of John brackets the name in quotes (an unofficial/informal name). */
   official: boolean;
+}
+
+interface OsmPeak {
+  name: string;
+  lat: number;
+  lon: number;
+  ele: number | null;
+}
+
+const normName = (s: string) =>
+  s.toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\bmt\b/g, 'mount').replace(/\s+/g, ' ').trim();
+
+/**
+ * Attach coordinates from the vendored OpenStreetMap peaks (© OpenStreetMap contributors, ODbL),
+ * matched by normalized name. Colorado has many duplicate peak names, so ties are broken by the
+ * nearest elevation (within 250 ft) to avoid mis-placing a peak; no confident match → no coords.
+ */
+function attachCoords(peaks: Peak[]): void {
+  const osmPath = path.join(RAW_DIR, 'osm-co-peaks.json');
+  if (!fs.existsSync(osmPath)) return;
+  const osm: OsmPeak[] = JSON.parse(fs.readFileSync(osmPath, 'utf8'));
+  const idx = new Map<string, OsmPeak[]>();
+  for (const o of osm) {
+    const k = normName(o.name);
+    (idx.get(k) ?? idx.set(k, []).get(k)!).push(o);
+  }
+  let matched = 0;
+  for (const p of peaks) {
+    const cands = idx.get(normName(p.name));
+    if (!cands) continue;
+    let hit: OsmPeak | undefined;
+    if (cands.length === 1) hit = cands[0];
+    else {
+      const withEle = cands.filter((c) => c.ele != null);
+      withEle.sort((a, b) => Math.abs(a.ele! - p.elevationFt) - Math.abs(b.ele! - p.elevationFt));
+      if (withEle[0] && Math.abs(withEle[0].ele! - p.elevationFt) <= 250) hit = withEle[0];
+    }
+    if (hit) {
+      p.lat = hit.lat;
+      p.lon = hit.lon;
+      matched++;
+    }
+  }
+  console.log(`coords: matched ${matched}/${peaks.length} peaks to OSM coordinates`);
 }
 
 function stripTags(s: string): string {
@@ -97,6 +144,8 @@ function main(): void {
       return true;
     })
     .sort((a, b) => b.elevationFt - a.elevationFt || b.prominenceFt - a.prominenceFt);
+
+  attachCoords(peaks);
 
   fs.writeFileSync(OUT, JSON.stringify(peaks) + '\n');
 
