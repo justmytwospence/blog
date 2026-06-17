@@ -9,8 +9,9 @@
  * constructed and the readers return null, so `next build` / local dev fall back gracefully.
  */
 import { cache } from 'react';
-import { Redis } from '@upstash/redis';
-import { mintAccessToken, type StravaTotals } from '@blog/strava';
+import { buildTotals, crawlActivities, mintAccessToken, type StravaTotals } from '@blog/strava';
+import { revalidatePath } from 'next/cache';
+import { getRedis, hasStore } from './redis';
 
 const TOTALS_KEY = 'strava:totals';
 const AUTH_KEY = 'strava:auth';
@@ -21,25 +22,7 @@ interface StoredAuth {
   expiresAt: number; // unix seconds
 }
 
-/** The Vercel Upstash integration injects either UPSTASH_* or the legacy KV_* names. */
-function redisEnv(): { url: string; token: string } | null {
-  const url = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
-  return url && token ? { url, token } : null;
-}
-
-let cachedClient: Redis | null | undefined;
-function getRedis(): Redis | null {
-  if (cachedClient !== undefined) return cachedClient;
-  const env = redisEnv();
-  cachedClient = env ? new Redis(env) : null;
-  return cachedClient;
-}
-
-/** True when a Redis store is configured (i.e. production / a dev env with creds pulled). */
-export function hasStore(): boolean {
-  return redisEnv() !== null;
-}
+export { hasStore };
 
 /** Read the precomputed totals. Deduped per render via React cache. Null when no store / not seeded. */
 export const readTotals = cache(async (): Promise<StravaTotals | null> => {
@@ -94,4 +77,18 @@ export async function getAccessToken(): Promise<string> {
     expiresAt: t.expiresAt,
   });
   return t.accessToken;
+}
+
+/**
+ * Recompute the rolling totals from a full Strava crawl, persist them, and revalidate /adventures.
+ * Shared by the webhook (`after()` an activity event) and the daily reconcile cron (a safety net for
+ * a webhook event that Strava dropped after its retries). The crawl is a full re-page, so any single
+ * successful run fully rebuilds the totals regardless of which events were missed.
+ */
+export async function recomputeTotals(): Promise<void> {
+  const access = await getAccessToken();
+  const entries = await crawlActivities(access);
+  const totals = buildTotals(entries);
+  await writeTotals(totals);
+  revalidatePath('/adventures');
 }
