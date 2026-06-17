@@ -15,6 +15,8 @@ interface Peak {
 const ELEV_MIN = 12000;
 const ELEV_MAX = 14440;
 const PROM_MAX = 1000;
+const CANON_ELEV = 14000; // the official "fourteener" line
+const CANON_PROM = 300; // the official 300-ft prominence ("separation") rule
 
 /** Index of the first element >= x in an ascending array (lower bound). */
 function lowerBound(arr: number[], x: number): number {
@@ -29,6 +31,20 @@ function lowerBound(arr: number[], x: number): number {
 }
 
 const nf = new Intl.NumberFormat('en-US');
+
+/** A fixed tick under a slider marking the official value, so it's visible as you drag away. */
+function CanonTick({ pct, label }: { pct: number; label: string }) {
+  return (
+    <div className="relative h-4 mt-1 select-none" aria-hidden>
+      <div className="absolute top-0 flex flex-col items-center -translate-x-1/2" style={{ left: `${pct}%` }}>
+        <span className="w-px h-1.5 bg-indigo-400 dark:bg-indigo-300" />
+        <span className="mt-0.5 text-[9px] leading-none whitespace-nowrap text-indigo-500 dark:text-indigo-300">
+          {label}
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export default function ColoradoPeaks() {
   const [peaks, setPeaks] = useState<Peak[] | null>(null);
@@ -91,6 +107,13 @@ export default function ColoradoPeaks() {
   const aboveCount = survAll(elevationThreshold);
   const cutByProminence = aboveCount - qualifyingCount;
 
+  // The official answer (14,000 ft + 300 ft prominence) = 53. Fixed, for comparison as you drag.
+  const canonCount = useMemo(
+    () =>
+      peaks ? peaks.filter((p) => p.elevationFt >= CANON_ELEV && p.prominenceFt >= CANON_PROM).length : 0,
+    [peaks],
+  );
+
   // Peaks at or above the threshold, marginal (lowest) first — where the in/out action happens.
   const boundaryPeaks = useMemo(() => {
     if (!peaks) return [];
@@ -109,9 +132,7 @@ export default function ColoradoPeaks() {
   const total = elevAll.length || 1;
 
   const sx = (e: number) => pad.left + ((e - ELEV_MIN) / (ELEV_MAX - ELEV_MIN)) * pw;
-  // log-scale y so 53 ... ~1,800 are all legible (the count spans elevation bands).
-  const logMax = Math.log10(total);
-  const sy = (c: number) => pad.top + ph - (Math.log10(Math.max(1, c)) / logMax) * ph;
+  const sy = (count: number) => pad.top + ph - (count / total) * ph;
 
   const SAMPLES = Math.max(60, Math.round(pw / 3));
   const buildPath = (surv: (x: number) => number) => {
@@ -134,10 +155,10 @@ export default function ColoradoPeaks() {
     all: isDark ? '#3f3f5a' : '#cbd5e1',
     qual: isDark ? '#2dd4bf' : '#0d9488',
     marker: isDark ? '#f59e0b' : '#d97706',
-    panel: isDark ? '#141418' : '#ffffff',
+    ref: isDark ? '#a5b4fc' : '#6366f1',
   };
 
-  const yTicks = [1, 10, 100, 1000].filter((t) => t <= total);
+  const yTicks = [0, 500, 1000, 1500].filter((t) => t <= total);
   const xTicks = [12000, 12500, 13000, 13500, 14000];
 
   if (failed) {
@@ -149,7 +170,7 @@ export default function ColoradoPeaks() {
   }
 
   return (
-    <div className="rounded-xl border border-gray-200 dark:border-[#303031] bg-gray-50 dark:bg-[#1e1e1e] p-4 sm:p-5 not-prose">
+    <div className="not-prose">
       {/* Sliders */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
         <div>
@@ -171,6 +192,7 @@ export default function ColoradoPeaks() {
             className="w-full accent-teal-500"
             aria-label="Elevation threshold in feet"
           />
+          <CanonTick pct={((CANON_ELEV - ELEV_MIN) / (ELEV_MAX - ELEV_MIN)) * 100} label="official 14,000′" />
         </div>
         <div>
           <div className="flex justify-between items-baseline mb-1.5">
@@ -191,6 +213,7 @@ export default function ColoradoPeaks() {
             className="w-full accent-amber-500"
             aria-label="Prominence cutoff in feet"
           />
+          <CanonTick pct={(CANON_PROM / PROM_MAX) * 100} label="official 300′" />
         </div>
       </div>
 
@@ -209,7 +232,12 @@ export default function ColoradoPeaks() {
             </span>
           </>
         )}
-        .
+        .{' '}
+        {peaks && (
+          <span className="text-indigo-500 dark:text-indigo-300">
+            The official line (14,000′ / 300′) gives {nf.format(canonCount)}.
+          </span>
+        )}
       </div>
 
       {/* Chart */}
@@ -220,9 +248,8 @@ export default function ColoradoPeaks() {
           role="img"
           aria-label="Cumulative count of Colorado peaks at or above an elevation threshold"
           className="block"
-          style={{ background: c.panel, borderRadius: 8 }}
         >
-          {/* y grid + ticks (log) */}
+          {/* y grid + ticks */}
           {yTicks.map((t) => (
             <g key={`y${t}`}>
               <line x1={pad.left} y1={sy(t)} x2={pad.left + pw} y2={sy(t)} stroke={c.grid} strokeWidth={1} />
@@ -240,7 +267,17 @@ export default function ColoradoPeaks() {
           {/* faint "ignoring prominence" curve + qualifying curve */}
           {peaks && <path d={pathAll} fill="none" stroke={c.all} strokeWidth={1.5} strokeDasharray="3,3" />}
           {peaks && <path d={pathQual} fill="none" stroke={c.qual} strokeWidth={2.5} />}
-          {/* threshold marker */}
+          {/* official reference (fixed): the real 14,000′ line + the canonical count */}
+          {peaks && (
+            <>
+              <line x1={sx(CANON_ELEV)} y1={pad.top} x2={sx(CANON_ELEV)} y2={pad.top + ph} stroke={c.ref} strokeWidth={1} opacity={0.85} />
+              <circle cx={sx(CANON_ELEV)} cy={sy(canonCount)} r={4.5} fill="none" stroke={c.ref} strokeWidth={2} />
+              <text x={sx(CANON_ELEV) - 6} y={pad.top + 10} textAnchor="end" fontSize={9} fill={c.ref} fontFamily="monospace">
+                official · {nf.format(canonCount)}
+              </text>
+            </>
+          )}
+          {/* your current elevation cutoff */}
           {peaks && (
             <>
               <line x1={sx(elevationThreshold)} y1={pad.top} x2={sx(elevationThreshold)} y2={pad.top + ph} stroke={c.marker} strokeWidth={1.5} strokeDasharray="4,3" />
@@ -253,14 +290,16 @@ export default function ColoradoPeaks() {
             elevation →
           </text>
         </svg>
-        <div className="flex gap-4 mt-2 text-[11px] text-gray-500 dark:text-[#8a8a8a]">
+        <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-[11px] text-gray-500 dark:text-[#8a8a8a]">
           <span className="flex items-center gap-1.5">
             <span className="inline-block w-4 h-0.5" style={{ background: c.qual }} /> qualifying peaks
           </span>
           <span className="flex items-center gap-1.5">
             <span className="inline-block w-4 border-t border-dashed" style={{ borderColor: c.all }} /> ignoring prominence
           </span>
-          <span className="ml-auto">log scale</span>
+          <span className="flex items-center gap-1.5">
+            <span className="inline-block w-2.5 h-2.5 rounded-full border-2" style={{ borderColor: c.ref }} /> official (14,000′ / 300′)
+          </span>
         </div>
       </div>
 
