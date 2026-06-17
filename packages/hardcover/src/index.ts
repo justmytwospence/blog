@@ -2,16 +2,33 @@
  * Hardcover API client
  *
  * Fetches reading list data from Hardcover's GraphQL API.
- * All public functions return empty arrays on failure so the build never breaks.
+ *
+ * Two flavours of each reader:
+ *  - the default (`getReadingListData`, `getCurrentlyReading`) returns empty arrays on any failure
+ *    so a build never breaks;
+ *  - the `*OrThrow` variants throw on failure so the app layer can wrap them in the last-good cache
+ *    (a returned `[]` looks like success to a read-through cache, so failure must be a throw).
+ *
+ * Auth note: Hardcover bearer tokens expire annually (Jan 1) and have no refresh mechanism, so an
+ * expired token surfaces as a loud `[hardcover] AUTH FAILURE` log + a thrown `HardcoverAuthError`.
  */
 
 import type { HardcoverBook, UserBook, ReadingListData } from './types';
 
 export type { HardcoverBook, UserBook, ReadingListData };
 
+/** Thrown when Hardcover rejects the token (expired/invalid), distinct from a transient failure. */
+export class HardcoverAuthError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'HardcoverAuthError';
+  }
+}
+
 // ─── Constants ─────────────────────────────────────────────────────
 
 const HARDCOVER_GRAPHQL_ENDPOINT = 'https://api.hardcover.app/v1/graphql';
+const FETCH_TIMEOUT_MS = 10_000;
 
 /** Book slugs to exclude from the public reading list (comma-separated in HARDCOVER_BLACKLIST env var) */
 function getBlacklistedSlugs(): Set<string> {
@@ -120,47 +137,74 @@ function transformUserBooks(rawBooks: RawUserBook[]): UserBook[] {
   }));
 }
 
-async function fetchUserBooks(
+/**
+ * Core fetch. THROWS on failure: `HardcoverAuthError` for an expired/invalid token (logged loudly),
+ * a plain `Error` for transient (HTTP/network/non-auth GraphQL) failures. A legitimately empty list
+ * returns `[]` (success) — only failures throw.
+ */
+async function fetchUserBooksOrThrow(
   statusId: number,
   limit: number,
 ): Promise<UserBook[]> {
   const token = process.env.HARDCOVER_API_TOKEN;
   if (!token) {
-    console.warn('[hardcover] HARDCOVER_API_TOKEN is not set — skipping fetch');
-    return [];
+    throw new HardcoverAuthError('[hardcover] HARDCOVER_API_TOKEN is not set');
   }
 
-  try {
-    const res = await fetch(HARDCOVER_GRAPHQL_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ query: buildQuery(statusId, limit) }),
-    });
+  const res = await fetch(HARDCOVER_GRAPHQL_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ query: buildQuery(statusId, limit) }),
+    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+  });
 
-    if (!res.ok) {
+  if (!res.ok) {
+    if (res.status === 401 || res.status === 403) {
       console.error(
-        `[hardcover] API returned ${res.status} ${res.statusText}`,
+        `[hardcover] AUTH FAILURE (${res.status}) — token likely expired. Hardcover bearer tokens ` +
+          `expire annually on Jan 1 with no refresh mechanism; rotate HARDCOVER_API_TOKEN manually. ` +
+          `See packages/hardcover/README.md.`,
       );
-      return [];
+      throw new HardcoverAuthError(`[hardcover] auth failed (${res.status})`);
     }
+    console.error(`[hardcover] API returned ${res.status} ${res.statusText}`);
+    throw new Error(`[hardcover] API returned ${res.status}`);
+  }
 
-    const json: HardcoverResponse = await res.json();
+  const json: HardcoverResponse = await res.json();
 
-    if (json.errors?.length) {
-      console.error('[hardcover] GraphQL errors:', json.errors);
-      return [];
+  if (json.errors?.length) {
+    const msg = json.errors.map((e) => e.message).join('; ');
+    // Hardcover sometimes returns auth failures as a 200 with a GraphQL error.
+    if (/unauth|forbidden|token|jwt/i.test(msg)) {
+      console.error(
+        `[hardcover] AUTH FAILURE (GraphQL) — token likely expired: ${msg}. Rotate ` +
+          `HARDCOVER_API_TOKEN manually (annual Jan 1 expiry). See packages/hardcover/README.md.`,
+      );
+      throw new HardcoverAuthError(`[hardcover] GraphQL auth error: ${msg}`);
     }
+    console.error('[hardcover] GraphQL errors:', json.errors);
+    throw new Error(`[hardcover] GraphQL errors: ${msg}`);
+  }
 
-    const userBooks = json.data?.me?.[0]?.user_books ?? [];
-    const blacklist = getBlacklistedSlugs();
-    return transformUserBooks(userBooks).filter(
-      (ub) => !blacklist.has(ub.book.slug),
-    );
-  } catch (err) {
-    console.error('[hardcover] Fetch failed:', err);
+  const userBooks = json.data?.me?.[0]?.user_books ?? [];
+  const blacklist = getBlacklistedSlugs();
+  return transformUserBooks(userBooks).filter(
+    (ub) => !blacklist.has(ub.book.slug),
+  );
+}
+
+/** Non-throwing wrapper — returns [] on any failure (the build-safe default). */
+async function fetchUserBooks(
+  statusId: number,
+  limit: number,
+): Promise<UserBook[]> {
+  try {
+    return await fetchUserBooksOrThrow(statusId, limit);
+  } catch {
     return [];
   }
 }
@@ -169,7 +213,7 @@ async function fetchUserBooks(
 
 /**
  * Fetch the full reading list: currently reading, want to read, and recently read.
- * Three requests run in parallel via Promise.all.
+ * Three requests run in parallel via Promise.all. Returns empty arrays on failure.
  */
 export async function getReadingListData(): Promise<ReadingListData> {
   const [currentlyReading, wantToRead, recentlyRead] = await Promise.all([
@@ -187,10 +231,36 @@ export async function getReadingListData(): Promise<ReadingListData> {
 }
 
 /**
- * Fetch only the currently-reading list (e.g. for an about-page widget).
+ * Like `getReadingListData` but THROWS if any of the three fetches fails, so the app layer can serve
+ * the last-good snapshot rather than a partially-populated list.
+ */
+export async function getReadingListDataOrThrow(): Promise<ReadingListData> {
+  const [currentlyReading, wantToRead, recentlyRead] = await Promise.all([
+    fetchUserBooksOrThrow(STATUS.CURRENTLY_READING, 10),
+    fetchUserBooksOrThrow(STATUS.WANT_TO_READ, 10),
+    fetchUserBooksOrThrow(STATUS.READ, 10),
+  ]);
+
+  return {
+    currentlyReading,
+    wantToRead,
+    recentlyRead,
+    fetchedAt: new Date().toISOString(),
+  };
+}
+
+/**
+ * Fetch only the currently-reading list (e.g. for an about-page widget). Returns [] on failure.
  */
 export async function getCurrentlyReading(
   limit: number = 5,
 ): Promise<UserBook[]> {
   return fetchUserBooks(STATUS.CURRENTLY_READING, limit);
+}
+
+/** Like `getCurrentlyReading` but THROWS on failure (for last-good wrapping at the app layer). */
+export async function getCurrentlyReadingOrThrow(
+  limit: number = 5,
+): Promise<UserBook[]> {
+  return fetchUserBooksOrThrow(STATUS.CURRENTLY_READING, limit);
 }
