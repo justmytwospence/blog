@@ -8,9 +8,7 @@
  *        Nothing is committed to git. A failed refresh self-heals on the next event.
  */
 import { after } from 'next/server';
-import { revalidatePath } from 'next/cache';
-import { buildTotals, crawlActivities } from '@blog/strava';
-import { getAccessToken, writeTotals } from '@/lib/strava-store';
+import { recomputeTotals } from '@/lib/strava-store';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -57,14 +55,10 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   // Recompute totals out-of-band so the 200 beats Strava's ~2s timeout. Bounded by maxDuration; a
-  // throttled/failed crawl just logs and self-heals on the next event (the crawl is a full re-page).
+  // throttled/failed crawl just logs and self-heals on the next event or the daily reconcile cron.
   after(async () => {
     try {
-      const access = await getAccessToken();
-      const entries = await crawlActivities(access);
-      const totals = buildTotals(entries);
-      await writeTotals(totals);
-      revalidatePath('/adventures');
+      await recomputeTotals();
     } catch (err) {
       console.error('[strava-webhook] totals refresh failed:', err);
     }
