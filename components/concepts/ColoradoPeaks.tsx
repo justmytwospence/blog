@@ -141,13 +141,13 @@ export default function ColoradoPeaks() {
     [peaks],
   );
 
-  // Peaks at or above the threshold, marginal (lowest) first — where the in/out action happens.
+  // Peaks passing BOTH thresholds, marginal (lowest) first — rows drop out as either slider moves.
   const boundaryPeaks = useMemo(() => {
     if (!peaks) return [];
     return peaks
-      .filter((p) => p.elevationFt >= elevationThreshold)
+      .filter((p) => p.elevationFt >= elevationThreshold && p.prominenceFt >= prominenceCutoff)
       .sort((a, b) => a.elevationFt - b.elevationFt);
-  }, [peaks, elevationThreshold]);
+  }, [peaks, elevationThreshold, prominenceCutoff]);
   const LIST_CAP = 60;
   const shownPeaks = boundaryPeaks.slice(0, LIST_CAP);
 
@@ -428,37 +428,34 @@ export default function ColoradoPeaks() {
       {/* Boundary list */}
       <div className="mt-5">
         <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-[#8a8a8a] mb-2">
-          At or above {nf.format(elevationThreshold)}′ — closest to the line first
+          Qualifying peaks — closest to the line first
         </h3>
         <div className="rounded-lg border border-gray-200 dark:border-[#303031] divide-y divide-gray-100 dark:divide-[#252528] max-h-80 overflow-y-auto bg-white dark:bg-[#141418]">
           {!peaks && <div className="p-4 text-sm text-gray-400">Loading {nf.format(0)} peaks…</div>}
           {peaks &&
-            shownPeaks.map((p, i) => {
-              const qualifies = p.prominenceFt >= prominenceCutoff;
-              return (
-                <div key={`${p.name}-${p.elevationFt}-${i}`} className="flex items-center gap-3 px-3 py-2 text-sm">
-                  <span className={`shrink-0 w-1.5 h-6 rounded ${qualifies ? 'bg-gray-400 dark:bg-gray-500' : 'bg-transparent'}`} />
-                  <span className="flex-1">
-                    {peakUrl(p) ? (
-                      <a
-                        href={peakUrl(p)}
-                        target="_blank"
-                        rel="noreferrer"
-                        className={`${p.official ? '' : 'italic'} text-gray-900 dark:text-[#e4e4e4] hover:text-gray-500 dark:hover:text-gray-300 hover:underline`}
-                      >
-                        {p.name}
-                      </a>
-                    ) : (
-                      <span className={`${p.official ? '' : 'italic'} text-gray-900 dark:text-[#e4e4e4]`}>{p.name}</span>
-                    )}
-                  </span>
-                  <span className="font-mono text-gray-700 dark:text-[#bbb] tabular-nums">{nf.format(p.elevationFt)}′</span>
-                  <span className={`font-mono tabular-nums w-20 text-right ${qualifies ? 'text-gray-400 dark:text-[#6b6b6b]' : 'text-gray-600 dark:text-gray-300 font-semibold'}`}>
-                    {nf.format(p.prominenceFt)}′ prom
-                  </span>
-                </div>
-              );
-            })}
+            shownPeaks.map((p, i) => (
+              <div key={`${p.name}-${p.elevationFt}-${i}`} className="flex items-center gap-3 px-3 py-2 text-sm">
+                <span className="shrink-0 w-1.5 h-6 rounded bg-gray-300 dark:bg-gray-600" />
+                <span className="flex-1">
+                  {peakUrl(p) ? (
+                    <a
+                      href={peakUrl(p)}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`${p.official ? '' : 'italic'} text-gray-900 dark:text-[#e4e4e4] hover:text-gray-500 dark:hover:text-gray-300 hover:underline`}
+                    >
+                      {p.name}
+                    </a>
+                  ) : (
+                    <span className={`${p.official ? '' : 'italic'} text-gray-900 dark:text-[#e4e4e4]`}>{p.name}</span>
+                  )}
+                </span>
+                <span className="font-mono text-gray-700 dark:text-[#bbb] tabular-nums">{nf.format(p.elevationFt)}′</span>
+                <span className="font-mono tabular-nums w-20 text-right text-gray-400 dark:text-[#6b6b6b]">
+                  {nf.format(p.prominenceFt)}′ prom
+                </span>
+              </div>
+            ))}
           {peaks && boundaryPeaks.length > LIST_CAP && (
             <div className="px-3 py-2 text-xs text-gray-400 dark:text-[#6b6b6b]">
               + {nf.format(boundaryPeaks.length - LIST_CAP)} more higher up
