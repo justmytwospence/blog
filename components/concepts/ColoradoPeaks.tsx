@@ -334,19 +334,8 @@ export default function ColoradoPeaks() {
             </g>
           )}
         </svg>
-        <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-[11px] text-gray-500 dark:text-[#8a8a8a]">
-          <span className="flex items-center gap-1.5">
-            <span className="inline-block w-4 h-0.5" style={{ background: c.gray }} /> your prominence cutoff
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="inline-block w-4 border-t border-dashed" style={{ borderColor: c.prom }} /> official 300′ rule
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="inline-block w-4 h-0.5" style={{ background: c.elev }} /> elevation threshold
-          </span>
-        </div>
         {peaks && atRound && (
-          <div className="mt-1.5 text-[11px] text-gray-500 dark:text-[#8a8a8a]">
+          <div className="mt-2 text-[11px] text-gray-500 dark:text-[#8a8a8a]">
             At <span className="font-mono">{nf.format(elevationThreshold)}′</span>:{' '}
             <span className="font-mono">{nf.format(count300)}</span> clear the 300′ rule ·{' '}
             <span className="font-mono">{nf.format(aboveCount)}</span> with no prominence rule (dotted)
