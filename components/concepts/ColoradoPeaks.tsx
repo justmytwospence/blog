@@ -310,8 +310,8 @@ export default function ColoradoPeaks() {
           )}
           {/* axes */}
           <line x1={pad.left} y1={pad.top + ph} x2={pad.left + pw} y2={pad.top + ph} stroke={c.axis} strokeWidth={1} />
-          <text x={pad.left + pw} y={height - 6} textAnchor="end" fontSize={10} fill={c.text}>
-            elevation →
+          <text x={pad.left + pw / 2} y={height - 6} textAnchor="middle" fontSize={10} fill={c.text}>
+            Elevation (feet)
           </text>
           <text
             x={14}
