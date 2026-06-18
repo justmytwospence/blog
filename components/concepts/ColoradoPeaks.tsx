@@ -205,8 +205,10 @@ export default function ColoradoPeaks() {
     setHoverE(ELEV_MAX - ((px - pad.left) / pw) * (ELEV_MAX - ELEV_MIN));
   };
   const hoverX = hoverE != null ? sx(hoverE) : 0;
-  const hoverCount = hoverE != null ? survQual(hoverE) : 0;
   const hoverLeft = hoverX < pad.left + pw / 2;
+  const hQual = hoverE != null ? survQual(hoverE) : 0; // your cutoff line
+  const hCanon = hoverE != null ? survCanon(hoverE) : 0; // official 300' line
+  const hAll = hoverE != null ? survAll(hoverE) : 0; // no-prominence line (only at 13k/14k)
 
   if (failed) {
     return (
@@ -353,19 +355,29 @@ export default function ColoradoPeaks() {
           >
             Number of Peaks
           </text>
-          {/* x-axis hover crosshair + tooltip */}
+          {/* x-axis hover crosshair + tooltip (one row per visible line) */}
           {peaks && hoverE != null && (
             <g pointerEvents="none">
               <line x1={hoverX} y1={pad.top} x2={hoverX} y2={pad.top + ph} stroke={c.axis} strokeWidth={1} strokeDasharray="2,2" opacity={0.5} />
-              <circle cx={hoverX} cy={sy(hoverCount)} r={3.5} fill={c.gray} stroke={isDark ? '#1e1e1e' : '#ffffff'} strokeWidth={1.5} />
-              <g transform={`translate(${hoverLeft ? hoverX + 8 : hoverX - 104}, ${pad.top + 4})`}>
-                <rect width={96} height={34} rx={5} fill={isDark ? '#1f1f23' : '#ffffff'} stroke={c.grid} strokeWidth={1} />
-                <text x={8} y={15} fontSize={10} fill={c.text} fontFamily="monospace">
-                  {nf.format(Math.round(hoverE / 10) * 10)}′
+              <circle cx={hoverX} cy={sy(hQual)} r={3} fill={c.gray} stroke={isDark ? '#141418' : '#ffffff'} strokeWidth={1.25} />
+              <circle cx={hoverX} cy={sy(hCanon)} r={3} fill={c.prom} stroke={isDark ? '#141418' : '#ffffff'} strokeWidth={1.25} />
+              {atRound && (
+                <circle cx={hoverX} cy={sy(hAll)} r={3} fill={c.gray} stroke={isDark ? '#141418' : '#ffffff'} strokeWidth={1.25} opacity={0.6} />
+              )}
+              <g transform={`translate(${hoverLeft ? hoverX + 8 : hoverX - 142}, ${pad.top + 4})`}>
+                <rect width={134} height={atRound ? 62 : 49} rx={5} fill={isDark ? '#1f1f23' : '#ffffff'} stroke={c.grid} strokeWidth={1} />
+                <text x={8} y={15} fontSize={10} fill={c.text} fontFamily="monospace">{nf.format(Math.round(hoverE / 10) * 10)}′</text>
+                <text x={8} y={29} fontSize={10.5} fill={c.gray} fontFamily="monospace">
+                  <tspan fontWeight={700}>{nf.format(hQual)}</tspan> your cutoff
                 </text>
-                <text x={8} y={28} fontSize={11} fontWeight={600} fill={c.gray} fontFamily="monospace">
-                  {nf.format(hoverCount)} peaks
+                <text x={8} y={42} fontSize={10.5} fill={c.prom} fontFamily="monospace">
+                  <tspan fontWeight={700}>{nf.format(hCanon)}</tspan> 300′ rule
                 </text>
+                {atRound && (
+                  <text x={8} y={55} fontSize={10.5} fill={c.gray} fontFamily="monospace">
+                    <tspan fontWeight={700}>{nf.format(hAll)}</tspan> no rule
+                  </text>
+                )}
               </g>
             </g>
           )}
