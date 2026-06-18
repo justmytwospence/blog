@@ -1,6 +1,6 @@
 'use client';
 
-import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
+import { type CSSProperties, type MouseEvent as RMouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useTheme } from 'next-themes';
 
@@ -65,6 +65,7 @@ export default function ColoradoPeaks() {
   const [failed, setFailed] = useState(false);
   const [elevationThreshold, setElevationThreshold] = useState(14000);
   const [prominenceCutoff, setProminenceCutoff] = useState(300);
+  const [hoverE, setHoverE] = useState<number | null>(null);
 
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
@@ -157,13 +158,10 @@ export default function ColoradoPeaks() {
   const ph = height - pad.top - pad.bottom;
   const total = elevAll.length || 1;
 
-  const sx = (e: number) => pad.left + ((e - ELEV_MIN) / (ELEV_MAX - ELEV_MIN)) * pw;
+  // Reversed elevation axis (high on the left): the curve then rises left -> right as you lower the
+  // bar, so the y-value IS the number of peaks at or above that elevation.
+  const sx = (e: number) => pad.left + ((ELEV_MAX - e) / (ELEV_MAX - ELEV_MIN)) * pw;
   const sy = (count: number) => pad.top + ph - (count / total) * ph;
-
-  // Proper (non-decreasing) CDF: the number of peaks at or below an elevation.
-  const cdfAll = (x: number) => lowerBound(elevAll, x); // no prominence rule (all summits)
-  const cdfCanon = (x: number) => lowerBound(elevCanon, x); // official 300' rule (fixed reference)
-  const cdfQual = (x: number) => lowerBound(elevQualifying, x); // your current prominence cutoff
 
   // The "no prominence rule" comparison only appears at the round elevation cutoffs (13k / 14k).
   const atRound = elevationThreshold === 14000 || elevationThreshold === 13000;
@@ -180,9 +178,9 @@ export default function ColoradoPeaks() {
     }
     return d;
   };
-  const pathAll = peaks ? buildPath(cdfAll) : '';
-  const pathCanon = peaks ? buildPath(cdfCanon) : '';
-  const pathQual = peaks ? buildPath(cdfQual) : '';
+  const pathAll = peaks ? buildPath(survAll) : '';
+  const pathCanon = peaks ? buildPath(survCanon) : '';
+  const pathQual = peaks ? buildPath(survQual) : '';
 
   const c = {
     grid: isDark ? '#26262f' : '#e8e8ee',
@@ -195,6 +193,20 @@ export default function ColoradoPeaks() {
 
   const yTicks = [0, 500, 1000, 1500].filter((t) => t <= total);
   const xTicks = [12000, 12500, 13000, 13500, 14000];
+
+  // x-axis hover: map the cursor to an elevation (reversed axis) and read the count there.
+  const onHoverMove = (ev: RMouseEvent<SVGSVGElement>) => {
+    const rect = ev.currentTarget.getBoundingClientRect();
+    const px = rect.width ? ((ev.clientX - rect.left) * width) / rect.width : ev.clientX - rect.left;
+    if (px < pad.left || px > pad.left + pw) {
+      setHoverE(null);
+      return;
+    }
+    setHoverE(ELEV_MAX - ((px - pad.left) / pw) * (ELEV_MAX - ELEV_MIN));
+  };
+  const hoverX = hoverE != null ? sx(hoverE) : 0;
+  const hoverCount = hoverE != null ? survQual(hoverE) : 0;
+  const hoverLeft = hoverX < pad.left + pw / 2;
 
   if (failed) {
     return (
@@ -272,8 +284,10 @@ export default function ColoradoPeaks() {
           width={width}
           height={height}
           role="img"
-          aria-label="Cumulative distribution of Colorado peak elevations"
+          aria-label="Number of Colorado peaks at or above an elevation threshold"
           className="block"
+          onMouseMove={onHoverMove}
+          onMouseLeave={() => setHoverE(null)}
         >
           {/* y grid + ticks */}
           {yTicks.map((t) => (
@@ -297,6 +311,17 @@ export default function ColoradoPeaks() {
           {/* CDF: your current cutoff (gray solid) + the official 300' rule (orange dashed reference) */}
           {peaks && <path d={pathCanon} fill="none" stroke={c.prom} strokeWidth={1.5} strokeDasharray="3,3" opacity={0.9} />}
           {peaks && <path d={pathQual} fill="none" stroke={c.gray} strokeWidth={2.5} />}
+          {/* inline labels at the right end of the dashed prominence lines */}
+          {peaks && (
+            <text x={pad.left + pw - 3} y={sy(elevCanon.length) - 4} textAnchor="end" fontSize={9} fill={c.prom} fontFamily="monospace">
+              300′ rule
+            </text>
+          )}
+          {peaks && atRound && (
+            <text x={pad.left + pw - 3} y={sy(elevAll.length) + 11} textAnchor="end" fontSize={9} fill={c.gray} fontFamily="monospace">
+              no rule
+            </text>
+          )}
           {/* official 14,000′ elevation line (green, dashed reference) */}
           {peaks && (
             <>
@@ -310,7 +335,7 @@ export default function ColoradoPeaks() {
           {peaks && (
             <>
               <line x1={sx(elevationThreshold)} y1={pad.top} x2={sx(elevationThreshold)} y2={pad.top + ph} stroke={c.elev} strokeWidth={1.5} />
-              <circle cx={sx(elevationThreshold)} cy={sy(cdfQual(elevationThreshold))} r={4} fill={c.elev} />
+              <circle cx={sx(elevationThreshold)} cy={sy(qualifyingCount)} r={4} fill={c.elev} />
             </>
           )}
           {/* axes */}
@@ -328,6 +353,22 @@ export default function ColoradoPeaks() {
           >
             Number of Peaks
           </text>
+          {/* x-axis hover crosshair + tooltip */}
+          {peaks && hoverE != null && (
+            <g pointerEvents="none">
+              <line x1={hoverX} y1={pad.top} x2={hoverX} y2={pad.top + ph} stroke={c.axis} strokeWidth={1} strokeDasharray="2,2" opacity={0.5} />
+              <circle cx={hoverX} cy={sy(hoverCount)} r={3.5} fill={c.gray} stroke={isDark ? '#1e1e1e' : '#ffffff'} strokeWidth={1.5} />
+              <g transform={`translate(${hoverLeft ? hoverX + 8 : hoverX - 104}, ${pad.top + 4})`}>
+                <rect width={96} height={34} rx={5} fill={isDark ? '#1f1f23' : '#ffffff'} stroke={c.grid} strokeWidth={1} />
+                <text x={8} y={15} fontSize={10} fill={c.text} fontFamily="monospace">
+                  {nf.format(Math.round(hoverE / 10) * 10)}′
+                </text>
+                <text x={8} y={28} fontSize={11} fontWeight={600} fill={c.gray} fontFamily="monospace">
+                  {nf.format(hoverCount)} peaks
+                </text>
+              </g>
+            </g>
+          )}
         </svg>
         <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-[11px] text-gray-500 dark:text-[#8a8a8a]">
           <span className="flex items-center gap-1.5">
