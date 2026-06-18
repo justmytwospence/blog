@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useTheme } from 'next-themes';
 
@@ -68,6 +68,9 @@ export default function ColoradoPeaks() {
 
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
+  const trackBg = isDark ? '#3f3f46' : '#e5e7eb';
+  const sliderStyle = (accent: string, pct: number): CSSProperties =>
+    ({ '--accent': accent, '--track': trackBg, '--pct': `${pct}%` }) as CSSProperties;
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(680);
@@ -233,7 +236,8 @@ export default function ColoradoPeaks() {
             step={10}
             value={elevationThreshold}
             onChange={(e) => setElevationThreshold(Number(e.target.value))}
-            className="w-full accent-green-500"
+            className="peak-slider w-full"
+            style={sliderStyle(c.elev, ((elevationThreshold - ELEV_MIN) / (ELEV_MAX - ELEV_MIN)) * 100)}
             aria-label="Elevation threshold in feet"
           />
           <CanonTick pct={((CANON_ELEV - ELEV_MIN) / (ELEV_MAX - ELEV_MIN)) * 100} label="official 14,000′" tone="elev" />
@@ -254,7 +258,8 @@ export default function ColoradoPeaks() {
             step={10}
             value={prominenceCutoff}
             onChange={(e) => setProminenceCutoff(Number(e.target.value))}
-            className="w-full accent-orange-500"
+            className="peak-slider w-full"
+            style={sliderStyle(c.prom, (prominenceCutoff / PROM_MAX) * 100)}
             aria-label="Prominence cutoff in feet"
           />
           <CanonTick pct={(CANON_PROM / PROM_MAX) * 100} label="official 300′" tone="prom" />
