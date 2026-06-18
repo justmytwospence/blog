@@ -232,54 +232,6 @@ export default function ColoradoPeaks() {
         </div>
       )}
 
-      {/* Sliders — directly above the CDF */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-4">
-        <div>
-          <div className="flex justify-between items-baseline mb-1.5">
-            <label className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-[#8a8a8a]">
-              Elevation threshold
-            </label>
-            <span className="font-mono text-base font-semibold text-green-600 dark:text-green-400">
-              {nf.format(elevationThreshold)}′
-            </span>
-          </div>
-          <input
-            type="range"
-            min={ELEV_MIN}
-            max={ELEV_MAX}
-            step={10}
-            value={elevationThreshold}
-            onChange={(e) => setElevationThreshold(Number(e.target.value))}
-            className="peak-slider w-full"
-            style={sliderStyle(c.elev, ((elevationThreshold - ELEV_MIN) / (ELEV_MAX - ELEV_MIN)) * 100)}
-            aria-label="Elevation threshold in feet"
-          />
-          <CanonTick pct={((CANON_ELEV - ELEV_MIN) / (ELEV_MAX - ELEV_MIN)) * 100} label="official 14,000′" tone="elev" />
-        </div>
-        <div>
-          <div className="flex justify-between items-baseline mb-1.5">
-            <label className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-[#8a8a8a]">
-              Prominence cutoff (separation rule)
-            </label>
-            <span className="font-mono text-base font-semibold text-orange-600 dark:text-orange-400">
-              {nf.format(prominenceCutoff)}′
-            </span>
-          </div>
-          <input
-            type="range"
-            min={0}
-            max={PROM_MAX}
-            step={10}
-            value={prominenceCutoff}
-            onChange={(e) => setProminenceCutoff(Number(e.target.value))}
-            className="peak-slider w-full"
-            style={sliderStyle(c.prom, (prominenceCutoff / PROM_MAX) * 100)}
-            aria-label="Prominence cutoff in feet"
-          />
-          <CanonTick pct={(CANON_PROM / PROM_MAX) * 100} label="official 300′" tone="prom" />
-        </div>
-      </div>
-
       {/* CDF — cumulative number of peaks at or below an elevation */}
       <div ref={wrapRef} className="w-full">
         <svg
@@ -423,6 +375,54 @@ export default function ColoradoPeaks() {
             The official line (14,000′ / 300′) gives {nf.format(canonCount)}.
           </span>
         )}
+      </div>
+
+      {/* Sliders — between the chart and the table */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-6 mb-5">
+        <div>
+          <div className="flex justify-between items-baseline mb-1.5">
+            <label className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-[#8a8a8a]">
+              Elevation threshold
+            </label>
+            <span className="font-mono text-base font-semibold text-green-600 dark:text-green-400">
+              {nf.format(elevationThreshold)}′
+            </span>
+          </div>
+          <input
+            type="range"
+            min={ELEV_MIN}
+            max={ELEV_MAX}
+            step={10}
+            value={elevationThreshold}
+            onChange={(e) => setElevationThreshold(Number(e.target.value))}
+            className="peak-slider w-full"
+            style={sliderStyle(c.elev, ((elevationThreshold - ELEV_MIN) / (ELEV_MAX - ELEV_MIN)) * 100)}
+            aria-label="Elevation threshold in feet"
+          />
+          <CanonTick pct={((CANON_ELEV - ELEV_MIN) / (ELEV_MAX - ELEV_MIN)) * 100} label="official 14,000′" tone="elev" />
+        </div>
+        <div>
+          <div className="flex justify-between items-baseline mb-1.5">
+            <label className="text-[11px] font-semibold uppercase tracking-wide text-gray-500 dark:text-[#8a8a8a]">
+              Prominence cutoff (separation rule)
+            </label>
+            <span className="font-mono text-base font-semibold text-orange-600 dark:text-orange-400">
+              {nf.format(prominenceCutoff)}′
+            </span>
+          </div>
+          <input
+            type="range"
+            min={0}
+            max={PROM_MAX}
+            step={10}
+            value={prominenceCutoff}
+            onChange={(e) => setProminenceCutoff(Number(e.target.value))}
+            className="peak-slider w-full"
+            style={sliderStyle(c.prom, (prominenceCutoff / PROM_MAX) * 100)}
+            aria-label="Prominence cutoff in feet"
+          />
+          <CanonTick pct={(CANON_PROM / PROM_MAX) * 100} label="official 300′" tone="prom" />
+        </div>
       </div>
 
       {/* Boundary list */}
