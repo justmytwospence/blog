@@ -135,7 +135,6 @@ export default function ColoradoPeaks() {
       peaks ? peaks.filter((p) => p.elevationFt >= CANON_ELEV && p.prominenceFt >= CANON_PROM).length : 0,
     [peaks],
   );
-  const mappedCount = useMemo(() => (peaks ? peaks.filter((p) => p.lat != null).length : 0), [peaks]);
 
   // Peaks at or above the threshold, marginal (lowest) first — where the in/out action happens.
   const boundaryPeaks = useMemo(() => {
@@ -149,7 +148,7 @@ export default function ColoradoPeaks() {
 
   // ---- chart geometry ----
   const height = 340;
-  const pad = { top: 18, right: 16, bottom: 42, left: 52 };
+  const pad = { top: 18, right: 16, bottom: 42, left: 64 };
   const pw = Math.max(10, width - pad.left - pad.right);
   const ph = height - pad.top - pad.bottom;
   const total = elevAll.length || 1;
@@ -181,6 +180,7 @@ export default function ColoradoPeaks() {
     text: isDark ? '#a6a6a6' : '#6b7280',
     elev: isDark ? '#4ade80' : '#16a34a', // green — the elevation dimension
     prom: isDark ? '#fb923c' : '#ea580c', // orange — the prominence dimension
+    gray: isDark ? '#a3a3a3' : '#404040', // neutral — the data curve and everything else
   };
 
   const yTicks = [0, 500, 1000, 1500].filter((t) => t <= total);
@@ -203,7 +203,7 @@ export default function ColoradoPeaks() {
             <PeaksMap peaks={peaks} elevationThreshold={elevationThreshold} prominenceCutoff={prominenceCutoff} />
           </div>
           <div className="mt-1.5 text-[11px] text-gray-400 dark:text-[#6b6b6b]">
-            {nf.format(mappedCount)} of {nf.format(peaks.length)} peaks mapped · 14ers and 13ers link to 14ers.com · basemap &amp; coordinates © OpenStreetMap
+            Peaks passing both thresholds (those with coordinates) · 14ers and 13ers link to 14ers.com · basemap &amp; coordinates © OpenStreetMap
           </div>
         </div>
       )}
@@ -278,9 +278,9 @@ export default function ColoradoPeaks() {
               {(t / 1000).toFixed(1)}k′
             </text>
           ))}
-          {/* prominence CDF curves (orange): official 300' rule (dashed) + your current cutoff (solid) */}
+          {/* CDF: your current cutoff (gray solid) + the official 300' rule (orange dashed reference) */}
           {peaks && <path d={pathCanon} fill="none" stroke={c.prom} strokeWidth={1.5} strokeDasharray="3,3" opacity={0.9} />}
-          {peaks && <path d={pathQual} fill="none" stroke={c.prom} strokeWidth={2.5} />}
+          {peaks && <path d={pathQual} fill="none" stroke={c.gray} strokeWidth={2.5} />}
           {/* official 14,000′ elevation line (green, dashed reference) */}
           {peaks && (
             <>
@@ -302,10 +302,20 @@ export default function ColoradoPeaks() {
           <text x={pad.left + pw} y={height - 6} textAnchor="end" fontSize={10} fill={c.text}>
             elevation →
           </text>
+          <text
+            x={14}
+            y={pad.top + ph / 2}
+            textAnchor="middle"
+            fontSize={10}
+            fill={c.text}
+            transform={`rotate(-90 14 ${pad.top + ph / 2})`}
+          >
+            Number of Peaks
+          </text>
         </svg>
         <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-[11px] text-gray-500 dark:text-[#8a8a8a]">
           <span className="flex items-center gap-1.5">
-            <span className="inline-block w-4 h-0.5" style={{ background: c.prom }} /> your prominence cutoff
+            <span className="inline-block w-4 h-0.5" style={{ background: c.gray }} /> your prominence cutoff
           </span>
           <span className="flex items-center gap-1.5">
             <span className="inline-block w-4 border-t border-dashed" style={{ borderColor: c.prom }} /> official 300′ rule
@@ -326,7 +336,7 @@ export default function ColoradoPeaks() {
         {peaks && cutByProminence > 0 && (
           <>
             {' '}
-            <span className="text-orange-600 dark:text-orange-400">
+            <span className="text-gray-500 dark:text-gray-400">
               ({nf.format(cutByProminence)} more clear the height but are cut by the separation rule)
             </span>
           </>
@@ -351,24 +361,23 @@ export default function ColoradoPeaks() {
               const qualifies = p.prominenceFt >= prominenceCutoff;
               return (
                 <div key={`${p.name}-${p.elevationFt}-${i}`} className="flex items-center gap-3 px-3 py-2 text-sm">
-                  <span className={`shrink-0 w-1.5 h-6 rounded ${qualifies ? 'bg-green-500' : 'bg-orange-500'}`} />
+                  <span className={`shrink-0 w-1.5 h-6 rounded ${qualifies ? 'bg-gray-400 dark:bg-gray-500' : 'bg-transparent'}`} />
                   <span className="flex-1">
                     {peakUrl(p) ? (
                       <a
                         href={peakUrl(p)}
                         target="_blank"
                         rel="noreferrer"
-                        className={`${p.official ? '' : 'italic'} text-gray-900 dark:text-[#e4e4e4] hover:text-green-600 dark:hover:text-green-400 hover:underline`}
+                        className={`${p.official ? '' : 'italic'} text-gray-900 dark:text-[#e4e4e4] hover:text-gray-500 dark:hover:text-gray-300 hover:underline`}
                       >
                         {p.name}
                       </a>
                     ) : (
                       <span className={`${p.official ? '' : 'italic'} text-gray-900 dark:text-[#e4e4e4]`}>{p.name}</span>
                     )}
-                    {p.county && <span className="text-gray-400 dark:text-[#6b6b6b]"> · {p.county}</span>}
                   </span>
                   <span className="font-mono text-gray-700 dark:text-[#bbb] tabular-nums">{nf.format(p.elevationFt)}′</span>
-                  <span className={`font-mono tabular-nums w-20 text-right ${qualifies ? 'text-gray-400 dark:text-[#6b6b6b]' : 'text-orange-600 dark:text-orange-400 font-semibold'}`}>
+                  <span className={`font-mono tabular-nums w-20 text-right ${qualifies ? 'text-gray-400 dark:text-[#6b6b6b]' : 'text-gray-600 dark:text-gray-300 font-semibold'}`}>
                     {nf.format(p.prominenceFt)}′ prom
                   </span>
                 </div>

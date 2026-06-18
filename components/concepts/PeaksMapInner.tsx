@@ -17,34 +17,39 @@ interface MapPeak {
 
 const nf = new Intl.NumberFormat('en-US');
 
-// Colorado's bounding box (it's a near-rectangle): SW and NE corners.
+// Colorado's bounding box — the initial frame and the fallback when nothing qualifies.
 const CO_BOUNDS: [[number, number], [number, number]] = [
   [36.992, -109.06],
   [41.003, -102.041],
 ];
 
-/** Frame exactly Colorado on mount and keep it framed on resize. */
-function FitColorado() {
+const DOT = '#334155'; // neutral dark slate — every shown peak passes both thresholds
+
+/** Live-fit the view to the currently-shown peaks (with a buffer); falls back to all of Colorado. */
+function FitToPeaks({ bounds }: { bounds: [[number, number], [number, number]] | null }) {
   const map = useMap();
   useEffect(() => {
+    const target = bounds ?? CO_BOUNDS;
     const fit = () => {
       const { x, y } = map.getSize();
-      if (x < 50 || y < 50) return; // container not laid out yet
+      if (x < 50 || y < 50) return false;
       map.invalidateSize();
-      map.fitBounds(CO_BOUNDS, { padding: [2, 2], animate: false });
+      map.fitBounds(target, { padding: [36, 36], maxZoom: 11, animate: false });
+      return true;
     };
-    fit();
-    const ro = new ResizeObserver(fit);
+    if (fit()) return;
+    const ro = new ResizeObserver(() => {
+      if (fit()) ro.disconnect();
+    });
     ro.observe(map.getContainer());
     return () => ro.disconnect();
-  }, [map]);
+  }, [map, bounds]);
   return null;
 }
 
 /**
- * Spatial companion to the CDF: every mapped peak at or above the elevation threshold, colored
- * teal if it clears the prominence cutoff and amber if it's cut by the rule — the same in/out
- * coding as the list, linked to the same Lists of John page. Canvas-rendered for ~900 markers.
+ * Spatial companion to the CDF: only the peaks that pass BOTH thresholds (elevation + prominence),
+ * as neutral dots linked to their 14ers.com page. The view zooms live to fit the selected peaks.
  */
 export function PeaksMapInner({
   peaks,
@@ -56,9 +61,36 @@ export function PeaksMapInner({
   prominenceCutoff: number;
 }) {
   const shown = useMemo(
-    () => peaks.filter((p) => p.lat != null && p.lon != null && p.elevationFt >= elevationThreshold),
-    [peaks, elevationThreshold],
+    () =>
+      peaks.filter(
+        (p) =>
+          p.lat != null &&
+          p.lon != null &&
+          p.elevationFt >= elevationThreshold &&
+          p.prominenceFt >= prominenceCutoff,
+      ),
+    [peaks, elevationThreshold, prominenceCutoff],
   );
+
+  const bounds = useMemo<[[number, number], [number, number]] | null>(() => {
+    if (!shown.length) return null;
+    let minLat = 90;
+    let maxLat = -90;
+    let minLon = 180;
+    let maxLon = -180;
+    for (const p of shown) {
+      const la = p.lat as number;
+      const lo = p.lon as number;
+      if (la < minLat) minLat = la;
+      if (la > maxLat) maxLat = la;
+      if (lo < minLon) minLon = lo;
+      if (lo > maxLon) maxLon = lo;
+    }
+    return [
+      [minLat, minLon],
+      [maxLat, maxLon],
+    ];
+  }, [shown]);
 
   return (
     <MapContainer
@@ -70,40 +102,33 @@ export function PeaksMapInner({
       className="h-full w-full"
     >
       <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} maxZoom={TILE_MAX_ZOOM} />
-      <FitColorado />
-      {shown.map((p) => {
-        const qualifies = p.prominenceFt >= prominenceCutoff;
-        const color = qualifies ? '#16a34a' : '#ea580c'; // green = clears the rule, orange = cut by it
-        return (
-          // Include qualification in the key so a peak that flips in/out on a prominence change
-          // remounts with the new color (react-leaflet won't restyle a reused marker on its own).
-          <CircleMarker
-            key={`${p.name}-${p.elevationFt}-${qualifies ? 'in' : 'out'}`}
-            center={[p.lat as number, p.lon as number]}
-            radius={qualifies ? 4 : 3.5}
-            pathOptions={{ color, fillColor: color, fillOpacity: 0.4, weight: 0.75, opacity: 0.7 }}
-          >
-            <Popup>
-              {p.coUrl ? (
-                <a
-                  href={p.coUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ fontWeight: 600, fontStyle: p.official ? 'normal' : 'italic' }}
-                >
-                  {p.name}
-                </a>
-              ) : (
-                <span style={{ fontWeight: 600, fontStyle: p.official ? 'normal' : 'italic' }}>{p.name}</span>
-              )}
-              <div style={{ marginTop: 2, fontSize: 12, color: '#666' }}>
-                {nf.format(p.elevationFt)}′ · {nf.format(p.prominenceFt)}′ prom ·{' '}
-                {qualifies ? 'counts' : 'cut by the rule'}
-              </div>
-            </Popup>
-          </CircleMarker>
-        );
-      })}
+      <FitToPeaks bounds={bounds} />
+      {shown.map((p) => (
+        <CircleMarker
+          key={`${p.name}-${p.elevationFt}`}
+          center={[p.lat as number, p.lon as number]}
+          radius={4}
+          pathOptions={{ color: DOT, fillColor: DOT, fillOpacity: 0.45, weight: 0.75, opacity: 0.7 }}
+        >
+          <Popup>
+            {p.coUrl ? (
+              <a
+                href={p.coUrl}
+                target="_blank"
+                rel="noreferrer"
+                style={{ fontWeight: 600, fontStyle: p.official ? 'normal' : 'italic' }}
+              >
+                {p.name}
+              </a>
+            ) : (
+              <span style={{ fontWeight: 600, fontStyle: p.official ? 'normal' : 'italic' }}>{p.name}</span>
+            )}
+            <div style={{ marginTop: 2, fontSize: 12, color: '#666' }}>
+              {nf.format(p.elevationFt)}′ · {nf.format(p.prominenceFt)}′ prom
+            </div>
+          </Popup>
+        </CircleMarker>
+      ))}
     </MapContainer>
   );
 }
