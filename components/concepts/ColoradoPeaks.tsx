@@ -124,6 +124,7 @@ export default function ColoradoPeaks() {
 
   const survAll = (x: number) => elevAll.length - lowerBound(elevAll, x);
   const survQual = (x: number) => elevQualifying.length - lowerBound(elevQualifying, x);
+  const survCanon = (x: number) => elevCanon.length - lowerBound(elevCanon, x);
 
   const qualifyingCount = survQual(elevationThreshold);
   const aboveCount = survAll(elevationThreshold);
@@ -157,8 +158,13 @@ export default function ColoradoPeaks() {
   const sy = (count: number) => pad.top + ph - (count / total) * ph;
 
   // Proper (non-decreasing) CDF: the number of peaks at or below an elevation.
+  const cdfAll = (x: number) => lowerBound(elevAll, x); // no prominence rule (all summits)
   const cdfCanon = (x: number) => lowerBound(elevCanon, x); // official 300' rule (fixed reference)
   const cdfQual = (x: number) => lowerBound(elevQualifying, x); // your current prominence cutoff
+
+  // The "no prominence rule" comparison only appears at the round elevation cutoffs (13k / 14k).
+  const atRound = elevationThreshold === 14000 || elevationThreshold === 13000;
+  const count300 = survCanon(elevationThreshold); // peaks >= threshold clearing the 300' rule
 
   const SAMPLES = Math.max(60, Math.round(pw / 3));
   const buildPath = (fn: (x: number) => number) => {
@@ -171,6 +177,7 @@ export default function ColoradoPeaks() {
     }
     return d;
   };
+  const pathAll = peaks ? buildPath(cdfAll) : '';
   const pathCanon = peaks ? buildPath(cdfCanon) : '';
   const pathQual = peaks ? buildPath(cdfQual) : '';
 
@@ -278,6 +285,10 @@ export default function ColoradoPeaks() {
               {(t / 1000).toFixed(1)}k′
             </text>
           ))}
+          {/* "no prominence rule" envelope — only at the round elevation cutoffs (13k / 14k) */}
+          {peaks && atRound && (
+            <path d={pathAll} fill="none" stroke={c.gray} strokeWidth={1} strokeDasharray="1.5,3" opacity={0.55} />
+          )}
           {/* CDF: your current cutoff (gray solid) + the official 300' rule (orange dashed reference) */}
           {peaks && <path d={pathCanon} fill="none" stroke={c.prom} strokeWidth={1.5} strokeDasharray="3,3" opacity={0.9} />}
           {peaks && <path d={pathQual} fill="none" stroke={c.gray} strokeWidth={2.5} />}
@@ -324,6 +335,13 @@ export default function ColoradoPeaks() {
             <span className="inline-block w-4 h-0.5" style={{ background: c.elev }} /> elevation threshold
           </span>
         </div>
+        {peaks && atRound && (
+          <div className="mt-1.5 text-[11px] text-gray-500 dark:text-[#8a8a8a]">
+            At <span className="font-mono">{nf.format(elevationThreshold)}′</span>:{' '}
+            <span className="font-mono">{nf.format(count300)}</span> clear the 300′ rule ·{' '}
+            <span className="font-mono">{nf.format(aboveCount)}</span> with no prominence rule (dotted)
+          </div>
+        )}
       </div>
 
       {/* Headline count — below the chart */}
