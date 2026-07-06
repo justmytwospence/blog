@@ -1,6 +1,8 @@
 /**
- * Build-time read API for the Adventures section. Reads ONLY local files (committed snapshot
- * under data/adventures + report companions under content/adventures) — no Strava at build.
+ * Read API for the Adventures section. Per-report reads use ONLY local files (committed snapshots
+ * under data/adventures + report companions under content/adventures) — no Strava at build. The
+ * all-time totals are read from the runtime store (Upstash Redis) at request time, falling back to
+ * the gitignored local totals file (dev/CI) — see readLifetimeFile / getYearlyTotals.
  * Reuses lib/content.ts helpers; mirrors its catch-and-skip-malformed, date-desc posture.
  */
 import fs from 'fs';
@@ -312,6 +314,18 @@ function parseCompanion(file: string): ParsedCompanion | null {
   }
 }
 
+/**
+ * Race is derived from Strava's workout_type (Run 1 / Ride 11 = race). An explicit `race:` frontmatter
+ * flag overrides it — used for multi-sport / ski-marathon races that workout_type can't express.
+ */
+export function deriveIsRace(
+  frontmatterRace: unknown,
+  activities: Pick<AdventureActivity, 'workoutType'>[],
+): boolean {
+  if (frontmatterRace !== undefined) return Boolean(frontmatterRace);
+  return activities.some((a) => a.workoutType === 1 || a.workoutType === 11);
+}
+
 function buildAdventure(pc: ParsedCompanion): Adventure | null {
   const acts = pc.ids
     .map(readActivity)
@@ -329,7 +343,7 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
   const elevHigh = Math.max(...acts.map((a) => a.stats.elevHighMeters ?? Number.NEGATIVE_INFINITY));
   const typeStr = str(pc.data.type);
   const peakClass = derivePeakClass(str(pc.data.peakClass), typeStr, sportType, elevHigh);
-  const isRace = Boolean(pc.data.race);
+  const isRace = deriveIsRace(pc.data.race, acts);
   const facets = deriveFacets(typeStr, peakClass, isRace, Boolean(pc.data.duathlon));
   const date = pc.data.date != null ? normalizeDate(pc.data.date) : primary.date;
   const dayMeta = Array.isArray(pc.data.days)
@@ -603,7 +617,8 @@ export async function getLifetimeByMonthSport(): Promise<YearSportTotals> {
   return (await readLifetimeFile())?.byMonthSport ?? {};
 }
 
-/** Committed full-history totals (every human-powered activity), or null if not generated yet. */
+/** Full-history human-powered totals: the runtime store (Redis) in prod, else the gitignored local
+ *  file (dev/CI), else null. No longer committed — see docs/strava-stats.md. */
 async function readLifetimeFile(): Promise<LifetimeFile | null> {
   if (hasStore()) {
     const t = await readTotals();
