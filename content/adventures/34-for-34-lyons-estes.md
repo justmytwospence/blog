@@ -1,4 +1,3 @@
 ---
 strava_id: 11714850711
-hidden: false
 ---

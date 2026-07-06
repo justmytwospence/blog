@@ -1928,5 +1928,7 @@
   "gear": "La Sportiva Prodigio Zest/Moonlight",
   "description": "Awesome scramble. Incredible views. Windy.  Wanted to run down but wouldn’t have been productive. The Prodigios scramble surprisingly well. Kinda glad now that I deferred the Chattanooga Ironman that was supposed to be today because they canceled the swim. Edit: wow the hurricane was a much bigger deal than I realized obviously a triathlon is not a big deal compared to everything else.",
   "stravaUrl": "https://www.strava.com/activities/12536352467",
-  "sourceHash": "8ebaf115dc361035f1209cf43e8e0f6c371083755bfdbba57f02f36661a96bed"
+  "sourceHash": "8ebaf115dc361035f1209cf43e8e0f6c371083755bfdbba57f02f36661a96bed",
+  "workoutType": null,
+  "summaryHash": "a40048f4079aa48b0ef59c4484bb4a72c7c637c108a8aa1fcf89edd00f17b4be"
 }

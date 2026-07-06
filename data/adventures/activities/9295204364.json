@@ -979,5 +979,7 @@
   "gear": "Scarpa Phantom Tech",
   "description": "Lugged up a rope and rack but ended up just soloing the spicy bits - fun!",
   "stravaUrl": "https://www.strava.com/activities/9295204364",
-  "sourceHash": "5cf1d007f1f35f5dda8da78c59e7abbd8704634adf273afef6eea07bbc263b69"
+  "sourceHash": "5cf1d007f1f35f5dda8da78c59e7abbd8704634adf273afef6eea07bbc263b69",
+  "workoutType": null,
+  "summaryHash": "2d37ab9ad60b3c718928aee1f2eef0f13934c5a7d260e593baf3e50f54821c70"
 }

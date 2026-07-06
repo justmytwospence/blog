@@ -1405,5 +1405,7 @@
   "gear": null,
   "description": "Made it about 2/3 of the way up the (not so) casual route when winds redirected the snowmelt waterfall and soaked the whole climb so had to rap down maybe 1,200 feet? Not sure when my watch stopped recording.",
   "stravaUrl": "https://www.strava.com/activities/9422027524",
-  "sourceHash": "ebee163bc5f80e8efd40ece7cc89234c0bf72025ac67d28cc76b7dd935b24216"
+  "sourceHash": "ebee163bc5f80e8efd40ece7cc89234c0bf72025ac67d28cc76b7dd935b24216",
+  "workoutType": 28,
+  "summaryHash": "5dc065706f304dcaff38f4c7294de2e29978b1f3d05f37a63b3566504fc113c9"
 }

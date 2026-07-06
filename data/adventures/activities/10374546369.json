@@ -951,5 +951,7 @@
   "gear": null,
   "description": "Eldora day one! Feels like home sweet home. It’s crazy how much better at this I am than I was 11 months ago. Super long line for armband pick up, gave me less time on slopes than I wanted but it just means we have a good community. Really good kick turn tracks in the glades",
   "stravaUrl": "https://www.strava.com/activities/10374546369",
-  "sourceHash": "155a66a9f7762eee2bae092a72323e256d6684c771f0ff51e7347e5242391a72"
+  "sourceHash": "155a66a9f7762eee2bae092a72323e256d6684c771f0ff51e7347e5242391a72",
+  "workoutType": null,
+  "summaryHash": "54f7637c1ce0eaaa82e32bb120202034a909c0193c81752bec6b5632f32696a9"
 }

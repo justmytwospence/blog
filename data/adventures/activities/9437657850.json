@@ -1365,5 +1365,7 @@
   "gear": "Salomon S/LAB Ultra",
   "description": "Defending the title that only I care about. PR on the route even though I didn’t feel super fast. Maybe it’s the new shoes, they’re aight.",
   "stravaUrl": "https://www.strava.com/activities/9437657850",
-  "sourceHash": "88c3a91a01d1b2a1ea9b2ea5c83a7df81a1c8ef466d6ced1cb6e3598d75e9fde"
+  "sourceHash": "88c3a91a01d1b2a1ea9b2ea5c83a7df81a1c8ef466d6ced1cb6e3598d75e9fde",
+  "workoutType": 0,
+  "summaryHash": "9f67702539fb727f7716efbcb2ac52a15245174768cac3855ce2c1d8d2790800"
 }

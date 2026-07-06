@@ -5,7 +5,6 @@ type: peak
 difficulty: moderate
 tags: [san-juan]
 source: 14ers
-hidden: false
 ---
 
 A Colorado 14er via the standard route — San Luis Peak (14,014'), Class 1. Climbed before I was on Strava.

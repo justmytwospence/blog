@@ -6294,5 +6294,7 @@
   "gear": "Endurace",
   "description": "A long hot climb next to a 14er… feels like a Colorado ride hahaha",
   "stravaUrl": "https://www.strava.com/activities/14727621681",
-  "sourceHash": "3863948f8fd202e2b49dffb72c5815b7150dfd9f85ce249ec3f9a9b3782a3cec"
+  "sourceHash": "3863948f8fd202e2b49dffb72c5815b7150dfd9f85ce249ec3f9a9b3782a3cec",
+  "workoutType": 10,
+  "summaryHash": "65f6da55e18d060220dba095fa4261997f1fa72324359d260ff032b59cf9cf91"
 }

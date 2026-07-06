@@ -5,7 +5,6 @@ type: peak
 difficulty: moderate
 tags: [tenmile]
 source: 14ers
-hidden: false
 ---
 
 A Colorado 14er via the standard route — Quandary Peak (14,265'), Class 1. Climbed before I was on Strava.

@@ -3039,5 +3039,7 @@
   "gear": null,
   "description": "Conditions did not line up for an Everest which is just as well because this was a slow, cold, lomo day. Should have eaten more than 3 gels all day. Oh well I’ll take 500k this year and have 520k as a goal for next year.",
   "stravaUrl": "https://www.strava.com/activities/13234934250",
-  "sourceHash": "fe8a89223c0e04afff755a4987e5d312eda6d54601807974633b91ad33d18c54"
+  "sourceHash": "fe8a89223c0e04afff755a4987e5d312eda6d54601807974633b91ad33d18c54",
+  "workoutType": null,
+  "summaryHash": "8d69c9297dda05c4ed05c63beefc632928bda9d1e6e1483c97f3a6970f798210"
 }

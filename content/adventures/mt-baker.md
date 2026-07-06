@@ -5,7 +5,6 @@ sport: Mountaineering
 type: peak
 difficulty: hard
 tags: [cascades, washington, volcano, glacier]
-hidden: false
 days:
   - title: "Approach to base camp"
   - title: "Coleman-Deming summit"

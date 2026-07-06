@@ -825,5 +825,7 @@
   "gear": null,
   "description": "Crit style. Tacked on one more lap from last year.  Transitions and downhills got a little faster and a little less timid every lap (but started very slow and timid). I only need to take a couple minutes off each lap to get the magic 5th",
   "stravaUrl": "https://www.strava.com/activities/12884000250",
-  "sourceHash": "f0bc49de27271f73e42b36b760134686661d8c2f19726631f70a329d2ed617ae"
+  "sourceHash": "f0bc49de27271f73e42b36b760134686661d8c2f19726631f70a329d2ed617ae",
+  "workoutType": null,
+  "summaryHash": "193ece308124eb15c82ccc2c3c5a522980b97e71558c96510a8a28ee03b6623d"
 }

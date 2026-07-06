@@ -1311,5 +1311,7 @@
   "gear": null,
   "description": "",
   "stravaUrl": "https://www.strava.com/activities/5519506323",
-  "sourceHash": "331b9b44bd8f7a4918ba5d001263cf1ddf8e8e4363685ac3e05c138d3f027559"
+  "sourceHash": "331b9b44bd8f7a4918ba5d001263cf1ddf8e8e4363685ac3e05c138d3f027559",
+  "workoutType": null,
+  "summaryHash": "9f65a2ee4b236594576c97b5893a8290bf3e82ee9477de02a1abbcb978bde49c"
 }

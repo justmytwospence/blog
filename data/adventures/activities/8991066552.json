@@ -1455,5 +1455,7 @@
   "gear": null,
   "description": "Hello new morning routine",
   "stravaUrl": "https://www.strava.com/activities/8991066552",
-  "sourceHash": "136827b2f70f752305b894b550887c71429d74ef06ff1e41a11c834cbc920dab"
+  "sourceHash": "136827b2f70f752305b894b550887c71429d74ef06ff1e41a11c834cbc920dab",
+  "workoutType": null,
+  "summaryHash": "4e8cac776c986e14eae8a3dc71ff961d59bc4fbfa16e8f7ac514dd3bfbaad4cd"
 }

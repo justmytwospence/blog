@@ -1439,5 +1439,7 @@
   "gear": "Inov-8 Trailfly Ultra G 300 Max",
   "description": "",
   "stravaUrl": "https://www.strava.com/activities/9251589233",
-  "sourceHash": "ba98f7f85e2e4c2905f61e6680c7a9e67d9dac46b67d09fb5bf5482eaa95104d"
+  "sourceHash": "ba98f7f85e2e4c2905f61e6680c7a9e67d9dac46b67d09fb5bf5482eaa95104d",
+  "workoutType": 0,
+  "summaryHash": "bfcc18596e30c602d1274e57187659fa03e84c80782bd53547f5774d65e7a3e3"
 }

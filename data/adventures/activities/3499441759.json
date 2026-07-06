@@ -789,5 +789,7 @@
   "gear": null,
   "description": "",
   "stravaUrl": "https://www.strava.com/activities/3499441759",
-  "sourceHash": "609eec3bea521dc5adea81029121e2f580cf91e4002dddd37ab12c6fccb52f30"
+  "sourceHash": "609eec3bea521dc5adea81029121e2f580cf91e4002dddd37ab12c6fccb52f30",
+  "workoutType": null,
+  "summaryHash": "ed7bba76e71d34829766aea2a643a62e6d520c4919ebf6a32eecd825d9c95768"
 }

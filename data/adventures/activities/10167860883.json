@@ -6030,5 +6030,7 @@
   "gear": "Endurace",
   "description": "First century / iron distance (by over 40 miles). Felt really good until I got hit by some atrocious headwind and crosswind on the way back that was pretty demoralizing and really took it out of me. I had fun experimenting with the aero bars though so we’ll just call it extra aero practice.\n\nOh and apparently today I hit one PCT worth of human powered miles in 2023.",
   "stravaUrl": "https://www.strava.com/activities/10167860883",
-  "sourceHash": "9683bdd9b4c47ab06d0567e9a7cb2ae000c9b2f68bbadbbd2183e480b4ff726d"
+  "sourceHash": "9683bdd9b4c47ab06d0567e9a7cb2ae000c9b2f68bbadbbd2183e480b4ff726d",
+  "workoutType": 10,
+  "summaryHash": "85084974dc8284f9520847a3005ddcf0877e737f559159ebca329c9e43f4d6d4"
 }

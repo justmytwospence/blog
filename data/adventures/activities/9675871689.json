@@ -847,5 +847,7 @@
   "gear": "La Sportiva TX3",
   "description": "",
   "stravaUrl": "https://www.strava.com/activities/9675871689",
-  "sourceHash": "db0ea31f27c699c06d182593071b7c26040a3ef47ca3fe83c3d39a10b9050a35"
+  "sourceHash": "db0ea31f27c699c06d182593071b7c26040a3ef47ca3fe83c3d39a10b9050a35",
+  "workoutType": 0,
+  "summaryHash": "1273da0d80b713eb711d97e8b93a5d1cdec5602cfc0cfa8b4f8e26b9b40fbaf7"
 }

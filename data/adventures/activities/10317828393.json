@@ -2027,5 +2027,7 @@
   "gear": null,
   "description": "Kinda annoyed because someone directed a group of us wayyyy off course on the final descent absolutely destroying my time. Probably added around 15 to 20 minutes I would guess. Oh well it was a nice day",
   "stravaUrl": "https://www.strava.com/activities/10317828393",
-  "sourceHash": "2eec8c2bbf85bae20ca831016d66236c0cdcc7554dbffcd2d22cbfd60aace46e"
+  "sourceHash": "2eec8c2bbf85bae20ca831016d66236c0cdcc7554dbffcd2d22cbfd60aace46e",
+  "workoutType": null,
+  "summaryHash": "0d87ae0f4ed911c93f924df054005371ea30e13ccc71382134415d6bbbea1a53"
 }

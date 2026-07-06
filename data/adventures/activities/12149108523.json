@@ -2202,5 +2202,7 @@
   "gear": "La Sportiva Prodigio Zest/Moonlight",
   "description": "Haven’t beared in so long! Started hot then cooled down as the weather rolled in. Used poles for the Bear climb, skimo is right around the corner!",
   "stravaUrl": "https://www.strava.com/activities/12149108523",
-  "sourceHash": "05395d89800a84ed89f17450db3d439697bf9aa6978471e519766a68f70b6c5c"
+  "sourceHash": "05395d89800a84ed89f17450db3d439697bf9aa6978471e519766a68f70b6c5c",
+  "workoutType": 0,
+  "summaryHash": "039a0bb6d83c5a2dfd66b98f90321b79a794702f78b0bd11ca55ac1b64629235"
 }

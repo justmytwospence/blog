@@ -753,5 +753,7 @@
   "gear": "Grizl 1by",
   "description": "Well I did eat shit but it wasn’t my fault! I got absolutely T-boned at speed by a guy who lost control of his bike. Everybody fine but my Garmin freaked out and my bike made weird noises for the rest of the ride. For a bizarre 10 seconds at the very beginning the front group took a wrong turn and I was technically leading the pack",
   "stravaUrl": "https://www.strava.com/activities/10696669560",
-  "sourceHash": "4e384da116cfa30882c567d5aef6fb932594ab7ed415ab8bdd83c79dff2122bd"
+  "sourceHash": "4e384da116cfa30882c567d5aef6fb932594ab7ed415ab8bdd83c79dff2122bd",
+  "workoutType": 11,
+  "summaryHash": "eb12d46457c5aac4c78fa3dab1e921d4540508c1231bc5ce5125ab82cd2be3da"
 }

@@ -630,5 +630,7 @@
   "gear": null,
   "description": "I started my watch about 5 minutes early apparently so I think my course time was ~55 minutes. 53/119",
   "stravaUrl": "https://www.strava.com/activities/10257141016",
-  "sourceHash": "62894745e1c2274169b56a8c2b959b1c0c75816fe7cc5a4d61ac052bec526019"
+  "sourceHash": "62894745e1c2274169b56a8c2b959b1c0c75816fe7cc5a4d61ac052bec526019",
+  "workoutType": null,
+  "summaryHash": "44f770dcb0078782949b95de36df32aeba54d0d12ebc6b19d27eebd2d35c2aa5"
 }

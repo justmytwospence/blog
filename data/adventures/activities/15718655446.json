@@ -4702,5 +4702,7 @@
   "gear": "Topo Athletic Ultraventure 4",
   "description": "Drizzly most of the day with some hail then a gorgeous valley through a small thunderstorm",
   "stravaUrl": "https://www.strava.com/activities/15718655446",
-  "sourceHash": "a7a74ccba5810382cb473eb37e06c96cb9cd18581aca32efac7eaa70ad579afb"
+  "sourceHash": "a7a74ccba5810382cb473eb37e06c96cb9cd18581aca32efac7eaa70ad579afb",
+  "workoutType": null,
+  "summaryHash": "471973afa97ffe2d3a84d73a1872aa23cd788dfbe13c5e550878c4f235df466e"
 }

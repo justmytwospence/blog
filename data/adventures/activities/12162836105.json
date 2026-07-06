@@ -917,5 +917,7 @@
   "gear": "La Sportiva TX Guide",
   "description": "Got cut off on Baseline by a galloping bear!",
   "stravaUrl": "https://www.strava.com/activities/12162836105",
-  "sourceHash": "fabe96a64aad32392005cef2d4735d62240482127110bef2d77cc75c693b1d32"
+  "sourceHash": "fabe96a64aad32392005cef2d4735d62240482127110bef2d77cc75c693b1d32",
+  "workoutType": null,
+  "summaryHash": "b9146c3119b3029b8ae23bcfc4e5f3f9ab06e6b5bb71bfb50d02594073673dc1"
 }

@@ -1027,5 +1027,7 @@
   "gear": null,
   "description": "Freshies! Pole snapped 5 days before Grand Traverse, last 1.5 laps freehand.",
   "stravaUrl": "https://www.strava.com/activities/11035306565",
-  "sourceHash": "e71c856a44e714cdfedc74d6185137f0c116fc93159a1727723607496ed51f7e"
+  "sourceHash": "e71c856a44e714cdfedc74d6185137f0c116fc93159a1727723607496ed51f7e",
+  "workoutType": null,
+  "summaryHash": "e5b12467e1b5ce295dd996af59fe9fd3cfe2e8efaf1b586726fa24cfee2c503e"
 }

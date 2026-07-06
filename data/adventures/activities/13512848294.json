@@ -4906,5 +4906,7 @@
   "gear": null,
   "description": "Second Nordic race in the books! So so fun. Nordic skiing is the best. Still figuring out pacing, definitely have plenty more in the tank! I’ve just got to develop more than one gear",
   "stravaUrl": "https://www.strava.com/activities/13512848294",
-  "sourceHash": "721dc1af6e05bfaad10b68f0cf62fe943a2764d5b3c36018016de4dd2130e266"
+  "sourceHash": "721dc1af6e05bfaad10b68f0cf62fe943a2764d5b3c36018016de4dd2130e266",
+  "workoutType": null,
+  "summaryHash": "84dc74266652bd2e5fb2f26d1bc1a3dee8027cfc083ad54f584cd71c2c09eba6"
 }

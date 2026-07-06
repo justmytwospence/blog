@@ -1257,5 +1257,7 @@
   "gear": "Mammut Nordwand 6000",
   "description": "Weighted ~40 pounds",
   "stravaUrl": "https://www.strava.com/activities/8511930915",
-  "sourceHash": "e30370b97cbe372274e3eb8f499e45ece7bcd44583ab3b7a9b6132513619189f"
+  "sourceHash": "e30370b97cbe372274e3eb8f499e45ece7bcd44583ab3b7a9b6132513619189f",
+  "workoutType": null,
+  "summaryHash": "1ac85939b8c9a97a2255ec0505e12bf8e5222919600a14e70cccdacdaacb270c"
 }

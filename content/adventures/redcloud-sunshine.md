@@ -5,7 +5,6 @@ type: peak
 difficulty: moderate
 tags: [san-juan]
 source: 14ers
-hidden: false
 days:
   - title: "Redcloud Peak"
   - title: "Sunshine Peak"

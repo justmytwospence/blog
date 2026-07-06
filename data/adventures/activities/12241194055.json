@@ -1025,5 +1025,7 @@
   "gear": "New Balance Hierro v8 Black Shadow",
   "description": "With Grace and Ryan on their weekend work trip",
   "stravaUrl": "https://www.strava.com/activities/12241194055",
-  "sourceHash": "1bd1cc1e7574b6b714db072f6a993f01c0d79d99c4d8ccc98ff6aa3196ed5410"
+  "sourceHash": "1bd1cc1e7574b6b714db072f6a993f01c0d79d99c4d8ccc98ff6aa3196ed5410",
+  "workoutType": null,
+  "summaryHash": "e45bb822b9e39f4f4107d115c5fd268a31f11810134df080c947629823864100"
 }

@@ -3800,5 +3800,7 @@
   "gear": "New Balance Hierro v8  Shadow Grey",
   "description": "Brrr it was a cold one last night. Great weather in the day though which was good because there was a 20 mile dry stretch. Found a nice campsite for the last night.",
   "stravaUrl": "https://www.strava.com/activities/15926865039",
-  "sourceHash": "337eb6ccc8a8deb4937a3e28aac64d485185a2c2d78a3fd2d69d62dce90c0fc8"
+  "sourceHash": "337eb6ccc8a8deb4937a3e28aac64d485185a2c2d78a3fd2d69d62dce90c0fc8",
+  "workoutType": null,
+  "summaryHash": "860496ffa770f5f2d5aec0b6913466990fb95e0642c9cb06d5d0a2fc57197c0f"
 }

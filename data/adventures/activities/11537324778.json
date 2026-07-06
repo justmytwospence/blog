@@ -846,5 +846,7 @@
   "gear": "La Sportiva Cyklon",
   "description": "Nice catch up and the greatest lightning show I’ve ever seen (and getting better!). Downclimbed the arch on the west face for the first time",
   "stravaUrl": "https://www.strava.com/activities/11537324778",
-  "sourceHash": "2e023b7e5c40f1d262022d3cb042a6ac09f283da5a342ce3576b69ae04efa2da"
+  "sourceHash": "2e023b7e5c40f1d262022d3cb042a6ac09f283da5a342ce3576b69ae04efa2da",
+  "workoutType": 0,
+  "summaryHash": "f5027a610e9b0533d92d8868014708b45d7f3ae0d60c5e51b97bb80211e7ad03"
 }

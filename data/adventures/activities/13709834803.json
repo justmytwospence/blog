@@ -1810,5 +1810,7 @@
   "gear": "Endurace semi-slicks",
   "description": "Windy! Felt very slow today - haven’t ridden since the Estes ride in the Fall. Want to blame it on a dozen bike issues but maybe I’m just not as fast as new cyclist in clipless pedals for the first time ever who just has a genetic motor? Leadville Loppett fomo - looked like a good race day",
   "stravaUrl": "https://www.strava.com/activities/13709834803",
-  "sourceHash": "a439327820e5268f549a11e6a0c78bc885977fb0263bbd5928833daedc1dcf76"
+  "sourceHash": "a439327820e5268f549a11e6a0c78bc885977fb0263bbd5928833daedc1dcf76",
+  "workoutType": 10,
+  "summaryHash": "7dd7a69d8fb99bd34cecab6c37a2754285a1d4c34913ccfc63d02467a9596a12"
 }

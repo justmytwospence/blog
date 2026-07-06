@@ -2722,5 +2722,7 @@
   "gear": "La Sportiva Prodigio Zest/Moonlight",
   "description": "So gorgeous. Everyone either injured or sore so a fun leisure run. Big buff bois",
   "stravaUrl": "https://www.strava.com/activities/12113760097",
-  "sourceHash": "8e0674a961d2fa6cfb1f403c2e537de4ca348610b7b87f3f73d972462afcebe0"
+  "sourceHash": "8e0674a961d2fa6cfb1f403c2e537de4ca348610b7b87f3f73d972462afcebe0",
+  "workoutType": 0,
+  "summaryHash": "4be90bf782bc367c50b761ca5f3574fdcefb312a409b7a5d6d3e6e39cddcd70b"
 }

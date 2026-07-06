@@ -866,5 +866,7 @@
   "gear": null,
   "description": "",
   "stravaUrl": "https://www.strava.com/activities/9606971880",
-  "sourceHash": "3cccbfccb1097c4264f98ac0b6a6e3b8a997bc201d0a24ca82fd3e03f9f4b9e7"
+  "sourceHash": "3cccbfccb1097c4264f98ac0b6a6e3b8a997bc201d0a24ca82fd3e03f9f4b9e7",
+  "workoutType": 0,
+  "summaryHash": "34b24a97d42faebdc7303f6890025b70c98dd7f9779a3bda6c740ad2deb9a398"
 }

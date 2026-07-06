@@ -5,7 +5,6 @@ type: peak
 difficulty: moderate
 tags: [mosquito]
 source: 14ers
-hidden: false
 days:
   - title: "Mt. Democrat"
   - title: "Mt. Lincoln"

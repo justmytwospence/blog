@@ -5,7 +5,6 @@ type: peak
 difficulty: moderate
 tags: [elk]
 source: 14ers
-hidden: false
 days:
   - title: "Castle Peak"
   - title: "Conundrum Peak"

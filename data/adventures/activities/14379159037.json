@@ -1399,5 +1399,7 @@
   "gear": null,
   "description": "Nice outing! Bailed on biking up because I continue to not feel great health wise and I’ve learned my lesson not to push that.",
   "stravaUrl": "https://www.strava.com/activities/14379159037",
-  "sourceHash": "f65203e9d4ed8b4cdb36c07e4b1bc490bcefd509e7bc0fcb557453ff123ee3a3"
+  "sourceHash": "f65203e9d4ed8b4cdb36c07e4b1bc490bcefd509e7bc0fcb557453ff123ee3a3",
+  "workoutType": null,
+  "summaryHash": "a86b666d187b37a9f4eb86163113e2e5f54bdad23e49403b94c64b68d7860d09"
 }

@@ -2355,5 +2355,7 @@
   "gear": null,
   "description": "",
   "stravaUrl": "https://www.strava.com/activities/5869052972",
-  "sourceHash": "fbe05b0f924bce3da7142511453b9467eacebb623267772a711748f1d05bf5e1"
+  "sourceHash": "fbe05b0f924bce3da7142511453b9467eacebb623267772a711748f1d05bf5e1",
+  "workoutType": null,
+  "summaryHash": "0f291ae9d3016a744578907f2cf611b752c461e8afda89c8da80cc1ab1957288"
 }

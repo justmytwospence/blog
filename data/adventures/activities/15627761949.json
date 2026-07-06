@@ -1705,5 +1705,7 @@
   "gear": "La Sportiva Prodigio Carbon/Cherry Tomato",
   "description": "",
   "stravaUrl": "https://www.strava.com/activities/15627761949",
-  "sourceHash": "bf1f1ae4e0aafe5c68f9c9c071852abb5d6732cecb6d27cba27df5459fb21f83"
+  "sourceHash": "bf1f1ae4e0aafe5c68f9c9c071852abb5d6732cecb6d27cba27df5459fb21f83",
+  "workoutType": null,
+  "summaryHash": "7921b3949eee4feb251625f83db5a0853714622abd82c9e5d79cce58b4d73ac2"
 }

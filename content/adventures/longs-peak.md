@@ -5,7 +5,6 @@ type: peak
 difficulty: hard
 tags: [front-range]
 source: 14ers
-hidden: false
 ---
 
 A Colorado 14er via the Keyhole Route — Longs Peak (14,255'), Class 3. Climbed before I was on Strava.

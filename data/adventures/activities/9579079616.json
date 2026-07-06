@@ -5230,5 +5230,7 @@
   "gear": "Inov-8 TrailFly G 270",
   "description": "Mostly a hike with a little running. Stayed in zone 2 all day though. Injuries did well. Kinda pretty I guess? Saw a cheeky otter.",
   "stravaUrl": "https://www.strava.com/activities/9579079616",
-  "sourceHash": "9dc8cabd9d10e5c895fb91e0cc80530323d2b6deb9f07b417d06a7f41bf71070"
+  "sourceHash": "9dc8cabd9d10e5c895fb91e0cc80530323d2b6deb9f07b417d06a7f41bf71070",
+  "workoutType": 0,
+  "summaryHash": "6bd3e5c8ab00dfd16cb7cc687b579d8f590b3869a054a1f74ed56c96afcf36de"
 }

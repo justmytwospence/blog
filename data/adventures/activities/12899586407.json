@@ -879,5 +879,7 @@
   "gear": null,
   "description": "",
   "stravaUrl": "https://www.strava.com/activities/12899586407",
-  "sourceHash": "63cf0d534c5cbc5dd21a07b4dcaa1d58a12df8bb333fb595c3d56c7993dc4548"
+  "sourceHash": "63cf0d534c5cbc5dd21a07b4dcaa1d58a12df8bb333fb595c3d56c7993dc4548",
+  "workoutType": null,
+  "summaryHash": "394d26d5c04daa173ba4d7a4aa4a80101c38215ea58c9e55db79b04e821e9950"
 }

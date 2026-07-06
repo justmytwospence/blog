@@ -5,7 +5,6 @@ type: peak
 difficulty: moderate
 tags: [sawatch]
 source: 14ers
-hidden: false
 days:
   - title: "Mt. Shavano"
   - title: "Tabeguache Peak"

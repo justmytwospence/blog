@@ -2934,5 +2934,7 @@
   "gear": "HOKA Speedgoat 6",
   "description": "With Brett Tinkham! Buena Vista’s newest adventurer. First day at altitude in a while! Legs heavy from lifting yesterday but good company",
   "stravaUrl": "https://www.strava.com/activities/11737976492",
-  "sourceHash": "a1439b646b60792c58e0ea2becde0e65ee745403323d9ff112b8946114229f79"
+  "sourceHash": "a1439b646b60792c58e0ea2becde0e65ee745403323d9ff112b8946114229f79",
+  "workoutType": 0,
+  "summaryHash": "c63d00df5e959b1d10cd7c86e4d17c2b517fd594055f88e6625f3b3a8e4a5d72"
 }

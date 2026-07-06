@@ -6309,5 +6309,7 @@
   "gear": "New Balance Hierro v8 Black Shadow",
   "description": "First time crewing a race and I had the honor and privilege of taking Lizzie the homing missile into her 2nd place finish! Got to spend the night on the PCT for the first time since 2017",
   "stravaUrl": "https://www.strava.com/activities/11603818859",
-  "sourceHash": "d3428b838187d8c49754dc8a496926dd152b48fdb3e450861d5b2564631ac398"
+  "sourceHash": "d3428b838187d8c49754dc8a496926dd152b48fdb3e450861d5b2564631ac398",
+  "workoutType": 0,
+  "summaryHash": "7d93e638f8911399fb1f8f25ea73e80fe58328aa0c8213478e6359138f6d906a"
 }

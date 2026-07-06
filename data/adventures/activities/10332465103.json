@@ -501,5 +501,7 @@
   "gear": null,
   "description": "Getting dialed slowly, but surely. I felt pretty good about this one even though I botched the last transition. 70 seconds on the skin to skis and 90 seconds on the ski to skin. 28/66",
   "stravaUrl": "https://www.strava.com/activities/10332465103",
-  "sourceHash": "4f339dbd788c4f54b237a41db085fe9304e722f057c3103648cf4b1936600677"
+  "sourceHash": "4f339dbd788c4f54b237a41db085fe9304e722f057c3103648cf4b1936600677",
+  "workoutType": null,
+  "summaryHash": "799b58954abafa5b616ed46d4f590fcf01c2cf45fe7e0a7060bf72f03e0630be"
 }

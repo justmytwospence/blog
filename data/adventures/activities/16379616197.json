@@ -1754,5 +1754,7 @@
   "gear": "La Sportiva Prodigio Pro",
   "description": "",
   "stravaUrl": "https://www.strava.com/activities/16379616197",
-  "sourceHash": "2a0d52a0cf18fbf41cf483aebbc2913879b1376766e644e6ee37995dfcea78ae"
+  "sourceHash": "2a0d52a0cf18fbf41cf483aebbc2913879b1376766e644e6ee37995dfcea78ae",
+  "workoutType": null,
+  "summaryHash": "4fae9df0a1ceaad51c8e93e0f4e0121f4541379cb66a44c614bb1d8b33e2c207"
 }

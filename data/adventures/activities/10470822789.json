@@ -915,5 +915,7 @@
   "gear": null,
   "description": "Glutes were too blasted from skating to handle these moguls all day, so I got in an uphill lap to pad out an even 450k feet for 2023",
   "stravaUrl": "https://www.strava.com/activities/10470822789",
-  "sourceHash": "3f2485dfdccfa8ae9367b496cf5976e84bd227f1ab6ddd72d3240a6abf622512"
+  "sourceHash": "3f2485dfdccfa8ae9367b496cf5976e84bd227f1ab6ddd72d3240a6abf622512",
+  "workoutType": null,
+  "summaryHash": "d14cf6fd73922f5887fe81d4200542996b27c916533f259a8afe7e4f7d8f2f5c"
 }

@@ -1923,5 +1923,7 @@
   "gear": null,
   "description": "Weighted ~35 pounds. Lower back started to hurt, I think because skiing down in terrible conditions with that much weight was a big strain",
   "stravaUrl": "https://www.strava.com/activities/9029924198",
-  "sourceHash": "2559b1520cfcdcd2e39bc4d5c4880b23761d1cd8ad169ea51d558badb7693ada"
+  "sourceHash": "2559b1520cfcdcd2e39bc4d5c4880b23761d1cd8ad169ea51d558badb7693ada",
+  "workoutType": null,
+  "summaryHash": "62cce5cb036883d2939954ee9c7bce3cb5e9e8dd0b87f09895a0e7116c071e57"
 }

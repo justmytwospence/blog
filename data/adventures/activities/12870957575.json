@@ -1620,5 +1620,7 @@
   "gear": null,
   "description": "I don’t know why I started with race skis for the first two laps. Switched to touring skis and had much more fun in all the powder. With Brett Lizzie John Andrea Dylan. Last lap douche lap",
   "stravaUrl": "https://www.strava.com/activities/12870957575",
-  "sourceHash": "3c14a00e0ae1ec6d5858b62ea096131c4e06a98c0e64586168b08c6e7825af26"
+  "sourceHash": "3c14a00e0ae1ec6d5858b62ea096131c4e06a98c0e64586168b08c6e7825af26",
+  "workoutType": null,
+  "summaryHash": "f8d42fe136ccad3fda5c22ef1baa398e18d5b3c6c76f2d41fc6f82186523f5f5"
 }

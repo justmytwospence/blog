@@ -6,7 +6,6 @@ type: thru-hike
 difficulty: epic
 tags: [colorado, 14ers]
 featured: true
-hidden: false
 objective: colorado-trail
 days:
   - { title: "Waterton Canyon → Buffalo Creek" }

@@ -6332,5 +6332,7 @@
   "gear": "HOKA Speedgoat 6",
   "description": "Lyons to Estes! A surprising amount of route finding and bushwhacking, pretty sure nobody runs these roads or trails and they’re surprisingly rugged and remote. Lots of tummy troubles by the time we got to the top had me dying on the descent. Now running late for my own birthday shindig.",
   "stravaUrl": "https://www.strava.com/activities/11714850711",
-  "sourceHash": "52e4bf8f1b5d988e47c6b11457cfe95a2266f0503d97ba3c4b577a4b9c2744b6"
+  "sourceHash": "52e4bf8f1b5d988e47c6b11457cfe95a2266f0503d97ba3c4b577a4b9c2744b6",
+  "workoutType": 2,
+  "summaryHash": "fe77c8c0a0913838b78d1ed59992c0473831f7365d22caa15374a224422ea436"
 }

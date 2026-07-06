@@ -1367,5 +1367,7 @@
   "gear": "Inov-8 Trailfly Ultra G 300 Max",
   "description": "Mud down low ice up high",
   "stravaUrl": "https://www.strava.com/activities/9257970750",
-  "sourceHash": "9ab91082e4377ec59f6a386ac61a35d4b90cd660ba107f8c479331cb59fb7067"
+  "sourceHash": "9ab91082e4377ec59f6a386ac61a35d4b90cd660ba107f8c479331cb59fb7067",
+  "workoutType": 0,
+  "summaryHash": "46fe8d539d6e29cbc6e13742be3f22edceb412b41e98b839ed3859926bda95e3"
 }

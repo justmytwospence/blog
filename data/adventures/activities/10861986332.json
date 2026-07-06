@@ -1994,5 +1994,7 @@
   "gear": null,
   "description": "Incredible skin track right out of town up to some legit mountains? With some real powder skiing on the way down? Salt Lake City definitely has Boulder beat for dawn patrol access. Kick turns not on point today.",
   "stravaUrl": "https://www.strava.com/activities/10861986332",
-  "sourceHash": "62b05cb5d81acd104504a6730de87c2b22f862f831bb7d65a23f7331df8bef57"
+  "sourceHash": "62b05cb5d81acd104504a6730de87c2b22f862f831bb7d65a23f7331df8bef57",
+  "workoutType": null,
+  "summaryHash": "51ae7800344800727cde9ba3d98f15fa7525ba6f135e3eb29de6c0deb9277381"
 }

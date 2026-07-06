@@ -900,5 +900,7 @@
   "gear": "Endurace",
   "description": "Got hit with a flash hailstorm that coated the roads in a thick layer of snow, while the temperature dropped precipitously from like 70 to the 30s. My tires were 30s and I was shivering and my hands were numb so I didn’t turn down someone’s offer for a ride. Not before I hit the elusive 10 thousand foot day though!!!",
   "stravaUrl": "https://www.strava.com/activities/9778078094",
-  "sourceHash": "f1662a9ac493acc71e660d95c6319c0ba4ed6d992ad4e51c4d9d2a0b4ae6e1e7"
+  "sourceHash": "f1662a9ac493acc71e660d95c6319c0ba4ed6d992ad4e51c4d9d2a0b4ae6e1e7",
+  "workoutType": 10,
+  "summaryHash": "6f43c70bb316938aa53d85bd9df04cc73f9460f768951f957de3f86a9b5246f3"
 }

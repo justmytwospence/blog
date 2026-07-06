@@ -5,7 +5,6 @@ type: peak
 difficulty: moderate
 tags: [front-range]
 source: 14ers
-hidden: false
 days:
   - title: "Grays Peak"
   - title: "Torreys Peak"

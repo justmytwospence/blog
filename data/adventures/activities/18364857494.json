@@ -4020,5 +4020,7 @@
   "gear": "Endurace",
   "description": "",
   "stravaUrl": "https://www.strava.com/activities/18364857494",
-  "sourceHash": "41b6dd44e5f9ead0a7ee2b2d51fe62aa883308a9bc8bfddb69422a5b6f0d8c6f"
+  "sourceHash": "41b6dd44e5f9ead0a7ee2b2d51fe62aa883308a9bc8bfddb69422a5b6f0d8c6f",
+  "workoutType": null,
+  "summaryHash": "68e2402276b803e8bff7db2efffc4a977b6e70bb246b04eab34444ed24c97c72"
 }

@@ -4,7 +4,6 @@ type: peak
 difficulty: moderate
 tags: [sawatch]
 source: 14ers
-hidden: false
 ---
 
 A Colorado 14er via the standard route — Mt. Antero (14,269'), Class 2. Climbed before I was on Strava.

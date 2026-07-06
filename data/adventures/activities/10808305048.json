@@ -107,5 +107,7 @@
   "gear": "La Sportiva Cyklon",
   "description": "I haven’t scrambled in months and boy howdy it shows. I’m so much more timid when I’m not in my approach shoes. Quiet morning not a soul up there.",
   "stravaUrl": "https://www.strava.com/activities/10808305048",
-  "sourceHash": "16e8d77235b8133106b59d1de5d6f48aa677a4968d9503014bfc1faf5042262d"
+  "sourceHash": "16e8d77235b8133106b59d1de5d6f48aa677a4968d9503014bfc1faf5042262d",
+  "workoutType": null,
+  "summaryHash": "0af496776027f8f137c71721cdd948cc3f1d26d8065d23a2dc46c1d25d9b413a"
 }

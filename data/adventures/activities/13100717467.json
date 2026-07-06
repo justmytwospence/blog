@@ -1149,5 +1149,7 @@
   "gear": null,
   "description": "Tired today. I love straight lining groomers. Chatby with Lia reminding me I should do a group bike ride",
   "stravaUrl": "https://www.strava.com/activities/13100717467",
-  "sourceHash": "f049e3b2473b369a6cf484935fe66e75ecbf2131abc5428da251f4711437c014"
+  "sourceHash": "f049e3b2473b369a6cf484935fe66e75ecbf2131abc5428da251f4711437c014",
+  "workoutType": null,
+  "summaryHash": "1cb10734af9e1124e90ca40086acb27e5104d2f999421f4500eab1e2ccc58b7a"
 }

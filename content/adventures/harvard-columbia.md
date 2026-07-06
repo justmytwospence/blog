@@ -5,7 +5,6 @@ type: traverse
 difficulty: moderate
 tags: [sawatch]
 source: 14ers
-hidden: false
 days:
   - title: "Mt. Harvard"
   - title: "Mt. Columbia"

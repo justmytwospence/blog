@@ -1923,5 +1923,7 @@
   "gear": "Salomon S/LAB Ultra",
   "description": "They cleared my favorite log :( RIP log that tells me if I’m making good time on the uphill or not and also dropped me once on the downhill; I forgive you. Skipped South Boulder Peak because I was literally running late to a meeting. On the plus side, apparently that's really good for setting downhill PRs. Felt like I was flying and hit top 7% of running descents on Strava this year for Shadow Canyon.",
   "stravaUrl": "https://www.strava.com/activities/9749800450",
-  "sourceHash": "36c8a004fb62065bff1f48ed9054fe0c0e0cdf759d3058e4e742cc17cca99652"
+  "sourceHash": "36c8a004fb62065bff1f48ed9054fe0c0e0cdf759d3058e4e742cc17cca99652",
+  "workoutType": 0,
+  "summaryHash": "e29b49260c2d3ab21f9a0c56fbe3dfb337255ccc1a6d2c67e211699dda2f5b3a"
 }

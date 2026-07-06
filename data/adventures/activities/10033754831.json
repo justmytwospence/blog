@@ -4116,5 +4116,7 @@
   "gear": "Grizl 1by",
   "description": "Step 1 bike to Rollinsville\r\nStep 2 pizza and beer\r\nStep 3 haunted house\r\nStep 4 ???\r\nStep 5 profit\r\n\r\nSo much rolling resistance on the 45s for the steep roads, but needed it on Lakeshore Drive which is pretty gnarly and sandy to boot",
   "stravaUrl": "https://www.strava.com/activities/10033754831",
-  "sourceHash": "3e09a1913861351d9c5871e87d7f9cf58f0c532ffd278ae8604b166f4391e015"
+  "sourceHash": "3e09a1913861351d9c5871e87d7f9cf58f0c532ffd278ae8604b166f4391e015",
+  "workoutType": 10,
+  "summaryHash": "2e558e28ffec1f586289d568313def029bee18757634f3355321efe10d3b0fcb"
 }

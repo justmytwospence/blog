@@ -5,7 +5,6 @@ sport: Mountaineering
 type: mountaineering
 difficulty: epic
 tags: [washington, cascades, state-highpoint]
-hidden: false
 days:
   - title: "Rainier approach to High Castle camp"
   - title: "Rainier summit via Kautz"

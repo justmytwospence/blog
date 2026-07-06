@@ -739,5 +739,7 @@
   "gear": "La Sportiva TX3",
   "description": "Numb fingers",
   "stravaUrl": "https://www.strava.com/activities/17098654976",
-  "sourceHash": "a6fc98dc0c2cc4fe775af09e479a6d9fdf3bdaf1f4edeba4c3805136a16c380c"
+  "sourceHash": "a6fc98dc0c2cc4fe775af09e479a6d9fdf3bdaf1f4edeba4c3805136a16c380c",
+  "workoutType": null,
+  "summaryHash": "21a9946fd31bc7d99b47acff1c7845379b220006d5d2b2046a23f5426295db16"
 }

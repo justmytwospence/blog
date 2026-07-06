@@ -506,5 +506,7 @@
   "gear": null,
   "description": "First race in the books! Mostly just learned how this new gear works. Literally just pulled it out of the shop late last night. Missed the cutoff for a fourth lap by about 2 minutes which I can easily make up purely in transition time. Goals - add one more lap by #2 and then another lap by #4",
   "stravaUrl": "https://www.strava.com/activities/10176850654",
-  "sourceHash": "0ec634246025e3213649f3972650c7b5e6b60ae532e87e54620a0ae6e8c68a1a"
+  "sourceHash": "0ec634246025e3213649f3972650c7b5e6b60ae532e87e54620a0ae6e8c68a1a",
+  "workoutType": null,
+  "summaryHash": "9d67300b652d98e6a3184abaaf400fc59555af954235b748a5ab8736ac5f1c83"
 }

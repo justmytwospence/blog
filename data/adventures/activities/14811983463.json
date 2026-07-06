@@ -3160,5 +3160,7 @@
   "gear": "Endurace",
   "description": "Another weekend another island bop.  Unlucky with flats these last 2 weeks but lucky in where they happen. Shoutout to Matt for helping. I need to work on my bike IQ if these running injuries persist but at least I discovered that my unicycle IQ is still in there somewhere after over a decade. Very few people on the island!",
   "stravaUrl": "https://www.strava.com/activities/14811983463",
-  "sourceHash": "64107d45529e4c03bf6ecbb6b48836d2acbd4f05b3945bcc1e7e524d80b80fc6"
+  "sourceHash": "64107d45529e4c03bf6ecbb6b48836d2acbd4f05b3945bcc1e7e524d80b80fc6",
+  "workoutType": 10,
+  "summaryHash": "9841ef48112a6597b01fc8ba320ec1ec71b75ee04a74216b467d5a05e53f29b0"
 }

@@ -4,7 +4,6 @@ type: peak
 difficulty: moderate
 tags: [sangre-de-cristo]
 source: 14ers
-hidden: false
 ---
 
 A Colorado 14er via the from winter trailhead — Culebra Peak (14,047'), Class 2. Climbed before I was on Strava.

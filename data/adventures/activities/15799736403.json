@@ -5236,5 +5236,7 @@
   "gear": "New Balance Hierro v8  Shadow Grey",
   "description": "Long cold windy and rainy day! Slower going but couldn't really stop if I wanted to stay warm because the rain never let up and I had trouble finding a campsite. Thankfully I had just had the best possible zero day in Leadville",
   "stravaUrl": "https://www.strava.com/activities/15799736403",
-  "sourceHash": "e39641d5db0267219a44b6dc14efdc7ad69c2011e48bd1623bd501b4c4da1a1b"
+  "sourceHash": "e39641d5db0267219a44b6dc14efdc7ad69c2011e48bd1623bd501b4c4da1a1b",
+  "workoutType": null,
+  "summaryHash": "0c75f99071b4995144210b93f75a320c3cc759b8ca7cc2fbb79fb3ac3b24547c"
 }

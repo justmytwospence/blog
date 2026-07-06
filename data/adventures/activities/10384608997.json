@@ -1068,5 +1068,7 @@
   "gear": null,
   "description": "I know it’s silly but it felt awesome to be the first one down the slope today (I think) EDIT: haha Strava flybys makes it clear that this was not the case - maybe some day! What a great way to start the day. So many people today, could it have been over 100?? ",
   "stravaUrl": "https://www.strava.com/activities/10384608997",
-  "sourceHash": "764a4bb3ff4085228510d384e5558268b9206dcd3d536d6a70dc5baeb208d8d7"
+  "sourceHash": "764a4bb3ff4085228510d384e5558268b9206dcd3d536d6a70dc5baeb208d8d7",
+  "workoutType": null,
+  "summaryHash": "31b3cc411ebee873152c332cd1e496877020a9d2e8a0b09f5448c762f11e009a"
 }
