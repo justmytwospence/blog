@@ -54,6 +54,16 @@ env seed, so rotation survives across invocations (a Vercel env var can't be wri
 ```
 The next mint falls back to the `STRAVA_REFRESH_TOKEN` env seed.
 
+**Multi-store hazard (know this):** the same Strava app's refresh token is held by *independent*
+consumers — this blog in prod (Redis `strava:auth`), local authoring (`.env.local` /
+`.strava-token.json`), and the homelab **Strava MCP gateway** (its own copy). Strava rotates the
+refresh token on some refreshes, which invalidates the *other* copies. In practice prod self-heals
+(it persists its own rotations to Redis) and the local `sync:strava` self-heals (it persists to
+`.strava-token.json`), but a rotation in one place can still break another. If auth dies anywhere:
+re-seed that consumer — prod: `DEL strava:auth` + `npm run seed:redis`; local: refresh
+`STRAVA_REFRESH_TOKEN` in `.env.local` (delete `.strava-token.json`); MCP gateway: reissue its token.
+Unifying these onto one store is intentionally deferred.
+
 ## Local dev
 
 No Redis env locally → the page reads a **gitignored** `data/adventures/{lifetime,yearly}-totals.json`

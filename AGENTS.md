@@ -20,10 +20,22 @@ Two layers, split by what's committed:
 
 - **Committed (build reads these, never calls Strava at build):** the rich per-activity snapshots
   `data/adventures/activities/*.json` (trip reports, photos, polylines). `npm run sync:strava` is the
-  one idempotent authoring command — refreshes those snapshots for whitelisted reports, refreshes the
-  all-activity **index** (`data/adventures/all-activities.json`, incremental; `-- --reindex` rebuilds
-  full history), then recomputes the totals. Idempotent: no per-run timestamps; skip-unchanged
-  compares each snapshot's own `sourceHash` (no `.sync-cache.json`).
+  one idempotent authoring command. It **change-detects cheaply**: ONE summary crawl (~a handful of
+  GETs) yields a `summaryHash` per activity, and only ids whose hash diverges (or are new/forced) get a
+  per-activity detail fetch — unchanged ids cost **zero** detail calls. (A description-only Strava edit
+  doesn't move `summaryHash`; reconcile with `-- --force`.) Flags: `-- --only <id[,id]>` syncs just
+  those ids (O(1) — what `adventure:new` uses), `-- --force` re-fetches all, `-- --reindex` rebuilds the
+  index from full history, `-- --retry-enrichment` heals missing weather/geocode without a detail call.
+  Pre-schema snapshots get `summaryHash`/`workoutType` backfilled from the crawl (no detail call). It
+  also refreshes the gitignored index + totals.
+- **Derived vs editorial (companion frontmatter):** the pipeline derives everything unambiguous from
+  the snapshot — `sport`, `title`, `date`, `peakClass`, facets, lap counts, and **`race`** (from Strava
+  `workout_type`: Run 1 / Ride 11); `adventure:new` auto-attaches `group`/`laps` by GPS trailhead
+  (`scripts/route-match.ts`). Frontmatter carries only editorial deltas (`type`, `difficulty`, `tags`,
+  `objective`, `featured`, `cover_photo`, `days[].title`, non-run/ride `race`) plus intentional
+  overrides. `npm run adventure:minimize` strips derivable/dead keys; `adventure:validate` warns on
+  drift. The `new-adventure` skill is the agent workflow — discover via the Strava MCP, gather the
+  editorial fields, run the scripts; **do NOT re-derive what the pipeline derives.**
 - **NOT committed — runtime store:** the rolling totals (`lifetime-totals.json` / `yearly-totals.json`)
   and the index are **gitignored** (`.gitignore`). In production the totals live in **Upstash Redis**
   (`strava:totals`), written by the webhook (`app/api/strava/webhook`) on each activity event and by a
@@ -34,6 +46,14 @@ Two layers, split by what's committed:
 - Standalone scripts: `npm run sync:index` and `npm run totals:build` (chained as `totals:refresh`);
   `npm run seed:redis` bootstraps the Upstash store; `npm run webhook:subscribe` / `webhook:view` /
   `webhook:delete` manage the Strava push subscription (one per app).
+- **Strava MCP** (`strava` server — user-scoped in `~/.claude.json`, a self-hosted homelab gateway): the
+  read/analysis surface for discovery (`mcp__strava__strava_list_activities`, `strava_get_activity`,
+  `strava_get_athlete_stats`). It never touches the repo and authenticates with its own credential copy
+  of the same Strava app — it does NOT share `.env.local`/`.strava-token.json`.
+- **Token multi-store hazard:** the Strava refresh token lives in independent stores — blog `.env.local`
+  / `.strava-token.json`, prod Redis `strava:auth`, and the MCP gateway — and Strava can rotate it on
+  refresh, invalidating the others. Break-glass: `DEL strava:auth` + `npm run seed:redis` (prod), or
+  refresh `.env.local` (local). See `docs/strava-stats.md`.
 - **Deprecated, local-only, gitignored** one-time bootstrapping (kept for occasional re-auth/triage, intentionally out of version control): `scripts/strava-bootstrap.ts` (OAuth), `scripts/strava-sweep.ts` (full-history triage), `scripts/strava-inbox.ts` (stub scaffolding). Run via `npx tsx scripts/<name>.ts`. Don't wire them back into the build; the sweep still writes an older totals format.
 
 ## Gotchas
