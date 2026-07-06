@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   computeTotals,
+  deriveIsRace,
   getAllAdventures,
   getAdventureBySlug,
   getObjectives,
@@ -66,6 +67,32 @@ describe('computeTotals (multi-day aggregation)', () => {
     expect(t.avgSpeedMetersPerSec).toBeCloseTo(30000 / 10800, 5);
     // time-weighted HR = (140*3600 + 150*7200) / 10800
     expect(t.avgHeartrate).toBeCloseTo(146.667, 2);
+  });
+});
+
+describe('deriveIsRace (workout_type → race, frontmatter overrides)', () => {
+  const run = (wt: number | null | undefined) => [{ workoutType: wt }];
+
+  it('derives race from Strava workout_type 1 (run) and 11 (ride)', () => {
+    expect(deriveIsRace(undefined, run(1))).toBe(true);
+    expect(deriveIsRace(undefined, run(11))).toBe(true);
+  });
+
+  it('is not a race for non-race / missing workout_type', () => {
+    expect(deriveIsRace(undefined, run(0))).toBe(false);
+    expect(deriveIsRace(undefined, run(10))).toBe(false);
+    expect(deriveIsRace(undefined, run(null))).toBe(false);
+    expect(deriveIsRace(undefined, run(undefined))).toBe(false);
+    expect(deriveIsRace(undefined, [])).toBe(false);
+  });
+
+  it('any member being a race makes the adventure a race', () => {
+    expect(deriveIsRace(undefined, [{ workoutType: 0 }, { workoutType: 1 }])).toBe(true);
+  });
+
+  it('an explicit frontmatter flag overrides the derivation both ways', () => {
+    expect(deriveIsRace(true, run(0))).toBe(true); // non-run/ride race (triathlon)
+    expect(deriveIsRace(false, run(1))).toBe(false); // force off despite workout_type
   });
 });
 

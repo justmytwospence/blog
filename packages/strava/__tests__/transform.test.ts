@@ -78,4 +78,20 @@ describe('transformDetailToActivity', () => {
     const a = transformDetailToActivity(baseDetail(), null, null, [], META);
     expect(a.track).toBeNull();
   });
+
+  it('carries workout_type and both hashes through for change-detection + race derivation', () => {
+    const a = transformDetailToActivity(baseDetail({ workout_type: 1 }), null, null, [], {
+      sourceHash: 'src',
+      summaryHash: 'sum',
+    });
+    expect(a.workoutType).toBe(1); // Run race → drives isRace
+    expect(a.sourceHash).toBe('src');
+    expect(a.summaryHash).toBe('sum');
+  });
+
+  it('defaults workoutType to null and summaryHash to undefined when absent', () => {
+    const a = transformDetailToActivity(baseDetail(), null, null, [], META);
+    expect(a.workoutType).toBeNull();
+    expect(a.summaryHash).toBeUndefined();
+  });
 });
