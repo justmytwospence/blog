@@ -30,4 +30,4 @@ export {
   type SportTotal,
   type YearSportTree,
 } from './totals';
-export { toEntry, crawlActivities } from './crawl';
+export { toEntry, crawlActivities, pageRawSummaries, type RetryPolicy } from './crawl';

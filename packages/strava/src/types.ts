@@ -220,7 +220,14 @@ export interface AdventureActivity {
   gear: string | null;
   description: string | null; // raw Strava description (not the report prose)
   stravaUrl: string;
-  sourceHash: string; // hash of mutating inputs → skip-unchanged
+  sourceHash: string; // hash of mutating DETAIL inputs (incl. description) → skip snapshot rewrite
+  /** Strava workout_type (Run 1 / Ride 11 = race). Drives the derived `isRace`. Optional: manual
+   *  (non-Strava) snapshots and pre-schema snapshots omit it. */
+  workoutType?: number | null;
+  /** Hash of the SUMMARY-endpoint inputs (everything in sourceHash except `description`). Lets the
+   *  sync decide which snapshots need a detail re-fetch from one cheap summary crawl — no per-id
+   *  detail call. Optional: manual snapshots omit it; pre-schema snapshots get it backfilled. */
+  summaryHash?: string;
 }
 
 export interface TokenResult {

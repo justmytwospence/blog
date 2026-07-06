@@ -165,7 +165,7 @@ export function transformDetailToActivity(
   streams: RawStreamSet | null,
   weather: AdventureWeather | null,
   photos: AdventurePhoto[],
-  meta: { sourceHash: string },
+  meta: { sourceHash: string; summaryHash?: string },
 ): AdventureActivity {
   const startLocal = detail.start_date_local ?? '';
   return {
@@ -204,5 +204,9 @@ export function transformDetailToActivity(
     description: detail.description ?? null,
     stravaUrl: `https://www.strava.com/activities/${detail.id}`,
     sourceHash: meta.sourceHash,
+    // Appended after sourceHash so a freshly-synced snapshot matches the key order the migration
+    // backfill produces (it appends these two to existing snapshots) — keeps future diffs minimal.
+    workoutType: detail.workout_type ?? null,
+    summaryHash: meta.summaryHash,
   };
 }
