@@ -3,20 +3,24 @@
  *
  *   npm run adventure:new -- <stravaId> [options]
  *
- * Options (all optional — anything omitted is left as a commented hint to fill in by hand):
- *   --slug <slug>        filename slug (default: slugified Strava activity name)
- *   --title <title>      displayed title override (default: the Strava activity name)
- *   --type <type>        peak | scramble | traverse | couloir | thru-hike | mountaineering
- *   --sport <sport>      sport override (e.g. Scramble, Hike); default uses Strava's sport
- *   --tags a,b,c         comma-separated category tags
- *   --difficulty <d>     moderate | hard | epic
- *   --group <group>      collapse repeat trips of the same route under one card
- *   --race               flag as a race
- *   --duathlon           flag as a duathlon
- *   --hidden             create hidden (default: visible)
+ * Only the EDITORIAL fields need a human. sport / title / date / race (Run/Ride) / peakClass are
+ * DERIVED by the pipeline from the Strava snapshot; group + laps auto-attach by GPS trailhead when the
+ * activity matches a known route. Set the flags below only to override a derived value.
  *
- * Fetches the activity summary and writes content/adventures/<slug>.md, then validates it.
- * Does NOT fetch the full snapshot — run `npm run sync:strava` afterwards to pull maps/photos/stats.
+ * Options (all optional — anything omitted is left as a commented hint or derived):
+ *   --slug <slug>        filename slug (default: slugified Strava activity name)
+ *   --type <type>        peak | scramble | traverse | couloir | thru-hike | mountaineering (EDITORIAL)
+ *   --tags a,b,c         comma-separated range/place tokens (EDITORIAL)
+ *   --difficulty <d>     moderate | hard | epic (EDITORIAL)
+ *   --title <title>      title override (default: derived from the Strava name)
+ *   --sport <sport>      sport override, e.g. Scramble / Mountaineering (default: derived)
+ *   --group <group>      route key override (default: auto-attached by GPS when known)
+ *   --race               flag a race workout_type can't express (triathlon, ski marathon)
+ *   --duathlon           flag as a duathlon
+ *   --hidden             create hidden count-only (default: visible)
+ *
+ * Fetches the activity summary and writes content/adventures/<slug>.md, then validates it. Does NOT
+ * fetch the full snapshot — run `npm run sync:strava -- --only <id>` afterwards to pull maps/photos/stats.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -31,6 +35,7 @@ import {
   readCompanions,
 } from './strava-shared';
 import { validateCompanionFrontmatter, ADVENTURE_TYPES, DIFFICULTIES } from '../lib/adventure-schema';
+import { buildRouteGroups, matchRoute } from './route-match';
 
 interface Args {
   id: number;
@@ -121,19 +126,35 @@ async function main(): Promise<void> {
   const gain = Math.round(detail.total_elevation_gain);
   const date = detail.start_date_local.slice(0, 10);
 
+  // Deterministic route attachment: if this activity starts at a known route's trailhead, inherit its
+  // group + laps by GPS — no need for the human/agent to hunt down the group key.
+  let group = args.group;
+  let laps = false;
+  if (!group && Array.isArray(detail.start_latlng) && detail.start_latlng.length === 2) {
+    const m = matchRoute(buildRouteGroups(), detail.start_latlng[0], detail.start_latlng[1], sportGuess);
+    if (m) {
+      group = m.group;
+      laps = m.laps;
+      console.log(`[adventure:new] auto-attached to route "${m.group}"${m.laps ? ' (laps)' : ''} by GPS trailhead`);
+    }
+  }
+
   const lines: string[] = [];
   lines.push(`# ${detail.name} — ${date} · ${km} km · ${gain} m gain · ${sportGuess}`);
-  lines.push('# Scaffolded by `npm run adventure:new`. Fill in the editorial fields, then `npm run sync:strava`.');
+  lines.push('# Scaffolded by `npm run adventure:new`. Fill the EDITORIAL fields, then `npm run sync:strava -- --only <id>`.');
+  lines.push('# Derived automatically — set only to OVERRIDE: sport, title, date, race (Run/Ride), peakClass.');
   lines.push(`strava_id: ${args.id}`);
-  lines.push(`hidden: ${args.hidden}`);
+  if (args.hidden) lines.push('hidden: true');
   if (args.title) lines.push(`title: ${yaml(args.title)}`);
   lines.push(args.type ? `type: ${args.type}` : `# type: peak            # ${ADVENTURE_TYPES.join(' | ')}`);
-  lines.push(args.sport ? `sport: ${args.sport}` : `# sport: ${sportGuess}        # override Strava's sport (e.g. Scramble, Hike)`);
+  if (args.sport) lines.push(`sport: ${args.sport}`);
+  else lines.push(`# sport: ${sportGuess}        # override only (e.g. Scramble, Mountaineering); else derived`);
   if (args.tags?.length) lines.push(`tags: [${args.tags.map(yaml).join(', ')}]`);
-  else lines.push('# tags: [colorado, 14er]');
+  else lines.push('# tags: [colorado, sawatch]   # editorial: range / place / route tokens');
   lines.push(args.difficulty ? `difficulty: ${args.difficulty}` : `# difficulty: hard      # ${DIFFICULTIES.join(' | ')}`);
-  if (args.group) lines.push(`group: ${yaml(args.group)}`);
-  else lines.push('# group: route-key      # collapse repeat trips of the same route');
+  if (group) lines.push(`group: ${yaml(group)}`);
+  else lines.push('# group: route-key      # repeat trips of one route (auto-attached by GPS when known)');
+  if (laps) lines.push('laps: true');
   if (args.race) lines.push('race: true');
   if (args.duathlon) lines.push('duathlon: true');
 
@@ -150,9 +171,9 @@ async function main(): Promise<void> {
   console.log(`[adventure:new] ✓ wrote content/adventures/${slug}.md`);
   console.log(`    ${detail.name} — ${date} · ${km} km · ${gain} m gain`);
   console.log('\nNext:');
-  console.log(`  1. edit content/adventures/${slug}.md (fill type / tags / title as desired)`);
-  console.log('  2. npm run sync:strava         # fetch maps, photos, stats for this activity');
-  console.log('  3. npm run adventure:validate  # confirm it is well-formed');
+  console.log(`  1. edit content/adventures/${slug}.md — fill the editorial fields: type, difficulty, tags`);
+  console.log(`  2. npm run sync:strava -- --only ${args.id}   # fetch maps/photos/stats for just this activity`);
+  console.log('  3. npm run adventure:validate                # confirm it is well-formed');
 }
 
 main().catch((err) => {
