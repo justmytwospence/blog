@@ -28,24 +28,27 @@ export function BlogCarousel({ posts }: BlogCarouselProps) {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-  // Calculate card width based on number of items and breakpoints
+  // Calculate card width based on number of items and breakpoints.
+  // Spacing lives INSIDE each slide (pl-6 + negative track margin), not in a
+  // flex gap: embla's loop translates slides individually, and a gap stays
+  // glued to DOM order, so gutters collapse after the loop wraps.
   const getCardWidthClass = () => {
     const count = posts.length;
     if (count === 1) return 'w-full';
-    if (count === 2) return 'w-full sm:w-[calc(50%-12px)]';
-    if (count === 3) return 'w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)]';
+    if (count === 2) return 'w-full sm:w-1/2';
+    if (count === 3) return 'w-full sm:w-1/2 md:w-1/3';
     // 4 or more items - use all breakpoints up to 4 columns
-    return 'w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)]';
+    return 'w-full sm:w-1/2 md:w-1/3 lg:w-1/4';
   };
 
   return (
     <div className="relative px-0 sm:px-12">
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-6">
+        <div className="flex -ml-6">
           {posts.map((post) => (
             <div
               key={post.slug}
-              className={`flex-[0_0_auto] ${getCardWidthClass()}`}
+              className={`flex-[0_0_auto] pl-6 ${getCardWidthClass()}`}
             >
               <Link
                 href={`/blog/${post.slug}`}
