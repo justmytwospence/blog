@@ -2,6 +2,12 @@
 
 Non-discoverable operational context for AI coding agents. Everything here is something you **cannot** figure out by reading the codebase.
 
+## Workflow
+
+Solo project — **no PRs**. Commit directly to `main` (atomic, conventional messages); pushing `main`
+triggers the Vercel production deploy. Branches/worktrees are for genuinely parallel or experimental
+work only, and get merged locally (no GitHub review flow). CI still runs on every push.
+
 ## Commands
 
 ```bash
