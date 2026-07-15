@@ -12,7 +12,7 @@ authored separately via `npm run sync:strava`.
 ## How it works
 
 Strava POSTs a minimal event (ids only, no activity detail) to
-`https://spencerboucher.com/api/strava/webhook` (`app/api/strava/webhook/route.ts`). The route:
+`https://www.spencerboucher.com/api/strava/webhook` (`app/api/strava/webhook/route.ts`). The route:
 
 1. Filters to `object_type: activity` with `aspect_type` create/update/delete (and, if
    `STRAVA_SUBSCRIPTION_ID` is set, a matching `subscription_id`).
@@ -49,9 +49,11 @@ There is no GitHub-side secret anymore — `GH_DISPATCH_TOKEN` and `STRAVA_TOKEN
    npm run webhook:subscribe
    ```
 
-   This POSTs to Strava with `callback_url=https://spencerboucher.com/api/strava/webhook`. Strava
+   This POSTs to Strava with `callback_url=https://www.spencerboucher.com/api/strava/webhook`. Strava
    immediately GETs that callback with `hub.challenge`; the route echoes it only if `hub.verify_token`
-   matches. On success it prints the subscription id.
+   matches. On success it prints the subscription id. The callback **must be the `www` host** — the
+   apex 307-redirects to `www`, Strava's validation GET doesn't follow redirects, and the subscribe
+   fails (this silently killed the subscription once).
 5. Set that id as `STRAVA_SUBSCRIPTION_ID` in Vercel (optional but recommended).
 
 Strava allows exactly **one** subscription per app. To change the callback URL, delete and recreate.

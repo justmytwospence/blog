@@ -82,9 +82,9 @@ Open `/adventures/<slug>` to confirm the map, stats, photos, and (if grouped) th
 
 ### 5. Ship it
 
-Commit the companion + synced data. Default to a **draft PR** for review (CI runs lint / typecheck /
-test / validate / build), then merge to `main` — pushing to `main` triggers the Vercel production
-deploy. Confirm it's live at `spencerboucher.com/adventures/<slug>`.
+Commit the companion + synced data directly to `main` (solo project, **no PRs** — see AGENTS.md).
+Verify locally first: `adventure:validate` + `npm run build`. Pushing `main` runs CI and triggers the
+Vercel production deploy. Confirm it's live at `spencerboucher.com/adventures/<slug>`.
 
 ## Notes
 
