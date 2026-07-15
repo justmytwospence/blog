@@ -1270,5 +1270,7 @@
   "gear": "La Sportiva Prodigio Pro",
   "description": "Completely changed plans to try to beat the weather up Grays just as we passed Stevens Gulch road. Lots of snow on the last thousand feet and plenty of Denverfolk in sneakers and sweatpants",
   "stravaUrl": "https://www.strava.com/activities/16109565175",
-  "sourceHash": "3dbb51b4f7139a70da503ad709283ea0aabf845983c72cda89d0b58902e12ce5"
+  "sourceHash": "3dbb51b4f7139a70da503ad709283ea0aabf845983c72cda89d0b58902e12ce5",
+  "workoutType": null,
+  "summaryHash": "0c2bb6df4894a245510667934434d08356b46ef5cf34e93ece74106b91b2e204"
 }

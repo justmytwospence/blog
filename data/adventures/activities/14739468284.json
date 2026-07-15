@@ -4627,5 +4627,7 @@
   "gear": "Endurace",
   "description": "With a ferry, lots of food, and ocean dip. This took so much more out of me than yesterday somehow",
   "stravaUrl": "https://www.strava.com/activities/14739468284",
-  "sourceHash": "16e6973f7c6ddde5c7911c01193ef8172c13fc516bf22bb9f37d6f3740ea27b0"
+  "sourceHash": "16e6973f7c6ddde5c7911c01193ef8172c13fc516bf22bb9f37d6f3740ea27b0",
+  "workoutType": 10,
+  "summaryHash": "e90cfdd70f620b99c3b35826ead3d7bcc9e222777136bd4a5b7b8f209fc5166c"
 }

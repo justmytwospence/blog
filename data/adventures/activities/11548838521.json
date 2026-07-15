@@ -603,5 +603,7 @@
   "gear": "Endurace",
   "description": "Felt good to go fast on a bike again! I’ve only ever done draft legal gravel races before (Lefthand and old man winter) so this was the first time on road in aero(ish). Pretty uneventful other than dropping my bottle near the end. They call me the dropper not because I drop people but because I drop my nutrition. Split time 50:04",
   "stravaUrl": "https://www.strava.com/activities/11548838521",
-  "sourceHash": "0eaad54369f12913ba9f5fda8034da1e39ac9606105c99a74d3f31642d396e30"
+  "sourceHash": "0eaad54369f12913ba9f5fda8034da1e39ac9606105c99a74d3f31642d396e30",
+  "workoutType": 11,
+  "summaryHash": "b3909f8ab1b1f7b8546610b9d6e7bc24e45dfc5ad5092e369482a94cfc98202d"
 }

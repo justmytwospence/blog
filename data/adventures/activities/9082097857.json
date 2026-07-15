@@ -1473,5 +1473,7 @@
   "gear": null,
   "description": "Another morning, another Fern Canyon / Shanahan Ridge PR! This one with new shoes and a sore badonk. Probably can't keep shaving off 4 minutes though. Garmin lost my HR halfway up, gotta figure that out.",
   "stravaUrl": "https://www.strava.com/activities/9082097857",
-  "sourceHash": "e35fb99218542ed7a03da7cb0e273aec42dd7206884579cac356ebadf802bb2c"
+  "sourceHash": "e35fb99218542ed7a03da7cb0e273aec42dd7206884579cac356ebadf802bb2c",
+  "workoutType": null,
+  "summaryHash": "e17899304419ccf4e6c952bebeb631bdc5cd1861af2e449ea8ed895ed473d905"
 }

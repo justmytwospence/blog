@@ -107,5 +107,7 @@
   "gear": null,
   "description": "Timid scrambling on a poorly chosen line at the bottom almost cost me my end to end time goal but I managed to get it back.",
   "stravaUrl": "https://www.strava.com/activities/11621835754",
-  "sourceHash": "90e222c29ec9cc212d9ad288ff48cee6fc351609268bf33cede2bec4b52aede2"
+  "sourceHash": "90e222c29ec9cc212d9ad288ff48cee6fc351609268bf33cede2bec4b52aede2",
+  "workoutType": null,
+  "summaryHash": "37e3f72809de9752f36306634ae119a51e098bae882f8a8f39aee2f2cb08facb"
 }

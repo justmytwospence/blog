@@ -4942,5 +4942,7 @@
   "gear": "Endurace semi-slicks",
   "description": "Well if that’s not a world class bike route I don’t know what is. Just singing country music to myself and getting cheered on by tourists and an old biker gang all day.",
   "stravaUrl": "https://www.strava.com/activities/11904113544",
-  "sourceHash": "33c9a9acd7e1a43fa0a4b426b1434ffa6512a067192367a0b07616c55a9229e5"
+  "sourceHash": "33c9a9acd7e1a43fa0a4b426b1434ffa6512a067192367a0b07616c55a9229e5",
+  "workoutType": 10,
+  "summaryHash": "fc26540d2b8fb9036972607bcd84824ce76fe7d4e3a337d50f99fc4c649ed946"
 }

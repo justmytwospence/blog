@@ -951,5 +951,7 @@
   "gear": "La Sportiva TX Guide",
   "description": "This has been on my bucket list for years but has always intimidated me. Had my cherry popped finally by Daniel Peterson - couldn't ask for a better guide.",
   "stravaUrl": "https://www.strava.com/activities/12610831236",
-  "sourceHash": "17fbac1ae97a52d68a94cdb5841107bca926cbf3e29033960159cb57224036dc"
+  "sourceHash": "17fbac1ae97a52d68a94cdb5841107bca926cbf3e29033960159cb57224036dc",
+  "workoutType": null,
+  "summaryHash": "4ef10e0b4cca34fe569a6b60abfecd465956e9275d5e386fc34d1edb87477205"
 }

@@ -2931,5 +2931,7 @@
   "gear": "Endurace",
   "description": "Descent was a blast, new top speed I think? 90 mile, 11k foot day in 12:28 end to end. My fuel drawer has nothing left but gummies and gus so even though I ingested probably a pound of pure sugar on this trip my CGM was beeping at me all day that I had critically low blood glucose.",
   "stravaUrl": "https://www.strava.com/activities/9869977976",
-  "sourceHash": "9d723b0425def1e8e8dd613829f3a61471c2a479af15f4f23ecf412bbd1566ed"
+  "sourceHash": "9d723b0425def1e8e8dd613829f3a61471c2a479af15f4f23ecf412bbd1566ed",
+  "workoutType": 10,
+  "summaryHash": "288582ebbb179d9ec8aff3ba331d779f869ebc5f3eaf1421bbdeef1964103396"
 }

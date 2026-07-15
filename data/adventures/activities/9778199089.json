@@ -420,5 +420,7 @@
   "gear": "Endurace",
   "description": "Drop off by good samaritans to home. Sad that I didn’t get my fun descent but boy howdy what a day.",
   "stravaUrl": "https://www.strava.com/activities/9778199089",
-  "sourceHash": "7a9ffb517f86c322a6335561b5102af793a89b1007c4ad83a052b53b5129becd"
+  "sourceHash": "7a9ffb517f86c322a6335561b5102af793a89b1007c4ad83a052b53b5129becd",
+  "workoutType": 10,
+  "summaryHash": "d67f4c1c656d0973d762b692a82944255ea56ff08414c6eaf5c665c8a2215ed6"
 }

@@ -6,7 +6,6 @@ type: peak
 difficulty: epic
 tags: [san-juan]
 source: 14ers
-hidden: false
 days:
   - title: "Mt. Wilson"
   - title: "El Diente Peak"

@@ -3882,5 +3882,7 @@
   "gear": "Grizl 1by",
   "description": "Access might be better from the South Side. Whole ride was worth it for the end - views of Si, golden hour through the trees, and the descent opening up into the smoothest pavement at just the right moment",
   "stravaUrl": "https://www.strava.com/activities/15020911238",
-  "sourceHash": "0ba10d3f6e6e2b1102cdabbdd1d2b739f52c7a6c3354c8f3be84b6342f54a4d5"
+  "sourceHash": "0ba10d3f6e6e2b1102cdabbdd1d2b739f52c7a6c3354c8f3be84b6342f54a4d5",
+  "workoutType": 10,
+  "summaryHash": "556be8b8fbee8de5711c72e0984553c107567bb24802fca464d8d91908d99e4a"
 }

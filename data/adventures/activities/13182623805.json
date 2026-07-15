@@ -1275,5 +1275,7 @@
   "gear": null,
   "description": "Tried using my skate ski poles and was good poling practice but yeah def too long wouldn’t ya know.",
   "stravaUrl": "https://www.strava.com/activities/13182623805",
-  "sourceHash": "f9b01cf3ee0c2843d0f36d8ec19ac8ab83d586b0e5302f09aa004ffc7072ea49"
+  "sourceHash": "f9b01cf3ee0c2843d0f36d8ec19ac8ab83d586b0e5302f09aa004ffc7072ea49",
+  "workoutType": null,
+  "summaryHash": "d9ed30a7d1675dd663c3f3c3c7c9039cb915c06b25907a576cedd50a06c366db"
 }

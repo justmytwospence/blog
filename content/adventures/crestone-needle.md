@@ -5,7 +5,6 @@ type: peak
 difficulty: hard
 tags: [sangre-de-cristo]
 source: 14ers
-hidden: false
 ---
 
 A Colorado 14er via the standard route — Crestone Needle (14,197'), Class 3. Climbed before I was on Strava.

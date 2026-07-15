@@ -3545,5 +3545,7 @@
   "gear": "Grizl 1by",
   "description": "Awesome rugged gravel ascent, perfect for the Grizl. Terrifying single track mountain bike descent with a large drop off into the river canyon.  The maybe the most underbiked I’ve ever been. Was sure I was going to get a flat or fall off the side of the trail far into the river. I’ll settle for only losing my nice sunglasses. Highly recommend this as an out and back on a gravel bike and not a loop like the Ride with GPS creator specified it.",
   "stravaUrl": "https://www.strava.com/activities/14653827815",
-  "sourceHash": "89abba6b38ac56e76723030a66af662049288910858504cf1bb6d8b428cb22f6"
+  "sourceHash": "89abba6b38ac56e76723030a66af662049288910858504cf1bb6d8b428cb22f6",
+  "workoutType": 10,
+  "summaryHash": "3c4619d77492e189cde7a7c78a3dfd60902639ae50818b3b6c429e008c955411"
 }

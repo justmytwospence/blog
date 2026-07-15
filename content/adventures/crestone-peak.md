@@ -5,7 +5,6 @@ type: peak
 difficulty: hard
 tags: [sangre-de-cristo]
 source: 14ers
-hidden: false
 ---
 
 A Colorado 14er via the Crestones Traverse from Cottonwood — Crestone Peak (14,294'), Class 3. Climbed before I was on Strava.

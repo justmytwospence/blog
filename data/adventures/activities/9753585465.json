@@ -796,5 +796,7 @@
   "gear": "La Sportiva TX3",
   "description": "Absolutely bananas over 100 people on Freeway",
   "stravaUrl": "https://www.strava.com/activities/9753585465",
-  "sourceHash": "1fcc1e7422c6ebf1bdbbee97b043c6d314d4a39041bdaf02a2d3338336163662"
+  "sourceHash": "1fcc1e7422c6ebf1bdbbee97b043c6d314d4a39041bdaf02a2d3338336163662",
+  "workoutType": null,
+  "summaryHash": "024a2a0f006c4f75329e8dbbd79e348483d27b650894273f3617092354885434"
 }

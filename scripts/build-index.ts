@@ -9,8 +9,8 @@
 import fs from 'node:fs';
 import {
   mintAccessToken,
-  listActivities,
-  isPoolSwim,
+  pageRawSummaries,
+  toEntry,
   type RawSummaryActivity,
   type AllActivityEntry,
 } from '@blog/strava';
@@ -19,31 +19,8 @@ import {
   getCreds,
   loadEnvLocal,
   persistRefreshToken,
-  sleep,
   withBackoff,
 } from './strava-shared';
-
-const PER_PAGE = 200;
-const PACING_MS = 300;
-
-function toEntry(a: RawSummaryActivity): AllActivityEntry {
-  const startLocal = a.start_date_local ?? '';
-  return {
-    id: a.id,
-    date: startLocal.slice(0, 10),
-    startEpoch: Math.floor(Date.parse(startLocal) / 1000) || 0,
-    sport: a.sport_type ?? a.type ?? 'Workout',
-    distanceMeters: Math.round(a.distance ?? 0),
-    movingTimeSeconds: a.moving_time ?? 0,
-    elevationGainMeters: Math.round(a.total_elevation_gain ?? 0),
-    trainer: Boolean(a.trainer),
-    commute: Boolean(a.commute),
-    poolSwim: isPoolSwim(a),
-    name: a.name ?? '',
-    startLat: Array.isArray(a.start_latlng) && a.start_latlng.length === 2 ? a.start_latlng[0] : null,
-    startLng: Array.isArray(a.start_latlng) && a.start_latlng.length === 2 ? a.start_latlng[1] : null,
-  };
-}
 
 function readIndex(): AllActivityEntry[] {
   if (!fs.existsSync(ALL_ACTIVITIES_FILE)) return [];
@@ -58,30 +35,32 @@ const byDateThenId = (a: AllActivityEntry, b: AllActivityEntry): number =>
   a.date < b.date ? -1 : a.date > b.date ? 1 : a.id - b.id;
 
 /**
- * Refresh the all-activity index. Pages the summary endpoint, merging by id (so an incremental run
- * that overlaps the boundary is harmless). Writes a stable, sorted JSON — same input → same output.
+ * Refresh the all-activity index and write a stable, sorted JSON. Modes:
+ *  - default: incremental — page only what's newer than the latest indexed, merge by id.
+ *  - `reindex`: re-page the full history from scratch.
+ *  - `raw`: build from a pre-fetched full crawl (the sync already paged the summaries once — reuse
+ *    them instead of a second network crawl). Treated as authoritative/full (no merge with the old
+ *    index, so Strava-side deletes drop out).
+ * The author scripts page with the full 15-min `withBackoff`.
  */
-export async function refreshIndex(access: string, opts: { reindex?: boolean } = {}): Promise<AllActivityEntry[]> {
-  const existing = opts.reindex ? [] : readIndex();
+export async function refreshIndex(
+  access: string,
+  opts: { reindex?: boolean; raw?: RawSummaryActivity[] } = {},
+): Promise<AllActivityEntry[]> {
+  const full = opts.reindex || opts.raw !== undefined;
+  const existing = full ? [] : readIndex();
   const byId = new Map<number, AllActivityEntry>(existing.map((e) => [e.id, e]));
-  // Incremental: fetch only what's newer than the latest indexed (minus a day's margin to catch
-  // same-day stragglers and the local/UTC offset; the id-merge dedupes the overlap).
-  const after =
-    !opts.reindex && existing.length ? Math.max(...existing.map((e) => e.startEpoch)) - 86_400 : undefined;
-  let fetched = 0;
-  for (let page = 1; page <= 100; page++) {
-    const chunk = await withBackoff(
-      () => listActivities(access, { page, perPage: PER_PAGE, after }),
-      `list page ${page}`,
-    );
-    for (const a of chunk) byId.set(a.id, toEntry(a));
-    fetched += chunk.length;
-    if (chunk.length < PER_PAGE) break;
-    await sleep(PACING_MS);
+  let raw = opts.raw;
+  if (!raw) {
+    // Incremental: fetch only what's newer than the latest indexed (minus a day's margin to catch
+    // same-day stragglers and the local/UTC offset; the id-merge dedupes the overlap).
+    const after = existing.length ? Math.max(...existing.map((e) => e.startEpoch)) - 86_400 : undefined;
+    raw = await pageRawSummaries(access, { after, retry: withBackoff });
   }
+  for (const a of raw) byId.set(a.id, toEntry(a));
   const entries = [...byId.values()].sort(byDateThenId);
   fs.writeFileSync(ALL_ACTIVITIES_FILE, `${JSON.stringify(entries, null, 2)}\n`);
-  console.log(`[index] ${opts.reindex ? 'reindexed' : 'refreshed'} — ${fetched} fetched, ${entries.length} total`);
+  console.log(`[index] ${full ? 'rebuilt' : 'refreshed'} — ${raw.length} fetched, ${entries.length} total`);
   return entries;
 }
 

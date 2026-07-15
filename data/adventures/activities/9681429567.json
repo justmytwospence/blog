@@ -5726,5 +5726,7 @@
   "gear": "Grizl 1by",
   "description": "Most technical ascent I’ve done yet",
   "stravaUrl": "https://www.strava.com/activities/9681429567",
-  "sourceHash": "66aefcf0931b57d22efd5cafcd954c3da72fe1e430f929749eb64a773f1a8488"
+  "sourceHash": "66aefcf0931b57d22efd5cafcd954c3da72fe1e430f929749eb64a773f1a8488",
+  "workoutType": 10,
+  "summaryHash": "b4994bdda7abdb9822bfc5e8a2f357e1fc7b4dd32332a44e94bee442d3918b1e"
 }

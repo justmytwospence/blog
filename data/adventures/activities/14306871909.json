@@ -4527,5 +4527,7 @@
   "gear": "Endurace",
   "description": "St Vrain is the best. Had vague notions of this being a bigger ride but 1) not feeling very fit today and 2) my bike has a few issues so I’m going to take it to the shop. A wire popped out and brushed my leg on every pedal and I thought I’d figure it out in Ward but later I looked down and a shocking amount of blood had soaked into my sock and splashed onto my bike. A nice guy also pointed out to me that my saddle was way too high which I guess I didn’t account for when I changed my stem. Bikes are hard. Might want a new bike fit but I kinda want to sell this bike and get a new one before that just not sure when that will be possible.",
   "stravaUrl": "https://www.strava.com/activities/14306871909",
-  "sourceHash": "4f4230117034f8f776444ea9698e0d459f8be4aac0654dc730b2241d0e8ea88a"
+  "sourceHash": "4f4230117034f8f776444ea9698e0d459f8be4aac0654dc730b2241d0e8ea88a",
+  "workoutType": 10,
+  "summaryHash": "e2db4811473d1b894d4cf07b4f0a08aad7658ae7754ed420e6b0c709d584287b"
 }

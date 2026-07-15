@@ -2475,5 +2475,7 @@
   "gear": "Inov-8 TrailFly G 270",
   "description": "First race, quite happy with it! Beautiful course and perfect weather. Ran within a block of my old place in Old Town Nederland. The first downhill was some flowy singletrack that might have been my favorite 2 miles of running all summer. Skipped the first aid station but probably should have eaten something. Amazing how different pacing feels when you're surrounded by other people - but I spent most of the back half alone.",
   "stravaUrl": "https://www.strava.com/activities/9815850223",
-  "sourceHash": "f9cf8969adab57f0b0ceebdb855dcd5833d72bb395690351db087462688d16bb"
+  "sourceHash": "f9cf8969adab57f0b0ceebdb855dcd5833d72bb395690351db087462688d16bb",
+  "workoutType": 1,
+  "summaryHash": "08d497c68556dc86586182d86d680500ca90b3e18d4561c839ce2e4c2fc79fda"
 }

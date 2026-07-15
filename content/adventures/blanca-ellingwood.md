@@ -5,7 +5,6 @@ type: peak
 difficulty: moderate
 tags: [sangre-de-cristo]
 source: 14ers
-hidden: false
 days:
   - title: "Blanca Peak"
   - title: "Ellingwood Point"

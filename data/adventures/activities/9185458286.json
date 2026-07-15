@@ -1022,5 +1022,7 @@
   "gear": "Mammut Nordwand 6000",
   "description": "",
   "stravaUrl": "https://www.strava.com/activities/9185458286",
-  "sourceHash": "5ce31ee1f152d7212d205492d171a59e0bfdca657c9fd8b23610ecf36be3ec09"
+  "sourceHash": "5ce31ee1f152d7212d205492d171a59e0bfdca657c9fd8b23610ecf36be3ec09",
+  "workoutType": null,
+  "summaryHash": "e6c9e0d18755554484d5e5bfa15fb7fe90e001c6556405ad6b6bd6100ef4c3c0"
 }

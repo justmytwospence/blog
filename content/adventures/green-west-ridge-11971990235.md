@@ -5,5 +5,4 @@ strava_id: 11971990235
 sport: Scramble
 type: scramble
 tags: [flatirons, boulder]
-hidden: false
 ---

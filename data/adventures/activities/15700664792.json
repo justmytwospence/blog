@@ -5432,5 +5432,7 @@
   "gear": "Topo Athletic Ultraventure 4",
   "description": "Waterton Canyon would be a great training road. Remembering how to do backpacker things still.",
   "stravaUrl": "https://www.strava.com/activities/15700664792",
-  "sourceHash": "0d53ac0225248015a69a75e2df8df538387747c7cfdc3e3b8580879460d3ed30"
+  "sourceHash": "0d53ac0225248015a69a75e2df8df538387747c7cfdc3e3b8580879460d3ed30",
+  "workoutType": null,
+  "summaryHash": "75e45ee9ab56b7f441a9b9ee0990d4b7314dee8fec8833deff8aa7f01e530450"
 }

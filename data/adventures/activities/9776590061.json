@@ -3150,5 +3150,7 @@
   "gear": "Endurace",
   "description": "Biking up to Brainard Lake has been on the bucket list all summer, so why not make it the approach to a scramble with almost as much vert while I’m at it? Saw a Bear crossing Broadway. Somehow both my fully charged bike light and headlamp died but it was fine. Need to find a lighter bike lock I’m not cool with this extra 4 pounds. Changed into scramblin' shoes, running vest, and short shorts at the top.",
   "stravaUrl": "https://www.strava.com/activities/9776590061",
-  "sourceHash": "8a4aaa4632275189bd7c955ba42cabd027de54daae58f041cd2b5d48f9d3c274"
+  "sourceHash": "8a4aaa4632275189bd7c955ba42cabd027de54daae58f041cd2b5d48f9d3c274",
+  "workoutType": 10,
+  "summaryHash": "45ab57bb2baea08f942b1b17e237c1a7d5c9370b0ab830c14402f5a3dfc800b8"
 }

@@ -4767,5 +4767,7 @@
   "gear": null,
   "description": "",
   "stravaUrl": "https://www.strava.com/activities/3277110171",
-  "sourceHash": "7a7c39b5aa4ddbca40a3b452eece2f928467a3f53008f586e7f069b952ec4ff8"
+  "sourceHash": "7a7c39b5aa4ddbca40a3b452eece2f928467a3f53008f586e7f069b952ec4ff8",
+  "workoutType": null,
+  "summaryHash": "142dd46df6fb758a96f9da225c99b1998c9955b99ae788c74d292020113bb27b"
 }

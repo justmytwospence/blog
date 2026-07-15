@@ -4,8 +4,9 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { parseStravaIds, RateLimitError } from '@blog/strava';
+import { parseStravaIds, RateLimitError, type RawSummaryActivity } from '@blog/strava';
 
 export const REPO_ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 export const CONTENT_DIR = path.join(REPO_ROOT, 'content', 'adventures');
@@ -92,6 +93,35 @@ export async function withBackoff<T>(fn: () => Promise<T>, label: string): Promi
     }
   }
   throw new Error(`[strava] gave up after rate-limit retries on ${label}`);
+}
+
+/**
+ * Deterministic fingerprint of the change-detecting fields that Strava returns on the SUMMARY
+ * endpoint — everything the detail-level `sourceHash` uses EXCEPT `description` (detail-only), plus
+ * `workout_type`. The sync stores this on each snapshot and recomputes it from one cheap summary
+ * crawl, so it can decide which whitelisted activities actually changed WITHOUT a per-id detail call.
+ * Tradeoff: a description-only edit doesn't move this hash (reconcile with `--force`/`--only`).
+ */
+const SUMMARY_HASH_VERSION = 1;
+export function summaryHash(a: RawSummaryActivity): string {
+  return crypto
+    .createHash('sha256')
+    .update(
+      JSON.stringify({
+        v: SUMMARY_HASH_VERSION,
+        id: a.id,
+        name: a.name,
+        distance: a.distance,
+        moving_time: a.moving_time,
+        gain: a.total_elevation_gain,
+        start: a.start_date_local,
+        poly: a.map?.summary_polyline ?? null,
+        photos: a.total_photo_count ?? null,
+        sport: a.sport_type ?? a.type,
+        workout: a.workout_type ?? null,
+      }),
+    )
+    .digest('hex');
 }
 
 export function slugify(s: string): string {

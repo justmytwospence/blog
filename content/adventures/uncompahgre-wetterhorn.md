@@ -6,7 +6,6 @@ type: peak
 difficulty: hard
 tags: [san-juan]
 source: 14ers
-hidden: false
 days:
   - title: "Uncompahgre Peak"
   - title: "Wetterhorn Peak"

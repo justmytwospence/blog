@@ -5,7 +5,6 @@ type: traverse
 difficulty: moderate
 tags: [front-range]
 source: 14ers
-hidden: false
 days:
   - title: "Mt. Evans"
   - title: "Mt. Bierstadt"

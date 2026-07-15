@@ -2040,5 +2040,7 @@
   "gear": null,
   "description": "Easy skinning to put myself within one Everest striking distance of 10k/week 2024.",
   "stravaUrl": "https://www.strava.com/activities/13211713594",
-  "sourceHash": "78675d791e56b92f212996a76bab58da64f827f7dac1a0a8de8264323800ad47"
+  "sourceHash": "78675d791e56b92f212996a76bab58da64f827f7dac1a0a8de8264323800ad47",
+  "workoutType": null,
+  "summaryHash": "10433575ceba9f36c9d359f570c7aadf77b616559ce4f7fbe3159e015e580f7a"
 }

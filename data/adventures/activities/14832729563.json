@@ -2263,5 +2263,7 @@
   "gear": "La Sportiva Prodigio Antique White",
   "description": "Another local classic tick. 1:31 up. Slow build into Mailbox peak levels of steepness. Maybe even steeper in a few short sections. Another power hike to slow roll but I felt like I was actually running on parts of the downhill which was encouraging",
   "stravaUrl": "https://www.strava.com/activities/14832729563",
-  "sourceHash": "5d3d39db0361b6b2a03c8fe941e59c896aa721003c51fe9c346ed287c75bbe26"
+  "sourceHash": "5d3d39db0361b6b2a03c8fe941e59c896aa721003c51fe9c346ed287c75bbe26",
+  "workoutType": 0,
+  "summaryHash": "7d98ef92331f946097711409505618bd25b1b8ef82f2a6439c1d513c6eb73d30"
 }

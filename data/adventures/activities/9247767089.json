@@ -1184,5 +1184,7 @@
   "gear": "Scarpa Phantom Tech",
   "description": "With some bonus bouldering in Ned on the way down!",
   "stravaUrl": "https://www.strava.com/activities/9247767089",
-  "sourceHash": "02312ad2392b78b2db1d4f164b05f591a6d31a03562b8ab9561e84380468c77d"
+  "sourceHash": "02312ad2392b78b2db1d4f164b05f591a6d31a03562b8ab9561e84380468c77d",
+  "workoutType": null,
+  "summaryHash": "8691881e5448bdd305eadee867bca5f58dd2f796645f096a558d4ee1200b38a0"
 }

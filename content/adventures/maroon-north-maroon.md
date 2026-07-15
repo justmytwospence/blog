@@ -6,7 +6,6 @@ type: traverse
 difficulty: epic
 tags: [elk]
 source: 14ers
-hidden: false
 days:
   - title: "Maroon Peak"
   - title: "North Maroon Peak"

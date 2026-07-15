@@ -2805,5 +2805,7 @@
   "gear": "La Sportiva Prodigio Zest/Moonlight",
   "description": "Boulder might be the only city in the US you can run a proper trail half marathon from your door to pick up your car from the shop. And if you’re passing the flatirons you might as well scramble something. And if you finally don’t get lost on the first pitch you might as well PR Freeway (14 minutes). Was not expecting this HEAT - glad I brought water. Car is back in business",
   "stravaUrl": "https://www.strava.com/activities/12719866618",
-  "sourceHash": "c7d357d805a2cfcd66e3fb0a20f30e4da5d5d5bbefdcb221743d4b4a394e2f22"
+  "sourceHash": "c7d357d805a2cfcd66e3fb0a20f30e4da5d5d5bbefdcb221743d4b4a394e2f22",
+  "workoutType": 0,
+  "summaryHash": "11d2f8e5205d117685e0d9f27b807abfe4777af5cf172eb3631879fdd8929cb2"
 }

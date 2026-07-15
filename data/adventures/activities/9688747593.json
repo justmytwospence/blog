@@ -2386,5 +2386,7 @@
   "gear": null,
   "description": "Scrambled the long rock rib just West of Airplane Gully for a nice alternate route",
   "stravaUrl": "https://www.strava.com/activities/9688747593",
-  "sourceHash": "a8be7557b64685d10130b4a6d7ff70942779f5f03ab2cb603dc0ffe202d01e19"
+  "sourceHash": "a8be7557b64685d10130b4a6d7ff70942779f5f03ab2cb603dc0ffe202d01e19",
+  "workoutType": null,
+  "summaryHash": "3f2071d58ac7a628dc47af2ed65a6ee0a0638c87c1468a072dcf4939999abb54"
 }

@@ -789,5 +789,7 @@
   "gear": null,
   "description": "Nice way to start a morning. Left lower back got really fatigued halfway up the first lap, interesting because that’s never been a rate limiter before - probably from lifting. Favorite part was the bootpack",
   "stravaUrl": "https://www.strava.com/activities/13732894881",
-  "sourceHash": "29f3d1cd8e680b8c2c66bc4d5d37a49604c9b2d5ef947e5a3f8f1bc8912b71b1"
+  "sourceHash": "29f3d1cd8e680b8c2c66bc4d5d37a49604c9b2d5ef947e5a3f8f1bc8912b71b1",
+  "workoutType": null,
+  "summaryHash": "7fbeb9f8d5985a3cc5c5912e1253746de44d1f58a084e8ba5f5ec9490136730e"
 }

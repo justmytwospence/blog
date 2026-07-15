@@ -4078,5 +4078,7 @@
   "gear": "New Balance Hierro v8  Shadow Grey",
   "description": "Cold and windy but gloriously dry day. Saw a moose and finally had some views!",
   "stravaUrl": "https://www.strava.com/activities/15814306652",
-  "sourceHash": "3fb69632bfcd8dfcb9914ccc4b8be94ae0284f049fc8b5953e2b4829aac46def"
+  "sourceHash": "3fb69632bfcd8dfcb9914ccc4b8be94ae0284f049fc8b5953e2b4829aac46def",
+  "workoutType": null,
+  "summaryHash": "fb3a22350a72fd46e5d5d7e73c30ff2aca10de831733bbb1b3c3d4492c075fb4"
 }

@@ -1,63 +1,60 @@
-# Strava webhook → auto-refreshed totals
+# Strava webhook → live totals (Upstash Redis)
 
-When a Strava activity lands, a webhook hits a Vercel route that fires a GitHub
-`repository_dispatch`, which runs the `strava-sync` workflow to refresh and commit
-the totals. The commit to `main` triggers a Vercel redeploy. Result: the site's
-committed lifetime/yearly totals update a few minutes after a new ride or hike.
+When a Strava activity lands, a webhook hits a Vercel route that recomputes the rolling
+lifetime/yearly totals and writes them to **Upstash Redis** (`strava:totals`), then revalidates
+`/adventures`. No GitHub Action, no `repository_dispatch`, no commits — the totals are runtime state,
+not git. The per-adventure trip reports (`data/adventures/activities/*.json`) stay in git and are
+authored separately via `npm run sync:strava`.
+
+> **`docs/strava-stats.md` is the source of truth** for the store, seeding, the reconcile cron, and
+> token rotation. This file covers the webhook subscription itself.
 
 ## How it works
 
 Strava POSTs a minimal event (ids only, no activity detail) to
-`https://spencerboucher.com/api/strava/webhook`. The route filters to
-`object_type: activity` with `aspect_type` create/update/delete (and, if
-`STRAVA_SUBSCRIPTION_ID` is set, a matching `subscription_id`), then fires a
-parameter-less `repository_dispatch` of type `strava-activity` to
-`justmytwospence/blog` and returns HTTP 200 within Strava's 2-second budget. The
-`strava-sync` GitHub Action runs `npm run totals:refresh` (a cheap incremental
-index fetch + recompute), propagates any rotated Strava refresh token back into
-the Actions secret, then commits `data/adventures` and pushes to `main`.
+`https://spencerboucher.com/api/strava/webhook` (`app/api/strava/webhook/route.ts`). The route:
 
-## Secrets to add
+1. Filters to `object_type: activity` with `aspect_type` create/update/delete (and, if
+   `STRAVA_SUBSCRIPTION_ID` is set, a matching `subscription_id`).
+2. Schedules `recomputeTotals()` in `after()` and returns HTTP 200 immediately — inside Strava's
+   ~2-second budget. `recomputeTotals()` (`lib/strava-store.ts`) does a cheap summary crawl
+   (`crawlActivities` → ~a handful of GETs), `buildTotals`, `SET strava:totals`, then
+   `revalidatePath('/adventures')`.
+
+A dropped event self-heals: the daily reconcile cron (`app/api/strava/reconcile`, `vercel.json`
+`0 5 * * *`) runs the same full recompute. `npm run sync:strava` is the manual backstop.
+
+## Secrets
 
 ### Vercel (Project → Settings → Environment Variables)
 
 | Name | Value |
 |---|---|
 | `STRAVA_VERIFY_TOKEN` | A random string you choose. Strava echoes it during the validation handshake; the route compares it. Must match the value you pass to `webhook:subscribe`. |
-| `GH_DISPATCH_TOKEN` | A fine-grained GitHub PAT scoped to `justmytwospence/blog` with **Contents: write** (required for `repository_dispatch`). |
+| `STRAVA_CLIENT_ID` / `STRAVA_CLIENT_SECRET` / `STRAVA_REFRESH_TOKEN` | Strava app credentials. The refresh token is the bootstrap seed; rotations are persisted to Redis `strava:auth` (see `docs/strava-stats.md`), so you rarely touch it. |
+| `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | Injected by the Upstash Vercel integration (legacy `KV_REST_API_*` also accepted). The store the webhook writes and `/adventures` reads. |
 | `STRAVA_SUBSCRIPTION_ID` | *(optional, recommended)* The id returned by `webhook:subscribe`. When set, the route rejects events from other subscriptions. |
+| `CRON_SECRET` | *(recommended)* Guards the daily reconcile route; Vercel Cron sends it as a Bearer header. |
 
-### GitHub Actions (Repo → Settings → Secrets and variables → Actions)
-
-| Name | Value |
-|---|---|
-| `STRAVA_CLIENT_ID` | Strava app client id. |
-| `STRAVA_CLIENT_SECRET` | Strava app client secret. |
-| `STRAVA_REFRESH_TOKEN` | Strava refresh token (the workflow rotates this for you over time — see below). |
-| `STRAVA_TOKEN_ROTATE_PAT` | *(optional, strongly recommended)* A PAT with **Actions: read/write** (secrets:write) on the repo. Lets the workflow update `STRAVA_REFRESH_TOKEN` after Strava rotates it. Without it, the workflow prints a warning and you must update `STRAVA_REFRESH_TOKEN` by hand the next time auth fails. |
-
-> The `gh` CLI used for token propagation is preinstalled on GitHub-hosted
-> runners. The push itself uses the default `GITHUB_TOKEN` (`contents: write`).
+There is no GitHub-side secret anymore — `GH_DISPATCH_TOKEN` and `STRAVA_TOKEN_ROTATE_PAT` are gone.
 
 ## One-time setup (subscribe)
 
-1. Deploy the webhook route and set `STRAVA_VERIFY_TOKEN` (and `GH_DISPATCH_TOKEN`)
-   in Vercel.
-2. Set the same `STRAVA_VERIFY_TOKEN` locally in `.env.local` (plus the usual
-   `STRAVA_CLIENT_ID` / `STRAVA_CLIENT_SECRET`).
-3. Run:
+1. Deploy the webhook route and set `STRAVA_VERIFY_TOKEN` in Vercel (plus the Upstash + Strava creds).
+2. Set the same `STRAVA_VERIFY_TOKEN` locally in `.env.local` (plus `STRAVA_CLIENT_ID` / `STRAVA_CLIENT_SECRET`).
+3. Seed the store so the page shows real numbers immediately: `npm run seed:redis` (see strava-stats.md).
+4. Subscribe:
 
    ```bash
    npm run webhook:subscribe
    ```
 
-   This POSTs to Strava with `callback_url=https://spencerboucher.com/api/strava/webhook`.
-   Strava immediately GETs that callback with `hub.challenge`; the route echoes it
-   only if `hub.verify_token` matches. On success it prints the subscription id.
-4. Set that id as `STRAVA_SUBSCRIPTION_ID` in Vercel (optional but recommended).
+   This POSTs to Strava with `callback_url=https://spencerboucher.com/api/strava/webhook`. Strava
+   immediately GETs that callback with `hub.challenge`; the route echoes it only if `hub.verify_token`
+   matches. On success it prints the subscription id.
+5. Set that id as `STRAVA_SUBSCRIPTION_ID` in Vercel (optional but recommended).
 
-Strava allows exactly **one** subscription per app. To change the callback URL,
-delete and recreate.
+Strava allows exactly **one** subscription per app. To change the callback URL, delete and recreate.
 
 ## Verify and tear down
 
@@ -66,17 +63,14 @@ npm run webhook:view          # show the current subscription (id, callback_url,
 npm run webhook:delete <id>   # remove it
 ```
 
-You can also trigger the sync manually from the GitHub Actions UI
-(`strava-sync` → Run workflow) without any Strava event.
+To recompute totals on demand without a Strava event, hit the reconcile route (with `CRON_SECRET`) or
+run `npm run seed:redis`.
 
 ## Security notes
 
-- The route validates `hub.verify_token` on GET and (optionally)
-  `subscription_id` on POST. It does no writes and triggers only a fixed,
-  parameter-less dispatch, so a spoofed POST at worst kicks a harmless,
-  idempotent sync.
-- `GH_DISPATCH_TOKEN` and `STRAVA_TOKEN_ROTATE_PAT` are the sensitive credentials
-  here; scope both as narrowly as possible (single repo, minimum permissions).
-- The Strava refresh token rotates. The workflow propagates it automatically when
-  `STRAVA_TOKEN_ROTATE_PAT` is present; otherwise update `STRAVA_REFRESH_TOKEN`
-  manually when prompted by the workflow warning.
+- The route validates `hub.verify_token` on GET and (optionally) `subscription_id` on POST. It writes
+  only the derived totals to Redis and triggers a fixed, idempotent recompute, so a spoofed POST at
+  worst kicks a harmless recompute.
+- The Strava refresh token rotates; rotations are persisted to Redis `strava:auth` and preferred over
+  the env seed, so no manual propagation is needed. Break-glass: `DEL strava:auth` + redeploy (falls
+  back to the `STRAVA_REFRESH_TOKEN` env seed). See `docs/strava-stats.md`.

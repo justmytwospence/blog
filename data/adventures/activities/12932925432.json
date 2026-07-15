@@ -1180,5 +1180,7 @@
   "gear": "La Sportiva Cyklon",
   "description": "Can’t run might as well scramble. Peeped some routes I want to do on Fiddlehead and Goose. Cold and windy on rock. Wandered around the top of Shanahan Crag and got lost because I forgot how dirty it is up there.",
   "stravaUrl": "https://www.strava.com/activities/12932925432",
-  "sourceHash": "7ae909f74f0426d838daaef467026cff4e35afa84f1aa869c4aa3de57df30ac1"
+  "sourceHash": "7ae909f74f0426d838daaef467026cff4e35afa84f1aa869c4aa3de57df30ac1",
+  "workoutType": null,
+  "summaryHash": "2da878dd7339d0c5030941b1e25e8678e425358028b99a537c143d28d73ef1d4"
 }

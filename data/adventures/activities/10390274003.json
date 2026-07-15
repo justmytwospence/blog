@@ -1152,5 +1152,7 @@
   "gear": "Endurace",
   "description": "I messed up my 5am alarm so no skimo for Spencer today. As a consolation I sent myself on a mini Green duathlon. Really slippy on winter detritus especially on the wall. Felt good to be back on the bike after a hot minute.",
   "stravaUrl": "https://www.strava.com/activities/10390274003",
-  "sourceHash": "4f5a20a5f000d085eb3020f1f58f72f2c7bd59f4ec28bd530aa9829cb2f36930"
+  "sourceHash": "4f5a20a5f000d085eb3020f1f58f72f2c7bd59f4ec28bd530aa9829cb2f36930",
+  "workoutType": 10,
+  "summaryHash": "6d116c6ace37c188d3b1f888f60c62b957c1616b9b202d21427bb0fc54cdf591"
 }

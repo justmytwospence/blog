@@ -6,7 +6,6 @@ type: peak
 difficulty: hard
 tags: [sangre-de-cristo]
 source: 14ers
-hidden: false
 days:
   - title: "Challenger Point"
   - title: "Kit Carson Peak"

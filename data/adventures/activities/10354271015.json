@@ -1572,5 +1572,7 @@
   "gear": null,
   "description": "Today I hit my yearly elevation goal of 14 Everests or 409,409 feet. That was only the goal because I don’t think I’ll hit 15.",
   "stravaUrl": "https://www.strava.com/activities/10354271015",
-  "sourceHash": "31f2e543b722ab4ebf007f42a0c147b7c2765c1007de583a7a2b33e0a3695439"
+  "sourceHash": "31f2e543b722ab4ebf007f42a0c147b7c2765c1007de583a7a2b33e0a3695439",
+  "workoutType": null,
+  "summaryHash": "f18faf0019b8101babc601a7ef01e10a28b1c1fbf6ad26766f56081e81e6e257"
 }

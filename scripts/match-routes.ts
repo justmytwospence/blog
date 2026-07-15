@@ -18,36 +18,13 @@ import path from 'node:path';
 import matter from 'gray-matter';
 import { parseStravaIds, mapSportType, type AllActivityEntry } from '@blog/strava';
 import { CONTENT_DIR, ACTIVITIES_DIR, ALL_ACTIVITIES_FILE } from './strava-shared';
+import { RADIUS_M, bucketOf, haversine, median } from './route-match';
 
-const RADIUS_M = 400; // within this of the route's median trailhead = "the same start" (parking-lot scale)
 const WRITE = process.argv.includes('--write');
 const ROUTE = (() => {
   const i = process.argv.indexOf('--route');
   return i >= 0 ? process.argv[i + 1] : null;
 })();
-
-// Sport buckets so a ski route only matches skis, a foot route only feet, etc.
-const BUCKET: Record<string, string> = {
-  TrailRun: 'foot', Run: 'foot', Hike: 'foot', Walk: 'foot', Snowshoe: 'foot',
-  Mountaineering: 'foot', RockClimbing: 'foot', Scramble: 'foot',
-  Ride: 'bike', GravelRide: 'bike', MountainBikeRide: 'bike', EBikeRide: 'bike',
-  BackcountrySki: 'ski', AlpineSki: 'ski', Snowboard: 'ski', NordicSki: 'nordic',
-};
-const bucketOf = (sportType: string): string => BUCKET[sportType] ?? sportType;
-
-function haversine(aLat: number, aLng: number, bLat: number, bLng: number): number {
-  const R = 6371000;
-  const rad = Math.PI / 180;
-  const dLat = (bLat - aLat) * rad;
-  const dLng = (bLng - aLng) * rad;
-  const h = Math.sin(dLat / 2) ** 2 + Math.cos(aLat * rad) * Math.cos(bLat * rad) * Math.sin(dLng / 2) ** 2;
-  return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
-}
-function median(xs: number[]): number {
-  const s = [...xs].sort((a, b) => a - b);
-  const m = s.length >> 1;
-  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
-}
 
 interface Companion { slug: string; group: string | null; laps: boolean; ids: number[] }
 function readCompanions(): Companion[] {

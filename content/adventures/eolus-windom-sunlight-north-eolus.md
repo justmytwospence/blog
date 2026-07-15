@@ -7,7 +7,6 @@ type: peak
 difficulty: epic
 tags: [san-juan]
 source: 14ers
-hidden: false
 days:
   - title: "Mt. Eolus"
   - title: "Windom Peak"

@@ -1365,5 +1365,7 @@
   "gear": "Inov-8 Trailfly Ultra G 300 Max",
   "description": "Ain't no day a nice run up Bear can't turn around. Hit my goal of a 3000ft/hour pace for the entire Fern Canyon + Ridge steep segment. ",
   "stravaUrl": "https://www.strava.com/activities/9235008414",
-  "sourceHash": "a8c091464eb5e82f07c3030eb2e2a171e620ad6088c7988a417307dccf2891ee"
+  "sourceHash": "a8c091464eb5e82f07c3030eb2e2a171e620ad6088c7988a417307dccf2891ee",
+  "workoutType": 0,
+  "summaryHash": "3eaa00de45273c26e92db79b687b81e6f31267fcc6d8e1e2f0dd141d7faea3e7"
 }

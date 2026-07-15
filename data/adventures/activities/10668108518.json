@@ -825,5 +825,7 @@
   "gear": null,
   "description": "Redemption from Rise n Shine yesterday. This was a really good race for me! Even lap split too.",
   "stravaUrl": "https://www.strava.com/activities/10668108518",
-  "sourceHash": "2ef09af3829b07a7257adaee146e6ed2a67a122170bed7a759924a4a9b0a7d29"
+  "sourceHash": "2ef09af3829b07a7257adaee146e6ed2a67a122170bed7a759924a4a9b0a7d29",
+  "workoutType": null,
+  "summaryHash": "ec87ad55c6bd2633ef5f79566871a032848cf9e44938dd0c8ee02912f570bbc5"
 }

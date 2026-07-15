@@ -4,7 +4,6 @@ type: peak
 difficulty: moderate
 tags: [sawatch]
 source: 14ers
-hidden: false
 ---
 
 A Colorado 14er via the Lulu Gulch — Huron Peak (14,003'), Class 2. Climbed before I was on Strava.

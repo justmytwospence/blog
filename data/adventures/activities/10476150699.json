@@ -2712,5 +2712,7 @@
   "gear": null,
   "description": "What a weekend",
   "stravaUrl": "https://www.strava.com/activities/10476150699",
-  "sourceHash": "9441512226168046c2fad99b8e279574975230d96ead919ffc9fb2bbf27909b7"
+  "sourceHash": "9441512226168046c2fad99b8e279574975230d96ead919ffc9fb2bbf27909b7",
+  "workoutType": null,
+  "summaryHash": "fa763dc00639af1e76ebd031d6f91dd9f032b30d0c0966ee3d4a18b58417e02c"
 }

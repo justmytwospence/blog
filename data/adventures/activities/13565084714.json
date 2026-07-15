@@ -1095,5 +1095,7 @@
   "gear": null,
   "description": "Expected wind, got a perfect morning. Could realllly feel the deep tissue massage from 13 hours ago. Took the icy trees for the third lap, I and my rotator cuff immediately regretted it. Chat with Ethan and Sam at the traditional 2nd ski2skin transition. Hat went AWOL. My bindings are so janky now that Dynafit is just going to replace them so that’s nice",
   "stravaUrl": "https://www.strava.com/activities/13565084714",
-  "sourceHash": "1541ca82b72201ec2ef9759a27617b694d34fd9d75b528457060348a04c543e4"
+  "sourceHash": "1541ca82b72201ec2ef9759a27617b694d34fd9d75b528457060348a04c543e4",
+  "workoutType": null,
+  "summaryHash": "b63b18f2ab6eacafb7776659c1aefc28b829cb32e287da490da90d3ba90394c5"
 }

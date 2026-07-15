@@ -5,7 +5,6 @@ type: peak
 difficulty: moderate
 tags: [sawatch, state-highpoint]
 source: 14ers
-hidden: false
 ---
 
 A Colorado 14er via the standard route — Mt. Elbert (14,433'), Class 1. Climbed before I was on Strava.

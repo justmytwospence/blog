@@ -1887,5 +1887,7 @@
   "gear": "Inov-8 TerraUltra G 270",
   "description": "My birthday present to myself is hitting 200k vert since January and becoming the local legend on Bear Peak from Shanahan Ridge!",
   "stravaUrl": "https://www.strava.com/activities/9314216444",
-  "sourceHash": "1f51f67b76913d2adb5a83b4c3574649021dac99d1a3af59feb0b49bc9228dd7"
+  "sourceHash": "1f51f67b76913d2adb5a83b4c3574649021dac99d1a3af59feb0b49bc9228dd7",
+  "workoutType": 0,
+  "summaryHash": "bb07b8e2bf298414a313a99c83f38a916427f6ee41a6f5bd741cf8e6ca3f8f1a"
 }

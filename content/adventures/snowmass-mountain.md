@@ -5,7 +5,6 @@ type: peak
 difficulty: hard
 tags: [elk]
 source: 14ers
-hidden: false
 ---
 
 A Colorado 14er via the standard route — Snowmass Mountain (14,092'), Class 3. Climbed before I was on Strava.

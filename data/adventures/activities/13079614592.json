@@ -1320,5 +1320,7 @@
   "gear": null,
   "description": "After a month I can feel all my fingers again so that’s nice",
   "stravaUrl": "https://www.strava.com/activities/13079614592",
-  "sourceHash": "a9352605f894bc3640a9238c36598daf5ed2176244189a73665f29f76f784e8d"
+  "sourceHash": "a9352605f894bc3640a9238c36598daf5ed2176244189a73665f29f76f784e8d",
+  "workoutType": null,
+  "summaryHash": "0a21b83739cd2f3ab07664896fa17e81b23755ae02d0b0426b287837b28cb8d0"
 }

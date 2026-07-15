@@ -2130,5 +2130,7 @@
   "gear": "La Sportiva Prodigio Antique White",
   "description": "I touched the butte. Up (to the rocks) in 1:29. Still some snow patches up there. Fun",
   "stravaUrl": "https://www.strava.com/activities/14988267330",
-  "sourceHash": "b641bd6e6be776295987860304f00936f487f24c094dfe91351d8db4684e880a"
+  "sourceHash": "b641bd6e6be776295987860304f00936f487f24c094dfe91351d8db4684e880a",
+  "workoutType": 0,
+  "summaryHash": "a52d636d5f2f39ab4f1398df9e134c8e2b586cad619b7606ae92662ae4343661"
 }

@@ -714,5 +714,7 @@
   "gear": "La Sportiva TX3",
   "description": "Descent via Gregory Ridge",
   "stravaUrl": "https://www.strava.com/activities/8925264200",
-  "sourceHash": "0b66174ce6f5a587e7e86f7e915e46170501860e1da19003584dc2bedaf7ebaf"
+  "sourceHash": "0b66174ce6f5a587e7e86f7e915e46170501860e1da19003584dc2bedaf7ebaf",
+  "workoutType": null,
+  "summaryHash": "71a4c2880b6344e199946f7394168f0a5d37eb3ec0cd21289004005853f33b84"
 }

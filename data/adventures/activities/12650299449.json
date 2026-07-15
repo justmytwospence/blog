@@ -11594,5 +11594,7 @@
   "gear": "HOKA Tecton X 3 Stormy Skies / Cerise",
   "description": "Been feeling unmotivated recently, even with endurance so this is what it took to get me excite. Never been here before! Hot but not too hot - 97 in the canyon during the afternoon. Cool Ribbon waterfall detour. Running down into a canyon is psychologically much harder than running up a mountain",
   "stravaUrl": "https://www.strava.com/activities/12650299449",
-  "sourceHash": "61e1397d67e05aa4c44af5b4ec77f3275cc3888a2b722415f86cf80685c4ec93"
+  "sourceHash": "61e1397d67e05aa4c44af5b4ec77f3275cc3888a2b722415f86cf80685c4ec93",
+  "workoutType": 0,
+  "summaryHash": "a4fe7eb47bee8323709eb0cafb8e7702e6319f4030d7ac20f30f95e3057a7ecd"
 }

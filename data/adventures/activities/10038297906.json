@@ -1266,5 +1266,7 @@
   "gear": null,
   "description": "For the eclipse (sort of)",
   "stravaUrl": "https://www.strava.com/activities/10038297906",
-  "sourceHash": "fd33f48cbd37835654ad3b4085e2b341713a719dff5c53866921541b19592897"
+  "sourceHash": "fd33f48cbd37835654ad3b4085e2b341713a719dff5c53866921541b19592897",
+  "workoutType": null,
+  "summaryHash": "115b06bff7bb1d72220271b131f39c7a363cd5d8bbbddba1dfbf2fec23776bcd"
 }

@@ -2366,5 +2366,7 @@
   "gear": null,
   "description": "Hot. No time to dip in the lake had to turn right around to get to my hip injection on time. Right ankle starts the get unstable after about an hour and a half on the roller skis, not an issue on the real skis. Missing the snow",
   "stravaUrl": "https://www.strava.com/activities/15049881881",
-  "sourceHash": "da4149b9c41224290db656e7e6a9a9a9153dde355367d2ed95b4b1d5e3032475"
+  "sourceHash": "da4149b9c41224290db656e7e6a9a9a9153dde355367d2ed95b4b1d5e3032475",
+  "workoutType": null,
+  "summaryHash": "b99b5ebbbd0409045d5ecd9cb979f57e750d873bd6be96245f094eaa85142d17"
 }

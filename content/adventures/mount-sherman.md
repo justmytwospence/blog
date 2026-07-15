@@ -4,7 +4,6 @@ type: peak
 difficulty: moderate
 tags: [mosquito]
 source: 14ers
-hidden: false
 ---
 
 A Colorado 14er via the standard route — Mt. Sherman (14,036'), Class 2. Climbed before I was on Strava.

@@ -3317,5 +3317,7 @@
   "gear": "Grizl 1by",
   "description": "Turnpike Troubadours in my ears, a book in my jersey pocket, and a feast for the eyes. Surprisingly rugged at the top, the Grizl was made for “gravel” like this. One headwall was so steep and rocky and loose I was proud of myself just to make it up. Mostly easy though. Ending a a coffeeshop in Crested Butte, doesn’t get better than this.",
   "stravaUrl": "https://www.strava.com/activities/12518080914",
-  "sourceHash": "bfbc8904b79b152d651cbb9d3804627d5b1e202635856fb54b3c2610eb55d1f7"
+  "sourceHash": "bfbc8904b79b152d651cbb9d3804627d5b1e202635856fb54b3c2610eb55d1f7",
+  "workoutType": 10,
+  "summaryHash": "54149c951dc2b609d775cfd34be2ca8ef60ca2f207a753635a963599619dbf01"
 }

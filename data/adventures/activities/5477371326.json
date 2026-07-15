@@ -1617,5 +1617,7 @@
   "gear": null,
   "description": "",
   "stravaUrl": "https://www.strava.com/activities/5477371326",
-  "sourceHash": "1e84d102f774d3ea4649a883d661abd493be63001e167ee88ecfded544476c0c"
+  "sourceHash": "1e84d102f774d3ea4649a883d661abd493be63001e167ee88ecfded544476c0c",
+  "workoutType": null,
+  "summaryHash": "662953727452b7e271e7d442e114ce4a2785b09f807cdd5462421469eda9a339"
 }
