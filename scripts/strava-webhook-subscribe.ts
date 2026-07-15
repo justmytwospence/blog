@@ -13,7 +13,9 @@
 import { loadEnvLocal, getCreds } from './strava-shared';
 
 const API = 'https://www.strava.com/api/v3/push_subscriptions';
-const CALLBACK_URL = 'https://spencerboucher.com/api/strava/webhook';
+// Must be the www host: the apex 307-redirects to www, and Strava's validation
+// GET does not follow redirects — subscribing against the apex fails silently.
+const CALLBACK_URL = 'https://www.spencerboucher.com/api/strava/webhook';
 
 async function subscribe(): Promise<void> {
   const { clientId, clientSecret } = getCreds();
