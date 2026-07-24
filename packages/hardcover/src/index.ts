@@ -36,6 +36,18 @@ function getBlacklistedSlugs(): Set<string> {
   return new Set(raw.split(',').map((s) => s.trim()).filter(Boolean));
 }
 
+/**
+ * Title substrings (case-insensitive) that exclude a book from the public reading list, regardless
+ * of slug. Unlike the slug blacklist this is an open-ended keyword rule, so it also hides future
+ * books whose slug we don't know yet.
+ */
+const TITLE_BLOCKLIST = ['suicide'];
+
+function isTitleBlocked(title: string): boolean {
+  const t = title.toLowerCase();
+  return TITLE_BLOCKLIST.some((kw) => t.includes(kw));
+}
+
 /** Hardcover status IDs */
 const STATUS = {
   WANT_TO_READ: 1,
@@ -193,7 +205,7 @@ async function fetchUserBooksOrThrow(
   const userBooks = json.data?.me?.[0]?.user_books ?? [];
   const blacklist = getBlacklistedSlugs();
   return transformUserBooks(userBooks).filter(
-    (ub) => !blacklist.has(ub.book.slug),
+    (ub) => !blacklist.has(ub.book.slug) && !isTitleBlocked(ub.book.title),
   );
 }
 

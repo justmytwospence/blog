@@ -159,6 +159,56 @@ describe('hardcover API client', () => {
     expect(books[0].book.authors).toEqual([]);
   });
 
+  it('filters out books whose title contains a blocked keyword (case-insensitive)', async () => {
+    vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
+
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        data: {
+          me: [
+            {
+              user_books: [
+                {
+                  rating: 5,
+                  date_added: '2025-12-02',
+                  book: {
+                    title: 'The Suicide Index',
+                    slug: 'the-suicide-index',
+                    description: null,
+                    pages: 200,
+                    image: null,
+                    contributions: [],
+                    taggings: [],
+                  },
+                },
+                {
+                  rating: 4,
+                  date_added: '2025-12-01',
+                  book: {
+                    title: 'A Normal Book',
+                    slug: 'a-normal-book',
+                    description: null,
+                    pages: 100,
+                    image: null,
+                    contributions: [],
+                    taggings: [],
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      }),
+    });
+
+    const { getCurrentlyReading } = await import('../src');
+    const books = await getCurrentlyReading();
+
+    expect(books).toHaveLength(1);
+    expect(books[0].book.slug).toBe('a-normal-book');
+  });
+
   it('getReadingListData runs three fetches in parallel', async () => {
     vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
 
