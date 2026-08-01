@@ -294,6 +294,7 @@ export function getBlogPostBySlug(slug: string): MarkdownContent | NotebookConte
         type: 'markdown',
         ...mapCommonMetadata(data, slug),
         bluesky: data.bluesky || undefined,
+        component: data.component || undefined,
       },
     };
   }

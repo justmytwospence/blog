@@ -1,0 +1,190 @@
+/**
+ * Build the committed Colorado peaks dataset for the /concepts/colorado-peaks viz.
+ *
+ * Parses the committed Lists of John HTML exports in data/peaks-raw/ (CO 14er/13er/12er bands at a
+ * uniform 100 ft prominence floor — low enough to include the famous unranked subpeaks like Mount
+ * Cameron / El Diente / Conundrum) into a normalized, deterministic data/colorado-peaks.json.
+ *
+ * Source: Lists of John (listsofjohn.com), the canonical prominence dataset, built on USGS LiDAR
+ * elevations and the reference implementation of the 300-ft rule. Fetched once and committed so the
+ * site build is offline/reproducible. Re-run with `npm run peaks:build`.
+ *
+ * "Ranked" is NOT taken from the source — it is exactly `prominenceFt >= 300`, the rule the post
+ * lets the reader move.
+ */
+import fs from 'fs';
+import path from 'path';
+
+const RAW_DIR = path.join(process.cwd(), 'data', 'peaks-raw');
+// Served as a static asset and fetched client-side by the viz (the component is ssr:false, so there
+// is no benefit to embedding it in the prerendered HTML — fetching keeps the page payload small).
+const OUT = path.join(process.cwd(), 'public', 'colorado-peaks.json');
+const FILES = ['loj-co-14ers-p100.html', 'loj-co-13ers-p100.html', 'loj-co-12ers-p100.html'];
+
+export interface Peak {
+  name: string;
+  elevationFt: number;
+  prominenceFt: number;
+  county?: string;
+  ydsClass?: string;
+  /** Link to the peak's 14ers.com page (covers 14ers + most 13ers), matched by name. */
+  coUrl?: string;
+  /** Coordinates (from OpenStreetMap, matched by name + elevation) — present for ~half the peaks. */
+  lat?: number;
+  lon?: number;
+  /** false when Lists of John brackets the name in quotes (an unofficial/informal name). */
+  official: boolean;
+}
+
+interface OsmPeak {
+  name: string;
+  lat: number;
+  lon: number;
+  ele: number | null;
+}
+
+const normName = (s: string) =>
+  s.toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\bmt\b/g, 'mount').replace(/\s+/g, ' ').trim();
+
+/**
+ * Attach coordinates from the vendored OpenStreetMap peaks (© OpenStreetMap contributors, ODbL),
+ * matched by normalized name. Colorado has many duplicate peak names, so ties are broken by the
+ * nearest elevation (within 250 ft) to avoid mis-placing a peak; no confident match → no coords.
+ */
+function attachCoords(peaks: Peak[]): void {
+  const osmPath = path.join(RAW_DIR, 'osm-co-peaks.json');
+  if (!fs.existsSync(osmPath)) return;
+  const osm: OsmPeak[] = JSON.parse(fs.readFileSync(osmPath, 'utf8'));
+  const idx = new Map<string, OsmPeak[]>();
+  for (const o of osm) {
+    const k = normName(o.name);
+    (idx.get(k) ?? idx.set(k, []).get(k)!).push(o);
+  }
+  let matched = 0;
+  for (const p of peaks) {
+    const cands = idx.get(normName(p.name));
+    if (!cands) continue;
+    let hit: OsmPeak | undefined;
+    if (cands.length === 1) hit = cands[0];
+    else {
+      const withEle = cands.filter((c) => c.ele != null);
+      withEle.sort((a, b) => Math.abs(a.ele! - p.elevationFt) - Math.abs(b.ele! - p.elevationFt));
+      if (withEle[0] && Math.abs(withEle[0].ele! - p.elevationFt) <= 250) hit = withEle[0];
+    }
+    if (hit) {
+      p.lat = hit.lat;
+      p.lon = hit.lon;
+      matched++;
+    }
+  }
+  console.log(`coords: matched ${matched}/${peaks.length} peaks to OSM coordinates`);
+}
+
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+/**
+ * Link each peak to its 14ers.com page (covers 14ers + most 13ers, not 12ers), matched by slugified
+ * name. 14ers.com prefixes 13er slugs with `13er-` and adds `-a`/`-b` for duplicate names; a name
+ * with more than one disambiguated candidate is left unlinked rather than risk a wrong link.
+ */
+function attachCoUrls(peaks: Peak[]): void {
+  const p = path.join(RAW_DIR, '14ers-com.json');
+  if (!fs.existsSync(p)) return;
+  const bySlug: Record<string, string> = JSON.parse(fs.readFileSync(p, 'utf8'));
+  const norm = new Map<string, string[]>();
+  for (const [slug, url] of Object.entries(bySlug)) {
+    const base = slug.replace(/^13er-/, '').replace(/-([a-z])$/, '');
+    (norm.get(base) ?? norm.set(base, []).get(base)!).push(url);
+  }
+  let matched = 0;
+  for (const pk of peaks) {
+    const s = slugify(pk.name);
+    let rel = bySlug[s] ?? bySlug[`13er-${s}`];
+    if (!rel) {
+      const cands = norm.get(s);
+      if (cands && cands.length === 1) rel = cands[0];
+    }
+    if (rel) {
+      pk.coUrl = `https://www.14ers.com${rel}`;
+      matched++;
+    }
+  }
+  console.log(`14ers.com: linked ${matched}/${peaks.length} peaks`);
+}
+
+function stripTags(s: string): string {
+  return s
+    .replace(/<[^>]*>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function toFeet(cell: string): number {
+  return parseInt(stripTags(cell).replace(/[,'"]/g, ''), 10);
+}
+
+/** "Elbert, Mount" -> "Mount Elbert"; strips the LoJ quotes that mark unofficial names. */
+function normalizeName(cell: string): { name: string; official: boolean } {
+  let s = stripTags(cell);
+  const official = !s.startsWith('"');
+  s = s.replace(/^"|"$/g, '').trim();
+  const m = s.match(/^(.+),\s+(Mount|Mountain|Peak|Point)$/);
+  if (m) s = `${m[2]} ${m[1]}`;
+  return { name: s, official };
+}
+
+function parseFile(html: string): Peak[] {
+  const peaks: Peak[] = [];
+  const rows = html.match(/<tr[^>]*>[\s\S]*?<\/tr>/gi) ?? [];
+  for (const row of rows) {
+    if (/class="one"/i.test(row)) continue; // header row
+    const cells = row.match(/<td[^>]*>[\s\S]*?<\/td>/gi) ?? [];
+    // cols: 0 listRank, 1 name, 2 coRank, 3 elev, 4 prom, 5 isolation, 6 county, 7 quad, ...10 YDS
+    if (cells.length < 7) continue;
+    const elevationFt = toFeet(cells[3]);
+    const prominenceFt = toFeet(cells[4]);
+    if (!Number.isFinite(elevationFt) || !Number.isFinite(prominenceFt)) continue;
+    const { name, official } = normalizeName(cells[1]);
+    if (!name) continue;
+    const county = stripTags(cells[6]) || undefined;
+    const yds = cells[10] ? stripTags(cells[10]) : undefined;
+    peaks.push({ name, elevationFt, prominenceFt, county, ydsClass: yds || undefined, official });
+  }
+  return peaks;
+}
+
+function main(): void {
+  const all: Peak[] = [];
+  for (const f of FILES) {
+    const html = fs.readFileSync(path.join(RAW_DIR, f), 'utf8');
+    const got = parseFile(html);
+    console.log(`${f}: ${got.length} peaks`);
+    all.push(...got);
+  }
+
+  // De-dupe (bands don't overlap, but guard) and sort by elevation desc, prominence desc.
+  const seen = new Set<string>();
+  const peaks = all
+    .filter((p) => {
+      const k = `${p.name}@${p.elevationFt}`;
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    })
+    .sort((a, b) => b.elevationFt - a.elevationFt || b.prominenceFt - a.prominenceFt);
+
+  attachCoords(peaks);
+  attachCoUrls(peaks);
+
+  fs.writeFileSync(OUT, JSON.stringify(peaks) + '\n');
+
+  const ranked14 = peaks.filter((p) => p.elevationFt >= 14000 && p.prominenceFt >= 300).length;
+  const all14 = peaks.filter((p) => p.elevationFt >= 14000).length;
+  console.log(
+    `wrote ${peaks.length} peaks -> public/colorado-peaks.json | 14k+ ranked(≥300'): ${ranked14}, 14k+ total: ${all14}`,
+  );
+}
+
+main();
