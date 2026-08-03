@@ -1,5 +1,6 @@
-# dependencies
-/node_modules
+# dependencies — unanchored so it also covers each workspace's own packages/*/node_modules,
+# which npm creates whenever a package needs a version the root tree can't hoist
+node_modules/
 /.pnp
 .pnp.js
 
