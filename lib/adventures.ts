@@ -15,7 +15,13 @@ import { preprocessObsidian } from '@blog/obsidian-md';
 import type { AdventureActivity, AdventureStats, SportType } from '@blog/strava/types';
 import { readTotals, hasStore } from './strava-store';
 import { parseStravaIds, usesIdArray, isRaceWorkoutType } from '@blog/strava';
-import { isCompanionFile, derivePeakClass, type PeakClass } from './adventure-schema';
+import {
+  isCompanionFile,
+  derivePeakClass,
+  isAdventureSport,
+  type PeakClass,
+  type AdventureSport,
+} from './adventure-schema';
 
 export type {
   AdventureActivity,
@@ -56,13 +62,13 @@ export interface AdventureDay {
 /** A summit-elevation classification surfaced as a badge ("14er"/"13er"). */
 // Canonical in adventure-schema (derived from PEAK_CLASSES); re-exported so components can keep
 // importing it from here.
-export type { PeakClass } from './adventure-schema';
+export type { PeakClass, AdventureSport } from './adventure-schema';
 
 export interface Adventure {
   slug: string;
   title: string;
   date: string; // YYYY-MM-DD
-  sportType: SportType;
+  sportType: AdventureSport;
   isMultiDay: boolean;
   isMultiSport: boolean; // multiple activities on the SAME day (e.g. a triathlon) — legs, not days
   featured: boolean;
@@ -91,7 +97,7 @@ export interface AdventureSummary {
   slug: string;
   title: string;
   date: string;
-  sportType: SportType;
+  sportType: AdventureSport;
   sportTypes: SportType[]; // distinct sports across the legs (for multi-sport cards)
   isMultiDay: boolean;
   featured: boolean;
@@ -125,7 +131,7 @@ export interface TripRef {
 }
 
 export interface SportTotals {
-  sportType: SportType;
+  sportType: AdventureSport;
   count: number;
   distanceMeters: number;
   elevationGainMeters: number;
@@ -305,7 +311,15 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
   }
   const common = mapCommonMetadata(pc.data, pc.slug);
   const primary = acts[0];
-  const sportType: SportType = (str(pc.data.sport) as SportType | null) ?? primary.sportType;
+  // An unrecognized `sport:` override would otherwise render as a bogus pill with the wrong
+  // pace/speed label. adventure:validate rejects these in CI; this is the build-time backstop.
+  const sportOverride = str(pc.data.sport);
+  if (sportOverride != null && !isAdventureSport(sportOverride)) {
+    console.warn(
+      `[adventures] ${pc.slug}: unrecognized sport "${sportOverride}" — falling back to ${primary.sportType}`,
+    );
+  }
+  const sportType: AdventureSport = isAdventureSport(sportOverride) ? sportOverride : primary.sportType;
   const tags = Array.isArray(pc.data.tags) ? (pc.data.tags as unknown[]).map(String) : [];
   const elevHigh = Math.max(...acts.map((a) => a.stats.elevHighMeters ?? Number.NEGATIVE_INFINITY));
   const typeStr = str(pc.data.type);

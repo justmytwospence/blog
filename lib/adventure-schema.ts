@@ -45,6 +45,11 @@ export const ADVENTURE_SPORTS = [
 ] as const;
 export type AdventureSport = (typeof ADVENTURE_SPORTS)[number];
 
+/** Narrow an untrusted `sport:` frontmatter value to the vocabulary the site can render. */
+export function isAdventureSport(v: unknown): v is AdventureSport {
+  return typeof v === 'string' && (ADVENTURE_SPORTS as readonly string[]).includes(v);
+}
+
 /** Sports where a summit elevation means a peak was bagged (so a 14er/13er badge is meaningful). */
 export const SUMMIT_SPORTS: ReadonlySet<string> = new Set<AdventureSport>([
   'Hike',

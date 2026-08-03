@@ -1,4 +1,4 @@
-import type { AdventureStats as Stats, SportType } from '@/lib/adventures';
+import type { AdventureStats as Stats, AdventureSport } from '@/lib/adventures';
 import {
   formatDistance,
   formatElevation,
@@ -15,7 +15,7 @@ export function AdventureStats({
   className = '',
 }: {
   stats: Stats;
-  sportType: SportType;
+  sportType: AdventureSport;
   unit?: UnitSystem;
   className?: string;
 }) {
