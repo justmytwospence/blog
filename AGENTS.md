@@ -52,10 +52,22 @@ Two layers, split by what's committed:
 - Standalone scripts: `npm run sync:index` and `npm run totals:build` (chained as `totals:refresh`);
   `npm run seed:redis` bootstraps the Upstash store; `npm run webhook:subscribe` / `webhook:view` /
   `webhook:delete` manage the Strava push subscription (one per app).
-- **Strava MCP** (`strava` server — user-scoped in `~/.claude.json`, a self-hosted homelab gateway): the
-  read/analysis surface for discovery (`mcp__strava__strava_list_activities`, `strava_get_activity`,
-  `strava_get_athlete_stats`). It never touches the repo and authenticates with its own credential copy
-  of the same Strava app — it does NOT share `.env.local`/`.strava-token.json`.
+- **Strava MCP** (`strava` server — **local** scope in `~/.claude.json`, i.e. private to this project,
+  not user-wide; re-add it with `claude mcp add --transport http strava <url> -s local` if it goes
+  missing): the read/analysis surface for discovery. Because MCPJungle namespaces by tool group, the
+  names carry a **doubled** prefix — `mcp__strava__strava__strava_list_activities`,
+  `..._get_activity`, `..._get_athlete_stats` (server `strava` + group `strava` + tool
+  `strava_*`), not the single-prefix form. It never touches the repo and authenticates with its own
+  credential copy of the same Strava app — it does NOT share `.env.local`/`.strava-token.json`.
+  The backend is a self-hosted homelab **MCPJungle** proxy exposing the `strava` tool group, currently
+  at `https://strava.mcp.spencerboucher.com/mcp` (it previously lived at `mcp-gateway.spencerboucher.com`;
+  the hostname has moved once already, so treat it as mutable). **Diagnosing a dead server:** the
+  reverse proxy answers for every `*.spencerboucher.com` name, so a wrong/retired host does not fail
+  DNS or TLS — it falls through to a default site that returns `405 Method Not Allowed` (`allow: GET,
+  HEAD`) on the MCP `POST`. That 405 means *no MCP server is routed at this host*, not that the server
+  is broken. Confirm the proxy and homelab are healthy by POSTing an `initialize` to a known-good
+  sibling (`https://obsidian.mcp.spencerboucher.com/`); a real MCP endpoint returns a JSON-RPC result
+  naming the server.
 - **Token multi-store hazard:** the Strava refresh token lives in independent stores — blog `.env.local`
   / `.strava-token.json`, prod Redis `strava:auth`, and the MCP gateway — and Strava can rotate it on
   refresh, invalidating the others. Break-glass: `DEL strava:auth` + `npm run seed:redis` (prod), or

@@ -47,9 +47,10 @@ rejects anything off-vocabulary. Do not invent values.
 
 ### 1. Discover the activity
 
-Resolve the user's intent to a Strava id via the MCP: `mcp__strava__strava_list_activities` (filter to
-the day they mention). Fallback: the synced index `data/adventures/all-activities.json` (id, name, date,
-sport, distance). Confirm name + date + distance with the user; capture the **Strava id**.
+Resolve the user's intent to a Strava id via the MCP: `mcp__strava__strava__strava_list_activities`
+(filter to the day they mention) — note the **doubled** `strava__` prefix, which is how MCPJungle
+namespaces the tool group. Fallback: the synced index `data/adventures/all-activities.json` (id, name,
+date, sport, distance). Confirm name + date + distance with the user; capture the **Strava id**.
 
 ### 2. Scaffold (auto-derives everything derivable)
 
