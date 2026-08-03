@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { decodePolyline, downsampleTrack, type TrackPoint } from '../src/polyline';
+import { decodePolyline, encodePolyline, downsampleTrack, type TrackPoint } from '../src/polyline';
 
 describe('decodePolyline', () => {
   it('decodes the canonical Google example', () => {
@@ -42,5 +42,27 @@ describe('downsampleTrack', () => {
     expect(ds.length).toBeLessThanOrEqual(500);
     expect(ds[0]).toEqual(pts[0]);
     expect(ds[ds.length - 1]).toEqual(pts[pts.length - 1]);
+  });
+});
+
+describe('encodePolyline', () => {
+  it('round-trips through decodePolyline to 5dp', () => {
+    // Kept despite losing its last caller when the manual importers were deleted: it is the pure
+    // inverse of decodePolyline and what any future non-Strava importer would need.
+    const pts: Array<[number, number]> = [
+      [39.9, -105.3],
+      [39.90123, -105.30456],
+      [40.01, -105.51],
+    ];
+    const round = decodePolyline(encodePolyline(pts));
+    expect(round).toHaveLength(pts.length);
+    round.forEach(([lat, lng], i) => {
+      expect(lat).toBeCloseTo(pts[i][0], 5);
+      expect(lng).toBeCloseTo(pts[i][1], 5);
+    });
+  });
+
+  it('round-trips an empty track', () => {
+    expect(decodePolyline(encodePolyline([]))).toEqual([]);
   });
 });

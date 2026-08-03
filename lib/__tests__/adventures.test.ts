@@ -130,3 +130,35 @@ describe('read API against the committed snapshot', () => {
     }
   });
 });
+
+// Pins on real committed content for the derivations this refactor moved out of lib/adventures.
+// These are the branches most likely to drift silently: a wrong peakClass also corrupts `facets`,
+// which drives the library's category filter.
+describe('derivation pins against real content', () => {
+  it('badges a 14er by elevation', () => {
+    const a = getAdventureBySlug('mount-elbert');
+    expect(a?.peakClass).toBe('14er');
+    expect(a?.facets).toContain('14er');
+  });
+
+  it('does NOT badge a thru-hike that crosses above 13,000 ft', () => {
+    // Pacific Crest Trail tops out at 13,153 ft but bags no peak.
+    const a = getAdventureBySlug('pacific-crest-trail');
+    expect(a?.type).toBe('thru-hike');
+    expect(a?.peakClass).toBeNull();
+    expect(a?.facets).not.toContain('13er');
+  });
+
+  it('keeps the site-only Scramble sport label', () => {
+    // Scramble is not a Strava sport_type; it survives only via the validated `sport:` override.
+    const scrambles = getAllAdventures().filter((a) => a.sportType === 'Scramble');
+    expect(scrambles.length).toBeGreaterThan(0);
+  });
+
+  it('emits only known facets', () => {
+    const known = new Set(['14er', '13er', 'race', 'duathlon', 'couloir', 'scramble', 'traverse', 'thru-hike']);
+    for (const a of getAllAdventures()) {
+      for (const f of a.facets) expect(known.has(f)).toBe(true);
+    }
+  });
+});
