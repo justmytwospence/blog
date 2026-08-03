@@ -1,16 +1,26 @@
 /**
  * Inoreader RSS client
  *
- * Fetches blogroll data from a public Inoreader RSS feed (zero API quota — it's a public stream).
+ * Fetches blogroll data from a public Inoreader RSS feed (zero API quota — it's a public stream, no
+ * credentials, nothing to configure). Two views of the same stream:
  *
- * Two flavours: `getBlogrollItems` returns [] on failure (build-safe default); `getBlogrollItemsOrThrow`
+ *  - `getBlogrollItems*`  the article list, at the configured depth (~100 items)
+ *  - `getBlogrollFeeds*`  the FEED list, from a full-depth 1000-item crawl collapsed per source
+ *
+ * Two flavours of each: the plain one returns [] on failure (build-safe default); the `*OrThrow` one
  * throws on HTTP/network failure so the app layer can wrap it in the last-good cache (a returned []
  * looks like success to a read-through cache). An empty-but-valid feed returns [], not a throw.
  *
  * The feed identity is config, not hardcoded — see `inoreaderConfig()` and the env vars it reads.
+ * Items from blocked sources (see `DEFAULT_SOURCE_BLOCKLIST`) are dropped before returning.
  */
 
 import { XMLParser } from 'fast-xml-parser';
+import { sourceBlocklist, isSourceBlocked } from './blocklist';
+
+import { deriveFeeds, FEED_CRAWL_COUNT, type BlogrollFeed } from './feeds';
+
+export { buildOpml, deriveFeeds, domainOf, FEED_CRAWL_COUNT, type BlogrollFeed } from './feeds';
 
 // ─── Config ────────────────────────────────────────────────────────
 
@@ -30,10 +40,11 @@ function inoreaderConfig(): { userId: string; publicTag: string; itemCount: numb
   };
 }
 
-function buildFeedUrl(): string {
-  const { userId, publicTag, itemCount } = inoreaderConfig();
+function buildFeedUrl(itemCount: number): string {
+  const { userId, publicTag } = inoreaderConfig();
   return `https://www.inoreader.com/stream/user/${userId}/tag/${encodeURIComponent(publicTag)}?n=${itemCount}`;
 }
+
 
 // ─── Types ─────────────────────────────────────────────────────────
 
@@ -151,15 +162,18 @@ function transformItem(
 
 /**
  * Core fetch. THROWS on HTTP/network failure (an empty-but-valid feed returns []).
- * Exposed as `getBlogrollItemsOrThrow` so the app layer can wrap it in the last-good cache.
+ * `itemCount` is a parameter because the article list and the feed list want different depths: the
+ * page renders ~100 items, while enumerating feeds wants the stream's full 1000-item ceiling.
  */
-export async function getBlogrollItemsOrThrow(): Promise<BlogrollItem[]> {
+async function fetchStream(itemCount: number): Promise<BlogrollItem[]> {
   const { publicTag } = inoreaderConfig();
-  // Abort a hung feed so it can't stall page generation / ISR revalidation.
+  const blocklist = sourceBlocklist();
+  // Abort a hung feed so it can't stall page generation / ISR revalidation. The deep crawl moves
+  // ~9MB of XML, so it gets a longer leash than the shallow one.
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10_000);
+  const timeout = setTimeout(() => controller.abort(), itemCount > 200 ? 30_000 : 10_000);
   try {
-    const res = await fetch(buildFeedUrl(), { signal: controller.signal });
+    const res = await fetch(buildFeedUrl(itemCount), { signal: controller.signal });
 
     if (!res.ok) {
       throw new Error(`[inoreader] Feed returned ${res.status} ${res.statusText}`);
@@ -176,14 +190,24 @@ export async function getBlogrollItemsOrThrow(): Promise<BlogrollItem[]> {
     const parsed = parser.parse(xml);
     const items: RawRssItem[] = parsed?.rss?.channel?.item ?? [];
 
-    return items.map((item) => {
-      // The source element may have attributes parsed separately
-      const sourceAttr = typeof item.source === 'object' ? (item.source as unknown as Record<string, string>) : undefined;
-      return transformItem(item, sourceAttr, publicTag);
-    });
+    return items
+      .map((item) => {
+        // The source element may have attributes parsed separately
+        const sourceAttr = typeof item.source === 'object' ? (item.source as unknown as Record<string, string>) : undefined;
+        return transformItem(item, sourceAttr, publicTag);
+      })
+      .filter((item) => !isSourceBlocked(blocklist, item.sourceName, item.sourceUrl));
   } finally {
     clearTimeout(timeout);
   }
+}
+
+/**
+ * The article stream — as many items as `INOREADER_FEED_ITEM_COUNT` asks for.
+ * THROWS so the app layer can wrap it in the last-good cache.
+ */
+export function getBlogrollItemsOrThrow(): Promise<BlogrollItem[]> {
+  return fetchStream(inoreaderConfig().itemCount);
 }
 
 /**
@@ -195,6 +219,24 @@ export async function getBlogrollItems(): Promise<BlogrollItem[]> {
     return await getBlogrollItemsOrThrow();
   } catch (err) {
     console.error('[inoreader] Fetch failed:', err);
+    return [];
+  }
+}
+
+/**
+ * Every feed that has published into the public tag, from a full-depth crawl of the stream.
+ * THROWS so the app layer can wrap it in the last-good cache.
+ */
+export async function getBlogrollFeedsOrThrow(): Promise<BlogrollFeed[]> {
+  return deriveFeeds(await fetchStream(FEED_CRAWL_COUNT));
+}
+
+/** Feed list, [] on any failure (the build-safe default). */
+export async function getBlogrollFeeds(): Promise<BlogrollFeed[]> {
+  try {
+    return await getBlogrollFeedsOrThrow();
+  } catch (err) {
+    console.error('[inoreader] Feed crawl failed:', err);
     return [];
   }
 }

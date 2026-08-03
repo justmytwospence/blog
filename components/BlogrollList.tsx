@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { BlogrollItem } from '@blog/inoreader';
+import type { BlogrollFeed, BlogrollItem } from '@blog/inoreader';
 
 function getDomain(url: string): string {
   try {
@@ -22,7 +22,7 @@ function safeUrl(url: string | null | undefined): string {
   }
 }
 
-// Sentinel category key for items that carry no tags of their own.
+// Sentinel group key for feeds whose items carried no tags.
 const OTHER = '__other__';
 // Initial render count, then a small increment per infinite-scroll batch.
 const INITIAL_BATCH = 12;
@@ -31,69 +31,98 @@ const SCROLL_BATCH = 5;
 // client-side, so the reveal itself is instant).
 const LOAD_DELAY_MS = 350;
 
-type Feed = { key: string; label: string; href: string };
-type Group = { key: string; label: string; feeds: Feed[] };
+type SidebarFeed = { key: string; label: string; href: string; count: number };
+type Group = { key: string; label: string; feeds: SidebarFeed[]; activeCount: number };
+type Filter = { kind: 'folder' | 'tag'; key: string };
 
-export function BlogrollList({ items }: { items: BlogrollItem[] }) {
-  // A single piece of state drives both the open accordion group and the
-  // article filter: null = "All feeds"; otherwise the open category is the
-  // active filter.
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+export function BlogrollList({
+  items,
+  feeds,
+}: {
+  items: BlogrollItem[];
+  /**
+   * Every feed from the full-depth crawl — a superset of the sources in `items`, which is only the
+   * most recent page of the same stream.
+   */
+  feeds: BlogrollFeed[];
+}) {
+  // One piece of state drives the open accordion group AND the article filter. Two kinds: a sidebar
+  // group selects a whole FEED set, an article chip selects a single TAG. null = "All feeds".
+  const [filter, setFilter] = useState<Filter | null>(null);
   // Infinite scroll: how many of `items` have been revealed so far.
   const [loadedCount, setLoadedCount] = useState(INITIAL_BATCH);
   const [loadingMore, setLoadingMore] = useState(false);
 
-  const loaded = useMemo(() => items.slice(0, loadedCount), [items, loadedCount]);
-  const hasMore = loadedCount < items.length;
+  // Changing the filter rewinds the scroll window: a folder's articles can sit anywhere in the
+  // stream, so pagination applies to the FILTERED list, not to the raw one.
+  const applyFilter = (next: Filter | null) => {
+    setFilter(next);
+    setLoadedCount(INITIAL_BATCH);
+  };
 
-  // The feeds sidebar reflects what's been loaded so far, so its counts grow
-  // as new batches scroll in.
+  // How many of the RENDERED articles each feed contributed. The crawl's own `itemCount` covers ten
+  // weeks of history, so it would promise articles this page can't show — count what's here instead.
+  const itemCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const item of items) {
+      const key = getDomain(item.sourceUrl || item.url);
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+    return counts;
+  }, [items]);
+
+  // The sidebar is the whole crawled feed list grouped by tag — feeds with nothing in the rendered
+  // articles are listed too (that's the point of it), just without a count.
   const { groups, totalFeeds } = useMemo(() => {
-    const catToFeeds = new Map<string, Map<string, Feed>>();
-    const allFeedKeys = new Set<string>();
+    const byFolder = new Map<string, SidebarFeed[]>();
 
-    for (const item of loaded) {
-      const domain = getDomain(item.sourceUrl || item.url);
-      const label = item.sourceName?.trim() || domain;
-      const href = item.sourceUrl || `https://${domain}`;
-      const feed: Feed = { key: domain, label, href };
-      allFeedKeys.add(domain);
-
-      const cats = item.categories.length > 0 ? item.categories : [OTHER];
-      for (const cat of cats) {
-        let feedsMap = catToFeeds.get(cat);
-        if (!feedsMap) {
-          feedsMap = new Map();
-          catToFeeds.set(cat, feedsMap);
-        }
-        const existing = feedsMap.get(domain);
-        if (!existing || (existing.label === domain && label !== domain)) {
-          feedsMap.set(domain, feed);
-        }
+    for (const feed of feeds) {
+      const key = feed.id;
+      const sidebarFeed: SidebarFeed = {
+        key,
+        label: feed.title,
+        href: feed.url,
+        count: itemCounts.get(key) ?? 0,
+      };
+      const folders = feed.folders.length > 0 ? feed.folders : [OTHER];
+      for (const folder of folders) {
+        const bucket = byFolder.get(folder);
+        if (bucket) bucket.push(sidebarFeed);
+        else byFolder.set(folder, [sidebarFeed]);
       }
     }
 
-    const groups: Group[] = Array.from(catToFeeds.entries())
-      .map(([key, feedsMap]) => ({
+    const groups: Group[] = Array.from(byFolder.entries())
+      .map(([key, folderFeeds]) => ({
         key,
         label: key === OTHER ? 'Other' : key,
-        feeds: Array.from(feedsMap.values()).sort((a, b) => a.label.localeCompare(b.label)),
+        feeds: folderFeeds.sort((a, b) => a.label.localeCompare(b.label)),
+        activeCount: folderFeeds.filter((f) => f.count > 0).length,
       }))
       .sort((a, b) => {
         if (a.key === OTHER) return 1;
         if (b.key === OTHER) return -1;
-        if (b.feeds.length !== a.feeds.length) return b.feeds.length - a.feeds.length;
         return a.label.localeCompare(b.label);
       });
 
-    return { groups, totalFeeds: allFeedKeys.size };
-  }, [loaded]);
+    return { groups, totalFeeds: feeds.length };
+  }, [feeds, itemCounts]);
 
-  const visibleItems = useMemo(() => {
-    if (activeCategory === null) return loaded;
-    if (activeCategory === OTHER) return loaded.filter((item) => item.categories.length === 0);
-    return loaded.filter((item) => item.categories.includes(activeCategory));
-  }, [loaded, activeCategory]);
+  const filteredItems = useMemo(() => {
+    if (filter === null) return items;
+    if (filter.kind === 'tag') return items.filter((item) => item.categories.includes(filter.key));
+
+    // Folder: show what its feeds published.
+    const group = groups.find((g) => g.key === filter.key);
+    const keys = new Set(group?.feeds.map((f) => f.key) ?? []);
+    return items.filter((item) => keys.has(getDomain(item.sourceUrl || item.url)));
+  }, [items, filter, groups]);
+
+  const visibleItems = useMemo(
+    () => filteredItems.slice(0, loadedCount),
+    [filteredItems, loadedCount],
+  );
+  const hasMore = loadedCount < filteredItems.length;
 
   // When the sentinel scrolls into view, flag a load. Re-running on loadedCount
   // lets a short page keep filling until the viewport is covered.
@@ -115,11 +144,11 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
   useEffect(() => {
     if (!loadingMore) return;
     const timer = setTimeout(() => {
-      setLoadedCount((count) => Math.min(items.length, count + SCROLL_BATCH));
+      setLoadedCount((count) => Math.min(filteredItems.length, count + SCROLL_BATCH));
       setLoadingMore(false);
     }, LOAD_DELAY_MS);
     return () => clearTimeout(timer);
-  }, [loadingMore, items.length]);
+  }, [loadingMore, filteredItems.length]);
 
   const header = (
     <div className="mb-8">
@@ -135,6 +164,18 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
             <path d="M3.75 3a.75.75 0 0 0-.75.75v.5c0 .414.336.75.75.75H4a9 9 0 0 1 9 9v.25c0 .414.336.75.75.75h.5a.75.75 0 0 0 .75-.75V14c0-6.075-4.925-11-11-11h-.25Z" />
             <path d="M3 7.75A.75.75 0 0 1 3.75 7H4a6 6 0 0 1 6 6v.25a.75.75 0 0 1-.75.75h-.5a.75.75 0 0 1-.75-.75V13a4 4 0 0 0-4-4h-.25A.75.75 0 0 1 3 8.25v-.5Z" />
             <path d="M6 14a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
+          </svg>
+        </a>
+        <a
+          href="/blogroll.opml"
+          download="blogroll.opml"
+          title="Download OPML"
+          aria-label="Download the full feed list as OPML"
+          className="flex items-center justify-center p-2 rounded-lg bg-gray-200 dark:bg-[#252526] hover:bg-gray-300 dark:hover:bg-[#3a3d41] transition-colors duration-200"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 text-gray-700 dark:text-yellow-500" aria-hidden="true">
+            <path fillRule="evenodd" d="M10 2.75a.75.75 0 0 1 .75.75v7.19l2.22-2.22a.75.75 0 1 1 1.06 1.06l-3.5 3.5a.75.75 0 0 1-1.06 0l-3.5-3.5a.75.75 0 0 1 1.06-1.06l2.22 2.22V3.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
+            <path d="M3.5 12.75a.75.75 0 0 0-1.5 0v.5A3.25 3.25 0 0 0 5.25 16.5h9.5A3.25 3.25 0 0 0 18 13.25v-.5a.75.75 0 0 0-1.5 0v.5a1.75 1.75 0 0 1-1.75 1.75h-9.5a1.75 1.75 0 0 1-1.75-1.75v-.5Z" />
           </svg>
         </a>
       </div>
@@ -166,7 +207,10 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
       <aside className="mb-8 self-start lg:order-none lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:mb-0 lg:sticky lg:top-[97px]">
         <div className="flex flex-col rounded-lg border border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] shadow-sm lg:max-h-[calc(100vh-7rem)]">
           <div className="flex shrink-0 items-baseline justify-between px-4 pt-4 pb-2">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-[#a6a6a6]">
+            <h2
+              className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-[#a6a6a6]"
+              title="Every feed that has published in the last few months, grouped by tag"
+            >
               Feeds
             </h2>
             <span className="text-xs text-gray-400 dark:text-[#6e6e6e]">
@@ -177,9 +221,9 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
           <div className="toc-sidebar-scroll min-h-0 flex-1 overflow-y-auto px-2 pb-3">
             <button
               type="button"
-              onClick={() => setActiveCategory(null)}
+              onClick={() => applyFilter(null)}
               className={`flex w-full items-center justify-between rounded-md px-2 py-1.5 text-sm transition-colors ${
-                activeCategory === null
+                filter === null
                   ? 'bg-gray-100 dark:bg-[#3a3d41] font-semibold text-blue-700 dark:text-blue-400'
                   : 'text-gray-700 dark:text-[#cccccc] hover:bg-gray-100 dark:hover:bg-[#3a3d41]'
               }`}
@@ -189,13 +233,13 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
             </button>
 
             {groups.map((group) => {
-              const open = activeCategory === group.key;
+              const open = filter?.kind === 'folder' && filter.key === group.key;
               const panelId = `feeds-${group.key.replace(/[^a-zA-Z0-9_-]+/g, '-')}`;
               return (
                 <div key={group.key} className="mt-0.5">
                   <button
                     type="button"
-                    onClick={() => setActiveCategory(open ? null : group.key)}
+                    onClick={() => applyFilter(open ? null : { kind: 'folder', key: group.key })}
                     aria-expanded={open}
                     aria-controls={panelId}
                     className={`flex w-full items-center gap-1.5 rounded-md px-2 py-1.5 text-sm transition-colors ${
@@ -214,22 +258,41 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                     <span className="flex-1 truncate text-left">{group.label}</span>
-                    <span className="text-xs text-gray-400 dark:text-[#6e6e6e]">{group.feeds.length}</span>
+                    <span
+                      className="text-xs text-gray-400 dark:text-[#6e6e6e]"
+                      title={`${group.activeCount} of ${group.feeds.length} with articles below`}
+                    >
+                      {group.activeCount} of {group.feeds.length}
+                    </span>
                   </button>
 
                   {open && (
                     <ul id={panelId} className="mt-1 mb-2 ml-[1.1rem] space-y-1 border-l border-gray-200 dark:border-[#303031] pl-3">
                       {group.feeds.map((feed) => (
-                        <li key={feed.key}>
+                        <li key={feed.key} className="flex items-baseline justify-between gap-2">
                           <a
                             href={safeUrl(feed.href)}
                             target="_blank"
                             rel="noopener noreferrer"
                             title={feed.label}
-                            className="block truncate text-sm text-gray-600 dark:text-[#cccccc] hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                            className={`block truncate text-sm transition-colors hover:text-blue-600 dark:hover:text-blue-400 ${
+                              feed.count > 0
+                                ? 'text-gray-600 dark:text-[#cccccc]'
+                                : 'text-gray-400 dark:text-[#6e6e6e]'
+                            }`}
                           >
                             {feed.label}
                           </a>
+                          <span
+                            className="shrink-0 text-xs text-gray-400 dark:text-[#6e6e6e]"
+                            title={
+                              feed.count > 0
+                                ? `${feed.count} article${feed.count === 1 ? '' : 's'} below`
+                                : 'No articles in the current window'
+                            }
+                          >
+                            {feed.count > 0 ? feed.count : '·'}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -282,19 +345,19 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
                   {item.title}
                 </h2>
                 {item.summary && (
-                  <p className={`text-gray-600 dark:text-[#cccccc] leading-relaxed ${activeCategory === null && item.categories.length > 0 ? 'mb-4' : ''}`}>
+                  <p className={`text-gray-600 dark:text-[#cccccc] leading-relaxed ${filter === null && item.categories.length > 0 ? 'mb-4' : ''}`}>
                     {item.summary}
                   </p>
                 )}
               </a>
 
-              {activeCategory === null && item.categories.length > 0 && (
+              {filter === null && item.categories.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {item.categories.map((cat) => (
                     <button
                       key={cat}
                       type="button"
-                      onClick={() => setActiveCategory(cat)}
+                      onClick={() => applyFilter({ kind: 'tag', key: cat })}
                       className="text-xs px-3 py-1 rounded bg-gray-100 dark:bg-[#3a3d41] text-gray-700 dark:text-[#cccccc] hover:bg-gray-200 dark:hover:bg-[#454545] transition-colors"
                     >
                       {cat}
@@ -306,7 +369,11 @@ export function BlogrollList({ items }: { items: BlogrollItem[] }) {
           ))}
           {visibleItems.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-500 dark:text-[#a6a6a6]">No articles in this category.</p>
+              <p className="text-gray-500 dark:text-[#a6a6a6]">
+                {filter?.kind === 'folder'
+                  ? 'Nothing from these feeds in the recent stream.'
+                  : 'No articles in this category.'}
+              </p>
             </div>
           )}
         </div>

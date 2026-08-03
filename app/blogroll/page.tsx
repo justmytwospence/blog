@@ -1,4 +1,9 @@
-import { getBlogrollItemsOrThrow, type BlogrollItem } from '@blog/inoreader';
+import {
+  getBlogrollItemsOrThrow,
+  getBlogrollFeedsOrThrow,
+  type BlogrollFeed,
+  type BlogrollItem,
+} from '@blog/inoreader';
 import { BlogrollList } from '@/components/BlogrollList';
 import { PageContainer } from '@/components/PageContainer';
 import { readThrough } from '@/lib/last-good';
@@ -13,14 +18,20 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogrollPage() {
-  const items =
-    (await readThrough<BlogrollItem[]>('inoreader:blogroll', getBlogrollItemsOrThrow).catch(
-      () => null,
-    )) ?? [];
+  // Two depths of the same public stream: the articles to render, and a full-depth crawl behind the
+  // sidebar's feed list. Separate cache keys, so a slow crawl can't blank the article list.
+  const [items, feeds] = await Promise.all([
+    readThrough<BlogrollItem[]>('inoreader:blogroll', getBlogrollItemsOrThrow)
+      .catch(() => null)
+      .then((result) => result ?? []),
+    readThrough<BlogrollFeed[]>('inoreader:feeds', getBlogrollFeedsOrThrow)
+      .catch(() => null)
+      .then((result) => result ?? []),
+  ]);
 
   return (
     <PageContainer width="wide">
-      <BlogrollList items={items} />
+      <BlogrollList items={items} feeds={feeds} />
     </PageContainer>
   );
 }
