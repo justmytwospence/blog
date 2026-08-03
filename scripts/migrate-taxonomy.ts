@@ -12,7 +12,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { parseStravaIds } from '@blog/strava';
-import { CONTENT_DIR, ACTIVITIES_DIR } from './strava-shared';
+import { CONTENT_DIR, ACTIVITIES_DIR, listCompanionFiles } from './strava-shared';
 
 const TERRAIN = ['couloir', 'scramble', 'traverse', 'thru-hike'];
 const PEAKISH = new Set(['peak', 'couloir', 'scramble', 'traverse', 'mountaineering']);
@@ -47,8 +47,7 @@ function elevationGives(cls: string, type: string | null, sport: string | null, 
 }
 
 let changed = 0;
-for (const file of fs.readdirSync(CONTENT_DIR)) {
-  if (!file.endsWith('.md') || file === 'objectives.md' || file.startsWith('.')) continue;
+for (const file of listCompanionFiles()) {
   const full = path.join(CONTENT_DIR, file);
   const raw = fs.readFileSync(full, 'utf8');
   const { data } = matter(raw);

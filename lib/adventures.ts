@@ -15,6 +15,7 @@ import { preprocessObsidian } from '@blog/obsidian-md';
 import type { AdventureActivity, AdventureStats, SportType } from '@blog/strava/types';
 import { readTotals, hasStore } from './strava-store';
 import { parseStravaIds, usesIdArray } from '@blog/strava';
+import { isCompanionFile } from './adventure-schema';
 
 export type {
   AdventureActivity,
@@ -450,9 +451,7 @@ function toSummary(adv: Adventure, tripCount = 1, lapCount = 1): AdventureSummar
  */
 function allAdventuresIncludingHidden(): Adventure[] {
   if (!fs.existsSync(ADVENTURES_DIR)) return [];
-  const files = fs
-    .readdirSync(ADVENTURES_DIR)
-    .filter((f) => typeof f === 'string' && f.endsWith('.md') && f !== 'objectives.md' && !f.startsWith('.'));
+  const files = fs.readdirSync(ADVENTURES_DIR).filter(isCompanionFile);
   const out: Adventure[] = [];
   for (const f of files) {
     const pc = parseCompanion(f);

@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { parseStravaIds } from '@blog/strava';
-import { CONTENT_DIR, ACTIVITIES_DIR } from './strava-shared';
+import { CONTENT_DIR, ACTIVITIES_DIR, listCompanionFiles } from './strava-shared';
 import { validateCompanionFrontmatter } from '../lib/adventure-schema';
 
 interface Snap { name: string; sportType: string; date: string; workoutType?: number | null }
@@ -42,10 +42,7 @@ function main(): void {
     console.error(`[adventure:validate] no content dir at ${CONTENT_DIR}`);
     process.exit(1);
   }
-  const files = fs
-    .readdirSync(CONTENT_DIR)
-    .filter((f) => f.endsWith('.md') && f !== 'objectives.md' && !f.startsWith('.'))
-    .sort();
+  const files = listCompanionFiles();
 
   const errors: string[] = [];
   const drift: string[] = [];

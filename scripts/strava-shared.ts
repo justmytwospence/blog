@@ -7,12 +7,12 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { parseStravaIds, RateLimitError, type RawSummaryActivity } from '@blog/strava';
+import { isCompanionFile } from '../lib/adventure-schema';
 
 export const REPO_ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 export const CONTENT_DIR = path.join(REPO_ROOT, 'content', 'adventures');
 export const DATA_DIR = path.join(REPO_ROOT, 'data', 'adventures');
 export const ACTIVITIES_DIR = path.join(DATA_DIR, 'activities');
-export const INDEX_FILE = path.join(DATA_DIR, 'index.json');
 export const ALL_ACTIVITIES_FILE = path.join(DATA_DIR, 'all-activities.json');
 export const LIFETIME_FILE = path.join(DATA_DIR, 'lifetime-totals.json');
 export const YEARLY_FILE = path.join(DATA_DIR, 'yearly-totals.json');
@@ -145,12 +145,15 @@ export interface Companion {
   source: string | null; // non-Strava origin (e.g. "14ers") — sync keeps but doesn't fetch these
 }
 
+/** Every companion filename in `dir`, sorted. The fs half of `isCompanionFile`. */
+export function listCompanionFiles(dir: string = CONTENT_DIR): string[] {
+  return fs.existsSync(dir) ? fs.readdirSync(dir).filter(isCompanionFile).sort() : [];
+}
+
 /** Read all report companion files and the Strava ids they reference. */
 export function readCompanions(matterFn: (s: string) => { data: Record<string, unknown> }): Companion[] {
-  if (!fs.existsSync(CONTENT_DIR)) return [];
   const out: Companion[] = [];
-  for (const f of fs.readdirSync(CONTENT_DIR)) {
-    if (!f.endsWith('.md') || f === 'objectives.md' || f.startsWith('.')) continue;
+  for (const f of listCompanionFiles()) {
     try {
       const fm = matterFn(fs.readFileSync(path.join(CONTENT_DIR, f), 'utf8')).data;
       out.push({

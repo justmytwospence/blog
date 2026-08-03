@@ -18,7 +18,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { parseStravaIds } from '@blog/strava';
-import { CONTENT_DIR, ACTIVITIES_DIR } from './strava-shared';
+import { CONTENT_DIR, ACTIVITIES_DIR, listCompanionFiles } from './strava-shared';
 
 interface Snap {
   name: string;
@@ -40,8 +40,7 @@ function main(): void {
   let missingWorkoutType = 0;
   const removedByKey: Record<string, number> = { title: 0, sport: 0, date: 0, hidden: 0, race: 0 };
 
-  for (const file of fs.readdirSync(CONTENT_DIR)) {
-    if (!file.endsWith('.md') || file === 'objectives.md' || file.startsWith('.')) continue;
+  for (const file of listCompanionFiles()) {
     const full = path.join(CONTENT_DIR, file);
     const raw = fs.readFileSync(full, 'utf8');
     const { data } = matter(raw);

@@ -45,6 +45,17 @@ export const ADVENTURE_SPORTS = [
 ] as const;
 export type AdventureSport = (typeof ADVENTURE_SPORTS)[number];
 
+/**
+ * True for a report-companion markdown file under content/adventures.
+ *
+ * The single definition of "what is a companion file" — the build-time reader and every author
+ * script filter through this. Dotfiles are skipped deliberately: macOS writes AppleDouble `._foo.md`
+ * siblings on non-APFS volumes, and gray-matter chokes on their binary contents.
+ */
+export function isCompanionFile(name: string): boolean {
+  return name.endsWith('.md') && !name.startsWith('.');
+}
+
 /** Every frontmatter key the parser understands. Anything else is flagged as a likely typo. */
 export const COMPANION_KEYS = [
   'hidden', 'strava_id', 'strava_ids', 'source', 'tags', 'type', 'group', 'title', 'sport',
