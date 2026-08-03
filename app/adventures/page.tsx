@@ -27,6 +27,12 @@ export default async function AdventuresPage() {
   const grand = await getActivityGrandTotals();
   const byMonthSport = await getLifetimeByMonthSport();
 
+  // The totals come from the runtime store; if it is unreachable or unseeded they arrive as zeros.
+  // Rendering "0 mi all-time" on a page backed by the full history is worse than showing nothing,
+  // so drop the whole block instead. Covers every cause, including a full store outage that the
+  // last-good read-through cannot (it lives in the same Redis).
+  const hasLifetimeStats = grand.distanceMeters > 0 || grand.elevationGainMeters > 0;
+
   return (
     <PageContainer width="wide">
       <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
@@ -45,6 +51,7 @@ export default async function AdventuresPage() {
       >
         <LibraryView adventures={adventures} />
       </Suspense>
+      {hasLifetimeStats && (
       <details className="mt-12 border-t border-gray-200 pt-6 dark:border-[#303031]">
         <summary className="cursor-pointer text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-[#a6a6a6] dark:hover:text-[#d4d4d4]">
           Lifetime stats — {formatDistance(grand.distanceMeters)} · {formatElevation(grand.elevationGainMeters)} ·{' '}
@@ -81,6 +88,7 @@ export default async function AdventuresPage() {
           <YearlyChart totals={yearly} />
         </div>
       </details>
+      )}
     </PageContainer>
   );
 }

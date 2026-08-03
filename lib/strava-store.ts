@@ -12,6 +12,7 @@ import { cache } from 'react';
 import { buildTotals, crawlActivities, mintAccessToken, type StravaTotals } from '@blog/strava';
 import { revalidatePath } from 'next/cache';
 import { getRedis, hasStore } from './redis';
+import { readThrough } from './last-good';
 
 const TOTALS_KEY = 'strava:totals';
 const AUTH_KEY = 'strava:auth';
@@ -24,16 +25,35 @@ interface StoredAuth {
 
 export { hasStore };
 
-/** Read the precomputed totals. Deduped per render via React cache. Null when no store / not seeded. */
-export const readTotals = cache(async (): Promise<StravaTotals | null> => {
+/**
+ * Throwing read of the totals key, for readThrough. A missing key throws deliberately: an unseeded
+ * or evicted `strava:totals` is exactly the case a stored last-good value should cover, and
+ * returning null here would let readThrough treat the emptiness as success and overwrite it.
+ */
+async function fetchTotalsOrThrow(): Promise<StravaTotals> {
   const redis = getRedis();
-  if (!redis) return null;
-  try {
-    return (await redis.get<StravaTotals>(TOTALS_KEY)) ?? null;
-  } catch (err) {
-    console.error('[strava-store] readTotals failed:', err);
-    return null;
-  }
+  if (!redis) throw new Error('[strava-store] no Redis store configured');
+  const totals = await redis.get<StravaTotals>(TOTALS_KEY);
+  if (!totals) throw new Error(`[strava-store] ${TOTALS_KEY} is empty (run npm run seed:redis)`);
+  return totals;
+}
+
+/**
+ * Totals for render, behind the last-good read-through so an emptied or failed store read serves the
+ * last good copy instead of zeroing the page. Deduped per render via React cache, so one pass costs
+ * one read and at most one last-good write however many callers ask.
+ *
+ * Coverage caveat: unlike the other integrations — where the fetcher hits an external API and Redis
+ * is an independent safety net — the source here IS Redis, and last-good lives in the same instance.
+ * This covers an evicted/corrupt `strava:totals`, a transient failure, or a bad write from a partly
+ * failed recomputeTotals. It does NOT survive a full Upstash outage; the page-level guard on empty
+ * totals is what covers that.
+ *
+ * Null with no Redis env (dev/CI) — the caller falls back to the gitignored local totals file.
+ */
+export const readTotals = cache(async (): Promise<StravaTotals | null> => {
+  if (!hasStore()) return null;
+  return readThrough<StravaTotals>(TOTALS_KEY, fetchTotalsOrThrow);
 });
 
 /** Persist freshly computed totals (called by the webhook). No-op without a store. */

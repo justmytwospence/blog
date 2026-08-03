@@ -13,7 +13,7 @@ import { FACET_ORDER } from './facets';
 import type { ObjectiveList } from './objective-lists';
 import { preprocessObsidian } from '@blog/obsidian-md';
 import type { AdventureActivity, AdventureStats, SportType } from '@blog/strava/types';
-import { readTotals, hasStore } from './strava-store';
+import { readTotals } from './strava-store';
 import { parseStravaIds, usesIdArray, isRaceWorkoutType } from '@blog/strava';
 import {
   isCompanionFile,
@@ -599,10 +599,10 @@ export async function getLifetimeByMonthSport(): Promise<YearSportTotals> {
 /** Full-history human-powered totals: the runtime store (Redis) in prod, else the gitignored local
  *  file (dev/CI), else null. No longer committed — see docs/strava-stats.md. */
 async function readLifetimeFile(): Promise<LifetimeFile | null> {
-  if (hasStore()) {
-    const t = await readTotals();
-    return (t?.lifetime as unknown as LifetimeFile) ?? null;
-  }
+  // Fall THROUGH to the local file rather than short-circuiting on hasStore(): with Redis
+  // configured but unseeded, gating on hasStore() returned null and never tried the file.
+  const t = await readTotals();
+  if (t) return t.lifetime as unknown as LifetimeFile;
   // dev / fallback: the gitignored local file (populate with `npm run totals:refresh`)
   if (!fs.existsSync(LIFETIME_FILE)) return null;
   try {
@@ -630,10 +630,8 @@ export interface YearlyTotals {
 
 /** Cumulative distance + elevation by day-of-year per year, across the full activity history. */
 export async function getYearlyTotals(): Promise<YearlyTotals> {
-  if (hasStore()) {
-    const t = await readTotals();
-    return (t?.yearly as YearlyTotals) ?? { years: {} };
-  }
+  const t = await readTotals();
+  if (t) return t.yearly as YearlyTotals;
   if (!fs.existsSync(YEARLY_FILE)) return { years: {} };
   try {
     return JSON.parse(fs.readFileSync(YEARLY_FILE, 'utf8')) as YearlyTotals;

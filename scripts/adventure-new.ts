@@ -159,14 +159,17 @@ async function main(): Promise<void> {
   if (args.duathlon) lines.push('duathlon: true');
 
   const md = `---\n${lines.join('\n')}\n---\n`;
-  fs.writeFileSync(file, md);
 
+  // Validate BEFORE writing: a failed scaffold should leave nothing behind, and there is no window
+  // in which a broken companion exists on disk to trip up adventure:validate or the build.
   const errs = validateCompanionFrontmatter(matter(md).data as Record<string, unknown>, `${slug}.md`);
   if (errs.length) {
-    console.error('[adventure:new] scaffold failed validation:');
+    console.error('[adventure:new] scaffold failed validation — nothing written:');
     for (const e of errs) console.error('  ✗ ' + e);
     process.exit(1);
   }
+
+  fs.writeFileSync(file, md);
 
   console.log(`[adventure:new] ✓ wrote content/adventures/${slug}.md`);
   console.log(`    ${detail.name} — ${date} · ${km} km · ${gain} m gain`);
