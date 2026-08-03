@@ -16,6 +16,9 @@
  * that don't get their own facet.
  */
 
+// Type-only: erased at compile time, so this module stays runtime-free and client-safe.
+import type { SportType } from '@blog/strava/types';
+
 export const ADVENTURE_TYPES = [
   'peak',
   'scramble',
@@ -32,9 +35,13 @@ export type PeakClass = (typeof PEAK_CLASSES)[number];
 export const DIFFICULTIES = ['moderate', 'hard', 'epic'] as const;
 export type Difficulty = (typeof DIFFICULTIES)[number];
 
-/** Valid `sport` overrides. Mirrors the SportType union in @blog/strava/types (kept as a runtime
- *  array so the validator can use it) plus site-only labels that aren't real Strava sport_types:
- *  `Scramble` (used on Flatirons/peak scrambles). */
+/** Site-only sport labels that are deliberately NOT Strava sport_types — they can only ever arrive
+ *  via a `sport:` frontmatter override, never from mapSportType. */
+export const SITE_ONLY_SPORTS = ['Scramble'] as const;
+export type SiteOnlySport = (typeof SITE_ONLY_SPORTS)[number];
+
+/** Valid `sport` overrides: every Strava SportType, plus the site-only labels. Kept as a runtime
+ *  array so the validator can check against it. */
 export const ADVENTURE_SPORTS = [
   'TrailRun', 'Run', 'Hike', 'Walk', 'Ride', 'GravelRide', 'MountainBikeRide', 'EBikeRide',
   'VirtualRide', 'BackcountrySki', 'NordicSki', 'AlpineSki', 'Snowboard', 'Snowshoe', 'Swim',
@@ -42,8 +49,23 @@ export const ADVENTURE_SPORTS = [
   'Workout', 'Other',
   // Site-only override (not a Strava sport_type):
   'Scramble',
-] as const;
+] as const satisfies readonly (SportType | SiteOnlySport)[];
 export type AdventureSport = (typeof ADVENTURE_SPORTS)[number];
+
+/**
+ * Compile-time drift guards between this list and @blog/strava's SportType union.
+ *
+ * The `satisfies` above catches one direction — an entry here that is neither a Strava SportType nor
+ * a declared site-only label. This catches the other: a SportType added upstream and never listed
+ * here, which would otherwise make the CI validator reject a sport lib/adventures accepts. The
+ * failure is a type error naming the missing members.
+ */
+type MissingSportTypes = Exclude<SportType, AdventureSport>;
+type AdventureSportsCoverSportType = [MissingSportTypes] extends [never]
+  ? true
+  : ['ADVENTURE_SPORTS is missing these SportType members:', MissingSportTypes];
+const _adventureSportsInSync: AdventureSportsCoverSportType = true;
+void _adventureSportsInSync;
 
 /** Narrow an untrusted `sport:` frontmatter value to the vocabulary the site can render. */
 export function isAdventureSport(v: unknown): v is AdventureSport {
