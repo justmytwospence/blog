@@ -17,7 +17,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
-import { parseStravaIds } from '@blog/strava';
+import { parseStravaIds, isRaceWorkoutType } from '@blog/strava';
 import { CONTENT_DIR, ACTIVITIES_DIR, listCompanionFiles } from './strava-shared';
 
 interface Snap {
@@ -26,8 +26,6 @@ interface Snap {
   date: string;
   workoutType?: number | null;
 }
-
-const RACE_WORKOUT_TYPES = new Set([1, 11]); // Strava: Run 1 = race, Ride 11 = race
 
 function snapshotDate(v: unknown): string | null {
   if (v == null) return null;
@@ -56,8 +54,10 @@ function main(): void {
     if (data.date != null && snapshotDate(data.date) === snap.date) strip.add('date');
     if (data.hidden === false) strip.add('hidden');
     if (data.race === true) {
+      // `undefined` means the snapshot predates the workoutType backfill — we can't tell whether
+      // the flag is redundant, so count it and conservatively leave it in place.
       if (snap.workoutType === undefined) missingWorkoutType++;
-      else if (typeof snap.workoutType === 'number' && RACE_WORKOUT_TYPES.has(snap.workoutType)) strip.add('race');
+      else if (isRaceWorkoutType(snap.workoutType)) strip.add('race');
     }
     if (strip.size === 0) continue;
 

@@ -14,7 +14,7 @@ import type { ObjectiveList } from './objective-lists';
 import { preprocessObsidian } from '@blog/obsidian-md';
 import type { AdventureActivity, AdventureStats, SportType } from '@blog/strava/types';
 import { readTotals, hasStore } from './strava-store';
-import { parseStravaIds, usesIdArray } from '@blog/strava';
+import { parseStravaIds, usesIdArray, isRaceWorkoutType } from '@blog/strava';
 import { isCompanionFile } from './adventure-schema';
 
 export type {
@@ -324,7 +324,7 @@ export function deriveIsRace(
   activities: Pick<AdventureActivity, 'workoutType'>[],
 ): boolean {
   if (frontmatterRace !== undefined) return Boolean(frontmatterRace);
-  return activities.some((a) => a.workoutType === 1 || a.workoutType === 11);
+  return activities.some((a) => isRaceWorkoutType(a.workoutType));
 }
 
 function buildAdventure(pc: ParsedCompanion): Adventure | null {

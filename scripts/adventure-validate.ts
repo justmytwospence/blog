@@ -9,7 +9,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
-import { parseStravaIds } from '@blog/strava';
+import { parseStravaIds, isRaceWorkoutType } from '@blog/strava';
 import { CONTENT_DIR, ACTIVITIES_DIR, listCompanionFiles } from './strava-shared';
 import { validateCompanionFrontmatter } from '../lib/adventure-schema';
 
@@ -33,7 +33,7 @@ function redundantKeys(data: Record<string, unknown>): string[] {
   if (data.sport != null && String(data.sport) === snap.sportType) dead.push('sport');
   if (data.date != null && String(data.date).slice(0, 10) === snap.date) dead.push('date');
   if (data.hidden === false) dead.push('hidden');
-  if (data.race === true && (snap.workoutType === 1 || snap.workoutType === 11)) dead.push('race');
+  if (data.race === true && isRaceWorkoutType(snap.workoutType)) dead.push('race');
   return dead;
 }
 
