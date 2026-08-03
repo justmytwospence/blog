@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import matter from 'gray-matter';
 import { parseStravaIds, RateLimitError, type RawSummaryActivity } from '@blog/strava';
 import { isCompanionFile } from '../lib/adventure-schema';
 
@@ -143,6 +144,8 @@ export interface Companion {
   ids: number[];
   hidden: boolean;
   source: string | null; // non-Strava origin (e.g. "14ers") — sync keeps but doesn't fetch these
+  group: string | null; // shared key across repeat trips of the same route
+  laps: boolean; // a same-peak/route lap outing — counts ascents, not peaks
 }
 
 /** Every companion filename in `dir`, sorted. The fs half of `isCompanionFile`. */
@@ -150,18 +153,29 @@ export function listCompanionFiles(dir: string = CONTENT_DIR): string[] {
   return fs.existsSync(dir) ? fs.readdirSync(dir).filter(isCompanionFile).sort() : [];
 }
 
-/** Read all report companion files and the Strava ids they reference. */
-export function readCompanions(matterFn: (s: string) => { data: Record<string, unknown> }): Companion[] {
+/**
+ * Read all report companion files and the Strava ids they reference.
+ *
+ * `matterFn` stays injectable (existing callers pass their own gray-matter binding) but defaults, so
+ * new call sites can just call `readCompanions()`. `dir` is a seam for fixture tests.
+ * A malformed companion is logged and skipped rather than aborting the whole read.
+ */
+export function readCompanions(
+  matterFn: (s: string) => { data: Record<string, unknown> } = matter,
+  dir: string = CONTENT_DIR,
+): Companion[] {
   const out: Companion[] = [];
-  for (const f of listCompanionFiles()) {
+  for (const f of listCompanionFiles(dir)) {
     try {
-      const fm = matterFn(fs.readFileSync(path.join(CONTENT_DIR, f), 'utf8')).data;
+      const fm = matterFn(fs.readFileSync(path.join(dir, f), 'utf8')).data;
       out.push({
         file: f,
         slug: f.replace(/\.md$/, ''),
         ids: parseStravaIds(fm),
         hidden: Boolean(fm.hidden),
         source: fm.source ? String(fm.source) : null,
+        group: fm.group ? String(fm.group) : null,
+        laps: Boolean(fm.laps),
       });
     } catch (err) {
       console.error(`[strava] could not parse ${f}:`, err);

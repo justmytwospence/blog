@@ -15,36 +15,20 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import matter from 'gray-matter';
-import { parseStravaIds, mapSportType, type AllActivityEntry } from '@blog/strava';
-import { CONTENT_DIR, ACTIVITIES_DIR, ALL_ACTIVITIES_FILE } from './strava-shared';
-import { RADIUS_M, bucketOf, haversine, median } from './route-match';
+import { mapSportType, type AllActivityEntry } from '@blog/strava';
+import {
+  CONTENT_DIR,
+  ALL_ACTIVITIES_FILE,
+  readCompanions,
+  type Companion,
+} from './strava-shared';
+import { RADIUS_M, bucketOf, haversine, median, snapStartAndBucket } from './route-match';
 
 const WRITE = process.argv.includes('--write');
 const ROUTE = (() => {
   const i = process.argv.indexOf('--route');
   return i >= 0 ? process.argv[i + 1] : null;
 })();
-
-interface Companion { slug: string; group: string | null; laps: boolean; ids: number[] }
-function readCompanions(): Companion[] {
-  return fs
-    .readdirSync(CONTENT_DIR)
-    .filter((f) => f.endsWith('.md') && f !== 'objectives.md' && !f.startsWith('.'))
-    .map((f) => {
-      const data = matter(fs.readFileSync(path.join(CONTENT_DIR, f), 'utf8')).data;
-      return { slug: f.replace(/\.md$/, ''), group: data.group ? String(data.group) : null, laps: Boolean(data.laps), ids: parseStravaIds(data) };
-    });
-}
-
-/** A snapshot's start point as [lat, lng] (coordinates are stored [lng, lat]), and its sport bucket. */
-function snapStartAndBucket(id: number): { start: [number, number] | null; bucket: string | null } {
-  const p = path.join(ACTIVITIES_DIR, `${id}.json`);
-  if (!fs.existsSync(p)) return { start: null, bucket: null };
-  const s = JSON.parse(fs.readFileSync(p, 'utf8'));
-  const c = s.track?.coordinates?.[0];
-  return { start: c ? [c[1], c[0]] : null, bucket: bucketOf(s.sportType) };
-}
 
 function main(): void {
   const idx: AllActivityEntry[] = fs.existsSync(ALL_ACTIVITIES_FILE)
