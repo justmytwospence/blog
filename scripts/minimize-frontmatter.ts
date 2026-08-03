@@ -17,8 +17,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
-import { parseStravaIds } from '@blog/strava';
-import { CONTENT_DIR, ACTIVITIES_DIR } from './strava-shared';
+import { parseStravaIds, isRaceWorkoutType } from '@blog/strava';
+import { CONTENT_DIR, ACTIVITIES_DIR, listCompanionFiles } from './strava-shared';
 
 interface Snap {
   name: string;
@@ -26,8 +26,6 @@ interface Snap {
   date: string;
   workoutType?: number | null;
 }
-
-const RACE_WORKOUT_TYPES = new Set([1, 11]); // Strava: Run 1 = race, Ride 11 = race
 
 function snapshotDate(v: unknown): string | null {
   if (v == null) return null;
@@ -40,8 +38,7 @@ function main(): void {
   let missingWorkoutType = 0;
   const removedByKey: Record<string, number> = { title: 0, sport: 0, date: 0, hidden: 0, race: 0 };
 
-  for (const file of fs.readdirSync(CONTENT_DIR)) {
-    if (!file.endsWith('.md') || file === 'objectives.md' || file.startsWith('.')) continue;
+  for (const file of listCompanionFiles()) {
     const full = path.join(CONTENT_DIR, file);
     const raw = fs.readFileSync(full, 'utf8');
     const { data } = matter(raw);
@@ -57,8 +54,10 @@ function main(): void {
     if (data.date != null && snapshotDate(data.date) === snap.date) strip.add('date');
     if (data.hidden === false) strip.add('hidden');
     if (data.race === true) {
+      // `undefined` means the snapshot predates the workoutType backfill — we can't tell whether
+      // the flag is redundant, so count it and conservatively leave it in place.
       if (snap.workoutType === undefined) missingWorkoutType++;
-      else if (typeof snap.workoutType === 'number' && RACE_WORKOUT_TYPES.has(snap.workoutType)) strip.add('race');
+      else if (isRaceWorkoutType(snap.workoutType)) strip.add('race');
     }
     if (strip.size === 0) continue;
 

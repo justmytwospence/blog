@@ -68,13 +68,15 @@ export interface RawSummaryActivity {
   pool_length?: number | null;
   /** [lat, lng] of the start — present on the summary endpoint; used to match activities to a route. */
   start_latlng?: [number, number] | [];
+  /** Summit / low elevation in meters. Returned on the SUMMARY endpoint too, not just the detail —
+   *  which is what lets the activity index carry a summit elevation without a per-activity fetch. */
+  elev_high?: number | null;
+  elev_low?: number | null;
   map?: RawActivityMap;
 }
 
 export interface RawDetailedActivity extends RawSummaryActivity {
   elapsed_time: number;
-  elev_high?: number | null;
-  elev_low?: number | null;
   average_speed?: number;
   max_speed?: number;
   average_heartrate?: number;
@@ -145,6 +147,11 @@ export interface AllActivityEntry {
   name: string; // Strava activity name (helps identify the route)
   startLat: number | null; // start point — matches an activity to a route's trailhead
   startLng: number | null;
+  /** Summit elevation (meters), or null when Strava reports none (indoor / manual entries).
+   *  With elevation gain, the signal that actually decides whether a peak outing is worth a report. */
+  elevHighMeters: number | null;
+  /** Photos attached on Strava — the other add/skip signal; a photo-less outing rarely warrants one. */
+  totalPhotoCount: number;
 }
 
 export interface GeoBounds {

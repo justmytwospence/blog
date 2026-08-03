@@ -12,13 +12,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { parseStravaIds } from '@blog/strava';
-import { CONTENT_DIR, ACTIVITIES_DIR } from './strava-shared';
+import { CONTENT_DIR, ACTIVITIES_DIR, listCompanionFiles } from './strava-shared';
+import { derivePeakClass } from '../lib/adventure-schema';
 
 const TERRAIN = ['couloir', 'scramble', 'traverse', 'thru-hike'];
-const PEAKISH = new Set(['peak', 'couloir', 'scramble', 'traverse', 'mountaineering']);
-const SUMMIT_SPORTS = new Set([
-  'Hike', 'Mountaineering', 'TrailRun', 'RockClimbing', 'BackcountrySki', 'AlpineSki', 'Snowboard', 'Snowshoe',
-]);
 const DROP_TAGS = new Set([
   '14er', '13er', 'race', 'duathlon', 'couloir', 'scramble', 'traverse', 'thru-hike', 'peak', 'mountaineering',
   'skimo', 'gravel', 'rollerski', 'road', 'trail-run', 'laps', 'uphill', 'vert',
@@ -36,19 +33,14 @@ function snapField<T>(
   return out;
 }
 
-/** Replicates lib/adventures derivePeakClass (elevation branch) to decide if a tag needs an override. */
+/** Whether elevation alone already yields `cls`, so an explicit peakClass override isn't needed.
+ *  Shares the render-time derivation rather than replicating it (passing no explicit override). */
 function elevationGives(cls: string, type: string | null, sport: string | null, elevHigh: number): boolean {
-  if (type === 'thru-hike') return false;
-  const peakish = (type != null && PEAKISH.has(type)) || (sport != null && SUMMIT_SPORTS.has(sport));
-  if (!peakish || !Number.isFinite(elevHigh)) return false;
-  const ft = elevHigh * 3.28084;
-  const derived = ft >= 14000 ? '14er' : ft >= 13000 ? '13er' : null;
-  return derived === cls;
+  return derivePeakClass(null, type, sport, elevHigh) === cls;
 }
 
 let changed = 0;
-for (const file of fs.readdirSync(CONTENT_DIR)) {
-  if (!file.endsWith('.md') || file === 'objectives.md' || file.startsWith('.')) continue;
+for (const file of listCompanionFiles()) {
   const full = path.join(CONTENT_DIR, file);
   const raw = fs.readFileSync(full, 'utf8');
   const { data } = matter(raw);

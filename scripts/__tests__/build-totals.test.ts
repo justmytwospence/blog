@@ -16,6 +16,8 @@ const E = (over: Partial<AllActivityEntry>): AllActivityEntry => ({
   name: '',
   startLat: null,
   startLng: null,
+  elevHighMeters: null,
+  totalPhotoCount: 0,
   ...over,
 });
 

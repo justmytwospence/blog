@@ -8,7 +8,7 @@ import { AdventuresMap } from './AdventuresMap';
 import { AdventuresTable } from './AdventuresTable';
 import { sportMeta } from './sportMeta';
 import { FACET_LABELS, FACET_ORDER } from '@/lib/facets';
-import type { AdventureSummary, SportType } from '@/lib/adventures';
+import type { AdventureSummary, AdventureSport } from '@/lib/adventures';
 
 // UI-only pseudo-category for routes done more than once (derived from tripCount, not a content facet).
 const REPEATS = 'repeats';
@@ -43,7 +43,7 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
     s === 'date' || s === 'distance' || s === 'elevation' || s === 'time';
 
   const [view, setView] = useState<View>(() => (isView(params.get('view')) ? (params.get('view') as View) : 'grid'));
-  const [sport, setSport] = useState<SportType | null>(() => (params.get('sport') as SportType) || null);
+  const [sport, setSport] = useState<AdventureSport | null>(() => (params.get('sport') as AdventureSport) || null);
   const [place, setPlace] = useState<string | null>(() => params.get('place') || null);
   const [cat, setCat] = useState<string | null>(() => params.get('cat') || null);
   const [query, setQuery] = useState<string>(() => params.get('q') || '');
@@ -68,7 +68,7 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
   useEffect(() => {
     const v = params.get('view');
     setView(isView(v) ? v : 'grid');
-    setSport((params.get('sport') as SportType) || null);
+    setSport((params.get('sport') as AdventureSport) || null);
     setPlace(params.get('place') || null);
     setCat(params.get('cat') || null);
     setQuery(params.get('q') || '');
@@ -78,7 +78,7 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
   }, [params]);
 
   const sports = useMemo(
-    () => Array.from(new Set(adventures.map((a) => a.sportType))).sort() as SportType[],
+    () => Array.from(new Set(adventures.map((a) => a.sportType))).sort(),
     [adventures],
   );
   const places = useMemo(

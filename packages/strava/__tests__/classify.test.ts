@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isHumanPowered, isPoolSwim } from '../src/classify';
+import { isHumanPowered, isPoolSwim, isRaceWorkoutType, RACE_WORKOUT_TYPES } from '../src/classify';
 import type { RawSummaryActivity } from '../src/types';
 
 const raw = (over: Partial<RawSummaryActivity>): RawSummaryActivity => ({
@@ -44,5 +44,24 @@ describe('isPoolSwim', () => {
   });
   it('does not flag non-swims', () => {
     expect(isPoolSwim(raw({ sport_type: 'TrailRun' }))).toBe(false);
+  });
+});
+
+describe('isRaceWorkoutType', () => {
+  it('treats Run 1 and Ride 11 as races', () => {
+    expect(isRaceWorkoutType(1)).toBe(true);
+    expect(isRaceWorkoutType(11)).toBe(true);
+    expect([...RACE_WORKOUT_TYPES].sort((a, b) => a - b)).toEqual([1, 11]);
+  });
+
+  it('rejects the other workout_type codes', () => {
+    // 0 = default, 2 = long run, 3 = workout, 10 = default ride, 12 = ride workout
+    for (const wt of [0, 2, 3, 10, 12]) expect(isRaceWorkoutType(wt)).toBe(false);
+  });
+
+  it('treats an absent workoutType as not-a-race', () => {
+    // Manual imports and pre-backfill snapshots have no workoutType at all.
+    expect(isRaceWorkoutType(null)).toBe(false);
+    expect(isRaceWorkoutType(undefined)).toBe(false);
   });
 });

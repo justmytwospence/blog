@@ -16,6 +16,9 @@
  * that don't get their own facet.
  */
 
+// Type-only: erased at compile time, so this module stays runtime-free and client-safe.
+import type { SportType } from '@blog/strava/types';
+
 export const ADVENTURE_TYPES = [
   'peak',
   'scramble',
@@ -32,9 +35,13 @@ export type PeakClass = (typeof PEAK_CLASSES)[number];
 export const DIFFICULTIES = ['moderate', 'hard', 'epic'] as const;
 export type Difficulty = (typeof DIFFICULTIES)[number];
 
-/** Valid `sport` overrides. Mirrors the SportType union in @blog/strava/types (kept as a runtime
- *  array so the validator can use it) plus site-only labels that aren't real Strava sport_types:
- *  `Scramble` (used on Flatirons/peak scrambles). */
+/** Site-only sport labels that are deliberately NOT Strava sport_types — they can only ever arrive
+ *  via a `sport:` frontmatter override, never from mapSportType. */
+export const SITE_ONLY_SPORTS = ['Scramble'] as const;
+export type SiteOnlySport = (typeof SITE_ONLY_SPORTS)[number];
+
+/** Valid `sport` overrides: every Strava SportType, plus the site-only labels. Kept as a runtime
+ *  array so the validator can check against it. */
 export const ADVENTURE_SPORTS = [
   'TrailRun', 'Run', 'Hike', 'Walk', 'Ride', 'GravelRide', 'MountainBikeRide', 'EBikeRide',
   'VirtualRide', 'BackcountrySki', 'NordicSki', 'AlpineSki', 'Snowboard', 'Snowshoe', 'Swim',
@@ -42,8 +49,86 @@ export const ADVENTURE_SPORTS = [
   'Workout', 'Other',
   // Site-only override (not a Strava sport_type):
   'Scramble',
-] as const;
+] as const satisfies readonly (SportType | SiteOnlySport)[];
 export type AdventureSport = (typeof ADVENTURE_SPORTS)[number];
+
+/**
+ * Compile-time drift guards between this list and @blog/strava's SportType union.
+ *
+ * The `satisfies` above catches one direction — an entry here that is neither a Strava SportType nor
+ * a declared site-only label. This catches the other: a SportType added upstream and never listed
+ * here, which would otherwise make the CI validator reject a sport lib/adventures accepts. The
+ * failure is a type error naming the missing members.
+ */
+type MissingSportTypes = Exclude<SportType, AdventureSport>;
+type AdventureSportsCoverSportType = [MissingSportTypes] extends [never]
+  ? true
+  : ['ADVENTURE_SPORTS is missing these SportType members:', MissingSportTypes];
+const _adventureSportsInSync: AdventureSportsCoverSportType = true;
+void _adventureSportsInSync;
+
+/** Narrow an untrusted `sport:` frontmatter value to the vocabulary the site can render. */
+export function isAdventureSport(v: unknown): v is AdventureSport {
+  return typeof v === 'string' && (ADVENTURE_SPORTS as readonly string[]).includes(v);
+}
+
+/** Sports where a summit elevation means a peak was bagged (so a 14er/13er badge is meaningful). */
+export const SUMMIT_SPORTS: ReadonlySet<string> = new Set<AdventureSport>([
+  'Hike',
+  'Mountaineering',
+  'TrailRun',
+  'RockClimbing',
+  'BackcountrySki',
+  'AlpineSki',
+  'Snowboard',
+  'Snowshoe',
+]);
+
+/** `type` values that imply a summit objective — ADVENTURE_TYPES minus `thru-hike`. */
+export const PEAKISH_TYPES: ReadonlySet<string> = new Set<AdventureType>([
+  'peak',
+  'couloir',
+  'scramble',
+  'traverse',
+  'mountaineering',
+]);
+
+/**
+ * Classify an outing's high point as a 14er/13er. An explicit `peakClass` override wins (used for the
+ * few imported summits whose GPX high point falls just under the line); otherwise derive from the
+ * summit elevation, but only for summit-style outings so a bike ride or road race that happens to
+ * climb high isn't mislabeled.
+ *
+ * `sport` is widened to `string | null` so the taxonomy migration — which reads it off frontmatter or
+ * a snapshot, untyped — shares this exact implementation instead of replicating it.
+ */
+export function derivePeakClass(
+  explicit: string | null,
+  type: string | null,
+  sport: string | null,
+  elevHighMeters: number,
+): PeakClass | null {
+  if (explicit === '14er' || explicit === '13er') return explicit;
+  // A thru-hike crosses high passes without bagging a peak — don't badge it.
+  if (type === 'thru-hike') return null;
+  const peakish = (type != null && PEAKISH_TYPES.has(type)) || (sport != null && SUMMIT_SPORTS.has(sport));
+  if (!peakish || !Number.isFinite(elevHighMeters)) return null;
+  const ft = elevHighMeters * 3.28084;
+  if (ft >= 14000) return '14er';
+  if (ft >= 13000) return '13er';
+  return null;
+}
+
+/**
+ * True for a report-companion markdown file under content/adventures.
+ *
+ * The single definition of "what is a companion file" — the build-time reader and every author
+ * script filter through this. Dotfiles are skipped deliberately: macOS writes AppleDouble `._foo.md`
+ * siblings on non-APFS volumes, and gray-matter chokes on their binary contents.
+ */
+export function isCompanionFile(name: string): boolean {
+  return name.endsWith('.md') && !name.startsWith('.');
+}
 
 /** Every frontmatter key the parser understands. Anything else is flagged as a likely typo. */
 export const COMPANION_KEYS = [

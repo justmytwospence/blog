@@ -7,9 +7,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import matter from 'gray-matter';
-import { parseStravaIds } from '@blog/strava';
-import { CONTENT_DIR, ACTIVITIES_DIR } from './strava-shared';
+import { ACTIVITIES_DIR, readCompanions, type Companion } from './strava-shared';
 
 export const RADIUS_M = 400; // within this of the median trailhead = "the same start" (parking-lot scale)
 
@@ -44,38 +42,55 @@ export interface RouteGroup {
   laps: boolean;
 }
 
+export interface SnapStart {
+  start: [number, number] | null;
+  bucket: string | null;
+}
+
 /** A committed snapshot's start point ([lat, lng]; coordinates are stored [lng, lat]) and sport bucket. */
-function snapStartAndBucket(id: number): { start: [number, number] | null; bucket: string | null } {
+export function snapStartAndBucket(id: number): SnapStart {
   const p = path.join(ACTIVITIES_DIR, `${id}.json`);
   if (!fs.existsSync(p)) return { start: null, bucket: null };
   try {
     const s = JSON.parse(fs.readFileSync(p, 'utf8'));
     const c = s.track?.coordinates?.[0];
     return { start: c ? [c[1], c[0]] : null, bucket: s.sportType ? bucketOf(String(s.sportType)) : null };
-  } catch {
+  } catch (err) {
+    // Silently dropping this would make a route quietly fail to auto-attach with no signal.
+    console.warn(
+      `[route-match] unreadable snapshot ${id}.json — excluded from route matching:`,
+      err instanceof Error ? err.message : err,
+    );
     return { start: null, bucket: null };
   }
 }
 
-/** Build a trailhead signature for every existing `group:` key from the committed snapshots. */
-export function buildRouteGroups(): RouteGroup[] {
+/** One companion's contribution to a route: which group it belongs to and which activities it covers. */
+export interface RouteMember {
+  group: string;
+  laps: boolean;
+  ids: number[];
+}
+
+/**
+ * Pure core: collapse companions sharing a `group:` key into one trailhead signature each. Members
+ * are merged by key, `laps` ORs across them, and a group whose members have no resolvable start
+ * point is dropped. `snapOf` is injected so this is testable without the committed snapshots.
+ */
+export function groupRoutes(members: RouteMember[], snapOf: (id: number) => SnapStart = snapStartAndBucket): RouteGroup[] {
   const byGroup = new Map<string, { ids: number[]; laps: boolean }>();
-  for (const f of fs.readdirSync(CONTENT_DIR)) {
-    if (!f.endsWith('.md') || f === 'objectives.md' || f.startsWith('.')) continue;
-    const data = matter(fs.readFileSync(path.join(CONTENT_DIR, f), 'utf8')).data;
-    const group = data.group ? String(data.group) : null;
-    if (!group) continue;
-    const g = byGroup.get(group) ?? { ids: [], laps: false };
-    g.ids.push(...parseStravaIds(data));
-    if (data.laps) g.laps = true;
-    byGroup.set(group, g);
+  for (const m of members) {
+    const g = byGroup.get(m.group) ?? { ids: [], laps: false };
+    g.ids.push(...m.ids);
+    if (m.laps) g.laps = true;
+    byGroup.set(m.group, g);
   }
   const groups: RouteGroup[] = [];
   for (const [key, { ids, laps }] of byGroup) {
     const starts: Array<[number, number]> = [];
     const buckets = new Set<string>();
     for (const id of ids) {
-      const { start, bucket } = snapStartAndBucket(id);
+      const { start, bucket } = snapOf(id);
       if (start) starts.push(start);
       if (bucket) buckets.add(bucket);
     }
@@ -83,6 +98,14 @@ export function buildRouteGroups(): RouteGroup[] {
     groups.push({ key, trailhead: [median(starts.map((s) => s[0])), median(starts.map((s) => s[1]))], buckets, laps });
   }
   return groups;
+}
+
+/** Build a trailhead signature for every existing `group:` key from the committed snapshots. */
+export function buildRouteGroups(): RouteGroup[] {
+  const members = readCompanions()
+    .filter((c): c is Companion & { group: string } => c.group != null)
+    .map((c) => ({ group: c.group, laps: c.laps, ids: c.ids }));
+  return groupRoutes(members);
 }
 
 /**

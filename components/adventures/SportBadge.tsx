@@ -1,12 +1,12 @@
 import { sportMeta } from './sportMeta';
-import type { SportType } from '@/lib/adventures';
+import type { AdventureSport } from '@/lib/adventures';
 
 export function SportBadge({
   sportType,
   size = 'md',
   showLabel = true,
 }: {
-  sportType: SportType;
+  sportType: AdventureSport;
   size?: 'sm' | 'md';
   showLabel?: boolean;
 }) {

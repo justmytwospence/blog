@@ -6,13 +6,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import matter from 'gray-matter';
 import { parseStravaIds, RateLimitError, type RawSummaryActivity } from '@blog/strava';
+import { isCompanionFile } from '../lib/adventure-schema';
 
 export const REPO_ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 export const CONTENT_DIR = path.join(REPO_ROOT, 'content', 'adventures');
 export const DATA_DIR = path.join(REPO_ROOT, 'data', 'adventures');
 export const ACTIVITIES_DIR = path.join(DATA_DIR, 'activities');
-export const INDEX_FILE = path.join(DATA_DIR, 'index.json');
 export const ALL_ACTIVITIES_FILE = path.join(DATA_DIR, 'all-activities.json');
 export const LIFETIME_FILE = path.join(DATA_DIR, 'lifetime-totals.json');
 export const YEARLY_FILE = path.join(DATA_DIR, 'yearly-totals.json');
@@ -143,22 +144,38 @@ export interface Companion {
   ids: number[];
   hidden: boolean;
   source: string | null; // non-Strava origin (e.g. "14ers") — sync keeps but doesn't fetch these
+  group: string | null; // shared key across repeat trips of the same route
+  laps: boolean; // a same-peak/route lap outing — counts ascents, not peaks
 }
 
-/** Read all report companion files and the Strava ids they reference. */
-export function readCompanions(matterFn: (s: string) => { data: Record<string, unknown> }): Companion[] {
-  if (!fs.existsSync(CONTENT_DIR)) return [];
+/** Every companion filename in `dir`, sorted. The fs half of `isCompanionFile`. */
+export function listCompanionFiles(dir: string = CONTENT_DIR): string[] {
+  return fs.existsSync(dir) ? fs.readdirSync(dir).filter(isCompanionFile).sort() : [];
+}
+
+/**
+ * Read all report companion files and the Strava ids they reference.
+ *
+ * `matterFn` stays injectable (existing callers pass their own gray-matter binding) but defaults, so
+ * new call sites can just call `readCompanions()`. `dir` is a seam for fixture tests.
+ * A malformed companion is logged and skipped rather than aborting the whole read.
+ */
+export function readCompanions(
+  matterFn: (s: string) => { data: Record<string, unknown> } = matter,
+  dir: string = CONTENT_DIR,
+): Companion[] {
   const out: Companion[] = [];
-  for (const f of fs.readdirSync(CONTENT_DIR)) {
-    if (!f.endsWith('.md') || f === 'objectives.md' || f.startsWith('.')) continue;
+  for (const f of listCompanionFiles(dir)) {
     try {
-      const fm = matterFn(fs.readFileSync(path.join(CONTENT_DIR, f), 'utf8')).data;
+      const fm = matterFn(fs.readFileSync(path.join(dir, f), 'utf8')).data;
       out.push({
         file: f,
         slug: f.replace(/\.md$/, ''),
         ids: parseStravaIds(fm),
         hidden: Boolean(fm.hidden),
         source: fm.source ? String(fm.source) : null,
+        group: fm.group ? String(fm.group) : null,
+        laps: Boolean(fm.laps),
       });
     } catch (err) {
       console.error(`[strava] could not parse ${f}:`, err);

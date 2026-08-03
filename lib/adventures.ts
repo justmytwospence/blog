@@ -13,8 +13,15 @@ import { FACET_ORDER } from './facets';
 import type { ObjectiveList } from './objective-lists';
 import { preprocessObsidian } from '@blog/obsidian-md';
 import type { AdventureActivity, AdventureStats, SportType } from '@blog/strava/types';
-import { readTotals, hasStore } from './strava-store';
-import { parseStravaIds, usesIdArray } from '@blog/strava';
+import { readTotals } from './strava-store';
+import { parseStravaIds, usesIdArray, isRaceWorkoutType } from '@blog/strava';
+import {
+  isCompanionFile,
+  derivePeakClass,
+  isAdventureSport,
+  type PeakClass,
+  type AdventureSport,
+} from './adventure-schema';
 
 export type {
   AdventureActivity,
@@ -53,13 +60,15 @@ export interface AdventureDay {
 }
 
 /** A summit-elevation classification surfaced as a badge ("14er"/"13er"). */
-export type PeakClass = '14er' | '13er';
+// Canonical in adventure-schema (derived from PEAK_CLASSES); re-exported so components can keep
+// importing it from here.
+export type { PeakClass, AdventureSport } from './adventure-schema';
 
 export interface Adventure {
   slug: string;
   title: string;
   date: string; // YYYY-MM-DD
-  sportType: SportType;
+  sportType: AdventureSport;
   isMultiDay: boolean;
   isMultiSport: boolean; // multiple activities on the SAME day (e.g. a triathlon) — legs, not days
   featured: boolean;
@@ -88,7 +97,7 @@ export interface AdventureSummary {
   slug: string;
   title: string;
   date: string;
-  sportType: SportType;
+  sportType: AdventureSport;
   sportTypes: SportType[]; // distinct sports across the legs (for multi-sport cards)
   isMultiDay: boolean;
   featured: boolean;
@@ -122,7 +131,7 @@ export interface TripRef {
 }
 
 export interface SportTotals {
-  sportType: SportType;
+  sportType: AdventureSport;
   count: number;
   distanceMeters: number;
   elevationGainMeters: number;
@@ -162,42 +171,6 @@ export function photoThumb(stravaId: number, file: string): string {
 
 function str(v: unknown): string | null {
   return v != null && v !== '' ? String(v) : null;
-}
-
-// Sports where a summit elevation means a peak was bagged (so a 14er/13er badge is meaningful).
-const SUMMIT_SPORTS = new Set<SportType>([
-  'Hike',
-  'Mountaineering',
-  'TrailRun',
-  'RockClimbing',
-  'BackcountrySki',
-  'AlpineSki',
-  'Snowboard',
-  'Snowshoe',
-]);
-const PEAKISH_TYPES = new Set(['peak', 'couloir', 'scramble', 'traverse', 'mountaineering']);
-
-/**
- * Classify an outing's high point as a 14er/13er. An explicit `peakClass` override wins (used for the
- * few imported summits whose GPX high point falls just under the line); otherwise derive from the
- * summit elevation, but only for summit-style outings so a bike ride or road race that happens to
- * climb high isn't mislabeled.
- */
-function derivePeakClass(
-  explicit: string | null,
-  type: string | null,
-  sport: SportType,
-  elevHighMeters: number,
-): PeakClass | null {
-  if (explicit === '14er' || explicit === '13er') return explicit;
-  // A thru-hike crosses high passes without bagging a peak — don't badge it.
-  if (type === 'thru-hike') return null;
-  const peakish = (type != null && PEAKISH_TYPES.has(type)) || SUMMIT_SPORTS.has(sport);
-  if (!peakish || !Number.isFinite(elevHighMeters)) return null;
-  const ft = elevHighMeters * 3.28084;
-  if (ft >= 14000) return '14er';
-  if (ft >= 13000) return '13er';
-  return null;
 }
 
 /** `type` values that are themselves filterable facets (peakClass/race/duathlon come in separately). */
@@ -323,7 +296,7 @@ export function deriveIsRace(
   activities: Pick<AdventureActivity, 'workoutType'>[],
 ): boolean {
   if (frontmatterRace !== undefined) return Boolean(frontmatterRace);
-  return activities.some((a) => a.workoutType === 1 || a.workoutType === 11);
+  return activities.some((a) => isRaceWorkoutType(a.workoutType));
 }
 
 function buildAdventure(pc: ParsedCompanion): Adventure | null {
@@ -338,7 +311,15 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
   }
   const common = mapCommonMetadata(pc.data, pc.slug);
   const primary = acts[0];
-  const sportType: SportType = (str(pc.data.sport) as SportType | null) ?? primary.sportType;
+  // An unrecognized `sport:` override would otherwise render as a bogus pill with the wrong
+  // pace/speed label. adventure:validate rejects these in CI; this is the build-time backstop.
+  const sportOverride = str(pc.data.sport);
+  if (sportOverride != null && !isAdventureSport(sportOverride)) {
+    console.warn(
+      `[adventures] ${pc.slug}: unrecognized sport "${sportOverride}" — falling back to ${primary.sportType}`,
+    );
+  }
+  const sportType: AdventureSport = isAdventureSport(sportOverride) ? sportOverride : primary.sportType;
   const tags = Array.isArray(pc.data.tags) ? (pc.data.tags as unknown[]).map(String) : [];
   const elevHigh = Math.max(...acts.map((a) => a.stats.elevHighMeters ?? Number.NEGATIVE_INFINITY));
   const typeStr = str(pc.data.type);
@@ -450,9 +431,7 @@ function toSummary(adv: Adventure, tripCount = 1, lapCount = 1): AdventureSummar
  */
 function allAdventuresIncludingHidden(): Adventure[] {
   if (!fs.existsSync(ADVENTURES_DIR)) return [];
-  const files = fs
-    .readdirSync(ADVENTURES_DIR)
-    .filter((f) => typeof f === 'string' && f.endsWith('.md') && f !== 'objectives.md' && !f.startsWith('.'));
+  const files = fs.readdirSync(ADVENTURES_DIR).filter(isCompanionFile);
   const out: Adventure[] = [];
   for (const f of files) {
     const pc = parseCompanion(f);
@@ -620,10 +599,10 @@ export async function getLifetimeByMonthSport(): Promise<YearSportTotals> {
 /** Full-history human-powered totals: the runtime store (Redis) in prod, else the gitignored local
  *  file (dev/CI), else null. No longer committed — see docs/strava-stats.md. */
 async function readLifetimeFile(): Promise<LifetimeFile | null> {
-  if (hasStore()) {
-    const t = await readTotals();
-    return (t?.lifetime as unknown as LifetimeFile) ?? null;
-  }
+  // Fall THROUGH to the local file rather than short-circuiting on hasStore(): with Redis
+  // configured but unseeded, gating on hasStore() returned null and never tried the file.
+  const t = await readTotals();
+  if (t) return t.lifetime as unknown as LifetimeFile;
   // dev / fallback: the gitignored local file (populate with `npm run totals:refresh`)
   if (!fs.existsSync(LIFETIME_FILE)) return null;
   try {
@@ -651,10 +630,8 @@ export interface YearlyTotals {
 
 /** Cumulative distance + elevation by day-of-year per year, across the full activity history. */
 export async function getYearlyTotals(): Promise<YearlyTotals> {
-  if (hasStore()) {
-    const t = await readTotals();
-    return (t?.yearly as YearlyTotals) ?? { years: {} };
-  }
+  const t = await readTotals();
+  if (t) return t.yearly as YearlyTotals;
   if (!fs.existsSync(YEARLY_FILE)) return { years: {} };
   try {
     return JSON.parse(fs.readFileSync(YEARLY_FILE, 'utf8')) as YearlyTotals;

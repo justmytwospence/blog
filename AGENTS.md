@@ -51,8 +51,22 @@ Two layers, split by what's committed:
   empty state. **`docs/strava-stats.md` is the source of truth** for setup/seeding/rotation.
 - Standalone scripts: `npm run sync:index` and `npm run totals:build` (chained as `totals:refresh`);
   `npm run seed:redis` bootstraps the Upstash store; `npm run webhook:subscribe` / `webhook:view` /
-  `webhook:delete` manage the Strava push subscription (one per app).
-- **Strava MCP** (`strava` server — **local** scope in `~/.claude.json`, i.e. private to this project,
+  `webhook:delete` manage the Strava push subscription (one per app). `npm run adventure:match`
+  discovers repeat-route activities by GPS trailhead (dry-run by default, `-- --write` to scaffold
+  the hidden count-only companions); `npm run adventure:migrate` is the one-shot taxonomy migration.
+- **Discovery is scripted first, MCP second:** `npm run adventure:find` queries the local index
+  (`data/adventures/all-activities.json`) with `--after`/`--before`, `--sport`, `--min-distance` (mi),
+  `--min-gain` / `--min-high` (ft), `--with-photos`, `--unpublished` (excludes ids already on the
+  site), `--json`. It needs **no MCP, no credentials, and no network**. The index is gitignored, so a
+  fresh checkout must run `npm run sync:index` once (or `adventure:find -- --refresh`); the command
+  says so when it's missing and warns when it's >7 days stale. The index carries `elevHighMeters` and
+  `totalPhotoCount` precisely because summit height and photo count are what decide whether an
+  activity is worth publishing.
+- **Strava MCP** — an **optional accelerator** for fuzzy/interactive lookup, never a prerequisite:
+  every authoring step (scaffold, sync, validate, build, ship) hits the Strava REST API directly with
+  `.env.local`. Note the gateway truncates responses at ~27KB regardless of `per_page`, cutting the
+  JSON mid-object, so a large listing needs date-windowed calls — `adventure:find` avoids the problem
+  entirely. (`strava` server — **local** scope in `~/.claude.json`, i.e. private to this project,
   not user-wide; re-add it with `claude mcp add --transport http strava <url> -s local` if it goes
   missing): the read/analysis surface for discovery. Because MCPJungle namespaces by tool group, the
   names carry a **doubled** prefix — `mcp__strava__strava__strava_list_activities`,
@@ -81,8 +95,10 @@ Two layers, split by what's committed:
   - `@blog/hardcover` (+ `/types`) — Hardcover GraphQL client (reading list)
   - `@blog/obsidian-md` — Obsidian markdown preprocessor
   - `@blog/inoreader` — Inoreader RSS client (blogroll)
+  - `@blog/strava` (+ `/types`) — Strava API client, pure transforms, activity classification, and
+    lifetime/yearly totals. `/types` is the client-safe type-only entrypoint the site imports.
 - **ISR, not static export**: The site no longer uses `output: 'export'`. Most pages are statically generated at build time. Pages with external data (blogroll, reading, about) use ISR with `revalidate = 3600`. `/projects/[slug]` is server-rendered on demand to keep the Vercel cache small. The `generateStaticParams()` requirement still applies for dynamic SSG routes.
-- **Live external data + last-good resilience**: The four live integrations (GitHub `/projects`, Hardcover `/reading` + `/about`, Inoreader `/blogroll` + `/blogroll.xml`, Strava `/adventures`) all render via ISR (`revalidate = 3600`), so an upstream API is hit at most ~once/hr/page regardless of traffic — **never make these routes `force-dynamic`** or every request hits the upstream. Resilience is consistent but per-integration, not a shared framework: the one shared piece is `lib/last-good.ts` `readThrough(key, fetcher)`, an Upstash-backed read-through cache that serves the last successful payload when the fetcher throws (and is a no-op pass-through with no Redis env). Because packages can't import `lib/`, the package exposes a throwing `*OrThrow` variant and the **app-layer** page wraps it in `readThrough` (a returned `[]` is treated as success — failure must throw). GitHub/Hardcover/Inoreader are poll-only (no webhooks); only Strava pushes. Hardcover's token expires annually (Jan 1, manual rotation — watch for `[hardcover] AUTH FAILURE`). Inoreader feed identity is env-config (`INOREADER_USER_ID` / `INOREADER_PUBLIC_TAG` / `INOREADER_FEED_ITEM_COUNT`).
+- **Live external data + last-good resilience**: The four live integrations (GitHub `/projects`, Hardcover `/reading` + `/about`, Inoreader `/blogroll` + `/blogroll.xml`, Strava `/adventures`) all render via ISR (`revalidate = 3600`), so an upstream API is hit at most ~once/hr/page regardless of traffic — **never make these routes `force-dynamic`** or every request hits the upstream. Resilience is consistent but per-integration, not a shared framework: the one shared piece is `lib/last-good.ts` `readThrough(key, fetcher)`, an Upstash-backed read-through cache that serves the last successful payload when the fetcher throws (and is a no-op pass-through with no Redis env). Because packages can't import `lib/`, the package exposes a throwing `*OrThrow` variant and the **app-layer** page wraps it in `readThrough` (a returned `[]` is treated as success — failure must throw). **Strava is the exception to the `*OrThrow` + app-layer rule**: its source is already in `lib/`, so `lib/strava-store.ts` wraps its own throwing read in `readThrough` rather than exposing an `*OrThrow` for the page — and one `cache()` then covers both totals readers, so a render costs one Redis read. Its coverage is genuinely narrower than the others': the source AND the last-good copy are the same Redis, so it survives an evicted/corrupt `strava:totals` or a transient failure, but **not** a full Upstash outage. That case is handled in the page instead — `/adventures` omits the lifetime-stats block when the totals are empty rather than rendering "0 mi all-time". GitHub/Hardcover/Inoreader are poll-only (no webhooks); only Strava pushes. Hardcover's token expires annually (Jan 1, manual rotation — watch for `[hardcover] AUTH FAILURE`). Inoreader feed identity is env-config (`INOREADER_USER_ID` / `INOREADER_PUBLIC_TAG` / `INOREADER_FEED_ITEM_COUNT`).
 - **Notebook metadata**: The first cell of `.ipynb` files must be a raw or markdown cell containing Quarto-style YAML frontmatter. If you create test notebooks, include this or metadata extraction silently returns empty.
 - **Notebook HTML sanitization**: Notebook HTML output is sanitized via `isomorphic-dompurify` inside `@blog/notebook-parser/utils#sanitizeHtml`. The function is SSR-safe.
 - **Concepts registry**: Components in `/components/concepts/index.ts` use `next/dynamic` with `ssr: false` because they rely on browser APIs (canvas, window). Don't switch to regular imports or the build breaks.

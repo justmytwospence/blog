@@ -7,9 +7,9 @@ import { AdventureStats } from './AdventureStats';
 import { SportBadge } from './SportBadge';
 import { WeatherBadge } from './WeatherBadge';
 import { dayColor } from './mapStyle';
-import type { AdventureDay, SportType } from '@/lib/adventures';
+import type { AdventureDay, AdventureSport } from '@/lib/adventures';
 
-function DayRow({ day, fallbackSport, unit }: { day: AdventureDay; fallbackSport: SportType; unit: 'day' | 'leg' }) {
+function DayRow({ day, fallbackSport, unit }: { day: AdventureDay; fallbackSport: AdventureSport; unit: 'day' | 'leg' }) {
   const [open, setOpen] = useState(false);
   const a = day.activity;
   const label = unit === 'leg' ? 'Leg' : 'Day';
@@ -78,7 +78,7 @@ export function TripDayBreakdown({
   unit = 'day',
 }: {
   days: AdventureDay[];
-  fallbackSport: SportType;
+  fallbackSport: AdventureSport;
   unit?: 'day' | 'leg';
 }) {
   return (
