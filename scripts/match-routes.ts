@@ -3,14 +3,15 @@
  * count-only (hidden) companion files so they feed the route's lap/trip totals — e.g. the daily
  * "Morning Backcountry Ski" sessions that are really Eldora laps but aren't each written up.
  *
- * Matching is by START POINT, not name: an activity belongs to a route if it starts within ~200 m of
- * the route's trailhead AND is the same sport mode. That's the only thing that separates an Eldora
- * morning from an A-Basin / Klondike / Utah backcountry day, which are all named identically.
+ * Matching is by START POINT, not name: an activity belongs to a route if it starts within RADIUS_M
+ * (400 m, see scripts/route-match.ts) of the route's median trailhead AND is the same sport mode.
+ * That's the only thing that separates an Eldora morning from an A-Basin / Klondike / Utah
+ * backcountry day, which are all named identically.
  *
  * Run AFTER a reindex (needs data/adventures/all-activities.json with start coords):
- *   npx tsx scripts/match-routes.ts                 # dry-run: print matches, write nothing
- *   npx tsx scripts/match-routes.ts --route eldora-morning-uphill   # scope to one route
- *   npx tsx scripts/match-routes.ts --write         # scaffold the hidden count-only files
+ *   npm run adventure:match                                    # dry-run: print matches, write nothing
+ *   npm run adventure:match -- --route eldora-morning-uphill   # scope to one route
+ *   npm run adventure:match -- --write                         # scaffold the hidden count-only files
  * Then `npm run sync:strava` to fetch their snapshots and recount.
  */
 import fs from 'node:fs';

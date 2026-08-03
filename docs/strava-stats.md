@@ -39,8 +39,11 @@ dropped, the totals would stay stale until the next activity (possibly weeks). A
 (`vercel.json` → `/api/strava/reconcile`, `0 5 * * *`) recomputes the totals from a full crawl —
 the same `recomputeTotals()` the webhook runs. Once-daily works on the free Hobby tier (1 cron/day);
 no Pro upgrade needed. The route is guarded by `CRON_SECRET` (Vercel sends it automatically) so it
-isn't publicly triggerable, and no-ops cleanly with no Redis store. `npm run sync:strava` remains the
-manual backstop.
+isn't publicly triggerable. It is **not** a clean no-op without credentials: `recomputeTotals()` mints
+a Strava token first, so a deployment missing `STRAVA_CLIENT_ID` / `STRAVA_CLIENT_SECRET` /
+`STRAVA_REFRESH_TOKEN` returns **500**. With Strava creds but no Redis it completes the full crawl and
+then discards the result (`writeTotals` logs `no Redis env — writeTotals skipped`) — wasted work
+rather than an error. `npm run sync:strava` remains the manual backstop.
 
 ## Token rotation (handled)
 

@@ -42,15 +42,29 @@ rejects anything off-vocabulary. Do not invent values.
 
 - Be on `main` or a branch off it (the pipeline + `.env.local` with `STRAVA_CLIENT_ID/SECRET/REFRESH_TOKEN`
   must be present; copy `.env.local` from the primary checkout if missing). Run `npm ci` if `tsx` is absent.
+- The activity index (`data/adventures/all-activities.json`) is **gitignored**, so a fresh checkout or
+  worktree has none. Step 1 needs it — run `npm run sync:index` once if it's missing.
 
 ## Steps
 
 ### 1. Discover the activity
 
-Resolve the user's intent to a Strava id via the MCP: `mcp__strava__strava__strava_list_activities`
-(filter to the day they mention) — note the **doubled** `strava__` prefix, which is how MCPJungle
-namespaces the tool group. Fallback: the synced index `data/adventures/all-activities.json` (id, name,
-date, sport, distance). Confirm name + date + distance with the user; capture the **Strava id**.
+```bash
+npm run adventure:find -- --unpublished --after <YYYY-MM-DD>
+```
+
+Prints id / date / sport / distance / gain / summit elevation / photo count for every activity not
+already referenced by a companion. Narrow with `--sport <a,b>`, `--min-gain <ft>`, `--min-distance
+<mi>`, `--min-high <ft>`, `--with-photos`, `--limit <n>` / `--all`, `--json`. No network, no
+credentials — it reads the local index only. If it reports a missing or stale index run `npm run
+sync:index` (or pass `--refresh`); the index is gitignored, so a fresh checkout has none.
+
+*Optional accelerator:* the Strava MCP (`mcp__strava__strava__strava_list_activities` — note the
+**doubled** `strava__` prefix from MCPJungle's tool-group namespacing) for fuzzy or interactive
+lookup. It is not required, and the gateway truncates large listings at ~27KB mid-JSON, so prefer the
+command above and reach for the MCP only when a natural-language lookup genuinely helps.
+
+Confirm name + date + distance with the user; capture the **Strava id**.
 
 ### 2. Scaffold (auto-derives everything derivable)
 
