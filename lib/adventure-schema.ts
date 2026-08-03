@@ -45,6 +45,53 @@ export const ADVENTURE_SPORTS = [
 ] as const;
 export type AdventureSport = (typeof ADVENTURE_SPORTS)[number];
 
+/** Sports where a summit elevation means a peak was bagged (so a 14er/13er badge is meaningful). */
+export const SUMMIT_SPORTS: ReadonlySet<string> = new Set<AdventureSport>([
+  'Hike',
+  'Mountaineering',
+  'TrailRun',
+  'RockClimbing',
+  'BackcountrySki',
+  'AlpineSki',
+  'Snowboard',
+  'Snowshoe',
+]);
+
+/** `type` values that imply a summit objective — ADVENTURE_TYPES minus `thru-hike`. */
+export const PEAKISH_TYPES: ReadonlySet<string> = new Set<AdventureType>([
+  'peak',
+  'couloir',
+  'scramble',
+  'traverse',
+  'mountaineering',
+]);
+
+/**
+ * Classify an outing's high point as a 14er/13er. An explicit `peakClass` override wins (used for the
+ * few imported summits whose GPX high point falls just under the line); otherwise derive from the
+ * summit elevation, but only for summit-style outings so a bike ride or road race that happens to
+ * climb high isn't mislabeled.
+ *
+ * `sport` is widened to `string | null` so the taxonomy migration — which reads it off frontmatter or
+ * a snapshot, untyped — shares this exact implementation instead of replicating it.
+ */
+export function derivePeakClass(
+  explicit: string | null,
+  type: string | null,
+  sport: string | null,
+  elevHighMeters: number,
+): PeakClass | null {
+  if (explicit === '14er' || explicit === '13er') return explicit;
+  // A thru-hike crosses high passes without bagging a peak — don't badge it.
+  if (type === 'thru-hike') return null;
+  const peakish = (type != null && PEAKISH_TYPES.has(type)) || (sport != null && SUMMIT_SPORTS.has(sport));
+  if (!peakish || !Number.isFinite(elevHighMeters)) return null;
+  const ft = elevHighMeters * 3.28084;
+  if (ft >= 14000) return '14er';
+  if (ft >= 13000) return '13er';
+  return null;
+}
+
 /**
  * True for a report-companion markdown file under content/adventures.
  *

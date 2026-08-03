@@ -15,7 +15,7 @@ import { preprocessObsidian } from '@blog/obsidian-md';
 import type { AdventureActivity, AdventureStats, SportType } from '@blog/strava/types';
 import { readTotals, hasStore } from './strava-store';
 import { parseStravaIds, usesIdArray, isRaceWorkoutType } from '@blog/strava';
-import { isCompanionFile } from './adventure-schema';
+import { isCompanionFile, derivePeakClass, type PeakClass } from './adventure-schema';
 
 export type {
   AdventureActivity,
@@ -54,7 +54,9 @@ export interface AdventureDay {
 }
 
 /** A summit-elevation classification surfaced as a badge ("14er"/"13er"). */
-export type PeakClass = '14er' | '13er';
+// Canonical in adventure-schema (derived from PEAK_CLASSES); re-exported so components can keep
+// importing it from here.
+export type { PeakClass } from './adventure-schema';
 
 export interface Adventure {
   slug: string;
@@ -163,42 +165,6 @@ export function photoThumb(stravaId: number, file: string): string {
 
 function str(v: unknown): string | null {
   return v != null && v !== '' ? String(v) : null;
-}
-
-// Sports where a summit elevation means a peak was bagged (so a 14er/13er badge is meaningful).
-const SUMMIT_SPORTS = new Set<SportType>([
-  'Hike',
-  'Mountaineering',
-  'TrailRun',
-  'RockClimbing',
-  'BackcountrySki',
-  'AlpineSki',
-  'Snowboard',
-  'Snowshoe',
-]);
-const PEAKISH_TYPES = new Set(['peak', 'couloir', 'scramble', 'traverse', 'mountaineering']);
-
-/**
- * Classify an outing's high point as a 14er/13er. An explicit `peakClass` override wins (used for the
- * few imported summits whose GPX high point falls just under the line); otherwise derive from the
- * summit elevation, but only for summit-style outings so a bike ride or road race that happens to
- * climb high isn't mislabeled.
- */
-function derivePeakClass(
-  explicit: string | null,
-  type: string | null,
-  sport: SportType,
-  elevHighMeters: number,
-): PeakClass | null {
-  if (explicit === '14er' || explicit === '13er') return explicit;
-  // A thru-hike crosses high passes without bagging a peak — don't badge it.
-  if (type === 'thru-hike') return null;
-  const peakish = (type != null && PEAKISH_TYPES.has(type)) || SUMMIT_SPORTS.has(sport);
-  if (!peakish || !Number.isFinite(elevHighMeters)) return null;
-  const ft = elevHighMeters * 3.28084;
-  if (ft >= 14000) return '14er';
-  if (ft >= 13000) return '13er';
-  return null;
 }
 
 /** `type` values that are themselves filterable facets (peakClass/race/duathlon come in separately). */
