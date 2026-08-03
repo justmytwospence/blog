@@ -24,7 +24,10 @@
     "webhook:delete": "tsx scripts/strava-webhook-subscribe.ts delete",
     "adventure:new": "tsx scripts/adventure-new.ts",
     "adventure:validate": "tsx scripts/adventure-validate.ts",
+    "adventure:find": "tsx scripts/adventure-find.ts",
     "adventure:minimize": "tsx scripts/minimize-frontmatter.ts",
+    "adventure:match": "tsx scripts/match-routes.ts",
+    "adventure:migrate": "tsx scripts/migrate-taxonomy.ts",
     "strava:thumbs": "tsx scripts/regen-thumbs.ts",
     "peaks:build": "tsx scripts/build-peaks.ts"
   },
