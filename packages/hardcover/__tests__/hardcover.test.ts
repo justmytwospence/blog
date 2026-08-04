@@ -21,7 +21,6 @@ function makeMockResponse(overrides: Record<string, any> = {}) {
                 subtitle: null,
                 slug: 'test-book',
                 description: 'A great book',
-                pages: 320,
                 image: { url: 'https://img.hardcover.app/cover.jpg' },
                 contributions: [{ author: { name: 'Jane Author' } }],
                 literary_type_id: 1,
@@ -124,7 +123,6 @@ describe('hardcover API client', () => {
     expect(book.book.title).toBe('Test Book');
     expect(book.book.slug).toBe('test-book');
     expect(book.book.description).toBe('A great book');
-    expect(book.book.pages).toBe(320);
     expect(book.book.imageUrl).toBe('https://img.hardcover.app/cover.jpg');
     expect(book.book.authors).toEqual(['Jane Author']);
     expect(book.book.hardcoverUrl).toBe(
@@ -180,7 +178,6 @@ describe('hardcover API client', () => {
                     subtitle: null,
                     slug: 'the-suicide-index',
                     description: null,
-                    pages: 200,
                     image: null,
                     contributions: [],
                     literary_type_id: null,
@@ -196,7 +193,6 @@ describe('hardcover API client', () => {
                     subtitle: null,
                     slug: 'a-normal-book',
                     description: null,
-                    pages: 100,
                     image: null,
                     contributions: [],
                     literary_type_id: null,

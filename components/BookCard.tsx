@@ -96,11 +96,6 @@ function BookDetailDrawer({ userBook, onClose }: { userBook: UserBook; onClose: 
                   <StarRating rating={rating} />
                 </div>
               )}
-              {book.pages !== null && (
-                <p className="text-xs text-gray-500 dark:text-[#a6a6a6] mt-1">
-                  {book.pages} pages
-                </p>
-              )}
             </div>
           </div>
 
@@ -154,11 +149,6 @@ export function BookCard({ userBook }: { userBook: UserBook }) {
         <h3 className="text-sm font-medium text-gray-900 dark:text-[#d4d4d4] line-clamp-2 leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
           {book.title}
         </h3>
-        {book.pages !== null && (
-          <p className="text-xs text-gray-500 dark:text-[#a6a6a6] mt-0.5">
-            {book.pages} pp
-          </p>
-        )}
       </button>
 
       {isOpen && <BookDetailDrawer userBook={userBook} onClose={handleClose} />}

@@ -6,7 +6,6 @@ export interface HardcoverBook {
   title: string;
   slug: string;
   description: string | null;
-  pages: number | null;
   imageUrl: string | null;
   authors: string[];
   hardcoverUrl: string;

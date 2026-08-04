@@ -69,7 +69,6 @@ interface RawBook {
   subtitle: string | null;
   slug: string;
   description: string | null;
-  pages: number | null;
   image: { url: string } | null;
   contributions: RawContribution[];
   literary_type_id: number | null;
@@ -109,7 +108,6 @@ function buildQuery(statusId: number, limit: number): string {
         subtitle
         slug
         description
-        pages
         image { url }
         contributions { author { name } }
         literary_type_id
@@ -126,7 +124,6 @@ function transformBook(raw: RawBook): HardcoverBook {
     title: raw.title,
     slug: raw.slug,
     description: raw.description,
-    pages: raw.pages,
     imageUrl: raw.image?.url ?? null,
     authors: raw.contributions.map((c) => c.author.name),
     hardcoverUrl: `https://hardcover.app/books/${raw.slug}`,
