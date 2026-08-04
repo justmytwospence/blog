@@ -12,6 +12,9 @@ function makeMockResponse(overrides: Record<string, any> = {}) {
     data: {
       me: [
         {
+          username: 'testreader',
+          account_privacy_setting_id: 1, // Public
+          user_books_aggregate: { aggregate: { count: 42 } },
           user_books: [
             {
               rating: 4,
@@ -59,6 +62,7 @@ describe('hardcover API client', () => {
     expect(data.currentlyReading).toEqual([]);
     expect(data.wantToRead).toEqual([]);
     expect(data.recentlyRead).toEqual([]);
+    expect(data.shelves.recentlyRead).toEqual({ total: 0, url: null });
     expect(data.fetchedAt).toBeTruthy();
   });
 
@@ -169,6 +173,9 @@ describe('hardcover API client', () => {
         data: {
           me: [
             {
+              username: 'testreader',
+              account_privacy_setting_id: 1,
+              user_books_aggregate: { aggregate: { count: 2 } },
               user_books: [
                 {
                   rating: 5,
@@ -232,6 +239,125 @@ describe('hardcover API client', () => {
     expect(data.wantToRead).toHaveLength(1);
     expect(data.recentlyRead).toHaveLength(1);
     expect(data.fetchedAt).toBeTruthy();
+  });
+});
+
+describe('hardcover shelf limits and links', () => {
+  const originalFetch = globalThis.fetch;
+
+  beforeEach(() => {
+    vi.resetModules();
+    vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
+  });
+
+  afterEach(() => {
+    globalThis.fetch = originalFetch;
+    vi.unstubAllEnvs();
+  });
+
+  /** A shelf of `count` distinct books, all passing the blocklist. */
+  function makeShelf(count: number, privacyId: number | null = 1, total = 99) {
+    return {
+      data: {
+        me: [
+          {
+            username: 'testreader',
+            account_privacy_setting_id: privacyId,
+            user_books_aggregate: { aggregate: { count: total } },
+            user_books: Array.from({ length: count }, (_, i) => ({
+              rating: null,
+              date_added: '2025-12-01',
+              book: {
+                title: `Book ${i}`,
+                subtitle: null,
+                slug: `book-${i}`,
+                description: null,
+                image: null,
+                contributions: [],
+                literary_type_id: 1,
+                book_category_id: 1,
+                cached_tags: null,
+              },
+            })),
+          },
+        ],
+      },
+    };
+  }
+
+  it('renders at most SHELF_LIMIT books per shelf', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => makeShelf(15) });
+
+    const { getReadingListData, SHELF_LIMIT } = await import('../src');
+    const data = await getReadingListData();
+
+    expect(SHELF_LIMIT).toBe(5);
+    expect(data.currentlyReading).toHaveLength(SHELF_LIMIT);
+    expect(data.wantToRead).toHaveLength(SHELF_LIMIT);
+    expect(data.recentlyRead).toHaveLength(SHELF_LIMIT);
+  });
+
+  it('over-fetches so blocklisted books do not shorten the row', async () => {
+    // Three of the first books are blocked; the shelf must still render a full five.
+    vi.stubEnv('HARDCOVER_BLACKLIST', 'book-0,book-1,book-2');
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => makeShelf(15) });
+
+    const { getReadingListData } = await import('../src');
+    const data = await getReadingListData();
+
+    expect(data.recentlyRead).toHaveLength(5);
+    expect(data.recentlyRead.map((ub) => ub.book.slug)).toEqual([
+      'book-3', 'book-4', 'book-5', 'book-6', 'book-7',
+    ]);
+  });
+
+  it('asks Hardcover for more than it shows, and sorts Recently Read by finish date', async () => {
+    const mockFetch = vi.fn().mockResolvedValue({ ok: true, json: async () => makeShelf(15) });
+    globalThis.fetch = mockFetch;
+
+    const { getReadingListData } = await import('../src');
+    await getReadingListData();
+
+    const queries: string[] = mockFetch.mock.calls.map((c) => JSON.parse(c[1].body).query);
+    // Every query over-fetches past the display limit.
+    expect(queries.every((q) => /limit:\s*15/.test(q))).toBe(true);
+    // "Recently Read" means recently *finished*, not recently shelved.
+    expect(queries.some((q) => q.includes('last_read_date: desc_nulls_last'))).toBe(true);
+  });
+
+  it('links to the public Hardcover shelf, with the full shelf total', async () => {
+    globalThis.fetch = vi
+      .fn()
+      .mockResolvedValue({ ok: true, json: async () => makeShelf(15, 1, 292) });
+
+    const { getReadingListData } = await import('../src');
+    const data = await getReadingListData();
+
+    expect(data.shelves.wantToRead).toEqual({
+      total: 292,
+      url: 'https://hardcover.app/@testreader/books/want-to-read',
+    });
+    expect(data.shelves.recentlyRead.url).toBe('https://hardcover.app/@testreader/books/read');
+    expect(data.shelves.currentlyReading.url).toBe(
+      'https://hardcover.app/@testreader/books/currently-reading',
+    );
+  });
+
+  it('omits shelf links when the account is not public', async () => {
+    // 2 = Followers only, 3 = Private — either would 404 for a logged-out visitor.
+    for (const privacyId of [2, 3, null]) {
+      vi.resetModules();
+      globalThis.fetch = vi
+        .fn()
+        .mockResolvedValue({ ok: true, json: async () => makeShelf(15, privacyId) });
+
+      const { getReadingListData } = await import('../src');
+      const data = await getReadingListData();
+
+      expect(data.shelves.wantToRead.url).toBeNull();
+      // The total is still reported; only the link is withheld.
+      expect(data.shelves.wantToRead.total).toBe(99);
+    }
   });
 });
 

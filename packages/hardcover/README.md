@@ -34,6 +34,8 @@ getCurrentlyReading(limit?: number): Promise<UserBook[]> // currently-reading on
 
 getReadingListDataOrThrow(): Promise<ReadingListData>    // throws if ANY of the 3 fetches fails
 getCurrentlyReadingOrThrow(limit?: number): Promise<UserBook[]> // throws on failure
+
+SHELF_LIMIT: number                                      // books rendered per shelf (5)
 ```
 
 The `*OrThrow` variants exist so the app layer can wrap them in the last-good cache: a returned `[]`
@@ -43,6 +45,28 @@ everything and surface `[hardcover] ...` console errors, returning `[]`.
 
 > npm-workspaces note: this package never imports from the app (`lib/`/`@/`). The last-good (Upstash)
 > wrapping lives at the app layer (`app/reading`, `app/about`), so the package stays pure and testable.
+
+## Shelf size, ordering, and "see all" links
+
+Each of the three shelves renders exactly `SHELF_LIMIT` (5) books, so no section looks arbitrarily
+longer than another. Three things make that work:
+
+- **Over-fetch, then trim.** The slug/title blocklist filters *after* the query returns, so asking
+  for exactly 5 would render a short row whenever a blocked book landed in the window. The query asks
+  for `SHELF_LIMIT + 10` and slices back to 5 once filtering is done.
+- **Per-shelf ordering.** "Recently Read" sorts by `last_read_date` (when the book was *finished*),
+  not `date_added`. Books are routinely shelved months before they're finished, so `date_added`
+  silently omits recent finishes — it was hiding a book finished a fortnight ago behind ten older
+  ones. The other two shelves genuinely are "most recently added".
+- **Links to the rest.** `ReadingListData.shelves[key]` carries the full shelf `total` (from
+  `user_books_aggregate`, in the same request — no extra round trip) and a `url` to the public
+  hardcover.app shelf. The URL is emitted **only when `account_privacy_setting_id` is 1 (Public)**;
+  on a Followers-only or Private account it is null and the UI drops the link rather than pointing a
+  logged-out visitor at a 404.
+
+> Note: those links lead to Hardcover's own shelf pages, which show **every** book — including the
+> ones `HARDCOVER_BLACKLIST` / `TITLE_BLOCKLIST` hide here. The blocklist keeps books off this site;
+> it cannot hide them on a public Hardcover profile.
 
 ## Fiction / non-fiction (`HardcoverBook.isFiction`)
 

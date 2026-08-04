@@ -13,18 +13,28 @@ export const metadata: Metadata = {
   description: 'Books I am reading, want to read, and have recently read.',
 };
 
+const EMPTY_SHELF = { total: 0, url: null };
+
 const EMPTY_READING: ReadingListData = {
   currentlyReading: [],
   wantToRead: [],
   recentlyRead: [],
+  shelves: {
+    currentlyReading: EMPTY_SHELF,
+    wantToRead: EMPTY_SHELF,
+    recentlyRead: EMPTY_SHELF,
+  },
   fetchedAt: new Date().toISOString(),
 };
 
 export default async function ReadingPage() {
-  const { currentlyReading, wantToRead, recentlyRead, fetchedAt } =
-    (await readThrough<ReadingListData>('hardcover:reading-list', getReadingListDataOrThrow).catch(
-      () => null,
-    )) ?? EMPTY_READING;
+  // Cache key is versioned: a last-good payload written before `shelves` existed would render
+  // without the shelf links, and reading `.shelves.x` off it would throw.
+  const { currentlyReading, wantToRead, recentlyRead, shelves, fetchedAt } =
+    (await readThrough<ReadingListData>(
+      'hardcover:reading-list:v2',
+      getReadingListDataOrThrow,
+    ).catch(() => null)) ?? EMPTY_READING;
   const hasAnyBooks = currentlyReading.length > 0 || wantToRead.length > 0 || recentlyRead.length > 0;
 
   return (
@@ -36,9 +46,12 @@ export default async function ReadingPage() {
       {hasAnyBooks ? (
         <div className="space-y-12">
           <ReadingSection title="Currently Reading" books={currentlyReading}
+            shelf={shelves.currentlyReading}
             emptyMessage="Nothing on the nightstand right now." />
-          <ReadingSection title="Recently Read" books={recentlyRead} />
-          <ReadingSection title="To Be Read" books={wantToRead} />
+          <ReadingSection title="Recently Read" books={recentlyRead}
+            shelf={shelves.recentlyRead} />
+          <ReadingSection title="To Be Read" books={wantToRead}
+            shelf={shelves.wantToRead} />
         </div>
       ) : (
         <div className="text-center py-12">

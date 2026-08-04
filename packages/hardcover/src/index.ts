@@ -13,10 +13,10 @@
  * expired token surfaces as a loud `[hardcover] AUTH FAILURE` log + a thrown `HardcoverAuthError`.
  */
 
-import type { HardcoverBook, UserBook, ReadingListData } from './types';
+import type { HardcoverBook, UserBook, ReadingListData, ShelfMeta } from './types';
 import { classifyIsFiction, type CachedTags } from './classify';
 
-export type { HardcoverBook, UserBook, ReadingListData };
+export type { HardcoverBook, UserBook, ReadingListData, ShelfMeta };
 export { classifyIsFiction } from './classify';
 
 /** Thrown when Hardcover rejects the token (expired/invalid), distinct from a transient failure. */
@@ -58,6 +58,50 @@ const STATUS = {
   DID_NOT_FINISH: 5,
 } as const;
 
+/** `account_privacy_setting_id` 1 = Public; 2 = Followers only; 3 = Private. */
+const PRIVACY_PUBLIC = 1;
+
+/** How many books each shelf shows on the site. Uniform, so no section looks arbitrarily longer. */
+export const SHELF_LIMIT = 5;
+
+/**
+ * The blocklist drops books *after* the query runs, so asking Hardcover for exactly `SHELF_LIMIT`
+ * would render a short row whenever a blocked book lands inside the window. Over-fetch by this much
+ * and trim back to the requested count.
+ */
+const BLOCKLIST_PAD = 10;
+
+/**
+ * Per-shelf query shape. `orderBy` is what makes each section mean what its heading claims:
+ * "Recently Read" must sort by when a book was *finished* (`last_read_date`), not when it was added
+ * — books are routinely shelved months before they are finished, so `date_added` silently omits
+ * recent finishes. The other two shelves genuinely are "most recently added".
+ */
+const SHELVES = {
+  currentlyReading: {
+    statusId: STATUS.CURRENTLY_READING,
+    orderBy: '{ date_added: desc }',
+    path: 'currently-reading',
+  },
+  recentlyRead: {
+    statusId: STATUS.READ,
+    orderBy: '{ last_read_date: desc_nulls_last }',
+    path: 'read',
+  },
+  wantToRead: {
+    statusId: STATUS.WANT_TO_READ,
+    orderBy: '{ date_added: desc }',
+    path: 'want-to-read',
+  },
+} as const;
+
+type ShelfKey = keyof typeof SHELVES;
+
+/** Public shelf URL on hardcover.app, e.g. `https://hardcover.app/@user/books/read`. */
+function shelfUrl(username: string, path: string): string {
+  return `https://hardcover.app/@${username}/books/${path}`;
+}
+
 // ─── Raw API types (internal) ──────────────────────────────────────
 
 interface RawContribution {
@@ -85,20 +129,42 @@ interface RawUserBook {
 interface HardcoverResponse {
   data?: {
     me?: Array<{
+      username?: string | null;
+      account_privacy_setting_id?: number | null;
+      user_books_aggregate?: { aggregate?: { count?: number | null } | null } | null;
       user_books: RawUserBook[];
     }>;
   };
   errors?: Array<{ message: string }>;
 }
 
+/** One shelf as read from Hardcover: the trimmed books plus what it takes to link to the rest. */
+interface RawShelf {
+  books: UserBook[];
+  /** Size of the whole Hardcover shelf, before the local blocklist and the display limit. */
+  total: number;
+  username: string | null;
+  isPublic: boolean;
+}
+
 // ─── Helpers ───────────────────────────────────────────────────────
 
-function buildQuery(statusId: number, limit: number): string {
+/**
+ * One request per shelf. `username` / `account_privacy_setting_id` ride along so the caller can
+ * build shelf links without a second round trip, and `user_books_aggregate` gives the full shelf
+ * size for the "see all N" affordance.
+ */
+function buildQuery(statusId: number, orderBy: string, limit: number): string {
   return `{
   me {
+    username
+    account_privacy_setting_id
+    user_books_aggregate(where: { status_id: { _eq: ${statusId} } }) {
+      aggregate { count }
+    }
     user_books(
       where: { status_id: { _eq: ${statusId} } }
-      order_by: { date_added: desc }
+      order_by: ${orderBy}
       limit: ${limit}
     ) {
       rating
@@ -150,10 +216,11 @@ function transformUserBooks(rawBooks: RawUserBook[]): UserBook[] {
  * a plain `Error` for transient (HTTP/network/non-auth GraphQL) failures. A legitimately empty list
  * returns `[]` (success) — only failures throw.
  */
-async function fetchUserBooksOrThrow(
+async function fetchShelfOrThrow(
   statusId: number,
+  orderBy: string,
   limit: number,
-): Promise<UserBook[]> {
+): Promise<RawShelf> {
   const token = process.env.HARDCOVER_API_TOKEN;
   if (!token) {
     throw new HardcoverAuthError('[hardcover] HARDCOVER_API_TOKEN is not set');
@@ -165,7 +232,7 @@ async function fetchUserBooksOrThrow(
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ query: buildQuery(statusId, limit) }),
+    body: JSON.stringify({ query: buildQuery(statusId, orderBy, limit + BLOCKLIST_PAD) }),
     signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
   });
 
@@ -198,44 +265,76 @@ async function fetchUserBooksOrThrow(
     throw new Error(`[hardcover] GraphQL errors: ${msg}`);
   }
 
-  const userBooks = json.data?.me?.[0]?.user_books ?? [];
+  const me = json.data?.me?.[0];
   const blacklist = getBlacklistedSlugs();
-  return transformUserBooks(userBooks).filter(
-    (ub) => !blacklist.has(ub.book.slug) && !isTitleBlocked(ub.book.title),
-  );
+  const books = transformUserBooks(me?.user_books ?? [])
+    .filter((ub) => !blacklist.has(ub.book.slug) && !isTitleBlocked(ub.book.title))
+    .slice(0, limit); // trim the over-fetch back to the display limit
+
+  return {
+    books,
+    total: me?.user_books_aggregate?.aggregate?.count ?? 0,
+    username: me?.username ?? null,
+    isPublic: me?.account_privacy_setting_id === PRIVACY_PUBLIC,
+  };
 }
 
-/** Non-throwing wrapper — returns [] on any failure (the build-safe default). */
-async function fetchUserBooks(
+/** Non-throwing wrapper — returns an empty shelf on any failure (the build-safe default). */
+async function fetchShelf(
   statusId: number,
+  orderBy: string,
   limit: number,
-): Promise<UserBook[]> {
+): Promise<RawShelf> {
   try {
-    return await fetchUserBooksOrThrow(statusId, limit);
+    return await fetchShelfOrThrow(statusId, orderBy, limit);
   } catch {
-    return [];
+    return { books: [], total: 0, username: null, isPublic: false };
   }
 }
 
 // ─── Public API ────────────────────────────────────────────────────
 
 /**
- * Fetch the full reading list: currently reading, want to read, and recently read.
- * Three requests run in parallel via Promise.all. Returns empty arrays on failure.
+ * Assemble the three fetched shelves into the public payload.
+ *
+ * Shelf links are emitted only when the Hardcover account is Public — on a Followers-only or Private
+ * account the URLs would 404 for a logged-out visitor, so `url` goes null and the UI drops the
+ * "see all" affordance rather than linking somewhere unreadable.
  */
-export async function getReadingListData(): Promise<ReadingListData> {
-  const [currentlyReading, wantToRead, recentlyRead] = await Promise.all([
-    fetchUserBooks(STATUS.CURRENTLY_READING, 10),
-    fetchUserBooks(STATUS.WANT_TO_READ, 10),
-    fetchUserBooks(STATUS.READ, 10),
-  ]);
+function toReadingListData(shelves: Record<ShelfKey, RawShelf>): ReadingListData {
+  const username = shelves.currentlyReading.username;
+  const isPublic = shelves.currentlyReading.isPublic;
+
+  const meta = (key: ShelfKey) => ({
+    total: shelves[key].total,
+    url: isPublic && username ? shelfUrl(username, SHELVES[key].path) : null,
+  });
 
   return {
-    currentlyReading,
-    wantToRead,
-    recentlyRead,
+    currentlyReading: shelves.currentlyReading.books,
+    wantToRead: shelves.wantToRead.books,
+    recentlyRead: shelves.recentlyRead.books,
+    shelves: {
+      currentlyReading: meta('currentlyReading'),
+      recentlyRead: meta('recentlyRead'),
+      wantToRead: meta('wantToRead'),
+    },
     fetchedAt: new Date().toISOString(),
   };
+}
+
+/**
+ * Fetch the full reading list: currently reading, want to read, and recently read — `SHELF_LIMIT`
+ * books each. Three requests run in parallel via Promise.all. Returns empty shelves on failure.
+ */
+export async function getReadingListData(): Promise<ReadingListData> {
+  const [currentlyReading, recentlyRead, wantToRead] = await Promise.all([
+    fetchShelf(SHELVES.currentlyReading.statusId, SHELVES.currentlyReading.orderBy, SHELF_LIMIT),
+    fetchShelf(SHELVES.recentlyRead.statusId, SHELVES.recentlyRead.orderBy, SHELF_LIMIT),
+    fetchShelf(SHELVES.wantToRead.statusId, SHELVES.wantToRead.orderBy, SHELF_LIMIT),
+  ]);
+
+  return toReadingListData({ currentlyReading, recentlyRead, wantToRead });
 }
 
 /**
@@ -243,32 +342,41 @@ export async function getReadingListData(): Promise<ReadingListData> {
  * the last-good snapshot rather than a partially-populated list.
  */
 export async function getReadingListDataOrThrow(): Promise<ReadingListData> {
-  const [currentlyReading, wantToRead, recentlyRead] = await Promise.all([
-    fetchUserBooksOrThrow(STATUS.CURRENTLY_READING, 10),
-    fetchUserBooksOrThrow(STATUS.WANT_TO_READ, 10),
-    fetchUserBooksOrThrow(STATUS.READ, 10),
+  const [currentlyReading, recentlyRead, wantToRead] = await Promise.all([
+    fetchShelfOrThrow(
+      SHELVES.currentlyReading.statusId,
+      SHELVES.currentlyReading.orderBy,
+      SHELF_LIMIT,
+    ),
+    fetchShelfOrThrow(SHELVES.recentlyRead.statusId, SHELVES.recentlyRead.orderBy, SHELF_LIMIT),
+    fetchShelfOrThrow(SHELVES.wantToRead.statusId, SHELVES.wantToRead.orderBy, SHELF_LIMIT),
   ]);
 
-  return {
-    currentlyReading,
-    wantToRead,
-    recentlyRead,
-    fetchedAt: new Date().toISOString(),
-  };
+  return toReadingListData({ currentlyReading, recentlyRead, wantToRead });
 }
 
 /**
  * Fetch only the currently-reading list (e.g. for an about-page widget). Returns [] on failure.
  */
 export async function getCurrentlyReading(
-  limit: number = 5,
+  limit: number = SHELF_LIMIT,
 ): Promise<UserBook[]> {
-  return fetchUserBooks(STATUS.CURRENTLY_READING, limit);
+  const shelf = await fetchShelf(
+    SHELVES.currentlyReading.statusId,
+    SHELVES.currentlyReading.orderBy,
+    limit,
+  );
+  return shelf.books;
 }
 
 /** Like `getCurrentlyReading` but THROWS on failure (for last-good wrapping at the app layer). */
 export async function getCurrentlyReadingOrThrow(
-  limit: number = 5,
+  limit: number = SHELF_LIMIT,
 ): Promise<UserBook[]> {
-  return fetchUserBooksOrThrow(STATUS.CURRENTLY_READING, limit);
+  const shelf = await fetchShelfOrThrow(
+    SHELVES.currentlyReading.statusId,
+    SHELVES.currentlyReading.orderBy,
+    limit,
+  );
+  return shelf.books;
 }
