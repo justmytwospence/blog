@@ -44,6 +44,28 @@ everything and surface `[hardcover] ...` console errors, returning `[]`.
 > npm-workspaces note: this package never imports from the app (`lib/`/`@/`). The last-good (Upstash)
 > wrapping lives at the app layer (`app/reading`, `app/about`), so the package stays pure and testable.
 
+## Fiction / non-fiction (`HardcoverBook.isFiction`)
+
+`/reading` splits each shelf into Fiction and Non-Fiction, but Hardcover has no single reliable field
+for it, so `src/classify.ts` walks a ladder of signals and stops at the first one that answers:
+
+1. **`literary_type_id`** — Hardcover's own curated field (`1` fiction, `2` non-fiction). Trustworthy,
+   but null for a large share of books.
+2. **Crowd genre tags** (`cached_tags`, the `Genre` + `Tag` buckets) as a weighted vote: an explicit
+   `Fiction`/`Nonfiction` tag (3) beats a compound like `Science Fiction` (2) beats an implying genre
+   like `Memoir` (1). Tag *counts* are deliberately ignored — bulk BISAC imports carry counts in the
+   thousands (`Body, Mind & Spirit`) and would outvote every real reader tag. The `Mood` bucket is
+   skipped: it describes tone, not form.
+3. **`book_category_id`** — only the decisive ones (Short Story, Graphic Novel, Research Paper …);
+   `Book`, `Collection` and `Poetry` say nothing.
+4. **Subtitle shape** — a last-resort tiebreak. An explanatory subtitle is a non-fiction convention;
+   fiction subtitles are rare and usually genre markers (`A Novel`). Falls back to the title's
+   post-colon half when the `subtitle` field is null.
+
+Only a book that trips none of these hits the default (fiction). The earlier implementation looked at
+`taggings` filtered to the literal strings `Fiction`/`Nonfiction` and defaulted to fiction whenever
+neither was present — which was most of the shelf, so non-fiction routinely surfaced under "Fiction".
+
 ## Tests
 
 ```bash
@@ -53,3 +75,6 @@ npm -w @blog/hardcover run test
 Covers the happy path, transformation, blacklist filter, parallel fetches, every failure mode of the
 non-throwing API (no token, HTTP error, GraphQL error, network throw), and the throwing variants
 (reject with `HardcoverAuthError` on 401 / GraphQL-auth / missing token; plain `Error` on 5xx/network).
+
+`__tests__/classify.test.ts` covers each rung of the fiction ladder plus a regression table of real
+shelf entries the old tag-only classifier got wrong.

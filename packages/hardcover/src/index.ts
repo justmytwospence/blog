@@ -14,8 +14,10 @@
  */
 
 import type { HardcoverBook, UserBook, ReadingListData } from './types';
+import { classifyIsFiction, type CachedTags } from './classify';
 
 export type { HardcoverBook, UserBook, ReadingListData };
+export { classifyIsFiction } from './classify';
 
 /** Thrown when Hardcover rejects the token (expired/invalid), distinct from a transient failure. */
 export class HardcoverAuthError extends Error {
@@ -62,18 +64,17 @@ interface RawContribution {
   author: { name: string };
 }
 
-interface RawTagging {
-  tag: { tag: string };
-}
-
 interface RawBook {
   title: string;
+  subtitle: string | null;
   slug: string;
   description: string | null;
   pages: number | null;
   image: { url: string } | null;
   contributions: RawContribution[];
-  taggings: RawTagging[];
+  literary_type_id: number | null;
+  book_category_id: number | null;
+  cached_tags: CachedTags;
 }
 
 interface RawUserBook {
@@ -105,27 +106,19 @@ function buildQuery(statusId: number, limit: number): string {
       date_added
       book {
         title
+        subtitle
         slug
         description
         pages
         image { url }
         contributions { author { name } }
-        taggings(where: {tag: {tag: {_in: ["Fiction", "Nonfiction"]}}}) { tag { tag } }
+        literary_type_id
+        book_category_id
+        cached_tags
       }
     }
   }
 }`;
-}
-
-function computeIsFiction(taggings: RawTagging[]): boolean {
-  let fiction = 0;
-  let nonfiction = 0;
-  for (const t of taggings) {
-    if (t.tag.tag === 'Fiction') fiction++;
-    else if (t.tag.tag === 'Nonfiction') nonfiction++;
-  }
-  // Default to fiction when no tags present
-  return nonfiction === 0 || fiction >= nonfiction;
 }
 
 function transformBook(raw: RawBook): HardcoverBook {
@@ -137,7 +130,13 @@ function transformBook(raw: RawBook): HardcoverBook {
     imageUrl: raw.image?.url ?? null,
     authors: raw.contributions.map((c) => c.author.name),
     hardcoverUrl: `https://hardcover.app/books/${raw.slug}`,
-    isFiction: computeIsFiction(raw.taggings),
+    isFiction: classifyIsFiction({
+      literaryTypeId: raw.literary_type_id,
+      bookCategoryId: raw.book_category_id,
+      cachedTags: raw.cached_tags,
+      title: raw.title,
+      subtitle: raw.subtitle,
+    }),
   };
 }
 
