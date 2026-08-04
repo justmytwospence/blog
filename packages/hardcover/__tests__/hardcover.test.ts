@@ -221,6 +221,50 @@ describe('hardcover API client', () => {
     expect(books[0].book.slug).toBe('a-normal-book');
   });
 
+  it('blocks title keywords by stem, not whole word', async () => {
+    vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
+
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      // "Suicidal" does not contain "suicide" — the keyword has to match the stem.
+      json: async () => makeMockResponse({ title: 'The Suicidal Mind', slug: 'the-suicidal-mind' }),
+    });
+
+    const { getCurrentlyReading } = await import('../src');
+    expect(await getCurrentlyReading()).toEqual([]);
+  });
+
+  it('blocks on the slug when the title is a truncated form', async () => {
+    vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
+
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      // Real record: Hardcover stores the title without the telling half of it.
+      json: async () =>
+        makeMockResponse({ title: 'The savage god', slug: 'the-savage-god-a-study-of-suicide' }),
+    });
+
+    const { getCurrentlyReading } = await import('../src');
+    expect(await getCurrentlyReading()).toEqual([]);
+  });
+
+  it('does not block on the description alone', async () => {
+    vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
+
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () =>
+        makeMockResponse({
+          title: "It's Kind of a Funny Story",
+          slug: 'its-kind-of-a-funny-story',
+          description: 'A teenager checks himself into a psychiatric ward after suicidal thoughts.',
+        }),
+    });
+
+    const { getCurrentlyReading } = await import('../src');
+    expect(await getCurrentlyReading()).toHaveLength(1);
+  });
+
   it('getReadingListData runs three fetches in parallel', async () => {
     vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
 
@@ -255,8 +299,14 @@ describe('hardcover shelf limits and links', () => {
     vi.unstubAllEnvs();
   });
 
-  /** A shelf of `count` distinct books, all passing the blocklist. */
-  function makeShelf(count: number, privacyId: number | null = 1, total = 99) {
+  /**
+   * A shelf of `count` books alternating fiction / non-fiction every `fictionRun` books, so a test
+   * can control how deep the classifier has to read to fill a group.
+   */
+  function makeShelf(
+    count: number,
+    { privacyId = 1 as number | null, total = 99, fictionRun = 1 } = {},
+  ) {
     return {
       data: {
         me: [
@@ -274,7 +324,8 @@ describe('hardcover shelf limits and links', () => {
                 description: null,
                 image: null,
                 contributions: [],
-                literary_type_id: 1,
+                // literary_type_id 1 = fiction, 2 = non-fiction
+                literary_type_id: i % (fictionRun + 1) === fictionRun ? 2 : 1,
                 book_category_id: 1,
                 cached_tags: null,
               },
@@ -285,50 +336,78 @@ describe('hardcover shelf limits and links', () => {
     };
   }
 
-  it('renders at most SHELF_LIMIT books per shelf', async () => {
-    globalThis.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => makeShelf(15) });
+  it('caps each fiction/non-fiction group at GROUP_LIMIT, not the shelf as a whole', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => makeShelf(40) });
 
-    const { getReadingListData, SHELF_LIMIT } = await import('../src');
+    const { getReadingListData, GROUP_LIMIT } = await import('../src');
     const data = await getReadingListData();
 
-    expect(SHELF_LIMIT).toBe(5);
-    expect(data.currentlyReading).toHaveLength(SHELF_LIMIT);
-    expect(data.wantToRead).toHaveLength(SHELF_LIMIT);
-    expect(data.recentlyRead).toHaveLength(SHELF_LIMIT);
+    expect(GROUP_LIMIT).toBe(5);
+    for (const shelf of [data.wantToRead, data.recentlyRead]) {
+      expect(shelf.filter((ub) => ub.book.isFiction)).toHaveLength(GROUP_LIMIT);
+      expect(shelf.filter((ub) => !ub.book.isFiction)).toHaveLength(GROUP_LIMIT);
+      expect(shelf).toHaveLength(GROUP_LIMIT * 2);
+    }
   });
 
-  it('over-fetches so blocklisted books do not shorten the row', async () => {
-    // Three of the first books are blocked; the shelf must still render a full five.
-    vi.stubEnv('HARDCOVER_BLACKLIST', 'book-0,book-1,book-2');
-    globalThis.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => makeShelf(15) });
+  it('reads deep enough to fill the minority group on a lopsided shelf', async () => {
+    // 9:1 fiction — the real "Read" shelf's ratio. The 5th non-fiction book sits ~30 deep.
+    globalThis.fetch = vi
+      .fn()
+      .mockResolvedValue({ ok: true, json: async () => makeShelf(40, { fictionRun: 9 }) });
 
     const { getReadingListData } = await import('../src');
     const data = await getReadingListData();
 
-    expect(data.recentlyRead).toHaveLength(5);
-    expect(data.recentlyRead.map((ub) => ub.book.slug)).toEqual([
-      'book-3', 'book-4', 'book-5', 'book-6', 'book-7',
-    ]);
+    expect(data.recentlyRead.filter((ub) => ub.book.isFiction)).toHaveLength(5);
+    expect(data.recentlyRead.filter((ub) => !ub.book.isFiction)).toHaveLength(4); // all that exist
   });
 
-  it('asks Hardcover for more than it shows, and sorts Recently Read by finish date', async () => {
-    const mockFetch = vi.fn().mockResolvedValue({ ok: true, json: async () => makeShelf(15) });
+  it('leaves Currently Reading uncapped', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => makeShelf(23) });
+
+    const { getReadingListData } = await import('../src');
+    const data = await getReadingListData();
+
+    expect(data.currentlyReading).toHaveLength(23);
+  });
+
+  it('preserves shelf order within each group', async () => {
+    vi.stubEnv('HARDCOVER_BLACKLIST', 'book-0,book-2');
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => makeShelf(40) });
+
+    const { getReadingListData } = await import('../src');
+    const data = await getReadingListData();
+
+    const slugs = data.wantToRead.map((ub) => ub.book.slug);
+    expect(slugs).not.toContain('book-0');
+    expect(slugs).not.toContain('book-2');
+    // Still ascending — trimming must not reorder the shelf.
+    const indices = slugs.map((s) => Number(s.split('-')[1]));
+    expect(indices).toEqual([...indices].sort((a, b) => a - b));
+  });
+
+  it('sends no limit for Currently Reading, a window for the others, and sorts by finish date', async () => {
+    const mockFetch = vi.fn().mockResolvedValue({ ok: true, json: async () => makeShelf(40) });
     globalThis.fetch = mockFetch;
 
     const { getReadingListData } = await import('../src');
     await getReadingListData();
 
     const queries: string[] = mockFetch.mock.calls.map((c) => JSON.parse(c[1].body).query);
-    // Every query over-fetches past the display limit.
-    expect(queries.every((q) => /limit:\s*15/.test(q))).toBe(true);
+    const currentlyReading = queries.find((q) => q.includes('_eq: 2'))!;
+    const read = queries.find((q) => q.includes('_eq: 3'))!;
+
+    expect(currentlyReading).not.toMatch(/limit:/);
+    expect(read).toMatch(/limit:\s*40/);
     // "Recently Read" means recently *finished*, not recently shelved.
-    expect(queries.some((q) => q.includes('last_read_date: desc_nulls_last'))).toBe(true);
+    expect(read).toContain('last_read_date: desc_nulls_last');
   });
 
   it('links to the public Hardcover shelf, with the full shelf total', async () => {
     globalThis.fetch = vi
       .fn()
-      .mockResolvedValue({ ok: true, json: async () => makeShelf(15, 1, 292) });
+      .mockResolvedValue({ ok: true, json: async () => makeShelf(15, { total: 292 }) });
 
     const { getReadingListData } = await import('../src');
     const data = await getReadingListData();
@@ -349,7 +428,7 @@ describe('hardcover shelf limits and links', () => {
       vi.resetModules();
       globalThis.fetch = vi
         .fn()
-        .mockResolvedValue({ ok: true, json: async () => makeShelf(15, privacyId) });
+        .mockResolvedValue({ ok: true, json: async () => makeShelf(15, { privacyId }) });
 
       const { getReadingListData } = await import('../src');
       const data = await getReadingListData();

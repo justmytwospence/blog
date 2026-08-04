@@ -35,7 +35,7 @@ getCurrentlyReading(limit?: number): Promise<UserBook[]> // currently-reading on
 getReadingListDataOrThrow(): Promise<ReadingListData>    // throws if ANY of the 3 fetches fails
 getCurrentlyReadingOrThrow(limit?: number): Promise<UserBook[]> // throws on failure
 
-SHELF_LIMIT: number                                      // books rendered per shelf (5)
+GROUP_LIMIT: number                                      // books per fiction/non-fiction group (5)
 ```
 
 The `*OrThrow` variants exist so the app layer can wrap them in the last-good cache: a returned `[]`
@@ -48,12 +48,22 @@ everything and surface `[hardcover] ...` console errors, returning `[]`.
 
 ## Shelf size, ordering, and "see all" links
 
-Each of the three shelves renders exactly `SHELF_LIMIT` (5) books, so no section looks arbitrarily
-longer than another. Three things make that work:
+`/reading` splits every shelf into a Fiction grid and a Non-Fiction grid, so the unit that governs
+how long a row looks is the **group**, not the shelf. Each shelf is trimmed by one of three policies
+(`Trim` in `src/index.ts`):
 
-- **Over-fetch, then trim.** The slug/title blocklist filters *after* the query returns, so asking
-  for exactly 5 would render a short row whenever a blocked book landed in the window. The query asks
-  for `SHELF_LIMIT + 10` and slices back to 5 once filtering is done.
+| Shelf | Policy | Result |
+|---|---|---|
+| Currently Reading | `all` | the whole shelf, uncapped — it is a complete state, not a sample, and truncating it would misreport how many books are in flight |
+| Recently Read | `perGroup` | `GROUP_LIMIT` (5) fiction **and** 5 non-fiction |
+| To Be Read | `perGroup` | same |
+| `getCurrentlyReading(n)` (the /about widget) | `count` | exactly `n`, class-blind |
+
+- **Classification happens locally, so the query has to over-read.** Hardcover cannot filter on
+  fiction-ness (it is derived from `literary_type_id` + tags), so `perGroup` pulls a
+  `CLASSIFY_WINDOW` of 40 and sorts it out here. 40 is sized off the real shelves: "Read" runs about
+  9:1 fiction, putting the 5th non-fiction book ~22 deep. A shelf lopsided past the window renders a
+  short row rather than a wrong one.
 - **Per-shelf ordering.** "Recently Read" sorts by `last_read_date` (when the book was *finished*),
   not `date_added`. Books are routinely shelved months before they're finished, so `date_added`
   silently omits recent finishes — it was hiding a book finished a fortnight ago behind ten older
@@ -62,11 +72,25 @@ longer than another. Three things make that work:
   `user_books_aggregate`, in the same request — no extra round trip) and a `url` to the public
   hardcover.app shelf. The URL is emitted **only when `account_privacy_setting_id` is 1 (Public)**;
   on a Followers-only or Private account it is null and the UI drops the link rather than pointing a
-  logged-out visitor at a 404.
+  logged-out visitor at a 404. The link is hidden when the shelf holds no more than is already shown,
+  which is why uncapped Currently Reading normally has none.
 
 > Note: those links lead to Hardcover's own shelf pages, which show **every** book — including the
-> ones `HARDCOVER_BLACKLIST` / `TITLE_BLOCKLIST` hide here. The blocklist keeps books off this site;
-> it cannot hide them on a public Hardcover profile.
+> ones `HARDCOVER_BLACKLIST` / `KEYWORD_BLOCKLIST` hide here. The blocklist keeps books off this
+> site; it cannot hide them on a public Hardcover profile.
+
+### Blocklist matching
+
+`KEYWORD_BLOCKLIST` matches **stems against title *and* slug**, and both details are load-bearing —
+rendering more books per shelf exposed a book to each:
+
+- `suicide` as a whole word let *The Suicidal Mind* through; the entry is `suicid`.
+- Hardcover's `title` is sometimes a truncated form that drops the telling half: *The Savage God: A
+  Study of Suicide* is stored as title `"The savage god"`. Its **slug** keeps the full title
+  (`the-savage-god-a-study-of-suicide`), so the slug is matched too.
+
+Descriptions are deliberately **not** scanned — plenty of unrelated books mention a blocked topic in
+passing, and hiding those would be a rule nobody asked for.
 
 ## Fiction / non-fiction (`HardcoverBook.isFiction`)
 

@@ -39,15 +39,22 @@ function getBlacklistedSlugs(): Set<string> {
 }
 
 /**
- * Title substrings (case-insensitive) that exclude a book from the public reading list, regardless
- * of slug. Unlike the slug blacklist this is an open-ended keyword rule, so it also hides future
- * books whose slug we don't know yet.
+ * Keyword substrings (case-insensitive) that exclude a book from the public reading list. Unlike the
+ * slug blacklist this is an open-ended rule, so it also hides future books we have never seen.
+ *
+ * Two details, both learned the hard way once the shelves started rendering more books:
+ *  - **Stems, not whole words.** `suicide` alone let "The Suicidal Mind" through.
+ *  - **Slug as well as title.** Hardcover's `title` is sometimes a truncated form that drops the
+ *    telling half — "The Savage God: A Study of Suicide" is stored as title "The savage god", but
+ *    its slug is `the-savage-god-a-study-of-suicide`. The slug preserves the full title, so match it
+ *    too. (Descriptions are deliberately NOT scanned: too many unrelated books mention the topic in
+ *    passing, and hiding those would be a rule nobody asked for.)
  */
-const TITLE_BLOCKLIST = ['suicide'];
+const KEYWORD_BLOCKLIST = ['suicid'];
 
-function isTitleBlocked(title: string): boolean {
-  const t = title.toLowerCase();
-  return TITLE_BLOCKLIST.some((kw) => t.includes(kw));
+function isKeywordBlocked(title: string, slug: string): boolean {
+  const haystack = `${title} ${slug}`.toLowerCase();
+  return KEYWORD_BLOCKLIST.some((kw) => haystack.includes(kw));
 }
 
 /** Hardcover status IDs */
@@ -61,15 +68,40 @@ const STATUS = {
 /** `account_privacy_setting_id` 1 = Public; 2 = Followers only; 3 = Private. */
 const PRIVACY_PUBLIC = 1;
 
-/** How many books each shelf shows on the site. Uniform, so no section looks arbitrarily longer. */
-export const SHELF_LIMIT = 5;
+/**
+ * Books shown per fiction / non-fiction group. The page splits every shelf into those two grids, so
+ * this — not a whole-shelf total — is what governs how long a row looks.
+ */
+export const GROUP_LIMIT = 5;
 
 /**
- * The blocklist drops books *after* the query runs, so asking Hardcover for exactly `SHELF_LIMIT`
- * would render a short row whenever a blocked book lands inside the window. Over-fetch by this much
- * and trim back to the requested count.
+ * How deep to read a shelf when filling both groups. Fiction/non-fiction is classified *here*, from
+ * fields Hardcover cannot filter on, so the only way to land `GROUP_LIMIT` of each is to pull a
+ * window and sort it out locally.
+ *
+ * Sized off the real shelves: "Read" runs about 9:1 fiction, so the 5th non-fiction book sits ~22
+ * deep — 40 leaves nearly 2x headroom. A shelf lopsided beyond that renders a short row rather than
+ * a wrong one, which is the right failure.
+ */
+const CLASSIFY_WINDOW = 40;
+
+/**
+ * The blocklist drops books *after* the query runs, so asking for exactly N would render a short row
+ * whenever a blocked book lands inside the window. Over-fetch by this much on the fixed-count path.
  */
 const BLOCKLIST_PAD = 10;
+
+/**
+ * How a shelf is trimmed once its books are fetched and classified.
+ *  - `perGroup` — `GROUP_LIMIT` fiction *and* `GROUP_LIMIT` non-fiction (the /reading sections).
+ *  - `all`      — the whole shelf, uncapped (Currently Reading: it is a complete state, not a
+ *                 sample, and truncating it would misreport how many books are in flight).
+ *  - `count`    — exactly N books regardless of class (the /about widget).
+ */
+type Trim =
+  | { kind: 'perGroup' }
+  | { kind: 'all' }
+  | { kind: 'count'; limit: number };
 
 /**
  * Per-shelf query shape. `orderBy` is what makes each section mean what its heading claims:
@@ -82,20 +114,55 @@ const SHELVES = {
     statusId: STATUS.CURRENTLY_READING,
     orderBy: '{ date_added: desc }',
     path: 'currently-reading',
+    trim: { kind: 'all' } as Trim,
   },
   recentlyRead: {
     statusId: STATUS.READ,
     orderBy: '{ last_read_date: desc_nulls_last }',
     path: 'read',
+    trim: { kind: 'perGroup' } as Trim,
   },
   wantToRead: {
     statusId: STATUS.WANT_TO_READ,
     orderBy: '{ date_added: desc }',
     path: 'want-to-read',
+    trim: { kind: 'perGroup' } as Trim,
   },
 } as const;
 
 type ShelfKey = keyof typeof SHELVES;
+
+/** How many rows to ask Hardcover for, given how the result will be trimmed. */
+function queryLimit(trim: Trim): number | null {
+  switch (trim.kind) {
+    case 'perGroup':
+      return CLASSIFY_WINDOW;
+    case 'count':
+      return trim.limit + BLOCKLIST_PAD;
+    case 'all':
+      return null; // no limit clause — return the whole shelf
+  }
+}
+
+/** Cap each fiction/non-fiction group at `perGroup`, preserving the shelf's own ordering. */
+function takePerGroup(books: UserBook[], perGroup: number): UserBook[] {
+  let fiction = 0;
+  let nonfiction = 0;
+  return books.filter((ub) =>
+    ub.book.isFiction ? fiction++ < perGroup : nonfiction++ < perGroup,
+  );
+}
+
+function applyTrim(books: UserBook[], trim: Trim): UserBook[] {
+  switch (trim.kind) {
+    case 'perGroup':
+      return takePerGroup(books, GROUP_LIMIT);
+    case 'count':
+      return books.slice(0, trim.limit);
+    case 'all':
+      return books;
+  }
+}
 
 /** Public shelf URL on hardcover.app, e.g. `https://hardcover.app/@user/books/read`. */
 function shelfUrl(username: string, path: string): string {
@@ -154,7 +221,7 @@ interface RawShelf {
  * build shelf links without a second round trip, and `user_books_aggregate` gives the full shelf
  * size for the "see all N" affordance.
  */
-function buildQuery(statusId: number, orderBy: string, limit: number): string {
+function buildQuery(statusId: number, orderBy: string, limit: number | null): string {
   return `{
   me {
     username
@@ -164,8 +231,8 @@ function buildQuery(statusId: number, orderBy: string, limit: number): string {
     }
     user_books(
       where: { status_id: { _eq: ${statusId} } }
-      order_by: ${orderBy}
-      limit: ${limit}
+      order_by: ${orderBy}${limit === null ? '' : `
+      limit: ${limit}`}
     ) {
       rating
       date_added
@@ -219,7 +286,7 @@ function transformUserBooks(rawBooks: RawUserBook[]): UserBook[] {
 async function fetchShelfOrThrow(
   statusId: number,
   orderBy: string,
-  limit: number,
+  trim: Trim,
 ): Promise<RawShelf> {
   const token = process.env.HARDCOVER_API_TOKEN;
   if (!token) {
@@ -232,7 +299,7 @@ async function fetchShelfOrThrow(
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ query: buildQuery(statusId, orderBy, limit + BLOCKLIST_PAD) }),
+    body: JSON.stringify({ query: buildQuery(statusId, orderBy, queryLimit(trim)) }),
     signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
   });
 
@@ -267,12 +334,12 @@ async function fetchShelfOrThrow(
 
   const me = json.data?.me?.[0];
   const blacklist = getBlacklistedSlugs();
-  const books = transformUserBooks(me?.user_books ?? [])
-    .filter((ub) => !blacklist.has(ub.book.slug) && !isTitleBlocked(ub.book.title))
-    .slice(0, limit); // trim the over-fetch back to the display limit
+  const visible = transformUserBooks(me?.user_books ?? []).filter(
+    (ub) => !blacklist.has(ub.book.slug) && !isKeywordBlocked(ub.book.title, ub.book.slug),
+  );
 
   return {
-    books,
+    books: applyTrim(visible, trim),
     total: me?.user_books_aggregate?.aggregate?.count ?? 0,
     username: me?.username ?? null,
     isPublic: me?.account_privacy_setting_id === PRIVACY_PUBLIC,
@@ -283,10 +350,10 @@ async function fetchShelfOrThrow(
 async function fetchShelf(
   statusId: number,
   orderBy: string,
-  limit: number,
+  trim: Trim,
 ): Promise<RawShelf> {
   try {
-    return await fetchShelfOrThrow(statusId, orderBy, limit);
+    return await fetchShelfOrThrow(statusId, orderBy, trim);
   } catch {
     return { books: [], total: 0, username: null, isPublic: false };
   }
@@ -324,15 +391,16 @@ function toReadingListData(shelves: Record<ShelfKey, RawShelf>): ReadingListData
 }
 
 /**
- * Fetch the full reading list: currently reading, want to read, and recently read — `SHELF_LIMIT`
- * books each. Three requests run in parallel via Promise.all. Returns empty shelves on failure.
+ * Fetch the full reading list. Currently Reading comes back whole; the other two shelves are capped
+ * at `GROUP_LIMIT` fiction and `GROUP_LIMIT` non-fiction. Three requests run in parallel via
+ * Promise.all. Returns empty shelves on failure.
  */
 export async function getReadingListData(): Promise<ReadingListData> {
-  const [currentlyReading, recentlyRead, wantToRead] = await Promise.all([
-    fetchShelf(SHELVES.currentlyReading.statusId, SHELVES.currentlyReading.orderBy, SHELF_LIMIT),
-    fetchShelf(SHELVES.recentlyRead.statusId, SHELVES.recentlyRead.orderBy, SHELF_LIMIT),
-    fetchShelf(SHELVES.wantToRead.statusId, SHELVES.wantToRead.orderBy, SHELF_LIMIT),
-  ]);
+  const [currentlyReading, recentlyRead, wantToRead] = await Promise.all(
+    (['currentlyReading', 'recentlyRead', 'wantToRead'] as const).map((key) =>
+      fetchShelf(SHELVES[key].statusId, SHELVES[key].orderBy, SHELVES[key].trim),
+    ),
+  );
 
   return toReadingListData({ currentlyReading, recentlyRead, wantToRead });
 }
@@ -342,41 +410,33 @@ export async function getReadingListData(): Promise<ReadingListData> {
  * the last-good snapshot rather than a partially-populated list.
  */
 export async function getReadingListDataOrThrow(): Promise<ReadingListData> {
-  const [currentlyReading, recentlyRead, wantToRead] = await Promise.all([
-    fetchShelfOrThrow(
-      SHELVES.currentlyReading.statusId,
-      SHELVES.currentlyReading.orderBy,
-      SHELF_LIMIT,
+  const [currentlyReading, recentlyRead, wantToRead] = await Promise.all(
+    (['currentlyReading', 'recentlyRead', 'wantToRead'] as const).map((key) =>
+      fetchShelfOrThrow(SHELVES[key].statusId, SHELVES[key].orderBy, SHELVES[key].trim),
     ),
-    fetchShelfOrThrow(SHELVES.recentlyRead.statusId, SHELVES.recentlyRead.orderBy, SHELF_LIMIT),
-    fetchShelfOrThrow(SHELVES.wantToRead.statusId, SHELVES.wantToRead.orderBy, SHELF_LIMIT),
-  ]);
+  );
 
   return toReadingListData({ currentlyReading, recentlyRead, wantToRead });
 }
 
 /**
  * Fetch only the currently-reading list (e.g. for an about-page widget). Returns [] on failure.
+ * Unlike the /reading section this takes a flat count, since the widget does not split by class.
  */
-export async function getCurrentlyReading(
-  limit: number = SHELF_LIMIT,
-): Promise<UserBook[]> {
-  const shelf = await fetchShelf(
-    SHELVES.currentlyReading.statusId,
-    SHELVES.currentlyReading.orderBy,
+export async function getCurrentlyReading(limit: number = GROUP_LIMIT): Promise<UserBook[]> {
+  const shelf = await fetchShelf(SHELVES.currentlyReading.statusId, SHELVES.currentlyReading.orderBy, {
+    kind: 'count',
     limit,
-  );
+  });
   return shelf.books;
 }
 
 /** Like `getCurrentlyReading` but THROWS on failure (for last-good wrapping at the app layer). */
-export async function getCurrentlyReadingOrThrow(
-  limit: number = SHELF_LIMIT,
-): Promise<UserBook[]> {
+export async function getCurrentlyReadingOrThrow(limit: number = GROUP_LIMIT): Promise<UserBook[]> {
   const shelf = await fetchShelfOrThrow(
     SHELVES.currentlyReading.statusId,
     SHELVES.currentlyReading.orderBy,
-    limit,
+    { kind: 'count', limit },
   );
   return shelf.books;
 }
