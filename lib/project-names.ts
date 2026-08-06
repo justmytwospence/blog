@@ -18,6 +18,7 @@ const projectNames: Record<string, string> = {
   vertfarmer: 'VertFarm',
   'ifs-journal': 'IFS Journal',
   groundcover: 'GroundCover',
+  '29ers': '29ers',
 };
 
 export default projectNames;

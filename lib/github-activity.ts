@@ -33,6 +33,7 @@ const REPO_TO_SLUG: Record<string, string> = {
   firsttracks: 'vertfarmer',
   'ifs-journal': 'ifs-journal',
   groundcover: 'groundcover',
+  '29ers': '29ers',
 };
 
 const QUERY = `query($login:String!, $from:DateTime!, $to:DateTime!){
