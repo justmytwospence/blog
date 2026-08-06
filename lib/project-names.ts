@@ -17,6 +17,7 @@ const projectNames: Record<string, string> = {
   homelab: 'Homelab',
   vertfarmer: 'VertFarm',
   'ifs-journal': 'IFS Journal',
+  groundcover: 'GroundCover',
 };
 
 export default projectNames;

@@ -32,6 +32,7 @@ const REPO_TO_SLUG: Record<string, string> = {
   homelab: 'homelab',
   firsttracks: 'vertfarmer',
   'ifs-journal': 'ifs-journal',
+  groundcover: 'groundcover',
 };
 
 const QUERY = `query($login:String!, $from:DateTime!, $to:DateTime!){
