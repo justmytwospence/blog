@@ -9,6 +9,8 @@ externalUrl: "https://groundcovermap.vercel.app"
 links:
   - label: "Live"
     url: "https://groundcovermap.vercel.app"
+  - label: "My map"
+    url: "https://groundcover-spencer.vercel.app"
   - label: "GitHub"
     url: "https://github.com/justmytwospence/groundcover"
 ---

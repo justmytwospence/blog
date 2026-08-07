@@ -39,12 +39,25 @@ export default async function AdventuresPage() {
         <div>
           <h1 className="text-4xl font-bold text-gray-900 dark:text-[#d4d4d4]">Adventures</h1>
         </div>
-        <Link
-          href="/adventures/objectives"
-          className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
-        >
-          Future Objectives →
-        </Link>
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+          {/* The published GroundCover deployment — the same history this page totals, drawn as
+              distinct ground rather than logged miles. A separate read-only Vercel project that
+              rebuilds nightly; the ↗ marks it as leaving the site. */}
+          <a
+            href="https://groundcover-spencer.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
+          >
+            Coverage Map ↗
+          </a>
+          <Link
+            href="/adventures/objectives"
+            className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
+          >
+            Future Objectives →
+          </Link>
+        </div>
       </div>
       <Suspense
         fallback={<div className="py-12 text-center text-gray-500 dark:text-[#a6a6a6]">Loading…</div>}
