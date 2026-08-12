@@ -299,6 +299,24 @@ describe('hardcover shelf limits and links', () => {
     vi.unstubAllEnvs();
   });
 
+  /** The `order_by` sort keys of a query, list order preserved. */
+  function sortKeys(query: string): string[] {
+    const inner = query.match(/order_by:\s*\[([^\]]*)\]/)![1];
+    return [...inner.matchAll(/\{([^}]*)\}/g)].map((m) => m[1].trim());
+  }
+
+  const leadingSortKey = (query: string) => sortKeys(query)[0];
+
+  /** The three parallel shelf queries, keyed by which shelf each one asked for. */
+  function queriesByStatus(mockFetch: ReturnType<typeof vi.fn>) {
+    const queries: string[] = mockFetch.mock.calls.map((c) => JSON.parse(c[1].body).query);
+    return {
+      wantToRead: queries.find((q) => q.includes('_eq: 1'))!,
+      currentlyReading: queries.find((q) => q.includes('_eq: 2'))!,
+      recentlyRead: queries.find((q) => q.includes('_eq: 3'))!,
+    };
+  }
+
   /**
    * A shelf of `count` books alternating fiction / non-fiction every `fictionRun` books, so a test
    * can control how deep the classifier has to read to fill a group.
@@ -387,21 +405,54 @@ describe('hardcover shelf limits and links', () => {
     expect(indices).toEqual([...indices].sort((a, b) => a - b));
   });
 
-  it('sends no limit for Currently Reading, a window for the others, and sorts by finish date', async () => {
+  it('sends no limit for Currently Reading and a window for the others', async () => {
     const mockFetch = vi.fn().mockResolvedValue({ ok: true, json: async () => makeShelf(40) });
     globalThis.fetch = mockFetch;
 
     const { getReadingListData } = await import('../src');
     await getReadingListData();
 
-    const queries: string[] = mockFetch.mock.calls.map((c) => JSON.parse(c[1].body).query);
-    const currentlyReading = queries.find((q) => q.includes('_eq: 2'))!;
-    const read = queries.find((q) => q.includes('_eq: 3'))!;
+    const queries = queriesByStatus(mockFetch);
 
-    expect(currentlyReading).not.toMatch(/limit:/);
-    expect(read).toMatch(/limit:\s*40/);
+    expect(queries.currentlyReading).not.toMatch(/limit:/);
+    expect(queries.recentlyRead).toMatch(/limit:\s*40/);
+    expect(queries.wantToRead).toMatch(/limit:\s*40/);
+  });
+
+  it('sorts every shelf newest-first on the date its heading refers to', async () => {
+    const mockFetch = vi.fn().mockResolvedValue({ ok: true, json: async () => makeShelf(40) });
+    globalThis.fetch = mockFetch;
+
+    const { getReadingListData } = await import('../src');
+    await getReadingListData();
+
+    const queries = queriesByStatus(mockFetch);
+
+    // "Currently Reading" means most recently *touched*. `date_added` is when the book entered the
+    // library, often months before it was opened, so it must not be the leading key.
+    expect(leadingSortKey(queries.currentlyReading)).toBe('updated_at: desc');
     // "Recently Read" means recently *finished*, not recently shelved.
-    expect(read).toContain('last_read_date: desc_nulls_last');
+    expect(leadingSortKey(queries.recentlyRead)).toBe('last_read_date: desc_nulls_last');
+    // "To Be Read" genuinely is most recently added.
+    expect(leadingSortKey(queries.wantToRead)).toBe('date_added: desc');
+  });
+
+  it('breaks same-day ties deterministically on every shelf', async () => {
+    // `date_added` / `last_read_date` are `date` columns: without a tiebreak Postgres is free to
+    // return same-day books in a different order each fetch, reshuffling the row and potentially
+    // bumping a newer book out of the trimmed grid.
+    const mockFetch = vi.fn().mockResolvedValue({ ok: true, json: async () => makeShelf(40) });
+    globalThis.fetch = mockFetch;
+
+    const { getReadingListData } = await import('../src');
+    await getReadingListData();
+
+    for (const query of Object.values(queriesByStatus(mockFetch))) {
+      const keys = sortKeys(query);
+      expect(keys.length).toBeGreaterThan(1);
+      // A unique, monotonic last key is what makes the ordering total.
+      expect(keys.at(-1)).toBe('id: desc');
+    }
   });
 
   it('links to the public Hardcover shelf, with the full shelf total', async () => {

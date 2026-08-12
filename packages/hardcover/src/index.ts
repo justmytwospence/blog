@@ -104,27 +104,41 @@ type Trim =
   | { kind: 'count'; limit: number };
 
 /**
- * Per-shelf query shape. `orderBy` is what makes each section mean what its heading claims:
- * "Recently Read" must sort by when a book was *finished* (`last_read_date`), not when it was added
- * — books are routinely shelved months before they are finished, so `date_added` silently omits
- * recent finishes. The other two shelves genuinely are "most recently added".
+ * Per-shelf query shape. `orderBy` is what makes each section mean what its heading claims, and
+ * every shelf must come back strictly newest-first: the trimmed grids show the first N in shelf
+ * order, so a wrong sort doesn't just misorder a row, it shows the wrong books entirely.
+ *
+ * Each sort is a *list*, because a single key is not enough on either count:
+ *
+ *  - **The leading key has to be the date the heading refers to.** "Recently Read" means recently
+ *    *finished* (`last_read_date`), not recently shelved. "Currently Reading" means most recently
+ *    *touched* (`updated_at` — a progress bump, a rating, any edit): books sit on the shelf for
+ *    months before they are opened, so `date_added` sank a book picked up days ago below one picked
+ *    up in the spring, and the 3-book /about widget dropped it off the end. Only "To Be Read"
+ *    genuinely is "most recently added".
+ *
+ *  - **The tail keys make the order total.** `date_added` and `last_read_date` are `date` columns,
+ *    so same-day entries tie, and Postgres returns ties in whatever order it pleases — enough to
+ *    reshuffle the top of a shelf between two fetches and to bump a genuinely-newer book out of the
+ *    trimmed grid. The timestamp columns break the day-level tie; `id: desc` (monotonic, unique) is
+ *    the final backstop, so the same shelf always renders in the same order.
  */
 const SHELVES = {
   currentlyReading: {
     statusId: STATUS.CURRENTLY_READING,
-    orderBy: '{ date_added: desc }',
+    orderBy: '[{ updated_at: desc }, { id: desc }]',
     path: 'currently-reading',
     trim: { kind: 'all' } as Trim,
   },
   recentlyRead: {
     statusId: STATUS.READ,
-    orderBy: '{ last_read_date: desc_nulls_last }',
+    orderBy: '[{ last_read_date: desc_nulls_last }, { updated_at: desc }, { id: desc }]',
     path: 'read',
     trim: { kind: 'perGroup' } as Trim,
   },
   wantToRead: {
     statusId: STATUS.WANT_TO_READ,
-    orderBy: '{ date_added: desc }',
+    orderBy: '[{ date_added: desc }, { created_at: desc }, { id: desc }]',
     path: 'want-to-read',
     trim: { kind: 'perGroup' } as Trim,
   },
