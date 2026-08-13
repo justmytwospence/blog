@@ -882,6 +882,9 @@ mark {
  * Leaflet sets high z-indexes on its internal panes/controls (up to ~1000). Without a stacking
  * context on the map container, those escape and render above the sticky navbar (z-50). Isolating
  * the container contains them; the fullscreen wrapper still sits above everything via its own z.
+ *
+ * This covers Leaflet's own DOM only. A map overlay rendered as a *sibling* of the container (the
+ * RouteMap / TripMap control clusters) is outside this rule and needs `isolate` on its own wrapper.
  */
 .leaflet-container {
   isolation: isolate;

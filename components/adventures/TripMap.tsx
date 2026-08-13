@@ -34,7 +34,11 @@ export function TripMap({
       <div
         role="group"
         aria-label={`Route map for ${title}`}
-        className={`relative overflow-hidden rounded-lg border border-gray-200 dark:border-[#303031] ${
+        // `isolate` is load-bearing: the overlay controls below are siblings of the Leaflet
+        // container, so the `.leaflet-container` isolation in globals.css does not cover them.
+        // Without a stacking context here their z-[1000] resolves against the root and paints
+        // over the sticky navbar (z-50) as the page scrolls.
+        className={`relative isolate overflow-hidden rounded-lg border border-gray-200 dark:border-[#303031] ${
           full ? 'h-full' : 'aspect-[4/5] sm:aspect-[16/9]'
         }`}
       >
