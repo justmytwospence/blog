@@ -5,21 +5,38 @@ import { MapContainer, TileLayer, Polyline, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { TILE_URL, TILE_ATTRIBUTION, TILE_MAX_ZOOM, dayColor } from './mapStyle';
-import { ResizeHandler, dotIcon, PhotoPins } from './leafletShared';
+import {
+  ResizeHandler,
+  dotIcon,
+  PhotoPins,
+  HoverTracker,
+  HoverMarker,
+  type HoverSource,
+  type LatLng,
+} from './leafletShared';
 import type { AdventureDay, ResolvedPhoto } from '@/lib/adventures';
 
-type LatLng = [number, number];
-
 export function TripMapInner({ days, photos = [] }: { days: AdventureDay[]; photos?: ResolvedPhoto[] }) {
+  // `day` is the index into `days`, kept explicitly: days without a track are skipped, so a line's
+  // position in this array is not its day — and the hover store addresses points by day.
   const dayLines = useMemo(() => {
-    const out: Array<{ color: string; positions: LatLng[] }> = [];
+    const out: Array<{ day: number; color: string; positions: LatLng[] }> = [];
     days.forEach((d, i) => {
       const t = d.activity.track;
       if (!t || t.coordinates.length < 2) return;
-      out.push({ color: dayColor(i), positions: t.coordinates.map(([lng, lat]) => [lat, lng] as LatLng) });
+      out.push({
+        day: i,
+        color: dayColor(i),
+        positions: t.coordinates.map(([lng, lat]) => [lat, lng] as LatLng),
+      });
     });
     return out;
   }, [days]);
+
+  const hoverSources = useMemo<HoverSource[]>(
+    () => dayLines.map((d) => ({ day: d.day, latlngs: d.positions })),
+    [dayLines],
+  );
 
   const bounds = useMemo(() => {
     const all = dayLines.flatMap((d) => d.positions);
@@ -41,12 +58,14 @@ export function TripMapInner({ days, photos = [] }: { days: AdventureDay[]; phot
     >
       <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} maxZoom={TILE_MAX_ZOOM} />
       <ResizeHandler />
-      {dayLines.map((d, i) => (
-        <Polyline key={i} positions={d.positions} pathOptions={{ color: d.color, weight: 4, opacity: 0.9 }} />
+      <HoverTracker sources={hoverSources} />
+      {dayLines.map((d) => (
+        <Polyline key={d.day} positions={d.positions} pathOptions={{ color: d.color, weight: 4, opacity: 0.9 }} />
       ))}
       <Marker position={start} icon={dotIcon('#16a34a')} />
       <Marker position={end} icon={dotIcon('#dc2626')} />
       <PhotoPins photos={photos} />
+      <HoverMarker sources={hoverSources} />
     </MapContainer>
   );
 }

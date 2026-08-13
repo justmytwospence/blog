@@ -1,9 +1,22 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { type ChartOptions, type ScriptableLineSegmentContext, type Plugin } from 'chart.js';
+import { useMemo, useRef, useState } from 'react';
+import {
+  Chart as ChartJS,
+  type ChartOptions,
+  type ScriptableLineSegmentContext,
+  type Plugin,
+} from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { useIsDark, chartGrid, chartTick } from './chartShared';
+import { useHoverStore } from './hoverStore';
+import {
+  useIsDark,
+  useChartHoverSync,
+  reportChartHover,
+  hoverLine,
+  chartGrid,
+  chartTick,
+} from './chartShared';
 import { dayColor, gradeColor } from './mapStyle';
 import { metersToMiles, metersToFeet } from '@/lib/units';
 import type { AdventureDay } from '@/lib/adventures';
@@ -12,9 +25,13 @@ type ColorMode = 'day' | 'grade';
 
 /** Combined elevation profile across all days (or legs): continuous cumulative distance, colored per day or by grade. */
 export function TripElevation({ days, unit = 'day' }: { days: AdventureDay[]; unit?: 'day' | 'leg' }) {
+  const chartRef = useRef<ChartJS<'line'> | null>(null);
+  const setHover = useHoverStore((s) => s.setHover);
   const dark = useIsDark();
   const [mode, setMode] = useState<ColorMode>('day');
   const label = unit === 'leg' ? 'Leg' : 'Day';
+
+  useChartHoverSync(chartRef);
 
   // One entry per day with its points, grade, and start position. Advance the cumulative distance by
   // the TRACK's end (not the activity total) so consecutive days are contiguous — bridging across that
@@ -51,6 +68,9 @@ export function TripElevation({ days, unit = 'day' }: { days: AdventureDay[]; un
     const color = dayColor(d.di);
     return {
       label: `${label} ${d.di + 1}`,
+      // The day this dataset plots. `perDay` skips days with no track, so the dataset's own position
+      // is not the day — and the shared hover cursor addresses points by day.
+      dayIndex: d.di,
       data: d.data,
       borderColor: mode === 'grade' ? '#2563eb' : color,
       backgroundColor: mode === 'grade' ? 'rgba(37,99,235,0.12)' : `${color}22`,
@@ -97,6 +117,7 @@ export function TripElevation({ days, unit = 'day' }: { days: AdventureDay[]; un
     maintainAspectRatio: false,
     animation: false,
     interaction: { mode: 'nearest', axis: 'x', intersect: false },
+    onHover: (_e, elements) => reportChartHover(elements, (di) => perDay[di]?.di),
     plugins: {
       legend: { display: false },
       tooltip: {
@@ -149,8 +170,8 @@ export function TripElevation({ days, unit = 'day' }: { days: AdventureDay[]; un
           </button>
         </div>
       </div>
-      <div className="relative h-56 w-full sm:h-64">
-        <Line data={{ datasets }} options={options} plugins={[dayBoundaries]} />
+      <div className="relative h-56 w-full sm:h-64" onMouseLeave={() => setHover(null)}>
+        <Line ref={chartRef} data={{ datasets }} options={options} plugins={[dayBoundaries, hoverLine]} />
       </div>
     </section>
   );

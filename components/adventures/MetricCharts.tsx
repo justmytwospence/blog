@@ -4,7 +4,14 @@ import { useMemo, useRef, useState } from 'react';
 import { Chart as ChartJS, type ChartOptions } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useHoverStore } from './hoverStore';
-import { useIsDark, useChartHoverSync, hoverLine, chartGrid, chartTick } from './chartShared';
+import {
+  useIsDark,
+  useChartHoverSync,
+  reportChartHover,
+  hoverLine,
+  chartGrid,
+  chartTick,
+} from './chartShared';
 import { metersToMiles } from '@/lib/units';
 import type { AdventureTrack } from '@/lib/adventures';
 
@@ -18,7 +25,7 @@ const META: Record<Metric, { label: string; color: string }> = {
 
 export function MetricCharts({ track, showHeartRate = false }: { track: AdventureTrack; showHeartRate?: boolean }) {
   const chartRef = useRef<ChartJS<'line'> | null>(null);
-  const setHoverIndex = useHoverStore((s) => s.setHoverIndex);
+  const setHover = useHoverStore((s) => s.setHover);
   const dark = useIsDark();
   const [metric, setMetric] = useState<Metric>('speed');
 
@@ -45,6 +52,8 @@ export function MetricCharts({ track, showHeartRate = false }: { track: Adventur
     datasets: [
       {
         label: META[effective].label,
+        // A single-day report is day 0; the shared hover cursor resolves datasets by this tag.
+        dayIndex: 0,
         data: points,
         borderColor: META[effective].color,
         backgroundColor: `${META[effective].color}22`,
@@ -62,7 +71,7 @@ export function MetricCharts({ track, showHeartRate = false }: { track: Adventur
     maintainAspectRatio: false,
     animation: false,
     interaction: { mode: 'index', intersect: false },
-    onHover: (_e, elements) => setHoverIndex(elements.length ? elements[0].index : -1),
+    onHover: (_e, elements) => reportChartHover(elements, () => 0),
     plugins: {
       legend: { display: false },
       tooltip: {
@@ -114,7 +123,7 @@ export function MetricCharts({ track, showHeartRate = false }: { track: Adventur
           </div>
         )}
       </div>
-      <div className="relative h-48 w-full" onMouseLeave={() => setHoverIndex(-1)}>
+      <div className="relative h-48 w-full" onMouseLeave={() => setHover(null)}>
         <Line ref={chartRef} data={data} options={options} plugins={[hoverLine]} />
       </div>
     </section>

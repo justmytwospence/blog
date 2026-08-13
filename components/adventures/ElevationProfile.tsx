@@ -8,14 +8,21 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useHoverStore } from './hoverStore';
-import { useIsDark, useChartHoverSync, hoverLine, chartGrid, chartTick } from './chartShared';
+import {
+  useIsDark,
+  useChartHoverSync,
+  reportChartHover,
+  hoverLine,
+  chartGrid,
+  chartTick,
+} from './chartShared';
 import { gradeColor } from './mapStyle';
 import { metersToMiles, metersToFeet } from '@/lib/units';
 import type { AdventureTrack } from '@/lib/adventures';
 
 export function ElevationProfile({ track }: { track: AdventureTrack }) {
   const chartRef = useRef<ChartJS<'line'> | null>(null);
-  const setHoverIndex = useHoverStore((s) => s.setHoverIndex);
+  const setHover = useHoverStore((s) => s.setHover);
   const dark = useIsDark();
 
   useChartHoverSync(chartRef);
@@ -34,6 +41,8 @@ export function ElevationProfile({ track }: { track: AdventureTrack }) {
     datasets: [
       {
         label: 'Elevation',
+        // A single-day report is day 0; the shared hover cursor resolves datasets by this tag.
+        dayIndex: 0,
         data: points,
         borderWidth: 2,
         fill: 'start' as const,
@@ -59,7 +68,7 @@ export function ElevationProfile({ track }: { track: AdventureTrack }) {
     maintainAspectRatio: false,
     animation: false,
     interaction: { mode: 'index', intersect: false },
-    onHover: (_e, elements) => setHoverIndex(elements.length ? elements[0].index : -1),
+    onHover: (_e, elements) => reportChartHover(elements, () => 0),
     plugins: {
       legend: { display: false },
       tooltip: {
@@ -94,7 +103,7 @@ export function ElevationProfile({ track }: { track: AdventureTrack }) {
   return (
     <section className="mt-8">
       <h2 className="mb-3 text-xl font-semibold text-gray-900 dark:text-[#d4d4d4]">Elevation</h2>
-      <div className="relative h-56 w-full sm:h-64" onMouseLeave={() => setHoverIndex(-1)}>
+      <div className="relative h-56 w-full sm:h-64" onMouseLeave={() => setHover(null)}>
         <Line ref={chartRef} data={data} options={options} plugins={[hoverLine]} />
       </div>
     </section>

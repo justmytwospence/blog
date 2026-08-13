@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useRef } from 'react';
-import { MapContainer, TileLayer, Polyline, Marker, CircleMarker, useMap, useMapEvents } from 'react-leaflet';
+import { useEffect, useMemo } from 'react';
+import { MapContainer, TileLayer, Polyline, Marker, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {
@@ -12,11 +12,16 @@ import {
   rampColor,
   type RouteColorMetric,
 } from './mapStyle';
-import { ResizeHandler, dotIcon, PhotoPins } from './leafletShared';
-import { useHoverStore } from './hoverStore';
+import {
+  ResizeHandler,
+  dotIcon,
+  PhotoPins,
+  HoverTracker,
+  HoverMarker,
+  type HoverSource,
+  type LatLng,
+} from './leafletShared';
 import type { AdventureTrack, ResolvedPhoto } from '@/lib/adventures';
-
-type LatLng = [number, number];
 
 /** Refit the route to the viewport only when fullscreen toggles (not on incidental reflows). */
 function RefitOnToggle({ bounds, full }: { bounds: L.LatLngBounds; full: boolean }) {
@@ -26,45 +31,6 @@ function RefitOnToggle({ bounds, full }: { bounds: L.LatLngBounds; full: boolean
     map.fitBounds(bounds, { padding: [24, 24] });
   }, [map, bounds, full]);
   return null;
-}
-
-/** Map mousemove -> nearest track point -> hover store (drives the chart cursor). Throttled. */
-function HoverTracker({ pts }: { pts: L.LatLng[] }) {
-  const setHoverIndex = useHoverStore((s) => s.setHoverIndex);
-  const lastRun = useRef(0);
-  useMapEvents({
-    mousemove(e) {
-      const now = performance.now();
-      if (now - lastRun.current < 30) return;
-      lastRun.current = now;
-      let best = -1;
-      let bestDist = Infinity;
-      for (let i = 0; i < pts.length; i++) {
-        const d = e.latlng.distanceTo(pts[i]);
-        if (d < bestDist) {
-          bestDist = d;
-          best = i;
-        }
-      }
-      setHoverIndex(bestDist < 250 ? best : -1);
-    },
-    mouseout() {
-      setHoverIndex(-1);
-    },
-  });
-  return null;
-}
-
-function HoverMarker({ latlngs }: { latlngs: LatLng[] }) {
-  const i = useHoverStore((s) => s.hoverIndex);
-  if (i < 0 || i >= latlngs.length) return null;
-  return (
-    <CircleMarker
-      center={latlngs[i]}
-      radius={6}
-      pathOptions={{ color: '#ffffff', weight: 2, fillColor: '#2563eb', fillOpacity: 1 }}
-    />
-  );
 }
 
 export function RouteMapInner({
@@ -82,8 +48,9 @@ export function RouteMapInner({
     () => track.coordinates.map(([lng, lat]) => [lat, lng]),
     [track.coordinates],
   );
-  const pts = useMemo(() => latlngs.map(([lat, lng]) => L.latLng(lat, lng)), [latlngs]);
   const bounds = useMemo(() => L.latLngBounds(latlngs), [latlngs]);
+  // A single activity is the one-day case: the hover store always addresses points as (day, index).
+  const hoverSources = useMemo<HoverSource[]>(() => [{ day: 0, latlngs }], [latlngs]);
 
   // Coalesce consecutive same-color segments into runs -> far fewer Leaflet layers.
   const runs = useMemo(() => {
@@ -141,14 +108,14 @@ export function RouteMapInner({
       <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} maxZoom={TILE_MAX_ZOOM} />
       <ResizeHandler />
       <RefitOnToggle bounds={bounds} full={full} />
-      <HoverTracker pts={pts} />
+      <HoverTracker sources={hoverSources} />
       {runs.map((s, i) => (
         <Polyline key={i} positions={s.positions} pathOptions={{ color: s.color, weight: 4, opacity: 0.9 }} />
       ))}
       <Marker position={latlngs[0]} icon={dotIcon('#16a34a')} />
       {summit && <Marker position={summit} icon={dotIcon('#ea580c')} />}
       <PhotoPins photos={photos} />
-      <HoverMarker latlngs={latlngs} />
+      <HoverMarker sources={hoverSources} />
     </MapContainer>
   );
 }
