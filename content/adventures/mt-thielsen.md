@@ -6,6 +6,5 @@ strava_id: 19760175461
 type: scramble
 # sport: TrailRun        # override only (e.g. Scramble, Mountaineering); else derived
 tags: ["oregon", "cascades"]
-difficulty: moderate
 # group: route-key      # repeat trips of one route (auto-attached by GPS when known)
 ---

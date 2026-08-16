@@ -2,7 +2,6 @@
 group: mount-princeton
 strava_id: 10020
 type: peak
-difficulty: moderate
 tags: [sawatch]
 source: 14ers
 ---

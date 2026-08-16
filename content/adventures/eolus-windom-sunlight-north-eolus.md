@@ -4,7 +4,6 @@ title: "Mt. Eolus, Windom Peak, Sunlight Peak & North Eolus"
 strava_ids: [10032, 10033, 10039, 10066]
 sport: Hike
 type: peak
-difficulty: epic
 tags: [san-juan]
 source: 14ers
 days:

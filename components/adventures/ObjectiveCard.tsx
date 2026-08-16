@@ -32,7 +32,6 @@ export function ObjectiveCard({ objective: o }: { objective: Objective }) {
       {o.location && <p className="mt-0.5 text-sm text-gray-500 dark:text-[#a6a6a6]">{regionName(o.location)}</p>}
       <div className="mt-2 flex flex-wrap gap-1.5">
         {o.type && <Chip>{o.type}</Chip>}
-        {o.difficulty && <Chip>{o.difficulty}</Chip>}
         {o.grade && <Chip>{o.grade}</Chip>}
         {(o.season ?? []).map((s) => (
           <Chip key={s}>{s}</Chip>

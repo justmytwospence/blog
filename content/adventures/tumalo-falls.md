@@ -6,6 +6,5 @@ strava_id: 19068799270
 # type: peak            # peak | scramble | traverse | couloir | thru-hike | mountaineering
 # sport: TrailRun        # override only (e.g. Scramble, Mountaineering); else derived
 tags: ["oregon", "bend"]
-# difficulty: hard      # moderate | hard | epic
 # group: route-key      # repeat trips of one route (auto-attached by GPS when known)
 ---

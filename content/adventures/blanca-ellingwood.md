@@ -2,7 +2,6 @@
 title: "Blanca Peak & Ellingwood Point"
 strava_ids: [10004, 10042]
 type: peak
-difficulty: moderate
 tags: [sangre-de-cristo]
 source: 14ers
 days:

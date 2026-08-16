@@ -3,7 +3,6 @@ title: "Mt. Baker"
 strava_ids: [9158932057, 9158932231]
 sport: Mountaineering
 type: peak
-difficulty: hard
 tags: [cascades, washington, volcano, glacier]
 days:
   - title: "Approach to base camp"

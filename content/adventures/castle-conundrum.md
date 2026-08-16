@@ -2,7 +2,6 @@
 title: "Castle Peak & Conundrum Peak"
 strava_ids: [10012, 10065]
 type: peak
-difficulty: moderate
 tags: [elk]
 source: 14ers
 days:

@@ -3,7 +3,6 @@ title: "Uncompahgre Peak & Wetterhorn Peak"
 strava_ids: [10006, 10049]
 sport: Hike
 type: peak
-difficulty: hard
 tags: [san-juan]
 source: 14ers
 days:

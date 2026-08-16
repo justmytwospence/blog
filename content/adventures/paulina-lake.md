@@ -6,6 +6,5 @@ strava_id: 19170834003
 # type: peak            # peak | scramble | traverse | couloir | thru-hike | mountaineering
 # sport: TrailRun        # override only (e.g. Scramble, Mountaineering); else derived
 tags: ["oregon", "newberry"]
-# difficulty: hard      # moderate | hard | epic
 # group: route-key      # repeat trips of one route (auto-attached by GPS when known)
 ---

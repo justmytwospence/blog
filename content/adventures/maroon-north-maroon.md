@@ -3,7 +3,6 @@ title: "Maroon Bells Traverse"
 strava_ids: [10024, 10067]
 sport: Hike
 type: traverse
-difficulty: epic
 tags: [elk]
 source: 14ers
 days:

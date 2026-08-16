@@ -1,7 +1,6 @@
 ---
 strava_id: 20170415
 type: thru-hike
-difficulty: epic
 featured: true
 tags: [pct, california, oregon, washington]
 source: pct

@@ -24,20 +24,14 @@ function placeOf(loc: { city: string | null; state: string | null; country: stri
 }
 
 function ReportMeta({ adventure }: { adventure: Adventure }) {
-  const chips: string[] = [];
-  if (adventure.difficulty) chips.push(adventure.difficulty);
-  if (adventure.type) chips.push(adventure.type);
-  if (chips.length === 0 && adventure.tags.length === 0) return null;
+  if (!adventure.type && adventure.tags.length === 0) return null;
   return (
     <div className="mt-3 flex flex-wrap items-center gap-2">
-      {chips.map((c) => (
-        <span
-          key={`chip-${c}`}
-          className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs capitalize text-gray-700 dark:bg-[#3a3d41] dark:text-[#cccccc]"
-        >
-          {c}
+      {adventure.type && (
+        <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs capitalize text-gray-700 dark:bg-[#3a3d41] dark:text-[#cccccc]">
+          {adventure.type}
         </span>
-      ))}
+      )}
       {adventure.tags.map((t) => (
         <span key={`tag-${t}`} className="rounded-full px-2 py-0.5 text-xs text-gray-500 dark:text-[#a6a6a6]">
           #{t}

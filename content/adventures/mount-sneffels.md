@@ -2,7 +2,6 @@
 strava_id: 10027
 sport: Hike
 type: peak
-difficulty: hard
 tags: [san-juan]
 source: 14ers
 ---

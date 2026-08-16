@@ -2,7 +2,7 @@
 name: new-adventure
 description: >-
   Add a new outdoor adventure (a Strava activity) to the site's Adventures library: discover the
-  activity via the Strava MCP, gather the few editorial fields (type / difficulty / tags), then run
+  activity via the Strava MCP, gather the few editorial fields (type / tags), then run
   the deterministic pipeline scripts to scaffold, sync, preview, and deploy. Use when the user says
   they did a new run / climb / ski / ride / scramble and wants it on the site, asks to sync Strava,
   or wants to whitelist / add a new activity to the adventures library.
@@ -30,7 +30,6 @@ never reimplement them.
 ## What you DO gather from the human (the editorial residue)
 
 - **type**: `peak | scramble | traverse | couloir | thru-hike | mountaineering` (omit if none fit)
-- **difficulty**: `moderate | hard | epic`
 - **tags**: range / place / route tokens (e.g. `[colorado, sawatch]`)
 - Occasionally: a `title` cleanup, a `cover_photo`, `featured: true`, an `objective:` link, per-leg
   `days[].title` for multi-day outings, or coining a new `group` key.
@@ -69,7 +68,7 @@ Confirm name + date + distance with the user; capture the **Strava id**.
 ### 2. Scaffold (auto-derives everything derivable)
 
 ```bash
-npm run adventure:new -- <stravaId> --type <type> --difficulty <d> --tags <a,b>
+npm run adventure:new -- <stravaId> --type <type> --tags <a,b>
 ```
 
 Writes `content/adventures/<slug>.md` with `strava_id` + your editorial fields; auto-attaches `group`

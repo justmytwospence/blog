@@ -2,7 +2,6 @@
 group: quandary
 strava_id: 10013
 type: peak
-difficulty: moderate
 tags: [tenmile]
 source: 14ers
 ---

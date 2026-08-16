@@ -2,7 +2,6 @@
 title: "Sawtooth Ridge Traverse"
 strava_ids: [10014, 10038]
 type: traverse
-difficulty: moderate
 tags: [front-range]
 source: 14ers
 days:

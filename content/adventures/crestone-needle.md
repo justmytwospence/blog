@@ -2,7 +2,6 @@
 strava_id: 10019
 sport: Hike
 type: peak
-difficulty: hard
 tags: [sangre-de-cristo]
 source: 14ers
 ---

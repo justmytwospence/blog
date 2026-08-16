@@ -1,7 +1,6 @@
 ---
 strava_id: 10052
 type: peak
-difficulty: moderate
 tags: [sawatch]
 source: 14ers
 ---

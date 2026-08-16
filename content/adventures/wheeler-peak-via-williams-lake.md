@@ -5,6 +5,5 @@ strava_id: 18937483389
 type: peak
 # sport: TrailRun        # override Strava's sport (e.g. Scramble, Hike)
 tags: ["taos", "new-mexico", "sangre-de-cristo", "state-highpoint"]
-difficulty: moderate
 # group: route-key      # collapse repeat trips of the same route
 ---

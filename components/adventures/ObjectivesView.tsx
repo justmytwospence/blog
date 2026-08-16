@@ -57,23 +57,20 @@ function FilterSelect({
   );
 }
 
-/** The original wishlist UI: map + Type/Region/Difficulty/Season filters + grouped grid. */
+/** The original wishlist UI: map + Type/Region/Season filters + grouped grid. */
 function WishlistView({ objectives }: { objectives: Objective[] }) {
   const [type, setType] = useState<string | null>(null);
   const [loc, setLoc] = useState<string | null>(null);
-  const [diff, setDiff] = useState<string | null>(null);
   const [season, setSeason] = useState<string | null>(null);
   const [groupBy, setGroupBy] = useState<'type' | 'location'>('type');
 
   const types = useMemo(() => uniq(objectives.map((o) => o.type)), [objectives]);
   const locs = useMemo(() => uniq(objectives.map((o) => o.location)), [objectives]);
-  const diffs = useMemo(() => uniq(objectives.map((o) => o.difficulty)), [objectives]);
   const seasons = useMemo(() => uniq(objectives.flatMap((o) => o.season ?? [])), [objectives]);
 
   const filtered = objectives
     .filter((o) => !type || o.type === type)
     .filter((o) => !loc || o.location === loc)
-    .filter((o) => !diff || o.difficulty === diff)
     .filter((o) => !season || (o.season ?? []).includes(season));
 
   const groups = useMemo(() => {
@@ -102,7 +99,6 @@ function WishlistView({ objectives }: { objectives: Objective[] }) {
       <div className="mb-6 flex flex-wrap items-center gap-3">
         <FilterSelect label="Type" value={type} onChange={setType} options={types} />
         <FilterSelect label="Region" value={loc} onChange={setLoc} options={locs} labelFn={regionName} />
-        <FilterSelect label="Difficulty" value={diff} onChange={setDiff} options={diffs} />
         <FilterSelect label="Season" value={season} onChange={setSeason} options={seasons} />
         <div className="ml-auto flex items-center gap-1.5 text-sm text-gray-500 dark:text-[#a6a6a6]">
           Group by

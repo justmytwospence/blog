@@ -1,7 +1,6 @@
 ---
 strava_id: 10037
 type: peak
-difficulty: moderate
 tags: [sangre-de-cristo]
 source: 14ers
 ---

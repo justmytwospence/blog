@@ -3,7 +3,6 @@ title: "Challenger Point & Kit Carson Peak"
 strava_ids: [10034, 10023]
 sport: Hike
 type: peak
-difficulty: hard
 tags: [sangre-de-cristo]
 source: 14ers
 days:

@@ -37,7 +37,7 @@ Two layers, split by what's committed:
 - **Derived vs editorial (companion frontmatter):** the pipeline derives everything unambiguous from
   the snapshot — `sport`, `title`, `date`, `peakClass`, facets, lap counts, and **`race`** (from Strava
   `workout_type`: Run 1 / Ride 11); `adventure:new` auto-attaches `group`/`laps` by GPS trailhead
-  (`scripts/route-match.ts`). Frontmatter carries only editorial deltas (`type`, `difficulty`, `tags`,
+  (`scripts/route-match.ts`). Frontmatter carries only editorial deltas (`type`, `tags`,
   `objective`, `featured`, `cover_photo`, `days[].title`, non-run/ride `race`) plus intentional
   overrides. `npm run adventure:minimize` strips derivable/dead keys; `adventure:validate` warns on
   drift. The `new-adventure` skill is the agent workflow — discover via the Strava MCP, gather the

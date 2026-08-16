@@ -2,7 +2,6 @@
 strava_id: 10070
 sport: Hike
 type: traverse
-difficulty: epic
 tags: [sangre-de-cristo]
 source: 14ers
 ---

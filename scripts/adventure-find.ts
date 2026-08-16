@@ -201,7 +201,7 @@ async function main(): Promise<void> {
     console.log(`⚠ ${missingElev} entries predate the summit-elevation field — npm run sync:index -- --reindex`);
   }
   if (rows.length) {
-    console.log('\nNext:  npm run adventure:new -- <id> --type peak --difficulty moderate --tags <a,b>');
+    console.log('\nNext:  npm run adventure:new -- <id> --type peak --tags <a,b>');
   }
 }
 

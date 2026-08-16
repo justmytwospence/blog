@@ -2,7 +2,6 @@
 strava_id: 10015
 sport: Hike
 type: peak
-difficulty: hard
 tags: [front-range]
 source: 14ers
 ---

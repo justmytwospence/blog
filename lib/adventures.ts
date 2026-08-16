@@ -77,7 +77,6 @@ export interface Adventure {
   categories: string[];
   tags: string[];
   type: string | null;
-  difficulty: string | null;
   peakClass: PeakClass | null;
   facets: string[]; // filterable kinds: 14er/13er/race/couloir/scramble/traverse/thru-hike
   showHeartRate: boolean; // HR chart is opt-in (races); hidden by default
@@ -103,7 +102,6 @@ export interface AdventureSummary {
   featured: boolean;
   description: string;
   type: string | null;
-  difficulty: string | null;
   peakClass: PeakClass | null;
   facets: string[];
   tags: string[];
@@ -143,7 +141,6 @@ export interface Objective {
   title: string;
   type: string | null;
   location: string | null;
-  difficulty: string | null;
   grade: string | null;
   season: string[];
   distanceMi: number | null;
@@ -365,7 +362,6 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
     categories: common.categories,
     tags,
     type: str(pc.data.type),
-    difficulty: str(pc.data.difficulty),
     peakClass,
     facets,
     showHeartRate: isRace,
@@ -394,7 +390,6 @@ function toSummary(adv: Adventure, tripCount = 1, lapCount = 1): AdventureSummar
     featured: adv.featured,
     description: adv.description,
     type: adv.type,
-    difficulty: adv.difficulty,
     peakClass: adv.peakClass,
     facets: adv.facets,
     tags: adv.tags,

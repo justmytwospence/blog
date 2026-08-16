@@ -11,7 +11,6 @@
  *   --slug <slug>        filename slug (default: slugified Strava activity name)
  *   --type <type>        peak | scramble | traverse | couloir | thru-hike | mountaineering (EDITORIAL)
  *   --tags a,b,c         comma-separated range/place tokens (EDITORIAL)
- *   --difficulty <d>     moderate | hard | epic (EDITORIAL)
  *   --title <title>      title override (default: derived from the Strava name)
  *   --sport <sport>      sport override, e.g. Scramble / Mountaineering (default: derived)
  *   --group <group>      route key override (default: auto-attached by GPS when known)
@@ -34,7 +33,7 @@ import {
   CONTENT_DIR,
   readCompanions,
 } from './strava-shared';
-import { validateCompanionFrontmatter, ADVENTURE_TYPES, DIFFICULTIES } from '../lib/adventure-schema';
+import { validateCompanionFrontmatter, ADVENTURE_TYPES } from '../lib/adventure-schema';
 import { buildRouteGroups, matchRoute } from './route-match';
 
 interface Args {
@@ -44,7 +43,6 @@ interface Args {
   type?: string;
   sport?: string;
   tags?: string[];
-  difficulty?: string;
   group?: string;
   race: boolean;
   duathlon: boolean;
@@ -63,7 +61,6 @@ function parseArgs(argv: string[]): Args {
       case '--type': a.type = next(); break;
       case '--sport': a.sport = next(); break;
       case '--tags': a.tags = (next() ?? '').split(',').map((s) => s.trim()).filter(Boolean); break;
-      case '--difficulty': a.difficulty = next(); break;
       case '--group': a.group = next(); break;
       case '--race': a.race = true; break;
       case '--duathlon': a.duathlon = true; break;
@@ -89,10 +86,6 @@ async function main(): Promise<void> {
   }
   if (args.type && !(ADVENTURE_TYPES as readonly string[]).includes(args.type)) {
     console.error(`[adventure:new] --type must be one of: ${ADVENTURE_TYPES.join(', ')}`);
-    process.exit(1);
-  }
-  if (args.difficulty && !(DIFFICULTIES as readonly string[]).includes(args.difficulty)) {
-    console.error(`[adventure:new] --difficulty must be one of: ${DIFFICULTIES.join(', ')}`);
     process.exit(1);
   }
 
@@ -151,7 +144,6 @@ async function main(): Promise<void> {
   else lines.push(`# sport: ${sportGuess}        # override only (e.g. Scramble, Mountaineering); else derived`);
   if (args.tags?.length) lines.push(`tags: [${args.tags.map(yaml).join(', ')}]`);
   else lines.push('# tags: [colorado, sawatch]   # editorial: range / place / route tokens');
-  lines.push(args.difficulty ? `difficulty: ${args.difficulty}` : `# difficulty: hard      # ${DIFFICULTIES.join(' | ')}`);
   if (group) lines.push(`group: ${yaml(group)}`);
   else lines.push('# group: route-key      # repeat trips of one route (auto-attached by GPS when known)');
   if (laps) lines.push('laps: true');
@@ -174,7 +166,7 @@ async function main(): Promise<void> {
   console.log(`[adventure:new] ✓ wrote content/adventures/${slug}.md`);
   console.log(`    ${detail.name} — ${date} · ${km} km · ${gain} m gain`);
   console.log('\nNext:');
-  console.log(`  1. edit content/adventures/${slug}.md — fill the editorial fields: type, difficulty, tags`);
+  console.log(`  1. edit content/adventures/${slug}.md — fill the editorial fields: type, tags`);
   console.log(`  2. npm run sync:strava -- --only ${args.id}   # fetch maps/photos/stats for just this activity`);
   console.log('  3. npm run adventure:validate                # confirm it is well-formed');
 }

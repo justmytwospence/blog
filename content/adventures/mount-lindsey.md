@@ -3,7 +3,6 @@ group: mount-lindsey
 strava_id: 10043
 sport: Hike
 type: peak
-difficulty: hard
 tags: [sangre-de-cristo]
 source: 14ers
 ---

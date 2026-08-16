@@ -2,7 +2,6 @@
 title: "Mt. Belford, Oxford & Missouri Mountain"
 strava_ids: [10018, 10026, 10036]
 type: peak
-difficulty: moderate
 tags: [sawatch]
 source: 14ers
 days:

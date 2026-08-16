@@ -2,7 +2,6 @@
 title: "Redcloud Peak & Sunshine Peak"
 strava_ids: [10046, 10053]
 type: peak
-difficulty: moderate
 tags: [san-juan]
 source: 14ers
 days:

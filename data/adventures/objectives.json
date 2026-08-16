@@ -5,7 +5,6 @@
       "title": "Aconcagua",
       "type": "high-altitude",
       "location": "international",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "winter"
@@ -24,7 +23,6 @@
       "title": "Alpine Lakes High Route",
       "type": "high-route",
       "location": "WA",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -43,7 +41,6 @@
       "title": "Arizona Trail",
       "type": "thru-hike",
       "location": "AZ",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "spring"
@@ -62,7 +59,6 @@
       "title": "Asulkan Traverse",
       "type": "scramble",
       "location": "BC",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -81,7 +77,6 @@
       "title": "Badwater",
       "type": "trail-run",
       "location": "CA",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "summer"
@@ -100,7 +95,6 @@
       "title": "Bailey Traverse",
       "type": "traverse",
       "location": "WA",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -119,7 +113,6 @@
       "title": "Baring Peak",
       "type": "peak",
       "location": "WA",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -138,7 +131,6 @@
       "title": "Blitzen Ridge",
       "type": "traverse",
       "location": "CO",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -157,7 +149,6 @@
       "title": "Borah Peak",
       "type": "peak",
       "location": "ID",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -176,7 +167,6 @@
       "title": "Canyoneering",
       "type": "other",
       "location": "UT",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "spring",
@@ -196,7 +186,6 @@
       "title": "Chair Peak",
       "type": "scramble",
       "location": "WA",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "winter",
@@ -216,7 +205,6 @@
       "title": "Chimborazo",
       "type": "high-altitude",
       "location": "international",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "year-round"
@@ -235,7 +223,6 @@
       "title": "Collegiate Loop",
       "type": "fastpack",
       "location": "CO",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -254,7 +241,6 @@
       "title": "Colorado Trail",
       "type": "thru-hike",
       "location": "CO",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -273,7 +259,6 @@
       "title": "Commando Run",
       "type": "ski",
       "location": "CO",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "winter"
@@ -292,7 +277,6 @@
       "title": "Copper Triangle",
       "type": "cycle",
       "location": "CO",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -311,7 +295,6 @@
       "title": "Cougar Traverse",
       "type": "traverse",
       "location": "WA",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -330,7 +313,6 @@
       "title": "Denali",
       "type": "high-altitude",
       "location": "AK",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "spring",
@@ -350,7 +332,6 @@
       "title": "Enchanted Valley",
       "type": "trail-run",
       "location": "WA",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer",
@@ -370,7 +351,6 @@
       "title": "Four Pass Loop",
       "type": "trail-run",
       "location": "CO",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -389,7 +369,6 @@
       "title": "Gannett Peak",
       "type": "peak",
       "location": "WY",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -408,7 +387,6 @@
       "title": "Going to the Sun Road",
       "type": "cycle",
       "location": "MT",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -427,7 +405,6 @@
       "title": "Grand Canyon R2R2R Alternate",
       "type": "trail-run",
       "location": "AZ",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "spring",
@@ -447,7 +424,6 @@
       "title": "Grand Teton Owen Spalding",
       "type": "scramble",
       "location": "WY",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -466,7 +442,6 @@
       "title": "Grand Teton Picnic",
       "type": "scramble",
       "location": "WY",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -485,7 +460,6 @@
       "title": "Great Divide Trail",
       "type": "thru-hike",
       "location": "international",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "summer"
@@ -504,7 +478,6 @@
       "title": "Haute Route",
       "type": "trail-run",
       "location": "international",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -523,7 +496,6 @@
       "title": "Hayduke Trail",
       "type": "thru-hike",
       "location": "UT-AZ",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "spring"
@@ -542,7 +514,6 @@
       "title": "High Lonesome",
       "type": "trail-run",
       "location": "CO",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "summer"
@@ -561,7 +532,6 @@
       "title": "Idaho Panhandle Ramble",
       "type": "bikepack",
       "location": "ID",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -580,7 +550,6 @@
       "title": "Kings Canyon High Route",
       "type": "high-route",
       "location": "CA",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -599,7 +568,6 @@
       "title": "LA Freeway",
       "type": "scramble",
       "location": "CO",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -618,7 +586,6 @@
       "title": "Little Bear Blanca Traverse",
       "type": "traverse",
       "location": "CO",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -637,7 +604,6 @@
       "title": "Lofoten Triple",
       "type": "trail-run",
       "location": "international",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -656,7 +622,6 @@
       "title": "Longs Cables Route",
       "type": "scramble",
       "location": "CO",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -675,7 +640,6 @@
       "title": "Longs Peak Grand Slam",
       "type": "scramble",
       "location": "CO",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "summer"
@@ -694,7 +658,6 @@
       "title": "Loowit Trail",
       "type": "trail-run",
       "location": "WA",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -713,7 +676,6 @@
       "title": "Meeker",
       "type": "scramble",
       "location": "CO",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -732,7 +694,6 @@
       "title": "Minturn Mile",
       "type": "cycle",
       "location": "CO",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -751,7 +712,6 @@
       "title": "Mosquito Ten Mile Traverse",
       "type": "traverse",
       "location": "CO",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -770,7 +730,6 @@
       "title": "Mt Adams",
       "type": "peak",
       "location": "WA",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -789,7 +748,6 @@
       "title": "Mt Marathon",
       "type": "peak",
       "location": "AK",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -808,7 +766,6 @@
       "title": "Mt St Helens",
       "type": "peak",
       "location": "WA",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -827,7 +784,6 @@
       "title": "Mt Stuart",
       "type": "peak",
       "location": "WA",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -846,7 +802,6 @@
       "title": "Natchez Trace",
       "type": "cycle",
       "location": "TN",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "spring",
@@ -866,7 +821,6 @@
       "title": "Nolans 14",
       "type": "traverse",
       "location": "CO",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "summer"
@@ -885,7 +839,6 @@
       "title": "Normans 13",
       "type": "high-route",
       "location": "CA",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "summer"
@@ -904,7 +857,6 @@
       "title": "Olympic GCL",
       "type": "bikepack",
       "location": "WA",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -923,7 +875,6 @@
       "title": "Pacific Northwest Trail",
       "type": "thru-hike",
       "location": "WA-MT-ID",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "summer"
@@ -942,7 +893,6 @@
       "title": "Pawnee Buchanan",
       "type": "trail-run",
       "location": "CO",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -961,7 +911,6 @@
       "title": "Pfiffner Traverse",
       "type": "traverse",
       "location": "CO",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -980,7 +929,6 @@
       "title": "Pico de Orizaba",
       "type": "high-altitude",
       "location": "international",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "winter",
@@ -1000,7 +948,6 @@
       "title": "Pikes Peak",
       "type": "cycle",
       "location": "CO",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -1019,7 +966,6 @@
       "title": "Ptarmigan Traverse",
       "type": "traverse",
       "location": "WA",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -1038,7 +984,6 @@
       "title": "Rainbow Trail",
       "type": "fastpack",
       "location": "CO",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -1057,7 +1002,6 @@
       "title": "Ripsaw Ridge",
       "type": "scramble",
       "location": "CO",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -1076,7 +1020,6 @@
       "title": "SEKI Loop",
       "type": "high-route",
       "location": "CA",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -1095,7 +1038,6 @@
       "title": "Sangre de Cristo Traverse",
       "type": "traverse",
       "location": "CO",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "summer"
@@ -1114,7 +1056,6 @@
       "title": "Sea to Mt Daniel",
       "type": "peak",
       "location": "WA",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -1133,7 +1074,6 @@
       "title": "Shasta",
       "type": "peak",
       "location": "CA",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "spring",
@@ -1153,7 +1093,6 @@
       "title": "Sierra High Route",
       "type": "high-route",
       "location": "CA",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "summer"
@@ -1172,7 +1111,6 @@
       "title": "Sierre-Zinal",
       "type": "trail-run",
       "location": "international",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -1191,7 +1129,6 @@
       "title": "Softrock",
       "type": "fastpack",
       "location": "CO",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -1210,7 +1147,6 @@
       "title": "Te Araroa",
       "type": "thru-hike",
       "location": "international",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "winter"
@@ -1229,7 +1165,6 @@
       "title": "Teanaway Traverse",
       "type": "traverse",
       "location": "WA",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -1248,7 +1183,6 @@
       "title": "Tetons Traverse",
       "type": "traverse",
       "location": "WY",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -1267,7 +1201,6 @@
       "title": "The Tooth",
       "type": "scramble",
       "location": "WA",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -1286,7 +1219,6 @@
       "title": "Three Brothers",
       "type": "peak",
       "location": "WA",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -1305,7 +1237,6 @@
       "title": "Tonto Trail",
       "type": "trail-run",
       "location": "AZ",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "spring"
@@ -1324,7 +1255,6 @@
       "title": "Triple Bypass",
       "type": "cycle",
       "location": "CO",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -1343,7 +1273,6 @@
       "title": "WURL",
       "type": "traverse",
       "location": "UT",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "summer"
@@ -1362,7 +1291,6 @@
       "title": "Washington Ellinor Traverse",
       "type": "traverse",
       "location": "WA",
-      "difficulty": "moderate",
       "grade": null,
       "season": [
         "summer"
@@ -1381,7 +1309,6 @@
       "title": "Weminuche Traverse",
       "type": "traverse",
       "location": "CO",
-      "difficulty": "epic",
       "grade": null,
       "season": [
         "summer"
@@ -1400,7 +1327,6 @@
       "title": "Wham Ridge",
       "type": "scramble",
       "location": "CO",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"
@@ -1419,7 +1345,6 @@
       "title": "Whitney Mountaineers Route",
       "type": "scramble",
       "location": "CA",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "spring",
@@ -1439,7 +1364,6 @@
       "title": "Wind River Range",
       "type": "high-route",
       "location": "WY",
-      "difficulty": "hard",
       "grade": null,
       "season": [
         "summer"

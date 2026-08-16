@@ -32,9 +32,6 @@ export type AdventureType = (typeof ADVENTURE_TYPES)[number];
 export const PEAK_CLASSES = ['14er', '13er'] as const;
 export type PeakClass = (typeof PEAK_CLASSES)[number];
 
-export const DIFFICULTIES = ['moderate', 'hard', 'epic'] as const;
-export type Difficulty = (typeof DIFFICULTIES)[number];
-
 /** Site-only sport labels that are deliberately NOT Strava sport_types — they can only ever arrive
  *  via a `sport:` frontmatter override, never from mapSportType. */
 export const SITE_ONLY_SPORTS = ['Scramble'] as const;
@@ -133,7 +130,7 @@ export function isCompanionFile(name: string): boolean {
 /** Every frontmatter key the parser understands. Anything else is flagged as a likely typo. */
 export const COMPANION_KEYS = [
   'hidden', 'strava_id', 'strava_ids', 'source', 'tags', 'type', 'group', 'title', 'sport',
-  'laps', 'difficulty', 'race', 'duathlon', 'featured', 'cover_photo', 'days', 'peakClass',
+  'laps', 'race', 'duathlon', 'featured', 'cover_photo', 'days', 'peakClass',
   'objective', 'date',
 ] as const;
 
@@ -155,7 +152,6 @@ export interface CompanionFrontmatter {
   /** Override the sport classification derived from Strava. */
   sport?: AdventureSport;
   laps?: unknown;
-  difficulty?: Difficulty;
   race?: boolean;
   duathlon?: boolean;
   featured?: boolean;
@@ -203,9 +199,6 @@ export function validateCompanionFrontmatter(
   }
   if (data.peakClass !== undefined && !(PEAK_CLASSES as readonly string[]).includes(data.peakClass as string)) {
     errs.push(at(`peakClass "${String(data.peakClass)}" must be one of: ${PEAK_CLASSES.join(', ')}`));
-  }
-  if (data.difficulty !== undefined && !(DIFFICULTIES as readonly string[]).includes(data.difficulty as string)) {
-    errs.push(at(`difficulty "${String(data.difficulty)}" must be one of: ${DIFFICULTIES.join(', ')}`));
   }
 
   // Booleans.
