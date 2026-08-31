@@ -4,6 +4,7 @@
 # Derived automatically — set only to OVERRIDE: sport, title, date, race (Run/Ride), peakClass.
 strava_id: 19479323052
 type: peak
+group: mt-bachelor
 # sport: TrailRun        # override only (e.g. Scramble, Mountaineering); else derived
 tags: ["oregon", "cascades"]
 # group: route-key      # repeat trips of one route (auto-attached by GPS when known)
