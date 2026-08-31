@@ -1,0 +1,62 @@
+[
+ {
+  "id": "PXL_20201010_152215888-PORTRAIT-02-ORIGINAL",
+  "file": "photo-PXL_20201010_152215888-PORTRAIT-02-ORIGINAL.jpg",
+  "sourceUrl": "",
+  "width": 1600,
+  "height": 1200,
+  "caption": "",
+  "lat": 37.8394258,
+  "lng": -107.99428669999999
+ },
+ {
+  "id": "PXL_20201010_155011470",
+  "file": "photo-PXL_20201010_155011470.jpg",
+  "sourceUrl": "",
+  "width": 1600,
+  "height": 1200,
+  "caption": "",
+  "lat": 37.839188899999996,
+  "lng": -107.99166389999999
+ },
+ {
+  "id": "PXL_20201010_161038834",
+  "file": "photo-PXL_20201010_161038834.jpg",
+  "sourceUrl": "",
+  "width": 1200,
+  "height": 1600,
+  "caption": "",
+  "lat": 37.8391667,
+  "lng": -107.991675
+ },
+ {
+  "id": "PXL_20201010_180904900",
+  "file": "photo-PXL_20201010_180904900.jpg",
+  "sourceUrl": "",
+  "width": 1200,
+  "height": 1600,
+  "caption": "",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "id": "PXL_20201010_203949631",
+  "file": "photo-PXL_20201010_203949631.jpg",
+  "sourceUrl": "",
+  "width": 1600,
+  "height": 1200,
+  "caption": "",
+  "lat": 37.8498806,
+  "lng": -108.01959169999999
+ },
+ {
+  "id": "PXL_20201010_211612818",
+  "file": "photo-PXL_20201010_211612818.jpg",
+  "sourceUrl": "",
+  "width": 1600,
+  "height": 1200,
+  "caption": "",
+  "lat": 37.8476806,
+  "lng": -108.0282278
+ }
+]

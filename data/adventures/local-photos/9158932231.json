@@ -1,0 +1,42 @@
+[
+ {
+  "id": "PXL_20230526_005359139",
+  "file": "photo-PXL_20230526_005359139.jpg",
+  "sourceUrl": "",
+  "width": 1600,
+  "height": 1200,
+  "caption": "",
+  "lat": 48.7885833,
+  "lng": -121.8688
+ },
+ {
+  "id": "PXL_20230528_133338236",
+  "file": "photo-PXL_20230528_133338236.jpg",
+  "sourceUrl": "",
+  "width": 1600,
+  "height": 1200,
+  "caption": "",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "id": "PXL_20230528_161330419-MP",
+  "file": "photo-PXL_20230528_161330419-MP.jpg",
+  "sourceUrl": "",
+  "width": 1200,
+  "height": 1600,
+  "caption": "",
+  "lat": 48.7757806,
+  "lng": -121.81797499999999
+ },
+ {
+  "id": "PXL_20230528_163025651",
+  "file": "photo-PXL_20230528_163025651.jpg",
+  "sourceUrl": "",
+  "width": 1600,
+  "height": 1200,
+  "caption": "",
+  "lat": 48.7766917,
+  "lng": -121.8145361
+ }
+]

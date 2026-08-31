@@ -34,6 +34,7 @@ export type {
 const ADVENTURES_DIR = path.join(process.cwd(), 'content', 'adventures');
 const SNAPSHOT_DIR = path.join(process.cwd(), 'data', 'adventures');
 const ACTIVITIES_DIR = path.join(SNAPSHOT_DIR, 'activities');
+const LOCAL_PHOTOS_DIR = path.join(SNAPSHOT_DIR, 'local-photos');
 const OBJECTIVES_FILE = path.join(SNAPSHOT_DIR, 'objectives.json');
 const OBJECTIVE_LISTS_FILE = path.join(SNAPSHOT_DIR, 'objective-lists.json');
 const YEARLY_FILE = path.join(SNAPSHOT_DIR, 'yearly-totals.json');
@@ -188,11 +189,36 @@ function deriveFacets(
   return FACET_ORDER.filter((k) => f.has(k));
 }
 
+/**
+ * Photos imported by hand (e.g. from a Google Takeout backfill) rather than pulled from Strava.
+ *
+ * These live in their own file because `sync:strava` rewrites a snapshot wholesale from the API
+ * response — anything written directly into `activities/<id>.json` is lost on the next sync. The
+ * sidecar survives, and is merged back on read. The image files themselves are safe either way:
+ * sync's GC only removes whole directories for activities no companion references.
+ */
+function readLocalPhotos(id: number): AdventureActivity['photos'] {
+  const p = path.join(LOCAL_PHOTOS_DIR, `${id}.json`);
+  if (!fs.existsSync(p)) return [];
+  try {
+    const parsed: unknown = JSON.parse(fs.readFileSync(p, 'utf8'));
+    return Array.isArray(parsed) ? (parsed as AdventureActivity['photos']) : [];
+  } catch (err) {
+    console.error(`[adventures] bad local-photos json ${id}:`, err);
+    return [];
+  }
+}
+
 function readActivity(id: number): AdventureActivity | null {
   const p = path.join(ACTIVITIES_DIR, `${id}.json`);
   if (!fs.existsSync(p)) return null;
   try {
-    return JSON.parse(fs.readFileSync(p, 'utf8')) as AdventureActivity;
+    const act = JSON.parse(fs.readFileSync(p, 'utf8')) as AdventureActivity;
+    const local = readLocalPhotos(id);
+    if (local.length === 0) return act;
+    // Strava's own photos lead; imports follow. De-dupe by file so a re-run can't double up.
+    const seen = new Set((act.photos ?? []).map((ph) => ph.file));
+    return { ...act, photos: [...(act.photos ?? []), ...local.filter((ph) => !seen.has(ph.file))] };
   } catch (err) {
     console.error(`[adventures] bad activity json ${id}:`, err);
     return null;
