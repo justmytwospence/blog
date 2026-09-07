@@ -67,7 +67,9 @@ export function TripElevation({ days, unit = 'day' }: { days: AdventureDay[]; un
   const datasets = perDay.map((d) => {
     const color = dayColor(d.di);
     return {
-      label: `${label} ${d.di + 1}`,
+      // Prefer the leg's own name when the companion gave it one (summit names on a link-up,
+      // day captions on a thru-hike); fall back to the positional label.
+      label: days[d.di]?.title ?? `${label} ${d.di + 1}`,
       // The day this dataset plots. `perDay` skips days with no track, so the dataset's own position
       // is not the day — and the shared hover cursor addresses points by day.
       dayIndex: d.di,

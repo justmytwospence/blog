@@ -72,6 +72,7 @@ export interface Adventure {
   sportType: AdventureSport;
   isMultiDay: boolean;
   isMultiSport: boolean; // multiple activities on the SAME day (e.g. a triathlon) — legs, not days
+  isLinkUp: boolean; // one outing across several summits (imported 14ers routes) — not legs, not days
   featured: boolean;
   hidden: boolean;
   description: string;
@@ -237,19 +238,30 @@ function resolvePhotos(a: AdventureActivity): ResolvedPhoto[] {
   }));
 }
 
-/** Aggregate stats across the member activities of a (possibly multi-day) adventure. */
-export function computeTotals(acts: AdventureActivity[]): AdventureStats {
+/**
+ * Aggregate stats across the member activities of a (possibly multi-day) adventure.
+ *
+ * `linkUp` marks a single outing that bagged several summits — the imported 14ers routes store one
+ * route line per peak, all from that peak's own standard trailhead, so they overlap heavily. Summing
+ * their gain counts the shared approach once per peak (Grays+Torreys came out at 6,250 ft against a
+ * real ~3,600). For those, elevation gain and the clock take the largest member rather than the sum;
+ * distance still adds, since a link-up really does cover roughly that much ground.
+ */
+export function computeTotals(acts: AdventureActivity[], linkUp = false): AdventureStats {
   if (acts.length === 1) return acts[0].stats;
   const st = acts.map((a) => a.stats);
   const sum = (vals: Array<number | null | undefined>): number =>
     vals.reduce<number>((t, v) => t + (v ?? 0), 0);
+  const max = (vals: Array<number | null | undefined>): number =>
+    vals.reduce<number>((t, v) => Math.max(t, v ?? 0), 0);
   const present = (sel: (x: AdventureStats) => number | null): number[] =>
     st.map(sel).filter((v): v is number => v != null);
+  const combine = linkUp ? max : sum;
 
   const distanceMeters = sum(st.map((x) => x.distanceMeters));
-  const movingTimeSeconds = sum(st.map((x) => x.movingTimeSeconds));
-  const elapsedTimeSeconds = sum(st.map((x) => x.elapsedTimeSeconds));
-  const elevationGainMeters = sum(st.map((x) => x.elevationGainMeters));
+  const movingTimeSeconds = combine(st.map((x) => x.movingTimeSeconds));
+  const elapsedTimeSeconds = combine(st.map((x) => x.elapsedTimeSeconds));
+  const elevationGainMeters = combine(st.map((x) => x.elevationGainMeters));
 
   const timeWeighted = (sel: (x: AdventureStats) => number | null): number | null => {
     const items = st.filter((x) => sel(x) != null);
@@ -363,6 +375,19 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
   }));
   const allPhotos = days.flatMap((d) => d.photos);
 
+  /**
+   * One outing that tagged several summits, not several outings.
+   *
+   * Keyed off `source: 14ers` rather than inferred, because nothing in the data distinguishes it
+   * reliably: sport type would also collapse a two-part gravel rally (where summing IS correct),
+   * and trailhead proximity fails because 14ers.com lists each peak from its own standard start —
+   * the Wilson traverse's three routes begin ~9.7 km apart despite being one continuous day.
+   */
+  const isLinkUp =
+    str(pc.data.source) === '14ers' &&
+    acts.length > 1 &&
+    acts.every((a) => a.date === primary.date);
+
   let coverPhoto: ResolvedPhoto | null = null;
   const coverName = str(pc.data.cover_photo);
   if (coverName === 'none') {
@@ -380,8 +405,10 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
     date,
     sportType,
     isMultiDay: pc.usedIdsArray || acts.length > 1,
-    // Same calendar day across all members → a multi-sport event (triathlon), shown as legs.
-    isMultiSport: acts.length > 1 && acts.every((a) => a.date === primary.date),
+    // Same calendar day across all members → a multi-sport event (triathlon), shown as legs. A
+    // summit link-up is also same-day, but it's one continuous outing, so it isn't shown as legs.
+    isMultiSport: !isLinkUp && acts.length > 1 && acts.every((a) => a.date === primary.date),
+    isLinkUp,
     featured: common.featured,
     hidden: Boolean(pc.data.hidden),
     description: common.description,
@@ -396,7 +423,7 @@ function buildAdventure(pc: ParsedCompanion): Adventure | null {
     group: str(pc.data.group),
     coverPhoto,
     content: preprocessObsidian(pc.content, pc.slug),
-    totals: computeTotals(acts),
+    totals: computeTotals(acts, isLinkUp),
     location: primary.location,
     days,
     allPhotos,

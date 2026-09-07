@@ -17,6 +17,7 @@ import { TripMap } from './TripMap';
 import { TripElevation } from './TripElevation';
 import { TripDayBreakdown } from './TripDayBreakdown';
 import { TripTabs } from './TripTabs';
+import { dayColor } from './mapStyle';
 import type { Adventure, TripRef } from '@/lib/adventures';
 
 function placeOf(loc: { city: string | null; state: string | null; country: string | null }): string {
@@ -37,6 +38,42 @@ function ReportMeta({ adventure }: { adventure: Adventure }) {
           #{t}
         </span>
       ))}
+    </div>
+  );
+}
+
+/**
+ * The summits bagged on a link-up, in the order they were climbed.
+ *
+ * Replaces the collapsible per-leg breakdown: these were one continuous outing, so per-peak stat
+ * blocks would read as separate trips. The colour dot ties each name to its route line on the map.
+ */
+function SummitList({ adventure }: { adventure: Adventure }) {
+  return (
+    <div className="mt-6">
+      <h3 className="mb-2 text-sm font-semibold text-gray-900 dark:text-[#d4d4d4]">
+        Summits ({adventure.days.length})
+      </h3>
+      <ul className="flex flex-wrap gap-x-4 gap-y-1.5">
+        {adventure.days.map((d) => (
+          <li
+            key={d.activity.stravaId}
+            className="flex items-center gap-2 text-sm text-gray-600 dark:text-[#cccccc]"
+          >
+            <span
+              className="h-2.5 w-2.5 shrink-0 rounded-full"
+              style={{ background: dayColor(d.dayIndex) }}
+              aria-hidden="true"
+            />
+            {d.title ?? d.activity.name}
+            {d.activity.stats.elevHighMeters != null && (
+              <span className="tabular-nums text-gray-400 dark:text-[#8a8f98]">
+                {Math.round(d.activity.stats.elevHighMeters * 3.28084).toLocaleString()}&nbsp;ft
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -68,7 +105,9 @@ function StravaLinks({ adventure }: { adventure: Adventure }) {
                 rel="noopener noreferrer"
                 className="hover:text-gray-700 dark:hover:text-[#d4d4d4]"
               >
-                {adventure.isMultiSport ? 'Leg' : 'Day'} {d.dayIndex + 1}
+                {adventure.isLinkUp
+                  ? (d.title ?? d.activity.name)
+                  : `${adventure.isMultiSport ? 'Leg' : 'Day'} ${d.dayIndex + 1}`}
               </a>
             </span>
           ))}
@@ -204,12 +243,16 @@ export function AdventureReport({
 
       {showTerrain && track && <TerrainAnalysis track={track} />}
 
-      {adventure.isMultiDay && (
-        <TripDayBreakdown
-          days={adventure.days}
-          fallbackSport={adventure.sportType}
-          unit={adventure.isMultiSport ? 'leg' : 'day'}
-        />
+      {adventure.isLinkUp ? (
+        <SummitList adventure={adventure} />
+      ) : (
+        adventure.isMultiDay && (
+          <TripDayBreakdown
+            days={adventure.days}
+            fallbackSport={adventure.sportType}
+            unit={adventure.isMultiSport ? 'leg' : 'day'}
+          />
+        )
       )}
 
       {adventure.content.trim() ? (
