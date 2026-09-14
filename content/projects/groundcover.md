@@ -8,8 +8,6 @@ type: "external"
 externalUrl: "https://groundcover.spencerboucher.com"
 links:
   - label: "Live"
-    url: "https://groundcovermap.vercel.app"
-  - label: "My map"
     url: "https://groundcover.spencerboucher.com"
   - label: "GitHub"
     url: "https://github.com/justmytwospence/groundcover"
