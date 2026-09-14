@@ -44,7 +44,7 @@ export default async function AdventuresPage() {
               distinct ground rather than logged miles. A separate read-only Vercel project that
               rebuilds nightly; the ↗ marks it as leaving the site. */}
           <a
-            href="https://groundcover-spencer.vercel.app"
+            href="https://groundcover.spencerboucher.com"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"

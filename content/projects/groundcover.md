@@ -10,7 +10,7 @@ links:
   - label: "Live"
     url: "https://groundcovermap.vercel.app"
   - label: "My map"
-    url: "https://groundcover-spencer.vercel.app"
+    url: "https://groundcover.spencerboucher.com"
   - label: "GitHub"
     url: "https://github.com/justmytwospence/groundcover"
 ---
