@@ -112,15 +112,18 @@ function writeSnapshot(p: string, activity: AdventureActivity): void {
 }
 
 /**
- * Strava serves a grey "no image" placeholder for photos it can't hand out (e.g. unavailable or
+ * Strava serves a grey "no image" / video placeholder for photos it can't hand out (e.g. unavailable or
  * shared-only media). It's byte-identical after our resize, so match it by hash and drop the photo
  * rather than show a blank tile — the card and page then fall back to the route map.
  */
-const PLACEHOLDER_THUMB_SHA256 = 'ffd35fc295afe26bedf0dc9d5da7980f1597194d6da7559d6b8f7ed1bb81b6b6';
+const PLACEHOLDER_THUMB_SHA256 = new Set([
+  'ffd35fc295afe26bedf0dc9d5da7980f1597194d6da7559d6b8f7ed1bb81b6b6', // generic image
+  '35359b4e7fc15cd28f90444595a79b2c3dbad2d3b929f8fe03d4acec51c2ba74', // video
+]);
 
 function isPlaceholderThumb(thumbPath: string): boolean {
   const sha = crypto.createHash('sha256').update(fs.readFileSync(thumbPath)).digest('hex');
-  return sha === PLACEHOLDER_THUMB_SHA256;
+  return PLACEHOLDER_THUMB_SHA256.has(sha);
 }
 
 async function downloadPhotos(
