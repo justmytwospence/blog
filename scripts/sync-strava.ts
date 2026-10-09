@@ -111,6 +111,18 @@ function writeSnapshot(p: string, activity: AdventureActivity): void {
   fs.writeFileSync(p, JSON.stringify(activity, null, 2));
 }
 
+/**
+ * Strava serves a grey "no image" placeholder for photos it can't hand out (e.g. unavailable or
+ * shared-only media). It's byte-identical after our resize, so match it by hash and drop the photo
+ * rather than show a blank tile — the card and page then fall back to the route map.
+ */
+const PLACEHOLDER_THUMB_SHA256 = 'ffd35fc295afe26bedf0dc9d5da7980f1597194d6da7559d6b8f7ed1bb81b6b6';
+
+function isPlaceholderThumb(thumbPath: string): boolean {
+  const sha = crypto.createHash('sha256').update(fs.readFileSync(thumbPath)).digest('hex');
+  return sha === PLACEHOLDER_THUMB_SHA256;
+}
+
 async function downloadPhotos(
   photos: AdventurePhoto[],
   dir: string,
@@ -143,9 +155,22 @@ async function downloadPhotos(
         const tTmp = `${thumbPath}.tmp`;
         await sharp(buf).rotate().resize({ width: 1600, withoutEnlargement: true }).jpeg({ quality: 82, progressive: true }).toFile(dTmp);
         await sharp(buf).rotate().resize({ width: 480, withoutEnlargement: true }).jpeg({ quality: 72, progressive: true }).toFile(tTmp);
+        if (isPlaceholderThumb(tTmp)) {
+          fs.rmSync(dTmp, { force: true });
+          fs.rmSync(tTmp, { force: true });
+          console.error(`[strava] photo ${ph.id} is Strava's placeholder — skipped`);
+          continue;
+        }
         fs.renameSync(dTmp, displayPath);
         fs.renameSync(tTmp, thumbPath);
         fetched += 1;
+      }
+      // Also catches placeholders downloaded before this check existed.
+      if (isPlaceholderThumb(thumbPath)) {
+        fs.rmSync(displayPath, { force: true });
+        fs.rmSync(thumbPath, { force: true });
+        console.error(`[strava] photo ${ph.id} is Strava's placeholder — removed`);
+        continue;
       }
       const meta = await sharp(displayPath).metadata();
       out.push({
