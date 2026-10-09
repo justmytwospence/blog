@@ -19,6 +19,7 @@ const projectNames: Record<string, string> = {
   'ifs-journal': 'IFS Journal',
   groundcover: 'GroundCover',
   '29ers': '29ers',
+  'fish-in-the-sea': 'Fish in the Sea',
   'cache-guard': 'cache-guard',
   'auto-effort': 'auto-effort',
   'marimo-for-agents': 'marimo for agents',

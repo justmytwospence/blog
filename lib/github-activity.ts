@@ -34,6 +34,7 @@ const REPO_TO_SLUG: Record<string, string> = {
   'ifs-journal': 'ifs-journal',
   groundcover: 'groundcover',
   '29ers': '29ers',
+  'fish-in-the-sea': 'fish-in-the-sea',
   'pi-cache-guard': 'cache-guard',
   'claude-cache-guard': 'cache-guard',
   'opencode-cache-guard': 'cache-guard',
