@@ -1,5 +1,6 @@
 ---
 title: "pi-herdr-scrollbar-width"
+parent: pi-plugins
 date: "2026-10-02"
 categories: ["coding-agents", "pi", "herdr", "typescript"]
 description: "Keeps pi's fullscreen exit transcript from wrapping inside herdr panes that show scrollbars."

@@ -1,4 +1,4 @@
-import { getAllProjects } from '@/lib/content';
+import { getTopLevelProjects } from '@/lib/content';
 import { ProjectsExplorer } from '@/components/ProjectsExplorer';
 import { PageContainer } from '@/components/PageContainer';
 import { getActivity } from '@/lib/github-activity';
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default async function ProjectsPage() {
   const activity = await getActivity();
-  const projects = getAllProjects(activity.updated);
+  const projects = getTopLevelProjects(activity.updated);
 
   return (
     <PageContainer width="wide">

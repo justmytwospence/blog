@@ -1,4 +1,6 @@
 import { cache } from 'react';
+import { getAllProjects } from '@/lib/content';
+import type { Project } from '@/lib/types';
 import type { ActivityData } from '@/components/ContributionCalendar';
 import { readThrough } from '@/lib/last-good';
 
@@ -17,8 +19,17 @@ const OWNER = 'justmytwospence';
 
 // GitHub repo name -> project card slug. This is the SOLE source of which repos the project page
 // tracks (the calendar total still counts all repos; only listed ones link to a card and feed the
-// recency sort). Repos not listed here don't link to a card.
-const REPO_TO_SLUG: Record<string, string> = {
+// recency sort). Repos not listed here don't link to a card. Feature ports share the portfolio
+// umbrella for attribution; this does not imply those harness implementations moved into the suite.
+export const REPO_TO_SLUG: Record<string, string> = {
+  'pi-plugins': 'pi-plugins',
+  'pi-herdr': 'pi-plugins',
+  'pi-bg': 'pi-plugins',
+  'pi-diff-review': 'pi-plugins',
+  'pi-prose-width': 'pi-plugins',
+  'opencode-herdr': 'pi-plugins',
+  'opencode-prose-width': 'pi-plugins',
+  'claude-prose-width': 'pi-plugins',
   bayesDAG: 'bayesdag',
   cloudposterior: 'cloudposterior',
   'arviz-mcp': 'arviz-mcp',
@@ -35,34 +46,34 @@ const REPO_TO_SLUG: Record<string, string> = {
   groundcover: 'groundcover',
   '29ers': '29ers',
   'fish-in-the-sea': 'fish-in-the-sea',
-  'pi-cache-guard': 'cache-guard',
-  'claude-cache-guard': 'cache-guard',
-  'opencode-cache-guard': 'cache-guard',
-  'codex-cache-guard': 'cache-guard',
-  'pi-auto-effort': 'auto-effort',
-  'claude-auto-effort': 'auto-effort',
-  'opencode-auto-effort': 'auto-effort',
-  'pi-marimo': 'marimo-for-agents',
-  'claude-marimo': 'marimo-for-agents',
-  'opencode-marimo': 'marimo-for-agents',
-  'pi-tool-gate': 'tool-gate',
-  'opencode-tool-gate': 'tool-gate',
-  'pi-lean-context': 'lean-context',
-  'opencode-lean-context': 'lean-context',
-  'pi-next-prompt': 'next-prompt',
-  'opencode-next-prompt': 'next-prompt',
+  'pi-cache-guard': 'pi-plugins',
+  'claude-cache-guard': 'pi-plugins',
+  'opencode-cache-guard': 'pi-plugins',
+  'codex-cache-guard': 'pi-plugins',
+  'pi-auto-effort': 'pi-plugins',
+  'claude-auto-effort': 'pi-plugins',
+  'opencode-auto-effort': 'pi-plugins',
+  'pi-marimo': 'pi-plugins',
+  'claude-marimo': 'pi-plugins',
+  'opencode-marimo': 'pi-plugins',
+  'pi-tool-gate': 'pi-plugins',
+  'opencode-tool-gate': 'pi-plugins',
+  'pi-lean-context': 'pi-plugins',
+  'opencode-lean-context': 'pi-plugins',
+  'pi-next-prompt': 'pi-plugins',
+  'opencode-next-prompt': 'pi-plugins',
   'anthropic-billing-guard': 'anthropic-billing-guard',
-  'pi-plan-mode': 'pi-plan-mode',
-  'pi-subagents': 'pi-subagents',
-  'pi-status-footer': 'pi-status-footer',
-  'pi-copy': 'pi-copy',
-  'pi-ask-user-question': 'pi-ask-user-question',
-  'pi-rewind': 'pi-rewind',
-  'pi-brokered-auth': 'pi-brokered-auth',
-  'pi-select-nav': 'pi-select-nav',
-  'pi-clear-screen': 'pi-clear-screen',
-  'pi-herdr-scrollbar-width': 'pi-herdr-scrollbar-width',
-  'pi-appearance-resync': 'pi-appearance-resync',
+  'pi-plan-mode': 'pi-plugins',
+  'pi-subagents': 'pi-plugins',
+  'pi-status-footer': 'pi-plugins',
+  'pi-copy': 'pi-plugins',
+  'pi-ask-user-question': 'pi-plugins',
+  'pi-rewind': 'pi-plugins',
+  'pi-brokered-auth': 'pi-plugins',
+  'pi-select-nav': 'pi-plugins',
+  'pi-clear-screen': 'pi-plugins',
+  'pi-herdr-scrollbar-width': 'pi-plugins',
+  'pi-appearance-resync': 'pi-plugins',
   'herdr-repeat-navigation': 'herdr-repeat-navigation',
   'tmux-agents': 'tmux-agents',
   'herdr-machine0': 'herdr-machine0',
@@ -84,6 +95,25 @@ const QUERY = `query($login:String!, $from:DateTime!, $to:DateTime!){
 /** ActivityData plus a project-slug -> last-pushed (ISO date) map used to sort the project cards. */
 export interface ProjectActivity extends ActivityData {
   updated: Record<string, string>;
+}
+
+/**
+ * Also normalize last-good payloads written before a collection existed. Preserve contribution
+ * counts (including private/unlisted work), dedupe day hover targets, and retain the latest push.
+ */
+export function rollUpProjectActivity(activity: ProjectActivity, projects: Project[]): ProjectActivity {
+  const parents = new Map(projects.filter(p => p.parent).map(p => [p.slug, p.parent!]));
+  const visibleSlug = (slug: string) => parents.get(slug) ?? slug;
+  const days = Object.fromEntries(Object.entries(activity.days).map(([date, day]) => [
+    date,
+    { ...day, r: [...new Set(day.r.map(visibleSlug))].sort() },
+  ]));
+  const updated: Record<string, string> = {};
+  for (const [slug, date] of Object.entries(activity.updated)) {
+    const visible = visibleSlug(slug);
+    if (!updated[visible] || date > updated[visible]) updated[visible] = date;
+  }
+  return { ...activity, days, updated };
 }
 
 function emptyActivity(): ProjectActivity {
@@ -168,7 +198,8 @@ async function fetchActivity(): Promise<ProjectActivity> {
  */
 export const getActivity = cache(async (): Promise<ProjectActivity> => {
   try {
-    return (await readThrough<ProjectActivity>('github-activity', fetchActivity)) ?? emptyActivity();
+    const activity = (await readThrough<ProjectActivity>('github-activity', fetchActivity)) ?? emptyActivity();
+    return rollUpProjectActivity(activity, getAllProjects());
   } catch {
     // No Redis store and the fetch failed (no token, API down, etc.): render an empty calendar.
     return emptyActivity();

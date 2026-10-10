@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm';
 import remarkHtml from 'remark-html';
 import {
   getAllBlogPosts,
-  getAllProjects,
+  getTopLevelProjects,
   getBlogPostBySlug,
   getProjectBySlug,
 } from './content';
@@ -50,7 +50,7 @@ export async function generateFeed(): Promise<Feed> {
 
   // Get all content
   const blogPosts = getAllBlogPosts();
-  const projects = getAllProjects();
+  const projects = getTopLevelProjects();
 
   // Combine and sort by date (newest first)
   const allContent: Array<{ item: BlogPost | Project; category: 'blog' | 'project' }> = [

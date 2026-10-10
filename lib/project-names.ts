@@ -4,6 +4,7 @@
  * REPO_TO_SLUG in lib/github-activity.ts.
  */
 const projectNames: Record<string, string> = {
+  'pi-plugins': 'Pi Plugins',
   bayesdag: 'bayesDAG',
   cloudposterior: 'cloudposterior',
   'arviz-mcp': 'ArviZ MCP',

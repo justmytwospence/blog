@@ -1,8 +1,9 @@
 ---
 title: "cache-guard"
+parent: pi-plugins
 date: "2026-10-07"
 categories: ["coding-agents", "pi", "claude-code", "opencode", "codex", "typescript"]
-description: "Keeps the Anthropic prompt cache warm while you're away, asks before a prompt would re-cache a large conversation at full price, and shows the cache's time left. One shared core, ported to pi, Claude Code, opencode and Codex."
+description: "Makes prompt-cache costs visible, asks before expensive re-caching, and uses Jev to trim tool output and compact context. Shared ideas across Pi, Claude Code, opencode and Codex; Pi handles its own cache warming."
 type: "external"
 externalUrl: "https://github.com/justmytwospence/pi-cache-guard"
 links:

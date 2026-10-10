@@ -58,6 +58,21 @@ export function mapCommonMetadata(data: CommonFrontmatter, slug: string) {
   };
 }
 
+/** Project-only metadata shared by listing and detail readers. */
+function mapProjectMetadata(data: {
+  externalUrl?: string;
+  links?: Project['links'];
+  parent?: string;
+  collection?: boolean;
+}) {
+  return {
+    externalUrl: data.externalUrl,
+    links: data.links,
+    parent: data.parent,
+    collection: Boolean(data.collection),
+  };
+}
+
 /**
  * Get all projects, ordered by most-recent GitHub push (newest first), falling back to the content
  * date. The `updated` map (project slug -> last-pushed ISO date) comes from the live GitHub fetch
@@ -98,8 +113,7 @@ export function getAllProjects(updated: Record<string, string> = {}): Project[] 
           category: 'project',
           type: data.externalUrl ? 'link' : 'markdown',
           ...mapCommonMetadata(data, slug),
-          externalUrl: data.externalUrl,
-          links: data.links,
+          ...mapProjectMetadata(data),
         });
       } else if (file.endsWith('.ipynb')) {
         // Notebook project
@@ -140,6 +154,11 @@ export function getAllProjects(updated: Record<string, string> = {}): Project[] 
   return projects.sort((a, b) => lastTouched(b) - lastTouched(a));
 }
 
+/** Portfolio surfaces show collections once; routes and sitemap still use getAllProjects. */
+export function getTopLevelProjects(updated: Record<string, string> = {}): Project[] {
+  return getAllProjects(updated).filter(project => !project.parent);
+}
+
 /**
  * Get project content by slug
  */
@@ -169,7 +188,7 @@ export function getProjectBySlug(slug: string): Content | null {
             metadata: {
               type: 'link',
               ...mapCommonMetadata(data, slug),
-              externalUrl: data.externalUrl,
+              ...mapProjectMetadata(data),
             },
           };
         }
@@ -180,7 +199,7 @@ export function getProjectBySlug(slug: string): Content | null {
           metadata: {
             type: 'markdown',
             ...mapCommonMetadata(data, slug),
-            externalUrl: data.externalUrl,
+            ...mapProjectMetadata(data),
           },
         };
       } else if (ext === '.ipynb') {
@@ -389,7 +408,7 @@ export function getFeaturedContent(): {
   posts: BlogPost[];
   concepts: Concept[];
 } {
-  const allProjects = getAllProjects();
+  const allProjects = getTopLevelProjects();
   const allPosts = getAllBlogPosts();
   const allConcepts = getAllConcepts();
 

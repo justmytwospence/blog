@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Project } from '@/lib/types';
+import { projectCardDestination } from '@/lib/project-navigation';
 
 interface ProjectCardProps {
   project: Project;
@@ -35,10 +36,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   // Only surface chips when there's more than one destination to disambiguate.
   const showChips = links.length > 1;
 
-  // Whole-card (stretched) link goes to the primary destination: the first
-  // listed link, else the external URL, else the internal detail page.
-  const primaryHref = links[0]?.url ?? project.externalUrl ?? `/projects/${project.slug}`;
-  const isExternal = Boolean(links[0]?.url ?? project.externalUrl);
+  // Collection cards open their overview; external chips remain independently clickable.
+  const { href: primaryHref, external: isExternal } = projectCardDestination(project);
 
   return (
     <div className="group relative flex h-full flex-col p-6 bg-white dark:bg-[#252526] rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200 dark:border-[#303031]">

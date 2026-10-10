@@ -5,6 +5,7 @@ import { NotebookErrorBoundary } from '@/components/notebook/errors/NotebookErro
 import { PageContainer } from '@/components/PageContainer';
 import { extractMetadata } from '@blog/notebook-parser';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
@@ -49,10 +50,32 @@ export default async function ProjectDetailPage({
   const content = getProjectBySlug(slug);
   if (!content) notFound();
 
+  const parent = content.metadata.parent
+    ? getProjectBySlug(content.metadata.parent)?.metadata
+    : undefined;
+  const parentLink = parent && (
+    <nav aria-label="Project collection" className="not-prose mb-6 text-sm">
+      <Link href={`/projects/${parent.slug}`} className="text-blue-600 dark:text-blue-400 hover:underline">
+        Part of {parent.title}
+      </Link>
+    </nav>
+  );
+  const resourceLinks = content.metadata.links && content.metadata.links.length > 0 && (
+    <nav aria-label="Project resources" className="not-prose flex flex-wrap gap-4 my-6">
+      {content.metadata.links.map(link => (
+        <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer"
+          className="text-blue-600 dark:text-blue-400 hover:underline">
+          {link.label}
+        </a>
+      ))}
+    </nav>
+  );
+
   // External link projects
   if (content.type === 'link' || content.metadata.externalUrl) {
     return (
       <PageContainer width="prose">
+        {parentLink}
         <div className="flex items-center gap-2 mb-3">
           <span className="text-xs px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-medium">
             External Project
@@ -120,6 +143,8 @@ export default async function ProjectDetailPage({
           </a>
         </div>
 
+        {resourceLinks}
+
         {/* Render markdown content if available */}
         {(content.type === 'markdown' || content.type === 'link') && content.content && (
           <article className="prose dark:prose-invert max-w-none mt-12">
@@ -133,18 +158,20 @@ export default async function ProjectDetailPage({
   if (content.type === 'markdown') {
     return (
       <PageContainer width="prose">
+        {parentLink}
         <article className="prose dark:prose-invert max-w-none">
           <ArticleMarkdown
             content={content.content}
             beforeTitle={
               <div className="flex items-center gap-2 mb-3 not-prose">
                 <span className="text-xs px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-medium">
-                  Article
+                  {content.metadata.collection ? 'Project collection' : 'Article'}
                 </span>
               </div>
             }
             afterTitle={
               <>
+                {resourceLinks}
                 {content.metadata.description && (
                   <p className="lead text-lg text-gray-600 dark:text-[#cccccc] not-prose mb-4">
                     {content.metadata.description}
@@ -191,6 +218,7 @@ export default async function ProjectDetailPage({
 
     return (
       <PageContainer width="wide">
+        {parentLink}
         <NotebookErrorBoundary notebookTitle={content.metadata.title}>
           <NotebookRenderer
             notebook={notebookData}
@@ -204,6 +232,7 @@ export default async function ProjectDetailPage({
   if (content.type === 'webapp') {
     return (
       <PageContainer width="app">
+        {parentLink}
         <div className="bg-white dark:bg-[#1e1e1e] rounded-lg p-6">
           <iframe
             src={content.url}

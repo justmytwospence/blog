@@ -16,6 +16,10 @@ export interface ContentMetadata {
   description?: string;
   featured?: boolean;
   externalUrl?: string;
+  /** Parent project slug: retained detail page, omitted from top-level portfolio lists. */
+  parent?: string;
+  /** Collection overviews open internally even when they have external link chips. */
+  collection?: boolean;
   /**
    * Bluesky post (bsky.app URL or at:// URI) whose replies are rendered as the
    * comment section for this content. Omit to hide comments.

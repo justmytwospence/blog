@@ -1,5 +1,6 @@
 ---
 title: "pi-select-nav"
+parent: pi-plugins
 date: "2026-10-02"
 categories: ["coding-agents", "pi", "typescript"]
 description: "ctrl+j/ctrl+k and j/k navigation in every pi picker, built-in or from any plugin."
