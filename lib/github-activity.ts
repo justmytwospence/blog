@@ -63,7 +63,6 @@ const REPO_TO_SLUG: Record<string, string> = {
   'pi-clear-screen': 'pi-clear-screen',
   'pi-herdr-scrollbar-width': 'pi-herdr-scrollbar-width',
   'pi-appearance-resync': 'pi-appearance-resync',
-  'herdr-attention-queue': 'herdr-attention-queue',
   'herdr-repeat-navigation': 'herdr-repeat-navigation',
   'tmux-agents': 'tmux-agents',
   'herdr-machine0': 'herdr-machine0',
