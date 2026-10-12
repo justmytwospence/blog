@@ -12,6 +12,17 @@ const separateSlugs = [
   'anthropic-billing-guard', 'tmux-agents', 'herdr-repeat-navigation',
   'herdr-machine0', 'paseo-machine0', 'homelab',
 ];
+// Children that are suite components, with the package directory in the suite repository.
+const componentOf: Record<string, string> = {
+  'auto-effort': 'pi-auto-effort', 'cache-guard': 'pi-cache-guard', 'marimo-for-agents': 'pi-marimo',
+  'next-prompt': 'pi-next-prompt', 'tool-gate': 'pi-tool-gate', 'pi-ask-user-question': 'pi-ask-user-question',
+  'pi-plan-mode': 'pi-plan-mode', 'pi-status-footer': 'pi-status-footer', 'pi-rewind': 'pi-rewind',
+  'pi-clear-screen': 'pi-clear-screen', 'pi-select-nav': 'pi-select-nav',
+  'pi-herdr-scrollbar-width': 'pi-herdr-scrollbar-width', 'pi-subagents': 'pi-subagents',
+  'pi-appearance-resync': 'pi-appearance-resync', 'pi-copy': 'pi-copy',
+};
+const suiteSource = (component: string) => `https://github.com/justmytwospence/pi-plugins/tree/main/packages/${component}`;
+const suiteDocs = (component: string) => `https://pi-plugins.vercel.app/plugins/${component}/`;
 
 describe('Pi Plugins portfolio collection', () => {
   it('keeps an internal, featured overview with independently accessible resource links', () => {
@@ -59,7 +70,32 @@ describe('Pi Plugins portfolio collection', () => {
       expect(links.some(link => link.url.includes('/opencode-'))).toBe(true);
     }
     expect(getProjectBySlug('cache-guard')!.metadata.links?.map(link => link.label))
-      .toEqual(['pi', 'Claude Code', 'opencode', 'Codex']);
+      .toEqual(['Suite source', 'Docs', 'Claude Code', 'opencode', 'Codex', 'Original Pi source (historical)']);
+  });
+
+  it('uses current suite destinations while retaining port and historical links', () => {
+    for (const [slug, component] of Object.entries(componentOf)) {
+      const { metadata } = getProjectBySlug(slug)!;
+      const links = metadata.links!;
+      expect(metadata.parent).toBe('pi-plugins');
+      expect(metadata.externalUrl).toBe(suiteSource(component));
+      expect(links.slice(0, 2)).toEqual([
+        { label: 'Suite source', url: suiteSource(component) },
+        { label: 'Docs', url: suiteDocs(component) },
+      ]);
+      const ports = links.slice(2, -1);
+      expect(ports.every(link => !link.url.includes('/pi-plugins'))).toBe(true);
+      expect(links.at(-1)?.label).toBe('Original Pi source (historical)');
+      expect(links.at(-1)?.url).toMatch(/^https:\/\/github\.com\/justmytwospence\/pi-/);
+      expect(new Set(links.map(link => link.url)).size).toBe(links.length);
+    }
+    expect(getProjectBySlug('pi-plan-mode')!.metadata.description).toContain('@narumitw/pi-plan-mode');
+    // Retired or related pages are not components: no suite links.
+    for (const slug of ['lean-context', 'pi-brokered-auth']) {
+      const links = getProjectBySlug(slug)!.metadata.links ?? [];
+      expect(links.some(link => link.url.includes('/pi-plugins'))).toBe(false);
+    }
+    expect(Object.keys(componentOf).every(slug => childSlugs.includes(slug))).toBe(true);
   });
 
   it('uses rolled-up recency for the visible overview', () => {

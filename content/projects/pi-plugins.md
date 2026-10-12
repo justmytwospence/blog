@@ -2,7 +2,7 @@
 title: "Pi Plugins"
 date: "2026-10-10"
 categories: ["coding-agents", "pi", "typescript", "developer-tools"]
-description: "A modular workspace for coding with Pi: plan deliberately, delegate work, keep context useful, and review changes without leaving the conversation. Nineteen extensions, one suite."
+description: "A modular workspace for coding with Pi: plan deliberately, delegate work, keep context useful, and review changes without leaving the conversation. Twenty-three independently selectable extensions, one suite."
 featured: true
 collection: true
 links:
@@ -16,7 +16,7 @@ links:
 
 A coding agent's model is only part of the experience. The rest is how you give it direction, see what is still running, keep a long conversation useful, and decide whether its changes are worth keeping.
 
-Pi Plugins is my answer to those surrounding problems: **19 selectable extensions for [Pi](https://pi.dev), distributed as one Git package**. It is not a new agent or a fork of Pi. It brings the tools I use around the agent into one suite, while keeping each capability optional.
+Pi Plugins is my answer to those surrounding problems: **23 selectable extensions for [Pi](https://pi.dev), distributed as one Git package**. It is not a new agent or a fork of Pi. It brings the tools I use around the agent into one suite, while keeping each capability optional.
 
 The organizing idea is a continuous workflow rather than a wall of commands. Start with a plan and the questions that actually need your judgment. Delegate bounded work and let long-running jobs report back. Keep cost and context visible. Review the result where the conversation happened, then carry the useful parts into the next step.
 
@@ -35,7 +35,7 @@ These tools separate two things that are easy to conflate: how much the agent sh
 - **[pi-herdr](https://github.com/justmytwospence/pi-plugins/tree/main/packages/pi-herdr)** connects an interactive Pi session to Herdr, including pane metadata and interactive child sessions for work you want to take over yourself.
 - **[pi-marimo](/projects/marimo-for-agents)** follows live marimo notebooks, bringing running cells, errors, and stale state into the agent's working context.
 
-The pieces cooperate when they are enabled together. Background jobs and subagents share a task view; notebook activity can participate in the same waiting workflow. Herdr is an optional integration, not a prerequisite for running the suite.
+The pieces cooperate when they are enabled together. Background jobs, subagents, planners and session-owned Herdr children share activity views, with notebook activity participating in the same waiting workflow. Stopping remains explicit and per item; `/stop` remains shell-only. Herdr is an optional integration, not a prerequisite for running the suite.
 
 ## Spend context and attention deliberately
 
@@ -51,11 +51,13 @@ The goal is not to hide every interruption. It is to reserve interruptions for c
 - **[pi-copy](/projects/pi-copy)** offers a picker for useful material from the session: code, commands, paths, URLs, and more.
 - **[pi-next-prompt](/projects/next-prompt)** offers an editable next-step suggestion when the continuation is obvious, rather than making you retype it.
 
-Review and recovery are part of the work loop, not cleanup after the agent has left.
+Closing a diff never marks it reviewed. Per-file checklist actions and the explicit `:mark` command distinguish inspection from recorded review. Review and recovery are part of the work loop, not cleanup after the agent has left.
 
 ## Make the terminal comfortable
 
 Six smaller extensions address the interface you spend the day looking at: **[pi-status-footer](/projects/pi-status-footer)** brings project, model, context, cost, and plan limits together; **[pi-select-nav](/projects/pi-select-nav)** adds consistent picker navigation; **[pi-clear-screen](/projects/pi-clear-screen)** clears the visible transcript without losing history; **[pi-appearance-resync](/projects/pi-appearance-resync)** follows the terminal's light/dark appearance; **[pi-herdr-scrollbar-width](/projects/pi-herdr-scrollbar-width)** accounts for Herdr's scrollbar when laying out the exit transcript; and **[pi-prose-width](https://github.com/justmytwospence/pi-plugins/tree/main/packages/pi-prose-width)** keeps prose readable without squeezing code blocks and tables.
+
+The suite also owns **[Vim editing](https://pi-plugins.vercel.app/plugins/pi-vim/)**, **[prompt stash](https://pi-plugins.vercel.app/plugins/pi-stash/)**, **[sticky last prompt](https://pi-plugins.vercel.app/plugins/pi-sticky-last-prompt/)** and **[side conversations](https://pi-plugins.vercel.app/plugins/pi-btw/)**. One editor integration point keeps focus, cursor and modes consistent across the main prompt and embedded dialogs. Ctrl+U/D scroll in idle Normal mode and read-only viewers, not while editing text. Ctrl+L clears the viewport after explicitly moving Pi's model picker to Alt+P, with Alt+M as an alias.
 
 ## Install one package, choose your workspace
 
@@ -63,18 +65,18 @@ Six smaller extensions address the interface you spend the day looking at: **[pi
 pi install git:github.com/justmytwospence/pi-plugins
 ```
 
-The Git package enables **all 19 extensions by default**. Run `pi config` to disable the ones you do not want, then `/reload` in Pi to apply the selection. Selecting components changes what loads; it does not remove their files.
+The Git package enables **all 23 extensions by default**. Run `pi config` to disable the ones you do not want, then `/reload` in Pi to apply the selection. Selecting components changes what loads; it does not remove their files.
 
 There is **one suite version**. A Git tag or commit pins the whole package; components cannot have independent version pins within that managed installation. If you already use the original standalone packages, disable their entries before enabling the suite copies: different physical copies are not deduplicated. Keep the old repositories or checkouts if you need a rollback path.
 
-Selectable does not mean dependency-free. Jev-backed capabilities need access to Jev, and Herdr and marimo integrations need their respective tools. The [documentation](https://pi-plugins.vercel.app) covers setup and configuration; the [suite repository](https://github.com/justmytwospence/pi-plugins) retains each component's source, README, license, and imported revision in `source-pins.json`.
+Selectable does not mean dependency-free. Jev-backed capabilities need access to Jev, and Herdr and marimo integrations need their respective tools. The [documentation](https://pi-plugins.vercel.app) covers setup and configuration; the [suite repository](https://github.com/justmytwospence/pi-plugins) retains each component's source, README and license. Initial consolidation provenance remains in `source-pins.json`; absorbed capabilities record their upstream provenance with the component.
 
 ## One portfolio story, not one implementation for every harness
 
 Several ideas also have Claude Code, opencode, or Codex ports. Their links remain on the [auto-effort](/projects/auto-effort), [cache-guard](/projects/cache-guard), [marimo for agents](/projects/marimo-for-agents), [next-prompt](/projects/next-prompt), and [tool-gate](/projects/tool-gate) pages. Grouping them here describes a shared body of work; those ports remain separate repositories and are **not** part of this Pi package.
 
-[lean-context](/projects/lean-context) is a retired predecessor, not a twentieth component. Its Pi functionality now lives in cache-guard. The original repositories remain useful history, not additional packages to enable alongside the suite.
+[lean-context](/projects/lean-context) is a retired predecessor, not a selectable component. Its Pi functionality now lives in cache-guard. The original repositories remain useful history, not additional packages to enable alongside the suite.
 
-[pi-brokered-auth](/projects/pi-brokered-auth) is a related authentication experiment, grouped here for the portfolio but not bundled in the nineteen-extension suite.
+[pi-brokered-auth](/projects/pi-brokered-auth) is a related authentication experiment, grouped here for the portfolio but not bundled in the 23-extension suite.
 
 The boundary is intentional: [tmux-agents](/projects/tmux-agents), [Herdr machine management](/projects/herdr-machine0), [Herdr navigation](/projects/herdr-repeat-navigation), and [anthropic-billing-guard](/projects/anthropic-billing-guard) remain separate projects. Pi Plugins is the in-session workspace, not all of the infrastructure around it.
