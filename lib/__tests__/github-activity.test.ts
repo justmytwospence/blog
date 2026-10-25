@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 import { getAllProjects, getTopLevelProjects } from '../content';
-import { getActivity, REPO_TO_SLUG, rollUpProjectActivity, type ProjectActivity } from '../github-activity';
+import { activityWindow, getActivity, REPO_TO_SLUG, rollUpProjectActivity, type ProjectActivity } from '../github-activity';
 import { readThrough } from '../last-good';
 import projectNames from '../project-names';
 
@@ -81,35 +81,60 @@ describe('portfolio activity rollup', () => {
   });
 
   it('deduplicates fresh suite/legacy commit days and sorts by their latest push', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date('2026-10-25T18:00:00Z'));
     vi.stubEnv('GITHUB_TOKEN', 'test-token');
     vi.mocked(readThrough).mockImplementation(async (_key, fetcher) => fetcher());
-    const repo = (name: string, pushedAt: string) => ({
-      repository: { name, pushedAt },
-      contributions: { nodes: [{ occurredAt: '2026-10-09T12:00:00Z', commitCount: 1 }] },
+    const repo = (name: string, pushedAt: string, date = '2026-10-09', isPrivate = false) => ({
+      repository: { name, pushedAt, isPrivate },
+      contributions: { nodes: [{ occurredAt: `${date}T12:00:00Z`, commitCount: 1 }] },
     });
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
-      json: async () => ({ data: { user: { contributionsCollection: {
-        contributionCalendar: { totalContributions: 12, weeks: [{ contributionDays: [
+      json: async () => ({ data: { user: {
+        calendar: { contributionCalendar: { totalContributions: 99, weeks: [{ contributionDays: [
+          { date: '2025-10-25', contributionCount: 40 }, // a day before the 365-day window
+          { date: '2025-11-02', contributionCount: 3 },
           { date: '2026-10-09', contributionCount: 12 },
-        ] }] },
-        commitContributionsByRepository: [
+          { date: '2026-10-20', contributionCount: 5 }, // private work only
+        ] }] } },
+        s0: { commitContributionsByRepository: [repo('swimcue', '2025-11-02T00:00:00Z', '2025-11-02')] },
+        s1: { commitContributionsByRepository: [] },
+        s2: { commitContributionsByRepository: [] },
+        s3: { commitContributionsByRepository: [
           repo('pi-plugins', '2026-10-08T00:00:00Z'),
           repo('pi-bg', '2026-10-09T00:00:00Z'),
           repo('claude-cache-guard', '2026-10-10T00:00:00Z'),
           repo('tmux-agents', '2026-10-07T00:00:00Z'),
           repo('unlisted-repo', '2026-10-11T00:00:00Z'),
-        ],
-      } } } }),
+          repo('homelab', '2026-10-20T00:00:00Z', '2026-10-20', true), // private: never named
+        ] },
+      } } }),
     });
     vi.stubGlobal('fetch', fetchMock);
     const result = await getActivity();
+    vi.useRealTimers();
+    expect(result.startDate).toBe('2025-10-26');
+    expect(result.endDate).toBe('2026-10-25');
+    expect(result.days['2025-10-25']).toBeUndefined();
+    expect(result.days['2025-11-02']).toEqual({ c: 3, r: ['swimcue'] });
     expect(result.days['2026-10-09']).toEqual({ c: 12, r: ['pi-plugins', 'tmux-agents'] });
-    expect(result.updated).toEqual({ 'pi-plugins': '2026-10-10', 'tmux-agents': '2026-10-07' });
-    expect(result.total).toBe(12);
+    expect(result.days['2026-10-20']).toEqual({ c: 5, r: [] });
+    expect(result.updated).toEqual({ 'pi-plugins': '2026-10-10', 'tmux-agents': '2026-10-07', swimcue: '2025-11-02' });
+    expect(result.total).toBe(20);
     expect(fetchMock).toHaveBeenCalledWith('https://api.github.com/graphql', expect.objectContaining({
       next: { revalidate: 3600 },
     }));
+  });
+
+  it('covers exactly 365 days in contiguous slices short enough for one page of commit days', () => {
+    const { start, end, slices } = activityWindow(new Date('2026-10-25T18:00:00Z'));
+    const day = 24 * 60 * 60 * 1000;
+    expect((end.getTime() - start.getTime()) / day + 1).toBe(365);
+    expect(slices[0][0]).toEqual(start);
+    for (let i = 1; i < slices.length; i++) expect(slices[i][0].getTime()).toBe(slices[i - 1][1].getTime() + 1);
+    expect(slices.at(-1)![1].getTime()).toBe(end.getTime() + day - 1);
+    for (const [from, to] of slices) expect((to.getTime() + 1 - from.getTime()) / day).toBeLessThanOrEqual(100);
   });
 
   it('retains the empty fallback when both live data and last-good are unavailable', async () => {

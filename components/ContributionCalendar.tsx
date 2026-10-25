@@ -5,6 +5,8 @@ import projectNames from '@/lib/project-names';
 type DayEntry = { c: number; r: string[] };
 
 export interface ActivityData {
+  /** First day of the window (inclusive). Older stored payloads lack it: then endDate - 364 days. */
+  startDate?: string;
   endDate: string;
   maxCount: number;
   total: number;
@@ -16,7 +18,7 @@ const LEVEL_LIGHT = ['bg-[#ebedf0]', 'bg-[#9be9a8]', 'bg-[#40c463]', 'bg-[#30a14
 const LEVEL_DARK = ['dark:bg-[#161b22]', 'dark:bg-[#0e4429]', 'dark:bg-[#006d32]', 'dark:bg-[#26a641]', 'dark:bg-[#39d353]'];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-const WEEKS = 53;
+const WINDOW_DAYS = 365;
 
 function level(count: number): number {
   if (count <= 0) return 0;
@@ -36,36 +38,53 @@ function isoDay(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
 
-function fmtDay(date: Date): string {
+export function fmtDay(date: Date): string {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+}
+
+export function dayHeadline(count: number, date: Date): string {
+  if (count <= 0) return `No contributions on ${fmtDay(date)}`;
+  return `${count} contribution${count === 1 ? '' : 's'} on ${fmtDay(date)}`;
+}
+
+/** Counts include private work; only public projects are ever named. */
+export function dayTitle(count: number, date: Date, names: string[]): string {
+  if (count <= 0) return dayHeadline(count, date);
+  return `${dayHeadline(count, date)} · ${names.length > 0 ? names.join(', ') : 'private or unlisted repositories'}`;
 }
 
 interface CalendarProps {
   data: ActivityData;
   focusSlugs: string[] | null;
   hoverDay: string | null;
-  onDayEnter: (repos: string[], dayKey: string) => void;
+  onDayEnter: (repos: string[], dayKey: string, count: number) => void;
   onLeave: () => void;
 }
 
 export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, onLeave }: CalendarProps) {
-  // Anchor the grid to the Saturday of the final week, then walk back 53 weeks
-  // to a Sunday so every column is a full Sun–Sat week.
+  // Exactly the last 365 days. The grid runs from the Sunday on or before the first day to the
+  // Saturday on or after the last, so every column is a Sun–Sat week (365 days always make 53
+  // columns); the padding cells outside the window are left blank, as on GitHub.
   const end = new Date(`${data.endDate}T00:00:00Z`);
+  const start = data.startDate ? new Date(`${data.startDate}T00:00:00Z`) : addDaysUTC(end, -(WINDOW_DAYS - 1));
+  const gridStart = addDaysUTC(start, -start.getUTCDay());
   const gridEnd = addDaysUTC(end, 6 - end.getUTCDay());
-  const gridStart = addDaysUTC(gridEnd, -(WEEKS * 7 - 1));
+  const weeks = Math.round((gridEnd.getTime() - gridStart.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
 
-  const columns = Array.from({ length: WEEKS }, (_, w) =>
+  const columns = Array.from({ length: weeks }, (_, w) =>
     Array.from({ length: 7 }, (_, d) => {
       const date = addDaysUTC(gridStart, w * 7 + d);
       const entry = data.days[isoDay(date)];
-      return { key: isoDay(date), date, count: entry?.c ?? 0, repos: entry?.r ?? [] };
+      const inRange = date >= start && date <= end;
+      return { key: isoDay(date), date, inRange, count: inRange ? entry?.c ?? 0 : 0, repos: inRange ? entry?.r ?? [] : [] };
     })
   );
 
+  // A month is labelled over the first column whose first in-range day falls in it.
+  const firstInRange = (col: typeof columns[number]) => col.find((cell) => cell.inRange)?.date ?? col[0].date;
   const monthLabels = columns.map((col, w) => {
-    const month = col[0].date.getUTCMonth();
-    const prev = w > 0 ? columns[w - 1][0].date.getUTCMonth() : -1;
+    const month = firstInRange(col).getUTCMonth();
+    const prev = w > 0 ? firstInRange(columns[w - 1]).getUTCMonth() : -1;
     return month !== prev ? MONTHS[month] : '';
   });
 
@@ -97,7 +116,7 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
 
         {/* Week columns — each grows equally to fill the width; cells stay square.
             Exposed as a single labelled image so assistive tech gets the summary
-            rather than 371 individual cells. */}
+            rather than 365 individual cells. */}
         <div
           className="flex flex-1 gap-[3px]"
           role="img"
@@ -106,19 +125,19 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
           {columns.map((col, wi) => (
             <div key={wi} className="flex flex-1 flex-col gap-[3px]">
               {col.map((cell) => {
+                if (!cell.inRange) {
+                  return <div key={cell.key} className="aspect-square w-full" aria-hidden="true" />;
+                }
                 const lvl = level(cell.count);
                 const matches = !focusing || cell.repos.some((r) => focusSlugs!.includes(r));
                 const isHovered = hoverDay === cell.key;
                 const names = cell.repos.map((s) => projectNames[s] ?? s);
-                const title =
-                  cell.count > 0
-                    ? `${cell.count} commit${cell.count === 1 ? '' : 's'} on ${fmtDay(cell.date)} · ${names.join(', ')}`
-                    : `No commits on ${fmtDay(cell.date)}`;
+                const title = dayTitle(cell.count, cell.date, names);
                 return (
                   <div
                     key={cell.key}
                     title={title}
-                    onMouseEnter={() => onDayEnter(cell.repos, cell.key)}
+                    onMouseEnter={() => onDayEnter(cell.repos, cell.key, cell.count)}
                     className={`aspect-square w-full rounded-[2px] transition-opacity duration-150 ${LEVEL_LIGHT[lvl]} ${LEVEL_DARK[lvl]} ${
                       focusing && !matches ? 'opacity-20' : 'opacity-100'
                     } ${isHovered ? 'ring-1 ring-gray-500 dark:ring-gray-300' : ''}`}

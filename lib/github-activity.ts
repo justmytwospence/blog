@@ -5,9 +5,11 @@ import type { ActivityData } from '@/components/ContributionCalendar';
 import { readThrough } from '@/lib/last-good';
 
 /**
- * Fetches the GitHub contribution graph (ALL activity, including private contribution counts) live
- * at runtime, plus a per-repo commit breakdown used to link calendar days to project cards and a
- * `pushedAt` map used to order the project cards by recency.
+ * Fetches the GitHub contribution graph for the last 365 days live at runtime: ALL activity,
+ * private contributions included as bare per-day counts (the profile's "private contributions"
+ * setting must stay on). Alongside it, a per-repo commit breakdown links calendar days to project
+ * cards and a `pushedAt` map orders the cards by recency; only public repos listed in REPO_TO_SLUG
+ * are ever named, so private repos contribute numbers and nothing else.
  *
  * Requires a GITHUB_TOKEN (or GH_TOKEN). On any failure (missing token, API down, malformed
  * response) the fetcher throws and the last-good payload from Upstash is served instead; with no
@@ -95,17 +97,47 @@ export const REPO_TO_SLUG: Record<string, string> = {
   'agent-scrub': 'agent-scrub',
 };
 
-const QUERY = `query($login:String!, $from:DateTime!, $to:DateTime!){
-  user(login:$login){
-    contributionsCollection(from:$from, to:$to){
-      contributionCalendar{ totalContributions weeks{ contributionDays{ date contributionCount } } }
+// The calendar spans exactly the last 365 days, ending today (UTC).
+export const WINDOW_DAYS = 365;
+// The per-repo breakdown is fetched in slices short enough that no repo can have more than 100
+// commit days in one (the `contributions(first:100)` page size), so busy repos aren't truncated.
+const SLICE_DAYS = 92;
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/** UTC day windows [from, to) covering the calendar, oldest first. */
+export function activityWindow(now: Date): { start: Date; end: Date; slices: Array<[Date, Date]> } {
+  const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  const start = new Date(end.getTime() - (WINDOW_DAYS - 1) * DAY_MS);
+  const slices: Array<[Date, Date]> = [];
+  for (let from = start; from <= end; from = new Date(from.getTime() + SLICE_DAYS * DAY_MS)) {
+    const to = new Date(Math.min(from.getTime() + SLICE_DAYS * DAY_MS, end.getTime() + DAY_MS) - 1);
+    slices.push([from, to]);
+  }
+  return { start, end, slices };
+}
+
+/**
+ * One request: the full calendar (which counts private contributions too, anonymously, because
+ * the profile shows private contributions) plus the per-repo commit breakdown, slice by slice.
+ */
+function buildQuery(sliceCount: number): string {
+  const slices = Array.from({ length: sliceCount }, (_, i) => `
+    s${i}: contributionsCollection(from:$f${i}, to:$t${i}){
       commitContributionsByRepository(maxRepositories:100){
-        repository{ name pushedAt }
+        repository{ name isPrivate pushedAt }
         contributions(first:100){ nodes{ occurredAt commitCount } }
       }
-    }
+    }`).join('');
+  const vars = Array.from({ length: sliceCount }, (_, i) => `, $f${i}:DateTime!, $t${i}:DateTime!`).join('');
+  return `query($login:String!, $from:DateTime!, $to:DateTime!${vars}){
+  user(login:$login){
+    calendar: contributionsCollection(from:$from, to:$to){
+      contributionCalendar{ totalContributions weeks{ contributionDays{ date contributionCount } } }
+    }${slices}
   }
 }`;
+}
 
 /** ActivityData plus a project-slug -> last-pushed (ISO date) map used to sort the project cards. */
 export interface ProjectActivity extends ActivityData {
@@ -132,7 +164,9 @@ export function rollUpProjectActivity(activity: ProjectActivity, projects: Proje
 }
 
 function emptyActivity(): ProjectActivity {
-  return { endDate: new Date().toISOString().slice(0, 10), maxCount: 0, total: 0, days: {}, updated: {} };
+  const { start, end } = activityWindow(new Date());
+  const iso = (date: Date) => date.toISOString().slice(0, 10);
+  return { startDate: iso(start), endDate: iso(end), maxCount: 0, total: 0, days: {}, updated: {} };
 }
 
 /** Live fetch. THROWS on any failure so last-good can serve the previous payload. */
@@ -140,8 +174,17 @@ async function fetchActivity(): Promise<ProjectActivity> {
   const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
   if (!token) throw new Error('[github-activity] no GITHUB_TOKEN / GH_TOKEN');
 
-  const to = new Date();
-  const from = new Date(to.getTime() - 365 * 24 * 60 * 60 * 1000);
+  const now = new Date();
+  const { start, end, slices } = activityWindow(now);
+  const variables: Record<string, string> = {
+    login: OWNER,
+    from: start.toISOString(),
+    to: now.toISOString(),
+  };
+  slices.forEach(([from, to], i) => {
+    variables[`f${i}`] = from.toISOString();
+    variables[`t${i}`] = to.toISOString();
+  });
 
   const res = await fetch('https://api.github.com/graphql', {
     method: 'POST',
@@ -149,10 +192,7 @@ async function fetchActivity(): Promise<ProjectActivity> {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      query: QUERY,
-      variables: { login: OWNER, from: from.toISOString(), to: to.toISOString() },
-    }),
+    body: JSON.stringify({ query: buildQuery(slices.length), variables }),
     signal: AbortSignal.timeout(10_000),
     // ETag/If-None-Match (and the "304 doesn't count against quota" rule) are REST features; this is
     // a GraphQL query that doesn't honor them, so no conditional requests. ISR caps this to ~1
@@ -162,26 +202,34 @@ async function fetchActivity(): Promise<ProjectActivity> {
 
   if (!res.ok) throw new Error(`[github-activity] HTTP ${res.status}`);
   const json = await res.json();
-  const cc = json?.data?.user?.contributionsCollection;
-  if (!cc?.contributionCalendar) throw new Error('[github-activity] missing contributionCalendar');
+  const user = json?.data?.user;
+  const calendar = user?.calendar?.contributionCalendar;
+  if (!calendar) throw new Error('[github-activity] missing contributionCalendar');
 
+  const startDate = start.toISOString().slice(0, 10);
+  const endDate = end.toISOString().slice(0, 10);
+  const inWindow = (date: string) => date >= startDate && date <= endDate;
+
+  // Every contribution counts toward the calendar, private ones included (as bare numbers).
   const days: Record<string, { c: number; r: string[] }> = {};
   let maxCount = 0;
-  let endDate = '';
-  for (const week of cc.contributionCalendar.weeks) {
+  let total = 0;
+  for (const week of calendar.weeks) {
     for (const day of week.contributionDays) {
-      if (day.date > endDate) endDate = day.date;
-      if (day.contributionCount > 0) {
-        days[day.date] = { c: day.contributionCount, r: [] };
-        if (day.contributionCount > maxCount) maxCount = day.contributionCount;
-      }
+      if (!inWindow(day.date) || day.contributionCount <= 0) continue;
+      days[day.date] = { c: day.contributionCount, r: [] };
+      total += day.contributionCount;
+      if (day.contributionCount > maxCount) maxCount = day.contributionCount;
     }
   }
 
   // Attribute each project's commit days (for day<->card hover linking) and capture its last push
   // date (for the recency sort) in one pass over the tracked repos.
   const updated: Record<string, string> = {};
-  for (const repo of cc.commitContributionsByRepository ?? []) {
+  const repos = slices.flatMap((_, i) => user?.[`s${i}`]?.commitContributionsByRepository ?? []);
+  for (const repo of repos) {
+    // Only public repos that have a project card are ever named; everything else stays a number.
+    if (repo.repository?.isPrivate !== false) continue;
     const slug = REPO_TO_SLUG[repo.repository?.name];
     if (!slug) continue;
     const pushedAt = repo.repository?.pushedAt;
@@ -191,19 +239,14 @@ async function fetchActivity(): Promise<ProjectActivity> {
     }
     for (const node of repo.contributions?.nodes ?? []) {
       const date = String(node.occurredAt).slice(0, 10);
+      if (!inWindow(date)) continue;
       const entry = days[date] ?? (days[date] = { c: 0, r: [] });
       if (!entry.r.includes(slug)) entry.r.push(slug);
     }
   }
   for (const key of Object.keys(days)) days[key].r.sort();
 
-  return {
-    endDate: endDate || new Date().toISOString().slice(0, 10),
-    maxCount,
-    total: cc.contributionCalendar.totalContributions ?? 0,
-    days,
-    updated,
-  };
+  return { startDate, endDate, maxCount, total, days, updated };
 }
 
 /**
