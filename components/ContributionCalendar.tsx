@@ -172,10 +172,6 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
         </div>
       </div>
 
-      {/* Caption, aligned with the grid */}
-      <div className="mt-3 pl-10 text-xs text-gray-500 dark:text-[#a6a6a6]">
-        {data.total.toLocaleString('en-US')} contributions in the last year
-      </div>
     </div>
   );
 }

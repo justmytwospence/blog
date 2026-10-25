@@ -9,7 +9,7 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Projects',
-  description: 'Bayesian modeling tools, web apps, MCP servers, coding-agent plugins, and the self-hosted homelab that runs them.',
+  description: 'Things I have built across software and data: tools, apps, models, and experiments.',
 };
 
 export default async function ProjectsPage() {
@@ -24,9 +24,8 @@ export default async function ProjectsPage() {
           Projects
         </h1>
         <p className="text-lg text-gray-600 dark:text-[#cccccc]">
-          Bayesian modeling tools and data analyses, interactive web apps, MCP servers that connect
-          my data to LLMs, plugins for the coding agents I work with every day, and the self-hosted
-          homelab that runs most of it.
+          Things I&apos;ve built across software and data: tools, apps, models, and experiments,
+          some polished and some still in progress.
         </p>
       </div>
 
