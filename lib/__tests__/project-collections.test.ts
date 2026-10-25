@@ -3,14 +3,21 @@ import { projectCardDestination } from '../project-navigation';
 import { generateFeed } from '../feed';
 import sitemap from '@/app/sitemap';
 
+// Components added after the consolidation, whose child page slug is their package name.
+const suiteBornSlugs = [
+  'pi-bg', 'pi-todo', 'pi-herdr', 'pi-recap', 'pi-sidebar', 'pi-reload-all',
+  'pi-mcp-device-login', 'pi-diff-review', 'pi-context', 'pi-trends', 'pi-pressure', 'pi-vim',
+  'pi-stash', 'pi-cc-render', 'pi-markdown-extras', 'pi-prose-width', 'pi-sticky-last-prompt',
+];
 const childSlugs = [
-  'auto-effort', 'cache-guard', 'marimo-for-agents', 'next-prompt', 'tool-gate', 'lean-context', 'pi-brokered-auth',
+  'auto-effort', 'cache-guard', 'marimo-for-agents', 'next-prompt', 'tool-gate', 'lean-context',
   'pi-ask-user-question', 'pi-plan-mode', 'pi-status-footer', 'pi-rewind', 'pi-clear-screen',
   'pi-select-nav', 'pi-herdr-scrollbar-width', 'pi-subagents', 'pi-appearance-resync', 'pi-copy',
+  ...suiteBornSlugs,
 ];
 const separateSlugs = [
   'anthropic-billing-guard', 'tmux-agents', 'herdr-repeat-navigation',
-  'herdr-machine0', 'paseo-machine0', 'homelab',
+  'herdr-machine0', 'paseo-machine0', 'homelab', 'pi-brokered-auth', 'opencode-plugins',
 ];
 // Children that are suite components, with the package directory in the suite repository.
 const componentOf: Record<string, string> = {
@@ -20,6 +27,7 @@ const componentOf: Record<string, string> = {
   'pi-clear-screen': 'pi-clear-screen', 'pi-select-nav': 'pi-select-nav',
   'pi-herdr-scrollbar-width': 'pi-herdr-scrollbar-width', 'pi-subagents': 'pi-subagents',
   'pi-appearance-resync': 'pi-appearance-resync', 'pi-copy': 'pi-copy',
+  ...Object.fromEntries(suiteBornSlugs.map(slug => [slug, slug])),
 };
 const suiteSource = (component: string) => `https://github.com/justmytwospence/pi-plugins/tree/main/packages/${component}`;
 const suiteDocs = (component: string) => `https://pi-plugins.vercel.app/plugins/${component}/`;
@@ -83,10 +91,11 @@ describe('Pi Plugins portfolio collection', () => {
         { label: 'Suite source', url: suiteSource(component) },
         { label: 'Docs', url: suiteDocs(component) },
       ]);
-      const ports = links.slice(2, -1);
+      // Components born in the suite have no historical standalone repository.
+      const historical = links.at(-1)?.label === 'Original Pi source (historical)';
+      const ports = links.slice(2, historical ? -1 : undefined);
       expect(ports.every(link => !link.url.includes('/pi-plugins'))).toBe(true);
-      expect(links.at(-1)?.label).toBe('Original Pi source (historical)');
-      expect(links.at(-1)?.url).toMatch(/^https:\/\/github\.com\/justmytwospence\/pi-/);
+      if (historical) expect(links.at(-1)?.url).toMatch(/^https:\/\/github\.com\/justmytwospence\/pi-/);
       expect(new Set(links.map(link => link.url)).size).toBe(links.length);
     }
     expect(getProjectBySlug('pi-plan-mode')!.metadata.description).toContain('@narumitw/pi-plan-mode');
