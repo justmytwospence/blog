@@ -119,9 +119,9 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
       </div>
 
       <div className="mt-1.5 flex gap-2">
-        {/* Weekday labels (Mon / Wed / Fri), one slot per row */}
+        {/* Weekday labels, one per row */}
         <div className="flex w-8 shrink-0 flex-col gap-[3px] text-[11px] font-medium tracking-wide text-gray-500 dark:text-[#8b8b8b]" aria-hidden="true">
-          {['', 'Mon', '', 'Wed', '', 'Fri', ''].map((label, i) => (
+          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((label, i) => (
             <div key={i} className="flex flex-1 items-center justify-end leading-none">
               {label}
             </div>
