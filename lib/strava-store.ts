@@ -15,6 +15,9 @@ import { getRedis, hasStore } from './redis';
 import { readThrough } from './last-good';
 
 const TOTALS_KEY = 'strava:totals';
+// When the totals were last recomputed (ISO timestamp). Kept beside them rather than inside, so
+// buildTotals stays deterministic.
+const TOTALS_UPDATED_KEY = 'strava:totals:updatedAt';
 const AUTH_KEY = 'strava:auth';
 
 interface StoredAuth {
@@ -64,7 +67,23 @@ export async function writeTotals(totals: StravaTotals): Promise<void> {
     return;
   }
   await redis.set(TOTALS_KEY, totals);
+  await redis.set(TOTALS_UPDATED_KEY, new Date().toISOString());
 }
+
+/**
+ * When the totals were last recomputed, for the page's "Last updated" line. Null when there is no
+ * store, the key has not been written yet, or the read fails: the line is simply left out.
+ */
+export const readTotalsUpdatedAt = cache(async (): Promise<string | null> => {
+  const redis = getRedis();
+  if (!redis) return null;
+  try {
+    const value = await redis.get<string>(TOTALS_UPDATED_KEY);
+    return typeof value === 'string' && !Number.isNaN(Date.parse(value)) ? value : null;
+  } catch {
+    return null;
+  }
+});
 
 /**
  * A valid Strava access token. Prefers the rotated refresh token persisted in `strava:auth` over the

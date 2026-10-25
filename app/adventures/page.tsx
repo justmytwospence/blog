@@ -12,6 +12,7 @@ import {
   getLifetimeByMonthSport,
 } from '@/lib/adventures';
 import { formatDistance, formatElevation, formatDuration } from '@/lib/units';
+import { readTotalsUpdatedAt } from '@/lib/strava-store';
 
 export const metadata: Metadata = {
   title: 'Adventures',
@@ -26,6 +27,7 @@ export default async function AdventuresPage() {
   const yearly = await getYearlyTotals();
   const grand = await getActivityGrandTotals();
   const byMonthSport = await getLifetimeByMonthSport();
+  const updatedAt = await readTotalsUpdatedAt();
 
   // The totals come from the runtime store; if it is unreachable or unseeded they arrive as zeros.
   // Rendering "0 mi all-time" on a page backed by the full history is worse than showing nothing,
@@ -38,6 +40,19 @@ export default async function AdventuresPage() {
       <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-4xl font-bold text-gray-900 dark:text-[#d4d4d4]">Adventures</h1>
+          {updatedAt && (
+            <p className="mt-2 text-sm text-gray-500 dark:text-[#a6a6a6]">
+              Last updated{' '}
+              <time dateTime={updatedAt}>
+                {new Date(updatedAt).toLocaleDateString('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                  timeZone: 'America/Los_Angeles',
+                })}
+              </time>
+            </p>
+          )}
         </div>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
           {/* The published GroundCover deployment — the same history this page totals, drawn as
