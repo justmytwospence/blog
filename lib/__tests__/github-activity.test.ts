@@ -15,7 +15,7 @@ const components = [
 ];
 const ports = [
   'claude-auto-effort', 'claude-cache-guard', 'codex-cache-guard', 'claude-marimo',
-  'pi-lean-context', 'claude-prose-width',
+  'pi-lean-context', 'claude-prose-width', 'claude-tool-gate',
 ];
 // Archived standalone OpenCode ports, now packages of the opencode-plugins suite.
 const opencodePorts = [
@@ -53,7 +53,7 @@ describe('portfolio activity rollup', () => {
     expect(projectNames['opencode-plugins']).toBe('OpenCode Plugins');
     const visible = new Set(getTopLevelProjects().map(project => project.slug));
     for (const slug of Object.values(REPO_TO_SLUG)) expect(visible.has(slug)).toBe(true);
-    for (const repo of ['tmux-agents', 'herdr-machine0', 'herdr-repeat-navigation', 'anthropic-billing-guard']) {
+    for (const repo of ['tmux-agents', 'herdr-machine0', 'herdr-repeat-navigation', 'anthropic-billing-guard', 'pi-brokered-auth', 'aac-touchid', 'agent-scrub']) {
       expect(REPO_TO_SLUG[repo]).toBe(repo);
     }
   });

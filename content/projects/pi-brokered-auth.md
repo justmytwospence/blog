@@ -1,6 +1,5 @@
 ---
 title: "pi-brokered-auth"
-parent: "pi-plugins"
 date: "2026-10-03"
 categories: ["coding-agents", "pi", "typescript"]
 description: "pi OAuth providers that read credentials from a file a hub keeps fresh, so a fleet of VMs shares one set of subscription logins."

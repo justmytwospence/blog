@@ -61,6 +61,8 @@ const projectNames: Record<string, string> = {
   'tmux-agents': 'tmux-agents',
   'herdr-machine0': 'herdr-machine0',
   'paseo-machine0': 'paseo-machine0',
+  'aac-touchid': 'aac-touchid',
+  'agent-scrub': 'agent-scrub',
 };
 
 export default projectNames;

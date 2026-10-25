@@ -59,6 +59,7 @@ export const REPO_TO_SLUG: Record<string, string> = {
   'claude-marimo': 'pi-plugins',
   'opencode-marimo': 'opencode-plugins',
   'pi-tool-gate': 'pi-plugins',
+  'claude-tool-gate': 'pi-plugins',
   'opencode-tool-gate': 'opencode-plugins',
   'pi-lean-context': 'pi-plugins',
   'opencode-lean-context': 'opencode-plugins',
@@ -71,7 +72,7 @@ export const REPO_TO_SLUG: Record<string, string> = {
   'pi-copy': 'pi-plugins',
   'pi-ask-user-question': 'pi-plugins',
   'pi-rewind': 'pi-plugins',
-  'pi-brokered-auth': 'pi-plugins',
+  'pi-brokered-auth': 'pi-brokered-auth',
   'pi-select-nav': 'pi-plugins',
   'pi-clear-screen': 'pi-plugins',
   'pi-herdr-scrollbar-width': 'pi-plugins',
@@ -80,6 +81,8 @@ export const REPO_TO_SLUG: Record<string, string> = {
   'tmux-agents': 'tmux-agents',
   'herdr-machine0': 'herdr-machine0',
   'paseo-machine0': 'paseo-machine0',
+  'aac-touchid': 'aac-touchid',
+  'agent-scrub': 'agent-scrub',
 };
 
 const QUERY = `query($login:String!, $from:DateTime!, $to:DateTime!){
