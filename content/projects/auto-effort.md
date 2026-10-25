@@ -14,7 +14,7 @@ links:
   - label: "Claude Code"
     url: "https://github.com/justmytwospence/claude-auto-effort"
   - label: "opencode"
-    url: "https://github.com/justmytwospence/opencode-auto-effort"
+    url: "https://github.com/justmytwospence/opencode-plugins/tree/main/packages/opencode-auto-effort"
   - label: "Original Pi source (historical)"
     url: "https://github.com/justmytwospence/pi-auto-effort"
 ---

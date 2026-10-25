@@ -14,7 +14,7 @@ links:
   - label: "Claude Code"
     url: "https://github.com/justmytwospence/claude-cache-guard"
   - label: "opencode"
-    url: "https://github.com/justmytwospence/opencode-cache-guard"
+    url: "https://github.com/justmytwospence/opencode-plugins/tree/main/packages/opencode-cache-guard"
   - label: "Codex"
     url: "https://github.com/justmytwospence/codex-cache-guard"
   - label: "Original Pi source (historical)"

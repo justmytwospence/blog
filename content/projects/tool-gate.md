@@ -12,7 +12,7 @@ links:
   - label: "Docs"
     url: "https://pi-plugins.vercel.app/plugins/pi-tool-gate/"
   - label: "opencode"
-    url: "https://github.com/justmytwospence/opencode-tool-gate"
+    url: "https://github.com/justmytwospence/opencode-plugins/tree/main/packages/opencode-tool-gate"
   - label: "Original Pi source (historical)"
     url: "https://github.com/justmytwospence/pi-tool-gate"
 ---

@@ -12,7 +12,7 @@ links:
   - label: "Docs"
     url: "https://pi-plugins.vercel.app/plugins/pi-next-prompt/"
   - label: "opencode"
-    url: "https://github.com/justmytwospence/opencode-next-prompt"
+    url: "https://github.com/justmytwospence/opencode-plugins/tree/main/packages/opencode-next-prompt"
   - label: "Original Pi source (historical)"
     url: "https://github.com/justmytwospence/pi-next-prompt"
 ---

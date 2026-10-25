@@ -14,7 +14,7 @@ links:
   - label: "Claude Code"
     url: "https://github.com/justmytwospence/claude-marimo"
   - label: "opencode"
-    url: "https://github.com/justmytwospence/opencode-marimo"
+    url: "https://github.com/justmytwospence/opencode-plugins/tree/main/packages/opencode-marimo"
   - label: "Original Pi source (historical)"
     url: "https://github.com/justmytwospence/pi-marimo"
 ---

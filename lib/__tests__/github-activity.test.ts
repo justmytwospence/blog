@@ -14,10 +14,14 @@ const components = [
   'pi-next-prompt', 'pi-diff-review', 'pi-prose-width',
 ];
 const ports = [
-  'claude-auto-effort', 'opencode-auto-effort', 'claude-cache-guard', 'opencode-cache-guard',
-  'codex-cache-guard', 'claude-marimo', 'opencode-marimo', 'opencode-next-prompt',
-  'opencode-tool-gate', 'pi-lean-context', 'opencode-lean-context',
-  'opencode-herdr', 'opencode-prose-width', 'claude-prose-width',
+  'claude-auto-effort', 'claude-cache-guard', 'codex-cache-guard', 'claude-marimo',
+  'pi-lean-context', 'claude-prose-width',
+];
+// Archived standalone OpenCode ports, now packages of the opencode-plugins suite.
+const opencodePorts = [
+  'opencode-auto-effort', 'opencode-cache-guard', 'opencode-marimo', 'opencode-next-prompt',
+  'opencode-tool-gate', 'opencode-lean-context', 'opencode-herdr', 'opencode-prose-width',
+  'opencode-git-status',
 ];
 
 const oldActivity: ProjectActivity = {
@@ -43,6 +47,10 @@ describe('portfolio activity rollup', () => {
       expect(REPO_TO_SLUG[repo]).toBe('pi-plugins');
     }
     expect(projectNames['pi-plugins']).toBe('Pi Plugins');
+    for (const repo of ['opencode-plugins', ...opencodePorts]) {
+      expect(REPO_TO_SLUG[repo]).toBe('opencode-plugins');
+    }
+    expect(projectNames['opencode-plugins']).toBe('OpenCode Plugins');
     const visible = new Set(getTopLevelProjects().map(project => project.slug));
     for (const slug of Object.values(REPO_TO_SLUG)) expect(visible.has(slug)).toBe(true);
     for (const repo of ['tmux-agents', 'herdr-machine0', 'herdr-repeat-navigation', 'anthropic-billing-guard']) {
@@ -88,7 +96,7 @@ describe('portfolio activity rollup', () => {
         commitContributionsByRepository: [
           repo('pi-plugins', '2026-10-08T00:00:00Z'),
           repo('pi-bg', '2026-10-09T00:00:00Z'),
-          repo('opencode-cache-guard', '2026-10-10T00:00:00Z'),
+          repo('claude-cache-guard', '2026-10-10T00:00:00Z'),
           repo('tmux-agents', '2026-10-07T00:00:00Z'),
           repo('unlisted-repo', '2026-10-11T00:00:00Z'),
         ],
