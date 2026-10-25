@@ -68,12 +68,12 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
                   )}
                 </h3>
                 {project.description && (
-                  <p className="text-gray-600 dark:text-[#cccccc] mb-3">
+                  <p className="text-gray-600 dark:text-[#cccccc] mb-3 line-clamp-4">
                     {project.description}
                   </p>
                 )}
                 {project.categories && project.categories.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex max-h-6 flex-wrap gap-2 overflow-hidden">
                     {project.categories.map((category) => (
                       <span
                         key={category}

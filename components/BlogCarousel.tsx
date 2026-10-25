@@ -68,12 +68,12 @@ export function BlogCarousel({ posts }: BlogCarouselProps) {
                   {post.title}
                 </h3>
                 {post.description && (
-                  <p className="text-gray-600 dark:text-[#cccccc] mb-3">
+                  <p className="text-gray-600 dark:text-[#cccccc] mb-3 line-clamp-4">
                     {post.description}
                   </p>
                 )}
                 {post.categories && post.categories.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex max-h-6 flex-wrap gap-2 overflow-hidden">
                     {post.categories.map((category) => (
                       <span
                         key={category}
