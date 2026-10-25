@@ -9,7 +9,7 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Projects',
-  description: 'Data science projects, analyses, and interactive applications.',
+  description: 'Bayesian modeling tools, web apps, MCP servers, coding-agent plugins, and the self-hosted homelab that runs them.',
 };
 
 export default async function ProjectsPage() {
@@ -24,7 +24,9 @@ export default async function ProjectsPage() {
           Projects
         </h1>
         <p className="text-lg text-gray-600 dark:text-[#cccccc]">
-          Explore my data science projects, analyses, and interactive applications.
+          Bayesian modeling tools and data analyses, interactive web apps, MCP servers that connect
+          my data to LLMs, plugins for the coding agents I work with every day, and the self-hosted
+          homelab that runs most of it.
         </p>
       </div>
 
