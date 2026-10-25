@@ -35,6 +35,28 @@ describe('inoreader blogroll client', () => {
     vi.restoreAllMocks();
   });
 
+  it('keeps numeric titles and attributed elements as text instead of failing the stream', async () => {
+    mockFeed(
+      rss(
+        item({ title: '2026', link: 'https://example.com/a', source: '1984', sourceUrl: 'https://example.com/' }) +
+          `<item>
+            <title type="html">Attributed &amp; titled</title>
+            <link>https://example.com/b</link>
+            <description type="html">Body</description>
+            <dc:creator>42</dc:creator>
+            <source url="https://example.com/">Example</source>
+          </item>`,
+      ),
+    );
+
+    const { getBlogrollFeedsOrThrow, getBlogrollItemsOrThrow } = await import('../src');
+    const items = await getBlogrollItemsOrThrow();
+    expect(items.map((i) => i.title)).toEqual(['2026', 'Attributed & titled']);
+    expect(items[0].sourceName).toBe('1984');
+    expect(items[1].author).toBe('42');
+    await expect(getBlogrollFeedsOrThrow()).resolves.toHaveLength(1); // one source
+  });
+
   it('drops items from the Reddit feed by source name', async () => {
     mockFeed(
       rss(

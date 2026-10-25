@@ -73,6 +73,19 @@ interface RawRssItem {
 
 // ─── Helpers ───────────────────────────────────────────────────────
 
+/**
+ * Element text as a string. fast-xml-parser yields an object ({ '#text', '@_attr' }) for an element
+ * with attributes, and arrays for repeated elements; one odd item must not fail the whole stream.
+ */
+function asText(value: unknown): string {
+  if (value == null) return '';
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+  if (Array.isArray(value)) return asText(value[0]);
+  if (typeof value === 'object' && '#text' in value) return asText((value as { '#text': unknown })['#text']);
+  return '';
+}
+
 function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
 }
@@ -136,24 +149,27 @@ function transformItem(
   sourceAttr: Record<string, string> | undefined,
   publicTag: string,
 ): BlogrollItem {
-  const description = raw.description ?? '';
+  const description = asText(raw.description);
   const plainText = decodeEntities(stripHtml(description));
   const wordCount = plainText.split(/\s+/).filter(Boolean).length;
 
   // <source url="...">Feed Title</source> parses to a string when it has no
   // attributes, or an object ({ '@_url', '#text' }) when it does — read the
   // feed title from whichever shape we got.
-  const sourceName = typeof raw.source === 'string' ? raw.source : (sourceAttr?.['#text'] ?? null);
+  const sourceName = asText(raw.source) || null;
 
   return {
-    title: decodeEntities(raw.title),
-    url: raw.link,
-    author: raw['dc:creator'] ? decodeEntities(raw['dc:creator']) : null,
+    title: decodeEntities(asText(raw.title)),
+    url: asText(raw.link),
+    author: asText(raw['dc:creator']) ? decodeEntities(asText(raw['dc:creator'])) : null,
     sourceName: sourceName ? decodeEntities(sourceName) : null,
     sourceUrl: sourceAttr?.['@_url'] ?? null,
-    publishedDate: raw.pubDate ?? '',
+    publishedDate: asText(raw.pubDate),
     summary: truncate(plainText, 200),
-    categories: normalizeCategories(raw.category, publicTag),
+    categories: normalizeCategories(
+      Array.isArray(raw.category) ? raw.category.map(asText).filter(Boolean) : asText(raw.category) || undefined,
+      publicTag,
+    ),
     readingTime: estimateReadingTime(wordCount),
   };
 }
@@ -184,6 +200,8 @@ async function fetchStream(itemCount: number): Promise<BlogrollItem[]> {
     const parser = new XMLParser({
       ignoreAttributes: false,
       attributeNamePrefix: '@_',
+      // Keep element text as text: a title like "2026" or "1e3" must not become a number.
+      parseTagValue: false,
       isArray: (name) => name === 'item' || name === 'category',
     });
 
