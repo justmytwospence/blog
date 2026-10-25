@@ -53,7 +53,7 @@ describe('portfolio activity rollup', () => {
     expect(projectNames['opencode-plugins']).toBe('OpenCode Plugins');
     const visible = new Set(getTopLevelProjects().map(project => project.slug));
     for (const slug of Object.values(REPO_TO_SLUG)) expect(visible.has(slug)).toBe(true);
-    for (const repo of ['tmux-agents', 'herdr-machine0', 'herdr-repeat-navigation', 'anthropic-billing-guard', 'pi-brokered-auth', 'aac-touchid', 'agent-scrub']) {
+    for (const repo of ['tmux-agents', 'herdr-machine0', 'herdr-repeat-navigation', 'anthropic-billing-guard', 'pi-brokered-auth', 'aac-touchid', 'agent-scrub', 'herdr-agentbox', 'herdr-undo', 'herdr-git-status']) {
       expect(REPO_TO_SLUG[repo]).toBe(repo);
     }
   });
