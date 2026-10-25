@@ -59,9 +59,12 @@ interface CalendarProps {
   hoverDay: string | null;
   onDayEnter: (repos: string[], dayKey: string, count: number) => void;
   onLeave: () => void;
+  /** Clicking a day pins it; clicking the pinned day again unpins. */
+  pinnedDay?: string | null;
+  onDayClick?: (repos: string[], dayKey: string, count: number) => void;
 }
 
-export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, onLeave }: CalendarProps) {
+export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, onLeave, pinnedDay = null, onDayClick }: CalendarProps) {
   // Exactly the last 365 days. The grid runs from the Sunday on or before the first day to the
   // Saturday on or after the last, so every column is a Sun–Sat week (365 days always make 53
   // columns); the padding cells outside the window are left blank, as on GitHub.
@@ -131,6 +134,7 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
                 const lvl = level(cell.count);
                 const matches = !focusing || cell.repos.some((r) => focusSlugs!.includes(r));
                 const isHovered = hoverDay === cell.key;
+                const isPinned = pinnedDay === cell.key;
                 const names = cell.repos.map((s) => projectNames[s] ?? s);
                 const title = dayTitle(cell.count, cell.date, names);
                 return (
@@ -138,9 +142,16 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
                     key={cell.key}
                     title={title}
                     onMouseEnter={() => onDayEnter(cell.repos, cell.key, cell.count)}
+                    onClick={() => onDayClick?.(cell.repos, cell.key, cell.count)}
                     className={`aspect-square w-full rounded-[2px] transition-opacity duration-150 ${LEVEL_LIGHT[lvl]} ${LEVEL_DARK[lvl]} ${
                       focusing && !matches ? 'opacity-20' : 'opacity-100'
-                    } ${isHovered ? 'ring-1 ring-gray-500 dark:ring-gray-300' : ''}`}
+                    } ${
+                      isPinned
+                        ? 'ring-2 ring-blue-500 dark:ring-blue-400'
+                        : isHovered
+                          ? 'ring-1 ring-gray-500 dark:ring-gray-300'
+                          : ''
+                    } ${onDayClick ? 'cursor-pointer' : ''}`}
                   />
                 );
               })}

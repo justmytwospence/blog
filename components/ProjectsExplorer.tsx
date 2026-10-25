@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ProjectCard } from '@/components/ProjectCard';
 import { ContributionCalendar, dayHeadline, type ActivityData } from '@/components/ContributionCalendar';
 import type { Project } from '@/lib/types';
@@ -12,10 +12,13 @@ type HoveredDay = { key: string; count: number; repos: string[] };
  * hovering a calendar day shows only the projects worked on that day (the rest
  * are hidden, so the matches are in view wherever they sit in the list), and
  * hovering a project card highlights that project's activity in the calendar.
+ * Clicking a day pins its projects until the day is clicked again, another day
+ * is clicked, Escape is pressed, or "Show all projects" is used.
  */
 export function ProjectsExplorer({ projects, activity }: { projects: Project[]; activity: ActivityData }) {
   const [focusSlugs, setFocusSlugs] = useState<string[] | null>(null);
   const [hoverDay, setHoverDay] = useState<HoveredDay | null>(null);
+  const [pinnedDay, setPinnedDay] = useState<HoveredDay | null>(null);
   // While a day is hovered the grid keeps its full height, so hiding cards never shortens the page
   // (which would scroll the calendar out from under the pointer).
   const gridRef = useRef<HTMLDivElement>(null);
@@ -31,15 +34,47 @@ export function ProjectsExplorer({ projects, activity }: { projects: Project[]; 
     return set;
   }, [activity]);
 
+  const lockHeight = () => {
+    if (lockedHeight === null && gridRef.current) setLockedHeight(gridRef.current.offsetHeight);
+  };
+
+  // Leaving the calendar or a card falls back to the pinned day, if any.
   const clear = () => {
+    setHoverDay(null);
+    setFocusSlugs(pinnedDay && pinnedDay.repos.length > 0 ? pinnedDay.repos : null);
+    if (!pinnedDay) setLockedHeight(null);
+  };
+
+  const unpin = () => {
+    setPinnedDay(null);
     setHoverDay(null);
     setFocusSlugs(null);
     setLockedHeight(null);
   };
 
+  useEffect(() => {
+    if (!pinnedDay) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') unpin();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [pinnedDay]);
+
   const handleDayEnter = (repos: string[], key: string, count: number) => {
-    if (lockedHeight === null && gridRef.current) setLockedHeight(gridRef.current.offsetHeight);
+    lockHeight();
     setHoverDay({ key, count, repos });
+    setFocusSlugs(repos.length > 0 ? repos : null);
+  };
+
+  const handleDayClick = (repos: string[], key: string, count: number) => {
+    if (pinnedDay?.key === key) {
+      unpin();
+      return;
+    }
+    lockHeight();
+    setPinnedDay({ key, count, repos });
+    setHoverDay(null);
     setFocusSlugs(repos.length > 0 ? repos : null);
   };
 
@@ -48,8 +83,9 @@ export function ProjectsExplorer({ projects, activity }: { projects: Project[]; 
     setFocusSlugs(activitySlugs.has(slug) ? [slug] : null);
   };
 
-  // A hovered day filters the cards; a hovered card only dims the calendar.
-  const visibleSlugs = hoverDay ? new Set(hoverDay.repos) : null;
+  // A hovered (else pinned) day filters the cards; a hovered card only dims the calendar.
+  const activeDay = hoverDay ?? pinnedDay;
+  const visibleSlugs = activeDay ? new Set(activeDay.repos) : null;
   const shown = visibleSlugs ? projects.filter((project) => visibleSlugs.has(project.slug)) : projects;
 
   return (
@@ -60,18 +96,35 @@ export function ProjectsExplorer({ projects, activity }: { projects: Project[]; 
         hoverDay={hoverDay?.key ?? null}
         onDayEnter={handleDayEnter}
         onLeave={clear}
+        pinnedDay={pinnedDay?.key ?? null}
+        onDayClick={handleDayClick}
       />
 
+      {pinnedDay && (
+        <div className="-mt-6 mb-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-600 dark:text-[#a6a6a6]">
+          <span>
+            Pinned: {dayHeadline(pinnedDay.count, new Date(`${pinnedDay.key}T00:00:00Z`))}
+          </span>
+          <button
+            type="button"
+            onClick={unpin}
+            className="text-blue-600 hover:underline dark:text-blue-400"
+          >
+            Show all projects
+          </button>
+        </div>
+      )}
+
       <div ref={gridRef} style={lockedHeight !== null ? { minHeight: lockedHeight } : undefined}>
-        {hoverDay && shown.length === 0 && (
+        {activeDay && shown.length === 0 && (
           <p role="status" className="py-12 text-center text-sm text-gray-500 dark:text-[#a6a6a6]">
-            {dayHeadline(hoverDay.count, new Date(`${hoverDay.key}T00:00:00Z`))}
-            {hoverDay.count > 0 ? ', all in private or unlisted repositories.' : '.'}
+            {dayHeadline(activeDay.count, new Date(`${activeDay.key}T00:00:00Z`))}
+            {activeDay.count > 0 ? ', all in private or unlisted repositories.' : '.'}
           </p>
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {shown.map((project) => {
-            const dimmed = !hoverDay && focusSlugs !== null && !focusSlugs.includes(project.slug);
+            const dimmed = !activeDay && focusSlugs !== null && !focusSlugs.includes(project.slug);
             return (
               <div
                 key={project.slug}
