@@ -88,8 +88,19 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
   const monthLabels = columns.map((col, w) => {
     const month = firstInRange(col).getUTCMonth();
     const prev = w > 0 ? firstInRange(columns[w - 1]).getUTCMonth() : -1;
-    return month !== prev ? MONTHS[month] : '';
+    if (month === prev) return '';
+    // January also carries the year, so the turn of the year reads at a glance.
+    return month === 0 ? `${MONTHS[0]} ’${String(firstInRange(col).getUTCFullYear()).slice(2)}` : MONTHS[month];
   });
+  // A label needs about three columns of room: drop one that would run into the next label or off
+  // the end of the grid (a partial first or last month), as GitHub does.
+  const MIN_LABEL_COLUMNS = 3;
+  for (let i = 0; i < monthLabels.length; i++) {
+    if (!monthLabels[i]) continue;
+    const next = monthLabels.findIndex((label, j) => j > i && label !== '');
+    const room = (next === -1 ? monthLabels.length : next) - i;
+    if (room < MIN_LABEL_COLUMNS) monthLabels[i] = '';
+  }
 
   const focusing = focusSlugs !== null && focusSlugs.length > 0;
 
@@ -97,21 +108,21 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
     <div className="mb-10" onMouseLeave={onLeave}>
       {/* Month labels — mirrors the week columns so they stay aligned */}
       <div className="flex gap-2">
-        <div className="w-7 shrink-0" aria-hidden="true" />
-        <div className="flex flex-1 gap-[3px]">
+        <div className="w-8 shrink-0" aria-hidden="true" />
+        <div className="flex flex-1 gap-[3px]" aria-hidden="true">
           {monthLabels.map((label, i) => (
-            <div key={i} className="min-w-0 flex-1 whitespace-nowrap text-[10px] leading-4 text-gray-400 dark:text-[#6e6e6e]">
+            <div key={i} className="min-w-0 flex-1 whitespace-nowrap text-[11px] font-medium tracking-wide text-gray-500 dark:text-[#8b8b8b] leading-5">
               {label}
             </div>
           ))}
         </div>
       </div>
 
-      <div className="mt-1 flex gap-2">
+      <div className="mt-1.5 flex gap-2">
         {/* Weekday labels (Mon / Wed / Fri), one slot per row */}
-        <div className="flex w-7 shrink-0 flex-col gap-[3px] text-[10px] text-gray-400 dark:text-[#6e6e6e]" aria-hidden="true">
+        <div className="flex w-8 shrink-0 flex-col gap-[3px] text-[11px] font-medium tracking-wide text-gray-500 dark:text-[#8b8b8b]" aria-hidden="true">
           {['', 'Mon', '', 'Wed', '', 'Fri', ''].map((label, i) => (
-            <div key={i} className="flex flex-1 items-center">
+            <div key={i} className="flex flex-1 items-center justify-end leading-none">
               {label}
             </div>
           ))}
@@ -161,18 +172,9 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
         </div>
       </div>
 
-      {/* Caption + legend */}
-      <div className="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-        <span className="text-xs text-gray-500 dark:text-[#a6a6a6]">
-          {data.total.toLocaleString('en-US')} contributions in the last year
-        </span>
-        <div className="flex items-center gap-1 text-[10px] text-gray-400 dark:text-[#6e6e6e]">
-          <span className="mr-1">Less</span>
-          {[0, 1, 2, 3, 4].map((l) => (
-            <div key={l} className={`h-[11px] w-[11px] rounded-[2px] ${LEVEL_LIGHT[l]} ${LEVEL_DARK[l]}`} />
-          ))}
-          <span className="ml-1">More</span>
-        </div>
+      {/* Caption, aligned with the grid */}
+      <div className="mt-3 pl-10 text-xs text-gray-500 dark:text-[#a6a6a6]">
+        {data.total.toLocaleString('en-US')} contributions in the last year
       </div>
     </div>
   );
