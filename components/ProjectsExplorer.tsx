@@ -12,8 +12,8 @@ type HoveredDay = { key: string; count: number; repos: string[] };
  * hovering a calendar day shows only the projects worked on that day (the rest
  * are hidden, so the matches are in view wherever they sit in the list), and
  * hovering a project card highlights that project's activity in the calendar.
- * Clicking a day pins its projects until the day is clicked again, another day
- * is clicked, Escape is pressed, or "Show all projects" is used.
+ * Clicking a day pins its projects until you click anywhere else (the same day
+ * again, the page, a card) or press Escape; clicking another day moves the pin.
  */
 export function ProjectsExplorer({ projects, activity }: { projects: Project[]; activity: ActivityData }) {
   const [focusSlugs, setFocusSlugs] = useState<string[] | null>(null);
@@ -57,8 +57,16 @@ export function ProjectsExplorer({ projects, activity }: { projects: Project[]; 
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') unpin();
     };
+    // Any click outside a calendar day unpins; day clicks are handled by handleDayClick.
+    const onClick = (event: MouseEvent) => {
+      if (!(event.target instanceof Element) || !event.target.closest('[data-day]')) unpin();
+    };
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    window.addEventListener('click', onClick);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('click', onClick);
+    };
   }, [pinnedDay]);
 
   const handleDayEnter = (repos: string[], key: string, count: number) => {

@@ -143,6 +143,7 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
                     title={title}
                     onMouseEnter={() => onDayEnter(cell.repos, cell.key, cell.count)}
                     onClick={() => onDayClick?.(cell.repos, cell.key, cell.count)}
+                    data-day={cell.key}
                     className={`aspect-square w-full rounded-[2px] transition-opacity duration-150 ${LEVEL_LIGHT[lvl]} ${LEVEL_DARK[lvl]} ${
                       focusing && !matches ? 'opacity-20' : 'opacity-100'
                     } ${
