@@ -50,6 +50,11 @@ describe('portfolio activity rollup', () => {
     }
   });
 
+  it('names every project card, collection children included', () => {
+    const unnamed = getAllProjects().map(project => project.slug).filter(slug => !projectNames[slug]);
+    expect(unnamed).toEqual([]);
+  });
+
   it('normalizes old cached hover slugs and dates without changing totals or mutating the payload', () => {
     const before = structuredClone(oldActivity);
     const rolled = rollUpProjectActivity(oldActivity, getAllProjects());
