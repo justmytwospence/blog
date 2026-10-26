@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import { getCurrentlyReadingOrThrow, type UserBook } from '@blog/hardcover';
-import { CurrentlyReadingWidget } from '@/components/CurrentlyReadingWidget';
+import { getRecentBooksOrThrow, type UserBook } from '@blog/hardcover';
+import { RecentBooksWidget } from '@/components/RecentBooksWidget';
 import { RecentAdventuresWidget } from '@/components/adventures/RecentAdventuresWidget';
 import { getAllAdventures } from '@/lib/adventures';
 import { PageContainer } from '@/components/PageContainer';
@@ -17,9 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const currentlyReading =
-    (await readThrough<UserBook[]>('hardcover:currently-reading', () =>
-      getCurrentlyReadingOrThrow(3),
+  // 6 fills a whole row at both grid widths (3 and 6 columns) in RecentBooksWidget.
+  const recentBooks =
+    (await readThrough<UserBook[]>('hardcover:recent-books', () =>
+      getRecentBooksOrThrow(6),
     ).catch(() => null)) ?? [];
   const recentAdventures = getAllAdventures().slice(0, 3);
 
@@ -324,7 +325,7 @@ export default async function AboutPage() {
 
       <RecentAdventuresWidget adventures={recentAdventures} />
 
-      <CurrentlyReadingWidget books={currentlyReading} />
+      <RecentBooksWidget books={recentBooks} />
     </PageContainer>
   );
 }

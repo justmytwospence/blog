@@ -445,6 +445,29 @@ export async function getCurrentlyReading(limit: number = GROUP_LIMIT): Promise<
   return shelf.books;
 }
 
+/**
+ * Exactly `limit` books for a fixed-size grid: everything Currently Reading first (most recently
+ * touched first), then the most recently finished books to fill the remaining slots. A book on both
+ * shelves (a re-read) appears once, in its Currently Reading position. THROWS on failure, so the app
+ * layer can serve the last-good snapshot rather than a half-filled grid.
+ */
+export async function getRecentBooksOrThrow(limit: number): Promise<UserBook[]> {
+  const [current, read] = await Promise.all([
+    fetchShelfOrThrow(SHELVES.currentlyReading.statusId, SHELVES.currentlyReading.orderBy, {
+      kind: 'count',
+      limit,
+    }),
+    fetchShelfOrThrow(SHELVES.recentlyRead.statusId, SHELVES.recentlyRead.orderBy, {
+      kind: 'count',
+      limit,
+    }),
+  ]);
+
+  const seen = new Set(current.books.map((ub) => ub.book.slug));
+  const fill = read.books.filter((ub) => !seen.has(ub.book.slug));
+  return [...current.books, ...fill].slice(0, limit);
+}
+
 /** Like `getCurrentlyReading` but THROWS on failure (for last-good wrapping at the app layer). */
 export async function getCurrentlyReadingOrThrow(limit: number = GROUP_LIMIT): Promise<UserBook[]> {
   const shelf = await fetchShelfOrThrow(

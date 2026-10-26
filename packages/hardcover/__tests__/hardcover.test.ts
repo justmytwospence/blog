@@ -550,3 +550,61 @@ describe('hardcover throwing variants (for last-good wrapping)', () => {
     expect(data.fetchedAt).toBeTruthy();
   });
 });
+
+describe('getRecentBooksOrThrow', () => {
+  const originalFetch = globalThis.fetch;
+
+  beforeEach(() => {
+    vi.resetModules();
+  });
+
+  afterEach(() => {
+    globalThis.fetch = originalFetch;
+    vi.unstubAllEnvs();
+  });
+
+  /** Mock one shelf per status id, each holding books with the given slugs. */
+  function mockShelves(shelves: Record<number, string[]>) {
+    globalThis.fetch = vi.fn().mockImplementation(async (_url: string, init: { body: string }) => {
+      const { query } = JSON.parse(init.body) as { query: string };
+      const statusId = Number(/status_id: \{ _eq: (\d+) \}/.exec(query)![1]);
+      const response = makeMockResponse();
+      const template = response.data.me[0].user_books[0];
+      response.data.me[0].user_books = (shelves[statusId] ?? []).map((slug) => ({
+        ...template,
+        book: { ...template.book, slug, title: slug },
+      }));
+      return { ok: true, json: async () => response };
+    });
+  }
+
+  it('puts currently reading first and fills the rest with recently read', async () => {
+    vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
+    mockShelves({ 2: ['cur-1', 'cur-2'], 3: ['read-1', 'read-2', 'read-3', 'read-4', 'read-5'] });
+    const { getRecentBooksOrThrow } = await import('../src');
+    const books = await getRecentBooksOrThrow(6);
+    expect(books.map((ub) => ub.book.slug)).toEqual([
+      'cur-1',
+      'cur-2',
+      'read-1',
+      'read-2',
+      'read-3',
+      'read-4',
+    ]);
+  });
+
+  it('caps at the limit and dedupes a book on both shelves', async () => {
+    vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
+    mockShelves({ 2: ['a', 'b'], 3: ['b', 'c', 'd'] });
+    const { getRecentBooksOrThrow } = await import('../src');
+    const books = await getRecentBooksOrThrow(3);
+    expect(books.map((ub) => ub.book.slug)).toEqual(['a', 'b', 'c']);
+  });
+
+  it('rejects when either shelf fails', async () => {
+    vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: false, status: 500, statusText: 'Server Error' });
+    const { getRecentBooksOrThrow } = await import('../src');
+    await expect(getRecentBooksOrThrow(6)).rejects.toThrow();
+  });
+});

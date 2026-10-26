@@ -2,11 +2,12 @@ import Link from 'next/link';
 import type { UserBook } from '@blog/hardcover/types';
 import { BookCard } from '@/components/BookCard';
 
-interface CurrentlyReadingWidgetProps {
+interface RecentBooksWidgetProps {
   books: UserBook[];
 }
 
-export function CurrentlyReadingWidget({ books }: CurrentlyReadingWidgetProps) {
+/** Currently-reading books first, then recently finished ones, sized to fill whole grid rows. */
+export function RecentBooksWidget({ books }: RecentBooksWidgetProps) {
   if (books.length === 0) {
     return null;
   }
@@ -14,9 +15,9 @@ export function CurrentlyReadingWidget({ books }: CurrentlyReadingWidgetProps) {
   return (
     <div className="mb-12">
       <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-[#d4d4d4]">
-        Currently Reading
+        Books
       </h2>
-      <div className="grid grid-cols-4 sm:grid-cols-6 gap-3">
+      <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
         {books.map((userBook) => (
           <BookCard
             key={userBook.book.slug}
