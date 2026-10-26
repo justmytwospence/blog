@@ -15,7 +15,7 @@ export function RecentBooksWidget({ books }: RecentBooksWidgetProps) {
   return (
     <div className="mb-12">
       <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-[#d4d4d4]">
-        Books
+        Reading
       </h2>
       <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
         {books.map((userBook) => (
