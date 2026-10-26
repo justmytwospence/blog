@@ -6,5 +6,5 @@ strava_id: 19331080406
 type: peak
 # sport: TrailRun        # override only (e.g. Scramble, Mountaineering); else derived
 tags: ["oregon", "cascades"]
-# group: route-key      # repeat trips of one route (auto-attached by GPS when known)
+group: "tumalo-mountain"
 ---
