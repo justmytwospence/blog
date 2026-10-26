@@ -8,6 +8,21 @@ Solo project — **no PRs**. Commit directly to `main` (atomic, conventional mes
 triggers the Vercel production deploy. Branches/worktrees are for genuinely parallel or experimental
 work only, and get merged locally (no GitHub review flow). CI still runs on every push.
 
+**Straight to prod vs preview — use judgment, don't ask by default.** Once lint/typecheck/test/build
+pass locally, decide whether the change can be pushed to `main` (prod) or deserves a preview first:
+
+- **Push straight to `main`** when the change is small and its blast radius is easy to reason about:
+  copy/content edits, a new post or adventure, a self-contained tweak to one page or widget (e.g.
+  merging the /about "Currently Reading" and "Recently Read" lists into one grid), bug fixes with
+  test coverage. A bad deploy here is cheap to spot and revert.
+- **Preview first** (push a branch, or `vercel deploy` without `--prod`, and share the preview URL)
+  when the change is visually broad or hard to verify locally: layout/theme/global CSS, navigation,
+  shared components used across many pages, `next.config`/`vercel.json`/middleware/routing/caching
+  (ISR, `revalidate`), env-dependent behavior, API routes, webhooks/cron, Redis or Strava pipeline
+  changes, and dependency upgrades. Merge to `main` once the preview looks right.
+
+When in doubt, prefer the preview. Say which path you took and why when reporting the change.
+
 ## Commands
 
 ```bash
