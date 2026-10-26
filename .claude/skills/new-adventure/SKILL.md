@@ -106,5 +106,6 @@ Vercel production deploy. Confirm it's live at `spencerboucher.com/adventures/<s
   companion exists — that's why scaffolding precedes syncing.
 - Multi-leg / multi-day: use `strava_ids: [id1, id2]` and the `days:` block (see an existing multi-day
   companion); the scaffold handles the single-id case.
-- A Strava **description-only** edit to an old activity isn't picked up by the cheap change-detection —
-  reconcile it with `npm run sync:strava -- --only <id>` or `-- --force`.
+- Description edits, photo swaps/removals and caption edits are picked up automatically for activities
+  from the last 30 days (plain `npm run sync:strava`). For an **older** activity, reconcile with
+  `npm run sync:strava -- --only <id>`.

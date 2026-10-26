@@ -57,6 +57,8 @@ export interface RawSummaryActivity {
   moving_time: number;
   total_elevation_gain: number;
   total_photo_count?: number;
+  /** Gear (shoes/bike) id for the activity; on both summary and detail endpoints. */
+  gear_id?: string | null;
   private?: boolean;
   /** Strava workout type. Run: 1 = race. Ride: 11 = race. */
   workout_type?: number | null;

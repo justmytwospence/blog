@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { parseStravaIds, isRaceWorkoutType } from '@blog/strava';
-import { CONTENT_DIR, ACTIVITIES_DIR, listCompanionFiles } from './strava-shared';
+import { CONTENT_DIR, ACTIVITIES_DIR, listCompanionFiles, readLocalPhotos } from './strava-shared';
 import { validateCompanionFrontmatter } from '../lib/adventure-schema';
 
 interface Snap { name: string; sportType: string; date: string; workoutType?: number | null }
@@ -37,6 +37,21 @@ function redundantKeys(data: Record<string, unknown>): string[] {
   return dead;
 }
 
+/** Non-fatal: a `cover_photo` that matches no photo (e.g. it was deleted on Strava) silently falls
+ *  back to the first photo on the site. Mirrors lib/adventures.ts (`src.endsWith(cover)`). */
+function unmatchedCover(data: Record<string, unknown>): string | null {
+  const cover = data.cover_photo == null || data.cover_photo === '' ? null : String(data.cover_photo);
+  if (cover === null || cover === 'none') return null;
+  const srcs: string[] = [];
+  for (const id of parseStravaIds(data)) {
+    const snapPath = path.join(ACTIVITIES_DIR, `${id}.json`);
+    if (!fs.existsSync(snapPath)) return null; // not synced yet — can't judge
+    const snap = JSON.parse(fs.readFileSync(snapPath, 'utf8')) as { photos?: { file: string }[] };
+    for (const p of [...(snap.photos ?? []), ...readLocalPhotos(id)]) srcs.push(`/adventures/${id}/${p.file}`);
+  }
+  return srcs.some((s) => s.endsWith(cover)) ? null : cover;
+}
+
 function main(): void {
   if (!fs.existsSync(CONTENT_DIR)) {
     console.error(`[adventure:validate] no content dir at ${CONTENT_DIR}`);
@@ -46,6 +61,7 @@ function main(): void {
 
   const errors: string[] = [];
   const drift: string[] = [];
+  const covers: string[] = [];
   for (const f of files) {
     let data: Record<string, unknown>;
     try {
@@ -57,6 +73,8 @@ function main(): void {
     errors.push(...validateCompanionFrontmatter(data, f));
     const dead = redundantKeys(data);
     if (dead.length) drift.push(`${f}: redundant derivable key(s) ${dead.join(', ')}`);
+    const cover = unmatchedCover(data);
+    if (cover) covers.push(`${f}: cover_photo "${cover}" matches no photo — falling back to the first`);
   }
 
   if (errors.length > 0) {
@@ -67,6 +85,10 @@ function main(): void {
   if (drift.length > 0) {
     console.warn(`\n[adventure:validate] ${drift.length} companion(s) carry derivable frontmatter — run \`npm run adventure:minimize\`:`);
     for (const d of drift) console.warn('  · ' + d);
+  }
+  if (covers.length > 0) {
+    console.warn(`\n[adventure:validate] ${covers.length} companion(s) have an unmatched cover_photo:`);
+    for (const c of covers) console.warn('  · ' + c);
   }
   console.log(`[adventure:validate] ✓ ${files.length} companions valid`);
 }

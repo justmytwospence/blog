@@ -7,7 +7,13 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
-import { parseStravaIds, RateLimitError, type RawSummaryActivity } from '@blog/strava';
+import {
+  parseStravaIds,
+  RateLimitError,
+  type RawDetailedActivity,
+  type RawPhoto,
+  type RawSummaryActivity,
+} from '@blog/strava';
 import { isCompanionFile } from '../lib/adventure-schema';
 
 export const REPO_ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
@@ -101,15 +107,30 @@ export async function withBackoff<T>(fn: () => Promise<T>, label: string): Promi
  * endpoint — everything the detail-level `sourceHash` uses EXCEPT `description` (detail-only), plus
  * `workout_type`. The sync stores this on each snapshot and recomputes it from one cheap summary
  * crawl, so it can decide which whitelisted activities actually changed WITHOUT a per-id detail call.
- * Tradeoff: a description-only edit doesn't move this hash (reconcile with `--force`/`--only`).
+ * Tradeoff: description and photo swaps/captions aren't on the summary endpoint, so they don't move
+ * this hash — the sync's recent-window recheck (and `--only` / `--force`) catches those via `sourceHash`.
+ *
+ * v2 added `gear_id`. A snapshot still carrying a v1 hash is migrated in place (see `summaryHashV1`).
  */
-const SUMMARY_HASH_VERSION = 1;
 export function summaryHash(a: RawSummaryActivity): string {
+  return hashSummary(a, 2);
+}
+
+/**
+ * The pre-`gear_id` fingerprint. Only used to migrate snapshots: a stored hash equal to this means
+ * nothing summary-level changed under the old scheme, so the sync rewrites the v2 hash without a
+ * detail fetch (rather than re-fetching every activity once just because the hash grew a field).
+ */
+export function summaryHashV1(a: RawSummaryActivity): string {
+  return hashSummary(a, 1);
+}
+
+function hashSummary(a: RawSummaryActivity, v: 1 | 2): string {
   return crypto
     .createHash('sha256')
     .update(
       JSON.stringify({
-        v: SUMMARY_HASH_VERSION,
+        v,
         id: a.id,
         name: a.name,
         distance: a.distance,
@@ -120,9 +141,57 @@ export function summaryHash(a: RawSummaryActivity): string {
         photos: a.total_photo_count ?? null,
         sport: a.sport_type ?? a.type,
         workout: a.workout_type ?? null,
+        ...(v >= 2 ? { gear: a.gear_id ?? null } : {}),
       }),
     )
     .digest('hex');
+}
+
+/**
+ * Detail-level fingerprint — decides whether a fetched activity's snapshot needs rewriting. Covers
+ * everything in `summaryHash` plus what only the detail + photos endpoints expose: `description`,
+ * gear, and each photo's identity and caption (so a same-count photo swap or a caption edit counts).
+ */
+export function sourceHash(detail: RawDetailedActivity, photos: RawPhoto[]): string {
+  return crypto
+    .createHash('sha256')
+    .update(
+      JSON.stringify({
+        v: 2,
+        id: detail.id,
+        name: detail.name,
+        distance: detail.distance,
+        moving_time: detail.moving_time,
+        gain: detail.total_elevation_gain,
+        start: detail.start_date ?? detail.start_date_local,
+        poly: detail.map?.summary_polyline ?? null,
+        photos: photos.map((p) => [p.unique_id, p.caption ?? null]),
+        sport: detail.sport_type ?? detail.type,
+        workout: detail.workout_type ?? null,
+        gear: detail.gear_id ?? null,
+        desc: detail.description ?? null,
+      }),
+    )
+    .digest('hex');
+}
+
+/** Photo files an activity's directory should keep: Strava photos + hand imports, each with its thumb. */
+export function keptPhotoFiles(photos: { file: string }[]): Set<string> {
+  return new Set(photos.flatMap((p) => [p.file, p.file.replace(/\.jpg$/, '-thumb.jpg')]));
+}
+
+/** `photo-*` files in `files` that no current photo references (route.jpg etc. are never touched). */
+export function stalePhotoFiles(files: string[], keep: Set<string>): string[] {
+  return files.filter((f) => f.startsWith('photo-') && !f.endsWith('.tmp') && !keep.has(f));
+}
+
+/** Hand-imported photos (Google Takeout backfill) — merged on read by lib/adventures.ts. */
+export const LOCAL_PHOTOS_DIR = path.join(DATA_DIR, 'local-photos');
+export function readLocalPhotos(id: number): { file: string }[] {
+  const p = path.join(LOCAL_PHOTOS_DIR, `${id}.json`);
+  if (!fs.existsSync(p)) return [];
+  const parsed: unknown = JSON.parse(fs.readFileSync(p, 'utf8')); // throw: never GC on a bad sidecar
+  return Array.isArray(parsed) ? (parsed as { file: string }[]) : [];
 }
 
 export function slugify(s: string): string {

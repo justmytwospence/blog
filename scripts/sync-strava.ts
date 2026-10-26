@@ -5,20 +5,28 @@
  *   - CHANGE DETECTION IS CHEAP: one summary crawl (~a handful of GETs) yields a `summaryHash` per
  *     activity; only ids whose hash diverges from the committed snapshot (or are new/forced) get a
  *     per-activity detail fetch (+ streams + photos + weather). Unchanged ids cost ZERO detail calls.
- *   - Snapshots missing the hash (pre-schema) are backfilled from the summary crawl — no detail call.
- *   - GC orphaned activities/photos, rebuild the index + totals. Persist a rotated refresh token.
+ *   - Snapshots missing the hash (pre-schema) or carrying a v1 hash are backfilled from the summary
+ *     crawl — no detail call.
+ *   - RECENT WINDOW: activities from the last 30 days (`--recent-days <n>`, 0 = off) are also re-checked
+ *     via detail + photos, since description edits, photo swaps and caption edits aren't on the
+ *     summary endpoint. The detail-level `sourceHash` (incl. description, gear, photo ids + captions)
+ *     decides whether anything is rewritten, so an unchanged recent activity costs 2 calls, no write.
+ *   - GC orphaned activities, and stale photo files (removed/replaced on Strava) of kept ones —
+ *     hand-imported photos in data/adventures/local-photos/ are always kept.
+ *   - Rebuild the index + totals. Persist a rotated refresh token.
  *
  * Flags:
  *   --only <id[,id]>     sync exactly these ids (skip the whitelist scan + summary crawl) — O(1) for
  *                        adding one adventure. Wired into the new-adventure skill.
+ *   --recent-days <n>    recheck window for summary-invisible edits (default 30, 0 disables).
  *   --force              re-fetch + rewrite every target regardless of hash (also regenerates thumbs).
  *   --reindex            rebuild the all-activity index from full history.
  *   --retry-enrichment   for unchanged snapshots missing weather/location (but with known coords),
  *                        re-run the non-Strava enrichment only; idempotent (writes only if it fills).
  *   --prune-all          allow GC to wipe the snapshot when no companion references anything.
  *
- * Run: npm run sync:strava [-- <flags>]   (reads .env.local). A description-only Strava edit does not
- * move `summaryHash`; reconcile those with `--force` or `--only <id>`.
+ * Run: npm run sync:strava [-- <flags>]   (reads .env.local). An edit to an OLDER activity that the
+ * summary can't see (description, photo swap, caption) is reconciled with `--only <id>` or `--force`.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -36,7 +44,6 @@ import {
   decodePolyline,
   reverseGeocode,
   pageRawSummaries,
-  type RawDetailedActivity,
   type RawSummaryActivity,
   type AdventureActivity,
   type AdventurePhoto,
@@ -49,39 +56,51 @@ import {
   loadEnvLocal,
   persistRefreshToken,
   readCompanions,
+  keptPhotoFiles,
+  readLocalPhotos,
   sleep,
+  sourceHash,
+  stalePhotoFiles,
   summaryHash,
+  summaryHashV1,
   withBackoff,
 } from './strava-shared';
 import { buildRouteThumb } from './route-thumb';
 import { refreshIndex } from './build-index';
 import { writeTotals } from './build-totals';
 
-const SCHEMA_VERSION = 1;
 const PACING_MS = 300;
 const FORCE = process.argv.includes('--force');
 const RETRY_ENRICHMENT = process.argv.includes('--retry-enrichment');
 
-/** Detail-level fingerprint (includes `description`) — decides whether to rewrite the snapshot. */
-function sourceHash(detail: RawDetailedActivity): string {
-  return crypto
-    .createHash('sha256')
-    .update(
-      JSON.stringify({
-        v: SCHEMA_VERSION,
-        id: detail.id,
-        name: detail.name,
-        distance: detail.distance,
-        moving_time: detail.moving_time,
-        gain: detail.total_elevation_gain,
-        start: detail.start_date ?? detail.start_date_local,
-        poly: detail.map?.summary_polyline ?? null,
-        photos: detail.total_photo_count ?? null,
-        sport: detail.sport_type ?? detail.type,
-        desc: detail.description ?? null,
-      }),
-    )
-    .digest('hex');
+/**
+ * Activities started within this many days are re-checked against the detail + photos endpoints on
+ * every full run, because description edits, photo swaps and caption edits (which happen in the days
+ * after an outing) are invisible to the summary crawl. Unchanged ones cost 2 calls and no rewrite.
+ */
+const RECENT_DAYS = (() => {
+  const i = process.argv.indexOf('--recent-days');
+  const n = i === -1 ? 30 : Number(process.argv[i + 1]);
+  if (!Number.isFinite(n) || n < 0) throw new Error('--recent-days expects a non-negative number');
+  return n;
+})();
+
+function isRecent(summary: RawSummaryActivity, now = Date.now()): boolean {
+  const t = Date.parse(summary.start_date_local);
+  return RECENT_DAYS > 0 && Number.isFinite(t) && now - t <= RECENT_DAYS * 86_400_000;
+}
+
+/**
+ * Delete `photo-*` files in an activity's public dir that neither its Strava photos nor its
+ * hand-imported sidecar reference (a photo removed or replaced on Strava). Returns the count.
+ */
+function gcPhotos(id: number, snap: AdventureActivity): number {
+  const dir = path.join(PUBLIC_DIR, String(id));
+  if (!fs.existsSync(dir)) return 0;
+  const keep = keptPhotoFiles([...(snap.photos ?? []), ...readLocalPhotos(id)]);
+  const stale = stalePhotoFiles(fs.readdirSync(dir), keep);
+  for (const f of stale) fs.rmSync(path.join(dir, f), { force: true });
+  return stale.length;
 }
 
 /** Parse `--only <csv>` into a set of ids, or null when the flag is absent. */
@@ -317,19 +336,27 @@ async function main(): Promise<void> {
     }
 
     const sh = summaryHash(summary);
-    if (snap.summaryHash !== undefined && snap.summaryHash !== sh) {
+    // A v1 hash (pre-`gear_id`) that still matches under v1 is unchanged, just stale-format.
+    const legacyMatch = snap.summaryHash !== undefined && snap.summaryHash === summaryHashV1(summary);
+    if (snap.summaryHash !== undefined && snap.summaryHash !== sh && !legacyMatch) {
       toFetch.push(id); // genuine change on Strava
       continue;
     }
 
-    // Unchanged (or pre-schema without a stored hash). Backfill summaryHash + workoutType from the
-    // crawl — no detail call. (Assumes the snapshot is current from its last real sync; `--force` is
-    // the backstop.)
-    if (snap.summaryHash === undefined || snap.workoutType === undefined) {
+    // Unchanged (or pre-schema / v1 hash). Backfill summaryHash + workoutType from the crawl —
+    // no detail call. (Assumes the snapshot is current from its last real sync; `--force` is the
+    // backstop.)
+    if (snap.summaryHash !== sh || snap.workoutType === undefined) {
       writeSnapshot(jsonPath, { ...snap, workoutType: summary.workout_type ?? null, summaryHash: sh });
       backfilled++;
+    }
+
+    // Recent outings get a detail + photos recheck for the edits the summary can't see.
+    if (isRecent(summary)) {
+      toFetch.push(id);
       continue;
     }
+    if (snap.summaryHash !== sh || snap.workoutType === undefined) continue; // just backfilled
 
     // Optionally heal a snapshot missing enrichment it should have — without a detail call.
     if (RETRY_ENRICHMENT && (!snap.weather || (!snap.location.city && !snap.location.state && !snap.location.country))) {
@@ -350,6 +377,7 @@ async function main(): Promise<void> {
   // snapshot, and continue — one throttled id never aborts the whole run.
   let synced = 0;
   let photosDownloaded = 0;
+  let photosRemoved = 0;
   const failed: number[] = [];
   const missingGeo: number[] = [];
   const missingWeather: number[] = [];
@@ -364,17 +392,27 @@ async function main(): Promise<void> {
         continue;
       }
 
-      // Static map thumbnail (basemap + route) for cards — generated once unless --force.
+      // Photos are part of the change fingerprint (a same-count swap or caption edit must register),
+      // so they're fetched before the idempotency check. A failed photo fetch fails the activity:
+      // writing it with no photos would silently drop them until the next forced sync.
+      const rawPhotos = await withBackoff(() => getActivityPhotos(access, id), `photos ${id}`);
+      await sleep(PACING_MS);
+
+      const sHash = sourceHash(detail, rawPhotos);
+      const sumHash = summaryHash(detail); // detail is a RawSummaryActivity superset
+      const prev = readSnapshot(jsonPath);
+
+      // Static map thumbnail (basemap + route) for cards — (re)generated when missing, when the
+      // route itself changed (e.g. a crop on Strava), or on --force.
       const thumbPath = path.join(PUBLIC_DIR, String(id), 'route.jpg');
-      if (detail.map?.summary_polyline && (FORCE || !fs.existsSync(thumbPath))) {
-        const ok = await buildRouteThumb(decodePolyline(detail.map.summary_polyline), thumbPath);
+      const poly = detail.map?.summary_polyline ?? null;
+      const routeChanged = Boolean(prev && (prev.track?.summaryPolyline ?? null) !== poly);
+      if (poly && (FORCE || routeChanged || !fs.existsSync(thumbPath))) {
+        const ok = await buildRouteThumb(decodePolyline(poly), thumbPath);
         if (ok) console.log(`[strava] route thumb ${id}`);
       }
 
-      const sHash = sourceHash(detail);
-      const sumHash = summaryHash(detail); // detail is a RawSummaryActivity superset
-      // Idempotency: a forced/only fetch of an unchanged activity shouldn't rewrite the snapshot.
-      const prev = readSnapshot(jsonPath);
+      // Idempotency: a forced/only/recent fetch of an unchanged activity shouldn't rewrite the snapshot.
       if (!FORCE && prev && prev.sourceHash === sHash && prev.summaryHash === sumHash) {
         skipped++;
         continue;
@@ -410,14 +448,6 @@ async function main(): Promise<void> {
         await sleep(PACING_MS);
       }
 
-      // Photos are optional — never let a rate-limited photo fetch abort this activity.
-      let rawPhotos: Awaited<ReturnType<typeof getActivityPhotos>> = [];
-      try {
-        rawPhotos = await withBackoff(() => getActivityPhotos(access, id), `photos ${id}`);
-      } catch (err) {
-        console.warn(`[strava] photos ${id} skipped:`, err instanceof Error ? err.message : err);
-      }
-      await sleep(PACING_MS);
       const built = buildPhotosFromRaw(rawPhotos);
       const { photos, fetched } = await downloadPhotos(built, path.join(PUBLIC_DIR, String(id)));
       photosDownloaded += fetched;
@@ -438,6 +468,7 @@ async function main(): Promise<void> {
         await sleep(PACING_MS);
       }
       writeSnapshot(jsonPath, activity);
+      photosRemoved += gcPhotos(id, activity);
       synced++;
       console.log(`[strava] synced ${id} — ${activity.name}`);
     } catch (err) {
@@ -467,6 +498,11 @@ async function main(): Promise<void> {
         }
       }
     }
+    // Stale photo files inside still-referenced activities (removed/replaced on Strava). Local only.
+    for (const id of neededIds) {
+      const snap = readSnapshot(path.join(ACTIVITIES_DIR, `${id}.json`));
+      if (snap) photosRemoved += gcPhotos(id, snap);
+    }
   }
 
   // Refresh the all-activity index and recompute lifetime + yearly totals. The full path reuses the
@@ -479,7 +515,8 @@ async function main(): Promise<void> {
 
   console.log(
     `[strava] done — synced ${synced}, skipped ${skipped}, backfilled ${backfilled}` +
-      `${enriched ? `, enriched ${enriched}` : ''}, pruned ${pruned}, ~${photosDownloaded} photos. ` +
+      `${enriched ? `, enriched ${enriched}` : ''}, pruned ${pruned}, ~${photosDownloaded} photos` +
+      `${photosRemoved ? ` (${photosRemoved} stale photo files removed)` : ''}. ` +
       `${missingGeo.length ? `no-geo: ${missingGeo.join(',')}. ` : ''}` +
       `${missingWeather.length ? `no-weather: ${missingWeather.join(',')}. ` : ''}` +
       `${failed.length ? `FAILED: ${failed.join(',')}.` : ''}`,

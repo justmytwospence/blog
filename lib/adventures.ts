@@ -196,7 +196,7 @@ function deriveFacets(
  * These live in their own file because `sync:strava` rewrites a snapshot wholesale from the API
  * response — anything written directly into `activities/<id>.json` is lost on the next sync. The
  * sidecar survives, and is merged back on read. The image files themselves are safe either way:
- * sync's GC only removes whole directories for activities no companion references.
+ * sync's photo GC reads this sidecar and never deletes the files it lists.
  */
 function readLocalPhotos(id: number): AdventureActivity['photos'] {
   const p = path.join(LOCAL_PHOTOS_DIR, `${id}.json`);

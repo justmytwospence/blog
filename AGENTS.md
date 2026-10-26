@@ -43,8 +43,12 @@ Two layers, split by what's committed:
   `data/adventures/activities/*.json` (trip reports, photos, polylines). `npm run sync:strava` is the
   one idempotent authoring command. It **change-detects cheaply**: ONE summary crawl (~a handful of
   GETs) yields a `summaryHash` per activity, and only ids whose hash diverges (or are new/forced) get a
-  per-activity detail fetch — unchanged ids cost **zero** detail calls. (A description-only Strava edit
-  doesn't move `summaryHash`; reconcile with `-- --force`.) Flags: `-- --only <id[,id]>` syncs just
+  per-activity detail fetch — unchanged ids cost **zero** detail calls. The summary can't see description
+  edits, photo swaps or caption edits, so activities from the **last 30 days** (`-- --recent-days <n>`,
+  0 = off) are always rechecked via detail + photos; the detail-level `sourceHash` (description, gear,
+  photo ids + captions) decides whether anything is rewritten. An older edit of that kind needs
+  `-- --only <id>`. Each rewrite also deletes that activity's stale `photo-*` files (removed/replaced on
+  Strava) but never hand imports listed in `data/adventures/local-photos/`. Flags: `-- --only <id[,id]>` syncs just
   those ids (O(1) — what `adventure:new` uses), `-- --force` re-fetches all, `-- --reindex` rebuilds the
   index from full history, `-- --retry-enrichment` heals missing weather/geocode without a detail call.
   Pre-schema snapshots get `summaryHash`/`workoutType` backfilled from the crawl (no detail call). It
