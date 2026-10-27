@@ -20,11 +20,22 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 
 const WINDOW_DAYS = 365;
 
-function level(count: number): number {
+/**
+ * Upper bounds for levels 1–3, taken from the quartiles of the active (non-zero) days so the
+ * palette follows the actual distribution: fixed cutoffs saturate once a typical day clears them.
+ */
+export function levelThresholds(counts: number[]): [number, number, number] {
+  const active = counts.filter((c) => c > 0).sort((a, b) => a - b);
+  if (active.length === 0) return [0, 0, 0];
+  const q = (p: number) => active[Math.max(0, Math.ceil(p * active.length) - 1)];
+  return [q(0.25), q(0.5), q(0.75)];
+}
+
+export function level(count: number, thresholds: [number, number, number]): number {
   if (count <= 0) return 0;
-  if (count <= 2) return 1;
-  if (count <= 5) return 2;
-  if (count <= 10) return 3;
+  if (count <= thresholds[0]) return 1;
+  if (count <= thresholds[1]) return 2;
+  if (count <= thresholds[2]) return 3;
   return 4;
 }
 
@@ -82,6 +93,8 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
       return { key: isoDay(date), date, inRange, count: inRange ? entry?.c ?? 0 : 0, repos: inRange ? entry?.r ?? [] : [] };
     })
   );
+
+  const thresholds = levelThresholds(columns.flat().map((cell) => cell.count));
 
   // A month is labelled over the first column whose first in-range day falls in it.
   const firstInRange = (col: typeof columns[number]) => col.find((cell) => cell.inRange)?.date ?? col[0].date;
@@ -142,7 +155,7 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
                 if (!cell.inRange) {
                   return <div key={cell.key} className="aspect-square w-full" aria-hidden="true" />;
                 }
-                const lvl = level(cell.count);
+                const lvl = level(cell.count, thresholds);
                 const matches = !focusing || cell.repos.some((r) => focusSlugs!.includes(r));
                 const isHovered = hoverDay === cell.key;
                 const isPinned = pinnedDay === cell.key;
