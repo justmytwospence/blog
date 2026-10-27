@@ -360,7 +360,7 @@ describe('hardcover shelf limits and links', () => {
     const { getReadingListData, GROUP_LIMIT } = await import('../src');
     const data = await getReadingListData();
 
-    expect(GROUP_LIMIT).toBe(5);
+    expect(GROUP_LIMIT).toBe(6);
     for (const shelf of [data.wantToRead, data.recentlyRead]) {
       expect(shelf.filter((ub) => ub.book.isFiction)).toHaveLength(GROUP_LIMIT);
       expect(shelf.filter((ub) => !ub.book.isFiction)).toHaveLength(GROUP_LIMIT);
@@ -369,15 +369,15 @@ describe('hardcover shelf limits and links', () => {
   });
 
   it('reads deep enough to fill the minority group on a lopsided shelf', async () => {
-    // 9:1 fiction — the real "Read" shelf's ratio. The 5th non-fiction book sits ~30 deep.
+    // 9:1 fiction — the real "Read" shelf's ratio. The 6th non-fiction book sits ~27 deep.
     globalThis.fetch = vi
       .fn()
       .mockResolvedValue({ ok: true, json: async () => makeShelf(40, { fictionRun: 9 }) });
 
-    const { getReadingListData } = await import('../src');
+    const { getReadingListData, GROUP_LIMIT } = await import('../src');
     const data = await getReadingListData();
 
-    expect(data.recentlyRead.filter((ub) => ub.book.isFiction)).toHaveLength(5);
+    expect(data.recentlyRead.filter((ub) => ub.book.isFiction)).toHaveLength(GROUP_LIMIT);
     expect(data.recentlyRead.filter((ub) => !ub.book.isFiction)).toHaveLength(4); // all that exist
   });
 

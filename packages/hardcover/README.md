@@ -35,7 +35,7 @@ getCurrentlyReading(limit?: number): Promise<UserBook[]> // currently-reading on
 getReadingListDataOrThrow(): Promise<ReadingListData>    // throws if ANY of the 3 fetches fails
 getCurrentlyReadingOrThrow(limit?: number): Promise<UserBook[]> // throws on failure
 
-GROUP_LIMIT: number                                      // books per fiction/non-fiction group (5)
+GROUP_LIMIT: number                                      // books per fiction/non-fiction group (6)
 ```
 
 The `*OrThrow` variants exist so the app layer can wrap them in the last-good cache: a returned `[]`
@@ -55,14 +55,14 @@ how long a row looks is the **group**, not the shelf. Each shelf is trimmed by o
 | Shelf | Policy | Result |
 |---|---|---|
 | Currently Reading | `all` | the whole shelf, uncapped — it is a complete state, not a sample, and truncating it would misreport how many books are in flight |
-| Recently Read | `perGroup` | `GROUP_LIMIT` (5) fiction **and** 5 non-fiction |
+| Recently Read | `perGroup` | `GROUP_LIMIT` (6) fiction **and** 6 non-fiction |
 | To Be Read | `perGroup` | same |
 | `getCurrentlyReading(n)` (the /about widget) | `count` | exactly `n`, class-blind |
 
 - **Classification happens locally, so the query has to over-read.** Hardcover cannot filter on
   fiction-ness (it is derived from `literary_type_id` + tags), so `perGroup` pulls a
   `CLASSIFY_WINDOW` of 40 and sorts it out here. 40 is sized off the real shelves: "Read" runs about
-  9:1 fiction, putting the 5th non-fiction book ~22 deep. A shelf lopsided past the window renders a
+  9:1 fiction, putting the 6th non-fiction book ~27 deep. A shelf lopsided past the window renders a
   short row rather than a wrong one.
 - **Per-shelf ordering.** "Recently Read" sorts by `last_read_date` (when the book was *finished*),
   not `date_added`. Books are routinely shelved months before they're finished, so `date_added`

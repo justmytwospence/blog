@@ -70,17 +70,18 @@ const PRIVACY_PUBLIC = 1;
 
 /**
  * Books shown per fiction / non-fiction group. The page splits every shelf into those two grids, so
- * this — not a whole-shelf total — is what governs how long a row looks.
+ * this — not a whole-shelf total — is what governs how long a row looks. It matches the grid's
+ * widest (6-column) layout, so a full group fills exactly one row on desktop.
  */
-export const GROUP_LIMIT = 5;
+export const GROUP_LIMIT = 6;
 
 /**
  * How deep to read a shelf when filling both groups. Fiction/non-fiction is classified *here*, from
  * fields Hardcover cannot filter on, so the only way to land `GROUP_LIMIT` of each is to pull a
  * window and sort it out locally.
  *
- * Sized off the real shelves: "Read" runs about 9:1 fiction, so the 5th non-fiction book sits ~22
- * deep — 40 leaves nearly 2x headroom. A shelf lopsided beyond that renders a short row rather than
+ * Sized off the real shelves: "Read" runs about 9:1 fiction, so the 6th non-fiction book sits ~27
+ * deep — 40 leaves ~1.5x headroom. A shelf lopsided beyond that renders a short row rather than
  * a wrong one, which is the right failure.
  */
 const CLASSIFY_WINDOW = 40;

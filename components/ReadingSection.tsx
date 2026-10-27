@@ -10,19 +10,26 @@ interface ReadingSectionProps {
    * more than is shown and the profile is public enough to link to.
    */
   shelf?: ShelfMeta;
+  /**
+   * The section is a sample capped at the 6-column desktop row (GROUP_LIMIT), not a complete shelf:
+   * drop the 6th book at the 5-column breakpoint rather than leave it alone on a second row.
+   */
+  sampled?: boolean;
 }
 
-function BookGrid({ books }: { books: UserBook[] }) {
+function BookGrid({ books, sampled = false }: { books: UserBook[]; sampled?: boolean }) {
   return (
     <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4">
-      {books.map((userBook) => (
-        <BookCard key={userBook.book.slug} userBook={userBook} />
+      {books.map((userBook, i) => (
+        <div key={userBook.book.slug} className={sampled && i === 5 ? 'md:hidden lg:block' : undefined}>
+          <BookCard userBook={userBook} />
+        </div>
       ))}
     </div>
   );
 }
 
-export function ReadingSection({ title, books, emptyMessage, shelf }: ReadingSectionProps) {
+export function ReadingSection({ title, books, emptyMessage, shelf, sampled = false }: ReadingSectionProps) {
   if (books.length === 0 && !emptyMessage) {
     return null;
   }
@@ -56,15 +63,15 @@ export function ReadingSection({ title, books, emptyMessage, shelf }: ReadingSec
         <div className="space-y-6">
           <div>
             <h3 className="text-lg font-semibold mb-3 text-gray-700 dark:text-[#a6a6a6]">Fiction</h3>
-            <BookGrid books={fiction} />
+            <BookGrid books={fiction} sampled={sampled} />
           </div>
           <div>
             <h3 className="text-lg font-semibold mb-3 text-gray-700 dark:text-[#a6a6a6]">Non-Fiction</h3>
-            <BookGrid books={nonfiction} />
+            <BookGrid books={nonfiction} sampled={sampled} />
           </div>
         </div>
       ) : (
-        <BookGrid books={books} />
+        <BookGrid books={books} sampled={sampled} />
       )}
     </section>
   );

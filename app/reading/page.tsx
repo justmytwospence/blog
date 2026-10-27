@@ -49,9 +49,9 @@ export default async function ReadingPage() {
             shelf={shelves.currentlyReading}
             emptyMessage="Nothing on the nightstand right now." />
           <ReadingSection title="Recently Read" books={recentlyRead}
-            shelf={shelves.recentlyRead} />
+            shelf={shelves.recentlyRead} sampled />
           <ReadingSection title="To Be Read" books={wantToRead}
-            shelf={shelves.wantToRead} />
+            shelf={shelves.wantToRead} sampled />
         </div>
       ) : (
         <div className="text-center py-12">
