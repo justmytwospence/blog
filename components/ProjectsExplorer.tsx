@@ -132,6 +132,8 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
       unpin();
       return;
     }
+    // Pinning a day with no work in the selected topic clears the topic, so its projects show.
+    if (topicSlugs && !repos.some((slug) => topicSlugs.has(slug))) writeTopic(null);
     lockHeight();
     setPinnedDay({ key, count, repos });
     setHoverDay(null);
