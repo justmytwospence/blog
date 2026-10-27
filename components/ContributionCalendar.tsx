@@ -1,6 +1,7 @@
 'use client';
 
 import projectNames from '@/lib/project-names';
+import type { CSSProperties } from 'react';
 
 type DayEntry = { c: number; r: string[] };
 
@@ -13,30 +14,48 @@ export interface ActivityData {
   days: Record<string, DayEntry>;
 }
 
-// GitHub's contribution palette (light + dark), indexed by intensity level 0–4.
-const LEVEL_LIGHT = ['bg-[#ebedf0]', 'bg-[#9be9a8]', 'bg-[#40c463]', 'bg-[#30a14e]', 'bg-[#216e3a]'];
-const LEVEL_DARK = ['dark:bg-[#161b22]', 'dark:bg-[#0e4429]', 'dark:bg-[#006d32]', 'dark:bg-[#26a641]', 'dark:bg-[#39d353]'];
+// GitHub's contribution palette (light + dark): the empty colour, then the active ramp, palest first.
+const EMPTY_LIGHT = '#ebedf0';
+const EMPTY_DARK = '#161b22';
+const RAMP_LIGHT = ['#9be9a8', '#40c463', '#30a14e', '#216e3a'];
+const RAMP_DARK = ['#0e4429', '#006d32', '#26a641', '#39d353'];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 const WINDOW_DAYS = 365;
 
 /**
- * Upper bounds for levels 1–3, taken from the quartiles of the active (non-zero) days so the
- * palette follows the actual distribution: fixed cutoffs saturate once a typical day clears them.
+ * Maps a day's count to an intensity in (0, 1]: its percentile rank among the active (non-zero)
+ * days, with ties sharing their mid-rank. Ranks rather than raw counts keep one huge day from
+ * washing everything else out, and a continuous scale (instead of a few fixed levels) keeps every
+ * distinct count distinguishable. Empty days map to 0.
  */
-export function levelThresholds(counts: number[]): [number, number, number] {
+export function intensityScale(counts: number[]): (count: number) => number {
   const active = counts.filter((c) => c > 0).sort((a, b) => a - b);
-  if (active.length === 0) return [0, 0, 0];
-  const q = (p: number) => active[Math.max(0, Math.ceil(p * active.length) - 1)];
-  return [q(0.25), q(0.5), q(0.75)];
+  const rank = new Map<number, number>();
+  for (let i = 0; i < active.length; ) {
+    let j = i;
+    while (j < active.length && active[j] === active[i]) j++;
+    // Mid-rank of the tie block, so the busiest day lands at 1 and the quietest just above 0.
+    rank.set(active[i], (i + j) / 2 / active.length);
+    i = j;
+  }
+  const top = active.length ? rank.get(active[active.length - 1])! : 1;
+  return (count) => (count <= 0 ? 0 : Math.max(0.0001, (rank.get(count) ?? 0) / top));
 }
 
-export function level(count: number, thresholds: [number, number, number]): number {
-  if (count <= 0) return 0;
-  if (count <= thresholds[0]) return 1;
-  if (count <= thresholds[1]) return 2;
-  if (count <= thresholds[2]) return 3;
-  return 4;
+function hexToRgb(hex: string): [number, number, number] {
+  const n = parseInt(hex.slice(1), 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
+/** Colour at intensity t in (0, 1], interpolated through the ramp's stops. */
+export function rampColor(ramp: string[], t: number): string {
+  const x = Math.min(1, Math.max(0, t)) * (ramp.length - 1);
+  const i = Math.min(ramp.length - 2, Math.floor(x));
+  const f = x - i;
+  const [a, b] = [hexToRgb(ramp[i]), hexToRgb(ramp[i + 1])];
+  const mix = a.map((v, k) => Math.round(v + (b[k] - v) * f));
+  return `rgb(${mix.join(' ')})`;
 }
 
 function addDaysUTC(date: Date, n: number): Date {
@@ -94,7 +113,7 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
     })
   );
 
-  const thresholds = levelThresholds(columns.flat().map((cell) => cell.count));
+  const intensity = intensityScale(columns.flat().map((cell) => cell.count));
 
   // A month is labelled over the first column whose first in-range day falls in it.
   const firstInRange = (col: typeof columns[number]) => col.find((cell) => cell.inRange)?.date ?? col[0].date;
@@ -155,7 +174,7 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
                 if (!cell.inRange) {
                   return <div key={cell.key} className="aspect-square w-full" aria-hidden="true" />;
                 }
-                const lvl = level(cell.count, thresholds);
+                const t = intensity(cell.count);
                 const matches = !focusing || cell.repos.some((r) => focusSlugs!.includes(r));
                 const isHovered = hoverDay === cell.key;
                 const isPinned = pinnedDay === cell.key;
@@ -168,7 +187,11 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
                     onMouseEnter={() => onDayEnter(cell.repos, cell.key, cell.count)}
                     onClick={() => onDayClick?.(cell.repos, cell.key, cell.count)}
                     data-day={cell.key}
-                    className={`aspect-square w-full rounded-[2px] transition-opacity duration-150 ${LEVEL_LIGHT[lvl]} ${LEVEL_DARK[lvl]} ${
+                    style={{
+                      '--heat-light': t > 0 ? rampColor(RAMP_LIGHT, t) : EMPTY_LIGHT,
+                      '--heat-dark': t > 0 ? rampColor(RAMP_DARK, t) : EMPTY_DARK,
+                    } as CSSProperties}
+                    className={`aspect-square w-full rounded-[2px] transition-opacity duration-150 bg-(--heat-light) dark:bg-(--heat-dark) ${
                       focusing && !matches ? 'opacity-20' : 'opacity-100'
                     } ${
                       isPinned
