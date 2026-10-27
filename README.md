@@ -129,3 +129,7 @@ npx vitest run path/to/file.test.ts   # single file
 ```
 
 Vitest runs in `node` environment (no React/jsdom). React component tests are intentionally not wired up yet.
+
+## License
+
+The site's source code is MIT licensed, see [LICENSE](LICENSE). Everything under `content/` (posts, project pages, adventures, notebooks, and images in content) is licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/), see [content/LICENSE](content/LICENSE).
