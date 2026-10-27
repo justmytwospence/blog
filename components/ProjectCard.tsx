@@ -5,8 +5,8 @@ import { Sparkline } from '@/components/Sparkline';
 
 interface ProjectCardProps {
   project: Project;
-  /** Weekly commits over the past year, and the ceiling shared by every card. */
-  activity?: { points: number[]; max: number };
+  /** Weekly commits over the past year, oldest first. */
+  activity?: number[];
 }
 
 // Pick an icon for a link chip based on its URL and label.
@@ -77,15 +77,18 @@ export function ProjectCard({ project, activity }: ProjectCardProps) {
 
       <div className="mt-auto">
         {/* Weekly commit activity over the past year */}
-        {activity && (
-          <div className="pt-4">
-            <Sparkline
-              points={activity.points}
-              max={activity.max}
-              label={`${activity.points.reduce((a, b) => a + b, 0).toLocaleString('en-US')} commits in the past year, by week`}
-            />
-          </div>
-        )}
+        {activity && activity.length > 0 && (() => {
+          const total = activity.reduce((a, b) => a + b, 0);
+          const label = `${total.toLocaleString('en-US')} commit${total === 1 ? '' : 's'} in the past year`;
+          return (
+            <div className="pt-4">
+              <Sparkline points={activity} label={`${label}, by week`} />
+              <p className="mt-1 text-xs tabular-nums text-gray-500 dark:text-[#8b8b8b]" aria-hidden="true">
+                {label}
+              </p>
+            </div>
+          );
+        })()}
 
         {/* Link chips (sit above the stretched link so they're individually clickable) */}
         {showChips && (

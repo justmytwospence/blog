@@ -41,11 +41,6 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
     return set;
   }, [activity]);
 
-  const sparklineMax = useMemo(
-    () => Math.max(0, ...Object.values(sparklines).flat()),
-    [sparklines]
-  );
-
   const lockHeight = () => {
     if (lockedHeight === null && gridRef.current) setLockedHeight(gridRef.current.offsetHeight);
   };
@@ -154,7 +149,7 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
               >
                 <ProjectCard
                   project={project}
-                  activity={sparklines[project.slug] ? { points: sparklines[project.slug], max: sparklineMax } : undefined}
+                  activity={sparklines[project.slug]}
                 />
               </div>
             );
