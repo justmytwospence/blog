@@ -2,6 +2,7 @@
 title: "IFS Journal"
 date: "2024-11-15"
 categories: ["web-app"]
+topics: ["web-apps"]
 description: "The journaling that helps you understand yourself"
 featured: true
 type: "external"

@@ -2,6 +2,7 @@
 title: "Pi Plugins"
 date: "2026-10-10"
 categories: ["coding-agents", "pi", "typescript", "developer-tools"]
+topics: ["agent-tooling"]
 description: "A modular workspace for coding with Pi: plan deliberately, delegate work, keep context useful, and review changes without leaving the conversation. Thirty-two independently selectable extensions, one suite."
 featured: true
 collection: true

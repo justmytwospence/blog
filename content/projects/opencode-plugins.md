@@ -2,6 +2,7 @@
 title: "OpenCode Plugins"
 date: "2026-10-13"
 categories: ["coding-agents", "opencode", "typescript", "developer-tools"]
+topics: ["agent-tooling"]
 description: "The Pi Plugins ideas, ported to OpenCode 2 where OpenCode allows: background work, subagents, diff review, cache and context awareness, tool gating, effort control, herdr and marimo integration. Sixteen independently enabled plugins, one Git commit."
 collection: true
 links:

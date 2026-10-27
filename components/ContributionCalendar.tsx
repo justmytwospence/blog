@@ -134,7 +134,8 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
     if (room < MIN_LABEL_COLUMNS) monthLabels[i] = '';
   }
 
-  const focusing = focusSlugs !== null && focusSlugs.length > 0;
+  // An empty focus list dims every day (a topic none of whose projects saw work this year).
+  const focusing = focusSlugs !== null;
 
   return (
     <div className="mb-10" onMouseLeave={onLeave}>

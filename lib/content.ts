@@ -64,11 +64,13 @@ function mapProjectMetadata(data: {
   links?: Project['links'];
   parent?: string;
   collection?: boolean;
+  topics?: string[];
 }) {
   return {
     externalUrl: data.externalUrl,
     links: data.links,
     parent: data.parent,
+    topics: data.topics ?? [],
     collection: Boolean(data.collection),
   };
 }

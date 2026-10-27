@@ -18,6 +18,8 @@ export interface ContentMetadata {
   externalUrl?: string;
   /** Parent project slug: retained detail page, omitted from top-level portfolio lists. */
   parent?: string;
+  /** Project topic ids (lib/project-topics.ts) for the /projects filters; not exclusive. */
+  topics?: string[];
   /** Collection overviews open internally even when they have external link chips. */
   collection?: boolean;
   /**
