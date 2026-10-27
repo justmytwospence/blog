@@ -7,7 +7,7 @@ export const PROJECT_TOPICS = [
   { id: 'agent-tooling', label: 'Agent Tooling' },
   { id: 'mcp', label: 'MCP Servers' },
   { id: 'homelab', label: 'Homelab' },
-  { id: 'bayesian', label: 'Bayesian' },
+  { id: 'bayesian', label: 'Statistical Modeling / ML' },
   { id: 'endurance', label: 'Endurance' },
   { id: 'web-apps', label: 'Web Apps' },
   { id: 'fun', label: 'Just for Fun' },
