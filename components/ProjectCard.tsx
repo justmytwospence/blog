@@ -1,9 +1,12 @@
 import Link from 'next/link';
 import { Project } from '@/lib/types';
 import { projectCardDestination } from '@/lib/project-navigation';
+import { Sparkline } from '@/components/Sparkline';
 
 interface ProjectCardProps {
   project: Project;
+  /** Weekly commits over the past year, and the ceiling shared by every card. */
+  activity?: { points: number[]; max: number };
 }
 
 // Pick an icon for a link chip based on its URL and label.
@@ -31,7 +34,7 @@ function LinkChipIcon({ label, url }: { label: string; url: string }) {
   );
 }
 
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project, activity }: ProjectCardProps) {
   const links = project.links ?? [];
   // Only surface chips when there's more than one destination to disambiguate.
   const showChips = links.length > 1;
@@ -72,23 +75,36 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
       )}
 
-      {/* Link chips (sit above the stretched link so they're individually clickable) */}
-      {showChips && (
-        <div className="relative z-10 mt-auto pt-4 flex flex-wrap gap-2">
-          {links.map((lnk) => (
-            <a
-              key={lnk.url}
-              href={lnk.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-gray-100 dark:bg-[#3a3d41] text-gray-700 dark:text-[#cccccc] hover:bg-gray-200 dark:hover:bg-[#454545] transition-colors"
-            >
-              <LinkChipIcon label={lnk.label} url={lnk.url} />
-              {lnk.label}
-            </a>
-          ))}
-        </div>
-      )}
+      <div className="mt-auto">
+        {/* Weekly commit activity over the past year */}
+        {activity && (
+          <div className="pt-4">
+            <Sparkline
+              points={activity.points}
+              max={activity.max}
+              label={`${activity.points.reduce((a, b) => a + b, 0).toLocaleString('en-US')} commits in the past year, by week`}
+            />
+          </div>
+        )}
+
+        {/* Link chips (sit above the stretched link so they're individually clickable) */}
+        {showChips && (
+          <div className="relative z-10 pt-4 flex flex-wrap gap-2">
+            {links.map((lnk) => (
+              <a
+                key={lnk.url}
+                href={lnk.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-gray-100 dark:bg-[#3a3d41] text-gray-700 dark:text-[#cccccc] hover:bg-gray-200 dark:hover:bg-[#454545] transition-colors"
+              >
+                <LinkChipIcon label={lnk.label} url={lnk.url} />
+                {lnk.label}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Stretched primary link — makes the whole card clickable */}
       <Link

@@ -142,6 +142,8 @@ function buildQuery(sliceCount: number): string {
 /** ActivityData plus a project-slug -> last-pushed (ISO date) map used to sort the project cards. */
 export interface ProjectActivity extends ActivityData {
   updated: Record<string, string>;
+  /** Project slug -> day -> commits. Absent from last-good payloads stored before it existed. */
+  commits?: Record<string, Record<string, number>>;
 }
 
 /**
@@ -160,7 +162,42 @@ export function rollUpProjectActivity(activity: ProjectActivity, projects: Proje
     const visible = visibleSlug(slug);
     if (!updated[visible] || date > updated[visible]) updated[visible] = date;
   }
-  return { ...activity, days, updated };
+  if (!activity.commits) return { ...activity, days, updated };
+  const commits: Record<string, Record<string, number>> = {};
+  for (const [slug, byDay] of Object.entries(activity.commits)) {
+    const target = (commits[visibleSlug(slug)] ??= {});
+    for (const [date, n] of Object.entries(byDay)) target[date] = (target[date] ?? 0) + n;
+  }
+  return { ...activity, days, updated, commits };
+}
+
+/**
+ * Weekly commit totals per project, one point per calendar column (Sunday-to-Saturday weeks from the
+ * Sunday on or before the window start), oldest first. Payloads without per-day commit counts fall
+ * back to counting each active day once.
+ */
+export function projectSparklines(activity: ProjectActivity): Record<string, number[]> {
+  const end = Date.parse(`${activity.endDate}T00:00:00Z`);
+  const start = activity.startDate ? Date.parse(`${activity.startDate}T00:00:00Z`) : end - (WINDOW_DAYS - 1) * DAY_MS;
+  const gridStart = start - new Date(start).getUTCDay() * DAY_MS;
+  const weeks = Math.floor((end - gridStart) / (7 * DAY_MS)) + 1;
+  const commits = activity.commits ?? {};
+  if (!activity.commits) {
+    for (const [date, day] of Object.entries(activity.days)) {
+      for (const slug of day.r) (commits[slug] ??= {})[date] = 1;
+    }
+  }
+  const series: Record<string, number[]> = {};
+  for (const [slug, byDay] of Object.entries(commits)) {
+    const points = new Array<number>(weeks).fill(0);
+    for (const [date, n] of Object.entries(byDay)) {
+      const t = Date.parse(`${date}T00:00:00Z`);
+      if (t < start || t > end) continue;
+      points[Math.floor((t - gridStart) / (7 * DAY_MS))] += n;
+    }
+    if (points.some((n) => n > 0)) series[slug] = points;
+  }
+  return series;
 }
 
 function emptyActivity(): ProjectActivity {
@@ -226,6 +263,7 @@ async function fetchActivity(): Promise<ProjectActivity> {
   // Attribute each project's commit days (for day<->card hover linking) and capture its last push
   // date (for the recency sort) in one pass over the tracked repos.
   const updated: Record<string, string> = {};
+  const commits: Record<string, Record<string, number>> = {};
   const repos = slices.flatMap((_, i) => user?.[`s${i}`]?.commitContributionsByRepository ?? []);
   for (const repo of repos) {
     // Only public repos that have a project card are ever named; everything else stays a number.
@@ -242,11 +280,13 @@ async function fetchActivity(): Promise<ProjectActivity> {
       if (!inWindow(date)) continue;
       const entry = days[date] ?? (days[date] = { c: 0, r: [] });
       if (!entry.r.includes(slug)) entry.r.push(slug);
+      const byDay = (commits[slug] ??= {});
+      byDay[date] = (byDay[date] ?? 0) + (Number(node.commitCount) || 1);
     }
   }
   for (const key of Object.keys(days)) days[key].r.sort();
 
-  return { startDate, endDate, maxCount, total, days, updated };
+  return { startDate, endDate, maxCount, total, days, updated, commits };
 }
 
 /**

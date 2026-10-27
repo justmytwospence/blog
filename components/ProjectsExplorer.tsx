@@ -15,7 +15,14 @@ type HoveredDay = { key: string; count: number; repos: string[] };
  * Clicking a day pins its projects until you click anywhere else (the same day
  * again, the page, a card) or press Escape; clicking another day moves the pin.
  */
-export function ProjectsExplorer({ projects, activity }: { projects: Project[]; activity: ActivityData }) {
+interface ProjectsExplorerProps {
+  projects: Project[];
+  activity: ActivityData;
+  /** Project slug -> weekly commits over the calendar window; projects without commits are absent. */
+  sparklines?: Record<string, number[]>;
+}
+
+export function ProjectsExplorer({ projects, activity, sparklines = {} }: ProjectsExplorerProps) {
   const [focusSlugs, setFocusSlugs] = useState<string[] | null>(null);
   const [hoverDay, setHoverDay] = useState<HoveredDay | null>(null);
   const [pinnedDay, setPinnedDay] = useState<HoveredDay | null>(null);
@@ -33,6 +40,11 @@ export function ProjectsExplorer({ projects, activity }: { projects: Project[]; 
     }
     return set;
   }, [activity]);
+
+  const sparklineMax = useMemo(
+    () => Math.max(0, ...Object.values(sparklines).flat()),
+    [sparklines]
+  );
 
   const lockHeight = () => {
     if (lockedHeight === null && gridRef.current) setLockedHeight(gridRef.current.offsetHeight);
@@ -140,7 +152,10 @@ export function ProjectsExplorer({ projects, activity }: { projects: Project[]; 
                 onMouseLeave={clear}
                 className={`h-full transition-opacity duration-150 ${dimmed ? 'opacity-40' : 'opacity-100'}`}
               >
-                <ProjectCard project={project} />
+                <ProjectCard
+                  project={project}
+                  activity={sparklines[project.slug] ? { points: sparklines[project.slug], max: sparklineMax } : undefined}
+                />
               </div>
             );
           })}

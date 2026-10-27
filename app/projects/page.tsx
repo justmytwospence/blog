@@ -1,7 +1,7 @@
 import { getTopLevelProjects } from '@/lib/content';
 import { ProjectsExplorer } from '@/components/ProjectsExplorer';
 import { PageContainer } from '@/components/PageContainer';
-import { getActivity } from '@/lib/github-activity';
+import { getActivity, projectSparklines } from '@/lib/github-activity';
 import type { Metadata } from 'next';
 
 // Revalidate hourly so the live GitHub activity stays fresh between deploys.
@@ -15,6 +15,9 @@ export const metadata: Metadata = {
 export default async function ProjectsPage() {
   const activity = await getActivity();
   const projects = getTopLevelProjects(activity.updated);
+  const sparklines = projectSparklines(activity);
+  // Per-day commit counts only feed the sparklines; keep them out of the client payload.
+  const { commits: _commits, ...calendar } = activity;
 
   return (
     <PageContainer width="wide">
@@ -31,7 +34,7 @@ export default async function ProjectsPage() {
 
       {/* Activity calendar + project cards (linked on hover) */}
       {projects.length > 0 ? (
-        <ProjectsExplorer projects={projects} activity={activity} />
+        <ProjectsExplorer projects={projects} activity={calendar} sparklines={sparklines} />
       ) : (
         <div className="text-center py-12">
           <p className="text-gray-500 dark:text-[#a6a6a6]">

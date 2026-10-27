@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 import { getAllProjects, getTopLevelProjects } from '../content';
-import { activityWindow, getActivity, REPO_TO_SLUG, rollUpProjectActivity, type ProjectActivity } from '../github-activity';
+import { activityWindow, getActivity, projectSparklines, REPO_TO_SLUG, rollUpProjectActivity, type ProjectActivity } from '../github-activity';
 import { readThrough } from '../last-good';
 import projectNames from '../project-names';
 
@@ -122,6 +122,12 @@ describe('portfolio activity rollup', () => {
     expect(result.days['2026-10-20']).toEqual({ c: 5, r: [] });
     expect(result.updated).toEqual({ 'pi-plugins': '2026-10-10', 'tmux-agents': '2026-10-07', swimcue: '2025-11-02' });
     expect(result.total).toBe(20);
+    // Suite repos sum into the visible card; private and unlisted repos never get a series.
+    expect(result.commits).toEqual({
+      swimcue: { '2025-11-02': 1 },
+      'pi-plugins': { '2026-10-09': 3 },
+      'tmux-agents': { '2026-10-09': 1 },
+    });
     expect(fetchMock).toHaveBeenCalledWith('https://api.github.com/graphql', expect.objectContaining({
       next: { revalidate: 3600 },
     }));
@@ -140,5 +146,33 @@ describe('portfolio activity rollup', () => {
   it('retains the empty fallback when both live data and last-good are unavailable', async () => {
     vi.mocked(readThrough).mockRejectedValue(new Error('offline'));
     expect(await getActivity()).toMatchObject({ total: 0, days: {}, updated: {} });
+  });
+});
+
+describe('project sparklines', () => {
+  const base = { startDate: '2025-10-26', endDate: '2026-10-25', maxCount: 0, total: 0, updated: {} };
+
+  it('buckets commits into the calendar\'s Sunday-to-Saturday weeks', () => {
+    const series = projectSparklines({
+      ...base,
+      days: {},
+      commits: {
+        // 2025-10-26 is a Sunday, so it opens week 0; 2026-10-25 (also a Sunday) opens the last.
+        swimcue: { '2025-10-26': 2, '2025-11-01': 3, '2025-11-02': 4, '2026-10-25': 1 },
+        dormant: { '2024-01-01': 5 },
+      },
+    });
+    expect(series.swimcue).toHaveLength(53);
+    expect(series.swimcue.slice(0, 2)).toEqual([5, 4]);
+    expect(series.swimcue.at(-1)).toBe(1);
+    expect(series.dormant).toBeUndefined();
+  });
+
+  it('counts active days for last-good payloads without commit counts', () => {
+    const series = projectSparklines({
+      ...base,
+      days: { '2025-10-27': { c: 9, r: ['pacing'] }, '2025-10-28': { c: 1, r: ['pacing'] } },
+    });
+    expect(series.pacing[0]).toBe(2);
   });
 });
