@@ -97,6 +97,7 @@ describe('portfolio activity rollup', () => {
           { date: '2025-11-02', contributionCount: 3 },
           { date: '2026-10-09', contributionCount: 12 },
           { date: '2026-10-20', contributionCount: 5 }, // private work only
+          { date: '2026-10-21', contributionCount: 2 }, // private repo without a card
         ] }] } },
         s0: { commitContributionsByRepository: [repo('swimcue', '2025-11-02T00:00:00Z', '2025-11-02')] },
         s1: { commitContributionsByRepository: [] },
@@ -107,7 +108,8 @@ describe('portfolio activity rollup', () => {
           repo('claude-cache-guard', '2026-10-10T00:00:00Z'),
           repo('tmux-agents', '2026-10-07T00:00:00Z'),
           repo('unlisted-repo', '2026-10-11T00:00:00Z'),
-          repo('homelab', '2026-10-20T00:00:00Z', '2026-10-20', true), // private: never named
+          repo('homelab', '2026-10-20T00:00:00Z', '2026-10-20', true), // private with a card: named
+          repo('secret-repo', '2026-10-21T00:00:00Z', '2026-10-21', true), // private, no card: a number
         ] },
       } } }),
     });
@@ -119,14 +121,18 @@ describe('portfolio activity rollup', () => {
     expect(result.days['2025-10-25']).toBeUndefined();
     expect(result.days['2025-11-02']).toEqual({ c: 3, r: ['swimcue'] });
     expect(result.days['2026-10-09']).toEqual({ c: 12, r: ['pi-plugins', 'tmux-agents'] });
-    expect(result.days['2026-10-20']).toEqual({ c: 5, r: [] });
-    expect(result.updated).toEqual({ 'pi-plugins': '2026-10-10', 'tmux-agents': '2026-10-07', swimcue: '2025-11-02' });
-    expect(result.total).toBe(20);
-    // Suite repos sum into the visible card; private and unlisted repos never get a series.
+    expect(result.days['2026-10-20']).toEqual({ c: 5, r: ['homelab'] });
+    expect(result.days['2026-10-21']).toEqual({ c: 2, r: [] });
+    expect(result.updated).toEqual({
+      'pi-plugins': '2026-10-10', 'tmux-agents': '2026-10-07', swimcue: '2025-11-02', homelab: '2026-10-20',
+    });
+    expect(result.total).toBe(22);
+    // Suite repos sum into the visible card; private repos with a card count; unlisted repos never get a series.
     expect(result.commits).toEqual({
       swimcue: { '2025-11-02': 1 },
       'pi-plugins': { '2026-10-09': 3 },
       'tmux-agents': { '2026-10-09': 1 },
+      homelab: { '2026-10-20': 1 },
     });
     expect(fetchMock).toHaveBeenCalledWith('https://api.github.com/graphql', expect.objectContaining({
       next: { revalidate: 3600 },

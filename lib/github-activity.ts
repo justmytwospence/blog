@@ -8,8 +8,9 @@ import { readThrough } from '@/lib/last-good';
  * Fetches the GitHub contribution graph for the last 365 days live at runtime: ALL activity,
  * private contributions included as bare per-day counts (the profile's "private contributions"
  * setting must stay on). Alongside it, a per-repo commit breakdown links calendar days to project
- * cards and a `pushedAt` map orders the cards by recency; only public repos listed in REPO_TO_SLUG
- * are ever named, so private repos contribute numbers and nothing else.
+ * cards and a `pushedAt` map orders the cards by recency. Only repos listed in REPO_TO_SLUG are
+ * attributed, public or private (a private repo with a documented or deployed card still counts),
+ * and always by card slug, never repo name; every other repo contributes bare numbers.
  *
  * Requires a GITHUB_TOKEN (or GH_TOKEN). On any failure (missing token, API down, malformed
  * response) the fetcher throws and the last-good payload from Upstash is served instead; with no
@@ -266,8 +267,9 @@ async function fetchActivity(): Promise<ProjectActivity> {
   const commits: Record<string, Record<string, number>> = {};
   const repos = slices.flatMap((_, i) => user?.[`s${i}`]?.commitContributionsByRepository ?? []);
   for (const repo of repos) {
-    // Only public repos that have a project card are ever named; everything else stays a number.
-    if (repo.repository?.isPrivate !== false) continue;
+    // Only repos with a project card are attributed (by card slug, never by repo name); private
+    // repos with a card (documented or deployed but closed-source) count too. Everything else stays
+    // a bare number.
     const slug = REPO_TO_SLUG[repo.repository?.name];
     if (!slug) continue;
     const pushedAt = repo.repository?.pushedAt;
