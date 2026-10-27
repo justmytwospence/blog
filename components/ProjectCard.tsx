@@ -77,18 +77,14 @@ export function ProjectCard({ project, activity }: ProjectCardProps) {
 
       <div className="mt-auto">
         {/* Weekly commit activity over the past year */}
-        {activity && activity.length > 0 && (() => {
-          const total = activity.reduce((a, b) => a + b, 0);
-          const label = `${total.toLocaleString('en-US')} commit${total === 1 ? '' : 's'} in the past year`;
-          return (
-            <div className="pt-4">
-              <Sparkline points={activity} label={`${label}, by week`} />
-              <p className="mt-1 text-xs tabular-nums text-gray-500 dark:text-[#8b8b8b]" aria-hidden="true">
-                {label}
-              </p>
-            </div>
-          );
-        })()}
+        {activity && activity.length > 0 && (
+          <div className="pt-4">
+            <Sparkline
+              points={activity}
+              label={`${activity.reduce((a, b) => a + b, 0).toLocaleString('en-US')} commits in the past year, by week`}
+            />
+          </div>
+        )}
 
         {/* Link chips (sit above the stretched link so they're individually clickable) */}
         {showChips && (
