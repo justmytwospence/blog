@@ -56,6 +56,8 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
   const [focusSlugs, setFocusSlugs] = useState<string[] | null>(null);
   const [hoverDay, setHoverDay] = useState<HoveredDay | null>(null);
   const [pinnedDay, setPinnedDay] = useState<HoveredDay | null>(null);
+  // The project card under the pointer; its topics light up in the chip row.
+  const [hoverCard, setHoverCard] = useState<string | null>(null);
   const topic = useSyncExternalStore(subscribeTopic, readTopic, () => null);
   // While a day is hovered the grid keeps its full height, so hiding cards never shortens the page
   // (which would scroll the calendar out from under the pointer).
@@ -92,6 +94,7 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
   // Leaving the calendar or a card falls back to the pinned day, if any.
   const clear = () => {
     setHoverDay(null);
+    setHoverCard(null);
     setFocusSlugs(pinnedDay && pinnedDay.repos.length > 0 ? pinnedDay.repos : null);
     if (!pinnedDay) setLockedHeight(null);
   };
@@ -123,6 +126,7 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
 
   const handleDayEnter = (repos: string[], key: string, count: number) => {
     lockHeight();
+    setHoverCard(null);
     setHoverDay({ key, count, repos });
     setFocusSlugs(repos.length > 0 ? repos : null);
   };
@@ -142,6 +146,7 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
 
   const handleCardEnter = (slug: string) => {
     setHoverDay(null);
+    setHoverCard(slug);
     setFocusSlugs(activitySlugs.has(slug) ? [slug] : null);
   };
 
@@ -159,16 +164,26 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
   // Public projects worked on that day but hidden by the topic filter.
   const hiddenByTopic = activeDay && topicSlugs ? activeDay.repos.filter((slug) => !topicSlugs.has(slug)).length : 0;
 
-  const chip = (selected: boolean) =>
+  // Topics of the hovered card, so its chips can be brushed.
+  const cardTopics = useMemo(
+    () => new Set(hoverCard ? (projects.find((p) => p.slug === hoverCard)?.topics ?? []) : []),
+    [projects, hoverCard],
+  );
+
+  const chip = (selected: boolean, linked = false) =>
     `rounded-full border px-3 py-1 text-sm transition-colors ${
       selected
         ? 'border-blue-600 bg-blue-600 text-white dark:border-blue-500 dark:bg-blue-500/20 dark:text-blue-300'
+        : linked
+          ? 'border-blue-500 bg-blue-50 text-blue-700 dark:border-blue-400 dark:bg-blue-500/15 dark:text-blue-300'
         : 'border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-100 dark:border-[#454545] dark:text-[#cccccc] dark:hover:border-[#6b6b6b] dark:hover:bg-[#3a3d41]'
     }`;
 
   return (
     <>
-      <div role="group" aria-label="Filter projects by topic" className="mb-6 flex flex-wrap gap-2">
+      {/* Chips and calendar stay pinned under the site nav while the cards scroll. */}
+      <div className="sticky top-0 z-40 mb-6 bg-white pb-3 pt-2 transition-colors duration-200 md:top-[65px] dark:bg-[#1e1e1e]">
+      <div role="group" aria-label="Filter projects by topic" className="mb-4 flex flex-wrap gap-2">
         <button
           type="button"
           data-topic-filter
@@ -185,7 +200,7 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
             data-topic-filter
             aria-pressed={topic === t.id}
             onClick={() => writeTopic(topic === t.id ? null : t.id)}
-            className={chip(topic === t.id)}
+            className={chip(topic === t.id, cardTopics.has(t.id))}
           >
             {t.label} <span className="opacity-60">{topicCounts.get(t.id)}</span>
           </button>
@@ -203,7 +218,7 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
       />
 
       {pinnedDay && (
-        <div className="-mt-6 mb-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-600 dark:text-[#a6a6a6]">
+        <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-600 dark:text-[#a6a6a6]">
           <span>
             Pinned: {dayHeadline(pinnedDay.count, new Date(`${pinnedDay.key}T00:00:00Z`))}
           </span>
@@ -216,6 +231,7 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
           </button>
         </div>
       )}
+      </div>
 
       <div ref={gridRef} style={lockedHeight !== null ? { minHeight: lockedHeight } : undefined}>
         {activeDay && shown.length === 0 && (

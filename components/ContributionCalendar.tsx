@@ -138,7 +138,7 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
   const focusing = focusSlugs !== null;
 
   return (
-    <div className="mb-10" onMouseLeave={onLeave}>
+    <div onMouseLeave={onLeave}>
       {/* Month labels — mirrors the week columns so they stay aligned */}
       <div className="flex gap-2">
         <div className="w-8 shrink-0" aria-hidden="true" />
