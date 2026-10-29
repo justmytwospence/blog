@@ -73,6 +73,7 @@ const projectNames: Record<string, string> = {
   'herdr-agentbox': 'herdr-agentbox',
   'aac-touchid': 'aac-touchid',
   'agent-scrub': 'agent-scrub',
+  'defenestrator': 'defenestrator',
 };
 
 export default projectNames;

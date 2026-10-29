@@ -96,6 +96,7 @@ export const REPO_TO_SLUG: Record<string, string> = {
   'herdr-agentbox': 'herdr-agentbox',
   'aac-touchid': 'aac-touchid',
   'agent-scrub': 'agent-scrub',
+  'defenestrator': 'defenestrator',
 };
 
 // The calendar spans exactly the last 365 days, ending today (UTC).
