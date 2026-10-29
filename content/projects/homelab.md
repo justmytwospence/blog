@@ -3,7 +3,7 @@ title: "Homelab"
 date: "2026-06-09"
 categories: ["homelab", "self-hosted", "docker", "infrastructure", "networking", "coding-agents", "mcp"]
 topics: ["homelab"]
-description: "A single-host homelab running 50+ Docker Compose stacks behind OPNsense, Traefik, WireGuard, Pi-hole and Authelia: media, photos, documents and monitoring, plus an always-on home for coding agents and a fleet of self-hosted MCP servers. Updates arrive as pull requests with Claude-read changelogs."
+description: "A single-host homelab running 50+ Docker Compose stacks behind OPNsense, Traefik and Authelia: media, documents, monitoring, a home for coding agents and self-hosted MCP servers."
 featured: true
 ---
 

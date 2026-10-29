@@ -3,7 +3,7 @@ title: "cache-guard"
 parent: pi-plugins
 date: "2026-10-07"
 categories: ["coding-agents", "pi", "claude-code", "opencode", "codex", "typescript"]
-description: "Makes prompt-cache costs visible, asks before expensive re-caching, and uses Jev to trim tool output and compact context. Shared ideas across Pi, Claude Code, opencode and Codex; Pi handles its own cache warming."
+description: "Makes prompt-cache costs visible, asks before expensive re-caching, and uses Jev to trim tool output and compact context. For Pi, Claude Code, opencode and Codex."
 type: "external"
 externalUrl: "https://github.com/justmytwospence/pi-plugins/tree/main/packages/pi-cache-guard"
 links:

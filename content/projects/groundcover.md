@@ -3,7 +3,7 @@ title: "GroundCover"
 date: "2026-08-06"
 categories: ["typescript", "deck.gl", "maplibre", "strava", "web-app"]
 topics: ["endurance", "web-apps", "fun"]
-description: "Strava counts every mile you log; this counts the ground those miles actually cover — 10,639 logged miles resolved to 3,975 miles of distinct road and trail, computed and drawn entirely in your own browser."
+description: "Strava counts every mile you log; this counts the ground those miles cover: 10,639 logged miles resolved to 3,975 miles of distinct road and trail, computed in your browser."
 featured: true
 type: "external"
 externalUrl: "https://groundcover.spencerboucher.com"

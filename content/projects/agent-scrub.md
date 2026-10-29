@@ -3,7 +3,7 @@ title: "agent-scrub"
 date: "2026-10-10"
 categories: ["coding-agents", "security", "claude-code", "codex", "pi", "opencode", "typescript", "jev"]
 topics: ["agent-tooling"]
-description: "Lets a coding agent mask the credentials in its own session log once it is done with them. Finds keys with gitleaks' rules and the secrets this machine holds, asks Jev about ambiguous hits without showing it the value, and overwrites them in place. For Claude Code, Codex, pi and opencode."
+description: "Lets a coding agent mask credentials in its own session log when it is done with them. Uses gitleaks rules and this machine's secrets, and asks Jev about ambiguous hits unseen."
 type: "external"
 externalUrl: "https://github.com/justmytwospence/agent-scrub"
 ---

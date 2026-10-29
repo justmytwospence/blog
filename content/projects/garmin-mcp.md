@@ -3,7 +3,7 @@ title: "Garmin MCP"
 date: "2026-10-22"
 categories: ["mcp", "llm-tools", "garmin", "duckdb", "python", "self-hosted"]
 topics: ["mcp", "endurance"]
-description: "An MCP server for Garmin Connect that answers from a complete local DuckDB mirror of the account: every activity with its original FIT file, every day's sleep, HRV, stress and Body Battery, training metrics and gear, plus read-only SQL. A paced sync keeps it fresh without tripping Garmin's limits."
+description: "An MCP server for Garmin Connect backed by a complete local DuckDB mirror: every activity with its FIT file, sleep, HRV, stress, Body Battery and gear, plus read-only SQL."
 type: "external"
 externalUrl: "https://github.com/justmytwospence/garmin-mcp"
 links:

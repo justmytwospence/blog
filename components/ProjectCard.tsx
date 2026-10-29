@@ -56,7 +56,7 @@ export function ProjectCard({ project, activity }: ProjectCardProps) {
 
       {/* Description */}
       {project.description && (
-        <p className="text-gray-600 dark:text-[#cccccc] mb-4 line-clamp-3">
+        <p className="text-sm text-gray-600 dark:text-[#cccccc] mb-4 line-clamp-5">
           {project.description}
         </p>
       )}
