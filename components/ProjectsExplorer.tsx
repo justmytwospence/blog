@@ -5,6 +5,7 @@ import { ProjectCard } from '@/components/ProjectCard';
 import { ContributionCalendar, dayHeadline, type ActivityData } from '@/components/ContributionCalendar';
 import { PROJECT_TOPICS, PROJECT_TOPIC_IDS } from '@/lib/project-topics';
 import type { Project } from '@/lib/types';
+import type { ProjectSparkline } from '@/lib/github-activity';
 
 type HoveredDay = { key: string; count: number; repos: string[] };
 
@@ -48,8 +49,8 @@ function writeTopic(id: string | null) {
 interface ProjectsExplorerProps {
   projects: Project[];
   activity: ActivityData;
-  /** Project slug -> weekly commits over the calendar window; projects without commits are absent. */
-  sparklines?: Record<string, number[]>;
+  /** Project slug -> recent activity; projects without commits are absent. */
+  sparklines?: Record<string, ProjectSparkline>;
 }
 
 export function ProjectsExplorer({ projects, activity, sparklines = {} }: ProjectsExplorerProps) {

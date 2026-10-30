@@ -1,5 +1,5 @@
 interface SparklineProps {
-  /** Weekly commit totals, oldest first. */
+  /** Daily or weekly commit totals, oldest first. */
   points: number[];
   label: string;
 }
@@ -7,7 +7,7 @@ interface SparklineProps {
 const HEIGHT = 48;
 
 /**
- * A histogram of weekly activity, one bar per week, scaled to its own busiest week: it shows the
+ * A histogram of daily or weekly activity, scaled to its own busiest bin: it shows the
  * shape of one project's activity, so magnitude is left to the caption beside it.
  */
 export function Sparkline({ points, label }: SparklineProps) {
@@ -26,7 +26,7 @@ export function Sparkline({ points, label }: SparklineProps) {
       <title>{label}</title>
       {points.map((n, i) => {
         if (n <= 0) return null;
-        // Nonzero weeks always get at least 2 units so a single commit stays visible.
+        // Nonzero bins always get at least 2 units so a single commit stays visible.
         const h = Math.max(2, (n / max) * HEIGHT);
         return <rect key={i} x={i} y={HEIGHT - h} width={0.8} height={h} fill="currentColor" />;
       })}

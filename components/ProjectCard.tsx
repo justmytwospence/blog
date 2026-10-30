@@ -2,11 +2,12 @@ import Link from 'next/link';
 import { Project } from '@/lib/types';
 import { projectCardDestination } from '@/lib/project-navigation';
 import { Sparkline } from '@/components/Sparkline';
+import type { ProjectSparkline } from '@/lib/github-activity';
 
 interface ProjectCardProps {
   project: Project;
-  /** Weekly commits since the first commit, oldest first. */
-  activity?: number[];
+  /** Recent daily or weekly commits, oldest first. */
+  activity?: ProjectSparkline;
 }
 
 // Pick an icon for a link chip based on its URL and label.
@@ -93,12 +94,12 @@ export function ProjectCard({ project, activity }: ProjectCardProps) {
       )}
 
       <div className="mt-auto">
-        {/* Weekly commit activity, full history */}
-        {activity && activity.length > 0 && (
+        {/* Recent commit activity */}
+        {activity && activity.points.length > 0 && (
           <div className="pt-4">
             <Sparkline
-              points={activity}
-              label={`${activity.reduce((a, b) => a + b, 0).toLocaleString('en-US')} commits, by week since the first commit`}
+              points={activity.points}
+              label={`${activity.points.reduce((a, b) => a + b, 0).toLocaleString('en-US')} commits, by ${activity.period === 'month' ? 'day over the past month' : 'week over the past year'}`}
             />
           </div>
         )}

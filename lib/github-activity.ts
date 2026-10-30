@@ -173,12 +173,13 @@ export function rollUpProjectActivity(activity: ProjectActivity, projects: Proje
   return { ...activity, days, updated, commits };
 }
 
-/**
- * Weekly commit totals per project, one point per calendar column (Sunday-to-Saturday weeks from the
- * Sunday on or before the window start), oldest first. Payloads without per-day commit counts fall
- * back to counting each active day once.
- */
-export function projectSparklines(activity: ProjectActivity): Record<string, number[]> {
+export interface ProjectSparkline {
+  points: number[];
+  period: 'month' | 'year';
+}
+
+/** Rolling daily or weekly counts, oldest first. Older cached payloads count active days. */
+export function projectSparklines(activity: ProjectActivity, history: ProjectHistory = {}): Record<string, ProjectSparkline> {
   const end = Date.parse(`${activity.endDate}T00:00:00Z`);
   const start = activity.startDate ? Date.parse(`${activity.startDate}T00:00:00Z`) : end - (WINDOW_DAYS - 1) * DAY_MS;
   const gridStart = start - new Date(start).getUTCDay() * DAY_MS;
@@ -189,44 +190,30 @@ export function projectSparklines(activity: ProjectActivity): Record<string, num
       for (const slug of day.r) (commits[slug] ??= {})[date] = 1;
     }
   }
-  const series: Record<string, number[]> = {};
-  for (const [slug, byDay] of Object.entries(commits)) {
-    const points = new Array<number>(weeks).fill(0);
+  const series: Record<string, ProjectSparkline> = {};
+  for (const slug of new Set([...Object.keys(commits), ...Object.keys(history)])) {
+    const byDay = commits[slug] ?? {};
+    const dates = [...Object.entries(byDay), ...Object.entries(history[slug] ?? {})]
+      .filter(([, n]) => n > 0)
+      .map(([date]) => Date.parse(`${date}T00:00:00Z`))
+      .filter((t) => Number.isFinite(t) && t <= end);
+    if (!dates.length) continue;
+    const period = end - Math.min(...dates) < 60 * DAY_MS ? 'month' : 'year';
+    const monthStart = end - 29 * DAY_MS;
+    const points = new Array<number>(period === 'month' ? 30 : weeks).fill(0);
     for (const [date, n] of Object.entries(byDay)) {
       const t = Date.parse(`${date}T00:00:00Z`);
-      if (t < start || t > end) continue;
-      points[Math.floor((t - gridStart) / (7 * DAY_MS))] += n;
+      if (!Number.isFinite(t) || t < (period === 'month' ? monthStart : start) || t > end || n <= 0) continue;
+      const i = period === 'month' ? (t - monthStart) / DAY_MS : Math.floor((t - gridStart) / (7 * DAY_MS));
+      points[i] += n;
     }
-    if (points.some((n) => n > 0)) series[slug] = points;
+    if (points.some((n) => n > 0)) series[slug] = { points, period };
   }
   return series;
 }
 
 /** Project slug -> week start (Sunday, ISO date) -> commits, across the full history of its repos. */
 export type ProjectHistory = Record<string, Record<string, number>>;
-
-/**
- * Weekly commit totals per project since its first commit, oldest first, ending at the current
- * week. Each project is its own series (independent lengths), so scale each separately.
- */
-export function historySparklines(history: ProjectHistory, endDate: string): Record<string, number[]> {
-  const WEEK = 7 * DAY_MS;
-  const end = Date.parse(`${endDate}T00:00:00Z`);
-  const lastWeek = end - new Date(end).getUTCDay() * DAY_MS;
-  const series: Record<string, number[]> = {};
-  for (const [slug, byWeek] of Object.entries(history)) {
-    const times = Object.entries(byWeek).filter(([, n]) => n > 0).map(([d]) => Date.parse(`${d}T00:00:00Z`));
-    if (times.length === 0) continue;
-    const first = Math.min(...times);
-    const points = new Array<number>(Math.max(1, Math.round((lastWeek - first) / WEEK) + 1)).fill(0);
-    for (const [d, n] of Object.entries(byWeek)) {
-      const i = Math.round((Date.parse(`${d}T00:00:00Z`) - first) / WEEK);
-      if (i >= 0 && i < points.length) points[i] += n;
-    }
-    series[slug] = points;
-  }
-  return series;
-}
 
 async function repoWeeks(repo: string, token: string): Promise<Record<string, number> | null> {
   const url = `https://api.github.com/repos/${OWNER}/${repo}/stats/contributors`;
@@ -268,8 +255,8 @@ async function fetchHistory(): Promise<ProjectHistory> {
   return history;
 }
 
-/** Full-history sparklines by visible project slug; empty when unavailable (callers fall back). */
-export const getHistorySparklines = cache(async (endDate: string): Promise<Record<string, number[]>> => {
+/** Full history by visible project slug; empty when unavailable. */
+export const getProjectHistory = cache(async (): Promise<ProjectHistory> => {
   try {
     const history = await readThrough<ProjectHistory>('github-history', fetchHistory);
     if (!history) return {};
@@ -279,7 +266,7 @@ export const getHistorySparklines = cache(async (endDate: string): Promise<Recor
       const target = (rolled[parents.get(slug) ?? slug] ??= {});
       for (const [d, n] of Object.entries(byWeek)) target[d] = (target[d] ?? 0) + n;
     }
-    return historySparklines(rolled, endDate);
+    return rolled;
   } catch {
     return {};
   }

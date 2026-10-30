@@ -169,9 +169,10 @@ describe('project sparklines', () => {
         dormant: { '2024-01-01': 5 },
       },
     });
-    expect(series.swimcue).toHaveLength(53);
-    expect(series.swimcue.slice(0, 2)).toEqual([5, 4]);
-    expect(series.swimcue.at(-1)).toBe(1);
+    expect(series.swimcue.period).toBe('year');
+    expect(series.swimcue.points).toHaveLength(53);
+    expect(series.swimcue.points.slice(0, 2)).toEqual([5, 4]);
+    expect(series.swimcue.points.at(-1)).toBe(1);
     expect(series.dormant).toBeUndefined();
   });
 
@@ -180,6 +181,28 @@ describe('project sparklines', () => {
       ...base,
       days: { '2025-10-27': { c: 9, r: ['pacing'] }, '2025-10-28': { c: 1, r: ['pacing'] } },
     });
-    expect(series.pacing[0]).toBe(2);
+    expect(series.pacing.points[0]).toBe(2);
+  });
+
+  it('uses 30 daily bins for projects younger than 60 days and clips older days', () => {
+    const series = projectSparklines({ ...base, days: {}, commits: {
+      young: { '2026-08-27': 5, '2026-09-26': 2, '2026-10-25': 3, '2026-10-26': 9 },
+      old: { '2026-08-26': 1, '2026-10-25': 2 },
+    } });
+    expect(series.young.period).toBe('month');
+    expect(series.young.points).toHaveLength(30);
+    expect(series.young.points[0]).toBe(2);
+    expect(series.young.points.at(-1)).toBe(3);
+    expect(series.young.points.reduce((a, b) => a + b, 0)).toBe(5);
+    expect(series.old.period).toBe('year');
+  });
+
+  it('uses historical age for a returning project and ignores future-only activity', () => {
+    const series = projectSparklines({ ...base, days: {}, commits: {
+      returning: { '2026-10-25': 4 }, future: { '2026-10-26': 9 },
+    } }, { returning: { '2020-01-05': 1 }, future: { '2026-11-01': 2 } });
+    expect(series.returning.period).toBe('year');
+    expect(series.returning.points.at(-1)).toBe(4);
+    expect(series.future).toBeUndefined();
   });
 });
