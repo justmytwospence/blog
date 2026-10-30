@@ -99,6 +99,7 @@ export function ProjectCard({ project, activity }: ProjectCardProps) {
           <div className="pt-4">
             <Sparkline
               points={activity.points}
+              period={activity.period}
               label={`${activity.points.reduce((a, b) => a + b, 0).toLocaleString('en-US')} commits, by ${activity.period === 'month' ? 'day over the past month' : 'week over the past year'}`}
             />
           </div>
