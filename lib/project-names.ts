@@ -5,7 +5,6 @@
  */
 const projectNames: Record<string, string> = {
   'pi-plugins': 'Pi Plugins',
-  'opencode-plugins': 'OpenCode Plugins',
   bayesdag: 'bayesDAG',
   cloudposterior: 'cloudposterior',
   'arviz-mcp': 'ArviZ MCP',

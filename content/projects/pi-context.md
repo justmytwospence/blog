@@ -11,6 +11,4 @@ links:
     url: "https://github.com/justmytwospence/pi-plugins/tree/main/packages/pi-context"
   - label: "Docs"
     url: "https://pi-plugins.vercel.app/plugins/pi-context/"
-  - label: "opencode"
-    url: "https://github.com/justmytwospence/opencode-plugins/tree/main/packages/opencode-context"
 ---

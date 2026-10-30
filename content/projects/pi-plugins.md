@@ -78,7 +78,7 @@ Selectable does not mean dependency-free. Jev-backed capabilities need access to
 
 ## One portfolio story, not one implementation for every harness
 
-Many of these ideas also run in other agents. The OpenCode ports are their own suite, **[OpenCode Plugins](/projects/opencode-plugins)**, and the Claude Code and Codex ports are separate repositories linked from the [auto-effort](/projects/auto-effort), [cache-guard](/projects/cache-guard), [marimo for agents](/projects/marimo-for-agents), [tool-gate](/projects/tool-gate), and [pi-prose-width](/projects/pi-prose-width) pages. None of those ports is part of this Pi package.
+The [cache-guard](/projects/cache-guard) idea also runs in Codex, through a separate repository linked from that page. That port is not part of this Pi package.
 
 [lean-context](/projects/lean-context) is a retired predecessor, not a selectable component. Its Pi functionality now lives in cache-guard. The original repositories remain useful history, not additional packages to enable alongside the suite.
 

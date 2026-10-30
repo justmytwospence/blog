@@ -17,7 +17,7 @@ const childSlugs = [
 ];
 const separateSlugs = [
   'anthropic-billing-guard', 'tmux-agents', 'herdr-repeat-navigation',
-  'herdr-machine0', 'paseo-machine0', 'homelab', 'pi-brokered-auth', 'opencode-plugins',
+  'herdr-machine0', 'paseo-machine0', 'homelab', 'pi-brokered-auth',
 ];
 // Children that are suite components, with the package directory in the suite repository.
 const componentOf: Record<string, string> = {
@@ -72,13 +72,16 @@ describe('Pi Plugins portfolio collection', () => {
     expect(retired.content).toContain('[cache-guard](/projects/cache-guard)');
   });
 
-  it('preserves ports on feature detail pages', () => {
-    for (const slug of ['auto-effort', 'cache-guard', 'marimo-for-agents', 'next-prompt', 'tool-gate', 'lean-context']) {
-      const links = getProjectBySlug(slug)!.metadata.links!;
-      expect(links.some(link => link.url.includes('/opencode-'))).toBe(true);
+  it('removes retired repositories while preserving surviving feature links in order', () => {
+    expect(getProjectBySlug('opencode-plugins')).toBeNull();
+    const deletedRepoLink = /github\.com\/justmytwospence\/(?:opencode-(?:plugins|auto-effort|cache-guard|git-status|herdr|lean-context|marimo|next-prompt|prose-width|tool-gate)|claude-(?:auto-effort|cache-guard|marimo|prose-width|tool-gate))(?:[/?#)\s"']|$)/;
+    for (const slug of ['pi-plugins', ...childSlugs]) {
+      const detail = getProjectBySlug(slug)!;
+      expect(JSON.stringify(detail)).not.toMatch(deletedRepoLink);
+      expect(JSON.stringify(detail)).not.toContain('/projects/opencode-plugins');
     }
     expect(getProjectBySlug('cache-guard')!.metadata.links?.map(link => link.label))
-      .toEqual(['Suite source', 'Docs', 'Claude Code', 'opencode', 'Codex', 'Original Pi source (historical)']);
+      .toEqual(['Suite source', 'Docs', 'Codex', 'Original Pi source (historical)']);
   });
 
   it('uses current suite destinations while retaining port and historical links', () => {

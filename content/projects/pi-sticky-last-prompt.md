@@ -11,6 +11,4 @@ links:
     url: "https://github.com/justmytwospence/pi-plugins/tree/main/packages/pi-sticky-last-prompt"
   - label: "Docs"
     url: "https://pi-plugins.vercel.app/plugins/pi-sticky-last-prompt/"
-  - label: "opencode"
-    url: "https://github.com/justmytwospence/opencode-plugins/tree/main/packages/opencode-sticky-last-prompt"
 ---

@@ -11,8 +11,6 @@ links:
     url: "https://github.com/justmytwospence/pi-plugins/tree/main/packages/pi-diff-review"
   - label: "Docs"
     url: "https://pi-plugins.vercel.app/plugins/pi-diff-review/"
-  - label: "opencode"
-    url: "https://github.com/justmytwospence/opencode-plugins/tree/main/packages/opencode-diff-review"
   - label: "Original Pi source (historical)"
     url: "https://github.com/justmytwospence/pi-diff-review"
 ---

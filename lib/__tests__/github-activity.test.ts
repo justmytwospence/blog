@@ -17,7 +17,7 @@ const ports = [
   'claude-auto-effort', 'claude-cache-guard', 'codex-cache-guard', 'claude-marimo',
   'pi-lean-context', 'claude-prose-width', 'claude-tool-gate',
 ];
-// Archived standalone OpenCode ports, now packages of the opencode-plugins suite.
+// Retired standalone OpenCode ports retain attribution to the Pi Plugins collection.
 const opencodePorts = [
   'opencode-auto-effort', 'opencode-cache-guard', 'opencode-marimo', 'opencode-next-prompt',
   'opencode-tool-gate', 'opencode-lean-context', 'opencode-herdr', 'opencode-prose-width',
@@ -47,10 +47,11 @@ describe('portfolio activity rollup', () => {
       expect(REPO_TO_SLUG[repo]).toBe('pi-plugins');
     }
     expect(projectNames['pi-plugins']).toBe('Pi Plugins');
+    expect(opencodePorts).toHaveLength(9);
     for (const repo of ['opencode-plugins', ...opencodePorts]) {
-      expect(REPO_TO_SLUG[repo]).toBe('opencode-plugins');
+      expect(REPO_TO_SLUG[repo]).toBe('pi-plugins');
     }
-    expect(projectNames['opencode-plugins']).toBe('OpenCode Plugins');
+    expect(projectNames['opencode-plugins']).toBeUndefined();
     const visible = new Set(getTopLevelProjects().map(project => project.slug));
     for (const slug of Object.values(REPO_TO_SLUG)) expect(visible.has(slug)).toBe(true);
     for (const repo of ['tmux-agents', 'herdr-machine0', 'herdr-repeat-navigation', 'anthropic-billing-guard', 'pi-brokered-auth', 'aac-touchid', 'agent-scrub', 'herdr-agentbox', 'herdr-undo', 'herdr-git-status']) {

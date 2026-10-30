@@ -11,8 +11,6 @@ links:
     url: "https://github.com/justmytwospence/pi-plugins/tree/main/packages/pi-bg"
   - label: "Docs"
     url: "https://pi-plugins.vercel.app/plugins/pi-bg/"
-  - label: "opencode"
-    url: "https://github.com/justmytwospence/opencode-plugins/tree/main/packages/opencode-bg"
   - label: "Original Pi source (historical)"
     url: "https://github.com/justmytwospence/pi-bg"
 ---
