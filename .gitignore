@@ -102,3 +102,4 @@ __pycache__/
 
 # local scratch (screenshots, review docs)
 /.tmp-screens/
+/.claude/settings.local.json
