@@ -54,9 +54,26 @@ export function ProjectCard({ project, activity }: ProjectCardProps) {
         )}
       </h3>
 
+      {/* Link chips (above the stretched link so they're individually clickable). Reserve one row
+          on every card so descriptions, tags and histograms align across columns. */}
+      <div className="relative z-10 mb-3 flex min-h-[1.75rem] flex-wrap gap-2">
+        {showChips && links.map((lnk) => (
+          <a
+            key={lnk.url}
+            href={lnk.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-gray-100 dark:bg-[#3a3d41] text-gray-700 dark:text-[#cccccc] hover:bg-gray-200 dark:hover:bg-[#454545] transition-colors"
+          >
+            <LinkChipIcon label={lnk.label} url={lnk.url} />
+            {lnk.label}
+          </a>
+        ))}
+      </div>
+
       {/* Description */}
       {project.description && (
-        <p className="text-sm text-gray-600 dark:text-[#cccccc] mb-4 line-clamp-5">
+        <p className="text-sm text-gray-600 dark:text-[#cccccc] mb-4 min-h-[6.25rem] line-clamp-5">
           {project.description}
         </p>
       )}
@@ -83,24 +100,6 @@ export function ProjectCard({ project, activity }: ProjectCardProps) {
               points={activity}
               label={`${activity.reduce((a, b) => a + b, 0).toLocaleString('en-US')} commits, by week since the first commit`}
             />
-          </div>
-        )}
-
-        {/* Link chips (sit above the stretched link so they're individually clickable) */}
-        {showChips && (
-          <div className="relative z-10 pt-4 flex flex-wrap gap-2">
-            {links.map((lnk) => (
-              <a
-                key={lnk.url}
-                href={lnk.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-gray-100 dark:bg-[#3a3d41] text-gray-700 dark:text-[#cccccc] hover:bg-gray-200 dark:hover:bg-[#454545] transition-colors"
-              >
-                <LinkChipIcon label={lnk.label} url={lnk.url} />
-                {lnk.label}
-              </a>
-            ))}
           </div>
         )}
       </div>
