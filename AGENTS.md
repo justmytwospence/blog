@@ -8,20 +8,23 @@ Solo project — **no PRs**. Commit directly to `main` (atomic, conventional mes
 triggers the Vercel production deploy. Branches/worktrees are for genuinely parallel or experimental
 work only, and get merged locally (no GitHub review flow). CI still runs on every push.
 
-**Straight to prod vs preview — use judgment, don't ask by default.** Once lint/typecheck/test/build
-pass locally, decide whether the change can be pushed to `main` (prod) or deserves a preview first:
+**Preview first; production requires explicit current-turn approval.** After lint/typecheck/test/build
+pass locally, use `vercel deploy` without production flags and share the preview URL. Keep commits
+local until publication is approved. Every Git push (including preview branches) and PR merge requires
+approval because implicit refs and configured destinations cannot be inferred safely.
 
-- **Push straight to `main`** when the change is small and its blast radius is easy to reason about:
-  copy/content edits, a new post or adventure, a self-contained tweak to one page or widget (e.g.
-  merging the /about "Currently Reading" and "Recently Read" lists into one grid), bug fixes with
-  test coverage. A bad deploy here is cheap to spot and revert.
-- **Preview first** (push a branch, or `vercel deploy` without `--prod`, and share the preview URL)
-  when the change is visually broad or hard to verify locally: layout/theme/global CSS, navigation,
-  shared components used across many pages, `next.config`/`vercel.json`/middleware/routing/caching
-  (ISR, `revalidate`), env-dependent behavior, API routes, webhooks/cron, Redis or Strava pipeline
-  changes, and dependency upgrades. Merge to `main` once the preview looks right.
+Immediately before each production operation, obtain explicit approval in the current turn: production
+deployment, pushing any ref that triggers production, promoting, aliasing, rollback, production
+environment/domain/project writes, and merging to the production branch. Approved implementation
+plans and earlier approvals do not waive these asks. This applies equally to CLI commands, scripts,
+HTTP requests, MCP tools and Git, including indirect operations; never bypass an ask through another
+transport. Codex and OpenCode must follow this operational instruction too; they do not consume Pi's
+JSON rules.
 
-When in doubt, prefer the preview. Say which path you took and why when reporting the change.
+The deterministic Pi/Claude rules also ask on Vercel env/project/domains/api command families
+(including reads) and Vercel MCP tools. Preview CLI deployment remains allowed unless an ask applies.
+String rules and classifier guidance are not an OS sandbox or a guarantee about arbitrary script/API
+semantics. Say which preview/publication path you took and why when reporting the change.
 
 ## Commands
 

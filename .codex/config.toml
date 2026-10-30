@@ -1,0 +1,23 @@
+default_permissions = "project"
+
+[mcp_servers.chrome-devtools]
+command = "npx"
+args = [
+    "-y",
+    "chrome-devtools-mcp@latest",
+    "--browserUrl=http://127.0.0.1:5858",
+]
+
+[mcp_servers.vercel]
+enabled = true
+url = "https://mcp.vercel.com"
+
+[permissions.project]
+extends = "self"
+
+[permissions.project.filesystem]
+"~/Projects" = "read"
+"~/Documents" = "read"
+"~/Desktop" = "read"
+"~/Library/Mobile Documents" = "read"
+"~/Library/Application Support/aac-touchid" = "read"

@@ -1,0 +1,25 @@
+{
+  "mcp": {
+    "vercel": {
+      "enabled": true
+    }
+  },
+  "permission": {
+    "external_directory": {
+      "{env:HOME}/Projects/**": "allow",
+      "{env:HOME}/Documents/**": "allow",
+      "{env:HOME}/Desktop/**": "allow",
+      "{env:HOME}/Library/Mobile Documents/**": "allow",
+      "{env:HOME}/Library/Application Support/aac-touchid/**": "allow"
+    },
+    "edit": {
+      "*": "allow",
+      "{env:HOME}/Projects/**": "ask",
+      "{env:HOME}/Documents/**": "ask",
+      "{env:HOME}/Desktop/**": "ask",
+      "{env:HOME}/Library/Mobile Documents/**": "ask",
+      "{env:HOME}/Library/Application Support/aac-touchid/**": "ask",
+      "{env:HOME}/Projects/blog/**": "allow"
+    }
+  }
+}

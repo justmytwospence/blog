@@ -1,4 +1,25 @@
 {
+  "permissions": {
+    "allow": [
+      "Read(//**)",
+      "Bash(vercel deploy *)"
+    ],
+    "ask": [
+      "Bash(*vercel*--prod*)",
+      "Bash(*vercel*--target*production*)",
+      "Bash(*vercel* promote*)",
+      "Bash(*vercel* rollback*)",
+      "Bash(*vercel* alias*)",
+      "Bash(*vercel* redeploy*)",
+      "Bash(git push *)",
+      "Bash(gh pr merge *)",
+      "Bash(*vercel* env*)",
+      "Bash(*vercel* project*)",
+      "Bash(*vercel* domains*)",
+      "Bash(*vercel* api*)",
+      "mcp__vercel__*"
+    ]
+  },
   "hooks": {
     "SessionStart": [
       {

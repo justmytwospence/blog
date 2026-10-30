@@ -1,4 +1,8 @@
 {
+  "directories": {
+    "read": ["*"],
+    "write": []
+  },
   "permissions": {
     "allow": [
       "Bash(vercel deploy *)"
@@ -9,7 +13,14 @@
       "Bash(*vercel* promote*)",
       "Bash(*vercel* rollback*)",
       "Bash(*vercel* alias*)",
-      "Bash(*vercel* redeploy*)"
+      "Bash(*vercel* redeploy*)",
+      "Bash(git push *)",
+      "Bash(gh pr merge *)",
+      "Bash(*vercel* env*)",
+      "Bash(*vercel* project*)",
+      "Bash(*vercel* domains*)",
+      "Bash(*vercel* api*)",
+      "mcp__vercel"
     ]
   }
 }

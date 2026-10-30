@@ -103,3 +103,10 @@ __pycache__/
 # local scratch (screenshots, review docs)
 /.tmp-screens/
 /.claude/settings.local.json
+/.pi/tool-gate.local.json
+
+# Shared project policy is repository-owned, even when globally ignored.
+!/.pi/tool-gate.json
+!/.pi/tool-gate-rules.md
+!/.codex/config.toml
+!/.opencode/opencode.jsonc
