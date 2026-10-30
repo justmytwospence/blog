@@ -174,14 +174,14 @@ export function rollUpProjectActivity(activity: ProjectActivity, projects: Proje
 }
 
 /**
- * Weekly commit totals per project, one point per calendar column (Sunday-to-Saturday weeks from the
- * Sunday on or before the window start), oldest first. Payloads without per-day commit counts fall
+ * Weekly commit totals per project, one point per Monday-to-Sunday week (from the
+ * Monday on or before the window start), oldest first. Payloads without per-day commit counts fall
  * back to counting each active day once.
  */
 export function projectSparklines(activity: ProjectActivity): Record<string, number[]> {
   const end = Date.parse(`${activity.endDate}T00:00:00Z`);
   const start = activity.startDate ? Date.parse(`${activity.startDate}T00:00:00Z`) : end - (WINDOW_DAYS - 1) * DAY_MS;
-  const gridStart = start - new Date(start).getUTCDay() * DAY_MS;
+  const gridStart = start - ((new Date(start).getUTCDay() + 6) % 7) * DAY_MS;
   const weeks = Math.floor((end - gridStart) / (7 * DAY_MS)) + 1;
   const commits = activity.commits ?? {};
   if (!activity.commits) {
