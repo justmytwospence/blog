@@ -158,19 +158,18 @@ describe('portfolio activity rollup', () => {
 describe('project sparklines', () => {
   const base = { startDate: '2025-10-26', endDate: '2026-10-25', maxCount: 0, total: 0, updated: {} };
 
-  it('buckets commits into the Monday-to-Sunday weeks', () => {
+  it('buckets commits into the calendar\'s Sunday-to-Saturday weeks', () => {
     const series = projectSparklines({
       ...base,
       days: {},
       commits: {
-        // Weeks run Monday-Sunday from Mon 2025-10-20: the Sunday 2025-10-26 closes week 0, and
-        // Mon 2025-10-27 through Sun 2025-11-02 are week 1.
+        // 2025-10-26 is a Sunday, so it opens week 0; 2026-10-25 (also a Sunday) opens the last.
         swimcue: { '2025-10-26': 2, '2025-11-01': 3, '2025-11-02': 4, '2026-10-25': 1 },
         dormant: { '2024-01-01': 5 },
       },
     });
     expect(series.swimcue).toHaveLength(53);
-    expect(series.swimcue.slice(0, 2)).toEqual([2, 7]);
+    expect(series.swimcue.slice(0, 2)).toEqual([5, 4]);
     expect(series.swimcue.at(-1)).toBe(1);
     expect(series.dormant).toBeUndefined();
   });
@@ -180,6 +179,6 @@ describe('project sparklines', () => {
       ...base,
       days: { '2025-10-27': { c: 9, r: ['pacing'] }, '2025-10-28': { c: 1, r: ['pacing'] } },
     });
-    expect(series.pacing[1]).toBe(2);
+    expect(series.pacing[0]).toBe(2);
   });
 });
