@@ -4,31 +4,32 @@ interface SparklineProps {
   label: string;
 }
 
-const HEIGHT = 32;
+const HEIGHT = 48;
 
 /**
- * A filled line of weekly activity, scaled to its own busiest week: it shows the shape of one
- * project's activity, so magnitude is left to the caption beside it.
+ * A histogram of weekly activity, one bar per week, scaled to its own busiest week: it shows the
+ * shape of one project's activity, so magnitude is left to the caption beside it.
  */
 export function Sparkline({ points, label }: SparklineProps) {
   const max = Math.max(0, ...points);
   if (points.length < 2 || max <= 0) return null;
-  const width = points.length - 1;
-  // Keep a pixel of headroom at both edges so the stroke is never clipped.
-  const y = (n: number) => HEIGHT - 1 - (n / max) * (HEIGHT - 2);
-  const line = points.map((n, i) => `${i},${y(n).toFixed(2)}`).join(' ');
 
   return (
     <svg
-      viewBox={`0 0 ${width} ${HEIGHT}`}
+      viewBox={`0 0 ${points.length} ${HEIGHT}`}
       preserveAspectRatio="none"
-      className="block h-8 w-full text-[#30a14e] dark:text-[#26a641]"
+      className="block h-12 w-full text-[#30a14e] dark:text-[#26a641]"
       role="img"
       aria-label={label}
+      shapeRendering="crispEdges"
     >
       <title>{label}</title>
-      <polygon points={`0,${HEIGHT} ${line} ${width},${HEIGHT}`} fill="currentColor" fillOpacity={0.15} />
-      <polyline points={line} fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+      {points.map((n, i) => {
+        if (n <= 0) return null;
+        // Nonzero weeks always get at least 2 units so a single commit stays visible.
+        const h = Math.max(2, (n / max) * HEIGHT);
+        return <rect key={i} x={i} y={HEIGHT - h} width={0.8} height={h} fill="currentColor" />;
+      })}
     </svg>
   );
 }
