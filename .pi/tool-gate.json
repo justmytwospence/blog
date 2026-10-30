@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(vercel deploy *)"
+    ],
+    "ask": [
+      "Bash(*vercel*--prod*)",
+      "Bash(*vercel*--target*production*)",
+      "Bash(*vercel* promote*)",
+      "Bash(*vercel* rollback*)",
+      "Bash(*vercel* alias*)",
+      "Bash(*vercel* redeploy*)"
+    ]
+  }
+}
