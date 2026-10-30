@@ -5,7 +5,7 @@ import { Sparkline } from '@/components/Sparkline';
 
 interface ProjectCardProps {
   project: Project;
-  /** Weekly commits over the past year, oldest first. */
+  /** Weekly commits since the first commit, oldest first. */
   activity?: number[];
 }
 
@@ -76,12 +76,12 @@ export function ProjectCard({ project, activity }: ProjectCardProps) {
       )}
 
       <div className="mt-auto">
-        {/* Weekly commit activity over the past year */}
+        {/* Weekly commit activity, full history */}
         {activity && activity.length > 0 && (
           <div className="pt-4">
             <Sparkline
               points={activity}
-              label={`${activity.reduce((a, b) => a + b, 0).toLocaleString('en-US')} commits in the past year, by week`}
+              label={`${activity.reduce((a, b) => a + b, 0).toLocaleString('en-US')} commits, by week since the first commit`}
             />
           </div>
         )}

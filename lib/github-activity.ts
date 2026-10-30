@@ -202,6 +202,89 @@ export function projectSparklines(activity: ProjectActivity): Record<string, num
   return series;
 }
 
+/** Project slug -> week start (Sunday, ISO date) -> commits, across the full history of its repos. */
+export type ProjectHistory = Record<string, Record<string, number>>;
+
+/**
+ * Weekly commit totals per project since its first commit, oldest first, ending at the current
+ * week. Each project is its own series (independent lengths), so scale each separately.
+ */
+export function historySparklines(history: ProjectHistory, endDate: string): Record<string, number[]> {
+  const WEEK = 7 * DAY_MS;
+  const end = Date.parse(`${endDate}T00:00:00Z`);
+  const lastWeek = end - new Date(end).getUTCDay() * DAY_MS;
+  const series: Record<string, number[]> = {};
+  for (const [slug, byWeek] of Object.entries(history)) {
+    const times = Object.entries(byWeek).filter(([, n]) => n > 0).map(([d]) => Date.parse(`${d}T00:00:00Z`));
+    if (times.length === 0) continue;
+    const first = Math.min(...times);
+    const points = new Array<number>(Math.max(1, Math.round((lastWeek - first) / WEEK) + 1)).fill(0);
+    for (const [d, n] of Object.entries(byWeek)) {
+      const i = Math.round((Date.parse(`${d}T00:00:00Z`) - first) / WEEK);
+      if (i >= 0 && i < points.length) points[i] += n;
+    }
+    series[slug] = points;
+  }
+  return series;
+}
+
+async function repoWeeks(repo: string, token: string): Promise<Record<string, number> | null> {
+  const url = `https://api.github.com/repos/${OWNER}/${repo}/stats/contributors`;
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' },
+      signal: AbortSignal.timeout(10_000),
+      cache: 'no-store',
+    });
+    if (res.status === 202) { await new Promise(r => setTimeout(r, 1500)); continue; }
+    if (res.status === 204 || !res.ok) return null;
+    const rows = (await res.json()) as Array<{ author?: { login?: string }; weeks: Array<{ w: number; c: number }> }>;
+    const mine = rows.find(r => r.author?.login?.toLowerCase() === OWNER);
+    const out: Record<string, number> = {};
+    for (const w of mine?.weeks ?? []) if (w.c > 0) out[new Date(w.w * 1000).toISOString().slice(0, 10)] = w.c;
+    return out;
+  }
+  return null;
+}
+
+/** Live fetch of full per-project history. THROWS if nothing could be read, so last-good serves. */
+async function fetchHistory(): Promise<ProjectHistory> {
+  const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
+  if (!token) throw new Error('[github-history] no GITHUB_TOKEN / GH_TOKEN');
+  const history: ProjectHistory = {};
+  let ok = 0;
+  const repos = Object.entries(REPO_TO_SLUG);
+  for (let i = 0; i < repos.length; i += 8) {
+    const batch = repos.slice(i, i + 8);
+    const results = await Promise.all(batch.map(([repo]) => repoWeeks(repo, token).catch(() => null)));
+    results.forEach((weeks, j) => {
+      if (!weeks) return;
+      ok++;
+      const target = (history[batch[j][1]] ??= {});
+      for (const [d, n] of Object.entries(weeks)) target[d] = (target[d] ?? 0) + n;
+    });
+  }
+  if (ok === 0) throw new Error('[github-history] no repo stats available');
+  return history;
+}
+
+/** Full-history sparklines by visible project slug; empty when unavailable (callers fall back). */
+export const getHistorySparklines = cache(async (endDate: string): Promise<Record<string, number[]>> => {
+  try {
+    const history = await readThrough<ProjectHistory>('github-history', fetchHistory);
+    if (!history) return {};
+    const parents = new Map(getAllProjects().filter(p => p.parent).map(p => [p.slug, p.parent!]));
+    const rolled: ProjectHistory = {};
+    for (const [slug, byWeek] of Object.entries(history)) {
+      const target = (rolled[parents.get(slug) ?? slug] ??= {});
+      for (const [d, n] of Object.entries(byWeek)) target[d] = (target[d] ?? 0) + n;
+    }
+    return historySparklines(rolled, endDate);
+  } catch {
+    return {};
+  }
+});
+
 function emptyActivity(): ProjectActivity {
   const { start, end } = activityWindow(new Date());
   const iso = (date: Date) => date.toISOString().slice(0, 10);
