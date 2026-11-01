@@ -141,22 +141,23 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
     <div onMouseLeave={onLeave}>
       {/* Month labels — mirrors the week columns so they stay aligned */}
       <div className="flex gap-2">
-        <div className="w-8 shrink-0" aria-hidden="true" />
-        <div className="flex flex-1 gap-[3px]" aria-hidden="true">
+        <div className="hidden w-8 shrink-0 md:block" aria-hidden="true" />
+        <div className="flex min-w-0 flex-1 gap-px md:gap-[3px]" aria-hidden="true">
           {monthLabels.map((label, i) => (
-            <div key={i} className="min-w-0 flex-1 whitespace-nowrap text-[11px] font-medium tracking-wide text-gray-500 dark:text-[#8b8b8b] leading-5">
-              {label}
+            <div key={i} className="min-w-0 flex-1 whitespace-nowrap text-[9px] font-medium leading-4 tracking-normal text-gray-500 md:text-[11px] md:leading-5 md:tracking-wide dark:text-[#8b8b8b]">
+              <span className="md:hidden">{label.split(' ')[0]}</span>
+              <span className="hidden md:inline">{label}</span>
             </div>
           ))}
         </div>
       </div>
 
       <div className="mt-1.5 flex gap-2">
-        {/* Weekday labels, one per row */}
-        <div className="flex w-8 shrink-0 flex-col gap-[3px] text-[11px] font-medium tracking-wide text-gray-500 dark:text-[#8b8b8b]" aria-hidden="true">
+        {/* Desktop weekday labels follow the cell rows without imposing a minimum row height. */}
+        <div className="hidden w-8 shrink-0 flex-col md:flex gap-[3px] text-[11px] font-medium tracking-wide text-gray-500 dark:text-[#8b8b8b]" aria-hidden="true">
           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((label, i) => (
-            <div key={i} className="flex flex-1 items-center justify-end leading-none">
-              {label}
+            <div key={i} className="relative min-h-0 flex-1 leading-none">
+              <span className="absolute right-0 top-1/2 -translate-y-1/2">{label}</span>
             </div>
           ))}
         </div>
@@ -165,15 +166,15 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
             Exposed as a single labelled image so assistive tech gets the summary
             rather than 365 individual cells. */}
         <div
-          className="flex flex-1 gap-[3px]"
+          className="flex min-w-0 flex-1 gap-px md:gap-[3px]"
           role="img"
           aria-label={`GitHub contribution activity over the past year: ${data.total.toLocaleString('en-US')} contributions.`}
         >
           {columns.map((col, wi) => (
-            <div key={wi} className="flex flex-1 flex-col gap-[3px]">
+            <div key={wi} className="flex min-w-0 flex-1 self-start flex-col gap-px md:gap-[3px]">
               {col.map((cell) => {
                 if (!cell.inRange) {
-                  return <div key={cell.key} className="aspect-square w-full" aria-hidden="true" />;
+                  return <div key={cell.key} className="aspect-square w-full shrink-0" aria-hidden="true" />;
                 }
                 const t = intensity(cell.count);
                 const matches = !focusing || cell.repos.some((r) => focusSlugs!.includes(r));
@@ -192,7 +193,7 @@ export function ContributionCalendar({ data, focusSlugs, hoverDay, onDayEnter, o
                       '--heat-light': t > 0 ? rampColor(RAMP_LIGHT, t) : EMPTY_LIGHT,
                       '--heat-dark': t > 0 ? rampColor(RAMP_DARK, t) : EMPTY_DARK,
                     } as CSSProperties}
-                    className={`aspect-square w-full rounded-[2px] transition-opacity duration-150 bg-(--heat-light) dark:bg-(--heat-dark) ${
+                    className={`aspect-square w-full shrink-0 rounded-[1px] md:rounded-[2px] transition-opacity duration-150 bg-(--heat-light) dark:bg-(--heat-dark) ${
                       focusing && !matches ? 'opacity-20' : 'opacity-100'
                     } ${
                       isPinned

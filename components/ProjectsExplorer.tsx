@@ -172,7 +172,7 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
   );
 
   const chip = (selected: boolean, linked = false) =>
-    `rounded-full border px-3 py-1 text-sm transition-colors ${
+    `rounded-full border px-2.5 py-1.5 text-xs md:px-3 md:py-1 md:text-sm transition-colors ${
       selected
         ? 'border-blue-600 bg-blue-600 text-white dark:border-blue-500 dark:bg-blue-500/20 dark:text-blue-300'
         : linked
@@ -245,7 +245,7 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
                 : ', all in private or unlisted repositories.'}
           </p>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {shown.map((project) => {
             const dimmed = !activeDay && focusSlugs !== null && !focusSlugs.includes(project.slug);
             return (

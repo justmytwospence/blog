@@ -44,9 +44,9 @@ export function ProjectCard({ project, activity }: ProjectCardProps) {
   const { href: primaryHref, external: isExternal } = projectCardDestination(project);
 
   return (
-    <div className="group relative flex h-full flex-col p-6 bg-white dark:bg-[#252526] rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200 dark:border-[#303031]">
+    <div className="group relative flex h-full flex-col p-4 md:p-6 bg-white dark:bg-[#252526] rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200 dark:border-[#303031]">
       {/* Title */}
-      <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-[#d4d4d4] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+      <h3 className="text-lg md:text-xl break-words font-semibold mb-2 text-gray-900 dark:text-[#d4d4d4] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
         {project.title}
         {isExternal && (
           <svg className="inline-block ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -55,9 +55,9 @@ export function ProjectCard({ project, activity }: ProjectCardProps) {
         )}
       </h3>
 
-      {/* Link chips (above the stretched link so they're individually clickable). Reserve one row
-          on every card so descriptions, tags and histograms align across columns. */}
-      <div className="relative z-10 mb-3 flex min-h-[1.75rem] flex-wrap gap-2">
+      {/* Link chips stay above the stretched link. Only desktop reserves an empty row
+          so descriptions, tags and histograms align across columns. */}
+      <div className={`relative z-10 mb-3 md:min-h-[1.75rem] flex-wrap gap-2 ${showChips ? 'flex' : 'hidden md:flex'}`}>
         {showChips && links.map((lnk) => (
           <a
             key={lnk.url}
@@ -74,7 +74,7 @@ export function ProjectCard({ project, activity }: ProjectCardProps) {
 
       {/* Description */}
       {project.description && (
-        <p className="text-sm text-gray-600 dark:text-[#cccccc] mb-4 min-h-[6.25rem] line-clamp-5">
+        <p className="text-sm text-gray-600 dark:text-[#cccccc] mb-4 md:min-h-[6.25rem] break-words line-clamp-5">
           {project.description}
         </p>
       )}
@@ -93,7 +93,7 @@ export function ProjectCard({ project, activity }: ProjectCardProps) {
         </div>
       )}
 
-      <div className="mt-auto">
+      <div className="md:mt-auto">
         {/* Recent commit activity */}
         {activity && activity.points.length > 0 && (
           <div className="pt-4">
