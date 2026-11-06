@@ -82,6 +82,19 @@ export default async function AboutPage() {
             </a>
 
             <a
+              href="https://ko-fi.com/spencerboucher"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="grow flex items-center justify-center gap-2 px-5 py-2.5 bg-[#FF5E5B] hover:bg-[#e54e4b] text-white rounded-lg transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 2v2M14 2v2M6 2v2" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" />
+              </svg>
+              <span className="font-medium">Ko-fi</span>
+            </a>
+
+            <a
               href="/resume.pdf"
               download="spencer_boucher_resume.pdf"
               className="grow flex items-center justify-center gap-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
