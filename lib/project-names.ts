@@ -60,7 +60,7 @@ const projectNames: Record<string, string> = {
   'tmux-agents': 'tmux-agents',
   'herdr-machine0': 'herdr-machine0',
   'paseo-machine0': 'paseo-machine0',
-  'effort-curves': 'effort-curves',
+  'effort-cubes': 'effort-cubes',
   'telebrowser': 'telebrowser',
   'shipshape': 'shipshape',
   'minuspod-mcp': 'MinusPod MCP',
