@@ -6,4 +6,7 @@ location: MO
 elevation_ft: 1772
 lat: 37.57033
 lng: -90.7279
+wikidata: Q948475
+route: {"kind":"none"}
+links: [{"label":"Highpointers Club","url":"https://www.highpointers.org/"}]
 ---

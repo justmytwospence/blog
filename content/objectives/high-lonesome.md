@@ -9,6 +9,8 @@ gain_ft: 24000
 lat: 38.8347
 lng: -106.1267
 link: https://www.highlonesome100.com/
+route: {"kind":"none"}
+links: [{"label":"Official site","url":"https://www.highlonesome100.com/"}]
 ---
 
 A 100-mile race through the Sawatch.

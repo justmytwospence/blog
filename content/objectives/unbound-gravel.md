@@ -8,6 +8,9 @@ distance_mi: 200
 lat: 38.4039
 lng: -96.1928
 link: https://www.unboundgravel.com
+wikidata: Q56297660
+route: {"kind":"none"}
+links: [{"label":"Official site","url":"https://www.unboundgravel.com"}]
 ---
 
 Two hundred miles of Flint Hills gravel out of Emporia.

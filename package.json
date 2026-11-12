@@ -29,7 +29,8 @@
     "adventure:match": "tsx scripts/match-routes.ts",
     "adventure:migrate": "tsx scripts/migrate-taxonomy.ts",
     "strava:thumbs": "tsx scripts/regen-thumbs.ts",
-    "peaks:build": "tsx scripts/build-peaks.ts"
+    "peaks:build": "tsx scripts/build-peaks.ts",
+    "objectives:build": "tsx scripts/objectives-build.ts"
   },
   "workspaces": [
     "packages/*"

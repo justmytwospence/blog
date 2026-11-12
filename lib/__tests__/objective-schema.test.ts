@@ -41,6 +41,30 @@ describe('validateObjectiveFrontmatter', () => {
   });
 });
 
+describe('wikidata, links and route specs', () => {
+  it('checks wikidata and links', () => {
+    expect(v({ wikidata: 'Q1' })).toEqual([]);
+    expect(v({ wikidata: 'x1' })).toContain('x.md: invalid wikidata `x1`');
+    expect(v({ links: [{ label: 'A', url: 'http://a' }] })).toContain('x.md: invalid links');
+    expect(v({ links: [{ label: 'A', url: 'https://a.com' }] })).toEqual([]);
+  });
+
+  it('accepts valid route specs', () => {
+    const via = [[1, 2], [3, 4]];
+    expect(v({ route: { kind: 'brouter', profile: 'hiking-mountain', via, out_and_back: true } })).toEqual([]);
+    expect(v({ route: { kind: 'osm', relations: [123], start: [1, 2] } })).toEqual([]);
+    expect(v({ route: { kind: 'line', via } })).toEqual([]);
+    expect(v({ route: { kind: 'none' } })).toEqual([]);
+  });
+
+  it('rejects bad route specs', () => {
+    const via = [[1, 2], [3, 4]];
+    expect(v({ route: { kind: 'brouter', profile: 'car', via } }).join()).toContain('invalid route');
+    expect(v({ route: { kind: 'line', via: [[1, 2]] } }).join()).toContain('invalid route');
+    expect(v({ route: { kind: 'line', via, bogus: 1 } }).join()).toContain('invalid route');
+  });
+});
+
 describe('parseObjective', () => {
   it('maps fields', () => {
     const o = parseObjective(

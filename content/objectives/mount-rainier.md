@@ -8,4 +8,6 @@ elevation_ft: 14411
 lat: 46.85167
 lng: -121.76028
 completed_by: rainier-kautz
+wikidata: Q194057
+route_name: "Kautz Glacier"
 ---

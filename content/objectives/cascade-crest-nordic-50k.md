@@ -8,6 +8,8 @@ distance_mi: 31.1
 lat: 43.9794
 lng: -121.6885
 link: https://mbsef.org/cascadecrest/
+route: {"kind":"none"}
+links: [{"label":"Mt Bachelor Sports Education Foundation","url":"https://mbsef.org/cascadecrest/"}]
 ---
 
 A long Nordic race on the Mt Bachelor trails.

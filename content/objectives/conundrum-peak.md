@@ -8,4 +8,6 @@ elevation_ft: 14060
 lat: 39.01575
 lng: -106.86278
 completed_by: castle-conundrum
+wikidata: Q49021787
+links: [{"label":"14ers.com: South Ridge","url":"https://www.14ers.com/route.php?route=conu1"}]
 ---

@@ -8,4 +8,5 @@ elevation_ft: 10781
 lat: 48.77734
 lng: -121.8132
 completed_by: mt-baker
+wikidata: Q594387
 ---

@@ -6,4 +6,7 @@ location: GA
 elevation_ft: 4784
 lat: 34.8742
 lng: -83.81065
+wikidata: Q842924
+route: {"kind":"none"}
+links: [{"label":"Highpointers Club","url":"https://www.highpointers.org/"}]
 ---

@@ -10,9 +10,15 @@ import path from 'path';
 import matter from 'gray-matter';
 import { mapCommonMetadata, normalizeDate } from './content';
 import { FACET_ORDER } from './facets';
-import { validateObjectiveFrontmatter, parseObjective, type CatalogItem, type PageId } from './objective-schema';
+import {
+  validateObjectiveFrontmatter,
+  parseObjective,
+  type CatalogItem,
+  type ObjectiveLink,
+  type PageId,
+} from './objective-schema';
 import { preprocessObsidian } from '@blog/obsidian-md';
-import type { AdventureActivity, AdventureStats, SportType } from '@blog/strava/types';
+import type { AdventureActivity, AdventureStats, AdventureTrack, SportType } from '@blog/strava/types';
 import { readTotals } from './strava-store';
 import { parseStravaIds, usesIdArray, isRaceWorkoutType } from '@blog/strava';
 import {
@@ -721,11 +727,81 @@ function reportPoint(adv: Adventure, page: PageId): [number | null, number | nul
   return [r5(lat), r5(lng)];
 }
 
+/** A built to-do route (data/objectives/routes/<slug>.json, written by `npm run objectives:build`). */
+export interface ObjectiveRoute {
+  kind: 'osm' | 'brouter' | 'line';
+  approx: boolean;
+  distanceMeters: number;
+  gainMeters: number;
+  highMeters: number;
+  track: AdventureTrack;
+}
+
+const OBJECTIVE_DATA_DIR = path.join(SNAPSHOT_DIR, '..', 'objectives');
+const routeCache = new Map<string, ObjectiveRoute | null>();
+
+function readRouteFile(slug: string): ObjectiveRoute | null {
+  if (routeCache.has(slug)) return routeCache.get(slug) ?? null;
+  let route: ObjectiveRoute | null = null;
+  const file = path.join(OBJECTIVE_DATA_DIR, 'routes', `${slug}.json`);
+  if (fs.existsSync(file)) {
+    try {
+      route = JSON.parse(fs.readFileSync(file, 'utf8')) as ObjectiveRoute;
+    } catch (err) {
+      console.error(`[adventures] bad route file ${slug}:`, err);
+    }
+  }
+  routeCache.set(slug, route);
+  return route;
+}
+
+interface WikidataLinks {
+  wikipedia: string | null;
+  peakbagger: string | null;
+  summitpost: string | null;
+  mountainproject: string | null;
+  website: string | null;
+  osmRelation: number | null;
+}
+
+function readWikidata(): Record<string, WikidataLinks> {
+  const file = path.join(OBJECTIVE_DATA_DIR, 'wikidata.json');
+  if (!fs.existsSync(file)) return {};
+  try {
+    return JSON.parse(fs.readFileSync(file, 'utf8')) as Record<string, WikidataLinks>;
+  } catch (err) {
+    console.error('[adventures] bad wikidata.json:', err);
+    return {};
+  }
+}
+
+const HOST_LABELS: Record<string, string> = {
+  '14ers.com': '14ers.com',
+  'fastestknowntime.com': 'FKT',
+  'mountainproject.com': 'Mountain Project',
+  'summitpost.org': 'SummitPost',
+  'wta.org': 'WTA',
+  'nps.gov': 'NPS',
+  'fs.usda.gov': 'USFS',
+  'andrewskurka.com': 'Andrew Skurka',
+  'bikepacking.com': 'Bikepacking.com',
+};
+
+function hostLabel(url: string): string {
+  let host = '';
+  try {
+    host = new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return url;
+  }
+  return HOST_LABELS[host] ?? host;
+}
+
 /**
  * The public objectives catalog from `content/objectives/<slug>.md`: done AND todo items. An item is
  * done when its file names a visible report (`completed_by`), when a report links it via `objective:`,
- * or when the file says `completed: true`. Missing stats and the map point come from the report.
- * Invalid files are logged and skipped. Sorted by title.
+ * or when the file says `completed: true`. Missing stats and the map point come from the report, or for
+ * to-do items from the authored route track. Invalid files are logged and skipped. Sorted by title.
  */
 export function getObjectiveCatalog(): CatalogItem[] {
   if (!fs.existsSync(OBJECTIVES_DIR)) return [];
@@ -733,6 +809,7 @@ export function getObjectiveCatalog(): CatalogItem[] {
   const bySlug = new Map(reports.map((a) => [a.slug, a]));
   const linked = new Map<string, Adventure>();
   for (const a of reports) if (a.objective) linked.set(a.objective, a);
+  const wikidata = readWikidata();
 
   const items: CatalogItem[] = [];
   for (const file of fs.readdirSync(OBJECTIVES_DIR).filter(isCompanionFile)) {
@@ -757,14 +834,59 @@ export function getObjectiveCatalog(): CatalogItem[] {
       console.error(`[adventures] objective ${src.slug}: completed_by ${src.completedBy} is not a visible report`);
       report = linked.get(src.slug) ?? null;
     }
-    const [pLat, pLng] = src.lat != null && src.lng != null ? [src.lat, src.lng] : report ? reportPoint(report, src.page) : [null, null];
-    const { completedBy: _cb, completed, ...rest } = src;
-    void _cb;
+    const route = !report && src.route && src.route.kind !== 'none' ? readRouteFile(src.slug) : null;
+
+    let pLat: number | null = src.lat;
+    let pLng: number | null = src.lng;
+    if (pLat == null || pLng == null) {
+      [pLat, pLng] = report ? reportPoint(report, src.page) : [null, null];
+    }
+    if ((pLat == null || pLng == null) && route && route.track.coordinates.length) {
+      [pLng, pLat] = route.track.coordinates[0];
+    }
+
+    // Links: the single curated link (labelled by host), the curated list, then Wikidata-derived ones.
+    const links: ObjectiveLink[] = [];
+    const seen = new Set<string>();
+    const add = (label: string, url: string | null | undefined) => {
+      if (!url || seen.has(url)) return;
+      seen.add(url);
+      links.push({ label, url });
+    };
+    if (src.link) add(hostLabel(src.link), src.link);
+    for (const l of src.links) add(l.label, l.url);
+    const wd = src.wikidata ? wikidata[src.wikidata] : undefined;
+    if (wd) {
+      add('Wikipedia', wd.wikipedia);
+      add('Peakbagger', wd.peakbagger);
+      add('SummitPost', wd.summitpost);
+      add('Mountain Project', wd.mountainproject);
+      add('Official site', wd.website);
+      if (wd.osmRelation) add('OpenStreetMap', `https://www.openstreetmap.org/relation/${wd.osmRelation}`);
+    }
+    if (src.route?.kind === 'osm') {
+      for (const id of src.route.relations) add('OpenStreetMap', `https://www.openstreetmap.org/relation/${id}`);
+    }
+
+    const { completedBy: _cb, completed, route: _route, wikidata: _wd, links: _links, ...rest } = src;
     items.push({
       ...rest,
-      distanceMi: src.distanceMi ?? (report ? Math.round((report.totals.distanceMeters / 1609.344) * 10) / 10 : null),
-      gainFt: src.gainFt ?? (report ? Math.round(report.totals.elevationGainMeters * 3.28084) : null),
-      elevationFt: src.elevationFt ?? (report ? reportHighFt(report) : null),
+      distanceMi:
+        src.distanceMi ??
+        (report
+          ? Math.round((report.totals.distanceMeters / 1609.344) * 10) / 10
+          : route
+            ? Math.round((route.distanceMeters / 1609.344) * 10) / 10
+            : null),
+      gainFt:
+        src.gainFt ??
+        (report
+          ? Math.round(report.totals.elevationGainMeters * 3.28084)
+          : route
+            ? Math.round(route.gainMeters * 3.28084)
+            : null),
+      elevationFt:
+        src.elevationFt ?? (report ? reportHighFt(report) : route ? Math.round(route.highMeters * 3.28084) : null),
       lat: pLat,
       lng: pLng,
       done: completed || report != null,
@@ -773,7 +895,27 @@ export function getObjectiveCatalog(): CatalogItem[] {
       polylines: report
         ? report.days.map((d) => d.activity.track?.summaryPolyline).filter((p): p is string => Boolean(p))
         : [],
+      routeKind: src.route?.kind ?? null,
+      routePolylines: route?.track.summaryPolyline ? [route.track.summaryPolyline] : [],
+      allLinks: links,
     });
   }
   return items.sort((a, b) => a.title.localeCompare(b.title));
+}
+
+/** One objective with what its detail page renders: its built route (to-do) or its trip report (done). */
+export function getObjectiveDetail(
+  page: string,
+  slug: string,
+): { item: CatalogItem; route: ObjectiveRoute | null; report: Adventure | null } | null {
+  const item = getObjectiveCatalog().find((i) => i.slug === slug && i.page === page);
+  if (!item) return null;
+  const report = item.done && item.reportSlug ? getAdventureBySlug(item.reportSlug) : null;
+  const route = item.done ? null : readRouteFile(slug);
+  return { item, route, report };
+}
+
+/** Every objective's (page, slug), for static params and the sitemap. */
+export function getObjectiveRefs(): Array<{ page: PageId; slug: string }> {
+  return getObjectiveCatalog().map((i) => ({ page: i.page, slug: i.slug }));
 }

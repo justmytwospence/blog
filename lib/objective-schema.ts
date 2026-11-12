@@ -123,7 +123,84 @@ export const OBJECTIVE_KEYS = [
   'multi_sport',
   'completed_by',
   'completed',
+  'wikidata',
+  'route_name',
+  'route',
+  'links',
 ] as const;
+
+export type RouteSpec =
+  | { kind: 'osm'; relations: number[]; start?: [number, number]; out_and_back?: boolean }
+  | {
+      kind: 'brouter';
+      profile: 'hiking-mountain' | 'trekking' | 'fastbike';
+      via: Array<[number, number]>;
+      out_and_back?: boolean;
+    }
+  | { kind: 'line'; via: Array<[number, number]>; out_and_back?: boolean }
+  | { kind: 'none' };
+
+export interface ObjectiveLink {
+  label: string;
+  url: string;
+}
+
+const ROUTE_KINDS = ['osm', 'brouter', 'line', 'none'] as const;
+const ROUTE_PROFILES = ['hiking-mountain', 'trekking', 'fastbike'] as const;
+
+const isPoint = (p: unknown): boolean =>
+  Array.isArray(p) &&
+  p.length === 2 &&
+  typeof p[0] === 'number' &&
+  typeof p[1] === 'number' &&
+  Math.abs(p[0]) <= 90 &&
+  Math.abs(p[1]) <= 180;
+
+/** Returns a reason string when the route spec is invalid, else null. */
+export function validateRouteSpec(route: unknown): string | null {
+  if (typeof route !== 'object' || route === null || Array.isArray(route)) return 'route must be an object';
+  const r = route as Record<string, unknown>;
+  if (!(ROUTE_KINDS as readonly unknown[]).includes(r.kind)) return `unknown kind \`${String(r.kind)}\``;
+  const allowed: Record<string, string[]> = {
+    osm: ['kind', 'relations', 'start', 'out_and_back'],
+    brouter: ['kind', 'profile', 'via', 'out_and_back'],
+    line: ['kind', 'via', 'out_and_back'],
+    none: ['kind'],
+  };
+  for (const k of Object.keys(r)) {
+    if (!allowed[r.kind as string].includes(k)) return `unknown route key \`${k}\``;
+  }
+  if (r.out_and_back !== undefined && typeof r.out_and_back !== 'boolean') return 'out_and_back must be true or false';
+  if (r.kind === 'osm') {
+    if (!Array.isArray(r.relations) || r.relations.length === 0 || !r.relations.every((n) => Number.isInteger(n))) {
+      return 'osm needs a non-empty integer relations list';
+    }
+    if (r.start !== undefined && !isPoint(r.start)) return 'invalid start point';
+  }
+  if (r.kind === 'brouter' && !(ROUTE_PROFILES as readonly unknown[]).includes(r.profile)) {
+    return `invalid profile \`${String(r.profile)}\``;
+  }
+  if (r.kind === 'brouter' || r.kind === 'line') {
+    if (!Array.isArray(r.via) || r.via.length < 2 || !r.via.every(isPoint)) return 'via needs at least 2 [lat, lng] points';
+  }
+  return null;
+}
+
+/** Attribution / honesty note shown under a to-do route's map. */
+export function routeSourceNote(kind: RouteSpec['kind'], approx: boolean): string {
+  switch (kind) {
+    case 'osm':
+      return 'Trail geometry from OpenStreetMap (© OpenStreetMap contributors, ODbL); elevation from Copernicus/SRTM.';
+    case 'brouter':
+      return `Routed on OpenStreetMap trails with BRouter (© OpenStreetMap contributors, ODbL).${
+        approx ? ' The final stretch to the summit is a straight line.' : ''
+      }`;
+    case 'line':
+      return 'Approximate line through route waypoints, not a GPS track; elevation from Copernicus/SRTM.';
+    default:
+      return '';
+  }
+}
 
 /** Parsed file, before report derivation. */
 export interface ObjectiveSource {
@@ -144,14 +221,22 @@ export interface ObjectiveSource {
   completedBy: string | null;
   completed: boolean;
   description: string | null;
+  wikidata: string | null;
+  routeName: string | null;
+  route: RouteSpec | null;
+  links: ObjectiveLink[];
 }
 
 /** What the pages render (derived in lib/adventures.ts). */
-export interface CatalogItem extends Omit<ObjectiveSource, 'completedBy' | 'completed'> {
+export interface CatalogItem
+  extends Omit<ObjectiveSource, 'completedBy' | 'completed' | 'route' | 'wikidata' | 'links'> {
   done: boolean;
   reportSlug: string | null;
   doneDate: string | null;
   polylines: string[];
+  routeKind: RouteSpec['kind'] | null;
+  routePolylines: string[];
+  allLinks: ObjectiveLink[];
 }
 
 const isPosNum = (v: unknown): boolean => typeof v === 'number' && Number.isFinite(v) && v > 0;
@@ -218,6 +303,28 @@ export function validateObjectiveFrontmatter(data: Record<string, unknown>, file
     if (data[key] !== undefined && typeof data[key] !== 'boolean') errs.push(at(`${key} must be true or false`));
   }
 
+  if (data.wikidata !== undefined && !(typeof data.wikidata === 'string' && /^Q\d+$/.test(data.wikidata))) {
+    errs.push(at(`invalid wikidata \`${String(data.wikidata)}\``));
+  }
+  if (data.route_name !== undefined && !isNonEmptyStr(data.route_name)) errs.push(at('route_name must be a non-empty string'));
+  if (data.links !== undefined) {
+    const ok =
+      Array.isArray(data.links) &&
+      data.links.every(
+        (l) =>
+          typeof l === 'object' &&
+          l !== null &&
+          isNonEmptyStr((l as Record<string, unknown>).label) &&
+          typeof (l as Record<string, unknown>).url === 'string' &&
+          ((l as Record<string, unknown>).url as string).startsWith('https://'),
+      );
+    if (!ok) errs.push(at('invalid links'));
+  }
+  if (data.route !== undefined) {
+    const reason = validateRouteSpec(data.route);
+    if (reason) errs.push(at(`invalid route: ${reason}`));
+  }
+
   return errs;
 }
 
@@ -244,5 +351,9 @@ export function parseObjective(slug: string, data: Record<string, unknown>, body
     completedBy: str(data.completed_by),
     completed: data.completed === true,
     description: description === '' ? null : description,
+    wikidata: str(data.wikidata),
+    routeName: str(data.route_name),
+    route: data.route && typeof data.route === 'object' ? (data.route as RouteSpec) : null,
+    links: Array.isArray(data.links) ? (data.links as ObjectiveLink[]).map((l) => ({ label: l.label, url: l.url })) : [],
   };
 }

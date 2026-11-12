@@ -1,3 +1,7 @@
+import fs from 'fs';
+import path from 'path';
+import crypto from 'crypto';
+import matter from 'gray-matter';
 import { describe, it, expect } from 'vitest';
 import {
   computeTotals,
@@ -5,6 +9,8 @@ import {
   getAllAdventures,
   getAdventureBySlug,
   getObjectiveCatalog,
+  getObjectiveDetail,
+  getObjectiveRefs,
 } from '../adventures';
 import type { AdventureActivity, AdventureStats } from '@blog/strava/types';
 
@@ -150,6 +156,37 @@ describe('read API against the committed snapshot', () => {
     expect(pct?.polylines.length).toBeGreaterThan(0);
     expect(pct?.lat).toBeGreaterThan(32);
     expect(pct?.lat).toBeLessThan(49);
+  });
+
+  it('has a built route file for every to-do objective with a route spec', () => {
+    // Slugs allowed to lack a built route (objectives:build failures). Must stay empty when it all builds.
+    const ALLOWED_MISSING: string[] = [];
+    const dir = path.join(process.cwd(), 'content', 'objectives');
+    const missing: string[] = [];
+    for (const f of fs.readdirSync(dir).filter((n) => n.endsWith('.md'))) {
+      const { data } = matter(fs.readFileSync(path.join(dir, f), 'utf8'));
+      if (!data.route || data.route.kind === 'none' || data.completed_by) continue;
+      const slug = f.replace(/\.md$/, '');
+      const file = path.join(process.cwd(), 'data', 'objectives', 'routes', `${slug}.json`);
+      const specHash = crypto.createHash('sha1').update(JSON.stringify(data.route)).digest('hex');
+      if (!fs.existsSync(file) || JSON.parse(fs.readFileSync(file, 'utf8')).specHash !== specHash) missing.push(slug);
+    }
+    expect(missing.sort()).toEqual(ALLOWED_MISSING);
+  });
+
+  it('builds detail data: a to-do route, a done report, and every ref', () => {
+    const whitney = getObjectiveDetail('peaks', 'mount-whitney');
+    expect(whitney?.report).toBeNull();
+    expect(whitney?.route?.track.altitude.length).toBeGreaterThan(1);
+    expect(whitney?.item.allLinks.some((l) => l.url.includes('wikipedia.org'))).toBe(true);
+
+    const rainier = getObjectiveDetail('peaks', 'mount-rainier');
+    expect(rainier?.report?.slug).toBe('rainier-kautz');
+    expect(rainier?.route).toBeNull();
+
+    expect(getObjectiveDetail('peaks', 'nope')).toBeNull();
+    expect(getObjectiveDetail('races', 'mount-whitney')).toBeNull(); // right slug, wrong page
+    expect(getObjectiveRefs()).toHaveLength(284);
   });
 });
 

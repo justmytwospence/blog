@@ -9,6 +9,9 @@ gain_ft: 7000
 lat: 46.1345
 lng: -122.187
 link: https://www.fs.usda.gov/recarea/giffordpinchot/recreation/recarea/?recid=34935
+route_name: "Loowit Trail (216) around Mount St. Helens"
+route: {"kind":"osm","relations":[5632621],"start":[46.1345,-122.187]}
+links: [{"label":"Gifford Pinchot NF: Loowit Trail","url":"https://www.fs.usda.gov/recarea/giffordpinchot/recreation/recarea/?recid=34935"}]
 ---
 
 The trail around Mt St Helens, through the blast zone.
