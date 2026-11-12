@@ -13,6 +13,7 @@ const projectNames: Record<string, string> = {
   'hardcover-mcp': 'Hardcover MCP',
   'inoreader-mcp': 'Inoreader MCP',
   'inoreader-obsidian': 'Inoreader for Obsidian',
+  inoink: 'InoInk',
   pacing: 'Pacing',
   swimcue: 'SwimCue',
   homelab: 'Homelab',

@@ -43,6 +43,7 @@ export const REPO_TO_SLUG: Record<string, string> = {
   'hardcover-mcp': 'hardcover-mcp',
   'inoreader-mcp': 'inoreader-mcp',
   'inoreader-obsidian': 'inoreader-obsidian',
+  InoInk: 'inoink',
   pacing: 'pacing',
   swimcue: 'swimcue',
   homelab: 'homelab',
