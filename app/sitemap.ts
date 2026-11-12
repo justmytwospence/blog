@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { SITE_URL } from '@/lib/site';
 import { getAllBlogPosts, getAllProjects, getAllConcepts } from '@/lib/content';
 import { getAllAdventureRefs } from '@/lib/adventures';
+import { PAGE_IDS } from '@/lib/objective-schema';
 
 function when(date?: string): Date | undefined {
   if (!date) return undefined;
@@ -15,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/about',
     '/adventures',
     '/adventures/objectives',
+    ...PAGE_IDS.map((id) => `/adventures/objectives/${id}`),
     '/blog',
     '/projects',
     '/concepts',

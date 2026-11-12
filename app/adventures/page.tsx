@@ -70,7 +70,7 @@ export default async function AdventuresPage() {
             href="/adventures/objectives"
             className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
           >
-            Future Objectives →
+            Objectives →
           </Link>
         </div>
       </div>

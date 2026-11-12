@@ -4,7 +4,7 @@ import {
   deriveIsRace,
   getAllAdventures,
   getAdventureBySlug,
-  getObjectives,
+  getObjectiveCatalog,
 } from '../adventures';
 import type { AdventureActivity, AdventureStats } from '@blog/strava/types';
 
@@ -118,16 +118,38 @@ describe('read API against the committed snapshot', () => {
     expect(getAdventureBySlug('does-not-exist')).toBeNull();
   });
 
-  it('exposes the seeded objectives, and only incomplete ones', () => {
-    const { objectives } = getObjectives();
-    expect(objectives.length).toBeGreaterThan(0);
-    // The wishlist is forward-looking: completed objectives live as reports, not here.
-    expect(objectives.every((o) => o.status === 'todo')).toBe(true);
-    // Every objective should carry the fields the cards/map rely on.
-    for (const o of objectives) {
-      expect(o.slug).toBeTruthy();
-      expect(o.title).toBeTruthy();
-    }
+  it('builds the public objectives catalog with done items linked to reports', () => {
+    const items = getObjectiveCatalog();
+    const by = new Map(items.map((i) => [i.slug, i]));
+    expect(items).toHaveLength(284);
+
+    // Every item places on the map: explicit point, or derived from its report.
+    expect(items.filter((i) => i.lat == null || i.lng == null).map((i) => i.slug)).toEqual([]);
+
+    const fourteeners = items.filter((i) => i.page === 'peaks' && i.sections.includes('14ers'));
+    expect(fourteeners).toHaveLength(71);
+    expect(fourteeners.filter((i) => i.done)).toHaveLength(59);
+
+    // One peak can sit in several sections of its page.
+    const rainier = by.get('mount-rainier');
+    expect(rainier).toMatchObject({ done: true, reportSlug: 'rainier-kautz' });
+    expect(rainier?.sections).toEqual(
+      expect.arrayContaining(['14ers', 'cascade-volcanoes', 'state-high-points']),
+    );
+
+    // Completion by an explicit `objective:` link on the report (no completed_by in the file).
+    expect(by.get('colorado-trail')).toMatchObject({ done: true, reportSlug: 'colorado-trail' });
+    // A report whose slug merely matches does not complete the objective.
+    expect(by.get('pikes-peak-cycle-to-the-summit')?.done).toBe(false);
+    // The Natchez Trace report is one 40-mile day, not the 444-mile parkway.
+    expect(by.get('natchez-trace')?.done).toBe(false);
+
+    // A source:'pct' import has no altitude channel: the point falls back to the track midpoint.
+    const pct = by.get('pacific-crest-trail');
+    expect(pct?.done).toBe(true);
+    expect(pct?.polylines.length).toBeGreaterThan(0);
+    expect(pct?.lat).toBeGreaterThan(32);
+    expect(pct?.lat).toBeLessThan(49);
   });
 });
 

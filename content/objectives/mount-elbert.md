@@ -1,0 +1,11 @@
+---
+title: "Mount Elbert"
+page: peaks
+sections: [14ers, state-high-points]
+location: CO
+range: "Sawatch"
+elevation_ft: 14440
+lat: 39.11775
+lng: -106.44538
+completed_by: mount-elbert
+---

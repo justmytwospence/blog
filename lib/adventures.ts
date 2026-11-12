@@ -10,7 +10,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { mapCommonMetadata, normalizeDate } from './content';
 import { FACET_ORDER } from './facets';
-import type { ObjectiveList } from './objective-lists';
+import { validateObjectiveFrontmatter, parseObjective, type CatalogItem, type PageId } from './objective-schema';
 import { preprocessObsidian } from '@blog/obsidian-md';
 import type { AdventureActivity, AdventureStats, SportType } from '@blog/strava/types';
 import { readTotals } from './strava-store';
@@ -35,8 +35,7 @@ const ADVENTURES_DIR = path.join(process.cwd(), 'content', 'adventures');
 const SNAPSHOT_DIR = path.join(process.cwd(), 'data', 'adventures');
 const ACTIVITIES_DIR = path.join(SNAPSHOT_DIR, 'activities');
 const LOCAL_PHOTOS_DIR = path.join(SNAPSHOT_DIR, 'local-photos');
-const OBJECTIVES_FILE = path.join(SNAPSHOT_DIR, 'objectives.json');
-const OBJECTIVE_LISTS_FILE = path.join(SNAPSHOT_DIR, 'objective-lists.json');
+const OBJECTIVES_DIR = path.join(process.cwd(), 'content', 'objectives');
 const YEARLY_FILE = path.join(SNAPSHOT_DIR, 'yearly-totals.json');
 const LIFETIME_FILE = path.join(SNAPSHOT_DIR, 'lifetime-totals.json');
 
@@ -138,26 +137,7 @@ export interface SportTotals {
   movingTimeSeconds: number;
 }
 
-export interface Objective {
-  slug: string;
-  title: string;
-  type: string | null;
-  location: string | null;
-  grade: string | null;
-  season: string[];
-  distanceMi: number | null;
-  elevationGainFt: number | null;
-  status: string;
-  dateCompleted: string | null;
-  link: string | null;
-  multiSport: boolean;
-  completedSlug: string | null;
-  notes: string | null;
-}
-
-export interface ObjectivesData {
-  objectives: Objective[];
-}
+export type { CatalogItem } from './objective-schema';
 
 // ─── Helpers ───────────────────────────────────────────────────────
 
@@ -710,48 +690,90 @@ export async function getActivityGrandTotals(): Promise<{
   return { distanceMeters, elevationGainMeters, movingTimeSeconds };
 }
 
-/** Slugs of objectives already fulfilled by a published report — by explicit `objective:` link or matching slug. */
-function fulfilledObjectiveSlugs(): Set<string> {
-  const done = new Set<string>();
-  for (const a of allAdventures()) {
-    done.add(a.slug);
-    if (a.objective) done.add(a.objective);
-  }
-  return done;
+/** Highest point (ft) across a report's legs, or null when no leg recorded an elevation. */
+function reportHighFt(adv: Adventure): number | null {
+  const highs = adv.days
+    .map((d) => d.activity.stats.elevHighMeters)
+    .filter((h): h is number => typeof h === 'number');
+  return highs.length ? Math.round(Math.max(...highs) * 3.28084) : null;
 }
 
 /**
- * Objectives wishlist — only the still-to-do ones. An objective drops off once it's been done:
- * either its source note is marked complete, or a published report fulfills it (so the Colorado
- * Trail won't sit on the wishlist while its trip report exists).
+ * Representative map point for a done report: the highest track point for summit-style pages, the
+ * track midpoint for routes and races (or when the track has no altitude channel). [lat, lng], 5 dp.
  */
-export function getObjectives(): ObjectivesData {
-  if (!fs.existsSync(OBJECTIVES_FILE)) return { objectives: [] };
-  try {
-    const data = JSON.parse(fs.readFileSync(OBJECTIVES_FILE, 'utf8')) as { objectives?: Objective[] };
-    const done = fulfilledObjectiveSlugs();
-    const objectives = (data.objectives ?? []).filter(
-      (o) => o.status !== 'completed' && o.status !== 'done' && !done.has(o.slug) && !o.completedSlug,
-    );
-    return { objectives };
-  } catch (err) {
-    console.error('[adventures] bad objectives.json:', err);
-    return { objectives: [] };
+function reportPoint(adv: Adventure, page: PageId): [number | null, number | null] {
+  const coords: Array<[number, number]> = [];
+  const alts: number[] = [];
+  for (const d of adv.days) {
+    const t = d.activity.track;
+    if (!t) continue;
+    coords.push(...t.coordinates);
+    alts.push(...t.altitude);
   }
+  if (coords.length === 0) return [null, null];
+  let i = Math.floor(coords.length / 2);
+  if ((page === 'peaks' || page === 'scrambles' || page === 'skiing') && alts.length === coords.length) {
+    i = alts.indexOf(Math.max(...alts));
+  }
+  const [lng, lat] = coords[i];
+  const r5 = (n: number) => Math.round(n * 1e5) / 1e5;
+  return [r5(lat), r5(lng)];
 }
 
 /**
- * Named objective checklists (14ers, Seven Summits, State High Points, Thru-Hikes, Bikepacks). Unlike
- * the wishlist, these are canonical fixed lists with per-item done/todo status — done items carry the
- * slug of the report that completed them. Read straight from the committed snapshot, order preserved.
+ * The public objectives catalog from `content/objectives/<slug>.md`: done AND todo items. An item is
+ * done when its file names a visible report (`completed_by`), when a report links it via `objective:`,
+ * or when the file says `completed: true`. Missing stats and the map point come from the report.
+ * Invalid files are logged and skipped. Sorted by title.
  */
-export function getObjectiveLists(): ObjectiveList[] {
-  if (!fs.existsSync(OBJECTIVE_LISTS_FILE)) return [];
-  try {
-    const data = JSON.parse(fs.readFileSync(OBJECTIVE_LISTS_FILE, 'utf8')) as { lists?: ObjectiveList[] };
-    return data.lists ?? [];
-  } catch (err) {
-    console.error('[adventures] bad objective-lists.json:', err);
-    return [];
+export function getObjectiveCatalog(): CatalogItem[] {
+  if (!fs.existsSync(OBJECTIVES_DIR)) return [];
+  const reports = allAdventures();
+  const bySlug = new Map(reports.map((a) => [a.slug, a]));
+  const linked = new Map<string, Adventure>();
+  for (const a of reports) if (a.objective) linked.set(a.objective, a);
+
+  const items: CatalogItem[] = [];
+  for (const file of fs.readdirSync(OBJECTIVES_DIR).filter(isCompanionFile)) {
+    let data: Record<string, unknown>;
+    let content: string;
+    try {
+      const parsed = matter(fs.readFileSync(path.join(OBJECTIVES_DIR, file), 'utf8'));
+      data = parsed.data as Record<string, unknown>;
+      content = parsed.content;
+    } catch (err) {
+      console.error(`[adventures] bad objective ${file}:`, err);
+      continue;
+    }
+    const errs = validateObjectiveFrontmatter(data, file);
+    if (errs.length) {
+      for (const e of errs) console.error(`[adventures] ${e}`);
+      continue;
+    }
+    const src = parseObjective(file.replace(/\.md$/, ''), data, content);
+    let report = (src.completedBy ? bySlug.get(src.completedBy) : undefined) ?? linked.get(src.slug) ?? null;
+    if (src.completedBy && !bySlug.has(src.completedBy)) {
+      console.error(`[adventures] objective ${src.slug}: completed_by ${src.completedBy} is not a visible report`);
+      report = linked.get(src.slug) ?? null;
+    }
+    const [pLat, pLng] = src.lat != null && src.lng != null ? [src.lat, src.lng] : report ? reportPoint(report, src.page) : [null, null];
+    const { completedBy: _cb, completed, ...rest } = src;
+    void _cb;
+    items.push({
+      ...rest,
+      distanceMi: src.distanceMi ?? (report ? Math.round((report.totals.distanceMeters / 1609.344) * 10) / 10 : null),
+      gainFt: src.gainFt ?? (report ? Math.round(report.totals.elevationGainMeters * 3.28084) : null),
+      elevationFt: src.elevationFt ?? (report ? reportHighFt(report) : null),
+      lat: pLat,
+      lng: pLng,
+      done: completed || report != null,
+      reportSlug: report?.slug ?? null,
+      doneDate: report?.date ?? null,
+      polylines: report
+        ? report.days.map((d) => d.activity.track?.summaryPolyline).filter((p): p is string => Boolean(p))
+        : [],
+    });
   }
+  return items.sort((a, b) => a.title.localeCompare(b.title));
 }
