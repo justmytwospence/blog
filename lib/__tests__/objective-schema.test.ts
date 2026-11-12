@@ -93,8 +93,8 @@ describe('real content/objectives', () => {
   const files = fs.readdirSync(dir).filter(isCompanionFile);
   const parsed = files.map((f) => ({ f, ...matter(fs.readFileSync(path.join(dir, f), 'utf8')) }));
 
-  it('every file validates, and there are 284', () => {
-    expect(files).toHaveLength(284);
+  it('every file validates, and there are 292', () => {
+    expect(files).toHaveLength(292);
     const errs = parsed.flatMap((p) => validateObjectiveFrontmatter(p.data, p.f));
     expect(errs).toEqual([]);
   });

@@ -911,7 +911,9 @@ export function getObjectiveDetail(
   const item = getObjectiveCatalog().find((i) => i.slug === slug && i.page === page);
   if (!item) return null;
   const report = item.done && item.reportSlug ? getAdventureBySlug(item.reportSlug) : null;
-  const route = item.done ? null : readRouteFile(slug);
+  // A done item with a trip report shows the report; one done without a report (completed: true) still
+  // shows its authored route.
+  const route = report ? null : readRouteFile(slug);
   return { item, route, report };
 }
 

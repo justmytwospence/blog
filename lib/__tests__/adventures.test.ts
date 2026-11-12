@@ -127,7 +127,7 @@ describe('read API against the committed snapshot', () => {
   it('builds the public objectives catalog with done items linked to reports', () => {
     const items = getObjectiveCatalog();
     const by = new Map(items.map((i) => [i.slug, i]));
-    expect(items).toHaveLength(284);
+    expect(items).toHaveLength(292);
 
     // Every item places on the map: explicit point, or derived from its report.
     expect(items.filter((i) => i.lat == null || i.lng == null).map((i) => i.slug)).toEqual([]);
@@ -186,7 +186,13 @@ describe('read API against the committed snapshot', () => {
 
     expect(getObjectiveDetail('peaks', 'nope')).toBeNull();
     expect(getObjectiveDetail('races', 'mount-whitney')).toBeNull(); // right slug, wrong page
-    expect(getObjectiveRefs()).toHaveLength(284);
+    expect(getObjectiveRefs()).toHaveLength(292);
+
+    // Done without a trip report (completed: true): still done, and the page shows its authored route.
+    const kelso = getObjectiveDetail('scrambles', 'kelso-ridge');
+    expect(kelso?.item.done).toBe(true);
+    expect(kelso?.report).toBeNull();
+    expect(kelso?.route?.track.altitude.length).toBeGreaterThan(1);
   });
 });
 

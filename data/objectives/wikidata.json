@@ -895,6 +895,14 @@
   "website": null,
   "osmRelation": null
  },
+ "Q5759520": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Uinta_Highline_Trail",
+  "peakbagger": null,
+  "summitpost": null,
+  "mountainproject": null,
+  "website": null,
+  "osmRelation": 13716825
+ },
  "Q576184": {
   "wikipedia": "https://en.wikipedia.org/wiki/Uncompahgre_Peak",
   "peakbagger": "https://www.peakbagger.com/peak.aspx?pid=5836",
@@ -942,6 +950,14 @@
   "mountainproject": null,
   "website": "https://www.nps.gov/appa",
   "osmRelation": 156553
+ },
+ "Q6508806": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Leadville_Trail_100_MTB",
+  "peakbagger": null,
+  "summitpost": null,
+  "mountainproject": null,
+  "website": null,
+  "osmRelation": null
  },
  "Q656608": {
   "wikipedia": "https://en.wikipedia.org/wiki/La_Plata_Peak",
@@ -1243,6 +1259,14 @@
   "wikipedia": "https://en.wikipedia.org/wiki/Tabeguache_Peak",
   "peakbagger": "https://www.peakbagger.com/peak.aspx?pid=5761",
   "summitpost": "https://www.summitpost.org/page/150374",
+  "mountainproject": null,
+  "website": null,
+  "osmRelation": null
+ },
+ "Q7706161": {
+  "wikipedia": "https://en.wikipedia.org/wiki/Teton_Crest_Trail",
+  "peakbagger": null,
+  "summitpost": null,
   "mountainproject": null,
   "website": null,
   "osmRelation": null
