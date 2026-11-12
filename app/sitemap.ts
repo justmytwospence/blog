@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL } from '@/lib/site';
 import { getAllBlogPosts, getAllProjects, getAllConcepts } from '@/lib/content';
-import { getAllAdventureRefs } from '@/lib/adventures';
+import { getAllAdventureRefs, getObjectiveRefs } from '@/lib/adventures';
 import { PAGE_IDS } from '@/lib/objective-schema';
 
 function when(date?: string): Date | undefined {
@@ -35,6 +35,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  const objectives: MetadataRoute.Sitemap = getObjectiveRefs().map((o) => ({
+    url: `${SITE_URL}/adventures/objectives/${o.page}/${o.slug}`,
+    changeFrequency: 'monthly',
+    priority: 0.5,
+  }));
+
   const posts: MetadataRoute.Sitemap = getAllBlogPosts().map((p) => ({
     url: `${SITE_URL}/blog/${p.slug}`,
     lastModified: when(p.date),
@@ -56,5 +62,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...adventures, ...posts, ...projects, ...concepts];
+  return [...staticRoutes, ...adventures, ...objectives, ...posts, ...projects, ...concepts];
 }

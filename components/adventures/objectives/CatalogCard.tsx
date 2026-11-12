@@ -31,11 +31,15 @@ export function CatalogCard({ item, cfg }: { item: CatalogItem; cfg: PageConfig 
               <Check className="h-3.5 w-3.5" />
             </span>
           )}
-          <h3 className="font-semibold text-gray-900 dark:text-[#d4d4d4]">{item.title}</h3>
+          <h3 className="font-semibold text-gray-900 dark:text-[#d4d4d4]">
+            <Link href={`/adventures/objectives/${item.page}/${item.slug}`} className="hover:underline">
+              {item.title}
+            </Link>
+          </h3>
         </div>
-        {item.link && (
+        {item.allLinks[0] && (
           <a
-            href={item.link}
+            href={item.allLinks[0].url}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Reference for ${item.title}`}

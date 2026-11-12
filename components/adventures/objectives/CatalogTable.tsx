@@ -89,17 +89,9 @@ export function CatalogTable({ items, page }: { items: CatalogItem[]; page: Page
           {sorted.map((i) => (
             <tr key={i.slug}>
               <td className="px-3 py-2 font-medium text-gray-900 dark:text-[#d4d4d4]">
-                {i.reportSlug ? (
-                  <Link href={`/adventures/${i.reportSlug}`} className="text-emerald-700 hover:underline dark:text-emerald-400">
-                    {i.title}
-                  </Link>
-                ) : i.link ? (
-                  <a href={i.link} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                    {i.title}
-                  </a>
-                ) : (
-                  i.title
-                )}
+                <Link href={`/adventures/objectives/${i.page}/${i.slug}`} className="hover:underline">
+                  {i.title}
+                </Link>
               </td>
               <td className="px-3 py-2 text-gray-600 dark:text-[#cccccc]">{sectionLabel(i)}</td>
               <td className="px-3 py-2 text-gray-600 dark:text-[#cccccc]">{regionLabel(i)}</td>

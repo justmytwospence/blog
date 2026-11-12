@@ -17,7 +17,7 @@ const DONE = '#10b981';
 const TODO = '#2563eb';
 
 /** Refit the live map when the filtered point set changes — react-leaflet reads `bounds` only at mount. */
-function FitBounds({ bounds }: { bounds: L.LatLngBounds | null }) {
+function FitBounds({ bounds, count }: { bounds: L.LatLngBounds | null; count: number }) {
   const map = useMap();
   useEffect(() => {
     if (!bounds) return;
@@ -26,7 +26,7 @@ function FitBounds({ bounds }: { bounds: L.LatLngBounds | null }) {
       const { x, y } = map.getSize();
       if (x < 50 || y < 50) return false; // container not laid out yet — fitBounds would snap to maxZoom
       map.invalidateSize();
-      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 9, animate: false });
+      map.fitBounds(bounds, { padding: [50, 50], maxZoom: count === 1 ? 11 : 9, animate: false });
       return true;
     };
     if (fit()) return;
@@ -38,7 +38,7 @@ function FitBounds({ bounds }: { bounds: L.LatLngBounds | null }) {
     });
     ro.observe(map.getContainer());
     return () => ro.disconnect();
-  }, [map, bounds]);
+  }, [map, bounds, count]);
   return null;
 }
 
@@ -59,6 +59,18 @@ export function CatalogMapInner({ items }: { items: CatalogItem[] }) {
         ),
     [items],
   );
+  const todoLines = useMemo(
+    () =>
+      items
+        .filter((i) => !i.done)
+        .flatMap((i) =>
+          i.routePolylines
+            .map((p) => decodePolyline(p) as LatLng[])
+            .filter((seg) => seg.length >= 2)
+            .map((seg, si) => ({ key: `${i.slug}-t${si}`, seg })),
+        ),
+    [items],
+  );
   const bounds = useMemo(
     () => (points.length ? L.latLngBounds(points.map((p) => [p.lat as number, p.lng as number] as LatLng)) : null),
     [points],
@@ -74,7 +86,14 @@ export function CatalogMapInner({ items }: { items: CatalogItem[] }) {
     >
       <TileLayer url={TILE_URL} attribution={TILE_ATTRIBUTION} maxZoom={TILE_MAX_ZOOM} />
       <ResizeHandler />
-      <FitBounds bounds={bounds} />
+      <FitBounds bounds={bounds} count={points.length} />
+      {todoLines.map((l) => (
+        <Polyline
+          key={l.key}
+          positions={l.seg}
+          pathOptions={{ color: TODO, weight: 2, opacity: 0.6, dashArray: '4 6' }}
+        />
+      ))}
       {lines.map((l) => (
         <Polyline key={l.key} positions={l.seg} pathOptions={{ color: DONE, weight: 2.5, opacity: 0.7 }} />
       ))}
@@ -89,16 +108,13 @@ export function CatalogMapInner({ items }: { items: CatalogItem[] }) {
           >
             <Tooltip direction="top">{p.title}</Tooltip>
             <Popup>
-              {p.reportSlug ? (
-                <Link href={`/adventures/${p.reportSlug}`} style={{ fontWeight: 600 }}>
-                  {p.title}
-                </Link>
-              ) : p.link ? (
-                <a href={p.link} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600 }}>
-                  {p.title}
-                </a>
-              ) : (
-                <strong>{p.title}</strong>
+              <Link href={`/adventures/objectives/${p.page}/${p.slug}`} style={{ fontWeight: 600 }}>
+                {p.title}
+              </Link>
+              {p.reportSlug && (
+                <div style={{ marginTop: 2, fontSize: 12 }}>
+                  <Link href={`/adventures/${p.reportSlug}`}>Trip report</Link>
+                </div>
               )}
               {stats && <div style={{ marginTop: 2, fontSize: 12, color: '#666' }}>{stats}</div>}
             </Popup>
