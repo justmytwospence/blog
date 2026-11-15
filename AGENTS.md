@@ -4,14 +4,25 @@ Non-discoverable operational context for AI coding agents. Everything here is so
 
 ## Workflow
 
-Solo project — **no PRs**. Commit directly to `main` (atomic, conventional messages); pushing `main`
-triggers the Vercel production deploy. Branches/worktrees are for genuinely parallel or experimental
-work only, and get merged locally (no GitHub review flow). CI still runs on every push.
+Solo project — **no PRs**. Git is the deployment source of truth:
 
-**Preview first; production requires explicit current-turn approval.** After lint/typecheck/test/build
-pass locally, use `vercel deploy` without production flags and share the preview URL. Keep commits
-local until publication is approved. Every Git push (including preview branches) and PR merge requires
-approval because implicit refs and configured destinations cannot be inferred safely.
+| Branch | Deployment |
+| --- | --- |
+| `main` | Production; apex redirects to `www.spencerboucher.com` |
+| `dev` | Shared review at `https://dev.spencerboucher.com` |
+| Bare-slug feature branch | Vercel preview; optional `https://<branch>.dev.spencerboucher.com` |
+
+Work on `dev`, with feature branches for independent work. After lint/typecheck/test/build pass,
+commit atomically and use `npm run preview:push` for a routine preview push **without another ask**.
+It validates this repo's origin and pushes only the current nonproduction branch. Direct `git push`
+commands still require approval; never use implicit refspecs. Wait for both the exact SHA's successful
+push `CI / verify` run and Ready Git-triggered Vercel deployment before reporting a verified preview.
+Do not use CLI deployments or moving aliases instead of Git pushes.
+
+Publish only by fast-forwarding `main` to the verified `dev` SHA, after `git tidy` and renewed checks
+following any rewrite. Main requires the `verify` check and disallows force pushes/deletion; no PR
+is required. Obtain separate current-turn approvals for the main merge and main push. See
+`docs/deployment.md` for bootstrap, promotion, rollback, and domain lifecycle.
 
 Immediately before each production operation, obtain explicit approval in the current turn: production
 deployment, pushing any ref that triggers production, promoting, aliasing, rollback, production
@@ -22,9 +33,16 @@ transport. Codex and OpenCode must follow this operational instruction too; they
 JSON rules.
 
 The deterministic Pi/Claude rules also ask on Vercel env/project/domains/api command families
-(including reads) and Vercel MCP tools. Preview CLI deployment remains allowed unless an ask applies.
-String rules and classifier guidance are not an OS sandbox or a guarantee about arbitrary script/API
-semantics. Say which preview/publication path you took and why when reporting the change.
+(including reads) and Vercel MCP tools. Domain provisioning, infrastructure, and protection changes
+are deliberate operations, not implicit permission from preview-push authorization. String rules and
+classifier guidance are not an OS sandbox or a guarantee about arbitrary script/API semantics.
+Say which preview/publication path you took and why when reporting the change.
+
+Previews use only `BLOG_PREVIEW_REDIS_REST_URL/TOKEN`, pointing to an isolated, sanitized snapshot.
+Branch-scoped last-good caches expire after seven days; base totals are snapshot reads. Never copy
+`strava:auth` or grant preview deployments production Redis/Strava credentials. Runtime Strava
+webhook/reconcile/token-refresh/write paths require `VERCEL_ENV=production`; ordinary local authoring
+scripts remain independent. Snapshot refresh is explicit via `npm run preview:seed`, never a build step.
 
 ## Commands
 

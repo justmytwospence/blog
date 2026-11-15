@@ -15,7 +15,16 @@ npm run typecheck    # tsc --noEmit
 npm run test         # Vitest
 ```
 
-CI (`.github/workflows/ci.yml`) runs lint, typecheck, test, and build on every push and pull request.
+CI (`.github/workflows/ci.yml`) runs lint, typecheck, tests, adventure validation, and build on every
+branch push and pull requests targeting `dev` or `main`.
+
+## Deployment
+
+Git drives Vercel deployments: `main` is production, `dev` is the stable review site at
+`dev.spencerboucher.com`, and feature branches have isolated previews. Use `npm run preview:push`
+after local checks; production promotion is a separately approved fast-forward of verified dev.
+See [Deployment operations](docs/deployment.md) for domains, sanitized preview data, verification,
+promotion, and rollback.
 
 ## Architecture
 

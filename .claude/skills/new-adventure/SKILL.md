@@ -39,7 +39,7 @@ rejects anything off-vocabulary. Do not invent values.
 
 ## Prerequisites
 
-- Be on `main` or a branch off it (the pipeline + `.env.local` with `STRAVA_CLIENT_ID/SECRET/REFRESH_TOKEN`
+- Be on `dev` or a bare-slug feature branch off it (the pipeline + `.env.local` with `STRAVA_CLIENT_ID/SECRET/REFRESH_TOKEN`
   must be present; copy `.env.local` from the primary checkout if missing). Run `npm ci` if `tsx` is absent.
 - The activity index (`data/adventures/all-activities.json`) is **gitignored**, so a fresh checkout or
   worktree has none. Step 1 needs it — run `npm run sync:index` once if it's missing.
@@ -96,9 +96,15 @@ Open `/adventures/<slug>` to confirm the map, stats, photos, and (if grouped) th
 
 ### 5. Ship it
 
-Commit the companion + synced data directly to `main` (solo project, **no PRs** — see AGENTS.md).
-Verify locally first: `adventure:validate` + `npm run build`. Pushing `main` runs CI and triggers the
-Vercel production deploy. Confirm it's live at `spencerboucher.com/adventures/<slug>`.
+Run lint, typecheck, tests, `adventure:validate`, and build, then commit the companion + synced data
+on `dev` or the current bare-slug feature branch (solo project, **no PRs** — see AGENTS.md).
+Use `npm run preview:push`; wait for the exact SHA's successful push `CI / verify` and Ready Vercel
+preview. Review `/adventures/<slug>` on `dev.spencerboucher.com` or the feature branch's preview,
+including map, stats, photos, and grouped trip card. Share that URL and stop before production.
+
+Publication follows `docs/deployment.md`: tidy and verify dev, then obtain fresh explicit approvals
+for fast-forwarding main and pushing main. A plan or preview approval does not authorize publication.
+After the separately approved promotion, confirm the production report is live.
 
 ## Notes
 

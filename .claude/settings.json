@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Read(//**)",
-      "Bash(vercel deploy *)"
+      "Bash(npm run preview:push)",
+      "Bash(npm run preview:push --)"
     ],
     "ask": [
       "Bash(*vercel*--prod*)",
