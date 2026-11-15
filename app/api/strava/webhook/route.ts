@@ -9,6 +9,7 @@
  */
 import { after } from 'next/server';
 import { recomputeTotals } from '@/lib/strava-store';
+import { isProductionDeployment } from '@/lib/deployment';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -22,6 +23,7 @@ interface StravaEvent {
 
 /** Subscription validation handshake. */
 export function GET(request: Request): Response {
+  if (!isProductionDeployment()) return new Response('Not Found', { status: 404 });
   const { searchParams } = new URL(request.url);
   const mode = searchParams.get('hub.mode');
   const verifyToken = searchParams.get('hub.verify_token');
@@ -35,6 +37,7 @@ export function GET(request: Request): Response {
 
 /** Activity event. Always 200s fast; the refresh runs after the response. */
 export async function POST(request: Request): Promise<Response> {
+  if (!isProductionDeployment()) return new Response('Not Found', { status: 404 });
   let event: StravaEvent;
   try {
     event = (await request.json()) as StravaEvent;

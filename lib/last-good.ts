@@ -15,6 +15,7 @@
  * outage. ISR is the cache; this is the fallback.
  */
 import { getRedis } from './redis';
+import { isPreviewDeployment, previewCachePrefix } from './deployment';
 
 export interface ReadThroughOptions {
   /** Optional expiry in seconds. Omit for a last-good value that should outlive any outage. */
@@ -29,7 +30,9 @@ export async function readThrough<T>(
   const redis = getRedis();
   if (!redis) return fetcher(); // no store: pure pass-through; a failure propagates to the caller
 
-  const storeKey = `last-good:${key}`;
+  const baseKey = `last-good:${key}`;
+  const preview = isPreviewDeployment();
+  const storeKey = preview ? `${previewCachePrefix()}${baseKey}` : baseKey;
 
   let fresh: T;
   try {
@@ -37,16 +40,26 @@ export async function readThrough<T>(
   } catch (err) {
     console.warn(`[last-good] fetch failed for ${key}, serving stored value:`, err);
     try {
-      return (await redis.get<T>(storeKey)) ?? null;
+      const stored = await redis.get<T>(storeKey);
+      if (stored != null || !preview) return stored ?? null;
     } catch (readErr) {
       console.error(`[last-good] store read also failed for ${key}:`, readErr);
+      if (!preview) return null;
+    }
+    try {
+      return (await redis.get<T>(baseKey)) ?? null;
+    } catch (readErr) {
+      console.error(`[last-good] snapshot read also failed for ${key}:`, readErr);
       return null;
     }
   }
 
   // A failed write never fails the request — fresh data is returned regardless.
   try {
-    if (opts.ttlSeconds) await redis.set(storeKey, fresh, { ex: opts.ttlSeconds });
+    if (preview) {
+      const ttl = opts.ttlSeconds && opts.ttlSeconds > 0 ? Math.min(opts.ttlSeconds, 604800) : 604800;
+      await redis.set(storeKey, fresh, { ex: ttl });
+    } else if (opts.ttlSeconds) await redis.set(storeKey, fresh, { ex: opts.ttlSeconds });
     else await redis.set(storeKey, fresh);
   } catch (err) {
     console.warn(`[last-good] store write failed for ${key} (returning fresh anyway):`, err);

@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Navigation } from "@/components/Navigation";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, AUTHOR } from "@/lib/site";
+import { isProductionDeployment } from "@/lib/deployment";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const merriweather = Merriweather({ 
@@ -14,6 +15,7 @@ const merriweather = Merriweather({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  ...(!isProductionDeployment() && { robots: { index: false, follow: false } }),
   title: { default: SITE_NAME, template: `%s — ${SITE_NAME}` },
   description: SITE_DESCRIPTION,
   keywords: ["data science", "machine learning", "portfolio", "blog", "analytics"],

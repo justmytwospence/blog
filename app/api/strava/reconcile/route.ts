@@ -15,6 +15,7 @@
  * when CRON_SECRET is set (and an internal `x-vercel-cron` header). Set CRON_SECRET in production.
  */
 import { recomputeTotals } from '@/lib/strava-store';
+import { isProductionDeployment } from '@/lib/deployment';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -30,6 +31,7 @@ function authorized(request: Request): boolean {
 }
 
 export async function GET(request: Request): Promise<Response> {
+  if (!isProductionDeployment()) return new Response('Not Found', { status: 404 });
   if (!authorized(request)) {
     return new Response('Unauthorized', { status: 401 });
   }

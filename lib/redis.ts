@@ -7,10 +7,15 @@
  * read-through cache (lib/last-good.ts) so there is one client and one place that knows the env.
  */
 import { Redis } from '@upstash/redis';
+import { isPreviewDeployment } from './deployment';
 
 function redisEnv(): { url: string; token: string } | null {
-  const url = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
+  const url = isPreviewDeployment()
+    ? process.env.BLOG_PREVIEW_REDIS_REST_URL
+    : process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
+  const token = isPreviewDeployment()
+    ? process.env.BLOG_PREVIEW_REDIS_REST_TOKEN
+    : process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
   return url && token ? { url, token } : null;
 }
 

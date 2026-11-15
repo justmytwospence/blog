@@ -12,12 +12,24 @@ Strava activity ─▶ POST /api/strava/webhook ─▶ (after 200) crawl + build
 
 No GitHub Action, no `repository_dispatch`, no PATs, no commits.
 
-## One-time setup (Vercel)
+## Deployment isolation
 
-1. **Add Upstash Redis** — Vercel → Storage / Marketplace → **Upstash → Redis** (free tier). Linking
-   injects `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (or legacy `KV_REST_API_*`; the code
+Runtime token refresh, totals writes, webhook processing, and daily reconciliation require
+`VERCEL_ENV=production`. Preview and local runtime webhook/reconcile routes return 404 before doing
+any work. The independent local authoring and production maintenance scripts are unchanged.
+
+Dev and feature previews read totals from a separate Redis database, seeded with public display data
+only; they never receive production Redis credentials, `strava:auth`, or Strava refresh credentials.
+The preview client accepts only `BLOG_PREVIEW_REDIS_REST_URL/TOKEN`. Snapshot refresh is explicit
+through `npm run preview:seed`, not a build step or a Strava crawl. Preview last-good cache writes
+are branch-namespaced and expire after seven days. See [Deployment operations](deployment.md).
+
+## One-time setup (Vercel Production)
+
+1. **Add Upstash Redis** — Vercel → Storage / Marketplace → **Upstash → Redis** (free tier). Link
+   production storage to **Production only**, never Preview. Linking injects `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (or legacy `KV_REST_API_*`; the code
    accepts either).
-2. **Env vars** (Project → Settings → Environment Variables):
+2. **Env vars** (Project → Settings → Environment Variables, **Production** scope):
    - `STRAVA_CLIENT_ID`, `STRAVA_CLIENT_SECRET`, `STRAVA_REFRESH_TOKEN`
    - `STRAVA_VERIFY_TOKEN` (already set — webhook handshake)
    - `STRAVA_SUBSCRIPTION_ID` (optional — restricts events to your subscription)
@@ -39,7 +51,8 @@ dropped, the totals would stay stale until the next activity (possibly weeks). A
 (`vercel.json` → `/api/strava/reconcile`, `0 5 * * *`) recomputes the totals from a full crawl —
 the same `recomputeTotals()` the webhook runs. Once-daily works on the free Hobby tier (1 cron/day);
 no Pro upgrade needed. The route is guarded by `CRON_SECRET` (Vercel sends it automatically) so it
-isn't publicly triggerable. It is **not** a clean no-op without credentials: `recomputeTotals()` mints
+isn't publicly triggerable. Outside Production it returns 404. In Production it is **not** a clean
+no-op without credentials: `recomputeTotals()` mints
 a Strava token first, so a deployment missing `STRAVA_CLIENT_ID` / `STRAVA_CLIENT_SECRET` /
 `STRAVA_REFRESH_TOKEN` returns **500**. With Strava creds but no Redis it completes the full crawl and
 then discards the result (`writeTotals` logs `no Redis env — writeTotals skipped`) — wasted work

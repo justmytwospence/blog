@@ -13,6 +13,7 @@ import { buildTotals, crawlActivities, mintAccessToken, type StravaTotals } from
 import { revalidatePath } from 'next/cache';
 import { getRedis, hasStore } from './redis';
 import { readThrough } from './last-good';
+import { assertProductionDeployment } from './deployment';
 
 const TOTALS_KEY = 'strava:totals';
 // When the totals were last recomputed (ISO timestamp). Kept beside them rather than inside, so
@@ -61,6 +62,7 @@ export const readTotals = cache(async (): Promise<StravaTotals | null> => {
 
 /** Persist freshly computed totals (called by the webhook). No-op without a store. */
 export async function writeTotals(totals: StravaTotals): Promise<void> {
+  assertProductionDeployment();
   const redis = getRedis();
   if (!redis) {
     console.warn('[strava-store] no Redis env — writeTotals skipped');
@@ -91,6 +93,7 @@ export const readTotalsUpdatedAt = cache(async (): Promise<string | null> => {
  * cause silent auth death). Persists any rotation BEFORE returning.
  */
 export async function getAccessToken(): Promise<string> {
+  assertProductionDeployment();
   const clientId = process.env.STRAVA_CLIENT_ID;
   const clientSecret = process.env.STRAVA_CLIENT_SECRET;
   const envRefresh = process.env.STRAVA_REFRESH_TOKEN;
@@ -125,6 +128,7 @@ export async function getAccessToken(): Promise<string> {
  * successful run fully rebuilds the totals regardless of which events were missed.
  */
 export async function recomputeTotals(): Promise<void> {
+  assertProductionDeployment();
   const access = await getAccessToken();
   const entries = await crawlActivities(access);
   const totals = buildTotals(entries);
