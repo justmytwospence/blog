@@ -8,10 +8,10 @@ import {
   Content,
   ConceptContent,
   MarkdownContent,
-  NotebookContent,
+  MarimoContent,
   WebappConfig,
 } from './types';
-import { parseNotebook, extractMetadata } from '@blog/notebook-parser';
+import { parseDocument, type MarimoDocument } from 'marimo-blog';
 import { preprocessObsidian } from '@blog/obsidian-md';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content');
@@ -24,6 +24,50 @@ const WORDS_PER_MINUTE = 200;
 function calculateReadingTime(content: string): number {
   const wordCount = content.split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.ceil(wordCount / WORDS_PER_MINUTE));
+}
+
+const MARIMO_SUFFIX = '.marimo.json';
+
+function contentSlug(file: string): string | null {
+  if (file.endsWith(MARIMO_SUFFIX)) return file.slice(0, -MARIMO_SUFFIX.length);
+  if (file.endsWith('.md')) return file.slice(0, -3);
+  if (file.endsWith('.json')) return file.slice(0, -5);
+  return null;
+}
+
+/** Resolve collisions before parsing, so an invalid file cannot hide another publication. */
+function assertUniqueSlugs(files: string[], directory: string): void {
+  const seen = new Map<string, string>();
+  for (const file of files) {
+    const slug = contentSlug(file);
+    if (slug === null) continue;
+    const previous = seen.get(slug);
+    if (previous) throw new Error(`Duplicate content slug "${slug}" in ${directory}: ${previous} and ${file}`);
+    seen.set(slug, file);
+  }
+}
+
+function readMarimoDocument(filePath: string, slug: string): MarimoDocument {
+  // The content API is synchronous; the package's node readDocument is async.
+  // Use its public validator at the filesystem boundary instead.
+  const document = parseDocument(JSON.parse(fs.readFileSync(filePath, 'utf8')));
+  if (document.metadata.slug !== slug) {
+    throw new Error(`Marimo slug mismatch: ${filePath} declares "${document.metadata.slug}", expected "${slug}"`);
+  }
+  if (!/^\/[a-zA-Z0-9_-]+(?:\/[a-zA-Z0-9_-]+)*$/.test(document.assetBase) ||
+      document.assets.some(asset => !/^[a-f0-9]{64}\.[a-z0-9]+$/.test(asset.path))) {
+    throw new Error(`Unsafe marimo asset path in ${filePath}`);
+  }
+  return document;
+}
+
+function marimoMetadata(document: MarimoDocument, slug: string) {
+  // The comments thread lives in the publication YAML's host-owned `extra` namespace.
+  const bluesky = document.metadata.extra?.bluesky;
+  return {
+    ...mapCommonMetadata({ ...document.metadata, categories: document.metadata.tags }, slug),
+    ...(typeof bluesky === 'string' && bluesky ? { bluesky } : {}),
+  };
 }
 
 interface CommonFrontmatter {
@@ -87,7 +131,10 @@ export function getAllProjects(updated: Record<string, string> = {}): Project[] 
     return [];
   }
   
-  const files = fs.readdirSync(PROJECTS_DIR);
+  const files = fs.readdirSync(PROJECTS_DIR).filter(file =>
+    !file.startsWith('.') && fs.statSync(path.join(PROJECTS_DIR, file)).isFile()
+  );
+  assertUniqueSlugs(files, PROJECTS_DIR);
   const projects: Project[] = [];
   
   for (const file of files) {
@@ -103,8 +150,9 @@ export function getAllProjects(updated: Record<string, string> = {}): Project[] 
       continue;
     }
     
-    const slug = file.replace(/\.(md|ipynb|json)$/, '');
-    
+    const slug = contentSlug(file);
+    if (slug === null) continue;
+
     try {
       if (file.endsWith('.md')) {
         // Markdown project
@@ -117,22 +165,13 @@ export function getAllProjects(updated: Record<string, string> = {}): Project[] 
           ...mapCommonMetadata(data, slug),
           ...mapProjectMetadata(data),
         });
-      } else if (file.endsWith('.ipynb')) {
-        // Notebook project
-        const notebook = parseNotebook(filePath);
-        
-        // Extract metadata from notebook metadata or first cell
-        const metadata = extractMetadata(notebook, slug);
-        
+      } else if (file.endsWith(MARIMO_SUFFIX)) {
+        const document = readMarimoDocument(filePath, slug);
         projects.push({
           category: 'project',
-          slug,
-          type: 'notebook',
-          title: metadata.title,
-          date: metadata.date,
-          categories: metadata.categories,
-          description: metadata.description,
-          featured: metadata.featured,
+          type: 'marimo',
+          ...marimoMetadata(document, slug),
+          ...mapProjectMetadata({}),
         });
       } else if (file.endsWith('.json')) {
         // Webapp project
@@ -146,8 +185,9 @@ export function getAllProjects(updated: Record<string, string> = {}): Project[] 
         });
       }
     } catch (error) {
+      if (file.endsWith(MARIMO_SUFFIX)) throw error;
       console.error(`Error processing project file ${file}:`, error);
-      // Skip malformed files
+      // Skip malformed legacy files
     }
   }
   
@@ -169,8 +209,11 @@ export function getProjectBySlug(slug: string): Content | null {
     return null;
   }
   
-  // Try different file extensions
-  const extensions = ['.md', '.ipynb', '.json'];
+  assertUniqueSlugs(fs.readdirSync(PROJECTS_DIR).filter(file =>
+    !file.startsWith('.') && fs.statSync(path.join(PROJECTS_DIR, file)).isFile()
+  ), PROJECTS_DIR);
+  // Resolve the multi-part extension before the generic webapp JSON.
+  const extensions = ['.md', MARIMO_SUFFIX, '.json'];
   
   for (const ext of extensions) {
     const filePath = path.join(PROJECTS_DIR, `${slug}${ext}`);
@@ -204,23 +247,15 @@ export function getProjectBySlug(slug: string): Content | null {
             ...mapProjectMetadata(data),
           },
         };
-      } else if (ext === '.ipynb') {
-        // Notebook project
-        const notebook = parseNotebook(filePath);
-        
-        const metadata = extractMetadata(notebook, slug);
-        
+      } else if (ext === MARIMO_SUFFIX) {
+        const document = readMarimoDocument(filePath, slug);
         return {
-          type: 'notebook',
-          notebookData: notebook,
+          type: 'marimo',
+          document,
           metadata: {
-            slug,
-            type: 'notebook',
-            title: metadata.title,
-            date: metadata.date,
-            categories: metadata.categories,
-            description: metadata.description,
-            featured: metadata.featured,
+            type: 'marimo',
+            ...marimoMetadata(document, slug),
+            ...mapProjectMetadata({}),
           },
         };
       } else if (ext === '.json') {
@@ -252,29 +287,24 @@ export function getAllBlogPosts(): BlogPost[] {
   }
   
   const files = fs.readdirSync(BLOG_DIR).filter(
-    file => typeof file === 'string' && (file.endsWith('.md') || file.endsWith('.ipynb'))
+    file => typeof file === 'string' && !file.startsWith('.') &&
+      (file.endsWith('.md') || file.endsWith(MARIMO_SUFFIX))
   );
+  assertUniqueSlugs(files, BLOG_DIR);
   const posts: BlogPost[] = [];
 
   for (const file of files) {
     const filePath = path.join(BLOG_DIR, file);
-    const slug = file.replace(/\.(md|ipynb)$/, '');
+    const slug = contentSlug(file)!;
 
     try {
-      if (file.endsWith('.ipynb')) {
-        // Notebook blog post — metadata comes from the notebook's frontmatter cell.
-        const notebook = parseNotebook(filePath);
-        const metadata = extractMetadata(notebook, slug);
-
+      if (file.endsWith(MARIMO_SUFFIX)) {
+        const document = readMarimoDocument(filePath, slug);
         posts.push({
           category: 'blog',
-          slug,
-          type: 'notebook',
-          title: metadata.title,
-          date: metadata.date,
-          categories: metadata.categories,
-          description: metadata.description,
-          featured: metadata.featured,
+          type: 'marimo',
+          ...marimoMetadata(document, slug),
+          readingTime: calculateReadingTime(document.plainText),
         });
         continue;
       }
@@ -289,8 +319,9 @@ export function getAllBlogPosts(): BlogPost[] {
         readingTime: calculateReadingTime(content),
       });
     } catch (error) {
+      if (file.endsWith(MARIMO_SUFFIX)) throw error;
       console.error(`Error processing blog post ${file}:`, error);
-      // Skip malformed files
+      // Skip malformed legacy files
     }
   }
   
@@ -301,7 +332,11 @@ export function getAllBlogPosts(): BlogPost[] {
 /**
  * Get blog post content by slug
  */
-export function getBlogPostBySlug(slug: string): MarkdownContent | NotebookContent | null {
+export function getBlogPostBySlug(slug: string): MarkdownContent | MarimoContent | null {
+  if (!fs.existsSync(BLOG_DIR)) return null;
+  assertUniqueSlugs(fs.readdirSync(BLOG_DIR).filter(file =>
+    !file.startsWith('.') && (file.endsWith('.md') || file.endsWith(MARIMO_SUFFIX))
+  ), BLOG_DIR);
   const mdPath = path.join(BLOG_DIR, `${slug}.md`);
 
   if (fs.existsSync(mdPath)) {
@@ -320,22 +355,15 @@ export function getBlogPostBySlug(slug: string): MarkdownContent | NotebookConte
     };
   }
 
-  const nbPath = path.join(BLOG_DIR, `${slug}.ipynb`);
-  if (fs.existsSync(nbPath)) {
-    const notebook = parseNotebook(nbPath);
-    const metadata = extractMetadata(notebook, slug);
-
+  const documentPath = path.join(BLOG_DIR, `${slug}${MARIMO_SUFFIX}`);
+  if (fs.existsSync(documentPath)) {
+    const document = readMarimoDocument(documentPath, slug);
     return {
-      type: 'notebook',
-      notebookData: notebook,
+      type: 'marimo',
+      document,
       metadata: {
-        slug,
-        type: 'notebook',
-        title: metadata.title,
-        date: metadata.date,
-        categories: metadata.categories,
-        description: metadata.description,
-        featured: metadata.featured,
+        type: 'marimo',
+        ...marimoMetadata(document, slug),
       },
     };
   }

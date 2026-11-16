@@ -1,0 +1,34 @@
+slug: kcore
+title: K-Core Decomposition for Ultramarathon Data
+date: 2025-11-25
+description: Using k-core decomposition on every marathon-or-longer start, including DNFs, to find a densely connected runner-course subset for downstream models.
+tags:
+  - graph-theory
+  - ultrasignup
+  - python
+featured: true
+includeSource: true
+code: folded
+console: collapsed
+sandboxScriptUrls:
+  - https://cdn.plot.ly/plotly-3.3.0.min.js
+cells:
+  Hbol:
+    include: false
+  BYtC:
+    outputs:
+      "0":
+        caption: Candidate-core tradeoffs in a 3D wireframe. Use the chart buttons to change the vertical axis and color metric.
+        alt: Interactive 3D wireframe of runner completeness, course completeness and core size across alpha-beta settings.
+  nWHF:
+    outputs:
+      "0":
+        caption: Percentile finish times for the 100 core runners with the most distinct courses, clustered by runner and course.
+        alt: Heatmap of relative finish times for 100 runners across the courses in the selected core.
+  ROlb:
+    outputs:
+      "0":
+        html: sandbox
+        # Plotly scattergl/regl generates functions; confined to the opaque iframe.
+        sandboxAllowEval: true
+        caption: Runner-course network. Hover over nodes to explore their connections.

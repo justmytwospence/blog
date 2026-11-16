@@ -23,9 +23,9 @@ interface CodeBlockProps {
 
 /**
  * Shared code block component with syntax highlighting and optional line numbers.
- * Used by both notebook cells and markdown blog posts.
- * 
- * Uses table layout for line numbers (matching notebook CSS in globals.css).
+ * Used by markdown blog posts and other site prose. marimo-blog owns notebook code rendering.
+ *
+ * Uses a table layout for optional line numbers.
  */
 export function CodeBlock({ 
   code, 

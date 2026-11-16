@@ -3,15 +3,12 @@ import { ArticleMarkdown } from '@/components/ArticleMarkdown';
 import { ConceptLoader } from '@/components/concepts/ConceptLoader';
 import { PageContainer } from '@/components/PageContainer';
 import { BlueskyComments } from '@/components/BlueskyComments';
-import { NotebookRenderer } from '@/components/notebook/NotebookRenderer';
-import { NotebookErrorBoundary } from '@/components/notebook/errors/NotebookErrorBoundary';
-import { extractMetadata } from '@blog/notebook-parser';
+import { MarimoPost } from '@/components/marimo/MarimoPost';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { formatDate } from '@/lib/format';
 
-// Rendered on demand (mirrors /projects/[slug]) so the large K-Core notebook
-// isn't prerendered at build time, which blows up the Vercel build/cache.
+// Keep notebook routes on demand; large compiled articles stay outside the build cache.
 export const dynamic = 'force-dynamic';
 
 export async function generateStaticParams() {
@@ -54,27 +51,11 @@ export default async function BlogPostPage({
   const post = getBlogPostBySlug(slug);
   if (!post) notFound();
 
-  // Notebook blog post — render the executed notebook (the frontmatter cell is stripped).
-  if (post.type === 'notebook') {
-    const notebookData = { ...post.notebookData };
-    if (
-      notebookData.cells &&
-      notebookData.cells.length > 0 &&
-      (notebookData.cells[0].cell_type === 'raw' || notebookData.cells[0].cell_type === 'markdown')
-    ) {
-      const firstCellSource = Array.isArray(notebookData.cells[0].source)
-        ? notebookData.cells[0].source.join('')
-        : notebookData.cells[0].source;
-      if (firstCellSource.trim().startsWith('---')) {
-        notebookData.cells = notebookData.cells.slice(1);
-      }
-    }
-    const notebookMetadata = extractMetadata(notebookData, post.metadata.slug);
+  if (post.type === 'marimo') {
     return (
       <PageContainer width="wide">
-        <NotebookErrorBoundary notebookTitle={post.metadata.title}>
-          <NotebookRenderer notebook={notebookData} metadata={notebookMetadata} />
-        </NotebookErrorBoundary>
+        <MarimoPost document={post.document} metadata={post.metadata} />
+        {post.metadata.bluesky && <BlueskyComments postRef={post.metadata.bluesky} />}
       </PageContainer>
     );
   }

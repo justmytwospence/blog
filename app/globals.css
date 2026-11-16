@@ -53,9 +53,9 @@ body {
  * to ensure proper theme switching with next-themes
  */
 
-/* Remove background from pre container and ensure it doesn't add spacing */
-.prose pre,
-pre {
+/* Remove background from pre container and ensure it doesn't add spacing.
+   marimo articles own their code and output styling, so they are excluded. */
+:is(.prose pre, pre):not(.marimo-blog *) {
   background: transparent !important;
   padding: 0 !important;
   margin: 0 !important;
@@ -127,26 +127,8 @@ pre code.hljs,
   font-family: var(--font-inter), system-ui, sans-serif;
 }
 
-/* Remove ALL borders/outlines from code blocks and their parents */
-pre,
-.prose pre,
-.prose pre code,
-.prose pre > *,
-.dark pre,
-.dark .prose pre,
-.dark .prose pre code,
-.dark .prose pre > *,
-.prose-invert pre,
-.prose-invert pre code,
-.prose-invert pre > *,
-article pre,
-article pre code,
-article pre > *,
-pre.hljs,
-pre.hljs code,
-pre.hljs > *,
-pre:has(code),
-.prose pre:has(code) {
+/* Remove ALL borders/outlines from code blocks and their parents (not inside marimo articles) */
+:is(pre, .prose pre, .prose pre code, .prose pre > *, .dark pre, .dark .prose pre, .dark .prose pre code, .dark .prose pre > *, .prose-invert pre, .prose-invert pre code, .prose-invert pre > *, article pre, article pre code, article pre > *, pre.hljs, pre.hljs code, pre.hljs > *, pre:has(code), .prose pre:has(code)):not(.marimo-blog *) {
   border: 0 !important;
   border-width: 0 !important;
   border-style: none !important;
@@ -166,37 +148,6 @@ pre:has(code),
   --tw-ring-inset: none !important;
   --tw-ring-offset-shadow: none !important;
   --tw-ring-shadow: none !important;
-}
-
-/* Notebook viewer styles */
-.notebook-viewer {
-  @apply w-full;
-}
-
-.notebook-content {
-  @apply bg-white dark:bg-[#1e1e1e] rounded-lg;
-}
-
-/* Style notebook cells */
-.notebook-content .cell {
-  @apply border-l-4 border-gray-200 dark:border-[#454545] pl-4 mb-4;
-}
-
-.notebook-content .cell.code {
-  @apply border-blue-500 dark:border-blue-400;
-}
-
-.notebook-content .cell.markdown {
-  @apply border-green-500 dark:border-green-400;
-}
-
-/* Style notebook outputs */
-.notebook-content .output {
-  @apply mt-2 p-3 bg-gray-50 dark:bg-[#252526] rounded;
-}
-
-.notebook-content pre {
-  @apply overflow-x-auto;
 }
 
 /* Webapp embed styles */
@@ -511,55 +462,6 @@ pre:has(code),
   padding-left: 1em;
 }
 
-/* Notebook code cell specific styles */
-.notebook-code-cell {
-  @apply my-4;
-}
-
-/* Force Plotly outputs to fit container width */
-.notebook-plotly-output {
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow: hidden !important;
-}
-
-.notebook-plotly-output .plotly-container,
-.notebook-plotly-output .plotly-container > div,
-.notebook-plotly-output .js-plotly-plot,
-.notebook-plotly-output .plot-container,
-.notebook-plotly-output .svg-container {
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-.notebook-outputs,
-.output-content,
-.output-item {
-  width: 100%;
-  max-width: 100%;
-}
-
-.notebook-code-cell .code-block-wrapper {
-  @apply rounded-lg border border-gray-300 dark:border-[#454545] overflow-hidden;
-}
-
-.notebook-code-cell .code-block {
-  @apply bg-gray-50 dark:bg-[#1e1e1e];
-}
-
-.notebook-code-cell .execution-count {
-  @apply text-sm font-mono text-gray-500 dark:text-[#858585];
-}
-
-.notebook-code-cell pre {
-  @apply p-4 overflow-x-auto m-0;
-}
-
-.notebook-code-cell code {
-  @apply text-sm font-mono;
-}
-
-
 /* Force body to not be a scroll container - critical for sticky positioning */
 body,
 body * {
@@ -585,13 +487,6 @@ body {
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
-}
-
-/* Hide the medium-screen TOC header above code-80 breakpoint */
-@media (width >= calc(80ch + 312px)) {
-  [data-toc-header] {
-    display: none !important;
-  }
 }
 
 .toc-sidebar-scroll::-webkit-scrollbar {
@@ -954,3 +849,53 @@ input[type='range'].peak-slider::-moz-range-thumb {
   border: 3px solid var(--accent, #16a34a);
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
 }
+
+/* Public renderer inputs only; the host owns its brand and editorial header. */
+.blog-marimo {
+  --mb-font-body: var(--font-merriweather), Georgia, serif;
+  --mb-font-heading: var(--font-inter), system-ui, sans-serif;
+  --mb-font-ui: var(--font-inter), system-ui, sans-serif;
+  --mb-font-code: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --mb-bg: transparent;
+  --mb-text: #1f2937;
+  --mb-muted: #6b7280;
+  --mb-accent: #1d4ed8;
+  --mb-border: #e5e7eb;
+  --mb-surface: #f8fafc;
+  --mb-code-bg: #fdf6e3;
+  --mb-code-text: #657b83;
+  --mb-syntax-keyword: #859900;
+  --mb-syntax-string: #2aa198;
+  --mb-syntax-number: #2aa198;
+  --mb-syntax-comment: #93a1a1;
+  --mb-syntax-function: #268bd2;
+  --mb-syntax-type: #b58900;
+  --mb-syntax-variable: #b58900;
+  --mb-syntax-meta: #cb4b16;
+  --mb-figure-bg: #fff;
+  --mb-toc-offset: 7rem;
+}
+.dark .blog-marimo {
+  --mb-text: #d4d4d4;
+  --mb-muted: #a8a29e;
+  --mb-accent: #fbbf24;
+  --mb-border: #3d3d3d;
+  --mb-surface: #252525;
+  --mb-code-bg: #1e1e1e;
+  --mb-code-text: #d4d4d4;
+  --mb-syntax-keyword: #569cd6;
+  --mb-syntax-string: #ce9178;
+  --mb-syntax-number: #b5cea8;
+  --mb-syntax-comment: #6a9955;
+  --mb-syntax-function: #dcdcaa;
+  --mb-syntax-type: #4ec9b0;
+  --mb-syntax-variable: #9cdcfe;
+  --mb-syntax-meta: #c586c0;
+}
+.blog-marimo-header { margin-bottom: 2rem; }
+.blog-marimo-meta { font: .875rem/1.6 var(--font-inter), system-ui, sans-serif; color: var(--mb-muted); margin-bottom: 1rem; }
+.blog-marimo-title { font-family: var(--font-inter), system-ui, sans-serif; font-size: clamp(2.25rem, 5cqi, 3.5rem); font-weight: 700; line-height: 1.12; letter-spacing: -.04em; text-wrap: balance; margin-bottom: 1.5rem; }
+.blog-marimo-dek { font-size: 1.125rem; line-height: 1.8; color: var(--mb-muted); margin-bottom: 1.5rem; }
+.blog-marimo-topics { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; font: .875rem/1.6 var(--font-inter), system-ui, sans-serif; }
+.blog-marimo-topic { color: var(--mb-muted); text-underline-offset: .2em; }
+.blog-marimo-topic:hover { color: var(--mb-accent); text-decoration: underline; }

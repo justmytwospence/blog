@@ -6,8 +6,7 @@ import 'photoswipe/style.css';
 import type { ResolvedPhoto } from '@/lib/adventures';
 
 /**
- * Photo gallery with a PhotoSwipe lightbox (copies the working pattern from
- * components/notebook/outputs/ImageOutput.tsx). Photos are local files; real width/height
+ * Photo gallery with a PhotoSwipe lightbox. Photos are local files; real width/height
  * are passed to data-pswp-* to size the lightbox and to the thumb to avoid layout shift.
  */
 export function PhotoGallery({ photos, galleryId }: { photos: ResolvedPhoto[]; galleryId: string }) {

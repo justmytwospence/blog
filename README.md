@@ -2,7 +2,7 @@
 
 A personal data science portfolio and blog built with **Next.js 16**, **React 19**, **TypeScript**, and **Tailwind CSS v4**. Hosted on Vercel as an ISR site.
 
-The headline feature is rendering Jupyter notebooks (`.ipynb`) directly as interactive project pages with Quarto-compatible metadata.
+Executed marimo notebooks can be published as native, server-rendered articles. The independent [marimo-blog](https://github.com/justmytwospence/marimo-blog) package compiles their saved HTML exports offline; readers do not download Python or run notebooks.
 
 ## Getting Started
 
@@ -15,7 +15,7 @@ npm run typecheck    # tsc --noEmit
 npm run test         # Vitest
 ```
 
-CI (`.github/workflows/ci.yml`) runs lint, typecheck, tests, adventure validation, and build on every
+CI (`.github/workflows/ci.yml`) runs lint, typecheck, tests, adventure and compiled-notebook validation, and build on every
 branch push and pull requests targeting `dev` or `main`.
 
 ## Deployment
@@ -38,21 +38,29 @@ Domain-specific code lives in standalone workspace packages so each can be teste
 
 | Package | Purpose |
 |---|---|
-| `@blog/notebook-parser` | Jupyter notebook parsing, validation, Quarto metadata extraction, output utilities (the "Quarto clone"). |
 | `@blog/hardcover` | Hardcover GraphQL client for the reading list. |
 | `@blog/obsidian-md` | Obsidian-flavored markdown preprocessor (wikilinks, image embeds, highlights). |
 | `@blog/inoreader` | Inoreader RSS client for the blogroll. |
 
-Next.js `transpilePackages` compiles the raw TypeScript in each. Always import from the package name (`@blog/notebook-parser`), never from internal paths.
+Next.js `transpilePackages` compiles the workspace TypeScript. Always import workspaces from their package names, never internal paths. `marimo-blog` is a separately published package in `~/Projects/marimo-blog`; never edit its installed copy.
 
 ### Content (`/content`)
 
 Four content types share a parser in `lib/content.ts`:
 
-- **Blog posts** (`/content/blog/*.md`) — markdown with YAML frontmatter (`title`, `date`, `categories`, `description`, `featured`, optional `bluesky`).
-- **Projects** (`/content/projects/*`) — markdown, notebook (`.ipynb` with Quarto frontmatter in the first cell), webapp config (`.json`), or external link (markdown with `externalUrl`).
+- **Blog posts** (`/content/blog/*.md` or `*.marimo.json`) — markdown frontmatter or a compiled marimo article; authoring settings for a notebook live in the matching `*.marimo.yaml`.
+- **Projects** (`/content/projects/*`) — markdown, compiled marimo article (`*.marimo.json`), webapp config (`.json`), or external link (markdown with `externalUrl`).
 - **Concepts** (`/content/concepts/*.md`) — interactive explainers backed by a React component registered in `components/concepts/index.ts` (dynamic import with `ssr: false` because they use canvas/window).
 - **Pages** — currently only `/about` and `/`, hardcoded TSX.
+
+### Publishing a marimo article
+
+1. Execute the source notebook in its own Python environment and export official static HTML. This authoring step is separate from site builds and never runs in CI.
+2. Add `content/blog/<slug>.marimo.yaml` with title, publication date, description and tags. Inspect export cell IDs and explicitly review any script-bearing output before approving sandbox use.
+3. Run `npm run notebook:import -- --slug <slug> --html /path/to/export.html`. Review diagnostics and generated `content/blog/<slug>.marimo.json` plus `public/notebooks/<slug>/assets/`; never commit a source database or cache.
+4. Run `npm run notebook:check`, then lint, typecheck, tests and build. The compiled document and its content-addressed assets are the deploy inputs; no Python runs during the build or page render.
+
+See the [marimo-blog authoring guide](https://github.com/justmytwospence/marimo-blog/blob/main/docs/authoring.md) for exporter-version support, source privacy, output permissions and optional separate WASM pages.
 
 ### Comments (Bluesky)
 
@@ -125,15 +133,15 @@ OAuth setup:
 
 - Path alias `@/*` → project root.
 - Server components by default; `'use client'` only where interactivity is needed.
-- Three-layer error boundaries in notebook rendering: notebook → cell → output.
-- Notebook HTML output is sanitized via `isomorphic-dompurify`.
+- marimo-blog sanitizes and validates notebook outputs at compilation and at the manifest boundary; arbitrary notebook scripts never execute in the article page. Reviewed script-bearing outputs require an explicit isolated sandbox.
 - Per-page `metadata.title` exports automatically combine with the `'%s — Data Spencer'` template in `app/layout.tsx`.
 
 ## Testing
 
 ```bash
 npm run test                          # all tests
-npm -w @blog/notebook-parser run test # one workspace
+npm run notebook:check               # validate compiled article/asset ownership and hashes
+npm -w @blog/hardcover run test       # one workspace
 npx vitest run path/to/file.test.ts   # single file
 ```
 

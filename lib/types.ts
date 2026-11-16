@@ -2,7 +2,7 @@
  * Type definitions for the portfolio website
  */
 
-import type { Notebook } from '@blog/notebook-parser/types';
+import type { MarimoDocument } from 'marimo-blog';
 
 /**
  * Base metadata for all content items
@@ -11,7 +11,7 @@ export interface ContentMetadata {
   title: string;
   date: string;
   slug: string;
-  type: 'markdown' | 'notebook' | 'webapp' | 'link' | 'component';
+  type: 'markdown' | 'marimo' | 'webapp' | 'link' | 'component';
   categories?: string[];
   description?: string;
   featured?: boolean;
@@ -48,7 +48,7 @@ export interface Project extends ContentMetadata {
  */
 export interface BlogPost extends ContentMetadata {
   category: 'blog';
-  readingTime?: number;
+  readingTime: number;
 }
 
 /**
@@ -60,12 +60,10 @@ export interface MarkdownContent {
   metadata: ContentMetadata;
 }
 
-/**
- * Jupyter notebook content
- */
-export interface NotebookContent {
-  type: 'notebook';
-  notebookData: Notebook;
+/** Compiled, validated marimo publication. */
+export interface MarimoContent {
+  type: 'marimo';
+  document: MarimoDocument;
   metadata: ContentMetadata;
 }
 
@@ -109,7 +107,7 @@ export interface Concept extends ContentMetadata {
 /**
  * Union type for all content types
  */
-export type Content = MarkdownContent | NotebookContent | WebappContent | LinkContent | ConceptContent;
+export type Content = MarkdownContent | MarimoContent | WebappContent | LinkContent | ConceptContent;
 
 /**
  * Webapp configuration file structure

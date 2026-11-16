@@ -11,7 +11,6 @@ const securityHeaders = [
 
 const nextConfig = {
   transpilePackages: [
-    '@blog/notebook-parser',
     '@blog/hardcover',
     '@blog/inoreader',
     '@blog/obsidian-md',

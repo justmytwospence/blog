@@ -1,9 +1,7 @@
 import { getAllProjects, getProjectBySlug } from '@/lib/content';
 import { ArticleMarkdown } from '@/components/ArticleMarkdown';
-import { NotebookRenderer } from '@/components/notebook/NotebookRenderer';
-import { NotebookErrorBoundary } from '@/components/notebook/errors/NotebookErrorBoundary';
+import { MarimoPost } from '@/components/marimo/MarimoPost';
 import { PageContainer } from '@/components/PageContainer';
-import { extractMetadata } from '@blog/notebook-parser';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
@@ -197,34 +195,12 @@ export default async function ProjectDetailPage({
     );
   }
 
-  if (content.type === 'notebook') {
-    // Filter out the frontmatter cell
-    const notebookData = { ...content.notebookData };
-    if (
-      notebookData.cells &&
-      notebookData.cells.length > 0 &&
-      (notebookData.cells[0].cell_type === 'raw' || notebookData.cells[0].cell_type === 'markdown')
-    ) {
-      const firstCellSource = Array.isArray(notebookData.cells[0].source)
-        ? notebookData.cells[0].source.join('')
-        : notebookData.cells[0].source;
-
-      if (firstCellSource.trim().startsWith('---')) {
-        notebookData.cells = notebookData.cells.slice(1);
-      }
-    }
-
-    const notebookMetadata = extractMetadata(notebookData, content.metadata.slug);
-
+  if (content.type === 'marimo') {
     return (
       <PageContainer width="wide">
         {parentLink}
-        <NotebookErrorBoundary notebookTitle={content.metadata.title}>
-          <NotebookRenderer
-            notebook={notebookData}
-            metadata={notebookMetadata}
-          />
-        </NotebookErrorBoundary>
+        <MarimoPost document={content.document} metadata={content.metadata} category="project" />
+        {resourceLinks}
       </PageContainer>
     );
   }

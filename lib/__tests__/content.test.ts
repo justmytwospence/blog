@@ -40,10 +40,7 @@ describe('getAllBlogPosts', () => {
       expect(post.slug).toBeTruthy();
       expect(post.title).toBeTruthy();
       expect(Number.isNaN(new Date(post.date).getTime())).toBe(false);
-      // Markdown posts carry a computed reading time; notebook posts have no markdown body.
-      if (post.type === 'markdown') {
-        expect(post.readingTime).toBeGreaterThanOrEqual(1);
-      }
+      expect(post.readingTime).toBeGreaterThanOrEqual(1);
     }
   });
 });
@@ -128,13 +125,23 @@ describe('content type discrimination', () => {
     expect(content!.metadata.externalUrl).toMatch(/^https:/);
   });
 
-  it('returns a notebook blog post with notebook data for kcore', () => {
+  it('publishes kcore from a compiled marimo document, not a Jupyter notebook', () => {
     const content = getBlogPostBySlug('kcore');
-    expect(content).not.toBeNull();
-    expect(content!.type).toBe('notebook');
-    if (content!.type === 'notebook') {
-      expect(content!.notebookData.cells.length).toBeGreaterThan(0);
+    expect(content?.type).toBe('marimo');
+    if (content?.type === 'marimo') {
+      expect(content.document.cells.length).toBeGreaterThan(0);
+      expect(content.document.metadata.slug).toBe('kcore');
     }
+    expect(getAllBlogPosts().filter(post => post.slug === 'kcore')).toHaveLength(1);
+  });
+});
+
+describe('catalog integrity', () => {
+  it('never discovers ipynb or authoring YAML and has unique slugs', () => {
+    const posts = getAllBlogPosts();
+    expect(new Set(posts.map(post => post.slug)).size).toBe(posts.length);
+    expect(new Set(getAllProjects().map(project => project.slug)).size).toBe(getAllProjects().length);
+    expect(posts.every(post => !post.slug.endsWith('.marimo') && !post.slug.endsWith('.ipynb'))).toBe(true);
   });
 });
 

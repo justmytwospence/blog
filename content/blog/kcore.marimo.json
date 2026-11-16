@@ -1,0 +1,504 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "slug": "kcore",
+    "title": "K-Core Decomposition for Ultramarathon Data",
+    "date": "2025-11-25",
+    "description": "Using k-core decomposition on every marathon-or-longer start, including DNFs, to find a densely connected runner-course subset for downstream models.",
+    "tags": [
+      "graph-theory",
+      "ultrasignup",
+      "python"
+    ],
+    "featured": true
+  },
+  "provenance": {
+    "exporterVersion": "0.25.1",
+    "notebookVersion": "1",
+    "sessionVersion": "1",
+    "inputSha256": "175ae4d446d0423803e6bd4252b2f63bd4a0c7127abb09d86742b642fada774d",
+    "publicationConfigSha256": "228e3fb737c11f8ffe1f32c6afd632087220058355a1b50007d7e9c260f9eff4",
+    "producerVersion": "0.1.0",
+    "sourceHashes": {
+      "Hbol": "f649a0b56c5c1966b89acda319ce7569fde0fde74bf8c90523967a4ff7d59caf",
+      "MJUe": "aad1f8e6dfa535edae30910644bed0848da9791081f45b5cae5de49c33f680d1",
+      "vblA": "189f7acf6964cd0f422f7fe6ba1984d6c8109e3aee8782f924e969e3ef49d557",
+      "bkHC": "1ed10f7591f5ef625fdf20fca20634749d486255d6ae9098f3d5d94ee1ccebf9",
+      "lEQa": "5926824edc0638440df23f53742f108352b166a20c95fa53a10d987c82df5d5f",
+      "PKri": "68b14f58d0092e47b9819a15153c10c5d5ef11448821d64a0d1959e89426781d",
+      "Xref": "cd03cb6087fe543dc441335557151bea63f78bbaa913ab72121681311b445911",
+      "SFPL": "70aa12c034d21445c8e5da0ad9d312a89b0d1fce6504b5e68637748a6327326d",
+      "BYtC": "4ad1f3f5a60081ac8f7afd28f31a9497d56270e4ab4f9234123125b19ae0c720",
+      "RGSE": "9fa04c4c970b0b17472f3a3b99f2c687911696d3d521cb7e0adf10de765956e4",
+      "Kclp": "ce39f2400ee1d12a6449b38ccbdc3a0619a76344fc10d9ed8195b052e0a3468a",
+      "emfo": "33aaa4cef23acee8f115399bf5c8f5279c4ac14f0b4cb54ac82e49b9c724478c",
+      "Hstk": "9245060404edd2474f0707a84f7051f0bf3bd52faccfdc8a38750508b1eb389a",
+      "nWHF": "8e8731eb5270eb7ac0cbfd4d09c5a316d6c22a021273140a8a1c0eed7efff236",
+      "iLit": "6f30eb493640ac7901706e618350ba9e1623897e10daacf7aed63744c2610290",
+      "ZHCJ": "bbb1b9d20ddd4e8fa9f0632567c30995aca5fad7356df137307f9dc26ec87d1a",
+      "ROlb": "434c7a7c72150506d165cc2cb889b0ccd138e5ab17ee3fb8dcee7042af78f009",
+      "qnkX": "fde18b604387f20a80baeab0d6872ff45844ad89ad4430fed699577ed76eab6b",
+      "TqIu": "ad7354e2c732c8547d3560e94f0cc3181bd1081a451393a87f8cf9d4d94e80b5",
+      "Vxnm": "11477248b7cd2fb664dd68174ee9e9e0949c259144ef7932d4bea2f4661fd6e1"
+    },
+    "sourceSha256": "3b03c0c27c46513401565ea93eae81ff28edcef1f11698c89af61a24f34801f8"
+  },
+  "assetBase": "/notebooks/kcore/assets",
+  "cells": [
+    {
+      "id": "MJUe",
+      "ordinal": 1,
+      "name": "_",
+      "source": "mo.md(r\"\"\"\n# K-Core Decomposition for Ultramarathon Data\n\n## The Sparsity Problem\n\nUltramarathon race results present a fascinating modeling challenge. With thousands of races and hundreds of thousands of runners, you might think we'd have plenty of data—but the reality is far more complex. Most runners complete only a handful of races, and most races see only a fraction of the broader running population. This creates an extremely **sparse** dataset where direct comparisons between runners or courses are often impossible.\n\nImagine trying to compare a runner who only does Western States with someone who only does Leadville. Without shared race participation, we have no common reference point. This sparsity becomes a critical problem when we want to build statistical models that estimate runner abilities or course difficulties.\n\n**The solution?** Rather than wrestling with the full sparse dataset, we can identify a densely-connected subset where runners and courses have enough overlap for meaningful inference. This is where **k-core decomposition** comes in—a graph-theoretic technique that iteratively prunes nodes until every remaining node meets minimum connectivity requirements.\n\nIn this notebook, we'll:\n1. Explore the space of possible k-core configurations\n2. Visualize the tradeoffs between subset size and density\n3. Select and examine a specific k-core for downstream modeling\n\"\"\")",
+      "sourceLanguage": "python",
+      "hideCode": true,
+      "disabled": false,
+      "code": "hidden",
+      "console": "collapsed",
+      "outputs": [
+        {
+          "type": "html",
+          "html": "<div><span id=\"k-core-decomposition-for-ultramarathon-data\"></span>\n<h2 id=\"the-sparsity-problem\">The Sparsity Problem</h2>\n<p>Ultramarathon race results present a fascinating modeling challenge. With thousands of races and hundreds of thousands of runners, you might think we'd have plenty of data—but the reality is far more complex. Most runners complete only a handful of races, and most races see only a fraction of the broader running population. This creates an extremely <strong>sparse</strong> dataset where direct comparisons between runners or courses are often impossible.</p>\n<p>Imagine trying to compare a runner who only does Western States with someone who only does Leadville. Without shared race participation, we have no common reference point. This sparsity becomes a critical problem when we want to build statistical models that estimate runner abilities or course difficulties.</p>\n<p><strong>The solution?</strong> Rather than wrestling with the full sparse dataset, we can identify a densely-connected subset where runners and courses have enough overlap for meaningful inference. This is where <strong>k-core decomposition</strong> comes in—a graph-theoretic technique that iteratively prunes nodes until every remaining node meets minimum connectivity requirements.</p>\n<p>In this notebook, we'll:</p>\n<ol>\n<li>Explore the space of possible k-core configurations</li>\n<li>Visualize the tradeoffs between subset size and density</li>\n<li>Select and examine a specific k-core for downstream modeling</li>\n</ol></div>"
+        }
+      ],
+      "consoleOutputs": []
+    },
+    {
+      "id": "vblA",
+      "ordinal": 2,
+      "name": "_",
+      "source": "mo.md(r\"\"\"\n## Setup\n\nWe begin by loading race results from UltraSignup, a comprehensive database of ultramarathon events. The preprocessing pipeline keeps running events with valid course and distance information, including both finishes and DNFs (Did Not Finish). It does not require a race to report DNFs.\n\nWe focus on marathon-distance and longer events (≥42 km), where both finishes and DNFs contribute to the runner-course graph.\n\"\"\")",
+      "sourceLanguage": "python",
+      "hideCode": true,
+      "disabled": false,
+      "code": "hidden",
+      "console": "collapsed",
+      "outputs": [
+        {
+          "type": "html",
+          "html": "<div><h2 id=\"setup\">Setup</h2>\n<p>We begin by loading race results from UltraSignup, a comprehensive database of ultramarathon events. The preprocessing pipeline keeps running events with valid course and distance information, including both finishes and DNFs (Did Not Finish). It does not require a race to report DNFs.</p>\n<p>We focus on marathon-distance and longer events (≥42 km), where both finishes and DNFs contribute to the runner-course graph.</p></div>"
+        }
+      ],
+      "consoleOutputs": []
+    },
+    {
+      "id": "bkHC",
+      "ordinal": 3,
+      "name": "_",
+      "source": "from pathlib import Path\n\nimport pandas as pd\nimport numpy as np\nimport plotly.graph_objects as go\nimport igraph as ig\n\nfrom utils.data_processing import load_results, process_results\nfrom utils.kcore_subsetting import evaluate_all_kcore_candidates, subset_kcore_data",
+      "sourceLanguage": "python",
+      "hideCode": false,
+      "disabled": false,
+      "code": "folded",
+      "console": "collapsed",
+      "outputs": [],
+      "consoleOutputs": []
+    },
+    {
+      "id": "lEQa",
+      "ordinal": 4,
+      "name": "_",
+      "source": "# every start (finish or DNF) at marathon distance or longer; the core feeds a\n# finish-time model, so no DNF-reporting filter\n\nresults = process_results(load_results())\nresults = results[results['distance_km'] >= 42]",
+      "sourceLanguage": "python",
+      "hideCode": false,
+      "disabled": false,
+      "code": "folded",
+      "console": "collapsed",
+      "outputs": [],
+      "consoleOutputs": []
+    },
+    {
+      "id": "PKri",
+      "ordinal": 5,
+      "name": "_",
+      "source": "mo.md(r\"\"\"\n# Exploring the K-Core Parameter Space\n\n## What is a (α, β)-Core?\n\nThink of ultramarathon data as a **bipartite graph**: one set of nodes represents runners, another represents courses (race-distance combinations), and edges connect runners to courses they've started (finished or DNF'd, in any year). Counting DNFs as edges matters: a finishes-only graph would keep runners who rarely drop and lose those who often do, biasing every DNF model downstream. An **(α, β)-core** is the largest subgraph where:\n\n- Every **runner** has started at least **α** different courses\n- Every **course** has at least **β** different runners\n\nThe parameters α and β control the density-size tradeoff:\n- **Higher α** means runners must have more race history → fewer runners qualify\n- **Higher β** means courses need more participants → fewer courses qualify\n\nFinding the right balance is crucial. Too loose, and we retain too much sparsity for effective modeling. Too strict, and we throw away valuable data.\n\n### Sweeping (α, β)\n\nCores are nested: raising α or β only removes runners and courses. So the sweep walks β upward for each α, starting each core from the previous one, and stops when the core is empty. For every configuration it tracks how the subset evolves—measuring not just size, but also **completeness metrics** that indicate how representative the k-core remains of each runner's and course's full history.\n\"\"\")",
+      "sourceLanguage": "python",
+      "hideCode": true,
+      "disabled": false,
+      "code": "hidden",
+      "console": "collapsed",
+      "outputs": [
+        {
+          "type": "html",
+          "html": "<div><h2 id=\"exploring-the-k-core-parameter-space\">Exploring the K-Core Parameter Space</h2>\n<h3 id=\"what-is-a-core\">What is a (α, β)-Core?</h3>\n<p>Think of ultramarathon data as a <strong>bipartite graph</strong>: one set of nodes represents runners, another represents courses (race-distance combinations), and edges connect runners to courses they've started (finished or DNF'd, in any year). Counting DNFs as edges matters: a finishes-only graph would keep runners who rarely drop and lose those who often do, biasing every DNF model downstream. An <strong>(α, β)-core</strong> is the largest subgraph where:</p>\n<ul>\n<li>Every <strong>runner</strong> has started at least <strong>α</strong> different courses</li>\n<li>Every <strong>course</strong> has at least <strong>β</strong> different runners</li>\n</ul>\n<p>The parameters α and β control the density-size tradeoff:</p>\n<ul>\n<li><strong>Higher α</strong> means runners must have more race history → fewer runners qualify</li>\n<li><strong>Higher β</strong> means courses need more participants → fewer courses qualify</li>\n</ul>\n<p>Finding the right balance is crucial. Too loose, and we retain too much sparsity for effective modeling. Too strict, and we throw away valuable data.</p>\n<h4 id=\"sweeping\">Sweeping (α, β)</h4>\n<p>Cores are nested: raising α or β only removes runners and courses. So the sweep walks β upward for each α, starting each core from the previous one, and stops when the core is empty. For every configuration it tracks how the subset evolves—measuring not just size, but also <strong>completeness metrics</strong> that indicate how representative the k-core remains of each runner's and course's full history.</p></div>"
+        }
+      ],
+      "consoleOutputs": []
+    },
+    {
+      "id": "Xref",
+      "ordinal": 6,
+      "name": "_",
+      "source": "# search k-core space\n\ncandidates_df = evaluate_all_kcore_candidates(\n    results=results,\n    max_entities=None,  # cached candidates_df from prior full sweep\n    min_alpha=2,  # courses per runner\n    min_beta=30,  # runners per course\n    beta_step=2,\n    verbose=True,\n    use_cache=True\n)",
+      "sourceLanguage": "python",
+      "hideCode": false,
+      "disabled": false,
+      "code": "folded",
+      "console": "collapsed",
+      "outputs": [],
+      "consoleOutputs": [
+        {
+          "type": "text",
+          "text": "Loading cached k-core candidates from candidates_v2_9516c09def32_maxentNone_alpha2_beta30_step2.pkl\n",
+          "stream": "stdout"
+        }
+      ]
+    },
+    {
+      "id": "SFPL",
+      "ordinal": 7,
+      "name": "_",
+      "source": "mo.md(r\"\"\"\n# Visualizing the Parameter Landscape\n\nThe 3D visualization below reveals the fundamental tradeoffs in k-core selection. Each point on the surface represents a different (α, β) configuration:\n\n- **X-axis (Course Completeness)**: On average, what percentage of each course's total runners are retained in the k-core?\n- **Y-axis (Runner Completeness)**: On average, what percentage of each runner's race history is retained?\n- **Z-axis**: Configurable—toggle between course count, total entities, or total results\n\n**Key patterns to observe:**\n- The surface drops off sharply as we move toward higher completeness values—achieving both high course and runner completeness simultaneously requires sacrificing dataset size\n- The \"ridge\" of the surface shows the Pareto frontier: configurations where you can't improve one metric without sacrificing another\n- Hover over points to see the exact (α, β) values and detailed statistics\n\nUse the toggle buttons to explore different perspectives on the data.\n\"\"\")",
+      "sourceLanguage": "python",
+      "hideCode": true,
+      "disabled": false,
+      "code": "hidden",
+      "console": "collapsed",
+      "outputs": [
+        {
+          "type": "html",
+          "html": "<div><h2 id=\"visualizing-the-parameter-landscape\">Visualizing the Parameter Landscape</h2>\n<p>The 3D visualization below reveals the fundamental tradeoffs in k-core selection. Each point on the surface represents a different (α, β) configuration:</p>\n<ul>\n<li><strong>X-axis (Course Completeness)</strong>: On average, what percentage of each course's total runners are retained in the k-core?</li>\n<li><strong>Y-axis (Runner Completeness)</strong>: On average, what percentage of each runner's race history is retained?</li>\n<li><strong>Z-axis</strong>: Configurable—toggle between course count, total entities, or total results</li>\n</ul>\n<p><strong>Key patterns to observe:</strong></p>\n<ul>\n<li>The surface drops off sharply as we move toward higher completeness values—achieving both high course and runner completeness simultaneously requires sacrificing dataset size</li>\n<li>The \"ridge\" of the surface shows the Pareto frontier: configurations where you can't improve one metric without sacrificing another</li>\n<li>Hover over points to see the exact (α, β) values and detailed statistics</li>\n</ul>\n<p>Use the toggle buttons to explore different perspectives on the data.</p></div>"
+        }
+      ],
+      "consoleOutputs": []
+    },
+    {
+      "id": "BYtC",
+      "ordinal": 8,
+      "name": "_",
+      "source": "def plot_3d_kcore_space(candidates_df: pd.DataFrame, full_results: pd.DataFrame=None):\n    \"\"\"\n    Create interactive 3D wireframe visualization of k-core parameter space.\n\n    Displays parameter space as a grid wireframe, connecting discrete (α, β) points\n    from breadth-first search exploration.\n\n    Args:\n        candidates_df: All k-core candidates with metrics\n        full_results: Full dataset for calculating baseline density reference planes\n    \"\"\"\n    df = candidates_df.copy()\n    df['n_entities'] = df['n_courses'] + df['n_participants']\n    alpha_values = sorted(df['alpha'].unique())  # Calculate total entities\n    beta_values = sorted(df['beta'].unique())\n    grid_data = {}\n    for _, row in df.iterrows():  # Get unique sorted alpha and beta values\n        key = (row['alpha'], row['beta'])\n        grid_data[key] = {'x': row['avg_course_completeness'], 'y': row['avg_runner_completeness'], 'z_courses': row['n_courses'], 'z_entities': row['n_entities'], 'z_total_results': row['total_results'], 'n_courses': row['n_courses'], 'n_entities': row['n_entities'], 'total_results': row['total_results'], 'hover': f\"α={int(row['alpha'])}, β={int(row['beta'])}<br>Courses: {int(row['n_courses']):,}<br>Runners: {int(row['n_participants']):,}<br>Total Entities: {int(row['n_entities']):,}<br>Total Results: {int(row['total_results']):,}<br>Overall Density: {row['density']:.1f}<br>Runner completeness: {row['avg_runner_completeness']:.1f}%<br>Course completeness: {row['avg_course_completeness']:.1f}%\"}\n    min_courses = df['n_courses'].min()\n    max_courses = df['n_courses'].max()  # Create grid lookup with all z metrics\n    min_entities = df['n_entities'].min()\n    max_entities = df['n_entities'].max()\n    min_results = df['total_results'].min()\n    max_results = df['total_results'].max()\n    _fig = go.Figure()\n\n    def create_traces(z_key, color_key):\n        traces = []\n        if color_key == 'n_courses':\n            color_min, color_max = (min_courses, max_courses)\n        elif color_key == 'n_entities':\n            color_min, color_max = (min_entities, max_entities)\n        else:\n            color_min, color_max = (min_results, max_results)\n        for alpha in alpha_values:\n            x_line, y_line, z_line, color_line, hover_line = ([], [], [], [], [])\n            for beta in beta_values:\n                if (alpha, beta) in grid_data:\n                    point = grid_data[alpha, beta]\n                    x_line.append(point['x'])\n                    y_line.append(point['y'])\n                    z_line.append(point[z_key])\n                    color_line.append(point[color_key])\n                    hover_line.append(point['hover'])\n            if len(x_line) > 1:  # Determine color scale ranges for each metric\n                avg_color = sum(color_line) / len(color_line)\n                normalized_color = (avg_color - color_min) / (color_max - color_min) if color_max > color_min else 0\n                r = int(224 + normalized_color * (0 - 224))\n                g = int(242 + normalized_color * (30 - 242))\n                b = int(255 + normalized_color * (80 - 255))\n                traces.append(go.Scatter3d(x=x_line, y=y_line, z=z_line, mode='lines', line=dict(color=f'rgb({r}, {g}, {b})', width=2), text=hover_line, hoverinfo='text', showlegend=False, visible=False))\n        for beta in beta_values:\n            x_line, y_line, z_line, color_line, hover_line = ([], [], [], [], [])\n            for alpha in alpha_values:\n                if (alpha, beta) in grid_data:  # Helper function to create traces for a given z metric and color metric\n                    point = grid_data[alpha, beta]\n                    x_line.append(point['x'])\n                    y_line.append(point['y'])\n                    z_line.append(point[z_key])  # Get color metric min/max\n                    color_line.append(point[color_key])\n                    hover_line.append(point['hover'])\n            if len(x_line) > 1:\n                avg_color = sum(color_line) / len(color_line)\n                normalized_color = (avg_color - color_min) / (color_max - color_min) if color_max > color_min else 0  # total_results\n                r = int(224 + normalized_color * (0 - 224))\n                g = int(242 + normalized_color * (30 - 242))\n                b = int(255 + normalized_color * (80 - 255))  # Draw horizontal grid lines (constant alpha, varying beta)\n                traces.append(go.Scatter3d(x=x_line, y=y_line, z=z_line, mode='lines', line=dict(color=f'rgb({r}, {g}, {b})', width=2), text=hover_line, hoverinfo='text', showlegend=False, visible=False))\n        return traces\n    trace_sets = {}\n    for z_key in ['z_courses', 'z_entities', 'z_total_results']:\n        for color_key in ['n_courses', 'n_entities', 'total_results']:\n            trace_sets[z_key, color_key] = create_traces(z_key, color_key)\n    for (z_key, color_key), traces in trace_sets.items():\n        for trace in traces:\n            if z_key == 'z_courses' and color_key == 'total_results':\n                trace.visible = True\n            _fig.add_trace(trace)\n    _fig.add_trace(go.Scatter3d(x=[df['avg_course_completeness'].iloc[0]], y=[df['avg_runner_completeness'].iloc[0]], z=[df['n_courses'].iloc[0]], mode='markers', marker=dict(size=0.1, color=[min_results], colorscale=[[0, 'rgb(224, 242, 255)'], [1, 'rgb(0, 30, 80)']], showscale=True, colorbar=dict(title='Total Results', x=1.1, tickformat=','), cmin=min_results, cmax=max_results), showlegend=False, hoverinfo='skip', visible=True))  # Only draw if we have multiple points\n    n_traces_per_combo = len(trace_sets['z_courses', 'n_courses'])  # Use average color for the line segment (very light to very dark blue)\n\n    def make_visible_array(z_metric, color_metric):\n        \"\"\"Create visibility array for all traces.\"\"\"\n        visible = []  # Very light blue (224, 242, 255) to very dark blue (0, 30, 80)\n        for z_key, color_key in trace_sets.keys():\n            z_match = z_key == f'z_{z_metric}'\n            color_match = color_key == color_metric\n            visible.extend([z_match and color_match] * n_traces_per_combo)\n        visible.append(True)\n        return visible\n\n    def get_color_title(color_metric):\n        if color_metric == 'n_courses':\n            return 'Course Count'\n        elif color_metric == 'n_entities':\n            return 'Total Entities'\n        else:\n            return 'Total Results'\n\n    def get_color_range(color_metric):\n        if color_metric == 'n_courses':  # Will be set to True for initial z metric\n            return [min_courses, max_courses]\n        elif color_metric == 'n_entities':\n            return [min_entities, max_entities]  # Draw vertical grid lines (constant beta, varying alpha)\n        else:\n            return [min_results, max_results]\n    _fig.update_layout(title=dict(text='Interactive 3D K-Core Parameter Space Wireframe', x=0.5, xanchor='center', font=dict(size=18)), scene=dict(xaxis=dict(title='Course Completeness', backgroundcolor='rgb(230, 230,230)', gridcolor='white', ticksuffix='%'), yaxis=dict(title='Runner Completeness', backgroundcolor='rgb(230, 230,230)', gridcolor='white', ticksuffix='%'), zaxis=dict(title='Course Count', backgroundcolor='rgb(230, 230,230)', gridcolor='white', separatethousands=True), camera=dict(eye=dict(x=1.5, y=-1.5, z=1.3))), width=1000, height=850, hovermode='closest', updatemenus=[dict(type='buttons', direction='left', buttons=[dict(label='Z-axis: Courses', method='update', args=[{'visible': make_visible_array('courses', 'total_results')}, {'scene.zaxis.title': 'Course Count', 'scene.zaxis.range': [0, df['n_courses'].max() * 1.1], 'scene.zaxis.separatethousands': True}]), dict(label='Z-axis: Total Entities', method='update', args=[{'visible': make_visible_array('entities', 'total_results')}, {'scene.zaxis.title': 'Total Entities (Courses + Runners)', 'scene.zaxis.range': [0, df['n_entities'].max() * 1.1], 'scene.zaxis.separatethousands': True}]), dict(label='Z-axis: Total Results', method='update', args=[{'visible': make_visible_array('total_results', 'total_results')}, {'scene.zaxis.title': 'Total Results', 'scene.zaxis.range': [0, df['total_results'].max() * 1.1], 'scene.zaxis.separatethousands': True}])], x=0.5, xanchor='center', y=1.08, yanchor='top', bgcolor='rgba(255, 255, 255, 0.8)', bordercolor='rgba(100, 100, 100, 0.5)', borderwidth=1), dict(type='buttons', direction='left', buttons=[dict(label='Color: Courses', method='update', args=[{'visible': make_visible_array('courses', 'n_courses')}, {'marker.colorbar.title': 'Course Count', 'marker.cmin': min_courses, 'marker.cmax': max_courses}]), dict(label='Color: Total Entities', method='update', args=[{'visible': make_visible_array('courses', 'n_entities')}, {'marker.colorbar.title': 'Total Entities', 'marker.cmin': min_entities, 'marker.cmax': max_entities}]), dict(label='Color: Total Results', method='update', args=[{'visible': make_visible_array('courses', 'total_results')}, {'marker.colorbar.title': 'Total Results', 'marker.cmin': min_results, 'marker.cmax': max_results}])], x=0.5, xanchor='center', y=1.03, yanchor='top', bgcolor='rgba(255, 255, 255, 0.8)', bordercolor='rgba(100, 100, 100, 0.5)', borderwidth=1)])\n    return _fig\n# Visualize the parameter space with interactive 3D plot.\n# The figure serializes to ~24MB because of the 3×3 toggle matrix; we raise\n# marimo's output_max_bytes in analysis/pyproject.toml to accommodate.\nplot_3d_kcore_space(candidates_df=candidates_df, full_results=results)",
+      "sourceLanguage": "python",
+      "hideCode": false,
+      "disabled": false,
+      "code": "folded",
+      "console": "collapsed",
+      "outputs": [
+        {
+          "type": "plotly",
+          "asset": "/notebooks/kcore/assets/5d2c6e593fea07e6d5a88f1a4e7b70fad33bca9cb2b7f7326376720174382e93.json",
+          "caption": "Candidate-core tradeoffs in a 3D wireframe. Use the chart buttons to change the vertical axis and color metric.",
+          "alt": "Interactive 3D wireframe of runner completeness, course completeness and core size across alpha-beta settings."
+        }
+      ],
+      "consoleOutputs": []
+    },
+    {
+      "id": "RGSE",
+      "ordinal": 9,
+      "name": "_",
+      "source": "mo.md(r\"\"\"\n# Examining the (3, 840) K-Core\n\nWe select **(α=3, β=840)** as the development core for the runner-effect model:\n\n- **α=3**: every runner started at least 3 core courses, enough repeat observations to separate a runner's ability from the courses they ran.\n- **β=840**: every course had at least 840 distinct core starters. This leaves 28 courses and about 140,000 results, small enough to sample runner and course effects in minutes. Loosen β for final fits.\n\n**Scope.** The core is a convenience sample, not a representative one: it keeps the biggest, longest-running races, most of them in the western US. It is for estimating how runner and course effects separate, not for statements about all races. Every runner and course in it is connected through shared races, which a model with both effects needs.\n\n## Visualizing the Bipartite Structure\n\nThe visualizations below show the runner-course relationships: clusters of runners who share similar race portfolios, courses that attract overlapping populations, and the connectivity that makes comparative inference possible.\n\"\"\")",
+      "sourceLanguage": "python",
+      "hideCode": true,
+      "disabled": false,
+      "code": "hidden",
+      "console": "collapsed",
+      "outputs": [
+        {
+          "type": "html",
+          "html": "<div><h2 id=\"examining-the-3-840-k-core\">Examining the (3, 840) K-Core</h2>\n<p>We select <strong>(α=3, β=840)</strong> as the development core for the runner-effect model:</p>\n<ul>\n<li><strong>α=3</strong>: every runner started at least 3 core courses, enough repeat observations to separate a runner's ability from the courses they ran.</li>\n<li><strong>β=840</strong>: every course had at least 840 distinct core starters. This leaves 28 courses and about 140,000 results, small enough to sample runner and course effects in minutes. Loosen β for final fits.</li>\n</ul>\n<p><strong>Scope.</strong> The core is a convenience sample, not a representative one: it keeps the biggest, longest-running races, most of them in the western US. It is for estimating how runner and course effects separate, not for statements about all races. Every runner and course in it is connected through shared races, which a model with both effects needs.</p>\n<h3 id=\"visualizing-the-bipartite-structure\">Visualizing the Bipartite Structure</h3>\n<p>The visualizations below show the runner-course relationships: clusters of runners who share similar race portfolios, courses that attract overlapping populations, and the connectivity that makes comparative inference possible.</p></div>"
+        }
+      ],
+      "consoleOutputs": []
+    },
+    {
+      "id": "Kclp",
+      "ordinal": 10,
+      "name": "_",
+      "source": "mo.md(r\"\"\"\n## Building the Subset\n\nWe extract all results matching our k-core criteria and compute basic network statistics. The **degree** of a runner is the number of distinct courses they've started; the degree of a course is its number of distinct starters, across all its editions. These degree distributions tell us about the heterogeneity within our subset—are there a few \"super-connectors\" or is participation relatively uniform?\n\"\"\")",
+      "sourceLanguage": "python",
+      "hideCode": true,
+      "disabled": false,
+      "code": "hidden",
+      "console": "collapsed",
+      "outputs": [
+        {
+          "type": "html",
+          "html": "<div><h3 id=\"building-the-subset\">Building the Subset</h3>\n<p>We extract all results matching our k-core criteria and compute basic network statistics. The <strong>degree</strong> of a runner is the number of distinct courses they've started; the degree of a course is its number of distinct starters, across all its editions. These degree distributions tell us about the heterogeneity within our subset—are there a few \"super-connectors\" or is participation relatively uniform?</p></div>"
+        }
+      ],
+      "consoleOutputs": []
+    },
+    {
+      "id": "emfo",
+      "ordinal": 11,
+      "name": "_",
+      "source": "# Build the (3, 840) subset\nalpha, beta = 3, 840\n\nkcore_subset = subset_kcore_data(results, alpha=alpha, beta=beta)\nkcore_data = kcore_subset[kcore_subset['in_kcore']].copy()\n\n# A course is `name` (the data source's course_id) across all its editions; label it by its latest race name without the year\ncourse_labels = (\n    kcore_data.sort_values('race_date').groupby('name')['race_name'].last()\n    .str.replace(r' \\d{4} - ', ' - ', regex=True).to_dict()\n)\n\n# Degrees: distinct courses per runner, distinct runners per course\nrunner_degrees = kcore_data.groupby('participant_id')['name'].nunique()\ncourse_degrees = kcore_data.groupby('name')['participant_id'].nunique()\n\nkcore_sample = kcore_data.copy()\n\n# Starts per runner-course pair, summed over editions\nedge_counts = kcore_sample.groupby(['participant_id', 'name']).size().reset_index(name='edge_weight')\n\n_model = kcore_subset[kcore_subset['in_kcore'] | kcore_subset['in_closure']]\nprint(f\"K-core (α={alpha}, β={beta}):\")\nprint(f\"  Courses: {kcore_data['name'].nunique()} ({kcore_data['event_distance_id'].nunique()} editions, {kcore_data['year'].min()}-{kcore_data['year'].max()})\")\nprint(f\"  Core runners: {kcore_data['participant_id'].nunique():,}\")\nprint(f\"  Core results: {len(kcore_data):,}; with closure: {len(_model):,}\")\nprint(f\"  Runner-course edges: {len(edge_counts):,} (max starts per pair: {edge_counts['edge_weight'].max()})\")\nprint(f\"  DNF rate: core runners {1 - kcore_data['finished'].mean():.1%}, all starters at core courses {1 - _model['finished'].mean():.1%}\")",
+      "sourceLanguage": "python",
+      "hideCode": false,
+      "disabled": false,
+      "code": "folded",
+      "console": "collapsed",
+      "outputs": [],
+      "consoleOutputs": [
+        {
+          "type": "text",
+          "text": "K-core (α=3, β=840):\n  Courses: 33 (945 editions, 1974-2026)\n  Core runners: 9,892\n  Core results: 90,239; with closure: 160,417\n  Runner-course edges: 44,550 (max starts per pair: 32)\n  DNF rate: core runners 9.1%, all starters at core courses 11.3%\n",
+          "stream": "stdout"
+        }
+      ]
+    },
+    {
+      "id": "Hstk",
+      "ordinal": 12,
+      "name": "_",
+      "source": "mo.md(r\"\"\"\n## Adjacency Matrix Heatmap\n\nThe adjacency matrix provides a bird's-eye view of runner-course relationships. Each row is a runner, each column is a course, and cells are colored by **percentile finish time** (darker = faster relative to that course's field).\n\nWe apply **hierarchical clustering** to both rows and columns, reordering them to reveal latent structure. Look for:\n\n- **Block patterns**: Groups of runners who share similar race portfolios (they cluster together vertically) and tend to perform similarly across those races\n- **Color gradients**: Runners who consistently finish in similar percentiles across different courses (horizontal color consistency indicates stable relative ability)\n- **Sparse regions**: The gaps remind us that even within our dense k-core, not every runner-course combination is observed\n\nThis matrix shows only the top 100 runners by degree for readability, but the patterns extend throughout the full dataset.\n\"\"\")",
+      "sourceLanguage": "python",
+      "hideCode": true,
+      "disabled": false,
+      "code": "hidden",
+      "console": "collapsed",
+      "outputs": [
+        {
+          "type": "html",
+          "html": "<div><h3 id=\"adjacency-matrix-heatmap\">Adjacency Matrix Heatmap</h3>\n<p>The adjacency matrix provides a bird's-eye view of runner-course relationships. Each row is a runner, each column is a course, and cells are colored by <strong>percentile finish time</strong> (darker = faster relative to that course's field).</p>\n<p>We apply <strong>hierarchical clustering</strong> to both rows and columns, reordering them to reveal latent structure. Look for:</p>\n<ul>\n<li><strong>Block patterns</strong>: Groups of runners who share similar race portfolios (they cluster together vertically) and tend to perform similarly across those races</li>\n<li><strong>Color gradients</strong>: Runners who consistently finish in similar percentiles across different courses (horizontal color consistency indicates stable relative ability)</li>\n<li><strong>Sparse regions</strong>: The gaps remind us that even within our dense k-core, not every runner-course combination is observed</li>\n</ul>\n<p>This matrix shows only the top 100 runners by degree for readability, but the patterns extend throughout the full dataset.</p></div>"
+        }
+      ],
+      "consoleOutputs": []
+    },
+    {
+      "id": "nWHF",
+      "ordinal": 13,
+      "name": "_",
+      "source": "import plotly.express as px\nfrom scipy.cluster.hierarchy import linkage, dendrogram\nfrom scipy.spatial.distance import pdist\ntop_runners = runner_degrees.nlargest(100).index\n# Sample top 100 runners for adjacency matrix visualization\nkcore_matrix_sample = kcore_sample[kcore_sample['participant_id'].isin(top_runners)]\nmatrix_data = kcore_matrix_sample.groupby(['participant_id', 'name'])['time_ms'].mean().reset_index()\npercentile_data = []\n# Create adjacency matrix with percentile finish times\nfor event_id in matrix_data['name'].unique():\n    course_times = kcore_matrix_sample[kcore_matrix_sample['name'] == event_id]['time_ms']\n# Calculate percentile for each course\n    participant_times = matrix_data[matrix_data['name'] == event_id].copy()\n    participant_times['percentile'] = participant_times['time_ms'].rank(pct=True) * 100\n    percentile_data.append(participant_times)  # Get all finish times for this course\npercentile_df = pd.concat(percentile_data, ignore_index=True)\nmatrix = percentile_df.pivot(index='participant_id', columns='name', values='percentile')\nmatrix_filled = matrix.fillna(matrix.median().median())  # Get participant times for this course\nrow_linkage = linkage(pdist(matrix_filled, metric='euclidean'), method='ward')\nrow_dendrogram = dendrogram(row_linkage, no_plot=True)\nrow_order = row_dendrogram['leaves']  # Calculate percentile rank (0-100)\ncol_linkage = linkage(pdist(matrix_filled.T, metric='euclidean'), method='ward')\ncol_dendrogram = dendrogram(col_linkage, no_plot=True)\ncol_order = col_dendrogram['leaves']\nmatrix_clustered = matrix.iloc[row_order, col_order]\n# Combine all percentiles\nrunner_names = kcore_matrix_sample[['participant_id', 'first_name', 'last_name']].drop_duplicates('participant_id').set_index('participant_id')\nrunner_names['full_name'] = runner_names['first_name'] + ' ' + runner_names['last_name']\n# Create matrix with percentiles\nmatrix_clustered_with_names = matrix_clustered.copy()\nmatrix_clustered_with_names.index = [runner_names.loc[pid, 'full_name'] if pid in runner_names.index else str(pid) for pid in matrix_clustered.index]\n# Fill NaN values with median for clustering (represents missing races)\nmatrix_clustered_with_names.columns = [course_labels.get(col, str(col)) for col in matrix_clustered_with_names.columns]\n# Perform hierarchical clustering on rows (runners)\n_fig = px.imshow(matrix_clustered_with_names, aspect='auto', color_continuous_scale='Viridis', labels=dict(color='Percentile', x='Course', y='Runner'), title=f'Runner × Course Adjacency Matrix (α={alpha}, β={beta}, Top 100 Runners)<br><sub>Color = Percentile Finish Time (higher = slower) | Hierarchically Clustered</sub>')\n_fig.update_layout(width=1200, height=800, xaxis=dict(tickangle=-45, tickfont=dict(size=8), showgrid=False, showline=False, showticklabels=False, title=''), yaxis=dict(tickfont=dict(size=6), showgrid=False, showline=False, showticklabels=False, title=''), plot_bgcolor='white', paper_bgcolor='white')\n# Perform hierarchical clustering on columns (courses)\n# Reorder matrix using clustering results\n# Get runner names for hover text\n# Create custom hover text with runner names\n# Get race names for column labels - keep event_distance_id to ensure uniqueness\n# Create unique labels by combining name with event_distance_id\n_fig",
+      "sourceLanguage": "python",
+      "hideCode": false,
+      "disabled": false,
+      "code": "folded",
+      "console": "collapsed",
+      "outputs": [
+        {
+          "type": "plotly",
+          "asset": "/notebooks/kcore/assets/de05e82589f0a5fac1685e8991814382c19ae380f8a50a0709a405dae13a6001.json",
+          "caption": "Percentile finish times for the 100 core runners with the most distinct courses, clustered by runner and course.",
+          "alt": "Heatmap of relative finish times for 100 runners across the courses in the selected core."
+        }
+      ],
+      "consoleOutputs": []
+    },
+    {
+      "id": "iLit",
+      "ordinal": 14,
+      "name": "_",
+      "source": "mo.md(r\"\"\"\n## Force-Directed Network\n\nThe final visualization presents the k-core as a **force-directed network graph**. This physics-inspired layout treats edges as springs and nodes as mutually-repelling particles, letting the graph \"relax\" into a natural arrangement where connected nodes cluster together.\n\n### Super-Node Compression\n\nWith thousands of runners, a naive visualization would be overwhelming. We address this by creating **super-nodes**: runners with *identical* race participation patterns are merged into a single node. This is semantically meaningful—runners who've done exactly the same set of races are essentially interchangeable from a network topology perspective.\n\nThe resulting graph reveals:\n- **Central hubs**: Courses that attract runners from across the community (high connectivity)\n- **Peripheral clusters**: Regional or niche race circuits with dedicated but isolated participant pools\n- **Bridge nodes**: Runners or courses that connect otherwise-separate sub-communities\n\n**Interactive features**: Hover over any node to highlight its connections. Course nodes appear in coral; runner groups in the Viridis colorscale (colored by degree).\n\"\"\")",
+      "sourceLanguage": "python",
+      "hideCode": true,
+      "disabled": false,
+      "code": "hidden",
+      "console": "collapsed",
+      "outputs": [
+        {
+          "type": "html",
+          "html": "<div><h3 id=\"force-directed-network\">Force-Directed Network</h3>\n<p>The final visualization presents the k-core as a <strong>force-directed network graph</strong>. This physics-inspired layout treats edges as springs and nodes as mutually-repelling particles, letting the graph \"relax\" into a natural arrangement where connected nodes cluster together.</p>\n<h4 id=\"super-node-compression\">Super-Node Compression</h4>\n<p>With thousands of runners, a naive visualization would be overwhelming. We address this by creating <strong>super-nodes</strong>: runners with <em>identical</em> race participation patterns are merged into a single node. This is semantically meaningful—runners who've done exactly the same set of races are essentially interchangeable from a network topology perspective.</p>\n<p>The resulting graph reveals:</p>\n<ul>\n<li><strong>Central hubs</strong>: Courses that attract runners from across the community (high connectivity)</li>\n<li><strong>Peripheral clusters</strong>: Regional or niche race circuits with dedicated but isolated participant pools</li>\n<li><strong>Bridge nodes</strong>: Runners or courses that connect otherwise-separate sub-communities</li>\n</ul>\n<p><strong>Interactive features</strong>: Hover over any node to highlight its connections. Course nodes appear in coral; runner groups in the Viridis colorscale (colored by degree).</p></div>"
+        }
+      ],
+      "consoleOutputs": []
+    },
+    {
+      "id": "ZHCJ",
+      "ordinal": 15,
+      "name": "_",
+      "source": "runner_signatures = {}\nfor _runner_id in kcore_sample['participant_id'].unique():\n    races = frozenset(kcore_sample[kcore_sample['participant_id'] == _runner_id]['name'])\n    runner_signatures[_runner_id] = races\nunique_signatures = {}\nfor _runner_id, _sig in runner_signatures.items():\n    if _sig not in unique_signatures:\n        unique_signatures[_sig] = set()\n    unique_signatures[_sig].add(_runner_id)\nunique_courses = sorted(kcore_sample['name'].unique())\nrunner_names_1 = kcore_sample[['participant_id', 'first_name', 'last_name']].drop_duplicates('participant_id')\nrunner_names_1 = {row['participant_id']: f\"{row['first_name']} {row['last_name']}\" for _, row in runner_names_1.iterrows()}\nrace_names = course_labels\nprint(f'Created {len(unique_signatures):,} super-nodes from {len(runner_signatures):,} runners')\nprint(f'Average group size: {len(runner_signatures) / len(unique_signatures):.1f} runners per super-node')\nprint(f'Largest group: {max((len(runners) for runners in unique_signatures.values()))} runners')\nprint(f'Total courses: {len(unique_courses)}')",
+      "sourceLanguage": "python",
+      "hideCode": false,
+      "disabled": false,
+      "code": "folded",
+      "console": "collapsed",
+      "outputs": [],
+      "consoleOutputs": [
+        {
+          "type": "text",
+          "text": "Created 5,077 super-nodes from 9,892 runners\nAverage group size: 1.9 runners per super-node\nLargest group: 351 runners\nTotal courses: 33\n",
+          "stream": "stdout"
+        }
+      ]
+    },
+    {
+      "id": "ROlb",
+      "ordinal": 16,
+      "name": "_",
+      "source": "import time\nimport json\nstart_time = time.time()\nedges = []\nedge_weights = {}\nrunner_to_super = {}\nfor super_idx, (_sig, runners) in enumerate(unique_signatures.items()):\n    for _runner_id in runners:\n        runner_to_super[_runner_id] = super_idx\ncourse_to_idx = {course_id: idx for idx, course_id in enumerate(unique_courses)}\nfor _, row in edge_counts.iterrows():\n    _runner_id = row['participant_id']\n    course_id = row['name']\n    if _runner_id in runner_to_super:\n        super_idx = runner_to_super[_runner_id]\n        course_idx = len(unique_signatures) + course_to_idx[course_id]\n        edge_key = (super_idx, course_idx)\n        edge_weights[edge_key] = edge_weights.get(edge_key, 0) + row['edge_weight']\nedges = list(edge_weights.keys())\nlayout_start = time.time()\ng = ig.Graph.Bipartite([0] * len(unique_signatures) + [1] * len(unique_courses), edges)\nlayouts = {}\nfr_start = time.time()\nbase_layout = g.layout_fruchterman_reingold(niter=10000, grid='auto')\nlayouts['Fruchterman-Reingold'] = base_layout\ndegrees = g.degree()\nrunner_names_list = []\nfor _sig in unique_signatures.keys():\n    runners = unique_signatures[_sig]\n    if len(runners) == 1:\n        _runner_id = list(runners)[0]\n        runner_names_list.append(runner_names_1.get(_runner_id, f'Runner {_runner_id}'))\n    else:\n        runner_names_list.append(f'{len(runners)} runners')\ncourse_names_list = [race_names.get(c, f'Course {c}') for c in unique_courses]\n_fig = go.Figure()\n\ndef add_optimized_layout(fig, layout):\n    \"\"\"Add layout with optimized edge rendering using dual traces.\"\"\"\n    pos_x = [coord[0] for coord in layout.coords]\n    pos_y = [coord[1] for coord in layout.coords]\n    edge_x = []\n    edge_y = []\n    node_to_segments = {}\n    node_neighbors = {}\n    segment_idx = 0\n    for edge_idx, edge in enumerate(g.es):\n        source, target = edge.tuple\n        if source not in node_to_segments:\n            node_to_segments[source] = []\n            node_neighbors[source] = []\n        if target not in node_to_segments:\n            node_to_segments[target] = []\n            node_neighbors[target] = []\n        node_to_segments[source].append(segment_idx)\n        node_to_segments[target].append(segment_idx)\n        node_neighbors[source].append(target)\n        node_neighbors[target].append(source)\n        edge_x.extend([pos_x[source], pos_x[target], None])\n        edge_y.extend([pos_y[source], pos_y[target], None])\n        segment_idx = segment_idx + 1\n    _fig.add_trace(go.Scattergl(x=edge_x, y=edge_y, mode='lines', line=dict(width=0.5, color='rgba(200,200,200,0.3)'), hoverinfo='skip', name='base_edges', showlegend=False))\n    _fig.add_trace(go.Scattergl(x=[], y=[], mode='lines', line=dict(width=2, color='rgba(255,50,50,0.9)'), hoverinfo='skip', name='highlight_edges', showlegend=False))\n    super_node_indices = list(range(len(unique_signatures)))\n    course_indices = list(range(len(unique_signatures), len(unique_signatures) + len(unique_courses)))\n    super_node_sizes = []\n    super_node_degrees = []\n    super_node_hover_text = []\n    for idx, (_sig, runners) in enumerate(unique_signatures.items()):\n        group_size = len(runners)\n        super_node_sizes.append(3 + np.log1p(group_size) * 2)\n        super_node_degrees.append(degrees[idx])\n        if group_size == 1:\n            _runner_id = list(runners)[0]\n            name = runner_names_1.get(_runner_id, f'Runner {_runner_id}')\n            super_node_hover_text.append(f'{name}<br>Degree: {degrees[idx]}')\n        else:\n            sample_names = [runner_names_1.get(r, f'Runner {r}') for r in list(runners)[:3]]\n            hover = f'Group of {group_size} runners<br>' + '<br>'.join(sample_names)\n            if group_size > 3:\n                hover = hover + f'<br>... and {group_size - 3} more'\n            hover = hover + f'<br>Degree: {degrees[idx]}'\n            super_node_hover_text.append(hover)\n    course_hover_text = [f'{course_names_list[i]}<br>Degree: {degrees[len(unique_signatures) + i]}' for i in range(len(unique_courses))]\n    course_sizes = [2 + np.log1p(degrees[i]) * 1.5 for i in course_indices]\n    _fig.add_trace(go.Scattergl(x=[pos_x[i] for i in super_node_indices], y=[pos_y[i] for i in super_node_indices], mode='markers', marker=dict(size=super_node_sizes, color=super_node_degrees, colorscale='Viridis', showscale=False, symbol='circle', opacity=0.6, line=dict(width=0)), text=super_node_hover_text, hoverinfo='text', name='Runner Groups', showlegend=False, customdata=[[i] for i in super_node_indices]))\n    _fig.add_trace(go.Scattergl(x=[pos_x[i] for i in course_indices], y=[pos_y[i] for i in course_indices], mode='markers', marker=dict(size=course_sizes, color='coral', symbol='circle', opacity=0.6, line=dict(width=0)), text=course_hover_text, hoverinfo='text', name='Courses', showlegend=False, customdata=[[i] for i in course_indices]))\n    _fig.add_trace(go.Scattergl(x=[], y=[], mode='markers', marker=dict(size=[], color=[], colorscale='Viridis', symbol='circle', opacity=1.0, line=dict(width=2, color='white')), text=[], hoverinfo='text', name='highlight_runners', showlegend=False))\n    _fig.add_trace(go.Scattergl(x=[], y=[], mode='markers', marker=dict(size=[], color='coral', symbol='circle', opacity=1.0, line=dict(width=2, color='white')), text=[], hoverinfo='text', name='highlight_courses', showlegend=False))\n    return (node_to_segments, edge_x, edge_y, node_neighbors, pos_x, pos_y, super_node_sizes, super_node_degrees, super_node_hover_text, course_hover_text, course_sizes)\nnode_to_segs, base_edge_x, base_edge_y, node_neighbors, pos_x, pos_y, runner_sizes, runner_degrees_1, runner_hover, course_hover, course_sizes = add_optimized_layout(_fig, layouts['Fruchterman-Reingold'])\nconnectivity_data = {'node_to_segments': {str(k): v for k, v in node_to_segs.items()}, 'node_neighbors': {str(k): v for k, v in node_neighbors.items()}, 'base_edge_x': base_edge_x, 'base_edge_y': base_edge_y, 'pos_x': pos_x, 'pos_y': pos_y, 'runner_sizes': runner_sizes, 'runner_degrees': runner_degrees_1, 'runner_hover': runner_hover, 'course_hover': course_hover, 'course_sizes': course_sizes}\n_fig.update_layout(title=f\"Bipartite Network: Runner Groups × Courses (α={alpha}, β={beta})<br><sub>10k iterations with grid='auto' for overlap prevention + smaller nodes</sub>\", showlegend=False, hovermode='closest', width=1200, height=700, plot_bgcolor='white', uirevision='constant')\n_fig.update_xaxes(showgrid=False, zeroline=False, showticklabels=False)\n_fig.update_yaxes(showgrid=False, zeroline=False, showticklabels=False)\nimport plotly.io as pio\nhtml_str = pio.to_html(_fig, include_plotlyjs='cdn', full_html=False)\noptimized_js = f\"\"\"\\n<div id=\"connectivity-data\" style=\"display:none;\">{json.dumps(connectivity_data)}</div>\\n<script>\\n(function() {{\\n    function initOptimizedHover() {{\\n        var allPlotlyDivs = document.querySelectorAll('.plotly-graph-div');\\n        var gd = allPlotlyDivs[allPlotlyDivs.length - 1];\\n        \\n        if (!gd || !gd.data) {{\\n            setTimeout(initOptimizedHover, 100);\\n            return;\\n        }}\\n        \\n        // Load connectivity data\\n        var connectivityData = JSON.parse(document.getElementById('connectivity-data').textContent);\\n        var nodeToSegments = connectivityData.node_to_segments;\\n        var nodeNeighbors = connectivityData.node_neighbors;\\n        var cachedBaseX = connectivityData.base_edge_x;\\n        var cachedBaseY = connectivityData.base_edge_y;\\n        var posX = connectivityData.pos_x;\\n        var posY = connectivityData.pos_y;\\n        var runnerSizes = connectivityData.runner_sizes;\\n        var runnerDegrees = connectivityData.runner_degrees;\\n        var runnerHover = connectivityData.runner_hover;\\n        var courseHover = connectivityData.course_hover;\\n        var courseSizes = connectivityData.course_sizes;\\n        \\n        // Find trace indices\\n        var baseTraceIdx = -1;\\n        var highlightTraceIdx = -1;\\n        var runnerTraceIdx = -1;\\n        var courseTraceIdx = -1;\\n        var highlightRunnerTraceIdx = -1;\\n        var highlightCourseTraceIdx = -1;\\n        \\n        gd.data.forEach(function(trace, i) {{\\n            if (trace.name === 'base_edges') baseTraceIdx = i;\\n            else if (trace.name === 'highlight_edges') highlightTraceIdx = i;\\n            else if (trace.name === 'Runner Groups') runnerTraceIdx = i;\\n            else if (trace.name === 'Courses') courseTraceIdx = i;\\n            else if (trace.name === 'highlight_runners') highlightRunnerTraceIdx = i;\\n            else if (trace.name === 'highlight_courses') highlightCourseTraceIdx = i;\\n        }});\\n        \\n        if (baseTraceIdx === -1 || highlightTraceIdx === -1) return;\\n        \\n        // Store original node data\\n        var originalRunnerData = {{\\n            marker: {{\\n                opacity: gd.data[runnerTraceIdx].marker.opacity\\n            }}\\n        }};\\n        \\n        var originalCourseData = {{\\n            marker: {{\\n                opacity: gd.data[courseTraceIdx].marker.opacity\\n            }}\\n        }};\\n        \\n        // Recursive handler attachment function\\n        function attachHoverHandlers(gd, highlightTraceIdx) {{\\n            gd.removeAllListeners('plotly_hover');\\n            gd.removeAllListeners('plotly_unhover');\\n            \\n            // Hover handler\\n            gd.on('plotly_hover', function(data) {{\\n                if (!data.points || data.points.length === 0) return;\\n                \\n                var point = data.points[0];\\n                if (point.data.mode !== 'markers' || !point.data.customdata) return;\\n                \\n                var nodeIdx = point.data.customdata[point.pointIndex][0];\\n                var connectedSegments = nodeToSegments[nodeIdx.toString()] || [];\\n                var neighbors = nodeNeighbors[nodeIdx.toString()] || [];\\n                \\n                if (connectedSegments.length === 0) return;\\n                \\n                // Build highlight coordinates\\n                var highlightX = [];\\n                var highlightY = [];\\n                for (var i = 0; i < connectedSegments.length; i++) {{\\n                    var segIdx = connectedSegments[i];\\n                    var startIdx = segIdx * 3;\\n                    highlightX.push(cachedBaseX[startIdx], cachedBaseX[startIdx + 1], null);\\n                    highlightY.push(cachedBaseY[startIdx], cachedBaseY[startIdx + 1], null);\\n                }}\\n                \\n                // Dim original nodes\\n                var runnerOpacity = new Array(gd.data[runnerTraceIdx].x.length).fill(0.2);\\n                var courseOpacity = new Array(gd.data[courseTraceIdx].x.length).fill(0.2);\\n                \\n                // Build highlighted node data (these will appear on top with borders)\\n                var highlightRunnerX = [];\\n                var highlightRunnerY = [];\\n                var highlightRunnerSizes = [];\\n                var highlightRunnerColors = [];\\n                var highlightRunnerText = [];\\n                \\n                var highlightCourseX = [];\\n                var highlightCourseY = [];\\n                var highlightCourseSizes = [];\\n                var highlightCourseText = [];\\n                \\n                neighbors.forEach(function(neighborIdx) {{\\n                    if (neighborIdx < gd.data[runnerTraceIdx].x.length) {{\\n                        // It's a runner - add to highlight trace\\n                        highlightRunnerX.push(posX[neighborIdx]);\\n                        highlightRunnerY.push(posY[neighborIdx]);\\n                        highlightRunnerSizes.push(runnerSizes[neighborIdx]);\\n                        highlightRunnerColors.push(runnerDegrees[neighborIdx]);\\n                        highlightRunnerText.push(runnerHover[neighborIdx]);\\n                    }} else {{\\n                        // It's a course - add to highlight trace\\n                        var courseArrayIdx = neighborIdx - gd.data[runnerTraceIdx].x.length;\\n                        highlightCourseX.push(posX[neighborIdx]);\\n                        highlightCourseY.push(posY[neighborIdx]);\\n                        highlightCourseSizes.push(courseSizes[courseArrayIdx]);\\n                        highlightCourseText.push(courseHover[courseArrayIdx]);\\n                    }}\\n                }});\\n                \\n                // Update all traces\\n                Plotly.update(gd, \\n                    {{\\n                        x: [highlightX],\\n                        y: [highlightY]\\n                    }}, \\n                    {{}},\\n                    [highlightTraceIdx]\\n                ).then(function() {{\\n                    return Plotly.restyle(gd, {{'marker.opacity': runnerOpacity}}, [runnerTraceIdx]);\\n                }}).then(function() {{\\n                    return Plotly.restyle(gd, {{'marker.opacity': courseOpacity}}, [courseTraceIdx]);\\n                }}).then(function() {{\\n                    return Plotly.restyle(gd, {{\\n                        x: [highlightRunnerX],\\n                        y: [highlightRunnerY],\\n                        'marker.size': [highlightRunnerSizes],\\n                        'marker.color': [highlightRunnerColors],\\n                        text: [highlightRunnerText]\\n                    }}, [highlightRunnerTraceIdx]);\\n                }}).then(function() {{\\n                    return Plotly.restyle(gd, {{\\n                        x: [highlightCourseX],\\n                        y: [highlightCourseY],\\n                        'marker.size': [highlightCourseSizes],\\n                        text: [highlightCourseText]\\n                    }}, [highlightCourseTraceIdx]);\\n                }}).then(function() {{\\n                    attachHoverHandlers(gd, highlightTraceIdx);\\n                }});\\n            }});\\n            \\n            // Unhover handler\\n            gd.on('plotly_unhover', function() {{\\n                // Reset everything\\n                Plotly.update(gd,\\n                    {{\\n                        x: [[]],\\n                        y: [[]]\\n                    }},\\n                    {{}},\\n                    [highlightTraceIdx]\\n                ).then(function() {{\\n                    return Plotly.restyle(gd, {{\\n                        'marker.opacity': originalRunnerData.marker.opacity\\n                    }}, [runnerTraceIdx]);\\n                }}).then(function() {{\\n                    return Plotly.restyle(gd, {{\\n                        'marker.opacity': originalCourseData.marker.opacity\\n                    }}, [courseTraceIdx]);\\n                }}).then(function() {{\\n                    return Plotly.restyle(gd, {{\\n                        x: [[]],\\n                        y: [[]],\\n                        'marker.size': [[]],\\n                        'marker.color': [[]],\\n                        text: [[]]\\n                    }}, [highlightRunnerTraceIdx]);\\n                }}).then(function() {{\\n                    return Plotly.restyle(gd, {{\\n                        x: [[]],\\n                        y: [[]],\\n                        'marker.size': [[]],\\n                        text: [[]]\\n                    }}, [highlightCourseTraceIdx]);\\n                }}).then(function() {{\\n                    attachHoverHandlers(gd, highlightTraceIdx);\\n                }});\\n            }});\\n        }}\\n        \\n        // Initial handler attachment\\n        attachHoverHandlers(gd, highlightTraceIdx);\\n    }}\\n    \\n    if (document.readyState === 'loading') {{\\n        document.addEventListener('DOMContentLoaded', initOptimizedHover);\\n    }} else {{\\n        initOptimizedHover();\\n    }}\\n}})();\\n</script>\\n\"\"\"\nfull_html = f'\\n<div>\\n{html_str}\\n{optimized_js}\\n</div>\\n'\n_network_html = mo.Html(full_html)\n_network_html",
+      "sourceLanguage": "python",
+      "hideCode": false,
+      "disabled": false,
+      "code": "folded",
+      "console": "collapsed",
+      "outputs": [
+        {
+          "type": "sandbox",
+          "asset": "/notebooks/kcore/assets/29af87ad6636b5754b4c366ffa99d27dcb44d0692b7d422a9ef24f7ddac3ab28.txt",
+          "caption": "Runner-course network. Hover over nodes to explore their connections.",
+          "scriptUrls": [
+            "https://cdn.plot.ly/plotly-3.3.0.min.js"
+          ],
+          "allowEval": true
+        }
+      ],
+      "consoleOutputs": []
+    },
+    {
+      "id": "qnkX",
+      "ordinal": 17,
+      "name": "_",
+      "source": "mo.md(r\"\"\"\n---\n\n# Summary\n\nThe (3, 840)-core is the dense, connected subset of runners and courses that a model with runner effects needs. It is saved (see Handoff) for the runner-effect finish-time model, which fits on it; the course-only model (nb 1) and the reporting model (nb 2) use all the data and need no core.\n\nThe input is every start (finish or DNF) at marathon distance or longer. DNFs count as edges so that runners who often drop are not excluded from the core.\n\"\"\")",
+      "sourceLanguage": "python",
+      "hideCode": true,
+      "disabled": false,
+      "code": "hidden",
+      "console": "collapsed",
+      "outputs": [
+        {
+          "type": "html",
+          "html": "<div><hr />\n<h2 id=\"summary\">Summary</h2>\n<p>The (3, 840)-core is the dense, connected subset of runners and courses that a model with runner effects needs. It is saved (see Handoff) for the runner-effect finish-time model, which fits on it; the course-only model (nb 1) and the reporting model (nb 2) use all the data and need no core.</p>\n<p>The input is every start (finish or DNF) at marathon distance or longer. DNFs count as edges so that runners who often drop are not excluded from the core.</p></div>"
+        }
+      ],
+      "consoleOutputs": []
+    },
+    {
+      "id": "TqIu",
+      "ordinal": 18,
+      "name": "_",
+      "source": "mo.md(r\"\"\"\n## Handoff\n\nThe chosen core is saved as `data/cache/0.1_kcore/core.parquet` (one row per runner and course in the core, plus the α and β used), with the closure flags available by re-running `subset_kcore_data` on the same input. A larger core for final fits, (3, 500) with 172 courses, is saved as `core_3_500.parquet`; later notebooks pick a core with their `CORE` constant.\n\"\"\")",
+      "sourceLanguage": "python",
+      "hideCode": true,
+      "disabled": false,
+      "code": "hidden",
+      "console": "collapsed",
+      "outputs": [
+        {
+          "type": "html",
+          "html": "<div><h3 id=\"handoff\">Handoff</h3>\n<p>The chosen core is saved as <code>data/cache/0.1_kcore/core.parquet</code> (one row per runner and course in the core, plus the α and β used), with the closure flags available by re-running <code>subset_kcore_data</code> on the same input. A larger core for final fits, (3, 500) with 172 courses, is saved as <code>core_3_500.parquet</code>; later notebooks pick a core with their <code>CORE</code> constant.</p></div>"
+        }
+      ],
+      "consoleOutputs": []
+    },
+    {
+      "id": "Vxnm",
+      "ordinal": 19,
+      "name": "_",
+      "source": "_out = Path(__file__).resolve().parent.parent / 'data' / 'cache' / '0.1_kcore'\ncore_members = kcore_data[['participant_id', 'name']].drop_duplicates().assign(alpha=alpha, beta=beta)\ncore_members.to_parquet(_out / 'core.parquet', index=False)\n# Larger cores for final fits, saved alongside the dev core (core_<alpha>_<beta>.parquet).\nfor _a, _b in [(3, 500)]:\n    _flagged = subset_kcore_data(results, alpha=_a, beta=_b)\n    _flagged.loc[_flagged['in_kcore'], ['participant_id', 'name']].drop_duplicates().assign(alpha=_a, beta=_b).to_parquet(_out / f'core_{_a}_{_b}.parquet', index=False)\nprint(f\"Saved the dev core ({core_members['participant_id'].nunique():,} runners x {core_members['name'].nunique()} courses) and the final-fit cores\")",
+      "sourceLanguage": "python",
+      "hideCode": false,
+      "disabled": false,
+      "code": "folded",
+      "console": "collapsed",
+      "outputs": [],
+      "consoleOutputs": [
+        {
+          "type": "text",
+          "text": "Saved the dev core (9,892 runners x 33 courses) and the final-fit cores\n",
+          "stream": "stdout"
+        }
+      ]
+    }
+  ],
+  "toc": [
+    {
+      "id": "the-sparsity-problem",
+      "title": "The Sparsity Problem",
+      "level": 2
+    },
+    {
+      "id": "setup",
+      "title": "Setup",
+      "level": 2
+    },
+    {
+      "id": "exploring-the-k-core-parameter-space",
+      "title": "Exploring the K-Core Parameter Space",
+      "level": 2
+    },
+    {
+      "id": "what-is-a-core",
+      "title": "What is a (α, β)-Core?",
+      "level": 3
+    },
+    {
+      "id": "sweeping",
+      "title": "Sweeping (α, β)",
+      "level": 4
+    },
+    {
+      "id": "visualizing-the-parameter-landscape",
+      "title": "Visualizing the Parameter Landscape",
+      "level": 2
+    },
+    {
+      "id": "examining-the-3-840-k-core",
+      "title": "Examining the (3, 840) K-Core",
+      "level": 2
+    },
+    {
+      "id": "visualizing-the-bipartite-structure",
+      "title": "Visualizing the Bipartite Structure",
+      "level": 3
+    },
+    {
+      "id": "building-the-subset",
+      "title": "Building the Subset",
+      "level": 3
+    },
+    {
+      "id": "adjacency-matrix-heatmap",
+      "title": "Adjacency Matrix Heatmap",
+      "level": 3
+    },
+    {
+      "id": "force-directed-network",
+      "title": "Force-Directed Network",
+      "level": 3
+    },
+    {
+      "id": "super-node-compression",
+      "title": "Super-Node Compression",
+      "level": 4
+    },
+    {
+      "id": "summary",
+      "title": "Summary",
+      "level": 2
+    },
+    {
+      "id": "handoff",
+      "title": "Handoff",
+      "level": 3
+    }
+  ],
+  "plainText": "The Sparsity Problem Ultramarathon race results present a fascinating modeling challenge. With thousands of races and hundreds of thousands of runners, you might think we'd have plenty of data—but the reality is far more complex. Most runners complete only a handful of races, and most races see only a fraction of the broader running population. This creates an extremely sparse dataset where direct comparisons between runners or courses are often impossible. Imagine trying to compare a runner who only does Western States with someone who only does Leadville. Without shared race participation, we have no common reference point. This sparsity becomes a critical problem when we want to build statistical models that estimate runner abilities or course difficulties. The solution? Rather than wrestling with the full sparse dataset, we can identify a densely-connected subset where runners and courses have enough overlap for meaningful inference. This is where k-core decomposition comes in—a graph-theoretic technique that iteratively prunes nodes until every remaining node meets minimum connectivity requirements. In this notebook, we'll: Explore the space of possible k-core configurations Visualize the tradeoffs between subset size and density Select and examine a specific k-core for downstream modeling\n\nSetup We begin by loading race results from UltraSignup, a comprehensive database of ultramarathon events. The preprocessing pipeline keeps running events with valid course and distance information, including both finishes and DNFs (Did Not Finish). It does not require a race to report DNFs. We focus on marathon-distance and longer events (≥42 km), where both finishes and DNFs contribute to the runner-course graph.\n\nExploring the K-Core Parameter Space What is a (α, β)-Core? Think of ultramarathon data as a bipartite graph : one set of nodes represents runners, another represents courses (race-distance combinations), and edges connect runners to courses they've started (finished or DNF'd, in any year). Counting DNFs as edges matters: a finishes-only graph would keep runners who rarely drop and lose those who often do, biasing every DNF model downstream. An (α, β)-core is the largest subgraph where: Every runner has started at least α different courses Every course has at least β different runners The parameters α and β control the density-size tradeoff: Higher α means runners must have more race history → fewer runners qualify Higher β means courses need more participants → fewer courses qualify Finding the right balance is crucial. Too loose, and we retain too much sparsity for effective modeling. Too strict, and we throw away valuable data. Sweeping (α, β) Cores are nested: raising α or β only removes runners and courses. So the sweep walks β upward for each α, starting each core from the previous one, and stops when the core is empty. For every configuration it tracks how the subset evolves—measuring not just size, but also completeness metrics that indicate how representative the k-core remains of each runner's and course's full history.\n\nVisualizing the Parameter Landscape The 3D visualization below reveals the fundamental tradeoffs in k-core selection. Each point on the surface represents a different (α, β) configuration: X-axis (Course Completeness) : On average, what percentage of each course's total runners are retained in the k-core? Y-axis (Runner Completeness) : On average, what percentage of each runner's race history is retained? Z-axis : Configurable—toggle between course count, total entities, or total results Key patterns to observe: The surface drops off sharply as we move toward higher completeness values—achieving both high course and runner completeness simultaneously requires sacrificing dataset size The \"ridge\" of the surface shows the Pareto frontier: configurations where you can't improve one metric without sacrificing another Hover over points to see the exact (α, β) values and detailed statistics Use the toggle buttons to explore different perspectives on the data.\n\nCandidate-core tradeoffs in a 3D wireframe. Use the chart buttons to change the vertical axis and color metric.\n\nExamining the (3, 840) K-Core We select (α=3, β=840) as the development core for the runner-effect model: α=3 : every runner started at least 3 core courses, enough repeat observations to separate a runner's ability from the courses they ran. β=840 : every course had at least 840 distinct core starters. This leaves 28 courses and about 140,000 results, small enough to sample runner and course effects in minutes. Loosen β for final fits. Scope. The core is a convenience sample, not a representative one: it keeps the biggest, longest-running races, most of them in the western US. It is for estimating how runner and course effects separate, not for statements about all races. Every runner and course in it is connected through shared races, which a model with both effects needs. Visualizing the Bipartite Structure The visualizations below show the runner-course relationships: clusters of runners who share similar race portfolios, courses that attract overlapping populations, and the connectivity that makes comparative inference possible.\n\nBuilding the Subset We extract all results matching our k-core criteria and compute basic network statistics. The degree of a runner is the number of distinct courses they've started; the degree of a course is its number of distinct starters, across all its editions. These degree distributions tell us about the heterogeneity within our subset—are there a few \"super-connectors\" or is participation relatively uniform?\n\nAdjacency Matrix Heatmap The adjacency matrix provides a bird's-eye view of runner-course relationships. Each row is a runner, each column is a course, and cells are colored by percentile finish time (darker = faster relative to that course's field). We apply hierarchical clustering to both rows and columns, reordering them to reveal latent structure. Look for: Block patterns : Groups of runners who share similar race portfolios (they cluster together vertically) and tend to perform similarly across those races Color gradients : Runners who consistently finish in similar percentiles across different courses (horizontal color consistency indicates stable relative ability) Sparse regions : The gaps remind us that even within our dense k-core, not every runner-course combination is observed This matrix shows only the top 100 runners by degree for readability, but the patterns extend throughout the full dataset.\n\nPercentile finish times for the 100 core runners with the most distinct courses, clustered by runner and course.\n\nForce-Directed Network The final visualization presents the k-core as a force-directed network graph . This physics-inspired layout treats edges as springs and nodes as mutually-repelling particles, letting the graph \"relax\" into a natural arrangement where connected nodes cluster together. Super-Node Compression With thousands of runners, a naive visualization would be overwhelming. We address this by creating super-nodes : runners with identical race participation patterns are merged into a single node. This is semantically meaningful—runners who've done exactly the same set of races are essentially interchangeable from a network topology perspective. The resulting graph reveals: Central hubs : Courses that attract runners from across the community (high connectivity) Peripheral clusters : Regional or niche race circuits with dedicated but isolated participant pools Bridge nodes : Runners or courses that connect otherwise-separate sub-communities Interactive features : Hover over any node to highlight its connections. Course nodes appear in coral; runner groups in the Viridis colorscale (colored by degree).\n\nRunner-course network. Hover over nodes to explore their connections.\n\nSummary The (3, 840)-core is the dense, connected subset of runners and courses that a model with runner effects needs. It is saved (see Handoff) for the runner-effect finish-time model, which fits on it; the course-only model (nb 1) and the reporting model (nb 2) use all the data and need no core. The input is every start (finish or DNF) at marathon distance or longer. DNFs count as edges so that runners who often drop are not excluded from the core.\n\nHandoff The chosen core is saved as data/cache/0.1_kcore/core.parquet (one row per runner and course in the core, plus the α and β used), with the closure flags available by re-running subset_kcore_data on the same input. A larger core for final fits, (3, 500) with 172 courses, is saved as core_3_500.parquet ; later notebooks pick a core with their CORE constant.",
+  "assets": [
+    {
+      "path": "5d2c6e593fea07e6d5a88f1a4e7b70fad33bca9cb2b7f7326376720174382e93.json",
+      "mime": "application/json",
+      "sha256": "5d2c6e593fea07e6d5a88f1a4e7b70fad33bca9cb2b7f7326376720174382e93",
+      "bytes": 10383153
+    },
+    {
+      "path": "de05e82589f0a5fac1685e8991814382c19ae380f8a50a0709a405dae13a6001.json",
+      "mime": "application/json",
+      "sha256": "de05e82589f0a5fac1685e8991814382c19ae380f8a50a0709a405dae13a6001",
+      "bytes": 45624
+    },
+    {
+      "path": "29af87ad6636b5754b4c366ffa99d27dcb44d0692b7d422a9ef24f7ddac3ab28.txt",
+      "mime": "text/html",
+      "sha256": "29af87ad6636b5754b4c366ffa99d27dcb44d0692b7d422a9ef24f7ddac3ab28",
+      "bytes": 6794209
+    },
+    {
+      "path": "3b03c0c27c46513401565ea93eae81ff28edcef1f11698c89af61a24f34801f8.py",
+      "mime": "text/x-python",
+      "sha256": "3b03c0c27c46513401565ea93eae81ff28edcef1f11698c89af61a24f34801f8",
+      "bytes": 45138
+    }
+  ],
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "code": "MB_SCRIPT_SANDBOX",
+      "message": "Scripted HTML isolated in an opaque-origin sandbox",
+      "remediation": "Review the output and its exact script allowlist.",
+      "cellId": "ROlb",
+      "outputIndex": 0
+    }
+  ],
+  "sourceDownload": "/notebooks/kcore/assets/3b03c0c27c46513401565ea93eae81ff28edcef1f11698c89af61a24f34801f8.py"
+}

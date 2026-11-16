@@ -27,6 +27,18 @@ async function markdownToHtml(markdown: string): Promise<string> {
   return String(result);
 }
 
+function escapeHtml(text: string): string {
+  return text.replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  })[char]!);
+}
+
+function marimoExcerpt(plainText: string, url: string): string {
+  const prose = plainText.replace(/\s+/g, ' ').trim();
+  const excerpt = prose.length > 400 ? `${prose.slice(0, 400).replace(/\s+\S*$/, '')}…` : prose;
+  return `<p>${escapeHtml(excerpt)}</p><p><a href="${escapeHtml(url)}">Read the full article →</a></p>`;
+}
+
 /**
  * Generate the RSS/Atom feed with all blog posts and projects
  */
@@ -77,10 +89,8 @@ export async function generateFeed(): Promise<Feed> {
         const fullPost = getBlogPostBySlug(item.slug);
         if (!fullPost) {
           htmlContent = `<p>${item.description || ''}</p>`;
-        } else if (fullPost.type === 'notebook') {
-          // Notebooks have no markdown body — link out to the rendered post.
-          htmlContent = `<p>${item.description || 'View the full notebook on the website.'}</p>
-            <p><a href="${url}">View full notebook →</a></p>`;
+        } else if (fullPost.type === 'marimo') {
+          htmlContent = marimoExcerpt(fullPost.document.plainText, url);
         } else {
           htmlContent = await markdownToHtml(fullPost.content);
         }
@@ -92,10 +102,8 @@ export async function generateFeed(): Promise<Feed> {
           htmlContent = `<p>${item.description || ''}</p>`;
         } else if (fullProject.type === 'markdown') {
           htmlContent = await markdownToHtml(fullProject.content);
-        } else if (fullProject.type === 'notebook') {
-          // For notebooks, use description with a link to view the full notebook
-          htmlContent = `<p>${item.description || 'View the full notebook on the website.'}</p>
-            <p><a href="${url}">View full notebook →</a></p>`;
+        } else if (fullProject.type === 'marimo') {
+          htmlContent = marimoExcerpt(fullProject.document.plainText, url);
         } else if (fullProject.type === 'webapp') {
           // For webapps, use description with a link to the interactive app
           htmlContent = `<p>${item.description || 'View the interactive application on the website.'}</p>
