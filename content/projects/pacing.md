@@ -4,6 +4,8 @@ date: "2025-12-02"
 categories: ["bayesian", "pymc", "python", "running"]
 topics: ["bayesian", "endurance"]
 description: "A Bayesian model for ultramarathon pacing — turns a course's elevation profile and your fitness into a data-driven pacing strategy."
+sourcePrivate: true
+kind: "model"
 ---
 
 # Pacing

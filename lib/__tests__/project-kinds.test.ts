@@ -10,7 +10,7 @@ describe('project kinds', () => {
 });
 
 describe('top-level project kinds', () => {
-  it.skip('gives every top-level project a kind', () => {
+  it('gives every top-level project a kind', () => {
     for (const project of getTopLevelProjects()) {
       expect(project.kind, project.slug).toBeTruthy();
     }

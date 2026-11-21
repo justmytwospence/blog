@@ -11,4 +11,5 @@ links:
     url: "https://justmytwospence.github.io/strava-mcp/"
   - label: "GitHub"
     url: "https://github.com/justmytwospence/strava-mcp"
+kind: "mcp-server"
 ---

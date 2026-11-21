@@ -3,8 +3,13 @@ title: "GroundCover"
 date: "2026-08-06"
 categories: ["typescript", "deck.gl", "maplibre", "strava", "web-app"]
 topics: ["endurance", "web-apps", "fun"]
-description: "Strava counts every mile you log; this counts the ground those miles cover: 10,639 logged miles resolved to 3,975 miles of distinct road and trail, computed in your browser."
+kind: "app"
+description: "Strava counts every mile you log; this counts the ground those miles cover: 11,127 logged miles resolved to 4,326 miles of distinct road and trail, computed in your browser."
 featured: true
+featuredOrder: 4
+image: "/project-images/groundcover.webp"
+imageAlt: "A dark map of the Colorado Front Range with covered roads and trails drawn in blue and orange, and a panel reading 4,326 distinct miles"
+sourcePrivate: true
 type: "external"
 externalUrl: "https://groundcover.spencerboucher.com"
 links:
@@ -16,7 +21,7 @@ links:
 
 **How much ground have you *actually* covered?**
 
-Strava adds up every mile you log. It never tells you how much of the world those miles cover: how much distinct road and trail your feet have genuinely been on, counting the loop you have run two hundred times exactly once. One real history: **10,639 miles logged, 3,975 miles of actual ground.**
+Strava adds up every mile you log. It never tells you how much of the world those miles cover: how much distinct road and trail your feet have genuinely been on, counting the loop you have run two hundred times exactly once. One real history: **11,127 miles logged, 4,326 miles of actual ground.**
 
 GroundCover works that number out from your GPS and draws it. Ground covered once glows gold; ground worn into a groove fades to blue. Scrub through time and watch your map fill in, one route drawing itself at a time.
 

@@ -11,4 +11,5 @@ links:
     url: "https://29ers.vercel.app"
   - label: "GitHub"
     url: "https://github.com/justmytwospence/29ers"
+kind: "app"
 ---

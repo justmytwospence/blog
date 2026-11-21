@@ -10,7 +10,7 @@ vi.mock('../last-good', () => ({ readThrough: vi.fn() }));
 const components = [
   'pi-ask-user-question', 'pi-plan-mode', 'pi-status-footer', 'pi-rewind', 'pi-clear-screen',
   'pi-select-nav', 'pi-herdr-scrollbar-width', 'pi-herdr', 'pi-subagents', 'pi-tool-gate',
-  'pi-bg', 'pi-auto-effort', 'pi-appearance-resync', 'pi-copy', 'pi-marimo', 'pi-cache-guard',
+  'pi-bg', 'pi-auto-effort', 'pi-appearance-resync', 'pi-copy', 'pi-cache-guard',
   'pi-next-prompt', 'pi-diff-review', 'pi-prose-width',
 ];
 const ports = [
@@ -41,8 +41,8 @@ afterEach(() => {
 });
 
 describe('portfolio activity rollup', () => {
-  it('tracks the suite, all 19 components, retired predecessors, and feature ports as one visible card', () => {
-    expect(components).toHaveLength(19);
+  it('tracks the suite, its 18 legacy component repos, retired predecessors, and feature ports as one visible card', () => {
+    expect(components).toHaveLength(18);
     for (const repo of ['pi-plugins', ...components, ...ports]) {
       expect(REPO_TO_SLUG[repo]).toBe('pi-plugins');
     }
@@ -54,8 +54,16 @@ describe('portfolio activity rollup', () => {
     expect(projectNames['opencode-plugins']).toBeUndefined();
     const visible = new Set(getTopLevelProjects().map(project => project.slug));
     for (const slug of Object.values(REPO_TO_SLUG)) expect(visible.has(slug)).toBe(true);
-    for (const repo of ['tmux-agents', 'herdr-machine0', 'herdr-repeat-navigation', 'anthropic-billing-guard', 'pi-brokered-auth', 'aac-touchid', 'agent-scrub', 'herdr-agentbox', 'herdr-undo', 'herdr-git-status']) {
+    for (const repo of ['tmux-agents', 'pi-brokered-auth', 'aac-touchid', 'agent-scrub', 'switchyard', 'herdr-plugins']) {
       expect(REPO_TO_SLUG[repo]).toBe(repo);
+    }
+    expect(REPO_TO_SLUG.firsttracks).toBe('uphill-ski');
+    expect(REPO_TO_SLUG['effort-curves']).toBe('effort-curve');
+    expect(REPO_TO_SLUG['effort-cubes']).toBe('effort-curve');
+    expect(REPO_TO_SLUG.bikefit).toBe('bikefitter');
+    expect(REPO_TO_SLUG['pi-marimo']).toBe('marimo-for-agents');
+    for (const repo of ['herdr-git-status', 'herdr-undo', 'herdr-agentbox']) {
+      expect(REPO_TO_SLUG[repo]).toBe('herdr-plugins');
     }
   });
 
@@ -72,6 +80,16 @@ describe('portfolio activity rollup', () => {
     expect(rolled.updated).toEqual({ 'pi-plugins': '2026-10-10', 'tmux-agents': '2026-10-07' });
     expect(rolled).toMatchObject({ total: 21, maxCount: 12, endDate: '2026-10-10' });
     expect(oldActivity).toEqual(before);
+  });
+
+  it('rolls retired slugs in cached payloads onto their successors', () => {
+    const payload: ProjectActivity = {
+      endDate: '2026-10-10', maxCount: 3, total: 3,
+      days: { '2026-10-10': { c: 3, r: ['vertfarmer', 'effort-cubes', 'herdr-undo'] } },
+      updated: {},
+    };
+    expect(rollUpProjectActivity(payload, getAllProjects()).days['2026-10-10'].r)
+      .toEqual(['effort-curve', 'herdr-plugins', 'uphill-ski']);
   });
 
   it('applies the rollup to last-good responses, not only fresh fetches', async () => {

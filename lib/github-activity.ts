@@ -47,7 +47,16 @@ export const REPO_TO_SLUG: Record<string, string> = {
   pacing: 'pacing',
   swimcue: 'swimcue',
   homelab: 'homelab',
-  firsttracks: 'vertfarmer',
+  firsttracks: 'uphill-ski',
+  'effort-curves': 'effort-curve',
+  bikefit: 'bikefitter',
+  'herdr-plugins': 'herdr-plugins',
+  switchyard: 'switchyard',
+  'pymc-cache': 'pymc-cache',
+  'pymc-monitor': 'pymc-monitor',
+  'marimo-blog': 'marimo-blog',
+  'wellness-lab': 'wellness-lab',
+  'herdr-native-notify': 'herdr-native-notify',
   'ifs-journal': 'ifs-journal',
   groundcover: 'groundcover',
   '29ers': '29ers',
@@ -59,7 +68,7 @@ export const REPO_TO_SLUG: Record<string, string> = {
   'pi-auto-effort': 'pi-plugins',
   'claude-auto-effort': 'pi-plugins',
   'opencode-auto-effort': 'pi-plugins',
-  'pi-marimo': 'pi-plugins',
+  'pi-marimo': 'marimo-for-agents',
   'claude-marimo': 'pi-plugins',
   'opencode-marimo': 'pi-plugins',
   'pi-tool-gate': 'pi-plugins',
@@ -69,7 +78,6 @@ export const REPO_TO_SLUG: Record<string, string> = {
   'opencode-lean-context': 'pi-plugins',
   'pi-next-prompt': 'pi-plugins',
   'opencode-next-prompt': 'pi-plugins',
-  'anthropic-billing-guard': 'anthropic-billing-guard',
   'pi-plan-mode': 'pi-plugins',
   'pi-subagents': 'pi-plugins',
   'pi-status-footer': 'pi-plugins',
@@ -81,23 +89,29 @@ export const REPO_TO_SLUG: Record<string, string> = {
   'pi-clear-screen': 'pi-plugins',
   'pi-herdr-scrollbar-width': 'pi-plugins',
   'pi-appearance-resync': 'pi-plugins',
-  'herdr-repeat-navigation': 'herdr-repeat-navigation',
   'tmux-agents': 'tmux-agents',
-  'herdr-machine0': 'herdr-machine0',
   'paseo-machine0': 'paseo-machine0',
-  'effort-cubes': 'effort-cubes',
+  'effort-cubes': 'effort-curve',
   'telebrowser': 'telebrowser',
   'shipshape': 'shipshape',
   'minuspod-mcp': 'minuspod-mcp',
   'backup-mcp': 'backup-mcp',
   'paperless-mcp': 'paperless-mcp',
   'garmin-mcp': 'garmin-mcp',
-  'herdr-git-status': 'herdr-git-status',
-  'herdr-undo': 'herdr-undo',
-  'herdr-agentbox': 'herdr-agentbox',
+  'herdr-git-status': 'herdr-plugins',
+  'herdr-undo': 'herdr-plugins',
+  'herdr-agentbox': 'herdr-plugins',
   'aac-touchid': 'aac-touchid',
   'agent-scrub': 'agent-scrub',
   'defenestrator': 'defenestrator',
+};
+
+/** Card slugs that were renamed or folded away; cached last-good payloads may still carry them. */
+export const RETIRED_SLUGS: Record<string, string> = {
+  vertfarmer: 'uphill-ski',
+  'effort-cubes': 'effort-curve',
+  'auto-effort': 'pi-plugins',
+  'lean-context': 'pi-plugins',
 };
 
 // The calendar spans exactly the last 365 days, ending today (UTC).
@@ -155,7 +169,7 @@ export interface ProjectActivity extends ActivityData {
  */
 export function rollUpProjectActivity(activity: ProjectActivity, projects: Project[]): ProjectActivity {
   const parents = new Map(projects.filter(p => p.parent).map(p => [p.slug, p.parent!]));
-  const visibleSlug = (slug: string) => parents.get(slug) ?? slug;
+  const visibleSlug = (slug: string) => parents.get(slug) ?? RETIRED_SLUGS[slug] ?? slug;
   const days = Object.fromEntries(Object.entries(activity.days).map(([date, day]) => [
     date,
     { ...day, r: [...new Set(day.r.map(visibleSlug))].sort() },
@@ -264,7 +278,7 @@ export const getProjectHistory = cache(async (): Promise<ProjectHistory> => {
     const parents = new Map(getAllProjects().filter(p => p.parent).map(p => [p.slug, p.parent!]));
     const rolled: ProjectHistory = {};
     for (const [slug, byWeek] of Object.entries(history)) {
-      const target = (rolled[parents.get(slug) ?? slug] ??= {});
+      const target = (rolled[parents.get(slug) ?? RETIRED_SLUGS[slug] ?? slug] ??= {});
       for (const [d, n] of Object.entries(byWeek)) target[d] = (target[d] ?? 0) + n;
     }
     return rolled;

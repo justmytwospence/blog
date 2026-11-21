@@ -8,21 +8,20 @@ const suiteBornSlugs = [
   'pi-bg', 'pi-todo', 'pi-herdr', 'pi-recap', 'pi-sidebar', 'pi-reload-all',
   'pi-mcp-device-login', 'pi-diff-review', 'pi-context', 'pi-trends', 'pi-pressure', 'pi-vim',
   'pi-stash', 'pi-cc-render', 'pi-markdown-extras', 'pi-prose-width', 'pi-sticky-last-prompt',
+  'pi-compact-plan', 'pi-history-search', 'pi-interactive-shell', 'pi-model-families', 'pi-model-waterfall', 'pi-system1',
 ];
 const childSlugs = [
-  'auto-effort', 'cache-guard', 'marimo-for-agents', 'next-prompt', 'tool-gate', 'lean-context',
+  'cache-guard', 'next-prompt', 'tool-gate',
   'pi-ask-user-question', 'pi-plan-mode', 'pi-status-footer', 'pi-rewind', 'pi-clear-screen',
   'pi-select-nav', 'pi-herdr-scrollbar-width', 'pi-subagents', 'pi-appearance-resync', 'pi-copy',
   ...suiteBornSlugs,
 ];
 const separateSlugs = [
-  'anthropic-billing-guard', 'tmux-agents', 'herdr-repeat-navigation',
-  'herdr-machine0', 'paseo-machine0', 'homelab', 'pi-brokered-auth',
+  'tmux-agents', 'paseo-machine0', 'homelab', 'pi-brokered-auth', 'marimo-for-agents', 'herdr-plugins',
 ];
 // Children that are suite components, with the package directory in the suite repository.
 const componentOf: Record<string, string> = {
-  'auto-effort': 'pi-auto-effort', 'cache-guard': 'pi-cache-guard', 'marimo-for-agents': 'pi-marimo',
-  'next-prompt': 'pi-next-prompt', 'tool-gate': 'pi-tool-gate', 'pi-ask-user-question': 'pi-ask-user-question',
+  'cache-guard': 'pi-cache-guard', 'next-prompt': 'pi-next-prompt', 'tool-gate': 'pi-tool-gate', 'pi-ask-user-question': 'pi-ask-user-question',
   'pi-plan-mode': 'pi-plan-mode', 'pi-status-footer': 'pi-status-footer', 'pi-rewind': 'pi-rewind',
   'pi-clear-screen': 'pi-clear-screen', 'pi-select-nav': 'pi-select-nav',
   'pi-herdr-scrollbar-width': 'pi-herdr-scrollbar-width', 'pi-subagents': 'pi-subagents',
@@ -65,11 +64,10 @@ describe('Pi Plugins portfolio collection', () => {
     }
   });
 
-  it('marks lean-context as retired and directs readers to cache-guard', () => {
-    const retired = getProjectBySlug('lean-context')!;
-    expect(retired.metadata.description).toMatch(/retired/i);
-    if (retired.type !== 'link') throw new Error('Expected the retained legacy link page');
-    expect(retired.content).toContain('[cache-guard](/projects/cache-guard)');
+  it('has 36 children, one per suite extension', () => {
+    const children = getAllProjects().filter(project => project.parent === 'pi-plugins').map(project => project.slug);
+    expect(children).toHaveLength(36);
+    expect(new Set(children)).toEqual(new Set(childSlugs));
   });
 
   it('removes retired repositories while preserving surviving feature links in order', () => {
@@ -103,7 +101,7 @@ describe('Pi Plugins portfolio collection', () => {
     }
     expect(getProjectBySlug('pi-plan-mode')!.metadata.description).toContain('@narumitw/pi-plan-mode');
     // Retired or related pages are not components: no suite links.
-    for (const slug of ['lean-context', 'pi-brokered-auth']) {
+    for (const slug of ['pi-brokered-auth', 'marimo-for-agents']) {
       const links = getProjectBySlug(slug)!.metadata.links ?? [];
       expect(links.some(link => link.url.includes('/pi-plugins'))).toBe(false);
     }
@@ -122,6 +120,29 @@ describe('Pi Plugins portfolio collection', () => {
       expect(urls.some(url => url.endsWith(`/projects/${slug}`))).toBe(false);
     }
     expect(urls.some(url => url.endsWith('/projects/tmux-agents'))).toBe(true);
+  });
+});
+
+describe('Herdr plugins collection', () => {
+  const dirs: Record<string, string> = {
+    'herdr-git-status': 'git-status', 'herdr-undo': 'undo', 'herdr-agentbox': 'agentbox',
+    'herdr-cycle': 'cycle', 'herdr-sort-spaces': 'sort-spaces', 'herdr-worktree-reaper': 'worktree-reaper',
+  };
+
+  it('keeps an internal overview and folds its plugins under it', () => {
+    const overview = getProjectBySlug('herdr-plugins')!;
+    expect(overview.type).toBe('markdown');
+    expect(overview.metadata).toMatchObject({ collection: true, featured: false });
+    const visible = getTopLevelProjects();
+    const urls = sitemap().map(entry => entry.url);
+    expect(visible.filter(project => project.slug === 'herdr-plugins')).toHaveLength(1);
+    for (const [slug, dir] of Object.entries(dirs)) {
+      const { metadata } = getProjectBySlug(slug)!;
+      expect(metadata.parent).toBe('herdr-plugins');
+      expect(metadata.externalUrl).toBe(`https://github.com/justmytwospence/herdr-plugins/tree/main/${dir}`);
+      expect(visible.some(project => project.slug === slug)).toBe(false);
+      expect(urls.some(url => url.endsWith(`/projects/${slug}`))).toBe(true);
+    }
   });
 });
 

@@ -22,6 +22,17 @@ const nextConfig = {
       { protocol: 'https', hostname: 'storage.googleapis.com' },
     ],
   },
+  async redirects() {
+    return [
+      { source: '/projects/vertfarmer', destination: '/projects/uphill-ski', permanent: true },
+      { source: '/projects/effort-cubes', destination: '/projects/effort-curve', permanent: true },
+      { source: '/projects/lean-context', destination: '/projects/cache-guard', permanent: true },
+      { source: '/projects/auto-effort', destination: '/projects/pi-system1', permanent: true },
+      { source: '/projects/herdr-machine0', destination: '/projects', permanent: false },
+      { source: '/projects/herdr-repeat-navigation', destination: '/projects', permanent: false },
+      { source: '/projects/anthropic-billing-guard', destination: '/projects', permanent: false },
+    ];
+  },
   async headers() {
     const headers = process.env.VERCEL_ENV === 'production'
       ? securityHeaders

@@ -107,6 +107,11 @@ describe('list/by-slug round trip', () => {
     }
   });
 
+  it('reports whether a project has a story', () => {
+    expect(getProjectBySlug('uphill-ski')!.metadata.hasBody).toBe(true);
+    expect(getProjectBySlug('tmux-agents')!.metadata.hasBody).toBe(false);
+  });
+
   it('lists and resolves the same story, kind and image metadata', () => {
     for (const project of getAllProjects()) {
       const full = getProjectBySlug(project.slug)!;
@@ -127,8 +132,8 @@ describe('list/by-slug round trip', () => {
 });
 
 describe('content type discrimination', () => {
-  it('returns a link project with externalUrl for vertfarmer', () => {
-    const content = getProjectBySlug('vertfarmer');
+  it('returns a link project with externalUrl for uphill-ski', () => {
+    const content = getProjectBySlug('uphill-ski');
     expect(content).not.toBeNull();
     expect(content!.type).toBe('link');
     expect(content!.metadata.externalUrl).toMatch(/^https:/);

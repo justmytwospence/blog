@@ -11,4 +11,5 @@ links:
     url: "https://justmytwospence.github.io/garmin-mcp/"
   - label: "GitHub"
     url: "https://github.com/justmytwospence/garmin-mcp"
+kind: "mcp-server"
 ---

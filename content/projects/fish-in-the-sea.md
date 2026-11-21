@@ -11,4 +11,5 @@ links:
     url: "https://fish-in-the-sea.vercel.app"
   - label: "GitHub"
     url: "https://github.com/justmytwospence/fish-in-the-sea"
+kind: "app"
 ---

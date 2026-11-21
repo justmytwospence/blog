@@ -6,4 +6,5 @@ topics: ["mcp"]
 description: "An MCP server for Inoreader: triage articles, analyze feed health, tidy subscriptions, and find replacements for broken feeds. A Docker service over Streamable HTTP with OAuth."
 type: "external"
 externalUrl: "https://github.com/justmytwospence/inoreader-mcp"
+kind: "mcp-server"
 ---
