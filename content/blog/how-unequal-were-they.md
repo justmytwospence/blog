@@ -2,16 +2,18 @@
 title: "How Unequal Were They?"
 date: "2026-11-20"
 categories: ["inequality", "data-visualization", "history"]
-description: "Lorenz curves for Rome, Han China, medieval England, Soviet Russia, the modern United States and a few dozen other societies, with a year slider for each and a link to the source of every curve."
+description: "After the Anthropic IPO I wanted to know whether things used to be worse. I lined up the wealth and income curves of Rome, medieval England, Soviet Russia, the modern United States and a few dozen other societies. The reassurance did not quite work."
 component: "GiniAtlas"
 featured: false
 ---
 
 # How Unequal Were They?
 
-Every few years a chart goes around claiming that some ancient empire was more equal (or less) than the modern United States. They are fun to argue about and almost always compare two things that are not the same thing: someone's share of *income* in one society against someone's share of *wealth* in another, using data collected in completely different ways.
+After Anthropic went public, a lot of people I know (and a lot of people I do not) suddenly had an amount of money that is hard to think about. I live in San Francisco, so I have been wondering what that does to the city, and more vaguely to everything else: rents, who can afford to stay, what it is like to be one of the people who cannot.
 
-I wanted to see the whole picture in one place, with the caveats kept attached to the numbers. So this is an atlas of 33 societies, from an 11,000-year-old village on the Euphrates to the present day, drawn the same way, with every curve linking back to where it came from.
+My instinct was to go looking for reassurance. Surely this has happened before. Surely Gilded Age robber barons, Roman senators and medieval lords were much worse, and we muddled through. So I went and collected the context. This is the result: an atlas of 33 societies, from an 11,000-year-old village on the Euphrates to the present day, drawn the same way, with every curve linking back to where it came from.
+
+The short version is that I got less reassurance than I was hoping for. The longer version is below, after the thing itself.
 
 ## How to read a curve
 
@@ -23,17 +25,31 @@ The picture below has three views of the same data. **Curve** is the Lorenz curv
 
 <!--viz-->
 
-## A few things to try
+## Were things worse?
 
-**Rome against the United States.** The first question is the one the viral charts get wrong. According to Alfani, Bolla and Scheidel's 2025 estimate, the richest 1% of the Roman Empire around 165 CE took about 19% of income, and the poorest half took about 26%. In the United States in 2025 the richest 1% take about 21% and the poorest half about 13%. The top of the distribution is similar. The bottom half is where the difference is. Add US *wealth* and the picture changes completely: the top 1% hold about 35%, and the poorest half hold under 1%. That is why mixing measures is misleading, and why the lines on the chart change style (solid for income, dashed for wealth, dotted for house size).
+Sometimes, yes. Mostly not by as much as I wanted.
 
-**Scrub England.** The England and UK income series stitches together medieval tax records, three famous 17th and 18th century social tables, and modern statistics. Drag the slider and the curve sags a long way between the 1290 table and 1801, then recovers somewhat. One honest caveat: the old social tables only have a few dozen classes, so they cannot see inside the top class. Read their top 1% as a floor.
+**Rome against the United States.** The first question is the one I wanted a comfortable answer to. According to Alfani, Bolla and Scheidel's 2025 estimate, the richest 1% of the Roman Empire around 165 CE took about 19% of income, and the poorest half took about 26%. In the United States in 2025 the richest 1% take about 21% and the poorest half about 13%. So at the top the two are about the same, and the bottom half of the United States does noticeably worse than the bottom half of an ancient slave-owning empire. Add US *wealth* and the picture changes completely: the top 1% hold about 35%, and the poorest half hold under 1%. (Those two are different things, which is why the lines change style on the chart: solid for income, dashed for wealth, dotted for house size.)
 
-**Soviet Russia.** Switch to the Extremes question. In 1968 the richest 1% of Soviet Russia took 3.7% of income, the lowest top-1% share of any society here with full percentile data. In 2025 that figure is about 24%. The same slider, a few decades.
+**America since 1913.** This is the one that is supposed to be reassuring, and it is a little. In 1929 the richest 1% took about 22% of income. By 1980 it was about 10%. Today it is back to about 21%. The Gilded Age was bad, we did bring it down for half a century, and then we undid most of that. Drag the slider and watch the curve sag, recover, and sag again.
 
-**Before written records.** The oldest points are not income at all but the *sizes of houses* excavated from archaeological sites, from the work of Tim Kohler and colleagues. Çatalhöyük looks quite equal (a Gini of about 0.28), the Kalahari !Kung San are the most equal in the dataset (0.17), and Kahun, the town built for the workers on a Middle Kingdom pyramid, is the most unequal (0.68). Those three numbers are all the source gives, so the curve shape is estimated from the Gini and labelled that way.
+**Seven centuries of England.** On income, modern Britain is actually less unequal than England around 1801 (Gini 0.47 against 0.51), though the old class tables cannot see inside the top class, so treat their numbers as a floor. That is a mild comfort, but it is a comparison with the start of the Industrial Revolution, not with a golden age.
 
-## What to keep in mind
+**Soviet Russia.** In 1968 the richest 1% of Soviet Russia took 3.7% of income, the lowest top-1% share of any society here with full percentile data. In 2025 it is about 24%. Inequality is a policy outcome as much as a fact of nature, which is also a little reassuring and a little not.
+
+**Before written records.** The oldest points are not income at all but the sizes of houses excavated from archaeological sites, from the work of Tim Kohler and colleagues. Çatalhöyük looks quite equal (a Gini of about 0.28), the Kalahari !Kung San are the most equal in the dataset (0.17), and Kahun, the town built for the workers on a Middle Kingdom pyramid, is the most unequal (0.68). Those three numbers are all the source gives, so the curve shape is estimated from the Gini and labelled that way.
+
+## What I took from it
+
+Roughly: the United States today is about as unequal as the Roman Empire at the top, more unequal than Rome at the bottom, and far more unequal in wealth than any income comparison suggests. Things were worse in some places and times. They were not obviously worse in the ones I picked to feel better.
+
+Two caveats matter for the question I started with.
+
+First, this is the wrong resolution for a sudden fortune. A Lorenz curve is a statement about the richest 1%, which in the United States is millions of people. A few thousand people becoming enormously rich in a year barely moves it. What would move San Francisco is local: housing, rents and the relative price of everything for the people who did not get a piece. None of that is in here, and I have no city-level data for any of these societies.
+
+Second, I have not drawn any conclusions about *causes*. These curves tell you how unequal a society was, not whether it was stable, fair or happy. Plenty of very unequal societies were quiet for a long time, and some quite equal ones were not.
+
+## What to keep in mind about the data
 
 Not all of these curves are the same kind of evidence. The label on each card says which:
 
