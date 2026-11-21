@@ -19,7 +19,7 @@ The short version is that I got less reassurance than I was hoping for. The long
 
 Line everyone in a society up from the poorest person to the richest. Now walk along the line and keep a running total of how much of the income (or wealth, or house floor area) the people you have passed hold between them.
 
-That running total is a Lorenz curve. If everyone had the same, it would be the dashed diagonal: the poorest 50% hold 50%. The further the curve sags below the diagonal, the more the richer end holds. The Gini coefficient is just the area between the two lines, scaled so that 0 means perfect equality and 1 means one person holds everything.
+That running total is a Lorenz curve. If everyone had the same, it would be the straight diagonal: the poorest 50% hold 50%. The further the curve sags below the diagonal, the more the richer end holds. The Gini coefficient is just the area between the two lines, scaled so that 0 means perfect equality and 1 means one person holds everything.
 
 The picture below has three views of the same data. **Curve** is the Lorenz curve. **Tenths** shows how much each tenth of the population holds, which is easier to read at a glance. **100 coins** imagines each society as 100 people sharing 100 coins and colours each coin by who holds it. Start with the questions across the top, then add whatever you like.
 
@@ -29,7 +29,7 @@ The picture below has three views of the same data. **Curve** is the Lorenz curv
 
 Sometimes, yes. Mostly not by as much as I wanted.
 
-**Rome against the United States.** The first question is the one I wanted a comfortable answer to. According to Alfani, Bolla and Scheidel's 2025 estimate, the richest 1% of the Roman Empire around 165 CE took about 19% of income, and the poorest half took about 26%. In the United States in 2025 the richest 1% take about 21% and the poorest half about 13%. So at the top the two are about the same, and the bottom half of the United States does noticeably worse than the bottom half of an ancient slave-owning empire. Add US *wealth* and the picture changes completely: the top 1% hold about 35%, and the poorest half hold under 1%. (Those two are different things, which is why the lines change style on the chart: solid for income, dashed for wealth, dotted for house size.)
+**Rome against the United States.** The first question is the one I wanted a comfortable answer to. According to Alfani, Bolla and Scheidel's 2025 estimate, the richest 1% of the Roman Empire around 165 CE took about 19% of income, and the poorest half took about 26%. In the United States in 2025 the richest 1% take about 21% and the poorest half about 13%. So at the top the two are about the same, and the bottom half of the United States does noticeably worse than the bottom half of an ancient slave-owning empire. Add US *wealth* and the picture changes completely: the top 1% hold about 35%, and the poorest half hold under 1%. (Those two are different things, which is why each line on the chart is labelled with its measure.)
 
 **America since 1913.** This is the one that is supposed to be reassuring, and it is a little. In 1929 the richest 1% took about 22% of income. By 1980 it was about 10%. Today it is back to about 21%. The Gilded Age was bad, we did bring it down for half a century, and then we undid most of that. Drag the slider and watch the curve sag, recover, and sag again.
 
