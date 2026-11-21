@@ -5,6 +5,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import Link from 'next/link';
 import type { BlogPost } from '@/lib/types';
+import { formatDate } from '@/lib/format';
 
 interface BlogCarouselProps {
   posts: BlogPost[];
@@ -55,11 +56,11 @@ export function BlogCarousel({ posts }: BlogCarouselProps) {
                 className="block p-6 bg-white dark:bg-[#252526] rounded-lg border border-gray-200 dark:border-[#303031] transition-colors hover:border-gray-400 dark:hover:border-[#5a5a5a] sm:h-full"
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-sm text-gray-500 dark:text-slate-400">
-                    {new Date(post.date).toLocaleDateString()}
-                  </span>
+                  <time dateTime={post.date} className="text-sm text-gray-500 dark:text-[#a6a6a6]">
+                    {formatDate(post.date, 'short')}
+                  </time>
                   {post.readingTime && (
-                    <span className="text-sm text-gray-500 dark:text-slate-400">
+                    <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">
                       · {post.readingTime} min read
                     </span>
                   )}
