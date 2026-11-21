@@ -3,11 +3,14 @@ import { formatDate } from '@/lib/format';
 import Link from 'next/link';
 import { PageContainer } from '@/components/PageContainer';
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Blog',
-  description: 'Technical articles, insights, and tutorials on data science and machine learning.',
-};
+  description:
+    'Technical articles, insights, and tutorials on data science and machine learning.',
+  path: '/blog',
+});
 
 export default function BlogPage() {
   const posts = getAllBlogPosts();

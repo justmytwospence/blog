@@ -2,11 +2,14 @@ import { getAllConcepts } from '@/lib/content';
 import { ConceptCard } from '@/components/ConceptCard';
 import { PageContainer } from '@/components/PageContainer';
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Concepts',
-  description: 'Interactive visualizations exploring ideas in statistics, probability, and data science.',
-};
+  description:
+    'Interactive visualizations exploring ideas in statistics, probability, and data science.',
+  path: '/concepts',
+});
 
 export default function ConceptsPage() {
   const concepts = getAllConcepts();

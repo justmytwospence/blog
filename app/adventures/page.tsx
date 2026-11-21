@@ -13,12 +13,14 @@ import {
 } from '@/lib/adventures';
 import { formatDistance, formatElevation, formatDuration } from '@/lib/units';
 import { readTotalsUpdatedAt } from '@/lib/strava-store';
+import { pageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Adventures',
   description:
     'A curated library of trail runs, mountaineering, skiing, and cycling — automated trip reports with maps, stats, and photos.',
-};
+  path: '/adventures',
+});
 
 export const revalidate = 3600;
 

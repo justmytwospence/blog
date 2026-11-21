@@ -3,15 +3,18 @@ import { ReadingSection } from '@/components/ReadingSection';
 import { PageContainer } from '@/components/PageContainer';
 import { readThrough } from '@/lib/last-good';
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/metadata';
 
 // Renders via ISR (hourly) — do not opt this route into dynamic rendering or it will hit Hardcover
 // per-request. readThrough serves the last-good snapshot if Hardcover is down at revalidation.
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Reading',
-  description: 'Books I am reading, want to read, and have recently read.',
-};
+  description:
+    'Books I am reading, want to read, and have recently read.',
+  path: '/reading',
+});
 
 const EMPTY_SHELF = { total: 0, url: null };
 

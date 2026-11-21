@@ -4,11 +4,14 @@ import { PageContainer } from '@/components/PageContainer';
 import { CatalogMap } from '@/components/adventures/objectives/CatalogMap';
 import { getObjectiveCatalog } from '@/lib/adventures';
 import { OBJECTIVE_PAGES } from '@/lib/objective-schema';
+import { pageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Objectives',
-  description: 'Peaks, routes, ski lines and races: what I have done and what is still on the list.',
-};
+  description:
+    'Peaks, routes, ski lines and races: what I have done and what is still on the list.',
+  path: '/adventures/objectives',
+});
 
 export default function ObjectivesPage() {
   const items = getObjectiveCatalog();

@@ -3,14 +3,17 @@ import { ProjectsExplorer } from '@/components/ProjectsExplorer';
 import { PageContainer } from '@/components/PageContainer';
 import { getActivity, getProjectHistory, projectSparklines } from '@/lib/github-activity';
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/metadata';
 
 // Revalidate hourly so the live GitHub activity stays fresh between deploys.
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Projects',
-  description: 'Things I have built across software and data: tools, apps, models, and experiments.',
-};
+  description:
+    'Things I have built across software and data: tools, apps, models, and experiments.',
+  path: '/projects',
+});
 
 export default async function ProjectsPage() {
   const activity = await getActivity();

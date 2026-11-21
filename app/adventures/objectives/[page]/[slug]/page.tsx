@@ -4,6 +4,7 @@ import { PageContainer } from '@/components/PageContainer';
 import { ObjectiveDetail } from '@/components/adventures/objectives/ObjectiveDetail';
 import { getObjectiveDetail, getObjectiveRefs } from '@/lib/adventures';
 import { pageConfig } from '@/lib/objective-schema';
+import { pageMetadata } from '@/lib/metadata';
 
 export const dynamicParams = false;
 
@@ -20,7 +21,11 @@ export async function generateMetadata({
   const detail = getObjectiveDetail(page, slug);
   const cfg = pageConfig(page);
   if (!detail || !cfg) return {};
-  return { title: detail.item.title, description: detail.item.description ?? cfg.blurb };
+  return pageMetadata({
+    title: detail.item.title,
+    description: detail.item.description ?? cfg.blurb,
+    path: `/adventures/objectives/${page}/${slug}`,
+  });
 }
 
 export default async function ObjectiveDetailPage({ params }: { params: Promise<{ page: string; slug: string }> }) {

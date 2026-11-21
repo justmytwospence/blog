@@ -2,6 +2,8 @@ import { getAllBlogPosts } from '@/lib/content';
 import { formatDate } from '@/lib/format';
 import { PageContainer } from '@/components/PageContainer';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/metadata';
 
 // Generate static params for all tags
 export const dynamicParams = false;
@@ -17,6 +19,15 @@ export async function generateStaticParams() {
   return Array.from(tags).map(tag => ({
     tag: tag,
   }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ tag: string }> }): Promise<Metadata> {
+  const { tag } = await params;
+  return pageMetadata({
+    title: `Posts tagged "${tag}"`,
+    description: `Blog posts tagged "${tag}".`,
+    path: `/blog/tags/${tag}`,
+  });
 }
 
 export default async function BlogTagPage({

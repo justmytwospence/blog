@@ -6,6 +6,7 @@ import { PageContainer } from '@/components/PageContainer';
 import { CatalogView } from '@/components/adventures/objectives/CatalogView';
 import { getObjectiveCatalog } from '@/lib/adventures';
 import { PAGE_IDS, pageConfig } from '@/lib/objective-schema';
+import { pageMetadata } from '@/lib/metadata';
 
 export const dynamicParams = false;
 
@@ -17,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ page: str
   const { page } = await params;
   const cfg = pageConfig(page);
   if (!cfg) return {};
-  return { title: cfg.label, description: cfg.blurb };
+  return pageMetadata({ title: cfg.label, description: cfg.blurb, path: `/adventures/objectives/${page}` });
 }
 
 export default async function ObjectivesCategoryPage({ params }: { params: Promise<{ page: string }> }) {

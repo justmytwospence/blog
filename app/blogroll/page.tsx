@@ -8,14 +8,17 @@ import { BlogrollList } from '@/components/BlogrollList';
 import { PageContainer } from '@/components/PageContainer';
 import { readThrough } from '@/lib/last-good';
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/metadata';
 
 // Renders via ISR (hourly) — keep it static; readThrough serves last-good if the feed is down.
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Blogroll',
-  description: "Things I've read recently and thought worth sharing — articles, posts, and links from across the web.",
-};
+  description:
+    "Things I've read recently and thought worth sharing — articles, posts, and links from across the web.",
+  path: '/blogroll',
+});
 
 export default async function BlogrollPage() {
   // Two depths of the same public stream: the articles to render, and a full-depth crawl behind the

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { getFeaturedContent } from '@/lib/content';
 import { getFeaturedAdventures } from '@/lib/adventures';
 import Link from 'next/link';
@@ -6,6 +7,8 @@ import { BlogCarousel } from '@/components/BlogCarousel';
 import { ConceptCarousel } from '@/components/ConceptCarousel';
 import { AdventureCard } from '@/components/adventures/AdventureCard';
 import { PageContainer } from '@/components/PageContainer';
+
+export const metadata: Metadata = { alternates: { canonical: '/' } };
 
 export default function Home() {
   const { projects, posts, concepts } = getFeaturedContent();
