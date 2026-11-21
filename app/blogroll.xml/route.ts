@@ -1,6 +1,6 @@
 import { Feed } from 'feed';
 import { getBlogrollItemsOrThrow, type BlogrollItem } from '@blog/inoreader';
-import { SITE_URL, AUTHOR } from '@/lib/site';
+import { SITE_URL, FEED_ID_ORIGIN, AUTHOR } from '@/lib/site';
 import { readThrough } from '@/lib/last-good';
 
 export const dynamic = 'force-static';
@@ -16,7 +16,7 @@ export async function GET() {
   const feed = new Feed({
     title: "Spencer Boucher's Blogroll",
     description: "Things Spencer has read recently and thought worth sharing.",
-    id: `${SITE_URL}/blogroll`,
+    id: `${FEED_ID_ORIGIN}/blogroll`,
     link: `${SITE_URL}/blogroll`,
     language: 'en',
     favicon: `${SITE_URL}/icon.svg`,

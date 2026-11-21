@@ -65,4 +65,15 @@ describe('marimo feeds', () => {
     expect(feed.items[0].content).toContain('…');
     expect(feed.items[0].content?.length).toBeLessThan(550);
   });
+
+  it('keeps entry ids on the original origin while links use the canonical host', async () => {
+    fs.writeFileSync(path.join(root, 'content', 'blog', 'stable.marimo.json'), JSON.stringify(manifest('stable')));
+    vi.resetModules();
+    const { generateFeed } = await import('../feed');
+    const feed = await generateFeed();
+    const entry = feed.items.find(item => item.link.endsWith('/blog/stable'));
+    expect(entry?.link).toBe('https://www.spencerboucher.com/blog/stable');
+    expect(entry?.id).toBe('https://spencerboucher.com/blog/stable');
+    expect(feed.options.id).toBe('https://spencerboucher.com');
+  });
 });

@@ -12,7 +12,7 @@ import {
 import { BlogPost, Project } from './types';
 import { getAllAdventures, getAdventureBySlug } from './adventures';
 import { formatDistance, formatElevation, formatDuration } from './units';
-import { SITE_URL, AUTHOR } from './site';
+import { SITE_URL, FEED_ID_ORIGIN, AUTHOR } from './site';
 
 /**
  * Convert markdown content to HTML string
@@ -46,7 +46,7 @@ export async function generateFeed(): Promise<Feed> {
   const feed = new Feed({
     title: 'Spencer Boucher',
     description: 'Blog posts and projects by Spencer Boucher',
-    id: SITE_URL,
+    id: FEED_ID_ORIGIN,
     link: SITE_URL,
     language: 'en',
     image: `${SITE_URL}/images/avatar.png`,
@@ -76,10 +76,8 @@ export async function generateFeed(): Promise<Feed> {
 
   // Process each item
   for (const { item, category } of allContent) {
-    const url =
-      category === 'blog'
-        ? `${SITE_URL}/blog/${item.slug}`
-        : `${SITE_URL}/projects/${item.slug}`;
+    const path = category === 'blog' ? `/blog/${item.slug}` : `/projects/${item.slug}`;
+    const url = `${SITE_URL}${path}`;
 
     let htmlContent = '';
 
@@ -122,7 +120,7 @@ export async function generateFeed(): Promise<Feed> {
 
     feed.addItem({
       title: item.title,
-      id: url,
+      id: `${FEED_ID_ORIGIN}${path}`,
       link: url,
       description: item.description || '',
       content: htmlContent,
@@ -142,7 +140,7 @@ export async function generateAdventuresFeed(): Promise<Feed> {
   const feed = new Feed({
     title: 'Adventures — Spencer Boucher',
     description: 'Trip reports: trail running, mountaineering, skiing, cycling, and more.',
-    id: `${SITE_URL}/adventures`,
+    id: `${FEED_ID_ORIGIN}/adventures`,
     link: `${SITE_URL}/adventures`,
     language: 'en',
     favicon: `${SITE_URL}/favicon.ico`,
@@ -153,7 +151,8 @@ export async function generateAdventuresFeed(): Promise<Feed> {
   });
 
   for (const a of getAllAdventures()) {
-    const url = `${SITE_URL}/adventures/${a.slug}`;
+    const path = `/adventures/${a.slug}`;
+    const url = `${SITE_URL}${path}`;
     const stat = `${formatDistance(a.totals.distanceMeters)} · ${formatElevation(
       a.totals.elevationGainMeters,
     )} · ${formatDuration(a.totals.movingTimeSeconds)}`;
@@ -170,7 +169,7 @@ export async function generateAdventuresFeed(): Promise<Feed> {
 
     feed.addItem({
       title: a.title,
-      id: url,
+      id: `${FEED_ID_ORIGIN}${path}`,
       link: url,
       description: a.description || stat,
       content: `<p>${header} — ${stat}</p>${prose}`,
