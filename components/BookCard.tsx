@@ -132,7 +132,7 @@ export function BookCard({ userBook }: { userBook: UserBook }) {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex flex-col items-center text-center group cursor-pointer"
+        className="flex w-full flex-col items-center text-center group cursor-pointer"
       >
         <div className="relative w-full aspect-[2/3] mb-2 rounded-lg overflow-hidden border border-black/10 dark:border-white/10 transition-transform duration-200 group-hover:scale-[1.03]">
           {book.imageUrl ? (
