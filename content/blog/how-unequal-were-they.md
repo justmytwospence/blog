@@ -9,7 +9,7 @@ featured: false
 
 # How Unequal Were They?
 
-After Anthropic went public, a lot of people I know (and a lot of people I do not) suddenly had an amount of money that is hard to think about. I live in San Francisco, so I have been wondering what that does to the city, and more vaguely to everything else: rents, who can afford to stay, what it is like to be one of the people who cannot.
+After Anthropic went public, the amount of wealth it created was hard to get my head around. I used to live in San Francisco, and I kept wondering what that kind of money does to a city like that, and more vaguely to everything else: rents, who can afford to stay, what it is like to be one of the people who cannot. I do not know anyone at the company and I do not live there anymore, so this is curiosity rather than anything personal.
 
 My instinct was to go looking for reassurance. Surely this has happened before. Surely Gilded Age robber barons, Roman senators and medieval lords were much worse, and we muddled through. So I went and collected the context. This is the result: an atlas of 33 societies, from an 11,000-year-old village on the Euphrates to the present day, drawn the same way, with every curve linking back to where it came from.
 
