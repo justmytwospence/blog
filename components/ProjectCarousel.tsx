@@ -3,6 +3,8 @@
 import { useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
+import { CarouselArrows } from '@/components/CarouselArrows';
+import { carouselLayout } from '@/lib/carousel';
 import Link from 'next/link';
 import type { Project } from '@/lib/types';
 import { projectCardDestination } from '@/lib/project-navigation';
@@ -29,20 +31,13 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-  // Calculate card width based on number of items and breakpoints.
   // Spacing lives INSIDE each slide (pl-6 + negative track margin), not in a
   // flex gap: embla's loop translates slides individually, and a gap stays
   // glued to DOM order, so gutters collapse after the loop wraps.
-  const getCardWidthClass = () => {
-    const count = projects.length;
-    if (count === 1) return 'w-full';
-    if (count === 2) return 'w-full sm:w-1/2';
-    // 3 or more items - use all breakpoints up to 3 columns
-    return 'w-full sm:w-1/2 md:w-1/3';
-  };
+  const layout = carouselLayout(projects.length, 3);
 
   return (
-    <div className="relative px-0 sm:px-12">
+    <div className={`relative ${layout.frame}`}>
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex -ml-6">
           {projects.map((project) => {
@@ -51,7 +46,7 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
             return (
             <div
               key={project.slug}
-              className={`flex-[0_0_auto] pl-6 ${getCardWidthClass()}`}
+              className={`flex-[0_0_auto] pl-6 ${layout.slide}`}
             >
               <Link
                 href={href}
@@ -91,25 +86,7 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
         </div>
       </div>
 
-      {/* Navigation buttons - hidden on mobile */}
-      <button
-        onClick={scrollPrev}
-        className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white dark:bg-[#252526] text-gray-800 dark:text-[#d4d4d4] p-3 rounded-full border border-gray-200 dark:border-[#303031] hover:bg-gray-100 dark:hover:bg-[#3a3d41] transition-colors z-10 cursor-pointer"
-        aria-label="Previous slide"
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
-      <button
-        onClick={scrollNext}
-        className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white dark:bg-[#252526] text-gray-800 dark:text-[#d4d4d4] p-3 rounded-full border border-gray-200 dark:border-[#303031] hover:bg-gray-100 dark:hover:bg-[#3a3d41] transition-colors z-10 cursor-pointer"
-        aria-label="Next slide"
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
+      <CarouselArrows onPrev={scrollPrev} onNext={scrollNext} className={layout.arrows} />
     </div>
   );
 }
