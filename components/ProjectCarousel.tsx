@@ -5,6 +5,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import Link from 'next/link';
 import type { Project } from '@/lib/types';
+import { projectCardDestination } from '@/lib/project-navigation';
 
 interface ProjectCarouselProps {
   projects: Project[];
@@ -45,8 +46,7 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex -ml-6">
           {projects.map((project) => {
-            const href = project.links?.[0]?.url || project.externalUrl || `/projects/${project.slug}`;
-            const isExternal = Boolean(project.links?.[0]?.url || project.externalUrl);
+            const { href, external: isExternal } = projectCardDestination(project);
 
             return (
             <div

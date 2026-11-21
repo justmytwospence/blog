@@ -1,6 +1,9 @@
+import Image from 'next/image';
 import Link from 'next/link';
+import { Lock } from 'lucide-react';
 import { Project } from '@/lib/types';
 import { projectCardDestination } from '@/lib/project-navigation';
+import { projectKindLabel } from '@/lib/project-kinds';
 import { Sparkline } from '@/components/Sparkline';
 import type { ProjectSparkline } from '@/lib/github-activity';
 
@@ -8,6 +11,7 @@ interface ProjectCardProps {
   project: Project;
   /** Recent daily or weekly commits, oldest first. */
   activity?: ProjectSparkline;
+  variant?: 'default' | 'featured';
 }
 
 // Pick an icon for a link chip based on its URL and label.
@@ -35,18 +39,38 @@ function LinkChipIcon({ label, url }: { label: string; url: string }) {
   );
 }
 
-export function ProjectCard({ project, activity }: ProjectCardProps) {
+export function ProjectCard({ project, activity, variant = 'default' }: ProjectCardProps) {
   const links = project.links ?? [];
-  // Only surface chips when there's more than one destination to disambiguate.
-  const showChips = links.length > 1;
+  const featured = variant === 'featured';
+  const kindLabel = projectKindLabel(project.kind);
 
   // Collection cards open their overview; external chips remain independently clickable.
   const { href: primaryHref, external: isExternal } = projectCardDestination(project);
+  // Chips when there is more than one destination to disambiguate, or an internal card's own destinations.
+  const showChips = links.length > 1 || (!isExternal && links.length > 0);
+  const showChipRow = showChips || Boolean(project.sourcePrivate);
 
   return (
-    <div className="group relative flex h-full flex-col p-4 md:p-6 bg-white dark:bg-[#252526] rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200 dark:border-[#303031]">
+    <div className="group relative flex h-full flex-col overflow-hidden bg-white dark:bg-[#252526] rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200 dark:border-[#303031]">
+      {featured && project.image && (
+        <div className="relative aspect-[1200/630] w-full border-b border-gray-200 dark:border-[#303031]">
+          <Image
+            src={project.image}
+            alt={project.imageAlt ?? ''}
+            fill
+            sizes="(min-width: 1024px) 368px, (min-width: 768px) 50vw, 100vw"
+            className="object-cover"
+          />
+        </div>
+      )}
+      <div className="flex flex-1 flex-col p-4 md:p-6">
+      {kindLabel && (
+        <p className="mb-1 text-[11px] font-medium uppercase tracking-wide text-gray-500 dark:text-[#a6a6a6]">
+          {kindLabel}
+        </p>
+      )}
       {/* Title */}
-      <h3 className="text-lg md:text-xl break-words font-semibold mb-2 text-gray-900 dark:text-[#d4d4d4] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+      <h3 className={`${featured ? 'text-xl md:text-2xl' : 'text-lg md:text-xl'} break-words font-semibold mb-2 text-gray-900 dark:text-[#d4d4d4] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors`}>
         {project.title}
         {isExternal && (
           <svg className="inline-block ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -57,7 +81,7 @@ export function ProjectCard({ project, activity }: ProjectCardProps) {
 
       {/* Link chips stay above the stretched link. Only desktop reserves an empty row
           so descriptions, tags and histograms align across columns. */}
-      <div className={`relative z-10 mb-3 md:min-h-[1.75rem] flex-wrap gap-2 ${showChips ? 'flex' : 'hidden md:flex'}`}>
+      <div className={`relative z-10 mb-3 md:min-h-[1.75rem] flex-wrap gap-2 ${showChipRow ? 'flex' : 'hidden md:flex'}`}>
         {showChips && links.map((lnk) => (
           <a
             key={lnk.url}
@@ -70,6 +94,12 @@ export function ProjectCard({ project, activity }: ProjectCardProps) {
             {lnk.label}
           </a>
         ))}
+        {project.sourcePrivate && (
+          <span className="inline-flex items-center gap-1.5 px-1 py-1 text-xs text-gray-500 dark:text-[#a6a6a6]">
+            <Lock className="h-3.5 w-3.5" aria-hidden="true" />
+            Source private
+          </span>
+        )}
       </div>
 
       {/* Description */}
@@ -104,6 +134,7 @@ export function ProjectCard({ project, activity }: ProjectCardProps) {
             />
           </div>
         )}
+      </div>
       </div>
 
       {/* Stretched primary link — makes the whole card clickable */}

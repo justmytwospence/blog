@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { ProjectCard } from '@/components/ProjectCard';
 import { ContributionCalendar, dayHeadline, type ActivityData } from '@/components/ContributionCalendar';
+import { byFeaturedOrder } from '@/lib/project-navigation';
 import { PROJECT_TOPICS, PROJECT_TOPIC_IDS } from '@/lib/project-topics';
 import type { Project } from '@/lib/types';
 import type { ProjectSparkline } from '@/lib/github-activity';
@@ -157,6 +158,22 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
   const shown = projects.filter(
     (project) => (!topicSlugs || topicSlugs.has(project.slug)) && (!visibleSlugs || visibleSlugs.has(project.slug)),
   );
+  const featuredShown = shown.filter((p) => p.featured).sort(byFeaturedOrder);
+  const restShown = shown.filter((p) => !p.featured);
+  const sectionLabel = 'mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-[#a6a6a6]';
+  const renderCard = (project: Project, variant: 'default' | 'featured') => {
+    const dimmed = !activeDay && focusSlugs !== null && !focusSlugs.includes(project.slug);
+    return (
+      <div
+        key={project.slug}
+        onMouseEnter={() => handleCardEnter(project.slug)}
+        onMouseLeave={clear}
+        className={`h-full transition-opacity duration-150 ${dimmed ? 'opacity-40' : 'opacity-100'}`}
+      >
+        <ProjectCard project={project} activity={sparklines[project.slug]} variant={variant} />
+      </div>
+    );
+  };
   // Calendar focus: a hovered day or card (restricted to the topic), else the topic as a whole.
   const topicFocus = topicSlugs ? [...topicSlugs].filter((slug) => activitySlugs.has(slug)) : null;
   const localFocus = focusSlugs && topicSlugs ? focusSlugs.filter((slug) => topicSlugs.has(slug)) : focusSlugs;
@@ -245,24 +262,22 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
                 : ', all in private or unlisted repositories.'}
           </p>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {shown.map((project) => {
-            const dimmed = !activeDay && focusSlugs !== null && !focusSlugs.includes(project.slug);
-            return (
-              <div
-                key={project.slug}
-                onMouseEnter={() => handleCardEnter(project.slug)}
-                onMouseLeave={clear}
-                className={`h-full transition-opacity duration-150 ${dimmed ? 'opacity-40' : 'opacity-100'}`}
-              >
-                <ProjectCard
-                  project={project}
-                  activity={sparklines[project.slug]}
-                />
-              </div>
-            );
-          })}
-        </div>
+        {featuredShown.length > 0 && (
+          <section aria-label="Featured projects" className="mb-8 md:mb-10">
+            <h2 className={sectionLabel}>Featured</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              {featuredShown.map((project) => renderCard(project, 'featured'))}
+            </div>
+          </section>
+        )}
+        {restShown.length > 0 && (
+          <section aria-label="More projects">
+            {featuredShown.length > 0 && <h2 className={sectionLabel}>More projects</h2>}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              {restShown.map((project) => renderCard(project, 'default'))}
+            </div>
+          </section>
+        )}
       </div>
     </>
   );
