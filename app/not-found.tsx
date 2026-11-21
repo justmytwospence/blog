@@ -42,13 +42,13 @@ export default function NotFound() {
           </Link>
           <Link
             href="/projects"
-            className="px-6 py-3 bg-gray-200 hover:bg-gray-300 dark:bg-neutral-700 dark:hover:bg-neutral-600 text-gray-900 dark:text-neutral-100 font-semibold rounded-lg transition-colors"
+            className="px-6 py-3 border border-gray-200 bg-white text-gray-900 hover:bg-gray-100 dark:border-[#303031] dark:bg-[#252526] dark:text-[#d4d4d4] dark:hover:bg-[#3a3d41] font-semibold rounded-lg transition-colors"
           >
             View Projects
           </Link>
           <Link
             href="/blog"
-            className="px-6 py-3 bg-gray-200 hover:bg-gray-300 dark:bg-neutral-700 dark:hover:bg-neutral-600 text-gray-900 dark:text-neutral-100 font-semibold rounded-lg transition-colors"
+            className="px-6 py-3 border border-gray-200 bg-white text-gray-900 hover:bg-gray-100 dark:border-[#303031] dark:bg-[#252526] dark:text-[#d4d4d4] dark:hover:bg-[#3a3d41] font-semibold rounded-lg transition-colors"
           >
             Read Blog
           </Link>
