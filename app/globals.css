@@ -900,7 +900,7 @@ select:not(:disabled) {
 }
 
 /*
- * Range sliders for the peaks concept: a slim rounded track that fills up to the thumb, and a clean
+ * Range sliders for the peaks post: a slim rounded track that fills up to the thumb, and a clean
  * white thumb ringed in the dimension color. The fill %, fill color, and track color are passed
  * per-slider via the --pct / --accent / --track custom properties.
  */

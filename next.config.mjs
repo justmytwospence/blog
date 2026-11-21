@@ -23,6 +23,13 @@ const nextConfig = {
       { protocol: 'https', hostname: 'storage.googleapis.com' },
     ],
   },
+  // Concepts became ordinary blog posts; keep the old URLs working.
+  async redirects() {
+    return [
+      { source: '/concepts', destination: '/blog', permanent: true },
+      { source: '/concepts/:slug', destination: '/blog/:slug', permanent: true },
+    ];
+  },
   async headers() {
     const headers = process.env.VERCEL_ENV === 'production'
       ? securityHeaders

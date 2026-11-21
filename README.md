@@ -47,11 +47,10 @@ Next.js `transpilePackages` compiles the raw TypeScript in each. Always import f
 
 ### Content (`/content`)
 
-Four content types share a parser in `lib/content.ts`:
+Content types share a parser in `lib/content.ts`:
 
 - **Blog posts** (`/content/blog/*.md`) — markdown with YAML frontmatter (`title`, `date`, `categories`, `description`, `featured`, optional `bluesky`).
 - **Projects** (`/content/projects/*`) — markdown, notebook (`.ipynb` with Quarto frontmatter in the first cell), webapp config (`.json`), or external link (markdown with `externalUrl`).
-- **Concepts** (`/content/concepts/*.md`) — interactive explainers backed by a React component registered in `components/concepts/index.ts` (dynamic import with `ssr: false` because they use canvas/window).
 - **Pages** — currently only `/about` and `/`, hardcoded TSX.
 
 ### Comments (Bluesky)
@@ -108,7 +107,6 @@ OAuth setup:
 | `/` | Featured-content carousels |
 | `/blog`, `/blog/[slug]`, `/blog/tags/[tag]` | Blog listing, post, and tag filter |
 | `/projects`, `/projects/[slug]` | Project grid and detail (dynamic) |
-| `/concepts`, `/concepts/[slug]` | Interactive concept pages |
 | `/blogroll` (+ `/blogroll.xml`) | Curated RSS reading list (ISR, OPML-style RSS) |
 | `/reading` | Hardcover reading list (ISR) |
 | `/about` | About page (ISR — pulls "currently reading") |

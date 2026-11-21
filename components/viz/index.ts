@@ -7,6 +7,6 @@ const registry: Record<string, ComponentType> = {
   ColoradoPeaks: dynamic(() => import('./ColoradoPeaks'), { ssr: false }),
 };
 
-export function getConceptComponent(name: string): ComponentType | null {
+export function getVizComponent(name: string): ComponentType | null {
   return registry[name] || null;
 }

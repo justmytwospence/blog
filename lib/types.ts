@@ -30,7 +30,7 @@ export interface ContentMetadata {
   /** Additional labelled destinations (e.g. Docs + GitHub) shown as link chips. */
   links?: { label: string; url: string }[];
   /**
-   * Name of a registered interactive component (components/concepts/index.ts) to mount inside a
+   * Name of a registered interactive component (components/viz/index.ts) to mount inside a
    * blog post. Prose is split on a `<!--viz-->` sentinel so it can bracket the component.
    */
   component?: string;
@@ -89,27 +89,9 @@ export interface LinkContent {
 }
 
 /**
- * Interactive concept/explainer content
- */
-export interface ConceptContent {
-  type: 'component';
-  content: string; // Optional markdown prose
-  component: string; // Component name for dynamic import
-  metadata: ContentMetadata;
-}
-
-/**
- * Concept metadata
- */
-export interface Concept extends ContentMetadata {
-  category: 'concept';
-  component: string;
-}
-
-/**
  * Union type for all content types
  */
-export type Content = MarkdownContent | NotebookContent | WebappContent | LinkContent | ConceptContent;
+export type Content = MarkdownContent | NotebookContent | WebappContent | LinkContent;
 
 /**
  * Webapp configuration file structure

@@ -6,13 +6,13 @@
  * unknown slugs resolve to null. They double as content validation.
  */
 
+import fs from 'node:fs';
+import path from 'node:path';
 import {
   getAllProjects,
   getAllBlogPosts,
-  getAllConcepts,
   getProjectBySlug,
   getBlogPostBySlug,
-  getConceptBySlug,
 } from '../content';
 
 function isSortedDescending(dates: (string | Date)[]): boolean {
@@ -76,15 +76,21 @@ describe('getAllProjects', () => {
   });
 });
 
-describe('getAllConcepts', () => {
-  const concepts = getAllConcepts();
+describe('blog posts with an interactive component', () => {
+  const registry = fs.readFileSync(path.join(process.cwd(), 'components/viz/index.ts'), 'utf8');
+  const withComponent = getAllBlogPosts()
+    .map((p) => getBlogPostBySlug(p.slug)!)
+    .filter((p) => p.metadata.component);
 
-  it('gives every concept a slug, title, and component', () => {
-    for (const concept of concepts) {
-      expect(concept.slug).toBeTruthy();
-      expect(concept.title).toBeTruthy();
-      expect(concept.component).toBeTruthy();
+  it('exist, and name a component that is registered', () => {
+    expect(withComponent.length).toBeGreaterThan(0);
+    for (const post of withComponent) {
+      expect(registry).toMatch(new RegExp(`\\b${post.metadata.component}:`));
     }
+  });
+
+  it('mark where the component goes with a <!--viz--> sentinel', () => {
+    for (const post of withComponent) expect('content' in post ? post.content : '').toMatch(/<!--\s*viz\s*-->/i);
   });
 });
 
@@ -107,15 +113,6 @@ describe('list/by-slug round trip', () => {
       expect(full!.metadata.title).toBe(project.title);
       expect(String(full!.metadata.date)).toBe(String(project.date));
       expect(full!.metadata.categories).toEqual(project.categories);
-    }
-  });
-
-  it('resolves every concept slug with matching metadata', () => {
-    for (const concept of getAllConcepts()) {
-      const full = getConceptBySlug(concept.slug);
-      expect(full).not.toBeNull();
-      expect(full!.metadata.title).toBe(concept.title);
-      expect(full!.component).toBe(concept.component);
     }
   });
 });
@@ -142,6 +139,5 @@ describe('unknown slugs', () => {
   it('returns null instead of throwing', () => {
     expect(getBlogPostBySlug('does-not-exist')).toBeNull();
     expect(getProjectBySlug('does-not-exist')).toBeNull();
-    expect(getConceptBySlug('does-not-exist')).toBeNull();
   });
 });

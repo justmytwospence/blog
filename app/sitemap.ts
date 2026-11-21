@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL } from '@/lib/site';
-import { getAllBlogPosts, getAllProjects, getAllConcepts } from '@/lib/content';
+import { getAllBlogPosts, getAllProjects } from '@/lib/content';
 import { getAllAdventureRefs, getObjectiveRefs } from '@/lib/adventures';
 import { PAGE_IDS } from '@/lib/objective-schema';
 
@@ -19,7 +19,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...PAGE_IDS.map((id) => `/adventures/objectives/${id}`),
     '/blog',
     '/projects',
-    '/concepts',
     '/blogroll',
     '/reading',
   ].map((p) => ({
@@ -55,12 +54,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  const concepts: MetadataRoute.Sitemap = getAllConcepts().map((c) => ({
-    url: `${SITE_URL}/concepts/${c.slug}`,
-    lastModified: when(c.date),
-    changeFrequency: 'monthly',
-    priority: 0.6,
-  }));
-
-  return [...staticRoutes, ...adventures, ...objectives, ...posts, ...projects, ...concepts];
+  return [...staticRoutes, ...adventures, ...objectives, ...posts, ...projects];
 }

@@ -1,6 +1,6 @@
 import { getAllBlogPosts, getBlogPostBySlug, calculateReadingTime } from '@/lib/content';
 import { ArticleMarkdown } from '@/components/ArticleMarkdown';
-import { ConceptLoader } from '@/components/concepts/ConceptLoader';
+import { VizLoader } from '@/components/viz/VizLoader';
 import { PageContainer } from '@/components/PageContainer';
 import { BlueskyComments } from '@/components/BlueskyComments';
 import { NotebookRenderer } from '@/components/notebook/NotebookRenderer';
@@ -119,7 +119,7 @@ export default async function BlogPostPage({
 
       {post.metadata.component && (
         <div className="my-8">
-          <ConceptLoader componentName={post.metadata.component} />
+          <VizLoader componentName={post.metadata.component} />
         </div>
       )}
 
