@@ -890,10 +890,13 @@ input[type='range'].peak-slider::-moz-range-thumb {
   --mb-syntax-variable: #9cdcfe;
   --mb-syntax-meta: #c586c0;
 }
-.blog-marimo-header { margin-bottom: 2rem; }
-.blog-marimo-meta { font: .875rem/1.6 var(--font-inter), system-ui, sans-serif; color: var(--mb-muted); margin-bottom: 1rem; }
-.blog-marimo-title { font-family: var(--font-inter), system-ui, sans-serif; font-size: clamp(2.25rem, 5cqi, 3.5rem); font-weight: 700; line-height: 1.12; letter-spacing: -.04em; text-wrap: balance; margin-bottom: 1.5rem; }
-.blog-marimo-dek { font-size: 1.125rem; line-height: 1.8; color: var(--mb-muted); margin-bottom: 1.5rem; }
-.blog-marimo-topics { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; font: .875rem/1.6 var(--font-inter), system-ui, sans-serif; }
-.blog-marimo-topic { color: var(--mb-muted); text-underline-offset: .2em; }
-.blog-marimo-topic:hover { color: var(--mb-accent); text-decoration: underline; }
+/* Article header shared by notebook and markdown posts. Inside .blog-marimo it follows the
+   renderer's palette; elsewhere the same values apply directly. */
+.post-header { --post-muted: var(--mb-muted, #6b7280); --post-accent: var(--mb-accent, #1d4ed8); margin-bottom: 2rem; }
+.dark .post-header { --post-muted: var(--mb-muted, #a8a29e); --post-accent: var(--mb-accent, #fbbf24); }
+.post-meta { font: .875rem/1.6 var(--font-inter), system-ui, sans-serif; color: var(--post-muted); margin-bottom: 1rem; }
+.post-title { font-family: var(--font-inter), system-ui, sans-serif; font-size: clamp(2.25rem, 5cqi, 3.5rem); font-weight: 700; line-height: 1.12; letter-spacing: -.04em; text-wrap: balance; margin-bottom: 1.5rem; }
+.post-dek { font-family: var(--font-merriweather), Georgia, serif; font-size: 1.125rem; line-height: 1.8; color: var(--post-muted); margin-bottom: 1.5rem; }
+.post-topics { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; font: .875rem/1.6 var(--font-inter), system-ui, sans-serif; }
+.post-topic { color: var(--post-muted); text-underline-offset: .2em; }
+.post-topic:hover { color: var(--post-accent); text-decoration: underline; }
