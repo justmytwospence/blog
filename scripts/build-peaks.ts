@@ -1,5 +1,5 @@
 /**
- * Build the committed Colorado peaks dataset for the /concepts/colorado-peaks viz.
+ * Build the committed Colorado peaks dataset for the /blog/colorado-peaks viz.
  *
  * Parses the committed Lists of John HTML exports in data/peaks-raw/ (CO 14er/13er/12er bands at a
  * uniform 100 ft prominence floor — low enough to include the famous unranked subpeaks like Mount

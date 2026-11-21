@@ -4,9 +4,7 @@ import matter from 'gray-matter';
 import {
   Project,
   BlogPost,
-  Concept,
   Content,
-  ConceptContent,
   MarkdownContent,
   MarimoContent,
   WebappConfig,
@@ -18,7 +16,6 @@ import { byFeaturedOrder } from './project-navigation';
 const CONTENT_DIR = path.join(process.cwd(), 'content');
 const PROJECTS_DIR = path.join(CONTENT_DIR, 'projects');
 const BLOG_DIR = path.join(CONTENT_DIR, 'blog');
-const CONCEPTS_DIR = path.join(CONTENT_DIR, 'concepts');
 
 const WORDS_PER_MINUTE = 200;
 
@@ -90,7 +87,7 @@ export function normalizeDate(date: unknown): string {
 
 /**
  * Map the frontmatter fields shared by every content type
- * (blog, project, concept, webapp config).
+ * (blog, project, webapp config).
  */
 export function mapCommonMetadata(data: CommonFrontmatter, slug: string) {
   return {
@@ -386,83 +383,22 @@ export function getBlogPostBySlug(slug: string): MarkdownContent | MarimoContent
 export { calculateReadingTime };
 
 /**
- * Get all concepts sorted by date (newest first)
- */
-export function getAllConcepts(): Concept[] {
-  if (!fs.existsSync(CONCEPTS_DIR)) {
-    return [];
-  }
-
-  const files = fs.readdirSync(CONCEPTS_DIR).filter(file => typeof file === 'string' && file.endsWith('.md'));
-  const concepts: Concept[] = [];
-
-  for (const file of files) {
-    const filePath = path.join(CONCEPTS_DIR, file);
-    const slug = file.replace(/\.md$/, '');
-
-    try {
-      const fileContents = fs.readFileSync(filePath, 'utf8');
-      const { data } = matter(fileContents);
-
-      concepts.push({
-        category: 'concept',
-        type: 'component',
-        ...mapCommonMetadata(data, slug),
-        component: data.component || slug,
-      });
-    } catch (error) {
-      console.error(`Error processing concept file ${file}:`, error);
-    }
-  }
-
-  return concepts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-}
-
-/**
- * Get concept content by slug
- */
-export function getConceptBySlug(slug: string): ConceptContent | null {
-  const filePath = path.join(CONCEPTS_DIR, `${slug}.md`);
-
-  if (!fs.existsSync(filePath)) {
-    return null;
-  }
-
-  const fileContents = fs.readFileSync(filePath, 'utf8');
-  const { data, content } = matter(fileContents);
-
-  return {
-    type: 'component',
-    content,
-    component: data.component || slug,
-    metadata: {
-      type: 'component',
-      ...mapCommonMetadata(data, slug),
-    },
-  };
-}
-
-/**
  * Get featured content for home page
  */
 export function getFeaturedContent(): {
   projects: Project[];
   posts: BlogPost[];
-  concepts: Concept[];
 } {
   const allProjects = getTopLevelProjects();
   const allPosts = getAllBlogPosts();
-  const allConcepts = getAllConcepts();
 
   // Get featured items or fallback to most recent
   const featuredProjects = allProjects.filter(p => p.featured).sort(byFeaturedOrder);
   const featuredPosts = allPosts.filter(p => p.featured);
-  const featuredConcepts = allConcepts.filter(c => c.featured);
 
   return {
     projects: featuredProjects.length > 0 ? featuredProjects : allProjects.slice(0, 3),
     posts: featuredPosts.length > 0 ? featuredPosts : allPosts.slice(0, 3),
-    concepts: featuredConcepts.length > 0 ? featuredConcepts : allConcepts.slice(0, 3),
   };
 }
 

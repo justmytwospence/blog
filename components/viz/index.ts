@@ -8,6 +8,6 @@ const registry: Record<string, ComponentType> = {
   MillionaireInflation: dynamic(() => import('./MillionaireInflation'), { ssr: false }),
 };
 
-export function getConceptComponent(name: string): ComponentType | null {
+export function getVizComponent(name: string): ComponentType | null {
   return registry[name] || null;
 }

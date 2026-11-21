@@ -1,13 +1,13 @@
 'use client';
 
-import { getConceptComponent } from './index';
+import { getVizComponent } from './index';
 
-interface ConceptLoaderProps {
+interface VizLoaderProps {
   componentName: string;
 }
 
-export function ConceptLoader({ componentName }: ConceptLoaderProps) {
-  const Component = getConceptComponent(componentName);
+export function VizLoader({ componentName }: VizLoaderProps) {
+  const Component = getVizComponent(componentName);
 
   if (!Component) {
     return (

@@ -4,7 +4,6 @@ import { getFeaturedAdventures } from '@/lib/adventures';
 import Link from 'next/link';
 import { ProjectCarousel } from '@/components/ProjectCarousel';
 import { BlogCarousel } from '@/components/BlogCarousel';
-import { ConceptCarousel } from '@/components/ConceptCarousel';
 import { AdventureCard } from '@/components/adventures/AdventureCard';
 import { PageContainer } from '@/components/PageContainer';
 
@@ -28,7 +27,7 @@ function SectionHeader({ title, href, label }: { title: string; href: string; la
 export const metadata: Metadata = { alternates: { canonical: '/' } };
 
 export default function Home() {
-  const { projects, posts, concepts } = getFeaturedContent();
+  const { projects, posts } = getFeaturedContent();
   const adventures = getFeaturedAdventures();
 
   return (
@@ -38,8 +37,8 @@ export default function Home() {
       {/*
         Every section below is conditional, so the gap between them belongs to the stack rather than
         to each section: `space-y` inserts a gap only where two sections actually meet, and there is
-        nothing to remember when a new one is added. Per-section `mb` is what failed here — Concepts
-        and Adventures were both added without one, closing up the gap above "Featured Adventures".
+        nothing to remember when a new one is added. Per-section `mb` is what failed here — a section
+        added without one closed up the gap above "Featured Adventures".
       */}
       <div className="space-y-6 sm:space-y-12">
         {/* Featured Projects Section */}
@@ -55,14 +54,6 @@ export default function Home() {
           <section>
             <SectionHeader title="Recent Blog Posts" href="/blog" label="View all posts" />
             <BlogCarousel posts={posts} />
-          </section>
-        )}
-
-        {/* Interactive Concepts Section */}
-        {concepts.length > 0 && (
-          <section>
-            <SectionHeader title="Interactive Concepts" href="/concepts" label="View all concepts" />
-            <ConceptCarousel concepts={concepts} />
           </section>
         )}
 

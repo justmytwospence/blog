@@ -7,7 +7,7 @@ import type { AdventureTrack, ResolvedPhoto } from '@/lib/adventures';
 import type { RouteColorMetric } from './mapStyle';
 import { downloadGpx } from './gpx';
 
-// Leaflet touches `window`, so the actual map is client-only (mirrors components/concepts/index.ts).
+// Leaflet touches `window`, so the actual map is client-only (mirrors components/viz/index.ts).
 const RouteMapInner = dynamic(() => import('./RouteMapInner').then((m) => m.RouteMapInner), {
   ssr: false,
   loading: () => <div className="h-full w-full animate-pulse bg-gray-100 dark:bg-[#252526]" />,

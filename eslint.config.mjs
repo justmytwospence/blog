@@ -27,7 +27,7 @@ export default [
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
       // React Compiler rules (added in react-hooks v6) catch interesting
-      // patterns but are noisy on hand-written canvas/concept components.
+      // patterns but are noisy on hand-written canvas/viz components.
       // Downgrade to warnings; revisit per-file when moving to React Compiler.
       'react-hooks/refs': 'warn',
       'react-hooks/immutability': 'warn',

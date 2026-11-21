@@ -46,11 +46,10 @@ Next.js `transpilePackages` compiles the workspace TypeScript. Always import wor
 
 ### Content (`/content`)
 
-Four content types share a parser in `lib/content.ts`:
+Content types share a parser in `lib/content.ts`:
 
 - **Blog posts** (`/content/blog/*.md` or `*.marimo.json`) — markdown frontmatter or a compiled marimo article; authoring settings for a notebook live in the matching `*.marimo.yaml`.
 - **Projects** (`/content/projects/*`) — markdown, compiled marimo article (`*.marimo.json`), webapp config (`.json`), or external link (markdown with `externalUrl`).
-- **Concepts** (`/content/concepts/*.md`) — interactive explainers backed by a React component registered in `components/concepts/index.ts` (dynamic import with `ssr: false` because they use canvas/window).
 - **Pages** — currently only `/about` and `/`, hardcoded TSX.
 
 ### Publishing a marimo article
@@ -116,7 +115,6 @@ OAuth setup:
 | `/` | Featured-content carousels |
 | `/blog`, `/blog/[slug]`, `/blog/tags/[tag]` | Blog listing, post, and tag filter |
 | `/projects`, `/projects/[slug]` | Project grid and detail (dynamic) |
-| `/concepts`, `/concepts/[slug]` | Interactive concept pages |
 | `/blogroll` (+ `/blogroll.xml`) | Curated RSS reading list (ISR, OPML-style RSS) |
 | `/reading` | Hardcover reading list (ISR) |
 | `/about` | About page (ISR — pulls "currently reading") |

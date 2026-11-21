@@ -33,6 +33,9 @@ const nextConfig = {
       { source: '/projects/herdr-machine0', destination: '/projects', permanent: false },
       { source: '/projects/herdr-repeat-navigation', destination: '/projects', permanent: false },
       { source: '/projects/anthropic-billing-guard', destination: '/projects', permanent: false },
+      // Concepts became ordinary blog posts; keep the old URLs working.
+      { source: '/concepts', destination: '/blog', permanent: true },
+      { source: '/concepts/:slug', destination: '/blog/:slug', permanent: true },
     ];
   },
   async headers() {

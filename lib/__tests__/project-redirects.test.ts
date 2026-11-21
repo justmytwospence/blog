@@ -3,7 +3,7 @@ import { getProjectBySlug } from '../content';
 
 describe('project redirects', () => {
   it('sends retired project slugs somewhere that exists', async () => {
-    const redirects = await config.redirects();
+    const redirects = (await config.redirects()).filter((r: { source: string }) => r.source.startsWith('/projects/'));
     expect(redirects.length).toBeGreaterThan(0);
     for (const { source, destination } of redirects) {
       expect(getProjectBySlug(source.replace('/projects/', '')), source).toBeNull();
