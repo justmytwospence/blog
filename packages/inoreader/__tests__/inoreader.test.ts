@@ -57,6 +57,23 @@ describe('inoreader blogroll client', () => {
     await expect(getBlogrollFeedsOrThrow()).resolves.toHaveLength(1); // one source
   });
 
+  it('leaves the summary empty for Hacker News link stubs', async () => {
+    mockFeed(
+      rss(
+        `<item>
+          <title>Stub</title>
+          <link>https://example.com/post</link>
+          <description>Article URL: https://example.com/post Comments URL: https://news.ycombinator.com/item?id=1 Points: 10 # Comments: 2</description>
+          <source url="https://news.ycombinator.com/">Hacker News</source>
+        </item>` + item({ title: 'Real', link: 'https://example.com/real', source: 'Example', sourceUrl: 'https://example.com/' }),
+      ),
+    );
+
+    const { getBlogrollItemsOrThrow } = await import('../src');
+    const items = await getBlogrollItemsOrThrow();
+    expect(items.map((i) => i.summary)).toEqual(['', 'Some body text.']);
+  });
+
   it('drops items from the Reddit feed by source name', async () => {
     mockFeed(
       rss(

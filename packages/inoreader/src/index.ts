@@ -144,6 +144,11 @@ function estimateReadingTime(wordCount: number): number | null {
   return Math.max(1, Math.round(wordCount / 200));
 }
 
+/** Hacker News entries carry no article text, only "Article URL: … Comments URL: … Points: …". */
+function isLinkStub(text: string): boolean {
+  return /^Article URL:\s*\S+\s+Comments URL:/i.test(text);
+}
+
 function transformItem(
   raw: RawRssItem,
   sourceAttr: Record<string, string> | undefined,
@@ -165,7 +170,7 @@ function transformItem(
     sourceName: sourceName ? decodeEntities(sourceName) : null,
     sourceUrl: sourceAttr?.['@_url'] ?? null,
     publishedDate: asText(raw.pubDate),
-    summary: truncate(plainText, 200),
+    summary: isLinkStub(plainText) ? '' : truncate(plainText, 200),
     categories: normalizeCategories(
       Array.isArray(raw.category) ? raw.category.map(asText).filter(Boolean) : asText(raw.category) || undefined,
       publicTag,
