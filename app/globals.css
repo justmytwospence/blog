@@ -102,8 +102,8 @@ pre code.hljs,
 }
 
 @theme {
-  --font-family-sans: var(--font-inter), system-ui, sans-serif;
-  --font-family-serif: var(--font-merriweather), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-serif: var(--font-merriweather), Georgia, serif;
   
   /* Medium breakpoint for TOC positioning (between mobile drawer and top header) */
   --breakpoint-md-toc: 640px;
@@ -115,7 +115,7 @@ pre code.hljs,
 
 /* Apply serif font to prose content */
 .prose {
-  font-family: var(--font-merriweather), Georgia, serif;
+  font-family: var(--font-serif);
 }
 
 .prose h1,

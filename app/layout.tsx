@@ -38,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${merriweather.variable}`} suppressHydrationWarning>
       <head>
         <link
           rel="alternate"
@@ -60,7 +60,7 @@ export default function RootLayout({
           href="/blogroll.xml"
         />
       </head>
-      <body className={`${inter.variable} ${merriweather.variable} font-sans`}>
+      <body className="font-sans">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
