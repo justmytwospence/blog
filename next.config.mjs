@@ -24,6 +24,8 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // gini.spencerboucher.com is a short link to the inequality atlas post.
+      { source: '/', has: [{ type: 'host', value: 'gini.spencerboucher.com' }], destination: '/blog/how-unequal-were-they', permanent: false },
       { source: '/projects/vertfarmer', destination: '/projects/uphill-ski', permanent: true },
       { source: '/projects/effort-cubes', destination: '/projects/effort-curve', permanent: true },
       { source: '/projects/lean-context', destination: '/projects/cache-guard', permanent: true },
@@ -37,7 +39,11 @@ const nextConfig = {
     const headers = process.env.VERCEL_ENV === 'production'
       ? securityHeaders
       : [...securityHeaders, { key: 'X-Robots-Tag', value: 'noindex, nofollow' }];
-    return [{ source: '/:path*', headers }];
+    // The embedded Lorenz atlas (public/gini) is framed by the blog post, so it may be framed by this origin only.
+    return [
+      { source: '/:path*', headers },
+      { source: '/gini/:path*', headers: [{ key: 'X-Frame-Options', value: 'SAMEORIGIN' }] },
+    ];
   },
 };
 
