@@ -29,6 +29,17 @@ export interface ContentMetadata {
   bluesky?: string;
   /** Additional labelled destinations (e.g. Docs + GitHub) shown as link chips. */
   links?: { label: string; url: string }[];
+  /** What the project is (lib/project-kinds.ts). */
+  kind?: string;
+  /** The repository is private: cards say "Source private" instead of linking to it. */
+  sourcePrivate?: boolean;
+  /** Hero image under public/ (/project-images/<slug>.webp, 1200x630). Required when featured. */
+  image?: string;
+  imageAlt?: string;
+  /** Position in the featured tier and the home carousel; lower comes first. */
+  featuredOrder?: number;
+  /** The project file has prose below its frontmatter; such cards open the detail view. */
+  hasBody?: boolean;
   /**
    * Name of a registered interactive component (components/concepts/index.ts) to mount inside a
    * blog post. Prose is split on a `<!--viz-->` sentinel so it can bracket the component.

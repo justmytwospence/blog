@@ -8,3 +8,8 @@ export function projectCardDestination(project: Project): { href: string; extern
   }
   return { href: external, external: true };
 }
+
+/** Featured order: explicit `featuredOrder` first, the rest after in their existing order. */
+export function byFeaturedOrder(a: Project, b: Project): number {
+  return (a.featuredOrder ?? Number.MAX_SAFE_INTEGER) - (b.featuredOrder ?? Number.MAX_SAFE_INTEGER);
+}

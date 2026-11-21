@@ -13,6 +13,7 @@ import {
 } from './types';
 import { parseDocument, type MarimoDocument } from 'marimo-blog';
 import { preprocessObsidian } from '@blog/obsidian-md';
+import { byFeaturedOrder } from './project-navigation';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content');
 const PROJECTS_DIR = path.join(CONTENT_DIR, 'projects');
@@ -109,8 +110,19 @@ function mapProjectMetadata(data: {
   parent?: string;
   collection?: boolean;
   topics?: string[];
-}) {
+  kind?: string;
+  sourcePrivate?: boolean;
+  image?: string;
+  imageAlt?: string;
+  featuredOrder?: number;
+}, body = '') {
   return {
+    kind: data.kind,
+    sourcePrivate: Boolean(data.sourcePrivate),
+    image: data.image,
+    imageAlt: data.imageAlt,
+    featuredOrder: typeof data.featuredOrder === 'number' ? data.featuredOrder : undefined,
+    hasBody: body.trim().length > 0,
     externalUrl: data.externalUrl,
     links: data.links,
     parent: data.parent,
@@ -157,13 +169,13 @@ export function getAllProjects(updated: Record<string, string> = {}): Project[] 
       if (file.endsWith('.md')) {
         // Markdown project
         const fileContents = fs.readFileSync(filePath, 'utf8');
-        const { data } = matter(fileContents);
+        const { data, content } = matter(fileContents);
         
         projects.push({
           category: 'project',
           type: data.externalUrl ? 'link' : 'markdown',
           ...mapCommonMetadata(data, slug),
-          ...mapProjectMetadata(data),
+          ...mapProjectMetadata(data, content),
         });
       } else if (file.endsWith(MARIMO_SUFFIX)) {
         const document = readMarimoDocument(filePath, slug);
@@ -233,7 +245,7 @@ export function getProjectBySlug(slug: string): Content | null {
             metadata: {
               type: 'link',
               ...mapCommonMetadata(data, slug),
-              ...mapProjectMetadata(data),
+              ...mapProjectMetadata(data, content),
             },
           };
         }
@@ -244,7 +256,7 @@ export function getProjectBySlug(slug: string): Content | null {
           metadata: {
             type: 'markdown',
             ...mapCommonMetadata(data, slug),
-            ...mapProjectMetadata(data),
+            ...mapProjectMetadata(data, content),
           },
         };
       } else if (ext === MARIMO_SUFFIX) {
@@ -443,7 +455,7 @@ export function getFeaturedContent(): {
   const allConcepts = getAllConcepts();
 
   // Get featured items or fallback to most recent
-  const featuredProjects = allProjects.filter(p => p.featured);
+  const featuredProjects = allProjects.filter(p => p.featured).sort(byFeaturedOrder);
   const featuredPosts = allPosts.filter(p => p.featured);
   const featuredConcepts = allConcepts.filter(c => c.featured);
 

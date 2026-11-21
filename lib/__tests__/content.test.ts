@@ -107,6 +107,15 @@ describe('list/by-slug round trip', () => {
     }
   });
 
+  it('lists and resolves the same story, kind and image metadata', () => {
+    for (const project of getAllProjects()) {
+      const full = getProjectBySlug(project.slug)!;
+      expect(full.metadata.hasBody, project.slug).toBe(project.hasBody);
+      expect(full.metadata.kind, project.slug).toBe(project.kind);
+      expect(full.metadata.image, project.slug).toBe(project.image);
+    }
+  });
+
   it('resolves every concept slug with matching metadata', () => {
     for (const concept of getAllConcepts()) {
       const full = getConceptBySlug(concept.slug);
