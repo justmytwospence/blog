@@ -27,7 +27,11 @@ const nextConfig = {
     const headers = process.env.VERCEL_ENV === 'production'
       ? securityHeaders
       : [...securityHeaders, { key: 'X-Robots-Tag', value: 'noindex, nofollow' }];
-    return [{ source: '/:path*', headers }];
+    // The embedded Lorenz atlas (public/gini) is framed by the blog post, so it may be framed by this origin only.
+    return [
+      { source: '/:path*', headers },
+      { source: '/gini/:path*', headers: [{ key: 'X-Frame-Options', value: 'SAMEORIGIN' }] },
+    ];
   },
 };
 

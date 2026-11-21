@@ -3,6 +3,7 @@ import type { ComponentType } from 'react';
 
 const registry: Record<string, ComponentType> = {
   CenteredVsNoncentered: dynamic(() => import('./CenteredVsNoncentered'), { ssr: false }),
+  GiniAtlas: dynamic(() => import('./GiniAtlas'), { ssr: false }),
   ColoradoPeaks: dynamic(() => import('./ColoradoPeaks'), { ssr: false }),
 };
 
