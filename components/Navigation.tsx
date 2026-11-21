@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ThemeToggle } from './ThemeToggle';
+import { isNavActive } from '@/lib/nav';
 
 export function Navigation() {
   const pathname = usePathname();
@@ -20,12 +21,7 @@ export function Navigation() {
     { href: '/adventures', label: 'Adventures' },
   ];
 
-  const isActive = (href: string) => {
-    if (href === '/') {
-      return pathname === '/';
-    }
-    return pathname.startsWith(href);
-  };
+  const isActive = (href: string) => isNavActive(pathname, href);
 
   return (
     <>
