@@ -56,7 +56,7 @@ how long a row looks is the **group**, not the shelf. Each shelf is trimmed by o
 |---|---|---|
 | Currently Reading | `all` | the whole shelf, uncapped — it is a complete state, not a sample, and truncating it would misreport how many books are in flight |
 | Recently Read | `perGroup` | `GROUP_LIMIT` (6) fiction **and** 6 non-fiction |
-| To Be Read | `perGroup` | same |
+| To Be Read | `perGroup` | same, from the ranked `shortlist` list (below) |
 | `getCurrentlyReading(n)` (the /about widget) | `count` | exactly `n`, class-blind |
 
 - **Classification happens locally, so the query has to over-read.** Hardcover cannot filter on
@@ -67,7 +67,14 @@ how long a row looks is the **group**, not the shelf. Each shelf is trimmed by o
 - **Per-shelf ordering.** "Recently Read" sorts by `last_read_date` (when the book was *finished*),
   not `date_added`. Books are routinely shelved months before they're finished, so `date_added`
   silently omits recent finishes — it was hiding a book finished a fortnight ago behind ten older
-  ones. The other two shelves genuinely are "most recently added".
+  ones. "Currently Reading" sorts by `updated_at` (most recently touched).
+- **To Be Read is a curated list, not the shelf.** The section shows only the Hardcover list with
+  slug `shortlist` (`TBR_LIST_SLUG`), in its ranked order (`list_books.position`), so the order is
+  set by dragging books on Hardcover and shows up within the hourly revalidation. Only books still
+  on Want to Read are shown, so starting or finishing one drops it without editing the list. The
+  query's nested list filter matches any user's list with that slug, so results are intersected
+  with `me.lists` locally. A missing list throws, which serves the last-good TBR. Its "see all"
+  link goes to the list page, with the list's size, and needs the list to be public as well.
 - **Links to the rest.** `ReadingListData.shelves[key]` carries the full shelf `total` (from
   `user_books_aggregate`, in the same request — no extra round trip) and a `url` to the public
   hardcover.app shelf. The URL is emitted **only when `account_privacy_setting_id` is 1 (Public)**;

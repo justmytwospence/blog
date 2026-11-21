@@ -69,6 +69,13 @@ const STATUS = {
 const PRIVACY_PUBLIC = 1;
 
 /**
+ * Slug of the ranked Hardcover list that curates "To Be Read". The whole Want to Read shelf is a
+ * few hundred aspirational books; the section shows only this list, in its ranked order, so the
+ * order is set by dragging books around on Hardcover rather than by when they were shelved.
+ */
+const TBR_LIST_SLUG = 'shortlist';
+
+/**
  * Books shown per fiction / non-fiction group. The page splits every shelf into those two grids, so
  * this — not a whole-shelf total — is what governs how long a row looks. It matches the grid's
  * widest (6-column) layout, so a full group fills exactly one row on desktop.
@@ -109,14 +116,16 @@ type Trim =
  * every shelf must come back strictly newest-first: the trimmed grids show the first N in shelf
  * order, so a wrong sort doesn't just misorder a row, it shows the wrong books entirely.
  *
+ * "To Be Read" is not here: it is the `TBR_LIST_SLUG` list in its ranked order, fetched by
+ * `fetchShortlistOrThrow`, not a date-sorted shelf.
+ *
  * Each sort is a *list*, because a single key is not enough on either count:
  *
  *  - **The leading key has to be the date the heading refers to.** "Recently Read" means recently
  *    *finished* (`last_read_date`), not recently shelved. "Currently Reading" means most recently
  *    *touched* (`updated_at` — a progress bump, a rating, any edit): books sit on the shelf for
  *    months before they are opened, so `date_added` sank a book picked up days ago below one picked
- *    up in the spring, and the 3-book /about widget dropped it off the end. Only "To Be Read"
- *    genuinely is "most recently added".
+ *    up in the spring, and the 3-book /about widget dropped it off the end.
  *
  *  - **The tail keys make the order total.** `date_added` and `last_read_date` are `date` columns,
  *    so same-day entries tie, and Postgres returns ties in whatever order it pleases — enough to
@@ -137,15 +146,7 @@ const SHELVES = {
     path: 'read',
     trim: { kind: 'perGroup' } as Trim,
   },
-  wantToRead: {
-    statusId: STATUS.WANT_TO_READ,
-    orderBy: '[{ date_added: desc }, { created_at: desc }, { id: desc }]',
-    path: 'want-to-read',
-    trim: { kind: 'perGroup' } as Trim,
-  },
 } as const;
-
-type ShelfKey = keyof typeof SHELVES;
 
 /** How many rows to ask Hardcover for, given how the result will be trimmed. */
 function queryLimit(trim: Trim): number | null {
@@ -184,6 +185,11 @@ function shelfUrl(username: string, path: string): string {
   return `https://hardcover.app/@${username}/books/${path}`;
 }
 
+/** Public list URL on hardcover.app, e.g. `https://hardcover.app/@user/lists/shortlist`. */
+function listUrl(username: string, slug: string): string {
+  return `https://hardcover.app/@${username}/lists/${slug}`;
+}
+
 // ─── Raw API types (internal) ──────────────────────────────────────
 
 interface RawContribution {
@@ -203,6 +209,7 @@ interface RawBook {
 }
 
 interface RawUserBook {
+  book_id?: number;
   rating: number | null;
   date_added: string | null;
   book: RawBook;
@@ -214,11 +221,20 @@ interface HardcoverResponse {
       username?: string | null;
       account_privacy_setting_id?: number | null;
       user_books_aggregate?: { aggregate?: { count?: number | null } | null } | null;
+      lists?: RawList[];
       user_books: RawUserBook[];
     }>;
   };
   errors?: Array<{ message: string }>;
 }
+
+interface RawList {
+  books_count: number | null;
+  privacy_setting_id: number | null;
+  list_books: Array<{ book_id: number }>;
+}
+
+type RawMe = NonNullable<NonNullable<HardcoverResponse['data']>['me']>[number];
 
 /** One shelf as read from Hardcover: the trimmed books plus what it takes to link to the rest. */
 interface RawShelf {
@@ -227,6 +243,8 @@ interface RawShelf {
   total: number;
   username: string | null;
   isPublic: boolean;
+  /** Public URL of a list-backed shelf (status shelves derive theirs from `SHELVES[key].path`). */
+  url?: string | null;
 }
 
 // ─── Helpers ───────────────────────────────────────────────────────
@@ -249,7 +267,13 @@ function buildQuery(statusId: number, orderBy: string, limit: number | null): st
       order_by: ${orderBy}${limit === null ? '' : `
       limit: ${limit}`}
     ) {
-      rating
+${USER_BOOK_FIELDS}
+    }
+  }
+}`;
+}
+
+const USER_BOOK_FIELDS = `      rating
       date_added
       book {
         title
@@ -261,7 +285,34 @@ function buildQuery(statusId: number, orderBy: string, limit: number | null): st
         literary_type_id
         book_category_id
         cached_tags
+      }`;
+
+/**
+ * The ranked TBR list plus the Want to Read entries for its books, in one request. The list gives
+ * the order (`position`); `user_books` gives the book data and drops anything already started,
+ * finished or abandoned, so the list never needs pruning by hand.
+ *
+ * The `user_books` filter matches *any* user's list with this slug (Hasura cannot scope the nested
+ * list to `me` without the user id), so the result is intersected with `me.lists` locally.
+ */
+function buildListQuery(slug: string): string {
+  return `{
+  me {
+    username
+    account_privacy_setting_id
+    lists(where: { slug: { _eq: "${slug}" } }) {
+      books_count
+      privacy_setting_id
+      list_books(order_by: [{ position: asc }, { id: asc }]) { book_id }
+    }
+    user_books(
+      where: {
+        status_id: { _eq: ${STATUS.WANT_TO_READ} }
+        book: { list_books: { list: { slug: { _eq: "${slug}" } } } }
       }
+    ) {
+      book_id
+${USER_BOOK_FIELDS}
     }
   }
 }`;
@@ -294,15 +345,11 @@ function transformUserBooks(rawBooks: RawUserBook[]): UserBook[] {
 }
 
 /**
- * Core fetch. THROWS on failure: `HardcoverAuthError` for an expired/invalid token (logged loudly),
- * a plain `Error` for transient (HTTP/network/non-auth GraphQL) failures. A legitimately empty list
- * returns `[]` (success) — only failures throw.
+ * One GraphQL request, returning `me`. THROWS on failure: `HardcoverAuthError` for an
+ * expired/invalid token (logged loudly), a plain `Error` for transient (HTTP/network/non-auth
+ * GraphQL) failures.
  */
-async function fetchShelfOrThrow(
-  statusId: number,
-  orderBy: string,
-  trim: Trim,
-): Promise<RawShelf> {
+async function queryMeOrThrow(query: string): Promise<RawMe | undefined> {
   const token = process.env.HARDCOVER_API_TOKEN;
   if (!token) {
     throw new HardcoverAuthError('[hardcover] HARDCOVER_API_TOKEN is not set');
@@ -314,7 +361,7 @@ async function fetchShelfOrThrow(
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ query: buildQuery(statusId, orderBy, queryLimit(trim)) }),
+    body: JSON.stringify({ query }),
     signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
   });
 
@@ -347,17 +394,67 @@ async function fetchShelfOrThrow(
     throw new Error(`[hardcover] GraphQL errors: ${msg}`);
   }
 
-  const me = json.data?.me?.[0];
+  return json.data?.me?.[0];
+}
+
+/** Drop books hidden by `HARDCOVER_BLACKLIST` / `KEYWORD_BLOCKLIST`, preserving order. */
+function visibleBooks(raw: RawUserBook[]): UserBook[] {
   const blacklist = getBlacklistedSlugs();
-  const visible = transformUserBooks(me?.user_books ?? []).filter(
+  return transformUserBooks(raw).filter(
     (ub) => !blacklist.has(ub.book.slug) && !isKeywordBlocked(ub.book.title, ub.book.slug),
   );
+}
+
+/**
+ * Core shelf fetch. THROWS on failure (see `queryMeOrThrow`). A legitimately empty shelf returns
+ * `[]` (success) — only failures throw.
+ */
+async function fetchShelfOrThrow(
+  statusId: number,
+  orderBy: string,
+  trim: Trim,
+): Promise<RawShelf> {
+  const me = await queryMeOrThrow(buildQuery(statusId, orderBy, queryLimit(trim)));
+  const visible = visibleBooks(me?.user_books ?? []);
 
   return {
     books: applyTrim(visible, trim),
     total: me?.user_books_aggregate?.aggregate?.count ?? 0,
     username: me?.username ?? null,
     isPublic: me?.account_privacy_setting_id === PRIVACY_PUBLIC,
+  };
+}
+
+/**
+ * "To Be Read": the `TBR_LIST_SLUG` list in ranked order, restricted to books still on Want to Read,
+ * capped per fiction/non-fiction group. THROWS if the list is missing (renamed or deleted), so the
+ * app layer serves the last-good TBR instead of an empty section.
+ *
+ * `total` is the list's own size and `url` its public page, so "All N on Hardcover" matches what the
+ * link shows. The link needs both the account and the list to be public.
+ */
+async function fetchShortlistOrThrow(): Promise<RawShelf> {
+  const me = await queryMeOrThrow(buildListQuery(TBR_LIST_SLUG));
+  const list = me?.lists?.[0];
+  if (!list) {
+    throw new Error(`[hardcover] list "${TBR_LIST_SLUG}" not found`);
+  }
+
+  const rank = new Map(list.list_books.map((lb, i) => [lb.book_id, i]));
+  const ranked = (me.user_books ?? [])
+    .filter((ub) => ub.book_id !== undefined && rank.has(ub.book_id))
+    .sort((a, b) => rank.get(a.book_id!)! - rank.get(b.book_id!)!);
+
+  const username = me.username ?? null;
+  const isPublic =
+    me.account_privacy_setting_id === PRIVACY_PUBLIC && list.privacy_setting_id === PRIVACY_PUBLIC;
+
+  return {
+    books: takePerGroup(visibleBooks(ranked), GROUP_LIMIT),
+    total: list.books_count ?? list.list_books.length,
+    username,
+    isPublic,
+    url: isPublic && username ? listUrl(username, TBR_LIST_SLUG) : null,
   };
 }
 
@@ -381,13 +478,17 @@ async function fetchShelf(
  *
  * Shelf links are emitted only when the Hardcover account is Public — on a Followers-only or Private
  * account the URLs would 404 for a logged-out visitor, so `url` goes null and the UI drops the
- * "see all" affordance rather than linking somewhere unreadable.
+ * "see all" affordance rather than linking somewhere unreadable. The TBR list carries its own URL.
  */
-function toReadingListData(shelves: Record<ShelfKey, RawShelf>): ReadingListData {
+function toReadingListData(shelves: {
+  currentlyReading: RawShelf;
+  recentlyRead: RawShelf;
+  wantToRead: RawShelf;
+}): ReadingListData {
   const username = shelves.currentlyReading.username;
   const isPublic = shelves.currentlyReading.isPublic;
 
-  const meta = (key: ShelfKey) => ({
+  const meta = (key: keyof typeof SHELVES) => ({
     total: shelves[key].total,
     url: isPublic && username ? shelfUrl(username, SHELVES[key].path) : null,
   });
@@ -399,23 +500,24 @@ function toReadingListData(shelves: Record<ShelfKey, RawShelf>): ReadingListData
     shelves: {
       currentlyReading: meta('currentlyReading'),
       recentlyRead: meta('recentlyRead'),
-      wantToRead: meta('wantToRead'),
+      wantToRead: { total: shelves.wantToRead.total, url: shelves.wantToRead.url ?? null },
     },
     fetchedAt: new Date().toISOString(),
   };
 }
 
 /**
- * Fetch the full reading list. Currently Reading comes back whole; the other two shelves are capped
- * at `GROUP_LIMIT` fiction and `GROUP_LIMIT` non-fiction. Three requests run in parallel via
- * Promise.all. Returns empty shelves on failure.
+ * Fetch the full reading list. Currently Reading comes back whole; Recently Read and the ranked TBR
+ * list are capped at `GROUP_LIMIT` fiction and `GROUP_LIMIT` non-fiction. Three requests run in
+ * parallel. Returns empty shelves on failure.
  */
 export async function getReadingListData(): Promise<ReadingListData> {
-  const [currentlyReading, recentlyRead, wantToRead] = await Promise.all(
-    (['currentlyReading', 'recentlyRead', 'wantToRead'] as const).map((key) =>
-      fetchShelf(SHELVES[key].statusId, SHELVES[key].orderBy, SHELVES[key].trim),
-    ),
-  );
+  const empty: RawShelf = { books: [], total: 0, username: null, isPublic: false };
+  const [currentlyReading, recentlyRead, wantToRead] = await Promise.all([
+    fetchShelf(SHELVES.currentlyReading.statusId, SHELVES.currentlyReading.orderBy, SHELVES.currentlyReading.trim),
+    fetchShelf(SHELVES.recentlyRead.statusId, SHELVES.recentlyRead.orderBy, SHELVES.recentlyRead.trim),
+    fetchShortlistOrThrow().catch(() => empty),
+  ]);
 
   return toReadingListData({ currentlyReading, recentlyRead, wantToRead });
 }
@@ -425,11 +527,11 @@ export async function getReadingListData(): Promise<ReadingListData> {
  * the last-good snapshot rather than a partially-populated list.
  */
 export async function getReadingListDataOrThrow(): Promise<ReadingListData> {
-  const [currentlyReading, recentlyRead, wantToRead] = await Promise.all(
-    (['currentlyReading', 'recentlyRead', 'wantToRead'] as const).map((key) =>
-      fetchShelfOrThrow(SHELVES[key].statusId, SHELVES[key].orderBy, SHELVES[key].trim),
-    ),
-  );
+  const [currentlyReading, recentlyRead, wantToRead] = await Promise.all([
+    fetchShelfOrThrow(SHELVES.currentlyReading.statusId, SHELVES.currentlyReading.orderBy, SHELVES.currentlyReading.trim),
+    fetchShelfOrThrow(SHELVES.recentlyRead.statusId, SHELVES.recentlyRead.orderBy, SHELVES.recentlyRead.trim),
+    fetchShortlistOrThrow(),
+  ]);
 
   return toReadingListData({ currentlyReading, recentlyRead, wantToRead });
 }

@@ -15,8 +15,10 @@ function makeMockResponse(overrides: Record<string, any> = {}) {
           username: 'testreader',
           account_privacy_setting_id: 1, // Public
           user_books_aggregate: { aggregate: { count: 42 } },
+          lists: [{ books_count: 1, privacy_setting_id: 1, list_books: [{ book_id: 1 }] }],
           user_books: [
             {
+              book_id: 1,
               rating: 4,
               date_added: '2025-12-01',
               book: {
@@ -311,7 +313,6 @@ describe('hardcover shelf limits and links', () => {
   function queriesByStatus(mockFetch: ReturnType<typeof vi.fn>) {
     const queries: string[] = mockFetch.mock.calls.map((c) => JSON.parse(c[1].body).query);
     return {
-      wantToRead: queries.find((q) => q.includes('_eq: 1'))!,
       currentlyReading: queries.find((q) => q.includes('_eq: 2'))!,
       recentlyRead: queries.find((q) => q.includes('_eq: 3'))!,
     };
@@ -323,7 +324,13 @@ describe('hardcover shelf limits and links', () => {
    */
   function makeShelf(
     count: number,
-    { privacyId = 1 as number | null, total = 99, fictionRun = 1 } = {},
+    {
+      privacyId = 1 as number | null,
+      total = 99,
+      fictionRun = 1,
+      listPrivacyId = 1,
+      listOrder = undefined as number[] | undefined,
+    } = {},
   ) {
     return {
       data: {
@@ -332,7 +339,18 @@ describe('hardcover shelf limits and links', () => {
             username: 'testreader',
             account_privacy_setting_id: privacyId,
             user_books_aggregate: { aggregate: { count: total } },
+            // The ranked TBR list: same books, in `listOrder` (default: shelf order).
+            lists: [
+              {
+                books_count: total,
+                privacy_setting_id: listPrivacyId,
+                list_books: (listOrder ?? Array.from({ length: count }, (_, i) => i)).map((i) => ({
+                  book_id: 1000 + i,
+                })),
+              },
+            ],
             user_books: Array.from({ length: count }, (_, i) => ({
+              book_id: 1000 + i,
               rating: null,
               date_added: '2025-12-01',
               book: {
@@ -416,7 +434,6 @@ describe('hardcover shelf limits and links', () => {
 
     expect(queries.currentlyReading).not.toMatch(/limit:/);
     expect(queries.recentlyRead).toMatch(/limit:\s*40/);
-    expect(queries.wantToRead).toMatch(/limit:\s*40/);
   });
 
   it('sorts every shelf newest-first on the date its heading refers to', async () => {
@@ -433,8 +450,6 @@ describe('hardcover shelf limits and links', () => {
     expect(leadingSortKey(queries.currentlyReading)).toBe('updated_at: desc');
     // "Recently Read" means recently *finished*, not recently shelved.
     expect(leadingSortKey(queries.recentlyRead)).toBe('last_read_date: desc_nulls_last');
-    // "To Be Read" genuinely is most recently added.
-    expect(leadingSortKey(queries.wantToRead)).toBe('date_added: desc');
   });
 
   it('breaks same-day ties deterministically on every shelf', async () => {
@@ -465,7 +480,7 @@ describe('hardcover shelf limits and links', () => {
 
     expect(data.shelves.wantToRead).toEqual({
       total: 292,
-      url: 'https://hardcover.app/@testreader/books/want-to-read',
+      url: 'https://hardcover.app/@testreader/lists/shortlist',
     });
     expect(data.shelves.recentlyRead.url).toBe('https://hardcover.app/@testreader/books/read');
     expect(data.shelves.currentlyReading.url).toBe(
@@ -488,6 +503,137 @@ describe('hardcover shelf limits and links', () => {
       // The total is still reported; only the link is withheld.
       expect(data.shelves.wantToRead.total).toBe(99);
     }
+  });
+});
+
+describe('hardcover TBR shortlist', () => {
+  const originalFetch = globalThis.fetch;
+
+  beforeEach(() => {
+    vi.resetModules();
+    vi.stubEnv('HARDCOVER_API_TOKEN', 'test-token');
+  });
+
+  afterEach(() => {
+    globalThis.fetch = originalFetch;
+    vi.unstubAllEnvs();
+  });
+
+  function userBook(id: number, fiction = true) {
+    return {
+      book_id: id,
+      rating: null,
+      date_added: '2025-12-01',
+      book: {
+        title: `Book ${id}`,
+        subtitle: null,
+        slug: `book-${id}`,
+        description: null,
+        image: null,
+        contributions: [],
+        literary_type_id: fiction ? 1 : 2,
+        book_category_id: 1,
+        cached_tags: null,
+      },
+    };
+  }
+
+  /** Mock that answers the shortlist query with `listIds` in rank order and `tbr` as Want to Read. */
+  function mockShortlist(
+    listIds: number[] | null,
+    tbr: ReturnType<typeof userBook>[],
+    { listPrivacyId = 1 } = {},
+  ) {
+    const mockFetch = vi.fn().mockImplementation(async (_url: string, init: { body: string }) => {
+      const { query } = JSON.parse(init.body);
+      const isList = query.includes('lists(');
+      return {
+        ok: true,
+        json: async () => ({
+          data: {
+            me: [
+              {
+                username: 'testreader',
+                account_privacy_setting_id: 1,
+                user_books_aggregate: { aggregate: { count: 0 } },
+                lists:
+                  isList && listIds
+                    ? [
+                        {
+                          books_count: listIds.length,
+                          privacy_setting_id: listPrivacyId,
+                          list_books: listIds.map((book_id) => ({ book_id })),
+                        },
+                      ]
+                    : [],
+                user_books: isList ? tbr : [],
+              },
+            ],
+          },
+        }),
+      };
+    });
+    globalThis.fetch = mockFetch;
+    return mockFetch;
+  }
+
+  it('queries Want to Read books on the shortlist, ranked by list position', async () => {
+    const mockFetch = mockShortlist([1], [userBook(1)]);
+    const { getReadingListData } = await import('../src');
+    await getReadingListData();
+
+    const query: string = mockFetch.mock.calls
+      .map((c) => JSON.parse(c[1].body).query)
+      .find((q: string) => q.includes('lists('));
+    expect(query).toMatch(/slug:\s*\{\s*_eq:\s*"shortlist"/);
+    expect(query).toMatch(/order_by:\s*\[\{\s*position:\s*asc\s*\}/);
+    expect(query).toMatch(/status_id:\s*\{\s*_eq:\s*1\s*\}/);
+  });
+
+  it('orders books by their list rank, not the order Hardcover returns them', async () => {
+    mockShortlist([3, 1, 2], [userBook(1), userBook(2), userBook(3)]);
+    const { getReadingListData } = await import('../src');
+    const data = await getReadingListData();
+
+    expect(data.wantToRead.map((ub) => ub.book.slug)).toEqual(['book-3', 'book-1', 'book-2']);
+  });
+
+  it('drops list books that are no longer Want to Read, and other users\' list matches', async () => {
+    // 2 is on the list but already started (absent from Want to Read); 9 is Want to Read and on
+    // someone else's "shortlist" (absent from my list).
+    mockShortlist([1, 2, 3], [userBook(1), userBook(3), userBook(9)]);
+    const { getReadingListData } = await import('../src');
+    const data = await getReadingListData();
+
+    expect(data.wantToRead.map((ub) => ub.book.slug)).toEqual(['book-1', 'book-3']);
+  });
+
+  it('caps each fiction/non-fiction group in rank order', async () => {
+    const ids = Array.from({ length: 20 }, (_, i) => i + 1);
+    mockShortlist(ids, ids.map((id) => userBook(id, id % 2 === 0)));
+    const { getReadingListData, GROUP_LIMIT } = await import('../src');
+    const data = await getReadingListData();
+
+    const fiction = data.wantToRead.filter((ub) => ub.book.isFiction).map((ub) => ub.book.slug);
+    expect(fiction).toHaveLength(GROUP_LIMIT);
+    expect(fiction[0]).toBe('book-2');
+    expect(data.wantToRead.filter((ub) => !ub.book.isFiction)).toHaveLength(GROUP_LIMIT);
+  });
+
+  it('throws when the list is missing, so the last-good TBR is served', async () => {
+    mockShortlist(null, [userBook(1)]);
+    const { getReadingListDataOrThrow, getReadingListData } = await import('../src');
+
+    await expect(getReadingListDataOrThrow()).rejects.toThrow(/shortlist/);
+    expect((await getReadingListData()).wantToRead).toEqual([]);
+  });
+
+  it('withholds the link when the list itself is not public', async () => {
+    mockShortlist([1], [userBook(1)], { listPrivacyId: 3 });
+    const { getReadingListData } = await import('../src');
+    const data = await getReadingListData();
+
+    expect(data.shelves.wantToRead).toEqual({ total: 1, url: null });
   });
 });
 
