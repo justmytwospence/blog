@@ -15,7 +15,7 @@ function makeMockResponse(overrides: Record<string, any> = {}) {
           username: 'testreader',
           account_privacy_setting_id: 1, // Public
           user_books_aggregate: { aggregate: { count: 42 } },
-          lists: [{ books_count: 1, privacy_setting_id: 1, list_books: [{ book_id: 1 }] }],
+          lists: [{ list_books: [{ book_id: 1 }] }],
           user_books: [
             {
               book_id: 1,
@@ -328,7 +328,6 @@ describe('hardcover shelf limits and links', () => {
       privacyId = 1 as number | null,
       total = 99,
       fictionRun = 1,
-      listPrivacyId = 1,
       listOrder = undefined as number[] | undefined,
     } = {},
   ) {
@@ -342,8 +341,6 @@ describe('hardcover shelf limits and links', () => {
             // The ranked TBR list: same books, in `listOrder` (default: shelf order).
             lists: [
               {
-                books_count: total,
-                privacy_setting_id: listPrivacyId,
                 list_books: (listOrder ?? Array.from({ length: count }, (_, i) => i)).map((i) => ({
                   book_id: 1000 + i,
                 })),
@@ -480,7 +477,7 @@ describe('hardcover shelf limits and links', () => {
 
     expect(data.shelves.wantToRead).toEqual({
       total: 292,
-      url: 'https://hardcover.app/@testreader/lists/shortlist',
+      url: 'https://hardcover.app/@testreader/books/want-to-read',
     });
     expect(data.shelves.recentlyRead.url).toBe('https://hardcover.app/@testreader/books/read');
     expect(data.shelves.currentlyReading.url).toBe(
@@ -542,7 +539,7 @@ describe('hardcover TBR shortlist', () => {
   function mockShortlist(
     listIds: number[] | null,
     tbr: ReturnType<typeof userBook>[],
-    { listPrivacyId = 1 } = {},
+    { shelfTotal = 0 } = {},
   ) {
     const mockFetch = vi.fn().mockImplementation(async (_url: string, init: { body: string }) => {
       const { query } = JSON.parse(init.body);
@@ -555,13 +552,11 @@ describe('hardcover TBR shortlist', () => {
               {
                 username: 'testreader',
                 account_privacy_setting_id: 1,
-                user_books_aggregate: { aggregate: { count: 0 } },
+                user_books_aggregate: { aggregate: { count: isList ? shelfTotal : 0 } },
                 lists:
                   isList && listIds
                     ? [
                         {
-                          books_count: listIds.length,
-                          privacy_setting_id: listPrivacyId,
                           list_books: listIds.map((book_id) => ({ book_id })),
                         },
                       ]
@@ -628,12 +623,19 @@ describe('hardcover TBR shortlist', () => {
     expect((await getReadingListData()).wantToRead).toEqual([]);
   });
 
-  it('withholds the link when the list itself is not public', async () => {
-    mockShortlist([1], [userBook(1)], { listPrivacyId: 3 });
+  it('links to the whole Want to Read shelf, with its full size', async () => {
+    const mockFetch = mockShortlist([1], [userBook(1)], { shelfTotal: 325 });
     const { getReadingListData } = await import('../src');
     const data = await getReadingListData();
 
-    expect(data.shelves.wantToRead).toEqual({ total: 1, url: null });
+    expect(data.shelves.wantToRead).toEqual({
+      total: 325,
+      url: 'https://hardcover.app/@testreader/books/want-to-read',
+    });
+    const query: string = mockFetch.mock.calls
+      .map((c) => JSON.parse(c[1].body).query)
+      .find((q: string) => q.includes('lists('));
+    expect(query).toMatch(/user_books_aggregate\(where:\s*\{\s*status_id:\s*\{\s*_eq:\s*1\s*\}/);
   });
 });
 

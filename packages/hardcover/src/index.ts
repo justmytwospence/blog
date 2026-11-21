@@ -185,10 +185,11 @@ function shelfUrl(username: string, path: string): string {
   return `https://hardcover.app/@${username}/books/${path}`;
 }
 
-/** Public list URL on hardcover.app, e.g. `https://hardcover.app/@user/lists/shortlist`. */
-function listUrl(username: string, slug: string): string {
-  return `https://hardcover.app/@${username}/lists/${slug}`;
-}
+/**
+ * The "see all" link under To Be Read goes to the whole Want to Read shelf, not the Shortlist: the
+ * section is a curated sample, the link is the full backlog.
+ */
+const WANT_TO_READ_PATH = 'want-to-read';
 
 // ─── Raw API types (internal) ──────────────────────────────────────
 
@@ -229,8 +230,6 @@ interface HardcoverResponse {
 }
 
 interface RawList {
-  books_count: number | null;
-  privacy_setting_id: number | null;
   list_books: Array<{ book_id: number }>;
 }
 
@@ -243,8 +242,6 @@ interface RawShelf {
   total: number;
   username: string | null;
   isPublic: boolean;
-  /** Public URL of a list-backed shelf (status shelves derive theirs from `SHELVES[key].path`). */
-  url?: string | null;
 }
 
 // ─── Helpers ───────────────────────────────────────────────────────
@@ -300,9 +297,10 @@ function buildListQuery(slug: string): string {
   me {
     username
     account_privacy_setting_id
+    user_books_aggregate(where: { status_id: { _eq: ${STATUS.WANT_TO_READ} } }) {
+      aggregate { count }
+    }
     lists(where: { slug: { _eq: "${slug}" } }) {
-      books_count
-      privacy_setting_id
       list_books(order_by: [{ position: asc }, { id: asc }]) { book_id }
     }
     user_books(
@@ -430,8 +428,7 @@ async function fetchShelfOrThrow(
  * capped per fiction/non-fiction group. THROWS if the list is missing (renamed or deleted), so the
  * app layer serves the last-good TBR instead of an empty section.
  *
- * `total` is the list's own size and `url` its public page, so "All N on Hardcover" matches what the
- * link shows. The link needs both the account and the list to be public.
+ * `total` is the whole Want to Read shelf, matching the "see all" link to that shelf.
  */
 async function fetchShortlistOrThrow(): Promise<RawShelf> {
   const me = await queryMeOrThrow(buildListQuery(TBR_LIST_SLUG));
@@ -445,16 +442,11 @@ async function fetchShortlistOrThrow(): Promise<RawShelf> {
     .filter((ub) => ub.book_id !== undefined && rank.has(ub.book_id))
     .sort((a, b) => rank.get(a.book_id!)! - rank.get(b.book_id!)!);
 
-  const username = me.username ?? null;
-  const isPublic =
-    me.account_privacy_setting_id === PRIVACY_PUBLIC && list.privacy_setting_id === PRIVACY_PUBLIC;
-
   return {
     books: takePerGroup(visibleBooks(ranked), GROUP_LIMIT),
-    total: list.books_count ?? list.list_books.length,
-    username,
-    isPublic,
-    url: isPublic && username ? listUrl(username, TBR_LIST_SLUG) : null,
+    total: me.user_books_aggregate?.aggregate?.count ?? 0,
+    username: me.username ?? null,
+    isPublic: me.account_privacy_setting_id === PRIVACY_PUBLIC,
   };
 }
 
@@ -478,7 +470,7 @@ async function fetchShelf(
  *
  * Shelf links are emitted only when the Hardcover account is Public — on a Followers-only or Private
  * account the URLs would 404 for a logged-out visitor, so `url` goes null and the UI drops the
- * "see all" affordance rather than linking somewhere unreadable. The TBR list carries its own URL.
+ * "see all" affordance rather than linking somewhere unreadable.
  */
 function toReadingListData(shelves: {
   currentlyReading: RawShelf;
@@ -488,9 +480,9 @@ function toReadingListData(shelves: {
   const username = shelves.currentlyReading.username;
   const isPublic = shelves.currentlyReading.isPublic;
 
-  const meta = (key: keyof typeof SHELVES) => ({
+  const meta = (key: keyof typeof shelves, path: string) => ({
     total: shelves[key].total,
-    url: isPublic && username ? shelfUrl(username, SHELVES[key].path) : null,
+    url: isPublic && username ? shelfUrl(username, path) : null,
   });
 
   return {
@@ -498,9 +490,9 @@ function toReadingListData(shelves: {
     wantToRead: shelves.wantToRead.books,
     recentlyRead: shelves.recentlyRead.books,
     shelves: {
-      currentlyReading: meta('currentlyReading'),
-      recentlyRead: meta('recentlyRead'),
-      wantToRead: { total: shelves.wantToRead.total, url: shelves.wantToRead.url ?? null },
+      currentlyReading: meta('currentlyReading', SHELVES.currentlyReading.path),
+      recentlyRead: meta('recentlyRead', SHELVES.recentlyRead.path),
+      wantToRead: meta('wantToRead', WANT_TO_READ_PATH),
     },
     fetchedAt: new Date().toISOString(),
   };

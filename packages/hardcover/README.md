@@ -74,7 +74,8 @@ how long a row looks is the **group**, not the shelf. Each shelf is trimmed by o
   on Want to Read are shown, so starting or finishing one drops it without editing the list. The
   query's nested list filter matches any user's list with that slug, so results are intersected
   with `me.lists` locally. A missing list throws, which serves the last-good TBR. Its "see all"
-  link goes to the list page, with the list's size, and needs the list to be public as well.
+  link still goes to the whole Want to Read shelf, with that shelf's size: the section is the
+  curated sample, the link is the full backlog.
 - **Links to the rest.** `ReadingListData.shelves[key]` carries the full shelf `total` (from
   `user_books_aggregate`, in the same request — no extra round trip) and a `url` to the public
   hardcover.app shelf. The URL is emitted **only when `account_privacy_setting_id` is 1 (Public)**;
