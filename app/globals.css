@@ -86,8 +86,8 @@ pre code.hljs,
 :root:not(.dark) .hljs,
 :root:not(.dark) pre code.hljs,
 :root:not(.dark) .prose pre code {
-  background: #fdf6e3 !important;
-  color: #657b83 !important;
+  background: #eee8d5 !important;
+  color: #586e75 !important;
 }
 
 /* Dark mode - VS Code Dark+ colors */
@@ -104,6 +104,9 @@ pre code.hljs,
 @theme {
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-serif: var(--font-merriweather), Georgia, serif;
+
+  /* Page background. In light mode `white` is the raised surface (see below). */
+  --color-paper: #fdf6e3;
   
   /* Medium breakpoint for TOC positioning (between mobile drawer and top header) */
   --breakpoint-md-toc: 640px;
@@ -111,6 +114,51 @@ pre code.hljs,
   /* Custom breakpoint: show sidebar only when exactly 80 monospace characters can fit
      Calculation: 80ch (code) + 280px (sidebar) + 32px (gap) */
   --breakpoint-code-80: calc(80ch + 312px);
+}
+
+/* Light mode: Solarized Light. Remaps Tailwind's white/gray/blue tokens so existing
+   utilities follow the palette; dark mode keeps Tailwind's defaults. Two paper layers,
+   mirroring dark mode's #1e1e1e page / #252526 surfaces: the page is `bg-paper` (base3)
+   and `bg-white` surfaces (nav, cards, controls) are base2. */
+:root:not(.dark) {
+  color-scheme: light;
+  --color-white: #eee8d5;
+  --color-gray-50: #e9e2cd;
+  --color-gray-100: #e3dcc6;
+  --color-gray-200: #d9d1ba;
+  --color-gray-300: #c9c0a6;
+  --color-gray-400: #93a1a1;
+  --color-gray-500: #657b83;
+  --color-gray-600: #5f747b;
+  --color-gray-700: #586e75;
+  --color-gray-800: #305259;
+  --color-gray-900: #073642;
+  --color-gray-950: #002b36;
+  --color-blue-50: color-mix(in srgb, #268bd2 10%, #fdf6e3);
+  --color-blue-500: #268bd2;
+  --color-blue-600: #1f6fa8;
+  --color-blue-700: #1a5c8c;
+}
+
+:root:not(.dark) .prose {
+  --tw-prose-body: var(--color-gray-700);
+  --tw-prose-headings: var(--color-gray-900);
+  --tw-prose-lead: var(--color-gray-500);
+  --tw-prose-links: var(--color-blue-600);
+  --tw-prose-bold: var(--color-gray-900);
+  --tw-prose-counters: var(--color-gray-500);
+  --tw-prose-bullets: var(--color-gray-400);
+  --tw-prose-hr: var(--color-gray-200);
+  --tw-prose-quotes: var(--color-gray-700);
+  --tw-prose-quote-borders: var(--color-gray-300);
+  --tw-prose-captions: var(--color-gray-500);
+  --tw-prose-kbd: var(--color-gray-900);
+  --tw-prose-kbd-shadows: rgb(7 54 66 / 10%);
+  --tw-prose-code: var(--color-gray-900);
+  --tw-prose-pre-code: var(--color-gray-700);
+  --tw-prose-pre-bg: var(--color-gray-100);
+  --tw-prose-th-borders: var(--color-gray-300);
+  --tw-prose-td-borders: var(--color-gray-200);
 }
 
 /* Apply serif font to prose content */
@@ -169,7 +217,7 @@ pre code.hljs,
 
 .swiper-button-next,
 .swiper-button-prev {
-  color: rgb(37 99 235) !important;
+  color: var(--color-blue-600) !important;
 }
 
 .dark .swiper-button-next,
@@ -178,11 +226,11 @@ pre code.hljs,
 }
 
 .swiper-pagination-bullet {
-  background: rgb(156 163 175) !important;
+  background: var(--color-gray-400) !important;
 }
 
 .swiper-pagination-bullet-active {
-  background: rgb(37 99 235) !important;
+  background: var(--color-blue-600) !important;
 }
 
 .dark .swiper-pagination-bullet-active {
@@ -255,7 +303,7 @@ pre code.hljs,
 }
 
 :root:not(.dark) .hljs-formula {
-  background: #eee8d5;
+  background: #e6dfcb;
 }
 
 :root:not(.dark) .hljs-emphasis {
@@ -555,7 +603,7 @@ body {
 [data-callout-type="abstract"],
 [data-callout-type="summary"],
 [data-callout-type="tldr"] {
-  background-color: rgb(239 246 255);
+  background-color: rgb(59 130 246 / 0.1);
   border-left-color: rgb(59 130 246);
 }
 
@@ -591,7 +639,7 @@ body {
 [data-callout-type="warning"],
 [data-callout-type="caution"],
 [data-callout-type="attention"] {
-  background-color: rgb(254 252 232);
+  background-color: rgb(234 179 8 / 0.12);
   border-left-color: rgb(234 179 8);
 }
 
@@ -623,7 +671,7 @@ body {
 [data-callout-type="success"],
 [data-callout-type="check"],
 [data-callout-type="done"] {
-  background-color: rgb(240 253 244);
+  background-color: rgb(34 197 94 / 0.1);
   border-left-color: rgb(34 197 94);
 }
 
@@ -669,7 +717,7 @@ body {
 [data-callout-type="fail"],
 [data-callout-type="failure"],
 [data-callout-type="missing"] {
-  background-color: rgb(254 242 242);
+  background-color: rgb(239 68 68 / 0.1);
   border-left-color: rgb(239 68 68);
 }
 
@@ -709,7 +757,7 @@ body {
 [data-callout-type="help"],
 [data-callout-type="faq"],
 [data-callout-type="todo"] {
-  background-color: rgb(250 245 255);
+  background-color: rgb(168 85 247 / 0.1);
   border-left-color: rgb(168 85 247);
 }
 
@@ -763,7 +811,7 @@ details[data-callout][open] > summary [data-callout-title]::after {
 
 /* Highlight mark tag styling */
 mark {
-  background-color: rgb(254 249 195);
+  background-color: rgb(181 137 0 / 0.22);
   color: inherit;
   padding: 0.1em 0.2em;
   border-radius: 0.2em;
@@ -855,13 +903,13 @@ input[type='range'].peak-slider::-moz-range-thumb {
   --mb-font-ui: var(--font-inter), system-ui, sans-serif;
   --mb-font-code: ui-monospace, SFMono-Regular, Consolas, monospace;
   --mb-bg: transparent;
-  --mb-text: #1f2937;
-  --mb-muted: #6b7280;
-  --mb-accent: #1d4ed8;
-  --mb-border: #e5e7eb;
-  --mb-surface: #f8fafc;
-  --mb-code-bg: #fdf6e3;
-  --mb-code-text: #657b83;
+  --mb-text: #586e75;
+  --mb-muted: #657b83;
+  --mb-accent: #1f6fa8;
+  --mb-border: #e6dfcb;
+  --mb-surface: #eee8d5;
+  --mb-code-bg: #eee8d5;
+  --mb-code-text: #586e75;
   --mb-syntax-keyword: #859900;
   --mb-syntax-string: #2aa198;
   --mb-syntax-number: #2aa198;
@@ -892,8 +940,9 @@ input[type='range'].peak-slider::-moz-range-thumb {
 }
 /* Article header shared by notebook and markdown posts. Inside .blog-marimo it follows the
    renderer's palette; elsewhere the same values apply directly. */
-.post-header { --post-muted: var(--mb-muted, #6b7280); --post-accent: var(--mb-accent, #1d4ed8); margin-bottom: 2rem; }
+.post-header { --post-muted: var(--mb-muted, var(--color-gray-500)); --post-accent: var(--mb-accent, var(--color-blue-600)); margin-bottom: 2rem; }
 .dark .post-header { --post-muted: var(--mb-muted, #a8a29e); --post-accent: var(--mb-accent, #fbbf24); }
+:root:not(.dark) .post-title { color: var(--color-gray-900); }
 .post-meta { font: .875rem/1.6 var(--font-inter), system-ui, sans-serif; color: var(--post-muted); margin-bottom: 1rem; }
 .post-title { font-family: var(--font-inter), system-ui, sans-serif; font-size: clamp(2.25rem, 5cqi, 3.5rem); font-weight: 700; line-height: 1.12; letter-spacing: -.04em; text-wrap: balance; margin-bottom: 1.5rem; }
 .post-dek { font-family: var(--font-merriweather), Georgia, serif; font-size: 1.125rem; line-height: 1.8; color: var(--post-muted); margin-bottom: 1.5rem; }

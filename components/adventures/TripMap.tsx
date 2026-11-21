@@ -30,7 +30,7 @@ export function TripMap({
     'rounded bg-white/90 p-1.5 text-gray-700 border border-black/10 dark:border-white/10 hover:bg-white dark:bg-[#252526]/90 dark:text-[#cccccc] dark:hover:bg-[#252526]';
 
   return (
-    <div className={full ? 'fixed inset-0 z-[2000] bg-white p-3 dark:bg-[#1e1e1e]' : 'relative'}>
+    <div className={full ? 'fixed inset-0 z-[2000] bg-paper p-3 dark:bg-[#1e1e1e]' : 'relative'}>
       <div
         role="group"
         aria-label={`Route map for ${title}`}

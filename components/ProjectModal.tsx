@@ -35,7 +35,7 @@ export function ProjectModal({ title, wide = false, children }: { title: string;
         aria-modal="true"
         aria-label={title}
         tabIndex={-1}
-        className={`relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-2xl bg-white outline-none sm:rounded-2xl dark:bg-[#1e1e1e] ${wide ? 'sm:max-w-6xl' : 'sm:max-w-3xl'}`}
+        className={`relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-2xl bg-paper outline-none sm:rounded-2xl dark:bg-[#1e1e1e] ${wide ? 'sm:max-w-6xl' : 'sm:max-w-3xl'}`}
       >
         <button
           type="button"

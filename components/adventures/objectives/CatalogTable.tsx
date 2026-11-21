@@ -85,7 +85,7 @@ export function CatalogTable({ items, page }: { items: CatalogItem[]; page: Page
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-100 bg-white dark:divide-[#303031] dark:bg-[#1e1e1e]">
+        <tbody className="divide-y divide-gray-100 bg-paper dark:divide-[#303031] dark:bg-[#1e1e1e]">
           {sorted.map((i) => (
             <tr key={i.slug}>
               <td className="px-3 py-2 font-medium text-gray-900 dark:text-[#d4d4d4]">

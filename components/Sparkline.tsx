@@ -21,7 +21,7 @@ export function Sparkline({ points, label, period }: SparklineProps) {
     <svg
       viewBox={`0 0 ${points.length} ${HEIGHT}`}
       preserveAspectRatio="none"
-      className="block h-12 w-full text-[#30a14e] dark:text-[#26a641]"
+      className="block h-12 w-full text-[#859900] dark:text-[#26a641]"
       role="img"
       aria-label={label}
       shapeRendering="crispEdges"

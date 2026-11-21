@@ -200,7 +200,7 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
   return (
     <>
       {/* Chips and calendar stay pinned under the site nav while the cards scroll. */}
-      <div className="sticky top-0 z-40 mb-6 bg-white pb-3 pt-2 transition-colors duration-200 md:top-[65px] dark:bg-[#1e1e1e]">
+      <div className="sticky top-0 z-40 mb-6 bg-paper pb-3 pt-2 transition-colors duration-200 md:top-[65px] dark:bg-[#1e1e1e]">
       <div role="group" aria-label="Filter projects by topic" className="mb-4 flex flex-wrap gap-2">
         <button
           type="button"

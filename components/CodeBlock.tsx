@@ -74,7 +74,7 @@ export function CodeBlock({
         )}
       </button>
 
-      <pre className="overflow-x-auto m-0 p-0 bg-[#fdf6e3] dark:bg-[#1e1e1e]">
+      <pre className="overflow-x-auto m-0 p-0 bg-[#eee8d5] dark:bg-[#1e1e1e]">
         <code className={`hljs language-${language} block p-2 sm:p-4`}>
           {showLineNumbers ? (
             <table className="code-table border-collapse w-full">

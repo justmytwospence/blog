@@ -142,7 +142,7 @@ export function ProjectDetail({ content, parent }: { content: Content; parent?: 
     return (
       <>
         {parentLink}
-        <div className="bg-white dark:bg-[#1e1e1e] rounded-lg p-6">
+        <div className="bg-paper dark:bg-[#1e1e1e] rounded-lg p-6">
           <iframe
             src={content.url}
             style={{ height: content.height || '800px' }}

@@ -14,10 +14,11 @@ export interface ActivityData {
   days: Record<string, DayEntry>;
 }
 
-// GitHub's contribution palette (light + dark): the empty colour, then the active ramp, palest first.
-const EMPTY_LIGHT = '#ebedf0';
+// Contribution palette: light is Solarized green (#859900) mixed into the paper, dark is GitHub's.
+// The empty colour, then the active ramp, palest first.
+const EMPTY_LIGHT = '#e9e2cd';
 const EMPTY_DARK = '#161b22';
-const RAMP_LIGHT = ['#9be9a8', '#40c463', '#30a14e', '#216e3a'];
+const RAMP_LIGHT = ['#d3d594', '#b5be5b', '#859900', '#5c6a00'];
 const RAMP_DARK = ['#0e4429', '#006d32', '#26a641', '#39d353'];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 

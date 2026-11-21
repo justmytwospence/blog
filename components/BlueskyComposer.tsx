@@ -192,7 +192,7 @@ export default function BlueskyComposer({ rootUri, rootCid, onPosted }: BlueskyC
             placeholder="you.bsky.social"
             autoComplete="username"
             spellCheck={false}
-            className="min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-[#1185fe] dark:border-[#3a3d41] dark:bg-[#1e1e1e] dark:text-[#d4d4d4]"
+            className="min-w-0 flex-1 rounded-lg border border-gray-300 bg-paper px-3 py-2 text-sm text-gray-900 outline-none focus:border-[#1185fe] dark:border-[#3a3d41] dark:bg-[#1e1e1e] dark:text-[#d4d4d4]"
           />
           <button
             type="button"
@@ -249,7 +249,7 @@ export default function BlueskyComposer({ rootUri, rootCid, onPosted }: BlueskyC
         placeholder="Add a comment…"
         rows={3}
         disabled={busy}
-        className="w-full resize-y rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-[#1185fe] disabled:opacity-60 dark:border-[#3a3d41] dark:bg-[#1e1e1e] dark:text-[#d4d4d4]"
+        className="w-full resize-y rounded-lg border border-gray-300 bg-paper px-3 py-2 text-sm text-gray-900 outline-none focus:border-[#1185fe] disabled:opacity-60 dark:border-[#3a3d41] dark:bg-[#1e1e1e] dark:text-[#d4d4d4]"
       />
 
       <div className="mt-2 flex items-center justify-between">
