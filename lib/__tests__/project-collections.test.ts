@@ -153,9 +153,12 @@ describe('project card destinations', () => {
       .toEqual({ href: '/projects/pi-plugins', external: false });
     for (const project of all.filter(project => !project.collection)) {
       const external = project.links?.[0]?.url ?? project.externalUrl;
+      const internal = project.hasBody || !external;
       expect(projectCardDestination(project)).toEqual({
-        href: external ?? `/projects/${project.slug}`, external: Boolean(external),
+        href: internal ? `/projects/${project.slug}` : external, external: !internal,
       });
     }
+    expect(projectCardDestination(all.find(project => project.slug === 'uphill-ski')!).external).toBe(false);
+    expect(projectCardDestination(all.find(project => project.slug === 'tmux-agents')!).external).toBe(true);
   });
 });

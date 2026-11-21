@@ -1,9 +1,9 @@
 import type { Project } from './types';
 
-/** Collections are editorial entry points; other cards keep their existing destination. */
+/** Collections and projects with a written story open their detail view; the rest link out. */
 export function projectCardDestination(project: Project): { href: string; external: boolean } {
   const external = project.links?.[0]?.url ?? project.externalUrl;
-  if (project.collection || !external) {
+  if (project.collection || project.hasBody || !external) {
     return { href: `/projects/${project.slug}`, external: false };
   }
   return { href: external, external: true };

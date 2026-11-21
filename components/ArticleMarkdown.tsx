@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkMath from 'remark-math';
 import remarkGfm from 'remark-gfm';
@@ -101,6 +102,11 @@ export function ArticleMarkdown({
             />
           </span>
         );
+      }
+      // Site-internal links navigate client-side, so a project opened in the /projects modal
+      // can move to another project without leaving the overlay.
+      if (href && href.startsWith('/') && !href.startsWith('//')) {
+        return <Link href={href}>{children}</Link>;
       }
       return <a href={href} {...props}>{children}</a>;
     },

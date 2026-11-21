@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { getFeaturedContent } from '../content';
 import type { Project } from '../types';
-import { byFeaturedOrder } from '../project-navigation';
+import { byFeaturedOrder, projectCardDestination } from '../project-navigation';
 
 const stub = (slug: string, featuredOrder?: number) => ({ slug, featuredOrder }) as Project;
 
@@ -26,6 +26,7 @@ describe('featured projects', () => {
       expect(fs.existsSync(path.join(process.cwd(), 'public', project.image!)), project.slug).toBe(true);
       expect(project.imageAlt, project.slug).toBeTruthy();
       expect(project.hasBody, project.slug).toBe(true);
+      expect(projectCardDestination(project)).toEqual({ href: `/projects/${project.slug}`, external: false });
     }
   });
 });
