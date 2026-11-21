@@ -76,7 +76,7 @@ export function ObjectiveDetail({
           </p>
         )}
         {route && (
-          <p className="mt-1 text-xs text-gray-500 dark:text-[#a6a6a6]">{routeSourceNote(route.kind, route.approx)}</p>
+          <p className="mt-1 font-serif text-xs text-gray-500 dark:text-[#a6a6a6]">{routeSourceNote(route.kind, route.approx)}</p>
         )}
       </header>
 
@@ -131,7 +131,7 @@ export function ObjectiveDetail({
       )}
 
       {item.description && (
-        <p className="mb-8 max-w-3xl text-gray-700 dark:text-[#cccccc]">{item.description}</p>
+        <p className="mb-8 max-w-3xl font-serif text-gray-700 dark:text-[#cccccc]">{item.description}</p>
       )}
 
       {item.allLinks.length > 0 && (

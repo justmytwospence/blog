@@ -38,7 +38,7 @@ export default async function ObjectivesCategoryPage({ params }: { params: Promi
       </Link>
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-[#d4d4d4]">{cfg.label}</h1>
-        <p className="mt-2 text-gray-600 dark:text-[#cccccc]">{cfg.blurb}</p>
+        <p className="mt-2 font-serif text-gray-600 dark:text-[#cccccc]">{cfg.blurb}</p>
       </div>
       <Suspense fallback={<div className="py-12 text-center text-gray-500 dark:text-[#a6a6a6]">Loading…</div>}>
         <CatalogView page={cfg.id} items={items} />

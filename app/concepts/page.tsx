@@ -20,7 +20,7 @@ export default function ConceptsPage() {
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-[#d4d4d4]">
           Concepts
         </h1>
-        <p className="text-lg text-gray-600 dark:text-[#cccccc]">
+        <p className="font-serif text-lg text-gray-600 dark:text-[#cccccc]">
           Interactive visualizations exploring ideas in statistics, probability, and data science.
         </p>
       </div>

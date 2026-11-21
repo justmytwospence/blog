@@ -22,7 +22,7 @@ export default function BlogPage() {
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-[#d4d4d4]">
           Blog
         </h1>
-        <p className="text-lg text-gray-600 dark:text-[#cccccc]">
+        <p className="font-serif text-lg text-gray-600 dark:text-[#cccccc]">
           Technical articles, insights, and tutorials on data science and machine learning.
         </p>
       </div>
@@ -48,7 +48,7 @@ export default function BlogPage() {
                 </h2>
                 
                 {post.description && (
-                  <p className="text-gray-600 dark:text-[#cccccc] mb-4 leading-relaxed">
+                  <p className="font-serif text-gray-600 dark:text-[#cccccc] mb-4 leading-relaxed">
                     {post.description}
                   </p>
                 )}

@@ -26,7 +26,7 @@ export function ConceptCard({ concept }: ConceptCardProps) {
       </h3>
 
       {concept.description && (
-        <p className="text-gray-600 dark:text-[#cccccc] mb-4 line-clamp-3">
+        <p className="font-serif text-gray-600 dark:text-[#cccccc] mb-4 line-clamp-3">
           {concept.description}
         </p>
       )}

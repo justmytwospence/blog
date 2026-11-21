@@ -51,7 +51,7 @@ export function ProjectDetail({ content, parent }: { content: Content; parent?: 
   );
 
   const description = metadata.description && (
-    <p className="lead text-lg text-gray-600 dark:text-[#cccccc] not-prose mb-4">{metadata.description}</p>
+    <p className="lead font-serif text-lg text-gray-600 dark:text-[#cccccc] not-prose mb-4">{metadata.description}</p>
   );
 
   const destinations = metadata.links?.length

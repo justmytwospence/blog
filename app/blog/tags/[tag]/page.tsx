@@ -84,7 +84,7 @@ export default async function BlogTagPage({
                 </h2>
                 
                 {post.description && (
-                  <p className="text-gray-600 dark:text-[#cccccc] mb-4 leading-relaxed">
+                  <p className="font-serif text-gray-600 dark:text-[#cccccc] mb-4 leading-relaxed">
                     {post.description}
                   </p>
                 )}

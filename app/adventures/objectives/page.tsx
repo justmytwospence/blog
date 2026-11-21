@@ -42,7 +42,7 @@ export default function ObjectivesPage() {
               className="rounded-lg border border-gray-200 bg-white p-4 transition-colors hover:border-gray-300 hover:bg-gray-50 dark:border-[#303031] dark:bg-[#252526] dark:hover:border-[#454545] dark:hover:bg-[#2a2a2b]"
             >
               <h2 className="text-lg font-semibold text-gray-900 dark:text-[#d4d4d4]">{p.label}</h2>
-              <p className="mt-1 text-sm text-gray-600 dark:text-[#cccccc]">{p.blurb}</p>
+              <p className="mt-1 font-serif text-sm text-gray-600 dark:text-[#cccccc]">{p.blurb}</p>
               <p className="mt-2 text-sm font-medium tabular-nums text-emerald-600 dark:text-emerald-400">
                 {done} / {mine.length} done
               </p>

@@ -28,7 +28,7 @@ export default function NotFound() {
         <h2 className="text-2xl font-semibold text-gray-700 dark:text-[#cccccc] mb-4">
           Page Not Found
         </h2>
-        <p className="text-gray-600 dark:text-[#a6a6a6] mb-8">
+        <p className="font-serif text-gray-600 dark:text-[#a6a6a6] mb-8">
           Sorry, the page you're looking for doesn't exist or has been moved.
         </p>
 
@@ -56,7 +56,7 @@ export default function NotFound() {
 
         {/* Additional Help */}
         <div className="mt-12 pt-8 border-t border-gray-200 dark:border-[#303031]">
-          <p className="text-sm text-gray-500 dark:text-[#a6a6a6]">
+          <p className="font-serif text-sm text-gray-500 dark:text-[#a6a6a6]">
             Looking for something specific? Try navigating from the{' '}
             <Link href="/" className="text-blue-600 dark:text-blue-400 hover:underline">
               home page

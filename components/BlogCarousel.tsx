@@ -63,7 +63,7 @@ export function BlogCarousel({ posts }: BlogCarouselProps) {
                   {post.title}
                 </h3>
                 {post.description && (
-                  <p className="text-gray-600 dark:text-[#cccccc] mb-3 line-clamp-4">
+                  <p className="font-serif text-gray-600 dark:text-[#cccccc] mb-3 line-clamp-4">
                     {post.description}
                   </p>
                 )}

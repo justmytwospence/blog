@@ -380,7 +380,7 @@ export default async function AboutPage() {
 
       <div className="mt-16 space-y-16 lg:mt-20 lg:space-y-20">
         <Section title="Background">
-          <div className="max-w-2xl space-y-6 font-[family-name:var(--font-merriweather),Georgia,serif] text-[1.0625rem] font-light leading-[1.9] text-gray-800 sm:text-lg sm:leading-[1.9] dark:text-[#cfcfcf]">
+          <div className="max-w-2xl space-y-6 font-serif text-[1.0625rem] font-light leading-[1.9] text-gray-800 sm:text-lg sm:leading-[1.9] dark:text-[#cfcfcf]">
             <p>
               I spent ten years at fast-moving companies like Uber and Gametime, building production ML and
               forecasting systems, running large-scale experiments, and turning messy data into decisions.
@@ -430,7 +430,7 @@ export default async function AboutPage() {
                       <span className={`font-normal ${muted}`}> · {company.name}</span>
                       <Arrow className="ml-1.5 opacity-0 transition-opacity group-hover:opacity-100" />
                     </span>
-                    <span className="mt-1 block text-[0.95rem] leading-relaxed text-gray-600 dark:text-[#a6a6a6]">
+                    <span className="mt-1 block font-serif text-[0.95rem] leading-relaxed text-gray-600 dark:text-[#a6a6a6]">
                       {company.blurb}
                     </span>
                   </span>
@@ -450,9 +450,9 @@ export default async function AboutPage() {
                   <h3 className="mt-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-[#e4e4e4]">
                     {area.title}
                   </h3>
-                  <p className="mt-2 leading-relaxed text-gray-600 dark:text-[#a6a6a6]">{area.description}</p>
+                  <p className="mt-2 font-serif leading-relaxed text-gray-600 dark:text-[#a6a6a6]">{area.description}</p>
                   <p className={`mt-4 text-sm leading-relaxed ${muted}`}>{area.tools.join(' · ')}</p>
-                  <p className="mt-3 text-sm text-gray-600 dark:text-[#a6a6a6]">
+                  <p className="mt-3 font-serif text-sm text-gray-600 dark:text-[#a6a6a6]">
                     {area.note}
                     {projects.length > 0 && (
                       <>
@@ -499,7 +499,7 @@ export default async function AboutPage() {
         </Section>
 
         <Section title="Outside">
-          <p className="max-w-2xl text-lg leading-relaxed text-gray-700 dark:text-[#cccccc]">
+          <p className="max-w-2xl font-serif text-lg leading-relaxed text-gray-700 dark:text-[#cccccc]">
             Away from the keyboard I&rsquo;m usually on a trail or a skin track: ski mountaineering, Nordic skiing,
             trail running, and the occasional triathlon.
             {miles > 0 && (
@@ -529,7 +529,7 @@ export default async function AboutPage() {
         )}
 
         <Section title="Elsewhere">
-          <p className="max-w-3xl text-balance text-2xl font-semibold leading-snug tracking-tight text-gray-900 sm:text-3xl sm:leading-snug dark:text-white">
+          <p className="max-w-3xl text-balance font-serif text-2xl font-semibold leading-snug tracking-tight text-gray-900 sm:text-3xl sm:leading-snug dark:text-white">
             The best way to reach me is email:{' '}
             <a href={`mailto:${EMAIL}`} className={`text-blue-600 dark:text-blue-400 ${link}`}>
               {EMAIL}

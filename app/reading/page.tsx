@@ -58,7 +58,7 @@ export default async function ReadingPage() {
         </div>
       ) : (
         <div className="text-center py-12">
-          <p className="text-gray-500 dark:text-[#a6a6a6]">Reading list data is not available right now. Check back soon!</p>
+          <p className="font-serif text-gray-500 dark:text-[#a6a6a6]">Reading list data is not available right now. Check back soon!</p>
         </div>
       )}
 

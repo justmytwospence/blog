@@ -33,7 +33,7 @@ export default function BlueskyCallback() {
   return (
     <div className="mx-auto max-w-md px-4 py-24 text-center">
       {failed ? (
-        <p className="text-gray-600 dark:text-[#cccccc]">
+        <p className="font-serif text-gray-600 dark:text-[#cccccc]">
           Sign-in didn&apos;t complete.{' '}
           <button
             type="button"

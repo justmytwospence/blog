@@ -67,7 +67,7 @@ export function CatalogCard({ item, cfg }: { item: CatalogItem; cfg: PageConfig 
         {item.multiSport && <span className={chipCls}>Multi-sport</span>}
       </div>
       {item.description && (
-        <p className="mt-2 line-clamp-3 text-sm text-gray-600 dark:text-[#cccccc]">{item.description}</p>
+        <p className="mt-2 line-clamp-3 font-serif text-sm text-gray-600 dark:text-[#cccccc]">{item.description}</p>
       )}
       {item.done &&
         (item.reportSlug ? (

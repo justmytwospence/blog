@@ -87,7 +87,7 @@ function RichText({ post }: { post: BlueskyPostView }) {
     [post.record.text, post.record.facets],
   );
   return (
-    <p className="whitespace-pre-wrap break-words text-[15px] leading-relaxed text-gray-800 dark:text-[#d4d4d4]">
+    <p className="whitespace-pre-wrap break-words font-serif text-[15px] leading-relaxed text-gray-800 dark:text-[#d4d4d4]">
       {segments.map((seg, i) =>
         seg.link ? (
           <a
@@ -395,19 +395,19 @@ export function BlueskyComments({ postRef }: { postRef: string }) {
       {state.status === 'loading' && <Skeleton />}
 
       {state.status === 'error' && (
-        <p className="text-sm text-gray-500 dark:text-[#a6a6a6]">
+        <p className="font-serif text-sm text-gray-500 dark:text-[#a6a6a6]">
           Couldn&apos;t load comments right now.
         </p>
       )}
 
       {state.status === 'unavailable' && (
-        <p className="text-sm text-gray-500 dark:text-[#a6a6a6]">
+        <p className="font-serif text-sm text-gray-500 dark:text-[#a6a6a6]">
           Comments are unavailable — the linked Bluesky post may have been removed.
         </p>
       )}
 
       {state.status === 'ready' && total === 0 && (
-        <p className="text-sm text-gray-500 dark:text-[#a6a6a6]">
+        <p className="font-serif text-sm text-gray-500 dark:text-[#a6a6a6]">
           No comments yet.{' '}
           <a
             href={state.webUrl}
@@ -434,7 +434,7 @@ export function BlueskyComments({ postRef }: { postRef: string }) {
       )}
 
       {state.status === 'ready' && (
-        <p className="mt-8 text-xs text-gray-400 dark:text-[#6e6e6e]">
+        <p className="font-serif mt-8 text-xs text-gray-400 dark:text-[#6e6e6e]">
           Comments are public replies to{' '}
           <a
             href={state.webUrl}

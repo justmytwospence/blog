@@ -62,7 +62,7 @@ export default async function ConceptDetailPage({
         </h1>
 
         {content.metadata.description && (
-          <p className="text-lg text-gray-600 dark:text-[#cccccc] mb-6">
+          <p className="font-serif text-lg text-gray-600 dark:text-[#cccccc] mb-6">
             {content.metadata.description}
           </p>
         )}

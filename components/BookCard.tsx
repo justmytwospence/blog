@@ -100,7 +100,7 @@ function BookDetailDrawer({ userBook, onClose }: { userBook: UserBook; onClose: 
           </div>
 
           {book.description && (
-            <p className="text-gray-600 dark:text-[#cccccc] text-sm mt-4 leading-relaxed">
+            <p className="font-serif text-gray-600 dark:text-[#cccccc] text-sm mt-4 leading-relaxed">
               {book.description}
             </p>
           )}

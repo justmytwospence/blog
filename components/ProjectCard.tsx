@@ -104,7 +104,7 @@ export function ProjectCard({ project, activity, variant = 'default' }: ProjectC
 
       {/* Description */}
       {project.description && (
-        <p className="text-sm text-gray-600 dark:text-[#cccccc] mb-4 md:min-h-[6.25rem] break-words line-clamp-5">
+        <p className="font-serif text-sm text-gray-600 dark:text-[#cccccc] mb-4 md:min-h-[6.25rem] break-words line-clamp-5">
           {project.description}
         </p>
       )}

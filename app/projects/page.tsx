@@ -29,7 +29,7 @@ export default async function ProjectsPage() {
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-[#d4d4d4]">
           Projects
         </h1>
-        <p className="text-lg text-gray-600 dark:text-[#cccccc]">
+        <p className="font-serif text-lg text-gray-600 dark:text-[#cccccc]">
           Things I&apos;ve built across software and data: tools, apps, models, and experiments,
           some polished and some still in progress.
         </p>
@@ -40,7 +40,7 @@ export default async function ProjectsPage() {
         <ProjectsExplorer projects={projects} activity={calendar} sparklines={sparklines} />
       ) : (
         <div className="text-center py-12">
-          <p className="text-gray-500 dark:text-[#a6a6a6]">
+          <p className="font-serif text-gray-500 dark:text-[#a6a6a6]">
             No projects available yet. Check back soon!
           </p>
         </div>

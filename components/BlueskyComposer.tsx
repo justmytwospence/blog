@@ -202,7 +202,7 @@ export default function BlueskyComposer({ rootUri, rootCid, onPosted }: BlueskyC
             Sign in
           </button>
         </div>
-        <p className="mt-2 text-xs text-gray-500 dark:text-[#a6a6a6]">
+        <p className="mt-2 font-serif text-xs text-gray-500 dark:text-[#a6a6a6]">
           You&apos;ll be redirected to Bluesky to authorize, then brought right back. Your comment
           posts as a reply from your account.
         </p>

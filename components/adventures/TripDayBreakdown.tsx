@@ -34,7 +34,7 @@ function DayRow({ day, fallbackSport, unit }: { day: AdventureDay; fallbackSport
       </button>
       {open && (
         <div className="border-t border-gray-100 px-4 py-3 dark:border-[#2a2a2b]">
-          {day.caption && <p className="mb-3 text-sm text-gray-600 dark:text-[#cccccc]">{day.caption}</p>}
+          {day.caption && <p className="mb-3 font-serif text-sm text-gray-600 dark:text-[#cccccc]">{day.caption}</p>}
           {a.weather && (
             <div className="mb-3 text-sm text-gray-500 dark:text-[#a6a6a6]">
               <WeatherBadge weather={a.weather} />

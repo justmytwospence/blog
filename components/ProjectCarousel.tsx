@@ -63,7 +63,7 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
                   )}
                 </h3>
                 {project.description && (
-                  <p className="text-gray-600 dark:text-[#cccccc] mb-3 line-clamp-4">
+                  <p className="font-serif text-gray-600 dark:text-[#cccccc] mb-3 line-clamp-4">
                     {project.description}
                   </p>
                 )}

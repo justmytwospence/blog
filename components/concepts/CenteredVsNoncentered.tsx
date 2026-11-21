@@ -800,7 +800,7 @@ export default function CenteredVsNoncentered() {
         <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
           <div>
             <h3 className="text-base font-semibold text-gray-800 dark:text-gray-200">HMC Sampling Simulation</h3>
-            <p className="text-xs text-gray-500 dark:text-gray-500">Watch MCMC explore both geometries. <span className="text-red-500">Red {'\u2717'} marks = divergent transitions.</span></p>
+            <p className="font-serif text-xs text-gray-500 dark:text-gray-500">Watch MCMC explore both geometries. <span className="text-red-500">Red {'\u2717'} marks = divergent transitions.</span></p>
           </div>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
@@ -872,7 +872,7 @@ export default function CenteredVsNoncentered() {
 
       {/* Key insight */}
       <div className="rounded-xl p-5 border border-gray-200 dark:border-[#252530] bg-white dark:bg-[#141418]">
-        <div className="text-sm leading-relaxed text-gray-600 dark:text-gray-400 space-y-3">
+        <div className="font-serif text-sm leading-relaxed text-gray-600 dark:text-gray-400 space-y-3">
           <p>
             <strong className="text-teal-600 dark:text-teal-400">What you&apos;re controlling:</strong> The <em>prior</em> on {'\u03c3'} (how tight/diffuse) and the <em>amount of data</em> (which determines how much the likelihood overwhelms the prior).
           </p>

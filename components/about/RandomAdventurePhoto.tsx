@@ -40,7 +40,7 @@ export function RandomAdventurePhoto({ photos }: { photos: BannerPhoto[] }) {
         )}
       </div>
       <figcaption
-        className={`mt-3 min-h-5 text-sm text-gray-500 transition-opacity duration-700 dark:text-[#8f8f8f] ${
+        className={`mt-3 min-h-5 font-serif text-sm text-gray-500 transition-opacity duration-700 dark:text-[#8f8f8f] ${
           photo && loaded ? 'opacity-100' : 'opacity-0'
         }`}
       >

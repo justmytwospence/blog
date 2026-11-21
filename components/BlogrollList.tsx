@@ -179,7 +179,7 @@ export function BlogrollList({
           </svg>
         </a>
       </div>
-      <p className="text-lg text-gray-600 dark:text-[#cccccc]">
+      <p className="font-serif text-lg text-gray-600 dark:text-[#cccccc]">
         Things I&rsquo;ve read recently and thought worth sharing.
       </p>
     </div>
@@ -190,7 +190,7 @@ export function BlogrollList({
       <>
         {header}
         <div className="text-center py-12">
-          <p className="text-gray-500 dark:text-[#a6a6a6]">
+          <p className="font-serif text-gray-500 dark:text-[#a6a6a6]">
             Blogroll data is not available right now. Check back soon!
           </p>
         </div>
@@ -345,7 +345,7 @@ export function BlogrollList({
                   {item.title}
                 </h2>
                 {item.summary && (
-                  <p className={`text-gray-600 dark:text-[#cccccc] leading-relaxed ${filter === null && item.categories.length > 0 ? 'mb-4' : ''}`}>
+                  <p className={`font-serif text-gray-600 dark:text-[#cccccc] leading-relaxed ${filter === null && item.categories.length > 0 ? 'mb-4' : ''}`}>
                     {item.summary}
                   </p>
                 )}
@@ -369,7 +369,7 @@ export function BlogrollList({
           ))}
           {visibleItems.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-500 dark:text-[#a6a6a6]">
+              <p className="font-serif text-gray-500 dark:text-[#a6a6a6]">
                 {filter?.kind === 'folder'
                   ? 'Nothing from these feeds in the recent stream.'
                   : 'No articles in this category.'}
