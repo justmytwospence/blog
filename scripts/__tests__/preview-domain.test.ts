@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { parseDomainArgs, previewHost, runPreviewDomain, type PreviewDomainDeps } from '../preview-domain';
+import { aliasHost, parseDomainArgs, previewHost, runPreviewDomain, type PreviewDomainDeps } from '../preview-domain';
 
 const host = 'feature.dev.spencerboucher.com';
 function setup(options: { branch?: string; absent?: boolean; verified?: boolean; project?: string; zones?: number; fail?: boolean } = {}) {
@@ -96,5 +96,52 @@ describe('preview domains', () => {
     const c = setup({ verified: false }); await expect(runPreviewDomain('feature', false, c.deps)).rejects.toThrow('verification is incomplete');
     expect(c.calls.filter((x) => x.url.includes('/dns_records') && x.method === 'POST')).toHaveLength(0);
     expect(c.calls.filter((x) => x.url.includes('/verify'))).toHaveLength(10);
+  });
+  describe('exact alias hosts', () => {
+    const alias = 'gini.spencerboucher.com';
+    const target = '3b7a51e1b3be3b59.vercel-dns-016.com';
+    function withRecords(records: { id: string; type: string; name: string; content: string }[], options: Parameters<typeof setup>[0] = {}) {
+      const c = setup(options);
+      const original = c.deps.fetch;
+      c.deps.fetch = (async (input: string | URL | Request, init?: RequestInit) => {
+        const url = String(input);
+        if (url.includes('/dns_records?name=')) {
+          c.calls.push({ url, method: 'GET' });
+          return new Response(JSON.stringify({ success: true, result: records }));
+        }
+        return original(input, init);
+      }) as typeof fetch;
+      return c;
+    }
+    it('validates labels and arguments', () => {
+      expect(aliasHost('gini')).toBe(alias);
+      for (const label of ['www', 'dev', 'main', 'mail', 'a.b', 'A', 'a--b', '']) expect(() => aliasHost(label)).toThrow();
+      expect(parseDomainArgs(['feature', '--host', 'gini'])).toEqual({ branch: 'feature', remove: false, label: 'gini' });
+      expect(parseDomainArgs(['feature', '--host', 'gini', '--remove'])).toEqual({ branch: 'feature', remove: true, label: 'gini' });
+      for (const args of [['feature', '--host'], ['feature', '--host', 'www'], ['feature', '--host', 'a', '--host', 'b']]) expect(() => parseDomainArgs(args)).toThrow();
+    });
+    it('creates the CNAME only when the name is empty', async () => {
+      const c = withRecords([]);
+      await runPreviewDomain('feature', false, c.deps, 'gini');
+      expect(c.calls.find((x) => x.method === 'POST' && x.body?.includes('"CNAME"'))?.body).toContain(`"content":"${target}"`);
+      expect(c.calls.some((x) => x.method === 'POST' && x.url.includes('/v10/projects/'))).toBe(false);
+    });
+    it('reuses our CNAME and refuses anything else at the name', async () => {
+      const ours = withRecords([{ id: 'c', type: 'CNAME', name: alias, content: target }]);
+      await runPreviewDomain('feature', false, ours.deps, 'gini');
+      expect(ours.calls.some((x) => x.method === 'POST' && x.body?.includes('"CNAME"'))).toBe(false);
+      for (const record of [{ id: 'x', type: 'CNAME', name: alias, content: 'elsewhere.example.com' }, { id: 'y', type: 'A', name: alias, content: '1.2.3.4' }]) {
+        const c = withRecords([record]);
+        await expect(runPreviewDomain('feature', false, c.deps, 'gini')).rejects.toThrow('not ours');
+        expect(c.calls.some((x) => x.method === 'DELETE')).toBe(false);
+      }
+    });
+    it('removes only a CNAME that points at our target', async () => {
+      const c = withRecords([{ id: 'mine', type: 'CNAME', name: alias, content: target }, { id: 'theirs', type: 'CNAME', name: alias, content: 'elsewhere.example.com' }]);
+      await runPreviewDomain('feature', true, c.deps, 'gini');
+      const deletes = c.calls.filter((x) => x.method === 'DELETE');
+      expect(deletes.some((x) => x.url.endsWith('/dns_records/mine'))).toBe(true);
+      expect(deletes.some((x) => x.url.endsWith('/dns_records/theirs'))).toBe(false);
+    });
   });
 });

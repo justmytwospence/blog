@@ -26,6 +26,8 @@ const nextConfig = {
   // Concepts became ordinary blog posts; keep the old URLs working.
   async redirects() {
     return [
+      // gini.spencerboucher.com is bound to the inequality-atlas preview branch; land on the post.
+      { source: '/', has: [{ type: 'host', value: 'gini.spencerboucher.com' }], destination: '/blog/how-unequal-were-they', permanent: false },
       { source: '/concepts', destination: '/blog', permanent: true },
       { source: '/concepts/:slug', destination: '/blog/:slug', permanent: true },
     ];

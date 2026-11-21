@@ -7,6 +7,9 @@ const TEAM = 'team_TwgeP3rwrsOV5S5i2hX1oJIx';
 const PROJECT = 'prj_3tr1ZXKedofvZs88iTvd9OqHSn4J';
 const ZONE = 'spencerboucher.com';
 const VERIFY = `_vercel.${ZONE}`;
+// The project's existing Vercel DNS target, the same one the dev and *.dev records use.
+const TARGET = '3b7a51e1b3be3b59.vercel-dns-016.com';
+const RESERVED_LABELS = ['main', 'master', 'dev', 'www', 'mail', 'smtp', 'imap', 'ftp', 'api', 'admin', 'blog', 'autodiscover'];
 
 export interface PreviewDomainDeps {
   fetch: typeof globalThis.fetch;
@@ -19,12 +22,19 @@ export function previewHost(branch: string): string {
   return `${branch}.dev.${ZONE}`;
 }
 
+/** An exact `<label>.spencerboucher.com` alias for a branch (for example gini.spencerboucher.com). */
+export function aliasHost(label: string): string {
+  if (label.length > 63 || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(label) || RESERVED_LABELS.includes(label)) throw new Error('Invalid or reserved alias label');
+  return `${label}.${ZONE}`;
+}
+
 type Domain = { gitBranch?: string | null; verified?: boolean; verification?: { type: string; domain: string; value: string }[] };
-type RecordItem = { id: string; content: string };
+type RecordItem = { id: string; content: string; type?: string; name?: string };
 type VercelResponse = Domain & { id?: string; accountId?: string };
 type Zone = { id: string; name: string };
-export async function runPreviewDomain(branch: string, remove: boolean, deps: PreviewDomainDeps): Promise<void> {
-  const host = previewHost(branch);
+export async function runPreviewDomain(branch: string, remove: boolean, deps: PreviewDomainDeps, label?: string): Promise<void> {
+  previewHost(branch); // validates the branch even when an exact alias label is used
+  const host = label ? aliasHost(label) : previewHost(branch);
   if (!deps.cloudflareToken) throw new Error('CLOUDFLARE_API_TOKEN required');
   const token = deps.vercelToken();
   if (!token) throw new Error('Vercel token required');
@@ -61,7 +71,19 @@ export async function runPreviewDomain(branch: string, remove: boolean, deps: Pr
     if (!Array.isArray(result)) throw new Error('Invalid Cloudflare DNS response');
     return result.filter((r: RecordItem) => typeof r.content === 'string' && r.content.replace(/"/g, '').startsWith(`vc-domain-verify=${host},`));
   };
+  // An exact alias is not covered by the wildcard record, so it needs its own CNAME. Only ever create
+  // it when nothing else exists at the name, and only ever delete one that points at our target.
+  const nameRecords = async (): Promise<RecordItem[]> => {
+    const result = await cloudflare<RecordItem[]>('GET', `/zones/${zoneId}/dns_records?name=${host}&per_page=100`);
+    if (!Array.isArray(result)) throw new Error('Invalid Cloudflare DNS response');
+    return result.filter((r) => r.name === host);
+  };
   if (remove) {
+    if (label) {
+      for (const record of await nameRecords()) {
+        if (record.type === 'CNAME' && record.content === TARGET) await cloudflare('DELETE', `/zones/${zoneId}/dns_records/${encodeURIComponent(record.id)}`);
+      }
+    }
     if (existing.status !== 404) await vercel('DELETE', domainPath, undefined, true);
     for (const record of await records()) await cloudflare('DELETE', `/zones/${zoneId}/dns_records/${encodeURIComponent(record.id)}`);
     return;
@@ -75,6 +97,11 @@ export async function runPreviewDomain(branch: string, remove: boolean, deps: Pr
       domain = found.data;
     } else domain = added.data;
     checkBinding(domain);
+  }
+  if (label) {
+    const there = await nameRecords();
+    if (there.length === 0) await cloudflare('POST', `/zones/${zoneId}/dns_records`, { type: 'CNAME', name: host, content: TARGET, ttl: 1, proxied: false });
+    else if (!there.every((r) => r.type === 'CNAME' && r.content === TARGET)) throw new Error(`${host} already has DNS records that are not ours`);
   }
   if (domain.verified) return;
   const current = new Set((await records()).map((r) => r.content.replace(/"/g, '')));
@@ -107,15 +134,26 @@ function vercelToken(): string {
   }
   throw new Error('Set VERCEL_TOKEN or log in with vercel login');
 }
-export function parseDomainArgs(args: string[]): { branch: string; remove: boolean } {
-  if (args.length < 1 || args.length > 2 || (args.length === 2 && args[1] !== '--remove')) throw new Error('Usage: preview:domain <branch> [--remove]');
-  previewHost(args[0]);
-  return { branch: args[0], remove: args.length === 2 };
+export function parseDomainArgs(args: string[]): { branch: string; remove: boolean; label?: string } {
+  const usage = 'Usage: preview:domain <branch> [--host <label>] [--remove]';
+  const [branch, ...rest] = args;
+  if (!branch) throw new Error(usage);
+  let label: string | undefined;
+  let remove = false;
+  for (let i = 0; i < rest.length; i++) {
+    if (rest[i] === '--remove' && !remove) remove = true;
+    else if (rest[i] === '--host' && label === undefined && rest[i + 1]) label = rest[++i];
+    else throw new Error(usage);
+  }
+  previewHost(branch);
+  if (label) aliasHost(label);
+  return { branch, remove, label };
 }
 async function main() {
-  const { branch, remove } = parseDomainArgs(process.argv.slice(2));
-  await runPreviewDomain(branch, remove, { fetch: globalThis.fetch, vercelToken, cloudflareToken: process.env.CLOUDFLARE_API_TOKEN ?? '', sleep: (ms) => new Promise((resolve) => setTimeout(resolve, ms)) });
-  console.log(remove ? `Removed ${previewHost(branch)}` : `https://${previewHost(branch)} serves ${branch}`);
+  const { branch, remove, label } = parseDomainArgs(process.argv.slice(2));
+  await runPreviewDomain(branch, remove, { fetch: globalThis.fetch, vercelToken, cloudflareToken: process.env.CLOUDFLARE_API_TOKEN ?? '', sleep: (ms) => new Promise((resolve) => setTimeout(resolve, ms)) }, label);
+  const host = label ? aliasHost(label) : previewHost(branch);
+  console.log(remove ? `Removed ${host}` : `https://${host} serves ${branch}`);
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   main().catch((error) => { console.error(error instanceof Error ? error.message : 'Preview domain failed'); process.exitCode = 1; });

@@ -88,6 +88,20 @@ npm run preview:domain -- <branch>
 npm run preview:domain -- <branch> --remove
 ```
 
+A branch can also get one exact, longer-lived name directly under the zone, such as
+`gini.spencerboucher.com`, with `--host <label>`:
+
+```sh
+npm run preview:domain -- <branch> --host <label>
+npm run preview:domain -- <branch> --host <label> --remove
+```
+
+The wildcard record does not cover an exact name, so this also creates one DNS-only CNAME to the
+project's Vercel target. It refuses to run if anything else already exists at that name, refuses
+reserved labels (`www`, `dev`, `main`, `mail`, ...), and on removal deletes only a CNAME that points
+at that target. The domain stays bound to the branch, so removing the branch or landing it in `main`
+means removing this mapping and, for production, adding the name to Production deliberately.
+
 Both operations require the existing Vercel domain/API approval and credential access approval.
 Inject `CLOUDFLARE_API_TOKEN` with DNS edit permission through `aac`; load the `agent-access` skill
 first. The command can use `VERCEL_TOKEN` or the CLI's existing login. Never paste tokens into chat,
