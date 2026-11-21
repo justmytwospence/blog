@@ -10,7 +10,7 @@ export function ConceptCard({ concept }: ConceptCardProps) {
   return (
     <Link
       href={`/concepts/${concept.slug}`}
-      className="block p-6 bg-white dark:bg-[#252526] rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200 dark:border-[#303031]"
+      className="block p-6 bg-white dark:bg-[#252526] rounded-lg border border-gray-200 dark:border-[#303031] transition-colors hover:border-gray-400 dark:hover:border-[#5a5a5a]"
     >
       <div className="flex items-center gap-2 mb-3">
         <span className="text-xs px-2 py-1 rounded bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 font-medium">

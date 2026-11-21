@@ -36,7 +36,7 @@ export function RouteMap({
   const effective: RouteColorMetric = available.includes(metric) ? metric : available[0] ?? 'grade';
 
   const iconBtn =
-    'rounded bg-white/90 p-1.5 text-gray-700 shadow hover:bg-white dark:bg-[#252526]/90 dark:text-[#cccccc] dark:hover:bg-[#252526]';
+    'rounded bg-white/90 p-1.5 text-gray-700 border border-black/10 dark:border-white/10 hover:bg-white dark:bg-[#252526]/90 dark:text-[#cccccc] dark:hover:bg-[#252526]';
 
   return (
     <div className={full ? 'fixed inset-0 z-[2000] bg-white p-3 dark:bg-[#1e1e1e]' : 'relative'}>
@@ -55,7 +55,7 @@ export function RouteMap({
 
         <div className="absolute right-2 top-2 z-[1000] flex items-center gap-1">
           {available.length > 1 && (
-            <div className="flex overflow-hidden rounded shadow">
+            <div className="flex overflow-hidden rounded border border-black/10 dark:border-white/10">
               {available.map((m) => (
                 <button
                   key={m}
@@ -87,7 +87,7 @@ export function RouteMap({
           </button>
         </div>
 
-        <div className="absolute bottom-2 left-2 z-[1000] rounded bg-white/85 px-2 py-1 text-[11px] text-gray-600 shadow dark:bg-[#252526]/85 dark:text-[#a6a6a6]">
+        <div className="absolute bottom-2 left-2 z-[1000] rounded bg-white/85 px-2 py-1 text-[11px] text-gray-600 border border-black/10 dark:border-white/10 dark:bg-[#252526]/85 dark:text-[#a6a6a6]">
           Route by {METRIC_LABEL[effective].toLowerCase()}
         </div>
       </div>

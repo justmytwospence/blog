@@ -35,13 +35,13 @@ export function ProjectModal({ title, wide = false, children }: { title: string;
         aria-modal="true"
         aria-label={title}
         tabIndex={-1}
-        className={`relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-2xl bg-white shadow-2xl outline-none sm:rounded-2xl dark:bg-[#1e1e1e] ${wide ? 'sm:max-w-6xl' : 'sm:max-w-3xl'}`}
+        className={`relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-2xl bg-white outline-none sm:rounded-2xl dark:bg-[#1e1e1e] ${wide ? 'sm:max-w-6xl' : 'sm:max-w-3xl'}`}
       >
         <button
           type="button"
           onClick={() => router.back()}
           aria-label="Close"
-          className="absolute right-3 top-3 z-10 cursor-pointer rounded-full bg-white/90 p-2 text-gray-700 shadow transition-colors hover:bg-gray-100 dark:bg-[#252526]/90 dark:text-[#d4d4d4] dark:hover:bg-[#3a3d41]"
+          className="absolute right-3 top-3 z-10 cursor-pointer rounded-full bg-white/90 p-2 text-gray-700 border border-black/10 dark:border-white/10 transition-colors hover:bg-gray-100 dark:bg-[#252526]/90 dark:text-[#d4d4d4] dark:hover:bg-[#3a3d41]"
         >
           <X className="h-5 w-5" />
         </button>

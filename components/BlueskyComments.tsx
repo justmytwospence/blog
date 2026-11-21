@@ -353,7 +353,7 @@ export function BlueskyComments({ postRef }: { postRef: string }) {
                 onClick={() => setSort(mode)}
                 className={`rounded-full px-3 py-1 capitalize transition-colors ${
                   sort === mode
-                    ? 'bg-white text-gray-900 shadow-sm dark:bg-[#1e1e1e] dark:text-[#d4d4d4]'
+                    ? 'bg-white text-gray-900 dark:bg-[#1e1e1e] dark:text-[#d4d4d4]'
                     : 'text-gray-500 hover:text-gray-800 dark:text-[#a6a6a6] dark:hover:text-[#d4d4d4]'
                 }`}
               >

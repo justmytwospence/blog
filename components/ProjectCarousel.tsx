@@ -57,7 +57,7 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
                 href={href}
                 target={isExternal ? '_blank' : undefined}
                 rel={isExternal ? 'noopener noreferrer' : undefined}
-                className="block p-6 bg-white dark:bg-[#252526] rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-200 dark:border-[#303031] sm:h-full"
+                className="block p-6 bg-white dark:bg-[#252526] rounded-lg border border-gray-200 dark:border-[#303031] transition-colors hover:border-gray-400 dark:hover:border-[#5a5a5a] sm:h-full"
               >
                 <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-[#d4d4d4]">
                   {project.title}
@@ -94,7 +94,7 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
       {/* Navigation buttons - hidden on mobile */}
       <button
         onClick={scrollPrev}
-        className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white dark:bg-[#252526] text-gray-800 dark:text-[#d4d4d4] p-3 rounded-full shadow-lg hover:bg-gray-100 dark:hover:bg-[#3a3d41] transition-colors z-10 cursor-pointer"
+        className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white dark:bg-[#252526] text-gray-800 dark:text-[#d4d4d4] p-3 rounded-full border border-gray-200 dark:border-[#303031] hover:bg-gray-100 dark:hover:bg-[#3a3d41] transition-colors z-10 cursor-pointer"
         aria-label="Previous slide"
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,7 +103,7 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
       </button>
       <button
         onClick={scrollNext}
-        className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white dark:bg-[#252526] text-gray-800 dark:text-[#d4d4d4] p-3 rounded-full shadow-lg hover:bg-gray-100 dark:hover:bg-[#3a3d41] transition-colors z-10 cursor-pointer"
+        className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white dark:bg-[#252526] text-gray-800 dark:text-[#d4d4d4] p-3 rounded-full border border-gray-200 dark:border-[#303031] hover:bg-gray-100 dark:hover:bg-[#3a3d41] transition-colors z-10 cursor-pointer"
         aria-label="Next slide"
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

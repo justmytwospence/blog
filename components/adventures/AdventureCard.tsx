@@ -23,7 +23,7 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
   return (
     <Link
       href={`/adventures/${adventure.slug}`}
-      className="group block overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md transition-shadow hover:shadow-lg dark:border-[#303031] dark:bg-[#252526]"
+      className="group block overflow-hidden rounded-lg border border-gray-200 bg-white transition-colors hover:border-gray-400 dark:border-[#303031] dark:bg-[#252526] dark:hover:border-[#5a5a5a]"
     >
       <div className="relative aspect-[2/1] w-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-[#2a2a2b] dark:to-[#1e1e1e]">
         {/* Route as the base layer — a static basemap+route image if synced, else a bare SVG shape.

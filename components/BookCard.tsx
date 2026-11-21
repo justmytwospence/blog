@@ -53,7 +53,7 @@ function BookDetailDrawer({ userBook, onClose }: { userBook: UserBook; onClose: 
 
       {/* Drawer */}
       <div
-        className="fixed inset-x-0 bottom-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 z-50 bg-white dark:bg-[#252526] rounded-t-2xl sm:rounded-2xl shadow-2xl sm:max-w-lg sm:w-full max-h-[80vh] flex flex-col"
+        className="fixed inset-x-0 bottom-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 z-50 bg-white dark:bg-[#252526] rounded-t-2xl sm:rounded-2xl sm:max-w-lg sm:w-full max-h-[80vh] flex flex-col"
         role="dialog"
         aria-modal="true"
         aria-label={book.title}
@@ -134,7 +134,7 @@ export function BookCard({ userBook }: { userBook: UserBook }) {
         onClick={() => setIsOpen(true)}
         className="flex flex-col items-center text-center group cursor-pointer"
       >
-        <div className="relative w-full aspect-[2/3] mb-2 rounded-lg overflow-hidden shadow-md group-hover:shadow-lg transition-all duration-200 group-hover:scale-[1.03]">
+        <div className="relative w-full aspect-[2/3] mb-2 rounded-lg overflow-hidden border border-black/10 dark:border-white/10 transition-transform duration-200 group-hover:scale-[1.03]">
           {book.imageUrl ? (
             <img
               src={book.imageUrl}

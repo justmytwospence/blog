@@ -36,19 +36,19 @@ export default function NotFound() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/"
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-md hover:shadow-lg"
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
           >
             Go Home
           </Link>
           <Link
             href="/projects"
-            className="px-6 py-3 bg-gray-200 hover:bg-gray-300 dark:bg-neutral-700 dark:hover:bg-neutral-600 text-gray-900 dark:text-neutral-100 font-semibold rounded-lg transition-colors shadow-md hover:shadow-lg"
+            className="px-6 py-3 bg-gray-200 hover:bg-gray-300 dark:bg-neutral-700 dark:hover:bg-neutral-600 text-gray-900 dark:text-neutral-100 font-semibold rounded-lg transition-colors"
           >
             View Projects
           </Link>
           <Link
             href="/blog"
-            className="px-6 py-3 bg-gray-200 hover:bg-gray-300 dark:bg-neutral-700 dark:hover:bg-neutral-600 text-gray-900 dark:text-neutral-100 font-semibold rounded-lg transition-colors shadow-md hover:shadow-lg"
+            className="px-6 py-3 bg-gray-200 hover:bg-gray-300 dark:bg-neutral-700 dark:hover:bg-neutral-600 text-gray-900 dark:text-neutral-100 font-semibold rounded-lg transition-colors"
           >
             Read Blog
           </Link>

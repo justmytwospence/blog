@@ -27,7 +27,7 @@ export function TripMap({
   if (tracks.length === 0) return null;
 
   const iconBtn =
-    'rounded bg-white/90 p-1.5 text-gray-700 shadow hover:bg-white dark:bg-[#252526]/90 dark:text-[#cccccc] dark:hover:bg-[#252526]';
+    'rounded bg-white/90 p-1.5 text-gray-700 border border-black/10 dark:border-white/10 hover:bg-white dark:bg-[#252526]/90 dark:text-[#cccccc] dark:hover:bg-[#252526]';
 
   return (
     <div className={full ? 'fixed inset-0 z-[2000] bg-white p-3 dark:bg-[#1e1e1e]' : 'relative'}>
@@ -57,7 +57,7 @@ export function TripMap({
             {full ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </button>
         </div>
-        <div className="absolute bottom-2 left-2 z-[1000] rounded bg-white/85 px-2 py-1 text-[11px] text-gray-600 shadow dark:bg-[#252526]/85 dark:text-[#a6a6a6]">
+        <div className="absolute bottom-2 left-2 z-[1000] rounded bg-white/85 px-2 py-1 text-[11px] text-gray-600 border border-black/10 dark:border-white/10 dark:bg-[#252526]/85 dark:text-[#a6a6a6]">
           Color = day
         </div>
       </div>
