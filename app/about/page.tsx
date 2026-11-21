@@ -274,12 +274,12 @@ const logoTone =
 const ledgerRow =
   'group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-8 gap-y-3 py-6 sm:grid-cols-[6.5rem_9.5rem_minmax(0,1fr)]';
 
-/** A page section: its label in a left rail (pinned while the section scrolls), content beside it. */
+/** A page section: a hairline, its label above, then the content at full width. */
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className={`grid gap-x-12 gap-y-6 border-t pt-8 lg:grid-cols-[10rem_minmax(0,1fr)] ${rule}`}>
-      <h2 className={`${label} lg:sticky lg:top-24 lg:self-start`}>{title}</h2>
-      <div className="min-w-0">{children}</div>
+    <section className={`border-t pt-8 ${rule}`}>
+      <h2 className={label}>{title}</h2>
+      <div className="mt-6 min-w-0">{children}</div>
     </section>
   );
 }
@@ -380,7 +380,7 @@ export default async function AboutPage() {
 
       <div className="mt-16 space-y-16 lg:mt-20 lg:space-y-20">
         <Section title="Background">
-          <div className="max-w-2xl space-y-6 lg:-mt-2.5 font-[family-name:var(--font-merriweather),Georgia,serif] text-[1.0625rem] font-light leading-[1.9] text-gray-800 sm:text-lg sm:leading-[1.9] dark:text-[#cfcfcf]">
+          <div className="max-w-2xl space-y-6 font-[family-name:var(--font-merriweather),Georgia,serif] text-[1.0625rem] font-light leading-[1.9] text-gray-800 sm:text-lg sm:leading-[1.9] dark:text-[#cfcfcf]">
             <p>
               I spent ten years at fast-moving companies like Uber and Gametime, building production ML and
               forecasting systems, running large-scale experiments, and turning messy data into decisions.
@@ -408,7 +408,7 @@ export default async function AboutPage() {
         </Section>
 
         <Section title="Work">
-          <ol className={`-mt-6 divide-y ${rule}`}>
+          <ol className={`divide-y ${rule}`}>
             {WORK.map((company) => (
               <li key={company.name} className={rule}>
                 <a href={company.href} target="_blank" rel="noopener noreferrer" className={ledgerRow}>
@@ -484,7 +484,7 @@ export default async function AboutPage() {
         </Section>
 
         <Section title="Education">
-          <ol className={`-mt-6 divide-y ${rule}`}>
+          <ol className={`divide-y ${rule}`}>
             {EDUCATION.map((entry) => (
               <li key={entry.school} className={`${ledgerRow} ${rule}`}>
                 <span className={`order-2 text-sm tabular-nums sm:order-1 ${muted}`}>{entry.when}</span>
@@ -499,7 +499,7 @@ export default async function AboutPage() {
         </Section>
 
         <Section title="Outside">
-          <p className="max-w-2xl text-lg leading-relaxed text-gray-700 lg:-mt-1.5 dark:text-[#cccccc]">
+          <p className="max-w-2xl text-lg leading-relaxed text-gray-700 dark:text-[#cccccc]">
             Away from the keyboard I&rsquo;m usually on a trail or a skin track: ski mountaineering, Nordic skiing,
             trail running, and the occasional triathlon.
             {miles > 0 && (
