@@ -6,17 +6,14 @@ interface RecentBooksWidgetProps {
   books: UserBook[];
 }
 
-/** Currently-reading books first, then recently finished ones, sized to fill whole grid rows. */
+/** Currently-reading books first, then recently finished ones, sized to fill whole grid rows. The page supplies the heading. */
 export function RecentBooksWidget({ books }: RecentBooksWidgetProps) {
   if (books.length === 0) {
     return null;
   }
 
   return (
-    <div className="mb-12">
-      <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-[#d4d4d4]">
-        Reading
-      </h2>
+    <div>
       <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
         {books.map((userBook) => (
           <BookCard

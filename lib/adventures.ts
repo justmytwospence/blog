@@ -589,6 +589,36 @@ export function getAdventureTrips(slug: string): TripRef[] {
   }));
 }
 
+/** A report photo that suits a wide banner crop, with the report it links back to. */
+export interface BannerPhoto {
+  src: string;
+  slug: string;
+  title: string;
+  date: string; // YYYY-MM-DD
+}
+
+/**
+ * A random handful of landscape-orientation photos from across every visible report. Callers that
+ * render through ISR get a fresh handful each revalidation, small enough to hand to the client,
+ * which can then pick one per visit without the route going dynamic.
+ */
+export function getRandomBannerPhotos(count: number): BannerPhoto[] {
+  const pool: BannerPhoto[] = [];
+  for (const a of allAdventures()) {
+    for (const p of a.allPhotos) {
+      // Portrait shots lose most of the frame to a wide crop; 4:3 and wider survive it.
+      if (p.width / p.height >= 1.3) pool.push({ src: p.src, slug: a.slug, title: a.title, date: a.date });
+    }
+  }
+  // Partial Fisher-Yates: only the first `count` slots need settling.
+  const n = Math.min(count, pool.length);
+  for (let i = 0; i < n; i++) {
+    const j = i + Math.floor(Math.random() * (pool.length - i));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.slice(0, n);
+}
+
 export function getAdventureBySlug(slug: string): Adventure | null {
   const file = `${slug}.md`;
   if (!fs.existsSync(path.join(ADVENTURES_DIR, file))) return null;
