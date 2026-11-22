@@ -1,0 +1,609 @@
+{
+ "asOf": {
+  "cpi": "2026-10",
+  "homes": "2026-04",
+  "income": "2025",
+  "tuition": "2026-10",
+  "rank": "2026-04"
+ },
+ "rows": [
+  {
+   "year": 1940,
+   "cpi": 23.6518
+  },
+  {
+   "year": 1941,
+   "cpi": 22.5007
+  },
+  {
+   "year": 1942,
+   "cpi": 20.2851
+  },
+  {
+   "year": 1943,
+   "cpi": 19.1424
+  },
+  {
+   "year": 1944,
+   "cpi": 18.8341
+  },
+  {
+   "year": 1945,
+   "cpi": 18.4153
+  },
+  {
+   "year": 1946,
+   "cpi": 16.9764
+  },
+  {
+   "year": 1947,
+   "cpi": 14.8409
+  },
+  {
+   "year": 1948,
+   "cpi": 13.7812
+  },
+  {
+   "year": 1949,
+   "cpi": 13.9162
+  },
+  {
+   "year": 1950,
+   "cpi": 13.7669
+  },
+  {
+   "year": 1951,
+   "cpi": 12.7636
+  },
+  {
+   "year": 1952,
+   "cpi": 12.4792
+  },
+  {
+   "year": 1953,
+   "cpi": 12.3782,
+   "income": 24.3053
+  },
+  {
+   "year": 1954,
+   "cpi": 12.3398,
+   "income": 24.7427
+  },
+  {
+   "year": 1955,
+   "cpi": 12.3743,
+   "income": 23.337
+  },
+  {
+   "year": 1956,
+   "cpi": 12.1884,
+   "income": 21.5697
+  },
+  {
+   "year": 1957,
+   "cpi": 11.7943,
+   "income": 20.7618
+  },
+  {
+   "year": 1958,
+   "cpi": 11.481,
+   "income": 20.2679
+  },
+  {
+   "year": 1959,
+   "cpi": 11.3661,
+   "income": 19.0332
+  },
+  {
+   "year": 1960,
+   "cpi": 11.2028,
+   "income": 18.3457
+  },
+  {
+   "year": 1961,
+   "cpi": 11.0841,
+   "income": 17.9778
+  },
+  {
+   "year": 1962,
+   "cpi": 10.9528,
+   "income": 17.3108
+  },
+  {
+   "year": 1963,
+   "cpi": 10.8187,
+   "income": 16.4991
+  },
+  {
+   "year": 1964,
+   "cpi": 10.6821,
+   "income": 15.6954
+  },
+  {
+   "year": 1965,
+   "cpi": 10.5154,
+   "income": 14.82
+  },
+  {
+   "year": 1966,
+   "cpi": 10.2076,
+   "income": 13.6887
+  },
+  {
+   "year": 1967,
+   "cpi": 9.9322,
+   "income": 12.9967
+  },
+  {
+   "year": 1968,
+   "cpi": 9.5253,
+   "income": 11.9443
+  },
+  {
+   "year": 1969,
+   "cpi": 9.032,
+   "income": 10.93
+  },
+  {
+   "year": 1970,
+   "cpi": 8.5337,
+   "income": 10.4493
+  },
+  {
+   "year": 1971,
+   "cpi": 8.1825,
+   "income": 10.0197
+  },
+  {
+   "year": 1972,
+   "cpi": 7.9232,
+   "income": 9.2718
+  },
+  {
+   "year": 1973,
+   "cpi": 7.4622,
+   "income": 8.5563
+  },
+  {
+   "year": 1974,
+   "cpi": 6.7194,
+   "income": 7.9925
+  },
+  {
+   "year": 1975,
+   "cpi": 6.1565,
+   "homes": 11.6189,
+   "income": 7.5148
+  },
+  {
+   "year": 1976,
+   "cpi": 5.822,
+   "homes": 10.8366,
+   "income": 6.8919
+  },
+  {
+   "year": 1977,
+   "cpi": 5.4666,
+   "homes": 9.6773,
+   "income": 6.4399
+  },
+  {
+   "year": 1978,
+   "cpi": 5.079,
+   "homes": 8.4937,
+   "income": 5.8448,
+   "tuition": 16.2914
+  },
+  {
+   "year": 1979,
+   "cpi": 4.5652,
+   "homes": 7.4698,
+   "income": 5.263,
+   "tuition": 15.0926
+  },
+  {
+   "year": 1980,
+   "cpi": 4.0205,
+   "homes": 6.9226,
+   "income": 4.905,
+   "tuition": 13.7787
+  },
+  {
+   "year": 1981,
+   "cpi": 3.6439,
+   "homes": 6.6306,
+   "income": 4.6049,
+   "tuition": 12.2573
+  },
+  {
+   "year": 1982,
+   "cpi": 3.4334,
+   "homes": 6.562,
+   "income": 4.4005,
+   "tuition": 10.8053
+  },
+  {
+   "year": 1983,
+   "cpi": 3.3265,
+   "homes": 6.1183,
+   "income": 4.1946,
+   "tuition": 9.7868
+  },
+  {
+   "year": 1984,
+   "cpi": 3.1894,
+   "homes": 5.8562,
+   "income": 3.901,
+   "tuition": 8.8773
+  },
+  {
+   "year": 1985,
+   "cpi": 3.0802,
+   "homes": 5.5718,
+   "income": 3.7028,
+   "tuition": 8.1383
+  },
+  {
+   "year": 1986,
+   "cpi": 3.0228,
+   "homes": 5.2154,
+   "income": 3.5124,
+   "tuition": 7.5288
+  },
+  {
+   "year": 1987,
+   "cpi": 2.9159,
+   "homes": 4.8984,
+   "income": 3.3561,
+   "tuition": 7.0022
+  },
+  {
+   "year": 1988,
+   "cpi": 2.8017,
+   "homes": 4.6492,
+   "income": 3.2119,
+   "tuition": 6.5066
+  },
+  {
+   "year": 1989,
+   "cpi": 2.6727,
+   "homes": 4.4159,
+   "income": 3.0253,
+   "tuition": 6.0283,
+   "rank": 7.433,
+   "millionaireShare": 0.0311
+  },
+  {
+   "year": 1990,
+   "cpi": 2.5358,
+   "homes": 4.282,
+   "income": 2.9212,
+   "tuition": 5.5781,
+   "rank": 7.4602,
+   "millionaireShare": 0.031
+  },
+  {
+   "year": 1991,
+   "cpi": 2.4328,
+   "homes": 4.2018,
+   "income": 2.9028,
+   "tuition": 5.0626,
+   "rank": 7.4659,
+   "millionaireShare": 0.0309
+  },
+  {
+   "year": 1992,
+   "cpi": 2.3612,
+   "homes": 4.088,
+   "income": 2.8544,
+   "tuition": 4.571,
+   "rank": 7.5335,
+   "millionaireShare": 0.0308
+  },
+  {
+   "year": 1993,
+   "cpi": 2.2936,
+   "homes": 3.9949,
+   "income": 2.7996,
+   "tuition": 4.18,
+   "rank": 7.5399,
+   "millionaireShare": 0.0306
+  },
+  {
+   "year": 1994,
+   "cpi": 2.2353,
+   "homes": 3.8964,
+   "income": 2.7111,
+   "tuition": 3.9072,
+   "rank": 7.5707,
+   "millionaireShare": 0.0303
+  },
+  {
+   "year": 1995,
+   "cpi": 2.1743,
+   "homes": 3.7812,
+   "income": 2.5663,
+   "tuition": 3.6855,
+   "rank": 7.6676,
+   "millionaireShare": 0.0301
+  },
+  {
+   "year": 1996,
+   "cpi": 2.1124,
+   "homes": 3.6552,
+   "income": 2.4644,
+   "tuition": 3.4882,
+   "rank": 6.7363,
+   "millionaireShare": 0.035
+  },
+  {
+   "year": 1997,
+   "cpi": 2.0641,
+   "homes": 3.5368,
+   "income": 2.3631,
+   "tuition": 3.3186,
+   "rank": 6.2054,
+   "millionaireShare": 0.04
+  },
+  {
+   "year": 1998,
+   "cpi": 2.0325,
+   "homes": 3.3645,
+   "income": 2.2489,
+   "tuition": 3.184,
+   "rank": 5.6354,
+   "millionaireShare": 0.045
+  },
+  {
+   "year": 1999,
+   "cpi": 1.989,
+   "homes": 3.207,
+   "income": 2.1489,
+   "tuition": 3.0625,
+   "rank": 4.7215,
+   "millionaireShare": 0.0534
+  },
+  {
+   "year": 2000,
+   "cpi": 1.9241,
+   "homes": 3.0142,
+   "income": 2.0829,
+   "tuition": 2.9409,
+   "rank": 4.0817,
+   "millionaireShare": 0.0619
+  },
+  {
+   "year": 2001,
+   "cpi": 1.8712,
+   "homes": 2.8044,
+   "income": 2.071,
+   "tuition": 2.7979,
+   "rank": 3.5636,
+   "millionaireShare": 0.0703
+  },
+  {
+   "year": 2002,
+   "cpi": 1.842,
+   "homes": 2.6375,
+   "income": 2.0622,
+   "tuition": 2.6192,
+   "rank": 3.4228,
+   "millionaireShare": 0.0739
+  },
+  {
+   "year": 2003,
+   "cpi": 1.8011,
+   "homes": 2.4827,
+   "income": 2.0189,
+   "tuition": 2.4167,
+   "rank": 3.2736,
+   "millionaireShare": 0.0774
+  },
+  {
+   "year": 2004,
+   "cpi": 1.7541,
+   "homes": 2.2699,
+   "income": 1.9729,
+   "tuition": 2.2075,
+   "rank": 3.142,
+   "millionaireShare": 0.0809
+  },
+  {
+   "year": 2005,
+   "cpi": 1.6966,
+   "homes": 2.0385,
+   "income": 1.8878,
+   "tuition": 2.0542,
+   "rank": 3.0383,
+   "millionaireShare": 0.084
+  },
+  {
+   "year": 2006,
+   "cpi": 1.6435,
+   "homes": 1.9022,
+   "income": 1.8145,
+   "tuition": 1.9252,
+   "rank": 2.9765,
+   "millionaireShare": 0.0871
+  },
+  {
+   "year": 2007,
+   "cpi": 1.5979,
+   "homes": 1.8814,
+   "income": 1.7412,
+   "tuition": 1.8118,
+   "rank": 2.9093,
+   "millionaireShare": 0.0902
+  },
+  {
+   "year": 2008,
+   "cpi": 1.5389,
+   "homes": 1.9834,
+   "income": 1.7388,
+   "tuition": 1.7054,
+   "rank": 2.8781,
+   "millionaireShare": 0.0918
+  },
+  {
+   "year": 2009,
+   "cpi": 1.5444,
+   "homes": 2.1,
+   "income": 1.7569,
+   "tuition": 1.6088,
+   "rank": 2.8169,
+   "millionaireShare": 0.0935
+  },
+  {
+   "year": 2010,
+   "cpi": 1.5194,
+   "homes": 2.1894,
+   "income": 1.7748,
+   "tuition": 1.5293,
+   "rank": 2.7986,
+   "millionaireShare": 0.0951
+  },
+  {
+   "year": 2011,
+   "cpi": 1.4729,
+   "homes": 2.2775,
+   "income": 1.7475,
+   "tuition": 1.4562,
+   "rank": 2.7996,
+   "millionaireShare": 0.0948
+  },
+  {
+   "year": 2012,
+   "cpi": 1.4431,
+   "homes": 2.2837,
+   "income": 1.7142,
+   "tuition": 1.3888,
+   "rank": 2.8007,
+   "millionaireShare": 0.0944
+  },
+  {
+   "year": 2013,
+   "cpi": 1.4222,
+   "homes": 2.2015,
+   "income": 1.632,
+   "tuition": 1.3325,
+   "rank": 2.8018,
+   "millionaireShare": 0.0941
+  },
+  {
+   "year": 2014,
+   "cpi": 1.3995,
+   "homes": 2.0975,
+   "income": 1.6299,
+   "tuition": 1.285,
+   "rank": 2.5458,
+   "millionaireShare": 0.102
+  },
+  {
+   "year": 2015,
+   "cpi": 1.3979,
+   "homes": 1.9953,
+   "income": 1.5474,
+   "tuition": 1.242,
+   "rank": 2.4142,
+   "millionaireShare": 0.1098
+  },
+  {
+   "year": 2016,
+   "cpi": 1.3805,
+   "homes": 1.8964,
+   "income": 1.4814,
+   "tuition": 1.2094,
+   "rank": 2.1358,
+   "millionaireShare": 0.1177
+  },
+  {
+   "year": 2017,
+   "cpi": 1.3517,
+   "homes": 1.7994,
+   "income": 1.4305,
+   "tuition": 1.1857,
+   "rank": 2.1288,
+   "millionaireShare": 0.1181
+  },
+  {
+   "year": 2018,
+   "cpi": 1.3194,
+   "homes": 1.7053,
+   "income": 1.3843,
+   "tuition": 1.1601,
+   "rank": 2.1221,
+   "millionaireShare": 0.1185
+  },
+  {
+   "year": 2019,
+   "cpi": 1.296,
+   "homes": 1.6297,
+   "income": 1.2731,
+   "tuition": 1.1278,
+   "rank": 2.1174,
+   "millionaireShare": 0.1189
+  },
+  {
+   "year": 2020,
+   "cpi": 1.2802,
+   "homes": 1.5496,
+   "income": 1.286,
+   "tuition": 1.1125,
+   "rank": 1.7308,
+   "millionaireShare": 0.1394
+  },
+  {
+   "year": 2021,
+   "cpi": 1.2227,
+   "homes": 1.3625,
+   "income": 1.2357,
+   "tuition": 1.103,
+   "rank": 1.44,
+   "millionaireShare": 0.1599
+  },
+  {
+   "year": 2022,
+   "cpi": 1.1321,
+   "homes": 1.1702,
+   "income": 1.1727,
+   "tuition": 1.0796,
+   "rank": 1.2658,
+   "millionaireShare": 0.1804
+  },
+  {
+   "year": 2023,
+   "cpi": 1.0874,
+   "homes": 1.1128,
+   "income": 1.085,
+   "tuition": 1.0592,
+   "rank": 1.1747,
+   "millionaireShare": 0.192
+  },
+  {
+   "year": 2024,
+   "cpi": 1.0562,
+   "homes": 1.055,
+   "income": 1.0517,
+   "tuition": 1.0413,
+   "rank": 1.0988,
+   "millionaireShare": 0.2037
+  },
+  {
+   "year": 2025,
+   "cpi": 1.0291,
+   "homes": 1.0161,
+   "income": 1.0,
+   "tuition": 1.0216,
+   "rank": 1.0327,
+   "millionaireShare": 0.2153
+  },
+  {
+   "year": 2026,
+   "cpi": 1,
+   "homes": 1,
+   "tuition": 1,
+   "income": 1,
+   "rank": 1
+  }
+ ]
+}
