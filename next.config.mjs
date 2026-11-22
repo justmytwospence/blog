@@ -24,8 +24,6 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // gini.spencerboucher.com is a short link to the inequality atlas post.
-      { source: '/', has: [{ type: 'host', value: 'gini.spencerboucher.com' }], destination: '/blog/how-unequal-were-they', permanent: false },
       { source: '/projects/vertfarmer', destination: '/projects/uphill-ski', permanent: true },
       { source: '/projects/effort-cubes', destination: '/projects/effort-curve', permanent: true },
       { source: '/projects/lean-context', destination: '/projects/cache-guard', permanent: true },
