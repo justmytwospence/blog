@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Merriweather } from "next/font/google";
 import "marimo-blog/styles.css";
 import "./globals.css";
@@ -13,6 +13,8 @@ const merriweather = Merriweather({
   subsets: ["latin"],
   variable: "--font-merriweather"
 });
+
+export const viewport: Viewport = { viewportFit: "cover" };
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -69,7 +71,7 @@ export default function RootLayout({
         >
           <div className="flex flex-col min-h-screen bg-paper dark:bg-[#1e1e1e] text-gray-700 dark:text-[#d4d4d4] transition-colors duration-200">
             <Navigation />
-            <div className="flex-1 pb-20 md:pb-0">
+            <div className="flex-1 pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">
               {children}
             </div>
           </div>

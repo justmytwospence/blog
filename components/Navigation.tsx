@@ -6,29 +6,81 @@ import { usePathname } from 'next/navigation';
 import { ThemeToggle } from './ThemeToggle';
 import { isNavActive } from '@/lib/nav';
 
+/** Home is the wordmark, so it is not in this list. `icon` is an outline SVG path for the phone tab bar. */
+const navLinks = [
+  {
+    href: '/about',
+    label: 'About',
+    icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
+  },
+  {
+    href: '/projects',
+    label: 'Projects',
+    icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
+  },
+  {
+    href: '/blog',
+    label: 'Blog',
+    icon: 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z',
+  },
+  {
+    href: '/blogroll',
+    label: 'Blogroll',
+    icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1',
+  },
+  {
+    href: '/reading',
+    label: 'Reading',
+    icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
+  },
+  {
+    href: '/adventures',
+    label: 'Adventures',
+    icon: 'M3 19h18L15 8l-3.5 6L9 11l-6 8z',
+  },
+];
+
+function Wordmark() {
+  return (
+    <Link href="/" className="text-base font-semibold text-gray-900 dark:text-[#d4d4d4]">
+      Data Spencer
+    </Link>
+  );
+}
+
+function RssLink() {
+  return (
+    <a
+      href="/feed.xml"
+      className="flex items-center justify-center p-2 rounded-lg bg-gray-200 dark:bg-[#252526] hover:bg-gray-300 dark:hover:bg-[#3a3d41] transition-colors duration-200"
+      title="RSS Feed"
+      aria-label="RSS Feed"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 text-gray-700 dark:text-yellow-500">
+        <path d="M3.75 3a.75.75 0 0 0-.75.75v.5c0 .414.336.75.75.75H4a9 9 0 0 1 9 9v.25c0 .414.336.75.75.75h.5a.75.75 0 0 0 .75-.75V14c0-6.075-4.925-11-11-11h-.25Z" />
+        <path d="M3 7.75A.75.75 0 0 1 3.75 7H4a6 6 0 0 1 6 6v.25a.75.75 0 0 1-.75.75h-.5a.75.75 0 0 1-.75-.75V13a4 4 0 0 0-4-4h-.25A.75.75 0 0 1 3 8.25v-.5Z" />
+        <path d="M6 14a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
+      </svg>
+    </a>
+  );
+}
+
 export function Navigation() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
-    { href: '/projects', label: 'Projects' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/blogroll', label: 'Blogroll' },
-    { href: '/reading', label: 'Reading' },
-    { href: '/adventures', label: 'Adventures' },
-  ];
 
   const isActive = (href: string) => isNavActive(pathname, href);
 
   return (
     <>
       {/* Desktop nav - sticky top (lg+; medium widths use the hamburger bar below) */}
-      <nav className="hidden lg:block sticky top-0 z-50 border-b border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200">
+      <nav
+        aria-label="Main"
+        className="hidden lg:block sticky top-0 z-50 border-b border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200"
+      >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-4 h-16">
-            {/* Desktop Navigation Links — Adventures is simply the last link */}
+            <Wordmark />
             <div className="flex flex-1 items-center gap-4 lg:gap-6">
               {navLinks.map((link) => (
                 <Link
@@ -45,58 +97,31 @@ export function Navigation() {
               ))}
             </div>
 
-            {/* Right side: RSS Feed & Theme Toggle */}
             <div className="flex items-center space-x-2">
-              <a
-                href="/feed.xml"
-                className="flex items-center justify-center p-2 rounded-lg bg-gray-200 dark:bg-[#252526] hover:bg-gray-300 dark:hover:bg-[#3a3d41] transition-colors duration-200"
-                title="RSS Feed"
-                aria-label="RSS Feed"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="w-5 h-5 text-gray-700 dark:text-yellow-500"
-                >
-                  <path d="M3.75 3a.75.75 0 0 0-.75.75v.5c0 .414.336.75.75.75H4a9 9 0 0 1 9 9v.25c0 .414.336.75.75.75h.5a.75.75 0 0 0 .75-.75V14c0-6.075-4.925-11-11-11h-.25Z" />
-                  <path d="M3 7.75A.75.75 0 0 1 3.75 7H4a6 6 0 0 1 6 6v.25a.75.75 0 0 1-.75.75h-.5a.75.75 0 0 1-.75-.75V13a4 4 0 0 0-4-4h-.25A.75.75 0 0 1 3 8.25v-.5Z" />
-                  <path d="M6 14a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
-                </svg>
-              </a>
+              <RssLink />
               <ThemeToggle />
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Medium nav - hamburger bar for half-screen desktop widths (md to lg) */}
-      <nav className="hidden md:block lg:hidden sticky top-0 z-50 border-b border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200">
+      {/* Below lg: a slim static row on phones (wordmark, RSS, theme); from md a sticky bar with a menu. */}
+      <nav
+        aria-label="Site"
+        className="lg:hidden md:sticky md:top-0 z-50 border-b border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200"
+      >
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-between h-16">
-            <Link href="/" className="text-base font-semibold text-gray-900 dark:text-[#d4d4d4]">
-              Data Spencer
-            </Link>
+          <div className="flex items-center justify-between h-12 md:h-16">
+            <Wordmark />
             <div className="flex items-center space-x-2">
-              <a
-                href="/feed.xml"
-                className="flex items-center justify-center p-2 rounded-lg bg-gray-200 dark:bg-[#252526] hover:bg-gray-300 dark:hover:bg-[#3a3d41] transition-colors duration-200"
-                title="RSS Feed"
-                aria-label="RSS Feed"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 text-gray-700 dark:text-yellow-500">
-                  <path d="M3.75 3a.75.75 0 0 0-.75.75v.5c0 .414.336.75.75.75H4a9 9 0 0 1 9 9v.25c0 .414.336.75.75.75h.5a.75.75 0 0 0 .75-.75V14c0-6.075-4.925-11-11-11h-.25Z" />
-                  <path d="M3 7.75A.75.75 0 0 1 3.75 7H4a6 6 0 0 1 6 6v.25a.75.75 0 0 1-.75.75h-.5a.75.75 0 0 1-.75-.75V13a4 4 0 0 0-4-4h-.25A.75.75 0 0 1 3 8.25v-.5Z" />
-                  <path d="M6 14a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
-                </svg>
-              </a>
+              <RssLink />
               <ThemeToggle />
               <button
                 type="button"
                 onClick={() => setMenuOpen((o) => !o)}
                 aria-label="Menu"
                 aria-expanded={menuOpen}
-                className="flex items-center justify-center p-2 rounded-lg text-gray-700 dark:text-[#cccccc] hover:bg-gray-200 dark:hover:bg-[#3a3d41] transition-colors duration-200"
+                className="hidden md:flex items-center justify-center p-2 rounded-lg text-gray-700 dark:text-[#cccccc] hover:bg-gray-200 dark:hover:bg-[#3a3d41] transition-colors duration-200"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   {menuOpen ? (
@@ -109,7 +134,7 @@ export function Navigation() {
             </div>
           </div>
           {menuOpen && (
-            <div className="flex flex-col gap-1 pb-3">
+            <div className="hidden md:flex flex-col gap-1 pb-3">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -129,59 +154,30 @@ export function Navigation() {
         </div>
       </nav>
 
-      {/* Mobile nav - fixed bottom bar (below md) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200 safe-area-bottom">
-        <div className="flex justify-evenly items-center h-16 overflow-x-auto">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`flex shrink-0 flex-col items-center justify-center px-2 py-2 text-xs font-medium transition-colors duration-200 ${
-                isActive(link.href)
-                  ? 'text-blue-600 dark:text-blue-400'
-                  : 'text-gray-600 dark:text-[#a6a6a6]'
-              }`}
-            >
-              {link.label === 'Home' && (
-                <svg className="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+      {/* Phone tab bar - fixed bottom, six equal columns (below md) */}
+      <nav
+        aria-label="Sections"
+        className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200 safe-area-bottom"
+      >
+        <div className="grid h-16 grid-cols-6 items-center">
+          {navLinks.map((link) => {
+            const active = isActive(link.href);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={active ? 'page' : undefined}
+                className={`flex min-w-0 flex-col items-center justify-center py-2 font-medium text-[length:clamp(10px,2.75vw,12px)] transition-colors duration-200 ${
+                  active ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-[#a6a6a6]'
+                }`}
+              >
+                <svg className="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={link.icon} />
                 </svg>
-              )}
-              {link.label === 'About' && (
-                <svg className="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-              )}
-              {link.label === 'Adventures' && (
-                <svg className="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 19h18L15 8l-3.5 6L9 11l-6 8z" />
-                </svg>
-              )}
-              {link.label === 'Projects' && (
-                <svg className="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-              )}
-              {link.label === 'Blog' && (
-                <svg className="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                </svg>
-              )}
-              {link.label === 'Blogroll' && (
-                <svg className="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                </svg>
-              )}
-              {link.label === 'Reading' && (
-                <svg className="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-              )}
-              <span>{link.label}</span>
-            </Link>
-          ))}
-          {/* Theme toggle in mobile nav */}
-          <ThemeToggle variant="mobile" />
+                <span className="whitespace-nowrap">{link.label}</span>
+              </Link>
+            );
+          })}
         </div>
       </nav>
     </>

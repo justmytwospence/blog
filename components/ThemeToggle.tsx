@@ -4,18 +4,7 @@ import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { nextThemeSetting, type Appearance } from '@/lib/theme';
 
-interface ThemeToggleProps {
-  /** Use 'mobile' for bottom nav bar style (icon + label, no background) */
-  variant?: 'default' | 'mobile';
-}
-
 /** Icon paths, keyed by the appearance the icon depicts. */
-const OUTLINE_PATHS: Record<Appearance, string> = {
-  light:
-    'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z',
-  dark: 'M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z',
-};
-
 const SOLID_PATHS: Record<Appearance, string> = {
   light:
     'M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z',
@@ -51,7 +40,7 @@ const SOLID_COLOR: Record<Appearance, string> = {
  * later drifted into agreeing with it — many people have the OS switch on a schedule, and clearing
  * their pin on an event they did not cause and cannot see would make a pinned theme unholdable.
  */
-export function ThemeToggle({ variant = 'default' }: ThemeToggleProps) {
+export function ThemeToggle() {
   const { resolvedTheme, systemTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -76,47 +65,6 @@ export function ThemeToggle({ variant = 'default' }: ThemeToggleProps) {
   // The icon shows the target, not the current state: with two states the control is an action, and
   // an action icon says what the click will do.
   const label = `Switch to ${target} theme`;
-
-  // Mobile variant: matches nav link styling with icon + label
-  if (variant === 'mobile') {
-    if (!mounted) {
-      return (
-        <button
-          className="flex flex-col items-center justify-center py-2 text-xs font-medium text-gray-600 dark:text-[#a6a6a6] transition-colors duration-200 cursor-pointer"
-          aria-label="Toggle theme"
-        >
-          <div className="w-6 h-6 mb-1" />
-          <span>Theme</span>
-        </button>
-      );
-    }
-
-    return (
-      <button
-        onClick={toggleTheme}
-        data-testid="theme-toggle"
-        data-theme-mode={current}
-        className="flex flex-col items-center justify-center py-2 text-xs font-medium text-gray-600 dark:text-[#a6a6a6] transition-colors duration-200 cursor-pointer"
-        aria-label={label}
-      >
-        <svg
-          className="w-6 h-6 mb-1"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d={OUTLINE_PATHS[target]}
-          />
-        </svg>
-        <span>Theme</span>
-      </button>
-    );
-  }
 
   // Default variant: button with background (for desktop)
   if (!mounted) {
