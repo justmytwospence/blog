@@ -23,9 +23,9 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
   return (
     <Link
       href={`/adventures/${adventure.slug}`}
-      className="group block overflow-hidden rounded-lg border border-gray-200 bg-white transition-colors hover:border-gray-400 dark:border-[#303031] dark:bg-[#252526] dark:hover:border-[#5a5a5a]"
+      className="group flex overflow-hidden rounded-lg border border-gray-200 bg-white transition-colors hover:border-gray-400 dark:border-[#303031] dark:bg-[#252526] dark:hover:border-[#5a5a5a] md:block"
     >
-      <div className="relative aspect-[2/1] w-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-[#2a2a2b] dark:to-[#1e1e1e]">
+      <div className="relative min-h-[6.5rem] w-28 shrink-0 self-stretch overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-[#2a2a2b] dark:to-[#1e1e1e] md:aspect-[2/1] md:min-h-0 md:w-full md:self-auto">
         {/* Route as the base layer — a static basemap+route image if synced, else a bare SVG shape.
             Shown when there's no photo, and revealed on hover when there is. */}
         {routeImg ? (
@@ -49,8 +49,8 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
           />
         )}
       </div>
-      <div className="p-5">
-        <div className="mb-2 flex flex-wrap items-center gap-2">
+      <div className="min-w-0 flex-1 px-3 py-2.5 md:p-5">
+        <div className="mb-1 flex flex-wrap items-center gap-1.5 md:mb-2 md:gap-2">
           {(adventure.sportTypes.length ? adventure.sportTypes : [adventure.sportType]).map((s) => (
             <SportBadge key={s} sportType={s} size="sm" />
           ))}
@@ -79,11 +79,11 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
             {formatDate(adventure.date, 'short')}
           </span>
         </div>
-        <h3 className="text-lg font-semibold text-gray-900 transition-colors group-hover:text-blue-600 dark:text-[#d4d4d4] dark:group-hover:text-blue-400">
+        <h3 className="text-base leading-snug md:text-lg md:leading-normal font-semibold text-gray-900 transition-colors group-hover:text-blue-600 dark:text-[#d4d4d4] dark:group-hover:text-blue-400">
           {adventure.title}
         </h3>
-        {place && <p className="mt-0.5 text-sm text-gray-500 dark:text-[#a6a6a6]">{place}</p>}
-        <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm tabular-nums text-gray-600 dark:text-[#cccccc]">
+        {place && <p className="mt-0.5 truncate text-sm text-gray-500 dark:text-[#a6a6a6]">{place}</p>}
+        <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-[13px] md:mt-3 md:text-sm tabular-nums text-gray-600 dark:text-[#cccccc]">
           <span>{formatDistance(adventure.totals.distanceMeters)}</span>
           <span>{formatElevation(adventure.totals.elevationGainMeters)} gain</span>
           {/* Manual / no-GPS entries (14ers, PCT) carry no recorded time — omit rather than show 0:00. */}
@@ -92,7 +92,7 @@ export function AdventureCard({ adventure }: { adventure: AdventureSummary }) {
           )}
         </div>
         {typeChip && (
-          <div className="mt-3 flex items-center gap-2">
+          <div className="mt-3 hidden items-center gap-2 md:flex">
             <span className="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-600 dark:bg-[#3a3d41] dark:text-[#cccccc]">
               {typeChip}
             </span>

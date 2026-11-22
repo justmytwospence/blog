@@ -229,7 +229,7 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
       ) : view === 'table' ? (
         <AdventuresTable items={sorted} />
       ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
           {sorted.map((a) => (
             <AdventureCard key={a.slug} adventure={a} />
           ))}
