@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ThemeToggle } from './ThemeToggle';
@@ -65,9 +65,52 @@ function RssLink() {
   );
 }
 
+/** Scroll distance (px) in one direction before the phone top row hides or comes back. */
+const HIDE_AFTER = 48;
+const SHOW_AFTER = 12;
+
+/**
+ * True while the reader is scrolling down the page. Scrolling back up a little (or reaching the
+ * top) brings the bar back. Only the phone row uses it: from md the bar stays put (md:translate-y-0).
+ */
+function useHideOnScrollDown(): boolean {
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    let lastY = window.scrollY;
+    // Distance travelled in the current direction; resets when the direction flips.
+    let travel = 0;
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const y = Math.max(0, window.scrollY);
+      const delta = y - lastY;
+      lastY = y;
+      if (delta === 0) return;
+      travel = Math.sign(delta) === Math.sign(travel) ? travel + delta : delta;
+      if (y < HIDE_AFTER) setHidden(false);
+      else if (travel > HIDE_AFTER) setHidden(true);
+      else if (travel < -SHOW_AFTER) setHidden(false);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  return hidden;
+}
+
 export function Navigation() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const barHidden = useHideOnScrollDown();
 
   const isActive = (href: string) => isNavActive(pathname, href);
 
@@ -108,7 +151,9 @@ export function Navigation() {
       {/* Below lg: a slim static row on phones (wordmark, RSS, theme); from md a sticky bar with a menu. */}
       <nav
         aria-label="Site"
-        className="lg:hidden md:sticky md:top-0 z-50 border-b border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-colors duration-200"
+        className={`lg:hidden sticky top-0 z-50 border-b border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] transition-[background-color,border-color,translate] duration-300 ease-out md:translate-y-0 ${
+          barHidden ? '-translate-y-full' : 'translate-y-0'
+        }`}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-12 md:h-16">
