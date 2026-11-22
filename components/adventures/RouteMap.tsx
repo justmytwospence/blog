@@ -87,10 +87,15 @@ export function RouteMap({
           </button>
         </div>
 
-        <div className="absolute bottom-2 left-2 z-[1000] rounded bg-white/85 px-2 py-1 text-[11px] text-gray-600 border border-black/10 dark:border-white/10 dark:bg-[#252526]/85 dark:text-[#a6a6a6]">
+        <div className={`${full ? '' : 'hidden md:block '}absolute bottom-2 left-2 z-[1000] rounded bg-white/85 px-2 py-1 text-[11px] text-gray-600 border border-black/10 dark:border-white/10 dark:bg-[#252526]/85 dark:text-[#a6a6a6]`}>
           Route by {METRIC_LABEL[effective].toLowerCase()}
         </div>
       </div>
+      {!full && (
+        <p className="mt-1.5 text-xs text-gray-500 dark:text-[#a6a6a6] md:hidden">
+          Route by {METRIC_LABEL[effective].toLowerCase()}
+        </p>
+      )}
     </div>
   );
 }

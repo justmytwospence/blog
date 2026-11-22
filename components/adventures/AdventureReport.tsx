@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { ArticleMarkdown } from '@/components/ArticleMarkdown';
+import { MetaLine } from '@/components/MetaLine';
 import { formatDate } from '@/lib/format';
 import { formatDistance, formatElevation, formatDuration } from '@/lib/units';
 import { SportBadge } from './SportBadge';
@@ -193,9 +194,14 @@ export function AdventureReport({
             <SportBadge sportType={adventure.sportType} />
           )}
           {adventure.peakClass && <PeakBadge peakClass={adventure.peakClass} />}
-          <span>{formatDate(adventure.date)}</span>
-          {adventure.isMultiDay && !adventure.isMultiSport && <span>· {adventure.days.length} days</span>}
-          {loc && <span>· {loc}</span>}
+          <MetaLine
+            className="min-w-0"
+            items={[
+              formatDate(adventure.date),
+              adventure.isMultiDay && !adventure.isMultiSport ? `${adventure.days.length} days` : null,
+              loc,
+            ]}
+          />
           {/* Single-day only — a trip's overall weather is meaningless; it lives per-day below. */}
           {!adventure.isMultiDay && adventure.primaryActivity.weather && (
             <WeatherBadge weather={adventure.primaryActivity.weather} />

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { BlogrollFeed, BlogrollItem } from '@blog/inoreader';
+import { MetaLine } from '@/components/MetaLine';
 
 function getDomain(url: string): string {
   try {
@@ -309,8 +310,10 @@ export function BlogrollList({
         <div className="space-y-12">
           {visibleItems.map((item) => (
             <article key={item.url} className="border-b border-gray-200 dark:border-[#303031] pb-12 last:border-b-0">
-              <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-[#a6a6a6] mb-3">
-                {item.sourceUrl ? (
+              <div className="mb-3 text-sm text-gray-500 dark:text-[#a6a6a6]">
+                <MetaLine
+                  items={[
+                    item.sourceUrl ? (
                   <a
                     href={safeUrl(item.sourceUrl)}
                     className="hover:text-gray-700 dark:hover:text-[#cccccc] transition-colors"
@@ -319,25 +322,21 @@ export function BlogrollList({
                   >
                     {getDomain(item.sourceUrl)}
                   </a>
-                ) : item.sourceName ? (
-                  <span>{item.sourceName}</span>
-                ) : null}
-                {(item.sourceUrl || item.sourceName) && item.publishedDate && <span>&middot;</span>}
-                {item.publishedDate && (
-                  <time dateTime={new Date(item.publishedDate).toISOString()}>
-                    {new Date(item.publishedDate).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                  </time>
-                )}
-                {item.readingTime && (
-                  <>
-                    <span>&middot;</span>
-                    <span>{item.readingTime} min read</span>
-                  </>
-                )}
+                    ) : item.sourceName ? (
+                      <span>{item.sourceName}</span>
+                    ) : null,
+                    item.publishedDate ? (
+                      <time dateTime={new Date(item.publishedDate).toISOString()}>
+                        {new Date(item.publishedDate).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </time>
+                    ) : null,
+                    item.readingTime ? `${item.readingTime} min read` : null,
+                  ]}
+                />
               </div>
 
               <a href={safeUrl(item.url)} className="group block" target="_blank" rel="noopener noreferrer">

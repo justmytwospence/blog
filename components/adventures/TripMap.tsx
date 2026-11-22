@@ -57,10 +57,11 @@ export function TripMap({
             {full ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </button>
         </div>
-        <div className="absolute bottom-2 left-2 z-[1000] rounded bg-white/85 px-2 py-1 text-[11px] text-gray-600 border border-black/10 dark:border-white/10 dark:bg-[#252526]/85 dark:text-[#a6a6a6]">
+        <div className={`${full ? '' : 'hidden md:block '}absolute bottom-2 left-2 z-[1000] rounded bg-white/85 px-2 py-1 text-[11px] text-gray-600 border border-black/10 dark:border-white/10 dark:bg-[#252526]/85 dark:text-[#a6a6a6]`}>
           Color = day
         </div>
       </div>
+      {!full && <p className="mt-1.5 text-xs text-gray-500 dark:text-[#a6a6a6] md:hidden">Color = day</p>}
     </div>
   );
 }

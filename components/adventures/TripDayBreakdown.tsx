@@ -23,11 +23,11 @@ function DayRow({ day, fallbackSport, unit }: { day: AdventureDay; fallbackSport
       >
         <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: dayColor(day.dayIndex) }} aria-hidden="true" />
         {unit === 'leg' && <SportBadge sportType={a.sportType || fallbackSport} size="sm" />}
-        <span className="font-semibold text-gray-900 dark:text-[#d4d4d4]">
+        <span className="min-w-0 font-semibold text-gray-900 dark:text-[#d4d4d4]">
           {label} {day.dayIndex + 1}
           {day.title ? ` — ${day.title}` : ''}
         </span>
-        {unit === 'day' && <span className="text-sm text-gray-500 dark:text-[#a6a6a6]">{formatDate(a.date, 'short')}</span>}
+        {unit === 'day' && <span className="shrink-0 whitespace-nowrap text-sm text-gray-500 dark:text-[#a6a6a6]">{formatDate(a.date, 'short')}</span>}
         <span className="ml-auto text-gray-400 dark:text-[#6b6b6b]" aria-hidden="true">
           {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
         </span>
