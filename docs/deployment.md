@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | `main` | Production | `spencerboucher.com` redirects to `www.spencerboucher.com` |
 | `dev` | Preview | `dev.spencerboucher.com` |
-| Bare-slug feature branch | Preview | Generated Vercel URL; optional `<branch>.dev.spencerboucher.com` |
+| Bare-slug feature branch | Preview | Generated Vercel URL and `<branch>.dev.spencerboucher.com`, added by its own build |
 
 Git is the source of truth. Do not deploy CLI snapshots, move preview aliases, or promote a preview
 artifact instead of pushing Git. Vercel builds Production separately from the reviewed Preview
@@ -24,7 +24,8 @@ immutable deployment URLs identify a specific build. Always record the Git SHA w
 - Cloudflare zone: `spencerboucher.com`, ID `97a04cd419081b224d62c57ca45c9d3b`.
 - DNS-only CNAMEs `dev.spencerboucher.com` and `*.dev.spencerboucher.com` point to
   `3b7a51e1b3be3b59.vercel-dns-016.com`, the project's existing Vercel DNS target.
-- Branch-domain verification TXT records live at `_vercel.spencerboucher.com`.
+- The team owns `spencerboucher.com` on Vercel, so a branch subdomain verifies as soon as it is added:
+  no `_vercel` TXT record and no Cloudflare token.
 - Production Redis: Vercel store `store_717CdDzavRXdawOY`, provider database
   `adc97b4c-0f67-4d23-bb0c-8e7e902d8898` (`blog`); its project connection is Production only.
 - Preview Redis: Vercel store `store_QprAdba6yzDROOon`, provider database
@@ -80,27 +81,32 @@ with credentials injected and output filtered to nonsecret metadata.
 
 ### Feature domains
 
-Vercel's generated branch URLs work without a custom domain. For a readable custom domain, adapt
-firsttracks' lifecycle with this repo's stricter slug/project/ownership validation:
+Every Vercel Preview build gives its branch `<branch>.dev.spencerboucher.com` by itself: `npm run build`
+runs `tsx scripts/preview-domain.ts --build` before `next build`. It adds the domain to the project
+bound to the branch, using the Preview-only sensitive `PREVIEW_DOMAIN_TOKEN` (a Vercel token scoped to
+this project), and logs `preview domain: https://<host>`. It skips (`preview domain: skipped (<reason>)`)
+outside Preview builds, without a branch or token, and for the reserved `main`, `master`, `dev` and
+`www`; any failure is logged as `preview domain: not added: <message>` and never fails the build.
+A push builds the branch, so the host appears with the first deployment.
+
+The manual commands remain for a branch that needs the domain before a build, or its removal:
 
 ```sh
 npm run preview:domain -- <branch>
 npm run preview:domain -- <branch> --remove
 ```
 
-Both operations require the existing Vercel domain/API approval and credential access approval.
-Inject `CLOUDFLARE_API_TOKEN` with DNS edit permission through `aac`; load the `agent-access` skill
-first. The command can use `VERCEL_TOKEN` or the CLI's existing login. Never paste tokens into chat,
-command arguments, or tracked files.
+They need the existing Vercel domain/API approval and a Vercel credential: `PREVIEW_DOMAIN_TOKEN`,
+`VERCEL_TOKEN`, or the CLI's existing login, in that order. No Cloudflare access is involved. Never
+paste tokens into chat, command arguments, or tracked files.
 
-Wildcard DNS only routes traffic: each hostname still needs an exact Vercel branch binding and
-verification. The tool checks the blog project/team and exact zone, refuses another branch's binding,
-and manages only verification records belonging to that hostname. Repeating add/remove is safe;
-verification timeout means the mapping may exist but is not verified yet. Read the error before retrying.
+Wildcard DNS only routes traffic: each hostname still needs an exact Vercel branch binding. The tool
+checks the blog project/team, refuses another branch's binding, and fails if the domain comes back
+unverified (the team should own the apex). Repeating add/remove is safe.
 
-Remove the mapping after the branch lands, then deliberately delete the branch. Keep wildcard DNS,
-the stable dev domain, and unrelated `_vercel` records. The feature tool cannot add/remove dev/main
-or www. Stable dev provisioning is a separate, explicit operation.
+Remove the mapping after the branch lands, then deliberately delete the branch. Keep wildcard DNS and
+the stable dev domain. The feature tool cannot add/remove dev/main or www. Stable dev provisioning is
+a separate, explicit operation.
 
 ## Preview data: sanitized snapshot
 
@@ -206,7 +212,7 @@ isolation does not create a Bluesky sandbox. GitHub/Hardcover/Inoreader reads re
    `STRAVA_CLIENT_ID`, `STRAVA_CLIENT_SECRET`, `STRAVA_REFRESH_TOKEN`, and `CRON_SECRET`.
    Preserve preview GitHub/Hardcover read credentials and unrelated variables. Read back metadata only.
 5. Add the two DNS-only CNAMEs above, requiring absent or exactly matching existing records; stop on
-   conflicts. Bind `dev.spencerboucher.com` to Preview branch dev and complete its TXT verification.
+   conflicts. Bind `dev.spencerboucher.com` to Preview branch dev; the team-owned apex verifies it at once.
    Never change production domains, apex redirect, productionBranch, or unrelated DNS.
 6. Push dev through the wrapper and verify CI, Ready deployment, domain/SHA, and acceptance checks.
 7. Obtain approval and configure main protection: GitHub Actions app ID **15368**, required check

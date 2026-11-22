@@ -10,7 +10,7 @@ Solo project — **no PRs**. Git is the deployment source of truth:
 | --- | --- |
 | `main` | Production; apex redirects to `www.spencerboucher.com` |
 | `dev` | Shared review at `https://dev.spencerboucher.com` |
-| Bare-slug feature branch | Vercel preview; optional `https://<branch>.dev.spencerboucher.com` |
+| Bare-slug feature branch | Vercel preview; its build adds `https://<branch>.dev.spencerboucher.com` itself |
 
 Work on `dev`, with feature branches for independent work. After lint/typecheck/test/build pass,
 commit atomically and use `npm run preview:push` for a routine preview push **without another ask**.
@@ -36,6 +36,8 @@ The deterministic Pi/Claude rules also ask on Vercel env/project/domains/api com
 (including reads) and Vercel MCP tools. Domain provisioning, infrastructure, and protection changes
 are deliberate operations, not implicit permission from preview-push authorization. String rules and
 classifier guidance are not an OS sandbox or a guarantee about arbitrary script/API semantics.
+Feature-branch hosts need no action: `npm run build` runs `scripts/preview-domain.ts --build` (Preview only,
+using `PREVIEW_DOMAIN_TOKEN`, never failing the build); `npm run preview:domain` is only the manual add/remove.
 Say which preview/publication path you took and why when reporting the change.
 
 Previews use only `BLOG_PREVIEW_REDIS_REST_URL/TOKEN`, pointing to an isolated, sanitized snapshot.

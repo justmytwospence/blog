@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "tsx scripts/preview-domain.ts --build || true; next build",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
