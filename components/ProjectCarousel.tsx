@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import { CarouselArrows } from '@/components/CarouselArrows';
-import { carouselLayout } from '@/lib/carousel';
+import { carouselLayout, carouselOptions } from '@/lib/carousel';
 import Link from 'next/link';
 import type { Project } from '@/lib/types';
 import { projectCardDestination } from '@/lib/project-navigation';
@@ -14,12 +14,9 @@ interface ProjectCarouselProps {
 }
 
 export function ProjectCarousel({ projects }: ProjectCarouselProps) {
+  const layout = carouselLayout(projects.length, 3);
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    { 
-      loop: true,
-      align: 'start',
-      slidesToScroll: 1,
-    },
+    carouselOptions(projects.length),
     [Autoplay({ delay: 5000, stopOnInteraction: false })]
   );
 
@@ -31,22 +28,21 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-  // Spacing lives INSIDE each slide (pl-6 + negative track margin), not in a
+  // Spacing lives INSIDE each slide (padding inside the slide, symmetric on phones, pl-6 + negative track margin from sm), not in a
   // flex gap: embla's loop translates slides individually, and a gap stays
   // glued to DOM order, so gutters collapse after the loop wraps.
-  const layout = carouselLayout(projects.length, 3);
 
   return (
     <div className={`relative ${layout.frame}`}>
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex -ml-6">
+      <div className={layout.viewport} ref={emblaRef}>
+        <div className={layout.track}>
           {projects.map((project) => {
             const { href, external: isExternal } = projectCardDestination(project);
 
             return (
             <div
               key={project.slug}
-              className={`flex-[0_0_auto] pl-6 ${layout.slide}`}
+              className={`flex-[0_0_auto] ${layout.slide}`}
             >
               <Link
                 href={href}
