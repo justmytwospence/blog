@@ -104,14 +104,14 @@ export function ProjectCard({ project, activity, variant = 'default' }: ProjectC
 
       {/* Description */}
       {project.description && (
-        <p className="font-serif text-sm text-gray-600 dark:text-[#cccccc] mb-4 md:min-h-[6.25rem] break-words line-clamp-5">
+        <p className="font-serif text-sm text-gray-600 dark:text-[#cccccc] mb-1 md:mb-4 md:min-h-[6.25rem] break-words line-clamp-3 md:line-clamp-5">
           {project.description}
         </p>
       )}
 
       {/* Technology categories */}
       {project.categories && project.categories.length > 0 && (
-        <div className="flex flex-wrap gap-2">
+        <div className="hidden flex-wrap gap-2 md:flex">
           {project.categories.map((category) => (
             <span
               key={category}
@@ -126,7 +126,7 @@ export function ProjectCard({ project, activity, variant = 'default' }: ProjectC
       <div className="md:mt-auto">
         {/* Recent commit activity */}
         {activity && activity.points.length > 0 && (
-          <div className="pt-4">
+          <div className="pt-2 md:pt-4">
             <Sparkline
               points={activity.points}
               period={activity.period}
