@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 function rss(items: string): string {
   return `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"><channel><title>Archive</title>${items}</channel></rss>`;
+<rss version="2.0"><channel><title>savelog</title>${items}</channel></rss>`;
 }
 
 function item(opts: { title: string; link: string; source: string; sourceUrl: string }): string {
@@ -12,7 +12,8 @@ function item(opts: { title: string; link: string; source: string; sourceUrl: st
     <description>Some body text.</description>
     <pubDate>Mon, 27 Jul 2026 12:00:00 GMT</pubDate>
     <source url="${opts.sourceUrl}">${opts.source}</source>
-    <category>Archive</category>
+    <category>savelog</category>
+    <category>stats</category>
   </item>`;
 }
 
@@ -55,6 +56,19 @@ describe('inoreader blogroll client', () => {
     expect(items[0].sourceName).toBe('1984');
     expect(items[1].author).toBe('42');
     await expect(getBlogrollFeedsOrThrow()).resolves.toHaveLength(1); // one source
+  });
+
+  it('strips the savelog marker tag from categories', async () => {
+    mockFeed(rss(item({ title: 'A', link: 'https://example.com/a', source: 'Ex', sourceUrl: 'https://example.com/' })));
+    const { getBlogrollItemsOrThrow } = await import('../src');
+    const [only] = await getBlogrollItemsOrThrow();
+    expect(only.categories).toEqual(['stats']);
+  });
+
+  it('throws when the tag stream does not exist instead of returning an empty list', async () => {
+    mockFeed('Stream not found!');
+    const { getBlogrollItemsOrThrow } = await import('../src');
+    await expect(getBlogrollItemsOrThrow()).rejects.toThrow(/not RSS/);
   });
 
   it('leaves the summary empty for Hacker News link stubs', async () => {

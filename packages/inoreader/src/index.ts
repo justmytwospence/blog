@@ -25,7 +25,7 @@ export { buildOpml, deriveFeeds, domainOf, FEED_CRAWL_COUNT, type BlogrollFeed }
 // ─── Config ────────────────────────────────────────────────────────
 
 /**
- * The blogroll feed identity. Defaults reproduce the current public "Archive" stream so absent env
+ * The blogroll feed identity. Defaults reproduce the current public "savelog" stream so absent env
  * = unchanged behavior. Read at request time (not module load) so ISR revalidations see current env.
  *
  *  - INOREADER_USER_ID         the Inoreader numeric user id whose tag stream is public
@@ -35,7 +35,7 @@ export { buildOpml, deriveFeeds, domainOf, FEED_CRAWL_COUNT, type BlogrollFeed }
 function inoreaderConfig(): { userId: string; publicTag: string; itemCount: number } {
   return {
     userId: process.env.INOREADER_USER_ID ?? '1003561864',
-    publicTag: process.env.INOREADER_PUBLIC_TAG ?? 'Archive',
+    publicTag: process.env.INOREADER_PUBLIC_TAG ?? 'savelog',
     itemCount: Number(process.env.INOREADER_FEED_ITEM_COUNT) || 100,
   };
 }
@@ -211,7 +211,12 @@ async function fetchStream(itemCount: number): Promise<BlogrollItem[]> {
     });
 
     const parsed = parser.parse(xml);
-    const items: RawRssItem[] = parsed?.rss?.channel?.item ?? [];
+    // A missing or non-public tag answers 200 with a plain-text "Stream not found!", not a 404.
+    // Returning [] there would read as success and overwrite the last-good cache with nothing.
+    if (!parsed?.rss?.channel) {
+      throw new Error(`[inoreader] Feed is not RSS: ${xml.slice(0, 80).trim()}`);
+    }
+    const items: RawRssItem[] = parsed.rss.channel.item ?? [];
 
     return items
       .map((item) => {

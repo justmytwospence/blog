@@ -27,14 +27,14 @@ must be a throw. An empty-but-valid feed still returns `[]`. The package never i
 
 ## Environment
 
-All optional — defaults reproduce the current public "Archive" feed, so absent env = unchanged. Read
+All optional — defaults reproduce the current public "savelog" feed, so absent env = unchanged. Read
 at request time, so an ISR revalidation picks up changes. Server-only (no `NEXT_PUBLIC_` prefix); the
 public RSS feed needs no auth and consumes **zero API quota**.
 
 | Var | Default | Purpose |
 |---|---|---|
 | `INOREADER_USER_ID` | `1003561864` | Inoreader numeric user id whose public tag stream is read. |
-| `INOREADER_PUBLIC_TAG` | `Archive` | The tag marked **Public** in Inoreader (also stripped from filter chips). |
+| `INOREADER_PUBLIC_TAG` | `savelog` | The tag marked **Public** in Inoreader (also stripped from filter chips). |
 | `INOREADER_FEED_ITEM_COUNT` | `100` | How many items the stream returns (`n`) for the ARTICLE list. The feed crawl always asks for 1000. |
 | `INOREADER_SOURCE_BLOCKLIST` | `reddit` | Comma-separated sources to hide, applied to items and feeds alike (full override, not an addition). Empty string disables it. |
 
@@ -47,7 +47,7 @@ public RSS feed needs no auth and consumes **zero API quota**.
   - `author` (from `dc:creator`)
   - `sourceName` / `sourceUrl` (from `<source>`)
   - `summary` — HTML-stripped, truncated to 200 chars
-  - `categories` — minus the `Archive` tag (used as the feed marker)
+  - `categories` — minus the `savelog` tag (used as the feed marker)
   - `readingTime` — estimated from word count, or `null` for short URL-stub items
 - Drops blocked sources (default: Reddit). Matched case-insensitively against the `<source>` title
   and the host of `<source url>` — host, subdomain, or a single dot-label — so `reddit` catches
@@ -55,11 +55,12 @@ public RSS feed needs no auth and consumes **zero API quota**.
 - `deriveFeeds` collapses items into one `BlogrollFeed` per source domain, unioning their tags and
   counting their items; `buildOpml` serializes that to OPML 2.0 nested under those tags.
 
-On any failure (network, non-200, parse error) the function returns `[]` and logs `[inoreader] ...` so the build never breaks.
+On any failure (network, non-200, non-RSS body, parse error) the function returns `[]` and logs `[inoreader] ...` so the build never breaks.
 
 ## Notes
 
-- The package fetches a single Inoreader public tag (`INOREADER_PUBLIC_TAG`, default `Archive`) under `INOREADER_USER_ID`. Items must be tagged with that tag in Inoreader, and the tag must be marked **Public** in Inoreader's settings — system states like "Starred" cannot be exposed without OAuth, so the workflow is "tag-to-share, not star-to-share".
+- The package fetches a single Inoreader public tag (`INOREADER_PUBLIC_TAG`, default `savelog`) under `INOREADER_USER_ID`. Items must be tagged with that tag in Inoreader, and the tag must be marked **Public** in Inoreader's settings — system states like "Starred" cannot be exposed without OAuth, so the workflow is "tag-to-share, not star-to-share". An Inoreader rule adds `savelog` to everything saved for later; it is a log of all saved reading, distinct from Inoreader's built-in Archive.
+- A missing or non-public tag answers `200` with the plain text `Stream not found!`; the client throws on any body that is not an RSS channel, so a renamed or unpublished tag serves the last-good copy instead of an empty blogroll.
 - The marker tag is stripped from each item's `categories` so it doesn't show up as a UI filter chip.
 - Reading time is computed from the description body since Inoreader doesn't provide `<content:encoded>`. A 30-word floor skips HN-style URL-only stubs.
 - **The feed list's limit**: a public stream returns at most 1000 items (~10 weeks) and supports no pagination — `n` above 1000 is ignored, and `ot` / `c` / `r` are all no-ops. So the feed list covers every feed that published in that window, but cannot see a subscribed feed that has been silent longer. Full enumeration would require the OAuth `subscription/list` endpoint (Pro-plan, 100 req/day); the trade was made deliberately in favour of zero credentials.
