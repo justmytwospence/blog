@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { ProjectCard } from '@/components/ProjectCard';
+import { ChipCount, ChipRow, chipClass } from '@/components/FilterChips';
 import { ContributionCalendar, dayHeadline, type ActivityData } from '@/components/ContributionCalendar';
 import { byFeaturedOrder } from '@/lib/project-navigation';
 import { PROJECT_TOPICS, PROJECT_TOPIC_IDS } from '@/lib/project-topics';
@@ -188,28 +189,20 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
     [projects, hoverCard],
   );
 
-  const chip = (selected: boolean, linked = false) =>
-    `rounded-full border px-2.5 py-1.5 text-xs md:px-3 md:py-1 md:text-sm transition-colors ${
-      selected
-        ? 'border-blue-600 bg-blue-600 text-white dark:border-blue-500 dark:bg-blue-500/20 dark:text-blue-300'
-        : linked
-          ? 'border-blue-500 bg-blue-50 text-blue-700 dark:border-blue-400 dark:bg-blue-500/15 dark:text-blue-300'
-        : 'border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-100 dark:border-[#454545] dark:text-[#cccccc] dark:hover:border-[#6b6b6b] dark:hover:bg-[#3a3d41]'
-    }`;
-
   return (
     <>
       {/* Chips and calendar stay pinned under the site nav while the cards scroll. */}
-      <div className="sticky top-0 z-40 mb-6 bg-paper pb-3 pt-2 transition-colors duration-200 md:top-[65px] dark:bg-[#1e1e1e]">
-      <div role="group" aria-label="Filter projects by topic" className="mb-4 flex flex-wrap gap-2">
+      <div className="mb-6 bg-paper pt-2 transition-colors duration-200 md:sticky md:top-[65px] md:z-40 md:pb-3 dark:bg-[#1e1e1e]">
+      <div className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-40 border-t border-gray-200 bg-white px-4 py-2 dark:border-[#303031] dark:bg-[#252526] md:static md:z-auto md:mb-4 md:border-0 md:bg-transparent md:p-0 md:dark:bg-transparent">
+      <ChipRow label="Filter projects by topic">
         <button
           type="button"
           data-topic-filter
           aria-pressed={topic === null}
           onClick={() => writeTopic(null)}
-          className={chip(topic === null)}
+          className={chipClass(topic === null)}
         >
-          All <span className="opacity-60">{projects.length}</span>
+          All<ChipCount>{projects.length}</ChipCount>
         </button>
         {PROJECT_TOPICS.filter((t) => topicCounts.has(t.id)).map((t) => (
           <button
@@ -218,11 +211,12 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
             data-topic-filter
             aria-pressed={topic === t.id}
             onClick={() => writeTopic(topic === t.id ? null : t.id)}
-            className={chip(topic === t.id, cardTopics.has(t.id))}
+            className={chipClass(topic === t.id, cardTopics.has(t.id))}
           >
-            {t.label} <span className="opacity-60">{topicCounts.get(t.id)}</span>
+            {t.label}<ChipCount>{topicCounts.get(t.id)}</ChipCount>
           </button>
         ))}
+      </ChipRow>
       </div>
 
       <ContributionCalendar
@@ -251,7 +245,7 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
       )}
       </div>
 
-      <div ref={gridRef} style={lockedHeight !== null ? { minHeight: lockedHeight } : undefined}>
+      <div ref={gridRef} className="pb-14 md:pb-0" style={lockedHeight !== null ? { minHeight: lockedHeight } : undefined}>
         {activeDay && shown.length === 0 && (
           <p role="status" className="py-12 text-center text-sm text-gray-500 dark:text-[#a6a6a6]">
             {dayHeadline(activeDay.count, new Date(`${activeDay.key}T00:00:00Z`))}

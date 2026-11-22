@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { LayoutGrid, Map as MapIcon, Table as TableIcon, Search } from 'lucide-react';
 import { AdventureCard } from './AdventureCard';
+import { ChipRow, chipClass } from '@/components/FilterChips';
 import { AdventuresMap } from './AdventuresMap';
 import { AdventuresTable } from './AdventuresTable';
 import { sportMeta } from './sportMeta';
@@ -124,12 +125,6 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
     return list;
   }, [adventures, sport, place, cat, query, sortKey]);
 
-  const pill = (active: boolean) =>
-    `rounded-full px-3 py-1 text-sm transition-colors ${
-      active
-        ? 'bg-gray-900 text-white dark:bg-[#d4d4d4] dark:text-[#1e1e1e]'
-        : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-[#3a3d41] dark:text-[#cccccc] dark:hover:bg-[#454545]'
-    }`;
   const selectCls =
     'rounded-md border border-gray-200 bg-white px-2 py-1.5 text-sm text-gray-700 dark:border-[#303031] dark:bg-[#252526] dark:text-[#cccccc]';
 
@@ -145,16 +140,16 @@ export function LibraryView({ adventures }: { adventures: AdventureSummary[] }) 
     <>
       <div className="mb-6 flex flex-wrap items-center gap-x-6 gap-y-3">
         {sports.length > 1 && (
-          <div className="flex flex-wrap items-center gap-2">
-            <button type="button" onClick={() => setSport(null)} aria-pressed={sport === null} className={pill(sport === null)}>
+          <ChipRow label="Filter by sport" className="-mx-4 basis-full px-4 sm:-mx-6 sm:px-6 md:mx-0 md:basis-auto md:px-0">
+            <button type="button" onClick={() => setSport(null)} aria-pressed={sport === null} className={chipClass(sport === null)}>
               All sports
             </button>
             {sports.map((s) => (
-              <button key={s} type="button" onClick={() => setSport(s)} aria-pressed={sport === s} className={pill(sport === s)}>
+              <button key={s} type="button" onClick={() => setSport(s)} aria-pressed={sport === s} className={chipClass(sport === s)}>
                 {sportMeta(s).label}
               </button>
             ))}
-          </div>
+          </ChipRow>
         )}
         <div className="flex flex-wrap items-center gap-3">
           <div className="relative">

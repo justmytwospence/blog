@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { LayoutGrid, Map as MapIcon, Table as TableIcon, Search } from 'lucide-react';
 import { CatalogCard } from './CatalogCard';
+import { ChipCount, ChipRow, chipClass } from '@/components/FilterChips';
 import { CatalogMap } from './CatalogMap';
 import { CatalogTable } from './CatalogTable';
 import { regionName } from '../regions';
@@ -22,12 +23,6 @@ const VIEWS: Array<{ key: View; label: string; Icon: typeof LayoutGrid }> = [
   { key: 'table', label: 'Table', Icon: TableIcon },
 ];
 
-const pill = (active: boolean) =>
-  `rounded-full px-3 py-1 text-sm transition-colors ${
-    active
-      ? 'bg-gray-900 text-white dark:bg-[#d4d4d4] dark:text-[#1e1e1e]'
-      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-[#3a3d41] dark:text-[#cccccc] dark:hover:bg-[#454545]'
-  }`;
 const selectCls =
   'rounded-md border border-gray-200 bg-white px-2 py-1.5 text-sm text-gray-700 dark:border-[#303031] dark:bg-[#252526] dark:text-[#cccccc]';
 
@@ -165,16 +160,16 @@ export function CatalogView({ page, items }: { page: PageId; items: CatalogItem[
         </div>
       </div>
 
-      <div className="mb-4 flex flex-wrap items-center gap-2">
-        <button type="button" onClick={() => setSection(null)} aria-pressed={section === null} className={pill(section === null)}>
+      <ChipRow label="Filter by list" className="-mx-4 mb-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0">
+        <button type="button" onClick={() => setSection(null)} aria-pressed={section === null} className={chipClass(section === null)}>
           All
         </button>
         {sectionCounts.map((s) => (
-          <button key={s.id} type="button" onClick={() => setSection(s.id)} aria-pressed={section === s.id} className={pill(section === s.id)}>
-            {s.label} <span className="text-xs opacity-70 tabular-nums">{s.done}/{s.total}</span>
+          <button key={s.id} type="button" onClick={() => setSection(s.id)} aria-pressed={section === s.id} className={chipClass(section === s.id)}>
+            {s.label}<ChipCount>{s.done}/{s.total}</ChipCount>
           </button>
         ))}
-      </div>
+      </ChipRow>
 
       <div className="mb-6 flex flex-wrap items-center gap-3">
         <div className="relative">

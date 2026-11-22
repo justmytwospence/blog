@@ -36,6 +36,40 @@ type SidebarFeed = { key: string; label: string; href: string; count: number };
 type Group = { key: string; label: string; feeds: SidebarFeed[]; activeCount: number };
 type Filter = { kind: 'folder' | 'tag'; key: string };
 
+function FeedList({ id, feeds }: { id?: string; feeds: SidebarFeed[] }) {
+  return (
+    <ul id={id} className="mt-1 mb-2 ml-[1.1rem] space-y-1 border-l border-gray-200 dark:border-[#303031] pl-3">
+      {feeds.map((feed) => (
+        <li key={feed.key} className="flex items-baseline justify-between gap-2">
+          <a
+            href={safeUrl(feed.href)}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={feed.label}
+            className={`block truncate text-sm transition-colors hover:text-blue-600 dark:hover:text-blue-400 ${
+              feed.count > 0
+                ? 'text-gray-600 dark:text-[#cccccc]'
+                : 'text-gray-400 dark:text-[#6e6e6e]'
+            }`}
+          >
+            {feed.label}
+          </a>
+          <span
+            className="shrink-0 text-xs text-gray-400 dark:text-[#6e6e6e]"
+            title={
+              feed.count > 0
+                ? `${feed.count} article${feed.count === 1 ? '' : 's'} below`
+                : 'No articles in the current window'
+            }
+          >
+            {feed.count > 0 ? feed.count : '·'}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function BlogrollList({
   items,
   feeds,
@@ -108,6 +142,9 @@ export function BlogrollList({
 
     return { groups, totalFeeds: feeds.length };
   }, [feeds, itemCounts]);
+
+  const openGroup = filter?.kind === 'folder' ? groups.find((g) => g.key === filter.key) : undefined;
+  const selectValue = filter === null ? '' : `${filter.kind}:${filter.key}`;
 
   const filteredItems = useMemo(() => {
     if (filter === null) return items;
@@ -204,8 +241,30 @@ export function BlogrollList({
       {/* Header — left column, top row (so the sidebar can align to it) */}
       <div className="lg:col-start-1 lg:row-start-1">{header}</div>
 
+      {/* Folder picker below lg: fixed above the tab bar on phones, sticky under the bar from md. */}
+      <div className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-40 border-t border-gray-200 bg-white px-4 py-2 dark:border-[#303031] dark:bg-[#252526] md:sticky md:bottom-auto md:top-[65px] md:mb-6 md:border-0 md:bg-paper md:px-0 md:dark:bg-[#1e1e1e] lg:hidden">
+        <select
+          aria-label="Filter by feed folder"
+          value={selectValue}
+          onChange={(e) => {
+            const v = e.target.value;
+            if (v === '') applyFilter(null);
+            else if (v.startsWith('folder:')) applyFilter({ kind: 'folder', key: v.slice('folder:'.length) });
+          }}
+          className="w-full rounded-md border border-gray-200 bg-paper px-3 py-2 text-base text-gray-700 dark:border-[#303031] dark:bg-[#1e1e1e] dark:text-[#cccccc] md:bg-white md:text-sm md:dark:bg-[#252526]"
+        >
+          <option value="">All feeds ({totalFeeds})</option>
+          {groups.map((group) => (
+            <option key={group.key} value={`folder:${group.key}`}>
+              {group.label} ({group.activeCount} of {group.feeds.length})
+            </option>
+          ))}
+          {filter?.kind === 'tag' && <option value={`tag:${filter.key}`}>Tag: {filter.key}</option>}
+        </select>
+      </div>
+
       {/* Feeds sidebar — right column, floated to the top; sticky on lg+ */}
-      <aside className="mb-8 self-start lg:order-none lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:mb-0 lg:sticky lg:top-[97px]">
+      <aside className="hidden self-start lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:block lg:sticky lg:top-[97px]">
         <div className="flex flex-col rounded-lg border border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] lg:max-h-[calc(100vh-7rem)]">
           <div className="flex shrink-0 items-baseline justify-between px-4 pt-4 pb-2">
             <h2
@@ -268,35 +327,7 @@ export function BlogrollList({
                   </button>
 
                   {open && (
-                    <ul id={panelId} className="mt-1 mb-2 ml-[1.1rem] space-y-1 border-l border-gray-200 dark:border-[#303031] pl-3">
-                      {group.feeds.map((feed) => (
-                        <li key={feed.key} className="flex items-baseline justify-between gap-2">
-                          <a
-                            href={safeUrl(feed.href)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title={feed.label}
-                            className={`block truncate text-sm transition-colors hover:text-blue-600 dark:hover:text-blue-400 ${
-                              feed.count > 0
-                                ? 'text-gray-600 dark:text-[#cccccc]'
-                                : 'text-gray-400 dark:text-[#6e6e6e]'
-                            }`}
-                          >
-                            {feed.label}
-                          </a>
-                          <span
-                            className="shrink-0 text-xs text-gray-400 dark:text-[#6e6e6e]"
-                            title={
-                              feed.count > 0
-                                ? `${feed.count} article${feed.count === 1 ? '' : 's'} below`
-                                : 'No articles in the current window'
-                            }
-                          >
-                            {feed.count > 0 ? feed.count : '·'}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
+                    <FeedList id={panelId} feeds={group.feeds} />
                   )}
                 </div>
               );
@@ -306,7 +337,15 @@ export function BlogrollList({
       </aside>
 
       {/* Article stream — left column, second row */}
-      <div className="min-w-0 lg:col-start-1 lg:row-start-2">
+      <div className="min-w-0 pb-16 md:pb-0 lg:col-start-1 lg:row-start-2">
+        {openGroup && (
+          <details className="mb-6 lg:hidden">
+            <summary className="cursor-pointer text-sm text-gray-500 dark:text-[#a6a6a6]">
+              {openGroup.feeds.length} sites in {openGroup.label}
+            </summary>
+            <FeedList feeds={openGroup.feeds} />
+          </details>
+        )}
         <div className="space-y-12">
           {visibleItems.map((item) => (
             <article key={item.url} className="border-b border-gray-200 dark:border-[#303031] pb-12 last:border-b-0">
