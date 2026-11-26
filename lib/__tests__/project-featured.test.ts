@@ -16,8 +16,8 @@ describe('featured order', () => {
 describe('featured projects', () => {
   const featured = getFeaturedContent().projects;
 
-  it('features seven projects in editorial order', () => {
-    expect(featured.map((p) => p.slug)).toEqual(['uphill-ski', 'effort-curve', 'bikefitter', 'groundcover', 'pi-plugins', 'bayesdag', 'inoink']);
+  it('features eight projects in editorial order', () => {
+    expect(featured.map((p) => p.slug)).toEqual(['uphill-ski', 'effort-curve', 'bikefitter', 'groundcover', 'pi-plugins', 'bayesdag', 'inoink', 'switchyard']);
   });
 
   it('gives every featured project a hero image and a story', () => {
