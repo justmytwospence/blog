@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { BlogrollFeed, BlogrollItem } from '@blog/inoreader';
 import { MetaLine } from '@/components/MetaLine';
+import { useStickyScroll } from '@/lib/sticky-sidebar';
 
 function getDomain(url: string): string {
   try {
@@ -165,6 +166,8 @@ export function BlogrollList({
   // When the sentinel scrolls into view, flag a load. Re-running on loadedCount
   // lets a short page keep filling until the viewport is covered.
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const sidebarRef = useRef<HTMLElement | null>(null);
+  useStickyScroll(sidebarRef, 32);
   useEffect(() => {
     const node = sentinelRef.current;
     if (!node || !hasMore) return;
@@ -263,9 +266,13 @@ export function BlogrollList({
         </select>
       </div>
 
-      {/* Feeds sidebar — right column, floated to the top; sticky on lg+ */}
-      <aside className="hidden self-start lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:block lg:sticky lg:top-[97px]">
-        <div className="flex flex-col rounded-lg border border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526] lg:max-h-[calc(100vh-7rem)]">
+      {/* Feeds sidebar — right column, floated to the top; sticky on lg+. When it is taller than
+          the viewport it scrolls with the page (useStickyScroll) rather than inside itself. */}
+      <aside
+        ref={sidebarRef}
+        className="hidden self-start lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:block lg:sticky lg:top-[calc(97px+var(--sticky-shift,0px))]"
+      >
+        <div className="flex flex-col rounded-lg border border-gray-200 dark:border-[#303031] bg-white dark:bg-[#252526]">
           <div className="flex shrink-0 items-baseline justify-between px-4 pt-4 pb-2">
             <h2
               className="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-[#a6a6a6]"
@@ -278,7 +285,7 @@ export function BlogrollList({
             </span>
           </div>
 
-          <div className="toc-sidebar-scroll min-h-0 flex-1 overflow-y-auto px-2 pb-3">
+          <div className="px-2 pb-3">
             <button
               type="button"
               onClick={() => applyFilter(null)}
