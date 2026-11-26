@@ -5,6 +5,7 @@ import { Project } from '@/lib/types';
 import { projectCardDestination } from '@/lib/project-navigation';
 import { projectKindLabel } from '@/lib/project-kinds';
 import { Sparkline } from '@/components/Sparkline';
+import { ProjectBanner } from '@/components/ProjectBanner';
 import type { ProjectSparkline } from '@/lib/github-activity';
 
 interface ProjectCardProps {
@@ -52,8 +53,12 @@ export function ProjectCard({ project, activity, variant = 'default' }: ProjectC
 
   return (
     <div className="group relative flex h-full flex-col overflow-hidden bg-white dark:bg-[#252526] rounded-lg border border-gray-200 dark:border-[#303031] transition-colors hover:border-gray-400 dark:hover:border-[#5a5a5a]">
-      {project.image && (
-        <div className="relative aspect-[1200/630] w-full border-b border-gray-200 dark:border-[#303031]">
+      {/* Every card gets the same 1200x630 band so grid rows line up: the project's image, or a
+          generated banner. Generated banners only matter for alignment, so phones skip them. */}
+      <div
+        className={`relative aspect-[1200/630] w-full border-b border-gray-200 dark:border-[#303031] ${project.image ? '' : 'hidden md:block'}`}
+      >
+        {project.image ? (
           <Image
             src={project.image}
             alt={project.imageAlt ?? ''}
@@ -61,8 +66,10 @@ export function ProjectCard({ project, activity, variant = 'default' }: ProjectC
             sizes="(min-width: 1024px) 368px, (min-width: 768px) 50vw, 100vw"
             className="object-cover"
           />
-        </div>
-      )}
+        ) : (
+          <ProjectBanner project={project} />
+        )}
+      </div>
       <div className="flex flex-1 flex-col p-4 md:p-6">
       {kindLabel && (
         <p className="mb-1 text-[11px] font-medium uppercase tracking-wide text-gray-500 dark:text-[#a6a6a6]">
