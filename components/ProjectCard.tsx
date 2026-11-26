@@ -52,7 +52,7 @@ export function ProjectCard({ project, activity, variant = 'default' }: ProjectC
 
   return (
     <div className="group relative flex h-full flex-col overflow-hidden bg-white dark:bg-[#252526] rounded-lg border border-gray-200 dark:border-[#303031] transition-colors hover:border-gray-400 dark:hover:border-[#5a5a5a]">
-      {featured && project.image && (
+      {project.image && (
         <div className="relative aspect-[1200/630] w-full border-b border-gray-200 dark:border-[#303031]">
           <Image
             src={project.image}

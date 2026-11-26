@@ -7,4 +7,6 @@ description: "A Docker image update bot for a single-host Compose homelab: opens
 type: "external"
 externalUrl: "https://github.com/justmytwospence/shipshape"
 kind: "tool"
+image: "/project-images/shipshape.webp"
+imageAlt: "The Shipshape inbox: pending container updates with review verdicts, and an update flagged for breaking changes awaiting a decision"
 ---

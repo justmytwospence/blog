@@ -11,6 +11,8 @@ links:
     url: "https://ifsjournal.me"
 sourcePrivate: true
 kind: "app"
+image: "/project-images/ifs-journal.webp"
+imageAlt: "The IFS Journal home page: discover and understand your internal parts through guided journaling"
 ---
 
 IFS Journal is a journaling app for [Internal Family Systems](https://ifs-institute.com) work. You write entries; Claude finds the "parts" speaking through your writing (Managers, Firefighters, Protectors, Exiles) and anchors each one to the exact passages it came from.

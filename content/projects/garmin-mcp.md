@@ -12,4 +12,6 @@ links:
   - label: "GitHub"
     url: "https://github.com/justmytwospence/garmin-mcp"
 kind: "mcp-server"
+image: "/project-images/garmin-mcp.webp"
+imageAlt: "A Grafana dashboard over the Garmin mirror: daily steps, training load, training readiness and VO2 max"
 ---

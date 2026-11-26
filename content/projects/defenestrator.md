@@ -7,4 +7,6 @@ description: "Throws out a spent Claude 5-hour usage window and starts a fresh o
 type: "external"
 externalUrl: "https://github.com/justmytwospence/defenestrator"
 kind: "tool"
+image: "/project-images/defenestrator.webp"
+imageAlt: "The defenestrator dashboard: 5-hour and 7-day window gauges, projected use at reset, and 5-hour utilization over two days"
 ---

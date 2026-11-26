@@ -12,4 +12,6 @@ links:
   - label: "GitHub"
     url: "https://github.com/justmytwospence/fish-in-the-sea"
 kind: "app"
+image: "/project-images/fish-in-the-sea.webp"
+imageAlt: "Fish in the Sea asking how many people you could actually date, with a fill-in sentence and filters for the search"
 ---

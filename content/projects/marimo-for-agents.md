@@ -14,4 +14,6 @@ links:
     url: "https://justmytwospence.github.io/pi-marimo/"
   - label: "npm"
     url: "https://www.npmjs.com/package/pi-marimo"
+image: "/project-images/marimo-for-agents.webp"
+imageAlt: "An agent's answer in pi with a marimo chart inline: weekday and weekend rides per hour as box plots"
 ---

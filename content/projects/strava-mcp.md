@@ -12,4 +12,6 @@ links:
   - label: "GitHub"
     url: "https://github.com/justmytwospence/strava-mcp"
 kind: "mcp-server"
+image: "/project-images/strava-mcp.webp"
+imageAlt: "A Grafana dashboard over the Strava mirror: weekly hours by sport, distance and elevation, heart rate and pace"
 ---

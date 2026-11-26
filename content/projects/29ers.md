@@ -12,4 +12,6 @@ links:
   - label: "GitHub"
     url: "https://github.com/justmytwospence/29ers"
 kind: "app"
+image: "/project-images/29ers.webp"
+imageAlt: "The 29ers home page: The Tallest Mountains in the Solar System, over a Martian landscape, with a panel of summit conditions"
 ---

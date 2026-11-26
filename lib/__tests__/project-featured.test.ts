@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { getFeaturedContent } from '../content';
+import { getAllProjects, getFeaturedContent } from '../content';
 import type { Project } from '../types';
 import { byFeaturedOrder, projectCardDestination } from '../project-navigation';
 
@@ -10,6 +10,16 @@ describe('featured order', () => {
   it('orders by featuredOrder, unranked last', () => {
     const sorted = [stub('c'), stub('b', 2), stub('a', 1)].sort(byFeaturedOrder).map((p) => p.slug);
     expect(sorted).toEqual(['a', 'b', 'c']);
+  });
+});
+
+describe('project images', () => {
+  it('points every image at a committed webp with alt text', () => {
+    for (const project of getAllProjects().filter((p) => p.image)) {
+      expect(project.image, project.slug).toMatch(/^\/project-images\/[a-z0-9-]+\.webp$/);
+      expect(fs.existsSync(path.join(process.cwd(), 'public', project.image!)), project.slug).toBe(true);
+      expect(project.imageAlt, project.slug).toBeTruthy();
+    }
   });
 });
 
