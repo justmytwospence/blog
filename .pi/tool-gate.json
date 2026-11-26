@@ -1,7 +1,11 @@
 {
   "directories": {
-    "read": ["*"],
-    "write": []
+    "read": [
+      "*"
+    ],
+    "write": [
+      "~/Projects/InoInk"
+    ]
   },
   "permissions": {
     "allow": [
