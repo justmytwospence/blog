@@ -191,8 +191,9 @@ export function ProjectsExplorer({ projects, activity, sparklines = {} }: Projec
 
   return (
     <>
-      {/* Chips and calendar stay pinned under the site nav while the cards scroll. */}
-      <div className="mb-6 bg-paper pt-2 transition-colors duration-200 md:sticky md:top-[65px] md:z-40 md:pb-3 dark:bg-[#1e1e1e]">
+      {/* Chips and calendar stay pinned under the site nav while the cards scroll; a fade below
+          the pinned block lets the cards dissolve into it instead of meeting a hard edge. */}
+      <div className="mb-6 bg-paper pt-2 transition-colors duration-200 md:sticky md:top-[65px] md:z-40 md:pb-3 dark:bg-[#1e1e1e] md:after:pointer-events-none md:after:absolute md:after:inset-x-0 md:after:top-full md:after:h-6 md:after:bg-gradient-to-b md:after:from-paper md:after:to-transparent md:after:content-[''] md:dark:after:from-[#1e1e1e]">
       <div className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-40 border-t border-gray-200 bg-white px-4 py-2 dark:border-[#303031] dark:bg-[#252526] md:static md:z-auto md:mb-4 md:border-0 md:bg-transparent md:p-0 md:dark:bg-transparent">
       <ChipRow label="Filter projects by topic">
         <button
