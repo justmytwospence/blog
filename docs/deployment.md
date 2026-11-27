@@ -40,13 +40,9 @@ during bootstrap; preserve existing apex/www routing, mail DNS, and unrelated pr
 Work on `dev`, or a bare lowercase slug feature branch for independent work. Feature names match
 `[a-z0-9]+(?:-[a-z0-9]+)*` and are at most 63 characters. Do not create a worktree unless requested.
 
-```sh
-npm run lint
-npm run typecheck
-npm run test
-npm run adventure:validate
-npm run build
-```
+Run focused local checks for the change: scoped Vitest for code, `npm run adventure:validate`
+for adventure data, and `npm run notebook:check` for compiled article data. Static prose can go
+straight to preview. Push CI runs the full lint, typecheck, test, both validators and build.
 
 Commit only your own changes, by path, with atomic conventional commits. Then:
 

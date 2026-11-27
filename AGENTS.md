@@ -12,8 +12,9 @@ Solo project — **no PRs**. Git is the deployment source of truth:
 | `dev` | Shared review at `https://dev.spencerboucher.com` |
 | Bare-slug feature branch | Vercel preview; its build adds `https://<branch>.dev.spencerboucher.com` itself |
 
-Work on `dev`, with feature branches for independent work. After lint/typecheck/test/build pass,
-commit atomically and use `npm run preview:push` for a routine preview push **without another ask**.
+Work on `dev`, with feature branches for independent work. Run scoped Vitest for code changes,
+`npm run adventure:validate` for adventure data, and `npm run notebook:check` for compiled article
+data; static prose can go straight to preview. Commit atomically and use `npm run preview:push` for a routine preview push **without another ask**.
 It validates this repo's origin and pushes only the current nonproduction branch. Direct `git push`
 commands still require approval; never use implicit refspecs. Wait for both the exact SHA's successful
 push `CI / verify` run and Ready Git-triggered Vercel deployment before reporting a verified preview.
@@ -50,13 +51,14 @@ scripts remain independent. Snapshot refresh is explicit via `npm run preview:se
 
 ```bash
 npm run dev          # Dev server at localhost:3000
-npm run build        # Production build — always verify changes build cleanly
+npm run build        # Production build — covered by push CI
 npm run lint         # ESLint flat config (eslint-config-next 16)
 npm run typecheck    # tsc --noEmit
 npm run test         # Vitest (--run mode)
 ```
 
-CI runs all four on every push and PR (`.github/workflows/ci.yml`).
+Push CI runs all four plus both data validators (`.github/workflows/ci.yml`); require that
+and the Ready Git-triggered preview on the exact same SHA before review.
 
 ### Strava data pipeline
 
